@@ -294,6 +294,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
      */
     protected String getActionName(PortletRequest request) {
         String actionName = request.getParameter("action");
+        log.debug("request actionName = " + actionName);
         if(actionName == null) {
             actionName = (String) getPortletConfig().getInitParameter(request.getPortletMode().toString());
         }

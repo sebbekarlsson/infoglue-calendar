@@ -160,6 +160,9 @@
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendar.jsp</param>
 			</result>
+			<result name="successPublic" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewCalendarPublic.jsp</param>
+			</result>
 		</action>
 		<action name="UpdateCalendar" class="org.infoglue.calendar.actions.UpdateCalendarAction">
 			<result name="success" type="eventProcessed">
@@ -235,16 +238,62 @@
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewEvent.jsp</param>
 			</result>
+			<result name="successPublic" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewEventPublic.jsp</param>
+			</result>
 		</action>
-			<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
+		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>-->
+				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
 				<param name="parse">true</param>
 			</result>
 		</action>
 		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		
+		<!-- ENTRY ACTIONS -->
+		<action name="CreateEntry" class="org.infoglue.calendar.actions.CreateEntryAction">
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/createEntry.jsp</param>
+            </result>
+			<result name="inputPublic" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/createEntryPublic.jsp</param>
+            </result>
+            <result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
+				<param name="parse">true</param>
+			</result>
+            <result name="successPublic" type="eventProcessed">
+				<param name="viewAction">ViewEvent!public.action?eventId=${eventId}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		<action name="ViewEntrySearch" class="org.infoglue.calendar.actions.ViewEntrySearchAction">
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewEntrySearch.jsp</param>
+            </result>
+            <result name="success" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewEntrySearch.jsp</param>
+            </result>
+		</action>
+		<action name="ViewEntry" class="org.infoglue.calendar.actions.ViewEntryAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewEntry.jsp</param>
+			</result>
+		</action>
+		<action name="UpdateEntry" class="org.infoglue.calendar.actions.UpdateEntryAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEntry.action?entryId=${entryId}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		<action name="DeleteEntry" class="org.infoglue.calendar.actions.DeleteEntryAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEntrySearch!input.action</param>
 				<param name="parse">true</param>
 			</result>
 		</action>

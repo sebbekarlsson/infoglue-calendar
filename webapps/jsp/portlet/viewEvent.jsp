@@ -165,6 +165,15 @@
 	      		<a href="javascript:showUploadForm();">Add resource</a>
 			</p>
 			<p>
+				<ww:set name="eventId" value="eventId" scope="page"/>
+				<portlet:renderURL var="createEntryRenderURL">
+					<portlet:param name="action" value="CreateEntry!input"/>
+					<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+				</portlet:renderURL>
+				
+				<a href="<c:out value="${createEntryRenderURL}"/>">Sign up for this event</a>
+			</p>
+			<p>
 				<input type="submit" value="Update">
 			</p>
 		</form>

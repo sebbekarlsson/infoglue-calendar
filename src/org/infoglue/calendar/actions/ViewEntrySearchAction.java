@@ -58,9 +58,11 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     private void initialize() throws Exception
     {
+        System.out.println("initialize start...");
         this.eventList = EventController.getController().getEventList();
         this.categoryList = CategoryController.getController().getCategoryList();
         this.locationList = LocationController.getController().getLocationList();
+        System.out.println("initialize end...");
     }
     
     /**

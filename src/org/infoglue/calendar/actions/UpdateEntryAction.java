@@ -23,22 +23,9 @@
 
 package org.infoglue.calendar.actions;
 
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.portlet.PortletURL;
-
-import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EntryController;
-import org.infoglue.calendar.controllers.EventController;
-import org.infoglue.calendar.controllers.LocationController;
-import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
-import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -46,57 +33,22 @@ import com.opensymphony.xwork.ActionContext;
  * @author Mattias Bogeblad
  */
 
-public class CreateEntryAction extends CalendarAbstractAction
+public class UpdateEntryAction extends CalendarUploadAbstractAction
 {
+    private Long entryId;
     private String firstName;
     private String lastName;
     private String email;
-    
-    private Long eventId;
-    
+
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
-        System.out.println("eventId:" + eventId);
-        System.out.println("firstName:" + firstName);
-        System.out.println("lastName:" + lastName);
-        System.out.println("email:" + email);
-        
-        EntryController.getController().createEntry(firstName, lastName, email, eventId);
+        EntryController.getController().updateEntry(entryId, firstName, lastName, email);
         
         return Action.SUCCESS;
-    } 
-    
-    /**
-     * This is the entry point for the main listing.
-     */
-    
-    public String doPublic() throws Exception 
-    {
-        this.execute();
-        
-        return Action.SUCCESS + "Public";
-    } 
-
-    /**
-     * This is the entry point creating a new calendar.
-     */
-    
-    public String input() throws Exception 
-    {
-        return Action.INPUT;
-    } 
-    
-    /**
-     * This is the entry point creating a new calendar.
-     */
-    
-    public String inputPublic() throws Exception 
-    {
-        return Action.INPUT + "Public";
     } 
     
     public String getEmail()
@@ -107,6 +59,16 @@ public class CreateEntryAction extends CalendarAbstractAction
     public void setEmail(String email)
     {
         this.email = email;
+    }
+    
+    public Long getEntryId()
+    {
+        return entryId;
+    }
+    
+    public void setEntryId(Long entryId)
+    {
+        this.entryId = entryId;
     }
     
     public String getFirstName()
@@ -127,15 +89,5 @@ public class CreateEntryAction extends CalendarAbstractAction
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
-    }
-    
-    public Long getEventId()
-    {
-        return eventId;
-    }
-    
-    public void setEventId(Long eventId)
-    {
-        this.eventId = eventId;
     }
 }

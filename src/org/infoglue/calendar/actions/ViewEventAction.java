@@ -65,23 +65,17 @@ public class ViewEventAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
 
-    /**
-     * This is the entry point for the main listing.
-     */
-    
-    public String doViewPublic() throws Exception 
+    public String doPublic() throws Exception 
     {
-        execute();
-
+        this.execute();
         return "successPublic";
-    } 
+    }
     
     public String getResourceUrl(Long resourceId) throws Exception
     {
         return ResourceController.getController().getResourceUrl(resourceId);
     }
-    
-    
+      
     public Event getEvent()
     {
         return event;

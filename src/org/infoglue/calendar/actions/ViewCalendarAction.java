@@ -75,40 +75,6 @@ public class ViewCalendarAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        /*
-        System.out.println("****************************");
-        System.out.println("*      getContextMap       *");
-        System.out.println("****************************");
-        Iterator requestIterator = ActionContext.getContext().getContextMap().keySet().iterator();
-        while(requestIterator.hasNext())
-        {
-            Object key = (Object)requestIterator.next();
-            Object value = (Object)ActionContext.getContext().getContextMap().get(key);
-            System.out.println("" + key + "=" + value);
-            
-        }
-        System.out.println("calendarId:" + ActionContext.getContext().getContextMap().get("calendarId"));
-
-        System.out.println("****************************");
-        System.out.println("*      PARAMETERS          *");
-        System.out.println("****************************");
-        
-        requestIterator = ActionContext.getContext().getParameters().keySet().iterator();
-        while(requestIterator.hasNext())
-        {
-            Object key = (Object)requestIterator.next();
-            Object value = (Object)ActionContext.getContext().getParameters().get(key);
-            System.out.println("" + key + "=" + value);
-            
-        }
-        
-        System.out.println("calendarId:" + ActionContext.getContext().getParameters().get("calendarId"));
-        System.out.println("****************************");
-        
-        if(calendarId == null)
-            this.calendarId = new Long((String)ActionContext.getContext().getParameters().get("calendarId"));
-        */
-        
         this.componentId = getComponentId();
         System.out.println("****************************");
         System.out.println("calendarId:" + calendarId);
@@ -181,6 +147,12 @@ public class ViewCalendarAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
 
+    public String doPublic() throws Exception 
+    {
+        this.execute();
+        return "successPublic";
+    }
+    
     /**
      * Gets all dates that should be shown
      * @param hour
