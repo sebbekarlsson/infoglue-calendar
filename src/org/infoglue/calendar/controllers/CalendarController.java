@@ -165,40 +165,13 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public List getCalendarList() throws Exception 
+    public List getCalendarList(Session session) throws Exception 
     {
         List result = null;
         
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            Query q = session.createQuery(
-                "select blog.id, blog.name, count(blogItem) " +
-                "from Blog as blog " +
-                "left outer join blog.items as blogItem " +
-                "group by blog.name, blog.id " +
-                "order by max(blogItem.datetime)"
-            );
-            
-            result = q.list();
-            
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        Query q = session.createQuery("from Calendar calendar order by calendar.id");
+   
+        result = q.list();
         
         return result;
     }

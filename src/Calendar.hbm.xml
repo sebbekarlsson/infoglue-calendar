@@ -7,8 +7,8 @@
 <hibernate-mapping
 >
     <class
-        name="org.infoglue.calendar.entities.Event"
-        table="Event"
+        name="org.infoglue.calendar.entities.Calendar"
+        table="Calendar"
         dynamic-update="false"
         dynamic-insert="false"
         select-before-update="false"
@@ -24,7 +24,7 @@
             <generator class="native">
               <!--  
                   To add non XDoclet generator parameters, create a file named 
-                  hibernate-generator-params-Event.xml 
+                  hibernate-generator-params-Calendar.xml 
                   containing the additional parameters and place it in your merge dir. 
               --> 
             </generator>
@@ -52,31 +52,31 @@
             unique="false"
         />
 
-        <property
-            name="endDateTime"
-            type="calendar"
-            update="true"
-            insert="true"
-            access="property"
-            column="endDateTime"
-            not-null="false"
-            unique="false"
-        />
+		<!--
+        <set
+            name="events"
+            table="Event"
+            lazy="false"
+            inverse="false"
+            cascade="save-update"
+            sort="unsorted"
+        >
 
-        <property
-            name="startDateTime"
-            type="calendar"
-            update="true"
-            insert="true"
-            access="property"
-            column="startDateTime"
-            not-null="false"
-            unique="false"
-        />
+              <key
+                  column="calendar_id"
+              >
+              </key>
 
+              <one-to-many
+                  class="org.infoglue.calendar.entities.Event"
+              />
+
+        </set>
+		-->
+		
         <!--
             To add non XDoclet property mappings, create a file named
-                hibernate-properties-Event.xml
+                hibernate-properties-Calendar.xml
             containing the additional properties and place it in your merge dir.
         -->
 

@@ -18,12 +18,18 @@
         <property name="dialect">net.sf.hibernate.dialect.MySQLDialect</property>
 
         <!-- Mapping files -->
+        <mapping resource="Calendar.hbm.xml"/>
+        <mapping resource="Category.hbm.xml"/>
+        <mapping resource="Event.hbm.xml"/>
+        <mapping resource="Location.hbm.xml"/>
+        <mapping resource="Participant.hbm.xml"/>
+		<!--
         <mapping resource="conf/org/infoglue/calendar/entities/Calendar.hbm.xml"/>
         <mapping resource="conf/org/infoglue/calendar/entities/Category.hbm.xml"/>
         <mapping resource="conf/org/infoglue/calendar/entities/Event.hbm.xml"/>
         <mapping resource="conf/org/infoglue/calendar/entities/Location.hbm.xml"/>
         <mapping resource="conf/org/infoglue/calendar/entities/Participant.hbm.xml"/>
-
+		-->
     </session-factory>
 
 </hibernate-configuration>

@@ -23,37 +23,48 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.List;
+
 import javax.portlet.PortletURL;
+
+import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
+import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 
 /**
+ * This action represents a Calendar Administration screen.
+ * 
  * @author Mattias Bogeblad
  */
+
 public class ViewCalendarAdministrationAction extends CalendarAbstractAction
 {
-    private String result; 
+    private AdministrationUCCBean administrationUCCBean; 
+    
+    /**
+     * This is the entry point for the main listing.
+     */
     
     public String execute() throws Exception 
     {
         System.out.println("In ViewCalendarAdministrationAction.execute");
         
-        //response.setContentType("text/html");
-        //PortletURL url = response.createActionURL();
-        //System.out.println("url:" + url);
-        //response.getWriter().println("doView APAPAPAPA <a href");
+        this.administrationUCCBean = CalendarAdministrationUCCController.getController().getDataBean();
         
-        //return Action.NONE;
-        
-        if (result == null) 
-        {
-            result = Action.SUCCESS;
-        }
-        
-        return result;
-        
-        
+        return Action.SUCCESS;
     } 
 
+    
+    public AdministrationUCCBean getAdministrationUCCBean()
+    {
+        return administrationUCCBean;
+    }
+    
+    public void setAdministrationUCCBean(AdministrationUCCBean administrationUCCBean)
+    {
+        this.administrationUCCBean = administrationUCCBean;
+    }
 }
