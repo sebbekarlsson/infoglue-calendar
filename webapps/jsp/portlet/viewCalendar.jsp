@@ -151,7 +151,7 @@
 		  	else
 		  		setActiveTab<ww:property value="componentId"/>("calendar<ww:property value="componentId"/>");
 			
-			
+			/*
 			var params = {
 			      flat         : document.getElementById("calendar<ww:property value="componentId"/>"), // ID of the parent element
 			      flatCallback : dateChanged<ww:property value="componentId"/>,// our callback function
@@ -161,8 +161,33 @@
 			      daFormat     : "%Y-%m-%d",
 			      date		   : "<ww:property value="formattedStartDate"/>"
 			    };
-			    
-			var calendar<ww:property value="componentId"/> = new Calendar(params.firstDay, params.date);
+			
+			function onSelect<ww:property value="componentId"/>(cal) {
+				alert("cal i onSelect...");
+				var p = cal.params;
+				var update = (cal.dateClicked || p.electric);
+				if (update && p.flat) {
+					alert("update and p.flat");
+					if (typeof p.flatCallback == "function")
+						p.flatCallback(cal);
+					else
+						alert("No flatCallback given -- doing nothing.");
+					return false;
+				}
+				if (update && p.inputField) {
+					p.inputField.value = cal.date.print(p.ifFormat);
+					if (typeof p.inputField.onchange == "function")
+						p.inputField.onchange();
+				}
+				if (update && p.displayArea)
+					p.displayArea.innerHTML = cal.date.print(p.daFormat);
+				if (update && p.singleClick && cal.dateClicked)
+					cal.callCloseHandler();
+				if (update && typeof p.onUpdate == "function")
+					p.onUpdate(cal);
+			};    
+			
+			var calendar<ww:property value="componentId"/> = new Calendar(params.firstDay, params.date, onSelect<ww:property value="componentId"/>);
 			//calendar<ww:property value="componentId"/>.flat = params.flat;
 			calendar<ww:property value="componentId"/>.flatCallback = params.flatCallback;
 			calendar<ww:property value="componentId"/>.params = params;
@@ -171,8 +196,8 @@
 			calendar<ww:property value="componentId"/>.daFormat = params.daFormat;
 			calendar<ww:property value="componentId"/>.create(params.flat);
 			calendar<ww:property value="componentId"/>.show();
-			
-			/*
+			*/
+
 			Calendar.setup
 			(
 			    {
@@ -184,7 +209,6 @@
 			      date		   : "<ww:property value="formattedStartDate"/>"
 			    }
 		  	);
-		  	*/
 		  	
 		  	alert("calendar<ww:property value="componentId"/>:" + calendar<ww:property value="componentId"/>);
 		}
