@@ -3,8 +3,22 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-
 	<display-name>My WebWork Application</display-name>
+	
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>org.infoglue.common.util.SetCharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
 	<servlet>
 		<servlet-name>webwork</servlet-name>
 		<servlet-class>com.opensymphony.webwork.dispatcher.ServletDispatcher</servlet-class>
