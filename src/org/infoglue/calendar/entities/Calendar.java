@@ -29,6 +29,8 @@ import java.util.List;
  * This class represents a single calendar object. A calendar is called upon with a key/name.
  * 
  * @author mattias
+ * 
+ * @hibernate.class table="Calendar"
  */
 
 public class Calendar 
@@ -38,6 +40,11 @@ public class Calendar
     private String description;
     private List events;
 
+    /**
+     * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
+     * 
+     * @return long
+     */    
     public Long getId() 
     {
         return this.id;
@@ -48,6 +55,11 @@ public class Calendar
         this.id = id;
     }
     
+    /**
+     * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
+     * 
+     * @return String
+     */
     public String getName() 
     {
         return this.name;
@@ -58,6 +70,11 @@ public class Calendar
     	this.name = name;
     }
     
+    /**
+     * @hibernate.property name="getDescription" column="description" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
 	public String getDescription() 
 	{
 		return description;
@@ -68,10 +85,20 @@ public class Calendar
 		this.description = description;
 	}
 	
+	/**
+	 * @hibernate.set name="getEvents" table="Event" inverse="false" cascade="save-update"
+	 *                             
+     * @hibernate.collection-key column="calendar_id"
+	 * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Event"
+	 *
+	 * @return List
+	 *
+	 */
 	public List getEvents() 
 	{
 		return events;
 	}
+	
 	public void setEvents(List events) 
 	{
 		this.events = events;

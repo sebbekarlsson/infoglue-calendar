@@ -29,6 +29,8 @@ import java.util.List;
  * at one or several locations.
  * 
  * @author mattias
+ * 
+ * @hibernate.class table="Event"
  */
 
 public class Event
@@ -45,6 +47,11 @@ public class Event
     private List resources;
     private List categories;
     
+    /**
+     * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
+     * 
+     * @return long
+     */    
     public Long getId()
     {
         return id;
@@ -55,6 +62,11 @@ public class Event
         this.id = id;
     }
      
+    /**
+     * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
+     * 
+     * @return String
+     */
     public String getName()
     {
         return name;
@@ -65,6 +77,11 @@ public class Event
         this.name = name;
     }
     
+    /**
+     * @hibernate.property name="getDescription" column="description" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
     public String getDescription()
     {
         return description;
@@ -75,6 +92,11 @@ public class Event
         this.description = description;
     }
     
+    /**
+     * @hibernate.property name="getEndDateTime" column="endDateTime" type="calendar" not-null="false" unique="false"
+     * 
+     * @return Calendar
+     */
     public java.util.Calendar getEndDateTime()
     {
         return endDateTime;
@@ -85,6 +107,11 @@ public class Event
         this.endDateTime = endDateTime;
     }
     
+    /**
+     * @hibernate.property name="getStartDateTime" column="startDateTime" type="calendar" not-null="false" unique="false"
+     * 
+     * @return Calendar
+     */
     public java.util.Calendar getStartDateTime()
     {
         return startDateTime;
@@ -95,6 +122,11 @@ public class Event
         this.startDateTime = startDateTime;
     }
     
+    /**
+     * @hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Location"
+     *
+     * @return List
+     */
     public List getLocations()
     {
         return locations;
@@ -105,6 +137,11 @@ public class Event
         this.locations = locations;
     }
     
+    /**
+     * @hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Participant"
+     *
+     * @return List
+     */
     public List getParticipants()
     {
         return participants;
@@ -115,6 +152,12 @@ public class Event
         this.participants = participants;
     }
     
+    /**
+     * @hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Resource"
+     *
+     * @return List
+     */
+
     public List getResources()
     {
         return resources;
@@ -125,6 +168,12 @@ public class Event
         this.resources = resources;
     }
     
+    /**
+     * @hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Category"
+     *
+     * @return List
+     */
+
     public List getCategories()
     {
         return categories;
@@ -134,6 +183,12 @@ public class Event
     {
         this.categories = categories;
     }
+    
+    /**
+     * @hibernate.property column="calendar_id" type="org.infoglue.calendar.entities.Calendar" not-null="true" 
+     *
+     * @return Calendar
+     */
     
     public Calendar getCalendar()
     {

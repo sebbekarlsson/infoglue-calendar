@@ -26,13 +26,20 @@ package org.infoglue.calendar.entities;
  * This just represents a simple category for events. Such as meeting, horse show or anything else that are common.
  * 
  * @author mattias
+ * 
+ * @hibernate.class table="Category"
  */
 
 public class Category
 {
     private Long id;
     private String name;
-    
+   
+    /**
+     * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
+     * 
+     * @return long
+     */    
     public Long getId()
     {
         return id;
@@ -43,6 +50,11 @@ public class Category
         this.id = id;
     }
     
+    /**
+     * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
+     * 
+     * @return String
+     */
     public String getName()
     {
         return name;

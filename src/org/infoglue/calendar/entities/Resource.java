@@ -27,6 +27,8 @@ package org.infoglue.calendar.entities;
  * Can be binary documents etc.
  * 
  * @author mattias
+ * 
+ * @hibernate.class table="Resource"
  */
 
 public class Resource
@@ -35,6 +37,11 @@ public class Resource
     private String assetKey;
     private Calendar calendar;
     
+    /**
+     * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
+     * 
+     * @return long
+     */    
     public Long getId()
     {
         return id;

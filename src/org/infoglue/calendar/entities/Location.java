@@ -26,6 +26,8 @@ package org.infoglue.calendar.entities;
  * This class represents a location where events can take place.
  * 
  * @author mattias
+ * 
+ * @hibernate.class table="Location"
  */
 
 public class Location
@@ -33,6 +35,11 @@ public class Location
     private Long id;
     private String name;
     
+    /**
+     * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
+     * 
+     * @return long
+     */    
     public Long getId()
     {
         return id;
@@ -43,6 +50,11 @@ public class Location
         this.id = id;
     }
     
+    /**
+     * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
+     * 
+     * @return String
+     */
     public String getName()
     {
         return name;

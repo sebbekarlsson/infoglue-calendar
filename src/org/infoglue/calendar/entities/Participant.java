@@ -27,6 +27,8 @@ package org.infoglue.calendar.entities;
  * Then the surrounding systems can do what they like.
  * 
  * @author mattias
+ * 
+ * @hibernate.class table="Participant"
  */
 
 public class Participant
@@ -35,6 +37,11 @@ public class Participant
     private String name;
     private Event event;
     
+    /**
+     * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
+     * 
+     * @return long
+     */    
     public Long getId()
     {
         return id;
@@ -45,6 +52,11 @@ public class Participant
         this.id = id;
     }
 
+    /**
+     * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
+     * 
+     * @return String
+     */
     public String getName()
     {
         return name;

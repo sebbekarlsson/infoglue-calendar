@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- Build file for infoglue Calendar -->
+
+<project name="InfoGlueCalendar" default="war" basedir=".">
+
+    <!-- Give user a chance to override without editing this file 
+         (and without typing -D each time they invoke a target) -->    
+
+    <property file="${user.home}/build.properties" />
+    <property file="${user.home}/.build.properties" />
+    <property file="build.properties" />
+  
+    <!-- Generic project properties -->
+
+    <property name="project.fullname" value="InfoGlue Calendar"/>
+
+    <!-- =================================================================== -->
+    <!-- Set the properties related to the source tree                       -->
+    <!-- =================================================================== -->
+
+    <!-- Source locations for the build -->    
+
+    <property name="src.dir" value="src"/>
+    <property name="webapp.dir" value="webapps"/>        
+    
+    <!-- =================================================================== -->
+    <!-- Set the properties related to the build area                        -->
+    <!-- =================================================================== -->
+
+    <!-- Destination locations for the build (relative to the basedir as -->
+    <!-- specified in the 'basedir' attribute of the project tag)        -->
+
+    <property name="build.dir" value="webapps/WEB-INF"/>        
+    <property name="build.dest.dir" value="${build.dir}/classes"/>        
+    <property name="lib.dir" value="${build.dir}/lib"/>        
+    <property name="dist.dir" value="dist"/>        
+    <property name="javadocs.destdir" value="docs/api"/>    
+
+    <!-- Miscellaneous settings -->
+
+    <property name="year" value="2004"/>
+    <property name="locale.default" value="en"/>
+    <property name="ant.home" value="build"/>
+    <property name="debug" value="on"/>
+    <property name="optimize" value="off"/>
+    <property name="deprecation" value="off"/>
+
+    <!-- =================================================================== -->
+    <!-- Builds Classpath                                                    -->
+    <!-- =================================================================== -->
+    <path id="classpath">
+        <fileset dir="${lib.dir}">
+            <!-- Everything in the project's lib dir -->
+            <include name="*.jar"/>
+        </fileset>        
+    </path>
+
+    <!-- =================================================================== -->
+    <!-- Builds Sourcepath                                                   -->
+    <!-- =================================================================== -->
+    <path id="sourcepath">
+        <pathelement location="${src.dir}/"/>
+    </path>
+    <!-- =================================================================== -->
+    <!-- Initializes the build.                                              -->
+    <!-- =================================================================== -->    
+    <target name="init">
+
+        <!-- So that we can use the ${TSTAMP}, ${DSTAMP}, ... time stamps
+             in targets, if need be -->
+        <tstamp/>
+
+        <echo message="---------- ${project.fullname} ${project.version} ----------"/>
+        <echo message=""/>
+
+        <echo message="java.class.path = ${java.class.path}"/>        
+        <echo message=""/>
+        <echo message="java.home = ${java.home}"/>
+        <echo message="ant.home = ${ant.home}"/>
+        <echo message="user.home = ${user.home}"/>
+        <echo message=""/>
+        <echo message="basedir = ${basedir}"/>
+        <echo message=""/>        
+        <echo message="build.compiler = ${build.compiler}"/>
+        <echo message="locale.default = ${locale.default}"/>
+                
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.dest.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+                  
+    </target> 
+    <!-- End of init -->
+
+
+
+    <!-- ================================================================== -->
+    <!-- Displays usage information                                         -->
+    <!-- ================================================================== -->
+    <target name="usage" description="Displays usage information">
+        <echo message="Use -projecthelp to see the available targets"/>
+    </target> 
+    <!-- End of usage -->
+        
+
+    <!-- ================================================================== -->
+    <!-- creates infoglueCMS jar                                            -->
+    <!-- ================================================================== -->
+    <target name="jar" 
+     description="Create jar file for this module"
+     depends="compile" >
+        <jar destfile="${dist.dir}/${ant.project.name}${project.version}.jar"
+             basedir="${build.dest.dir}" />
+    </target> 
+    <!-- End of jar -->
+
+
+    <!-- =================================================================== -->
+    <!-- Compiles java sources of this project                               -->
+    <!-- =================================================================== -->
+    <target 
+        name="compile" 
+        description="Compiles java sources of this module"
+        depends="clean,init" >
+  
+        
+        <javac 
+            classpathref="classpath"
+            destdir="${build.dest.dir}" 
+            debug="${debug}"
+            deprecation="${deprecation}"
+            optimize="${optimize}"
+            encoding="iso-8859-1"
+        >            
+            <src refid="sourcepath"/>
+        </javac>
+
+        <!-- Copies non java files that need to be in the classes directory -->
+        <copy todir="${build.dest.dir}">            
+            <fileset dir="${src.dir}">
+                <include name="*.HTML"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build.dest.dir}">            
+            <fileset dir="${src.dir}">
+                <include name="**/*.vm"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build.dest.dir}">            
+            <fileset dir="${src.dir}/">
+                <include name="**/*.properties"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build.dest.dir}">            
+            <fileset dir="${src.dir}/">
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dest.dir}">            
+            <fileset dir="${src.dir}/">
+                <include name="**/*.dtd"/>
+            </fileset>
+        </copy>
+        
+    </target>
+    <!-- End of compile -->
+    
+    <!-- =================================================================== -->
+    <!-- Creates the war file                                                -->
+    <!-- =================================================================== -->
+    <target name="war" depends="clean,init,compile,jar" 
+     description="Creates the war file for this module">        
+                
+        <!-- Create the war file -->
+        <war warfile="${dist.dir}/${ant.project.name}.war"
+            webxml="${webapp.dir}/WEB-INF/web.xml">
+
+            <classes dir="${build.dest.dir}">
+            </classes>
+                        
+            <!--lib dir="${lib.dir}">
+                <include name="*.jar"/>                
+            </lib -->            
+            
+            <fileset dir="${webapp.dir}"> 
+                <exclude name="**/*.java"/>
+                <exclude name="xercesImpl.jar"/>               
+                <exclude name="xml-apis.jar"/>               
+            </fileset>
+        </war>       
+        
+    </target>    
+    <!-- End of war -->
+
+    <!-- =================================================================== -->
+    <!-- Cleans up the distribution                                          -->
+    <!-- =================================================================== -->
+    <target name="clean">
+        <delete quiet="true">
+        <fileset dir="${build.dir}">
+            <!-- Everything in the build lib dir -->
+            <exclude name="CVS"/>
+        </fileset>
+        <fileset dir="${dist.dir}">
+            <!-- Everything in the distribution dir -->
+            <exclude name="CVS"/>
+        </fileset>
+        </delete>
+    </target>
+	
+    <!-- End of clean -->
+    <!-- =================================================================== -->    
+    <!--Fetches the latest code from cvs                                     -->    
+    <!-- =================================================================== -->    
+    <target
+      name="fetchCMS"
+      description="Get updates from cvs for this module"
+    >
+        <cvs command="update -P -d"
+             cvsRoot=":pserver:anonymous@www.infoglue.org:2401/home/cvsroot"/>
+    </target>
+    <!-- =================================================================== -->    
+    <!-- Generates the project's API documentation                           -->    
+    <!-- =================================================================== -->    
+    <target
+        name="javadocs"
+        description="Generates the API documentation for this module"
+        depends="init"
+    >
+                                                                                
+        <javadoc
+            sourcepathref="sourcepath"
+            destdir="${javadocs.destdir}"
+            packagenames="org.*"
+            author="true"
+            private="false"
+            version="true"
+            use="true"
+            windowtitle="${project.fullname} API - ${project.version}"
+            doctitle="${project.fullname} - ${project.version}"
+            bottom="Copyright &#169; ${year} InfoGlue.org All Rights Reserved."
+        >
+            <classpath refid="classpath"/>
+        </javadoc>
+
+        <zip destfile="${javadocs.destdir}/${ant.project.name}${project.version}API.zip" >
+             <zipfileset dir="${javadocs.destdir}"
+                     excludes="*.zip"
+                     prefix="${ant.project.name}API"/>
+        </zip>
+
+                                                                          
+    </target>
+    <!-- =================================================================== -->    
+    <!--Execute All major targets                                            -->    
+    <!-- =================================================================== -->    
+    <target
+      name="all"
+      description="Execute All major targets"
+      depends="clean,init,fetchCMS,war,javadocs"
+    >
+    </target>
+
+	
+    <!-- =================================================================== -->    
+    <!-- Execute XDoclet target  	                  	                     -->    
+    <!-- =================================================================== -->    
+	<target name="generate" 
+	        description="Generates Hibernate class descriptor files.">
+
+		<path id="xdoclet.classpath">
+		    <fileset dir="${lib.dir}/xdoclet">
+		        <include name="*.jar"/>
+		    </fileset>
+		</path>
+
+		<taskdef name="hibernatedoclet"
+		    classname="xdoclet.modules.hibernate.HibernateDocletTask">
+		    <classpath refid="xdoclet.classpath"/>
+		</taskdef>
+		
+		<taskdef name="hibernatedoclet"
+		    classname="xdoclet.modules.hibernate.HibernateDocletTask">
+		    <classpath>
+		        <fileset dir="${lib.dir}/xdoclet">
+		            <include name="*.jar"/>
+		        </fileset>
+		    </classpath>
+		</taskdef>
+		
+		<hibernatedoclet
+		    destdir="${build.dir}/classes/conf"
+		    excludedtags="@version,@author,@todo"
+		    force="${generated.forced}"
+		    mergedir="${build.dir}/conf"
+		    verbose="true">
+
+		    <fileset dir="${src.dir}">
+		        <include name="**/entities/*.java"/>
+		    </fileset>
+
+		    <hibernate version="2.0"/>
+
+		</hibernatedoclet>
+	</target>
+	
+
+</project>
