@@ -57,7 +57,7 @@ public class CalendarController extends BasicController
      * This method is used to create a new Calendar object in the database.
      */
     
-    public Calendar createCalendar(String name, String description) throws HibernateException, Exception 
+    public Calendar createCalendar(String name, String description, Session session) throws HibernateException, Exception 
     {
         System.out.println("Creating new calendar...");
         
@@ -65,27 +65,7 @@ public class CalendarController extends BasicController
         calendar.setName(name);
         calendar.setDescription(description);
         
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            session.save(calendar);
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-            
-            if (tx!=null) 
-                tx.rollback();
-        }
-        finally 
-        {
-            session.close();
-        }
+        session.save(calendar);
         
         System.out.println("Finished creating calendar...");
         

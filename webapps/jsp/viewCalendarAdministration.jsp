@@ -7,9 +7,11 @@
 <body>
 
 <div id="calendars">
-	<div id="header">
+
+	<div id="contentListHeader">
 		Calendars
 	</div>
+
 	<div id="contentList">
 		<ww:iterator value="administrationUCCBean.calendars" status="rowstatus">
 		<p>
@@ -17,10 +19,14 @@
 		    	<span class="marked"><ww:property value="id"/>.<ww:property value="name"/></span>
 		    </ww:if>
 		    <ww:else>
-		    	<span><ww:property value="name"/></span>
+		    	<span><ww:property value="id"/>.<ww:property value="name"/></span>
 		    </ww:else>
 		</p>
 		</ww:iterator>
+	</div>
+
+	<div id="contentListFooter">
+		<a href="CreateCalendar!input.action">Add Calendar</a>
 	</div>
 </div>
 

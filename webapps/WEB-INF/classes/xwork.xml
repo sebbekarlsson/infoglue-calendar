@@ -12,18 +12,13 @@
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction"> 
 			<result name="success" type="dispatcher">jsp/viewCalendarAdministration.jsp</result> 
 		</action> 
+		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction"> 
+			<result name="input" type="dispatcher">jsp/createCalendar.jsp</result>
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
 	
 	</package>
 
-	<!--
-	<package name="mypackage" namespace="/WebworkDispatcherPortlet" extends="webwork-default"> 
-	
-	    <action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction"> 
-	        <result name="success" type="dispatcher">jsp/viewCalendarAdministration.jsp</result> 
-	    </action> 
-	
-	</package>
-	-->
 	
 	<package name="mypackage" namespace="/WebworkDispatcherPortlet"> 
 

@@ -48,7 +48,7 @@ public class CalendarAdministrationUCCController extends BasicController
     }
 
     /**
-     * This method is used to create a new Calendar object in the database.
+     * This method is used to populate all items on the AdministrationUCCBean in the view usecase.
      */
     
     public AdministrationUCCBean getDataBean() throws HibernateException, Exception 
@@ -82,5 +82,38 @@ public class CalendarAdministrationUCCController extends BasicController
                
         return administrationUCCBean;
     }
+    
+    
+    /**
+     * This method is used to create a new Calendar object in the database.
+     */
+    
+    public void createCalendar(String name, String description) throws HibernateException, Exception 
+    {
+        Session session = getSession();
+        
+        Transaction tx = null;
+        
+        try 
+        {
+            tx = session.beginTransaction();
+  
+            CalendarController.getController().createCalendar(name, description, session);
+            
+            tx.commit();
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+            
+            if (tx!=null) 
+                tx.rollback();
+        }
+        finally 
+        {
+            session.close();
+        }
+    }
+    
     
 }
