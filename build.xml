@@ -31,6 +31,7 @@
     <!-- Destination locations for the build (relative to the basedir as -->
     <!-- specified in the 'basedir' attribute of the project tag)        -->
 
+    <property name="conf.dir" value="bin"/>        
     <property name="build.dir" value="webapps/WEB-INF"/>        
     <property name="build.dest.dir" value="${build.dir}/classes"/>        
     <property name="lib.dir" value="${build.dir}/lib"/>        
@@ -292,10 +293,10 @@
 		</taskdef>
 		
 		<hibernatedoclet
-		    destdir="${build.dir}/classes/conf"
+		    destdir="${conf.dir}"
 		    excludedtags="@version,@author,@todo"
 		    force="${generated.forced}"
-		    mergedir="${build.dir}/conf"
+		    mergedir="${conf.dir}"
 		    verbose="true">
 
 		    <fileset dir="${src.dir}">
@@ -305,7 +306,14 @@
 		    <hibernate version="2.0"/>
 
 		</hibernatedoclet>
-	</target>
+		
+		 <move todir="${src.dir}" flatten="true" overwrite="true">
+		    <fileset dir="${conf.dir}">
+		      <include name="**/*.xml"/>
+		    </fileset>
+		 </move>
+
+</target>
 	
 
 </project>

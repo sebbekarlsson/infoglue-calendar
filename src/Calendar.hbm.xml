@@ -52,13 +52,11 @@
             unique="false"
         />
 
-		<!--
         <set
             name="events"
-            table="Event"
-            lazy="false"
+            lazy="true"
             inverse="false"
-            cascade="save-update"
+            cascade="none"
             sort="unsorted"
         >
 
@@ -72,8 +70,7 @@
               />
 
         </set>
-		-->
-		
+
         <!--
             To add non XDoclet property mappings, create a file named
                 hibernate-properties-Calendar.xml

@@ -95,6 +95,7 @@ Calendar.setup = function (params) {
 			params[tmp[i]] = document.getElementById(params[tmp[i]]);
 		}
 	}
+	
 	if (!(params.flat || params.inputField || params.displayArea || params.button)) {
 		alert("Calendar.setup:\n  Nothing to setup (no fields found).  Please check your code");
 		return false;
@@ -171,7 +172,6 @@ Calendar.setup = function (params) {
 		if (mustCreate)
 			cal.create();
 			
-		alert("Parsing " + dateEl.value + " with " + dateFmt);
 		cal.parseDate(dateEl.value || dateEl.innerHTML);
 		cal.refresh();
 		if (!params.position)

@@ -95,7 +95,7 @@ public class Event
     /**
      * @hibernate.property name="getEndDateTime" column="endDateTime" type="calendar" not-null="false" unique="false"
      * 
-     * @return Calendar
+     * @return java.util.Calendar
      */
     public java.util.Calendar getEndDateTime()
     {
@@ -110,7 +110,7 @@ public class Event
     /**
      * @hibernate.property name="getStartDateTime" column="startDateTime" type="calendar" not-null="false" unique="false"
      * 
-     * @return Calendar
+     * @return java.util.Calendar
      */
     public java.util.Calendar getStartDateTime()
     {
@@ -157,7 +157,6 @@ public class Event
      *
      * @return List
      */
-
     public List getResources()
     {
         return resources;
@@ -184,12 +183,9 @@ public class Event
         this.categories = categories;
     }
     
-    /**
-     * hibernate.property column="calendar_id" type="org.infoglue.calendar.entities.Calendar" not-null="true" 
-     *
-     * @return Calendar
-     */
-    
+    /** 
+     * @hibernate.many-to-one class="org.infoglue.calendar.entities.Calendar" column="calendar_id"
+     */  
     public Calendar getCalendar()
     {
         return calendar;

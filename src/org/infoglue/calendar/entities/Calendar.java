@@ -23,7 +23,10 @@
 
 package org.infoglue.calendar.entities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents a single calendar object. A calendar is called upon with a key/name.
@@ -38,7 +41,7 @@ public class Calendar
     private Long id;
     private String name;
     private String description;
-    private List events;
+    private Set events = new HashSet();
 
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -84,22 +87,21 @@ public class Calendar
 	{
 		this.description = description;
 	}
-	
+		
 	/**
-	 * @hibernate.set name="getEvents" table="Event" inverse="false" cascade="save-update"
-	 *                             
+     * @hibernate.set lazy="true"
      * @hibernate.collection-key column="calendar_id"
-	 * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Event"
-	 *
-	 * @return List
-	 *
-	 */
-	public List getEvents() 
+     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Event"
+   	 *
+	 * @return Set
+	 */ 
+	public Set getEvents() 
 	{
+	    System.out.println("Events:" + events.size());
 		return events;
 	}
 	
-	public void setEvents(List events) 
+	public void setEvents(Set events) 
 	{
 		this.events = events;
 	}

@@ -24,6 +24,7 @@
 package org.infoglue.calendar.actions;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.opensymphony.xwork.ActionSupport;
@@ -81,5 +82,42 @@ public abstract class CalendarAbstractAction extends ActionSupport
         
         return date;
     }
+
+    /**
+     * Gets a calendar object with date and hour
+     * 
+     * @param dateString
+     * @param pattern
+     * @param hour
+     * @return
+     */
+    
+    public Calendar getCalendar(String dateString, String pattern, Integer hour)
+    {	
+        Calendar calendar = Calendar.getInstance();
+        if(dateString == null)
+        {
+            calendar.set(Calendar.HOUR_OF_DAY, hour.intValue());
+            return calendar;
+        }
+        
+        Date date = new Date();    
+        
+        try
+        {
+	        // Format the current time.
+	        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+	        date = formatter.parse(dateString);
+	        calendar.setTime(date);
+	        calendar.set(Calendar.HOUR_OF_DAY, hour.intValue());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        return calendar;
+    }
+
 }
 

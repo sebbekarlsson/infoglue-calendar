@@ -58,6 +58,22 @@
 			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
 		</action> 
 	
+		<!-- EVENT ACTIONS -->		
+		<action name="CreateEvent" class="org.infoglue.calendar.actions.CreateEventAction"> 
+			<result name="input" type="dispatcher">jsp/createEvent.jsp</result>
+			<result name="success" type="redirect">ViewCalendar.action</result> 
+		</action>
+		<!--
+		<action name="ViewCategory" class="org.infoglue.calendar.actions.ViewCategoryAction"> 
+			<result name="success" type="dispatcher">jsp/viewCategory.jsp</result> 
+		</action> 
+		<action name="UpdateCategory" class="org.infoglue.calendar.actions.UpdateCategoryAction"> 
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
+		<action name="DeleteCategory" class="org.infoglue.calendar.actions.DeleteCategoryAction"> 
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action>
+		--> 
 	</package>
 
 	

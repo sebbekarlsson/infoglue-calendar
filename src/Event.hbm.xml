@@ -74,6 +74,17 @@
             unique="false"
         />
 
+        <many-to-one 
+            name="calendar"
+            class="org.infoglue.calendar.entities.Calendar"
+            cascade="none"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            access="property"
+            column="calendar_id"
+        />
+
         <!--
             To add non XDoclet property mappings, create a file named
                 hibernate-properties-Event.xml

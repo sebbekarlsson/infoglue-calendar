@@ -23,18 +23,14 @@
 
 package org.infoglue.calendar.actions;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.portlet.PortletURL;
 
-import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.calendar.entities.Calendar;
-import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.util.DBSessionWrapper;
 
@@ -47,16 +43,19 @@ import com.opensymphony.xwork.ActionContext;
  * @author Mattias Bogeblad
  */
 
-public class ViewCalendarAction extends CalendarAbstractAction
+public class CreateEventAction extends CalendarAbstractAction
 {
-    private Long calendarId;
+    private String name;
+    private String description;
+    private String startDateTime;
+    private String endDateTime;
+    private Integer startTime;
+    private Integer endTime;
+
+    private String date;
+    private String time;
     private String mode;
-    private String selectedFormattedDate;
-    private String startDate;
-    private String endDate;
-    
-    private Calendar calendar;
-    private List events;
+    private Long calendarId;
     
     /**
      * This is the entry point for the main listing.
@@ -64,37 +63,43 @@ public class ViewCalendarAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.calendar = CalendarController.getController().getCalendar(calendarId);
+        System.out.println("CreateEventAction....." + calendarId);
         
-        java.util.Calendar startCalendar = super.getCalendar(startDate, "yyyy-MM-dd", new Integer(0));
-        java.util.Calendar endCalendar 	 = super.getCalendar(endDate, "yyyy-MM-dd", new Integer(23));
+        Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
+        Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         
-        this.events = EventController.getController().getEventList(calendarId, startCalendar, endCalendar);
+        EventController.getController().createEvent(calendarId, name, description, startCalendar, endCalendar);
         
         return Action.SUCCESS;
     } 
 
     /**
-     * 
-     * @param hour
-     * @return
+     * This is the entry point creating a new calendar.
      */
-
-    public List getEvents(String hour)
+    
+    public String input() throws Exception 
     {
-        List hourEvents = new ArrayList();
-        
-        Iterator eventIterator = this.events.iterator();
-        while(eventIterator.hasNext())
-        {
-            Event event = (Event)eventIterator.next();
-            if(mode.equalsIgnoreCase("day") && event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) == Integer.parseInt(hour))
-            {
-                hourEvents.add(event);
-            }
-        }
-        
-        return hourEvents;
+        return Action.INPUT;
+    } 
+    
+    public String getDescription()
+    {
+        return description;
+    }
+    
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+    
+    public String getName()
+    {
+        return name;
+    }
+    
+    public void setName(String name)
+    {
+        this.name = name;
     }
     
     public Long getCalendarId()
@@ -106,12 +111,27 @@ public class ViewCalendarAction extends CalendarAbstractAction
     {
         this.calendarId = calendarId;
     }
-
-    public Calendar getCalendar()
+    
+    public String getDate()
     {
-        return calendar;
+        return date;
     }
-
+    
+    public void setDate(String date)
+    {
+        this.date = date;
+    }
+    
+    public String getEndDateTime()
+    {
+        return endDateTime;
+    }
+    
+    public void setEndDateTime(String endDateTime)
+    {
+        this.endDateTime = endDateTime;
+    }
+    
     public String getMode()
     {
         return mode;
@@ -121,48 +141,44 @@ public class ViewCalendarAction extends CalendarAbstractAction
     {
         this.mode = mode;
     }
-
-    public String getFormattedStartDate()
+    
+    public String getStartDateTime()
     {
-        Date parsedDate = this.parseDate(startDate, "yyyy-MM-dd");
-        
-        return this.formatDate(parsedDate, "yyyy/MM/dd");
-    }
-
-    public String getFormattedEndDate()
-    {
-        Date parsedDate = this.parseDate(endDate, "yyyy-MM-dd");
-        
-        return this.formatDate(parsedDate, "yyyy/MM/dd");
-    }
-
-    public String getEndDate()
-    {
-        return endDate;
+        return startDateTime;
     }
     
-    public void setEndDate(String endDate)
+    public void setStartDateTime(String startDateTime)
     {
-        this.endDate = endDate;
+        this.startDateTime = startDateTime;
     }
     
-    public List getEvents()
+    public Integer getStartTime()
     {
-        return events;
+        return startTime;
     }
     
-    public void setEvents(List events)
+    public void setStartTime(Integer startTime)
     {
-        this.events = events;
+        this.startTime = startTime;
     }
     
-    public String getStartDate()
+    public String getTime()
     {
-        return startDate;
+        return time;
     }
     
-    public void setStartDate(String startDate)
+    public void setTime(String time)
     {
-        this.startDate = startDate;
+        this.time = time;
+    }
+    
+    public Integer getEndTime()
+    {
+        return endTime;
+    }
+    
+    public void setEndTime(Integer endTime)
+    {
+        this.endTime = endTime;
     }
 }

@@ -34,7 +34,7 @@
 		      var date = "" + y + "-" + month + "-" + day;
 		      
 		      // redirect...
-		      window.location = "ViewCalendar.action?calendarId=<ww:property value="calendar.id"/>&mode=day&date=" + date;
+		      window.location = "ViewCalendar.action?calendarId=<ww:property value="calendar.id"/>&mode=day&startDate=" + date + "&endDate=" + date;
 		    }
 		};
 	
@@ -49,6 +49,14 @@
 			oldTabId = id;
 		}
 	
+		function addEvent(time)
+		{
+			url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=day&startDate=<ww:property value="startDate"/>&endDate=<ww:property value="endDate"/>&time=" + time;
+			alert("Calling:" + url);
+			document.location.href = url;
+		}
+		
+		
 		function init()
 		{
 		  	if("<ww:property value="mode"/>" == "day")
@@ -96,47 +104,29 @@
 
 <div style="float: left; margin-left: 1em; margin-bottom: 1em;" id="calendarArea">
 <a href="javascript:setActiveTab('day');">Day</a><a href="javascript:setActiveTab('calendar');">Month</a>
-<div style="position: absolute; left: 0px; display: none; width: 200px; height: 300px; background: red" id="day">
+<div style="position: absolute; overflow:auto; left: 0px; display: none; width: 200px; height: 200px; background: silver" id="day">
+
+<ww:iterator value="{'00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'}">
+<ww:set name="this" value="this" />
 <p>
-07.00 ---------------
+<ww:property/>.00 <span onClick="javascript:addEvent('<ww:property/>');">____________________</span> <ww:property value="this.getEvents(<ww:property/>)"/>
 </p>
-<p>
-08.00 ---------------
-</p>
-<p>
-09.00 ---------------
-</p>
-<p>
-10.00 ---------------
-</p>
-<p>
-11.00 ---------------
-</p>
-<p>
-12.00 ---------------
-</p>
-<p>
-13.00 ---------------
-</p>
-<p>
-14.00 ---------------
-</p>
-<p>
-15.00 ---------------
-</p>
-<p>
-16.00 ---------------
-</p>
-<p>
-17.00 ---------------
-</p>
-<p>
-18.00 ---------------
-</p>
-<p>
-19.00 ---------------
-</p>
+</ww:iterator>
 </div>
+
+<ww:property value="calendar.getEvents().size()"/>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<ww:iterator value="calendar.events" status="rowstatus">
+Event: <ww:property value="id"/>. <ww:property value="name"/> (<ww:property value="startDateTime.getTime()"/> - <ww:property value="endDateTime.getTime()"/>)
+</ww:iterator>
+<br>
+<br>
+
+Events for <ww:property value="startDate"/> - <ww:property value="endDate"/><br>
+<ww:iterator value="events" status="rowstatus">
+Event: <ww:property/> <ww:property value="id"/>. <ww:property value="name"/> (<ww:property value="startDateTime.getTime()"/> - <ww:property value="endDateTime.getTime()"/>)<br>
+</ww:iterator>
 
 <div style="position: absolute; left: 0px; display: none;" id="calendar"></div>
 
