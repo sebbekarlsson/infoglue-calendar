@@ -44,8 +44,14 @@
 		      
 		      var date = "" + y + "-" + month + "-" + day;
 		      
+		      document.getForm.mode.value = "day";
+		      document.getForm.startDateTime.value = date;
+		      document.getForm.endDateTime.value = date;
+		      document.getForm.submit();
+		      
 		      // redirect...
-		      window.location = "ViewCalendar.action?calendarId=<ww:property value="calendar.id"/>&mode=day&startDateTime=" + date + "&endDateTime=" + date;
+		      //window.location = "ViewCalendar.action?calendarId=<ww:property value="calendar.id"/>&mode=day&startDateTime=" + date + "&endDateTime=" + date;
+		    	
 		    }
 		};
 	
@@ -377,6 +383,16 @@
 
 </div>
 
+<portlet:renderURL var="viewCalendarUrl">
+	<portlet:param name="action" value="ViewCalendar"/>
+</portlet:renderURL>
 
+<form name="getForm" method="POST" action="<c:out value="${viewCalendarUrl}"/>">
+	<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
+	<input type="hidden" name="mode" value="day">
+	<input type="hidden" name="startDateTime" value="">
+	<input type="hidden" name="endDateTime" value="">
+</form>
+	
 </body>
 </html>
