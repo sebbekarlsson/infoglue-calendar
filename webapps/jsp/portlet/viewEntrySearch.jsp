@@ -41,7 +41,7 @@
 
 <body>
 
-<div id="searchForm" style="display: <ww:if test="entries == null">block</ww:if><ww:else>none</ww:else>;">
+<div id="searchForm" class="marginalizedDiv" style="display: <ww:if test="entries == null">block</ww:if><ww:else>none</ww:else>;">
 
 <h1>Sök anmälan</h1>
 <hr/>
@@ -51,10 +51,10 @@
 </portlet:renderURL>
 		
 <form name="register" method="post" action="<c:out value="${searchEntryActionUrl}"/>">
-<h4>Sök efter anmälningar</h4>
+<h4>Fyll i ett eller flera fält som du vill söka på</h4>
 
 <div class="descriptionsmall">
-	Events:
+	<span class="label">Events:</span>
     <select name="eventId" class="smallInput">
 		<ww:iterator value="eventList">
 		<option value="<ww:property value="id"/>"/><ww:property value="name"/></option>
@@ -63,22 +63,22 @@
 </div>
 
 <div class="descriptionbig">
-		<p>
-		Förnamn:
-		<input type="text" size="40" name="firstName" id="firstName" class="smallInput" value="<ww:property value="firstName"/>" />
-		</p>
-		<p>
-		Efternamn:
-		<input type="text" size="40" name="lastName" id="lastName" class="smallInput" value="<ww:property value="lastName"/>" />		
-		</p>
-		<p>
-		Email: 
-		<input type="text" size="40" name="email" id="email" class="smallInput" value="<ww:property value="email"/>" />		
-		</p>
+	<p>
+	<span class="label">Förnamn:</span>
+	<input type="text" size="40" name="firstName" id="firstName" class="smallInput" value="<ww:property value="firstName"/>" />
+	</p>
+	<p>
+	<span class="label">Efternamn:</span>
+	<input type="text" size="40" name="lastName" id="lastName" class="smallInput" value="<ww:property value="lastName"/>" />		
+	</p>
+	<p>
+	<span class="label">Email:</span>
+	<input type="text" size="40" name="email" id="email" class="smallInput" value="<ww:property value="email"/>" />		
+	</p>
 </div>
 <div class="descriptionsmall">
-	<div class="category">
-		Categories:
+	<div class="label">
+		Kategorier (kryssa i dom du vill filtrera på):
 	</div>		
 	<div class="category">
 	<ww:iterator value="categoryList">
@@ -88,8 +88,8 @@
 </div>
 <div style="height:10px"></div>
 <div class="descriptionsmall">
-	<div class="location">
-		Locations:
+	<div class="label">
+		Platser (kryssa i dom du vill filtrera på):
 	</div>		
 	<div class="locations">
 	<ww:iterator value="locationList">
@@ -99,19 +99,20 @@
 </div>
 <div style="height:10px"></div>
 <input type="submit" value="Sök"/>
+<hr/>
 </div>
 
-<div id="hitlist" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
+<div id="hitlist" class="marginalizedDiv" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
 <h1>Sök anmälan</h1>
 
 <hr/>
 
 <h4>Träfflista</h4>
 
-<table border="0" width="100%">
+<table border="0" width="100%" cellpadding="2" cellspacing="0">
 <tr>
 <th>ID</th>
-<th>Name</th>
+<th>Namn</th>
 <th>Actions</th>
 </tr>
 
@@ -137,6 +138,11 @@
 </tr>
 </ww:iterator>
 
+<ww:if test="entries == null || entries.size() == 0">
+<tr>
+	<td colspan="3">Inga poster hittades</td>
+</tr>
+</ww:if>
 </table>
 
 <portlet:renderURL var="createEntryRenderURL">

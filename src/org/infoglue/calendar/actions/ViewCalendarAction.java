@@ -311,19 +311,6 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.mode = mode;
     }
 
-    public String getVCalendar(Event event) throws Exception
-    {
-        String contextRootPath = ServletActionContext.getServletContext().getRealPath("/");
-		if(!contextRootPath.endsWith("/") && !contextRootPath.endsWith("\\")) 
-			contextRootPath = contextRootPath + "/";
-		
-		String file = contextRootPath + "calendars" + File.separator + "event_" + event.getId() + ".vcs";
-
-        CalendarHelper.getCalendarHelper().getVCalendar(event, file);
-
-        System.out.println("calendars" + File.separator + "event_" + event.getId() + ".vcs");
-		return "calendars" + File.separator + "event_" + event.getId() + ".vcs";
-    }
     
     public String getFormattedStartDate()
     {

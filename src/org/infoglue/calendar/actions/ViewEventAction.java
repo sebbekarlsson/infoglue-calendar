@@ -28,9 +28,11 @@ import java.util.List;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
+import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
+import org.infoglue.calendar.entities.Participant;
 
 import com.opensymphony.xwork.Action;
 
@@ -71,11 +73,6 @@ public class ViewEventAction extends CalendarAbstractAction
         return "successPublic";
     }
     
-    public String getResourceUrl(Long resourceId) throws Exception
-    {
-        return ResourceController.getController().getResourceUrl(resourceId);
-    }
-      
     public Event getEvent()
     {
         return event;

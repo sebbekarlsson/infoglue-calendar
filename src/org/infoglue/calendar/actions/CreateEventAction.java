@@ -34,6 +34,7 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
+import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
@@ -64,6 +65,7 @@ public class CreateEventAction extends CalendarAbstractAction
     
     private List locations;
     private List categories;
+    private List infogluePrincipals;
     
     /**
      * This is the entry point for the main listing.
@@ -71,46 +73,8 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        /*
-        System.out.println("****************************");
-        System.out.println("*      getContextMap       *");
-        System.out.println("****************************");
-        Iterator requestIterator = ActionContext.getContext().getContextMap().keySet().iterator();
-        while(requestIterator.hasNext())
-        {
-            Object key = (Object)requestIterator.next();
-            Object value = (Object)ActionContext.getContext().getContextMap().get(key);
-            System.out.println("" + key + "=" + value);
-            
-        }
-        System.out.println("calendarId:" + ActionContext.getContext().getContextMap().get("calendarId"));
-
-        System.out.println("****************************");
-        System.out.println("*      PARAMETERS          *");
-        System.out.println("****************************");
-        
-        requestIterator = ActionContext.getContext().getParameters().keySet().iterator();
-        while(requestIterator.hasNext())
-        {
-            Object key = (Object)requestIterator.next();
-            Object value = (Object)ActionContext.getContext().getParameters().get(key);
-            System.out.println("" + key + "=" + value);
-            
-        }
-
-        System.out.println("calendarId:" + calendarId);
-        System.out.println("name:" + name);
-        System.out.println("description:" + description);
-        System.out.println("startCalendar:" + startDateTime);
-        System.out.println("endCalendar:" + endDateTime);
-
-        System.out.println("calendarId:" + ActionContext.getContext().getParameters().get("calendarId"));
-        System.out.println("****************************");
-        */
-        
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-        
         
         EventController.getController().createEvent(calendarId, name, description, startCalendar, endCalendar, locationId, categoryId, participantUserName);
         
@@ -125,7 +89,8 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         this.locations 	= LocationController.getController().getLocationList();
         this.categories = CategoryController.getController().getCategoryList();
-        
+        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+            
         return Action.INPUT;
     } 
     
@@ -252,5 +217,15 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setParticipantUserName(String[] participantUserName)
     {
         this.participantUserName = participantUserName;
+    }
+    
+    public List getUsers()
+    {
+        return users;
+    }
+    
+    public void setUsers(List users)
+    {
+        this.users = users;
     }
 }

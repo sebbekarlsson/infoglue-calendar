@@ -97,7 +97,7 @@
     		<p>  		
       			Participants (Hold shift to select multiple):<br>
 	      		<select name="participantUserName" multiple="true" class="listBox">
-		      		<ww:iterator value="{'Per', 'Mattias', 'Claes', 'Lena', 'Helena', 'Håkan'}">
+		      		<ww:iterator value="users">
 		      			<option value="<ww:property value='top'/>"><ww:property value="top"/></option>
 		      		</ww:iterator>
 	      		</select>

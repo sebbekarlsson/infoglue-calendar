@@ -23,6 +23,7 @@
 
 package org.infoglue.calendar.actions;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,13 @@ import java.util.Date;
 import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+
+import org.infoglue.calendar.controllers.ParticipantController;
+import org.infoglue.calendar.controllers.ResourceController;
+import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.Participant;
+import org.infoglue.calendar.util.CalendarHelper;
+import org.infoglue.calendar.util.CalendarPropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
@@ -131,5 +139,41 @@ public abstract class CalendarAbstractAction extends ActionSupport
     }
 
     
+    public String getVCalendar(Event event) throws Exception
+    {
+        String url = "";
+        
+        System.out.println("*******************START*********************");
+	    
+        try
+        {
+            String contextRootPath = CalendarPropertyHelper.getProperty("calendarsPath");
+            
+			String file = contextRootPath + "event_" + event.getId() + ".vcs";
+	
+	        CalendarHelper.getCalendarHelper().getVCalendar(event, file);
+	
+	        System.out.println("event_" + event.getId() + ".vcs");
+	        url = "calendars" + File.separator + "event_" + event.getId() + ".vcs";
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        System.out.println("*******************END***********************");
+        
+	    return url;
+    }
+    
+    public String getResourceUrl(Long resourceId) throws Exception
+    {
+        return ResourceController.getController().getResourceUrl(resourceId);
+    }
+      
+    public Participant getParticipant(Long participantId) throws Exception
+    {
+        return ParticipantController.getController().getParticipant(participantId);
+    }
 }
 

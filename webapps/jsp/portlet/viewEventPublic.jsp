@@ -38,78 +38,65 @@
 
 <body>
 
-<div id="inputForm">
+<div class="marginalizedDiv" id="inputForm">
 		
-	<div id="contentListHeader">
-		 <ww:property value="event.name"/>
-	</div>
-
+	<h1><ww:property value="event.name"/></h1>
+	<hr/>
 	<div id="contentList" style="display: block;">
-	
-			<p>
-				name:<br>
-				<ww:property value="event.name"/>
-			</p>
-			<p>
-				description:<br> 
-				<ww:property value="event.description"/>
-			</p>
-			<p>
-				<div style="position: relative; height: 25px;">
-					<div style="float: left">
-						startDateTime:
-						<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> - <ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>
-					</div>
+		<p>
+			<span class="label">Beskrivning:</span><br> 
+			<ww:property value="event.description"/>
+		</p>
+		<p>
+			<div style="position: relative; height: 25px;">
+				<div style="float: left">
+					<span class="label">Datum/tid:</span><br>
+					<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>
+					till 
+					<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>
 				</div>
-			</p>    
-			<p>
-				<div style="position: relative; height: 25px;">
-					<div style="float: left">
-						endDateTime:
-						<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/> - <ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>
-					</div>
-				</div>
-			</p>
+			</div>
+		</p>    			
+   		<p>
+      		<span class="label">Plats:</span><br>
+			<ww:iterator value="event.locations">
+	      		<ww:set name="location" value="top"/>
+ 				<ww:property value='#location.id'/>
+      		</ww:iterator>
+  		</p>
+		<p>
+      		<span class="label">Kategori:</span><br>
+			<ww:iterator value="event.categories">
+	      		<ww:set name="category" value="top"/>
+ 				<ww:property value='#category.id'/>
+      		</ww:iterator>
+       	</p>
+		<p>  		
+  			<span class="label">Deltagare:</span><br>
+      		<ww:iterator value="event.participants">
+	      		<ww:set name="participant" value="top"/>
+ 				<ww:property value="top.userName"/>,
+      		</ww:iterator>
+		</p>
+		<p>
+			<span class="label">Bifogade filer:</span><br>
+			<ww:iterator value="event.resources">
+				<a href="<ww:property value='this.getResourceUrl(top.id)'/>"><ww:property value='assetKey'/></a><br>     			
+      		</ww:iterator>
+		</p>
+		<p>
+			<ww:set name="eventId" value="eventId" scope="page"/>
+			<portlet:renderURL var="createEntryRenderURL">
+				<portlet:param name="action" value="CreateEntry!inputPublic"/>
+				<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+			</portlet:renderURL>
 			
-       		<p>
-	      		Location:<br>
-				<ww:iterator value="event.locations">
-		      		<ww:set name="location" value="top"/>
-     				<ww:property value='#location.id'/>
-	      		</ww:iterator>
-      		</p>
-			<p>
-	      		Category:<br>
-				<ww:iterator value="event.categories">
-		      		<ww:set name="category" value="top"/>
-     				<ww:property value='#category.id'/>
-	      		</ww:iterator>
-	       	</p>
-    		<p>  		
-      			Participants:<br>
-	      		<ww:iterator value="event.participants">
-		      		<ww:set name="participant" value="top"/>
-     				<ww:property value='#participant.id'/>
-	      		</ww:iterator>
-			</p>
-			<p>
-				Attached files:<br>
-				<ww:iterator value="event.resources">
-					<a href="<ww:property value='this.getResourceUrl(top.id)'/>"><ww:property value='assetKey'/></a><br>     			
-	      		</ww:iterator>
-			</p>
-			<p>
-				<ww:set name="eventId" value="eventId" scope="page"/>
-				<portlet:renderURL var="createEntryRenderURL">
-					<portlet:param name="action" value="CreateEntry!inputPublic"/>
-					<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
-				</portlet:renderURL>
-				
-				<a href="<c:out value="${createEntryRenderURL}"/>">Sign up for this event</a>
-			</p>
-		</form>
-	</div>
+			<a href="<c:out value="${createEntryRenderURL}"/>">Sign up for this event</a>
+		</p>
 		
+		<a href="<%=request.getContextPath()%>/<ww:property value="this.getVCalendar(event)"/>"><img src="<%=request.getContextPath()%>/images/calendarIcon.jpg" border="0"> Add to my calendar (vCal)</a>
+		<hr/>
+	</div>		
 
 </div>
 
