@@ -24,19 +24,11 @@
 package org.infoglue.calendar.actions;
 
 import java.util.Calendar;
-import java.util.List;
 
-import javax.portlet.PortletURL;
-
-import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
-import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
-import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -44,8 +36,9 @@ import com.opensymphony.xwork.ActionContext;
  * @author Mattias Bogeblad
  */
 
-public class CreateEventAction extends CalendarAbstractAction
+public class UpdateEventAction extends CalendarAbstractAction
 {
+    private Long eventId;
     private String name;
     private String description;
     private String startDateTime;
@@ -54,14 +47,9 @@ public class CreateEventAction extends CalendarAbstractAction
     private Integer endTime;
     private String[] locationId;
     private String[] categoryId;
-    
-    private String date;
-    private String time;
-    private String mode;
+
     private Long calendarId;
-    
-    private List locations;
-    private List categories;
+    private String mode;
     
     /**
      * This is the entry point for the main listing.
@@ -69,27 +57,16 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("CreateEventAction....." + calendarId);
+        System.out.println("In ViewCalendarAction.execute");
         
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-        
-        EventController.getController().createEvent(calendarId, name, description, startCalendar, endCalendar, locationId, categoryId);
+
+        EventController.getController().updateEvent(eventId, name, description, startCalendar, endCalendar, locationId, categoryId);
         
         return Action.SUCCESS;
     } 
-
-    /**
-     * This is the entry point creating a new calendar.
-     */
     
-    public String input() throws Exception 
-    {
-        this.locations 	= LocationController.getController().getLocationList();
-        this.categories = CategoryController.getController().getCategoryList();
-        
-        return Action.INPUT;
-    } 
     
     public String getDescription()
     {
@@ -99,36 +76,6 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setDescription(String description)
     {
         this.description = description;
-    }
-    
-    public String getName()
-    {
-        return name;
-    }
-    
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-    
-    public Long getCalendarId()
-    {
-        return calendarId;
-    }
-    
-    public void setCalendarId(Long calendarId)
-    {
-        this.calendarId = calendarId;
-    }
-    
-    public String getDate()
-    {
-        return date;
-    }
-    
-    public void setDate(String date)
-    {
-        this.date = date;
     }
     
     public String getEndDateTime()
@@ -141,14 +88,34 @@ public class CreateEventAction extends CalendarAbstractAction
         this.endDateTime = endDateTime;
     }
     
-    public String getMode()
+    public Integer getEndTime()
     {
-        return mode;
+        return endTime;
     }
     
-    public void setMode(String mode)
+    public void setEndTime(Integer endTime)
     {
-        this.mode = mode;
+        this.endTime = endTime;
+    }
+    
+    public Long getEventId()
+    {
+        return eventId;
+    }
+    
+    public void setEventId(Long eventId)
+    {
+        this.eventId = eventId;
+    }
+    
+    public String getName()
+    {
+        return name;
+    }
+    
+    public void setName(String name)
+    {
+        this.name = name;
     }
     
     public String getStartDateTime()
@@ -171,36 +138,6 @@ public class CreateEventAction extends CalendarAbstractAction
         this.startTime = startTime;
     }
     
-    public String getTime()
-    {
-        return time;
-    }
-    
-    public void setTime(String time)
-    {
-        this.time = time;
-    }
-    
-    public Integer getEndTime()
-    {
-        return endTime;
-    }
-    
-    public void setEndTime(Integer endTime)
-    {
-        this.endTime = endTime;
-    }
-    
-    public List getCategories()
-    {
-        return categories;
-    }
-    
-    public List getLocations()
-    {
-        return locations;
-    }
-    
     public void setCategoryId(String[] categoryId)
     {
         this.categoryId = categoryId;
@@ -209,5 +146,25 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setLocationId(String[] locationId)
     {
         this.locationId = locationId;
+    }
+    
+    public Long getCalendarId()
+    {
+        return calendarId;
+    }
+    
+    public void setCalendarId(Long calendarId)
+    {
+        this.calendarId = calendarId;
+    }
+    
+    public String getMode()
+    {
+        return mode;
+    }
+    
+    public void setMode(String mode)
+    {
+        this.mode = mode;
     }
 }

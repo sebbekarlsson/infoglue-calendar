@@ -1,7 +1,9 @@
 html, body		  { font-family: Verdana, Arial, Helvetica, sans-serif; text-align: left; padding: 0 } 
 
-#tab				{ background-color: white; font-family: Verdana, Arial, Helvetica, sans-serif; color: white; border: 0px solid black; background-image: url(../images/tab.gif); width: 66px; height: 24px;} 
-.tabText			{ position: absolute; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: white; border: 0px solid black; middle; padding: 7px 5px 5px 10px } 
+.tab				{ background-color: white; font-family: Verdana, Arial, Helvetica, sans-serif; color: white; border: 0px solid black; background-image: url(../images/tab.gif); width: 60px; height: 20px;} 
+.activeTab			{ background-color: white; font-family: Verdana, Arial, Helvetica, sans-serif; color: white; border: 0px solid black; background-image: url(../images/activeTab.gif); width: 60px; height: 20px;} 
+.tabText			{ position: absolute; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; border: 0px solid black; middle; padding: 7px 5px 5px 10px } 
+.activeTabText		{ position: absolute; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: white; border: 0px solid black; middle; padding: 7px 5px 5px 10px } 
 .dayItem			{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; } 
 .event				{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; } 
 

@@ -201,6 +201,39 @@ public class CategoryController extends BasicController
     
     
     /**
+     * This method returns a list of Locations
+     * @return List
+     * @throws Exception
+     */
+    
+    public List getCategoryList() throws Exception
+    {
+        List list = null;
+        
+        Session session = getSession();
+        
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			list = getCategoryList(session);
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
+		
+		return list;
+    }
+    
+    /**
      * Gets a list of all categorys available sorted by primary key.
      * @return List of Category
      * @throws Exception

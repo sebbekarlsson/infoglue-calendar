@@ -21,35 +21,35 @@
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Create new event
+		 <ww:property value="event.name"/> <a href="DeleteEvent.action?eventId=<ww:property value="event.id"/>&calendarId=<ww:property value="calendarId"/>&mode=<ww:property value="mode"/>">Delete</a>
 	</div>
 
 	<div id="contentList">
-		<form name="inputForm" method="GET" action="CreateEvent.action">
+		<form name="inputForm" method="GET" action="UpdateEvent.action">
+			<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
 			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
-			<input type="hidden" name="date" value="<ww:property value="date"/>"/>
-			<input type="hidden" name="time" value="<ww:property value="time"/>"/>
 			
-			name: <input type="textfield" name="name" value=""><br>
-			description: <input type="textfield" name="description" value=""><br>
-			startDateTime: <input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="startDateTime"/>">
+			
+			name: <input type="textfield" name="name" value="<ww:property value="event.name"/>"><br>
+			description: <input type="textfield" name="description" value="<ww:property value="event.description"/>"><br>
+			startDateTime: <input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>">
 			<img src="images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" /><br>
       
-			endDateTime: <input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="endDateTime"/>">
+			endDateTime: <input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>">
 			<img src="images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" /><br>
 
-			StartTime: <input type="textfield" name="startTime" value="<ww:property value="time"/>">
-      		EndTime: <input type="textfield" name="endTime" value="<ww:property value="time"/>">
-      		
-      		Location: 
+			StartTime: <input type="textfield" name="startTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>">
+      		EndTime: <input type="textfield" name="endTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>">
+			
+			Location: 
       		
       		<ww:select label="'Location'" name="'locationId'" listKey="id" listValue="name" list="locations" value="id" multiple="true"/> 
 			
       		Category:
       		
       		<ww:select label="'Category'" name="'categoryId'" listKey="id" listValue="name" list="categories" value="id" multiple="true"/> 
-      		
+			
 			<input type="submit">
 		</form>
 	</div>

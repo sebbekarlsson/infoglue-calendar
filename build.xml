@@ -313,6 +313,12 @@
 		    </fileset>
 		 </move>
 
+		 <copy todir="${src.dir}/org/infoglue.calendar.entities" overwrite="true">
+		    <fileset dir="${src.dir}">
+		      <include name="*hbm.xml"/>
+		    </fileset>
+		 </copy>
+
 </target>
 	
 

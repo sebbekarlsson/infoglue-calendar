@@ -79,7 +79,7 @@
             table="Event_Location"
             lazy="false"
             inverse="false"
-            cascade="none"
+            cascade="all"
             sort="unsorted"
         >
 
@@ -101,7 +101,7 @@
             table="Event_Category"
             lazy="false"
             inverse="false"
-            cascade="none"
+            cascade="all"
             sort="unsorted"
         >
 

@@ -28,12 +28,16 @@ import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.Location;
 
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.hibernate.*;
 import net.sf.hibernate.cfg.*;
@@ -62,7 +66,7 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database.
      */
     
-    public Event createEvent(Long calendarId, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime) throws HibernateException, Exception 
+    public Event createEvent(Long calendarId, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId) throws HibernateException, Exception 
     {
         Event event = null;
         
@@ -75,7 +79,22 @@ public class EventController extends BasicController
 			System.out.println("calendarId:" + calendarId);
 			Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
 			System.out.println("calendar:" + calendar);
-			event = createEvent(calendar, name, description, startDateTime, endDateTime, session);
+			
+			Set locations = new HashSet();
+			for(int i=0; i<locationId.length; i++)
+			{
+			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
+			    locations.add(location);
+			}
+
+			Set categories = new HashSet();
+			for(int i=0; i<categoryId.length; i++)
+			{
+			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
+			    categories.add(category);
+			}
+
+			event = createEvent(calendar, name, description, startDateTime, endDateTime, locations, categories, session);
 			tx.commit();
 		}
 		catch (Exception e) 
@@ -97,7 +116,7 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database inside a transaction.
      */
     
-    public Event createEvent(Calendar calendar, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Session session) throws HibernateException, Exception 
+    public Event createEvent(Calendar calendar, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Session session) throws HibernateException, Exception 
     {
         System.out.println("Creating new event...");
         
@@ -108,6 +127,8 @@ public class EventController extends BasicController
         event.setEndDateTime(endDateTime); 
         
         event.setCalendar(calendar);
+        event.setLocations(locations);
+        event.setCategories(categories);
         calendar.getEvents().add(event);
         
         session.save(event);
@@ -124,7 +145,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void updateEvent(Long id, String name, String description) throws Exception 
+    public void updateEvent(Long id, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId) throws Exception 
     {
 	    Session session = getSession();
 	    
@@ -134,7 +155,22 @@ public class EventController extends BasicController
 			tx = session.beginTransaction();
 		
 			Event event = getEvent(id, session);
-			updateEvent(event, name, description, session);
+			
+			Set locations = new HashSet();
+			for(int i=0; i<locationId.length; i++)
+			{
+			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
+			    locations.add(location);
+			}
+
+			Set categories = new HashSet();
+			for(int i=0; i<categoryId.length; i++)
+			{
+			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
+			    categories.add(category);
+			}
+			
+			updateEvent(event, name, description, startDateTime, endDateTime, locations, categories, session);
 			
 			tx.commit();
 		}
@@ -156,11 +192,15 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void updateEvent(Event event, String name, String description, Session session) throws Exception 
+    public void updateEvent(Event event, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Session session) throws Exception 
     {
         event.setName(name);
         event.setDescription(description);
-	
+        event.setStartDateTime(startDateTime);
+        event.setEndDateTime(endDateTime);
+        event.setLocations(locations);
+        event.setCategories(categories);
+        
 		session.update(event);
 	}
     

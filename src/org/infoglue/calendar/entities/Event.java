@@ -23,6 +23,7 @@
 package org.infoglue.calendar.entities;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents an event. An event is something that takes place between a startdate and an enddate
@@ -42,10 +43,10 @@ public class Event
     private java.util.Calendar endDateTime;
     
     private Calendar calendar;
-    private List locations;
-    private List participants;
-    private List resources;
-    private List categories;
+    private Set locations;
+    private Set participants;
+    private Set resources;
+    private Set categories;
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -123,16 +124,18 @@ public class Event
     }
     
     /**
-     * hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Location"
-     *
-     * @return List
+     * @hibernate.set table="Event_Location" cascade="none"
+     * @hibernate.collection-key column="event_id"
+     * @hibernate.collection-many-to-many class="org.infoglue.calendar.entities.Location" column="location_id"
+     * 
+     * @return java.util.Set
      */
-    public List getLocations()
+    public Set getLocations()
     {
         return locations;
     }
     
-    public void setLocations(List locations)
+    public void setLocations(Set locations)
     {
         this.locations = locations;
     }
@@ -142,12 +145,12 @@ public class Event
      *
      * @return List
      */
-    public List getParticipants()
+    public Set getParticipants()
     {
         return participants;
     }
     
-    public void setParticipants(List participants)
+    public void setParticipants(Set participants)
     {
         this.participants = participants;
     }
@@ -157,28 +160,30 @@ public class Event
      *
      * @return List
      */
-    public List getResources()
+    public Set getResources()
     {
         return resources;
     }
     
-    public void setResources(List resources)
+    public void setResources(Set resources)
     {
         this.resources = resources;
     }
     
+    
     /**
-     * hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Category"
-     *
-     * @return List
+     * @hibernate.set table="Event_Category" cascade="none"
+     * @hibernate.collection-key column="event_id"
+     * @hibernate.collection-many-to-many class="org.infoglue.calendar.entities.Category" column="category_id"
+     * 
+     * @return java.util.Set
      */
-
-    public List getCategories()
+    public Set getCategories()
     {
         return categories;
     }
     
-    public void setCategories(List categories)
+    public void setCategories(Set categories)
     {
         this.categories = categories;
     }

@@ -138,6 +138,13 @@ public class ViewCalendarAction extends CalendarAbstractAction
         
         return this.formatDate(parsedDate, "yyyy/MM/dd");
     }
+    
+    public String getFormattedDate(String date, String pattern)
+    {
+        Date parsedDate = this.parseDate(date, "yyyy-MM-dd");
+        
+        return this.formatDate(parsedDate, pattern);
+    }
 
     public String getEndDateTime()
     {

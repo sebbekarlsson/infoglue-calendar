@@ -43,9 +43,15 @@
 		function setActiveTab(id)
 		{
 			if(oldTabId)
+			{
 				document.getElementById(oldTabId).style.display = "none";
+				document.getElementById(oldTabId + "Tab").setAttribute("class", "tab");
+				document.getElementById(oldTabId + "Link").setAttribute("class", "tabText");
+			}
 				
 			document.getElementById(id).style.display 		= "block";
+			document.getElementById(id + "Tab").setAttribute("class", "activeTab");
+			document.getElementById(id + "Link").setAttribute("class", "activeTabText");
 			oldTabId = id;
 		}
 	
@@ -102,16 +108,17 @@
 </div>
 
 
-<div style="float: left; margin-left: 1em; margin-bottom: 1em;" id="calendarArea">
+<div style="float: left; id="calendarArea">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td><div id="tab"><a href="javascript:setActiveTab('events');" class="tabText">Events</a></div></td>
-	<td><div id="tab"><a href="javascript:setActiveTab('day');" class="tabText">Day</a></div></td>
-	<td><div id="tab"><a href="javascript:setActiveTab('calendar');" class="tabText">Month</a></div></td>
+	<td><div id="eventsTab" class="tab"><a id="eventsLink" href="javascript:setActiveTab('events');" onFocus="this.blur();" class="tabText">Events</a></div></td>
+	<td><div id="dayTab" class="tab"><a id="dayLink" href="javascript:setActiveTab('day');" onFocus="this.blur();" class="tabText">Day</a></div></td>
+	<td><div id="weekTab" class="tab"><a id="weekLink" href="javascript:setActiveTab('week');" onFocus="this.blur();" class="tabText">Week</a></div></td>
+	<td><div id="calendarTab" class="tab"><a id="calendarLink" href="javascript:setActiveTab('calendar');" onFocus="this.blur();" class="tabText">Month</a></div></td>
 </tr>
 </table>
 
-<div style="float: left; overflow:auto; left: 0px; display: none; width: 230px; height: 160px; background: silver" id="events">
+<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver" id="events">
 <span class="event">
 <ww:iterator value="calendar.events">
 <ww:property value="id"/>. <ww:property value="name"/> (<ww:property value="startDateTime.getTime()"/> - <ww:property value="endDateTime.getTime()"/>)<br>
@@ -119,8 +126,7 @@
 </span>
 </div>
 
-
-<div style="float: left; overflow:auto; left: 0px; display: none; width: 230px; height: 160px; background: silver" id="day">
+<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver" id="day">
 
 <ww:iterator value="{'00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'}">
 
@@ -128,18 +134,78 @@
 
 <span class="dayItem">
 	<ww:property/>.00 
-	<span onClick="javascript:addEvent('<ww:property/>');">
 		<ww:if test="#hourEvents.size > 0">
 		   <ww:iterator value="#hourEvents"><a href="ViewEvent.action?eventId=<ww:property value="id"/>"><ww:property value="name"/></a></ww:iterator>
+		   <span onClick="javascript:addEvent('<ww:property/>');">New event</span>
 		</ww:if>
 		<ww:else>
-		   ______________
+			<span onClick="javascript:addEvent('<ww:property/>');">______________</span>
 		</ww:else>		
-	</span>
 	<br>
 </span>
 </ww:iterator>
 </div>
+
+
+<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver" id="week">
+<table border="0" width="100%">
+<tr>
+	<td align="right" width="100%" colspan="2">
+		<span class="dayItem">Week <ww:property value="this.getFormattedDate(startDateTime, 'w')"/></span>
+	
+	</td>
+</tr>
+<tr>
+	<td width="20px">
+		<table border="0" width="10%">
+			<tr>
+				<td>
+					<span class="dayItem">&nbsp;</span>
+				</td>
+			</tr>
+			<ww:iterator value="{'08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'}">
+			<tr>
+				<td>
+					<span class="dayItem"><ww:property/></span>
+				</td>
+			</tr>
+			</ww:iterator>
+		</table>
+	</td>
+	<td>
+		<table border="0" width="100%">
+		<tr>
+			<ww:iterator value="{'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'}">
+			<td><span class="dayItem"><ww:property/></span></td>
+			</ww:iterator>
+		</tr>
+
+		<ww:iterator value="{'08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'}">
+		<tr>
+			<ww:set name="hourEvents" value="this.getEvents(top)" />
+			<ww:iterator value="{'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'}">
+			<td>
+				<span class="dayItem"> 
+					<ww:if test="#hourEvents.size > 0">
+					   <ww:iterator value="#hourEvents"><a href="ViewEvent.action?eventId=<ww:property value="id"/>"><ww:property value="name"/></a></ww:iterator>
+					   <span onClick="javascript:addEvent('<ww:property/>');">New event</span>
+					</ww:if>
+					<ww:else>
+						<span onClick="javascript:addEvent('<ww:property/>');"></span>
+					</ww:else>		
+					<br>
+				</span>
+				</ww:iterator>
+			</td>
+		</tr>
+		</ww:iterator>
+		</table>
+	</td>
+</tr>
+</table>
+
+</div>
+
 
 <div style="float: left; left: 0px; display: none;" id="calendar"></div>
 

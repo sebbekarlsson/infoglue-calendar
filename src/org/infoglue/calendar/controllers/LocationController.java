@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Location;
 
 
@@ -199,6 +200,39 @@ public class LocationController extends BasicController
 		return location;
     }
     
+    
+    /**
+     * This method returns a list of Locations
+     * @return List
+     * @throws Exception
+     */
+    
+    public List getLocationList() throws Exception
+    {
+        List list = null;
+        
+        Session session = getSession();
+        
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			list = getLocationList(session);
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
+		
+		return list;
+    }
     
     /**
      * Gets a list of all locations available sorted by primary key.
