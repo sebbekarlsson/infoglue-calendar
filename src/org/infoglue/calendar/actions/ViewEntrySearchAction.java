@@ -43,12 +43,14 @@ import com.opensymphony.xwork.Action;
 
 public class ViewEntrySearchAction extends CalendarAbstractAction
 {
+    private Long eventId;
     private String firstName;
     private String lastName;
     private String email;
     private String[] categoryId;
     private String[] locationId;
     
+    private List eventList;
     private List categoryList;
     private List locationList;
     
@@ -56,6 +58,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     private void initialize() throws Exception
     {
+        this.eventList = EventController.getController().getEventList();
         this.categoryList = CategoryController.getController().getCategoryList();
         this.locationList = LocationController.getController().getLocationList();
     }
@@ -68,7 +71,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         initialize();
 
-        this.entries = EntryController.getController().getEntryList(firstName, lastName, email, categoryId, locationId);
+        this.entries = EntryController.getController().getEntryList(firstName, lastName, email, eventId, categoryId, locationId);
         
         return Action.SUCCESS;
     } 
@@ -157,5 +160,19 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     public void setLocationId(String[] locationId)
     {
         this.locationId = locationId;
+    }
+    
+    public List getEventList()
+    {
+        return eventList;
+    }
+ 
+    public Long getEventId()
+    {
+        return eventId;
+    }
+    public void setEventId(Long eventId)
+    {
+        this.eventId = eventId;
     }
 }

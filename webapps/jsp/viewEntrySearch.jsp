@@ -20,6 +20,20 @@
 <h4>Sök efter anmälningar</h4>
 
 <div style="clear:both;"></div>
+
+<div class="descriptionsmall">
+	<div class="event">
+		Events:<div style="height:10px"></div>
+	</div>		
+	<div class="events">
+	  <select name="eventId">
+		<ww:iterator value="eventList">
+		<option value="<ww:property value="id"/>"/><ww:property value="name"/></option>
+		</ww:iterator>
+      </select>
+	</div>
+</div>
+
 <div class="descriptionbig">
 	<div style="width:20%; float:left;">
 		<label for="event" class="reglabel">Event:</label> 

@@ -267,11 +267,12 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public List getEntryList(String firstName, String lastName, String email, String[] categories, String[] locations) throws Exception
+    public List getEntryList(String firstName, String lastName, String email, Long eventId, String[] categories, String[] locations) throws Exception
     {
         System.out.println("firstName:" + firstName);
         System.out.println("lastName:" + lastName);
         System.out.println("email:" + email);
+        System.out.println("eventId:" + eventId);
         System.out.println("categories:" + categories);
         System.out.println("locations:" + locations);
         
@@ -284,7 +285,7 @@ public class EntryController extends BasicController
 		{
 			tx = session.beginTransaction();
 			
-			list = getEntryList(firstName, lastName, email, session);
+			list = getEntryList(eventId, firstName, lastName, email, session);
 			
 			Iterator entryListIterator = list.iterator();
 			while(entryListIterator.hasNext())
@@ -361,14 +362,17 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public List getEntryList(String firstName, String lastName, String email, Session session) throws Exception 
+    public List getEntryList(Long eventId, String firstName, String lastName, String email, Session session) throws Exception 
     {
         List result = null;
 
         String arguments = "";
         
+        
+        if(eventId != null)
+            arguments += "entry.event.id = :eventId ";
         if(firstName != null && firstName.length() != 0)
-            arguments += "entry.firstName = :firstName ";
+            arguments += (arguments.length() == 0 ? "" : "and ") + "entry.firstName = :firstName ";
         if(lastName != null && lastName.length() != 0)
             arguments += (arguments.length() == 0 ? "" : "and ") + "entry.lastName = :lastName ";
         if(email != null && email.length() != 0)
@@ -379,6 +383,8 @@ public class EntryController extends BasicController
         
         Query q = session.createQuery(sql);
 
+        if(eventId != null)
+            q.setParameter("eventId", eventId, Hibernate.LONG);
         if(firstName != null && firstName.length() != 0)
             q.setParameter("firstName", firstName, Hibernate.STRING);
         if(lastName != null && lastName.length() != 0)

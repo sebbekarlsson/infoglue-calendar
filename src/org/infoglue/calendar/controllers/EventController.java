@@ -286,20 +286,38 @@ public class EventController extends BasicController
     
     
     /**
-     * Gets a list of all events available sorted by primary key.
-     * @return List of Event
+     * This method returns a list of Events based on a number of parameters
+     * @return List
      * @throws Exception
      */
     
-    public List getEventList(Session session) throws Exception 
+    public List getEventList() throws Exception
     {
-        List result = null;
+        List list = null;
         
-        Query q = session.createQuery("from Event event order by event.id");
-   
-        result = q.list();
+        Session session = getSession();
         
-        return result;
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+
+			list = getEventList(session);
+			
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
+		
+		return list;
     }
     
     /**
@@ -308,7 +326,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(Calendar calendar, java.util.Calendar date, Session session) throws Exception 
+    public List getEventList(Session session) throws Exception 
     {
         List result = null;
         
