@@ -82,7 +82,7 @@
 		function addEvent(url)
 		{
 			//url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=week&startDateTime=" + date + "&endDateTime=" + date + "&time=" + time;
-			alert("Calling:" + url);
+			//alert("Calling:" + url);
 			document.location.href = url;
 		}
 
@@ -291,7 +291,7 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2"><img src="images/trans.gif" height="5" width="1"></td>
+	<td colspan="2"><img src="<%=request.getContextPath()%>/images/trans.gif" height="5" width="1"></td>
 </tr>
 <tr>
 	<td width="20px" valign="top">
@@ -342,17 +342,14 @@
 				</portlet:renderURL>
 				
 				<td width="14%" valign="bottom" style=" bottom-padding: 0px; border-top: 1px solid black; border-right: 1px solid black;" onclick="javascript:addEvent('<c:out value="${createEventUrl}"/>');" onmouseover="javascript:markElement(this);">
-					<span class="dayItem"><ww:if test="#hourEvents.size > 0">
-							<ww:iterator value="#hourEvents">
-								<ww:set name="eventId" value="top.id" scope="page"/>
-								<portlet:renderURL var="eventUrl">
-									<portlet:param name="action" value="ViewEvent"/>
-									<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
-								</portlet:renderURL>
-							
-								<a href="<c:out value="${eventUrl}"/>" onmouseover="javascript:toggleDiv('event_<ww:property value="id"/>');" onmouseout="javascript:hideDiv('event_<ww:property value="id"/>');"><img src="images/trans.gif" width="10" height="12" style="background-color: blue; aborder: 1px solid black; margin: 0px 1px 0px 1px;" border="0"></a><div id="event_<ww:property value="id"/>" style="position: absolute; overflow: auto; visibility:hidden; width: 100px; height: 50px; background: white"><ww:property value="name"/><br><ww:property value="description"/></div>
-							</ww:iterator>
-						</ww:if><img src="images/trans.gif" width="1" height="12">
+					<span class="dayItem"><ww:if test="#hourEvents.size > 0"><ww:iterator value="#hourEvents">
+						<ww:set name="eventId" value="top.id" scope="page"/>
+						<portlet:renderURL var="eventUrl">
+							<portlet:param name="action" value="ViewEvent"/>
+							<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+						</portlet:renderURL>
+						<a href="<c:out value="${eventUrl}"/>" onmouseover="javascript:toggleDiv('event_<ww:property value="id"/>');" onmouseout="javascript:hideDiv('event_<ww:property value="id"/>');"><img src="<%=request.getContextPath()%>/images/trans.gif" width="10" height="12" style="background-color: blue; aborder: 1px solid black; margin: 0px 1px 0px 1px;" border="0"></a><div id="event_<ww:property value="id"/>" style="position: absolute; overflow: auto; visibility:hidden; width: 100px; height: 50px; background: white"><ww:property value="name"/><br><ww:property value="description"/></div>
+						</ww:iterator></ww:if><img src="<%=request.getContextPath()%>/images/trans.gif" width="1" height="12">
 					</span>
 				</td>
 			</ww:iterator>
@@ -362,7 +359,7 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="2"><img src="images/trans.gif" height="5" width="1"></td>
+	<td colspan="2"><img src="<%=request.getContextPath()%>/images/trans.gif" height="5" width="1"></td>
 </tr>
 <tr>
 	<td align="left" colspan="2" style="border-top: 1px solid black; height: 50px; background-color: silver;">

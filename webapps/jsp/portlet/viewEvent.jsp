@@ -40,8 +40,14 @@
 
 <div id="inputForm">
 	
+	<portlet:actionURL var="deleteEventUrl">
+		<portlet:param name="action" value="DeleteEvent"/>
+		<portlet:param name="eventId" value="${eventId}"/>
+	</portlet:actionURL>
+	&calendarId=<ww:property value="calendarId"/>&mode=<ww:property value="mode"/>
+	
 	<div id="contentListHeader">
-		 <ww:property value="event.name"/> <a href="DeleteEvent.action?eventId=<ww:property value="event.id"/>&calendarId=<ww:property value="calendarId"/>&mode=<ww:property value="mode"/>">Delete</a>
+		 <ww:property value="event.name"/> <a href="<c:out value="${deleteEventUrl}"/>">Delete</a>
 	</div>
 
 	<div id="contentList" style="display: block;">

@@ -80,13 +80,14 @@ public class ActionResult implements Result
 			    viewAction = viewAction.substring(0, viewAction.lastIndexOf("."));
 			    response.setRenderParameter("action", viewAction);
 	        } 
+			/*
 			else 
 	        {
 	            // View is rendered outside an action...uh oh...
 	            response.setRenderParameter("action", "renderDirect");
 	            response.setRenderParameter("location", viewAction);
 	        }
-
+	        */
 		}
 	}
 	/**

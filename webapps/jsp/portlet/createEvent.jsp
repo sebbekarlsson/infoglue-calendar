@@ -34,7 +34,6 @@
 
 	<div id="contentList">
 
-		<ww:set name="createEventUrl" value="${calendarId}" scope="page"/>
 		<portlet:actionURL var="createEventUrl">
 			<portlet:param name="action" value="CreateEvent"/>
 		</portlet:actionURL>

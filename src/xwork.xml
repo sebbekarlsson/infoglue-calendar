@@ -116,7 +116,9 @@
 		
 		<!-- CALENDAR ACTIONS -->
 		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
-			<result name="input" type="dispatcher">/jsp/portlet/createCalendar.jsp</result>
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/createCalendar.jsp</param>
+            </result>
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCalendarAdministration</param>
 			</result>
@@ -139,7 +141,9 @@
 		
 		<!-- LOCATION ACTIONS -->
 		<action name="CreateLocation" class="org.infoglue.calendar.actions.CreateLocationAction">
-			<result name="input" type="dispatcher">/jsp/portlet/createLocation.jsp</result>
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/createLocation.jsp</param>
+            </result>
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCalendarAdministration</param>
 			</result>
@@ -159,7 +163,9 @@
 		</action>
 		<!-- CATEGORY ACTIONS -->
 		<action name="CreateCategory" class="org.infoglue.calendar.actions.CreateCategoryAction">
-			<result name="input" type="dispatcher">/jsp/portlet/createCategory.jsp</result>
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/createCategory.jsp</param>
+            </result>
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCalendarAdministration</param>
 			</result>
@@ -180,7 +186,9 @@
 		
 		<!-- EVENT ACTIONS -->
 		<action name="CreateEvent" class="org.infoglue.calendar.actions.CreateEventAction">
-			<result name="input" type="dispatcher">/jsp/portlet/createEvent.jsp</result>
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/createEvent.jsp</param>
+            </result>
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
 				<param name="parse">true</param>
