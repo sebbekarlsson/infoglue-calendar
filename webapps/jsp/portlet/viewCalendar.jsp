@@ -54,6 +54,24 @@
 		    	
 		    }
 		};
+		
+		var edit = false;
+		
+		function toggleShowEditForm()
+		{
+			if(!edit)
+			{
+				document.getElementById("calendarArea").style.display = "none";
+				document.getElementById("contentList").style.display = "block";
+				edit = true;
+			}
+			else
+			{
+				document.getElementById("calendarArea").style.display = "block";
+				document.getElementById("contentList").style.display = "none";
+				edit = false;
+			}
+		}
 	
 		var oldTabId;
 		
@@ -153,10 +171,11 @@
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Update calendar <ww:property value="calendar.name"/>
+		Calendar <ww:property value="calendar.name"/> <a href="javascript:toggleShowEditForm();">(Edit)</a>
+		<br>
 	</div>
 
-	<div id="contentList">
+	<div id="contentList" style="display: none;">
 		<portlet:actionURL var="updateCalendarActionUrl">
 			<portlet:param name="action" value="UpdateCalendar"/>
 		</portlet:actionURL>
@@ -175,11 +194,8 @@
 		</p>
 		</form>
 	</div>
-
-</div>
-
-
-<div style="float: left; id="calendarArea">
+	
+<div style="float: left; display: block; border: 0px solid black;" id="calendarArea">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td><div id="eventsTab" class="tab"><a id="eventsLink" href="javascript:setActiveTab('events');" onFocus="this.blur();" class="tabText">Events</a></div></td>
@@ -193,10 +209,10 @@
 <!-- *   HERE COMES THE COMING EVENTS  * -->
 <!-- *********************************** -->
 
-<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver; border: 1px black solid;" id="events">
+<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver; border: 0px black solid;" id="events">
 <table border="0" width="100%" cellpadding="2" cellspacing="0">
 <tr>
-	<td align="left" colspan="2" style="border-bottom: 1px solid black; height: 20px;">
+	<td align="left" colspan="2" style="border-bottom: 0px solid black; height: 20px;">
 		<div style="float: left;">
 			<span class="dayItem">Coming events</span>
 		</div>

@@ -149,7 +149,9 @@
 			</result>
 		</action>
 		<action name="ViewLocation" class="org.infoglue.calendar.actions.ViewLocationAction">
-			<result name="success" type="dispatcher">/jsp/portlet/viewLocation.jsp</result>
+			<result name="success" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewLocation.jsp</param>
+            </result>
 		</action>
 		<action name="UpdateLocation" class="org.infoglue.calendar.actions.UpdateLocationAction">
 			<result name="success" type="eventProcessed">
@@ -171,7 +173,9 @@
 			</result>
 		</action>
 		<action name="ViewCategory" class="org.infoglue.calendar.actions.ViewCategoryAction">
-			<result name="success" type="dispatcher">/jsp/portlet/viewCategory.jsp</result>
+			<result name="success" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewCategory.jsp</param>
+            </result>
 		</action>
 		<action name="UpdateCategory" class="org.infoglue.calendar.actions.UpdateCategoryAction">
 			<result name="success" type="eventProcessed">
@@ -207,7 +211,7 @@
 		</action>
 		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
 			<result name="success" type="eventProcessed">
-				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
 				<param name="parse">true</param>
 			</result>
 		</action>

@@ -42,12 +42,18 @@
 	
 	<portlet:actionURL var="deleteEventUrl">
 		<portlet:param name="action" value="DeleteEvent"/>
-		<portlet:param name="eventId" value="${eventId}"/>
 	</portlet:actionURL>
-	&calendarId=<ww:property value="calendarId"/>&mode=<ww:property value="mode"/>
+
+	<form name="deleteLinkForm" method="POST" action="<c:out value="${deleteEventUrl}"/>">
+		<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
+		<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
+		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
+		<input type="hidden" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>">
+		<input type="hidden" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>">
+	</form>		
 	
 	<div id="contentListHeader">
-		 <ww:property value="event.name"/> <a href="<c:out value="${deleteEventUrl}"/>">Delete</a>
+		 <ww:property value="event.name"/> <a href="javascript:document.deleteLinkForm.submit();">Delete</a>
 	</div>
 
 	<div id="contentList" style="display: block;">
