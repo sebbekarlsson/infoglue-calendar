@@ -53,6 +53,7 @@ import com.sun.rsasign.j;
 
 public class ViewCalendarAction extends CalendarAbstractAction
 {
+    private Integer componentId;
     private Long calendarId;
     private String mode;
     private String selectedFormattedDate;
@@ -74,7 +75,6 @@ public class ViewCalendarAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        /*
         System.out.println("****************************");
         System.out.println("*      getContextMap       *");
         System.out.println("****************************");
@@ -103,11 +103,15 @@ public class ViewCalendarAction extends CalendarAbstractAction
         
         System.out.println("calendarId:" + ActionContext.getContext().getParameters().get("calendarId"));
         System.out.println("****************************");
-        
+        /*
         if(calendarId == null)
             this.calendarId = new Long((String)ActionContext.getContext().getParameters().get("calendarId"));
         */
         
+        System.out.println("****************************");
+        System.out.println("calendarId:" + calendarId);
+        System.out.println("componentId:" + componentId);
+        System.out.println("****************************");
         this.calendar = CalendarController.getController().getCalendar(calendarId);
         
         this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
@@ -413,5 +417,10 @@ public class ViewCalendarAction extends CalendarAbstractAction
     public java.util.Calendar getEndCalendar()
     {
         return endCalendar;
+    }
+    
+    public Integer getComponentId()
+    {
+        return (Integer)ServletActionContext.getRequest().getAttribute("componentId");
     }
 }
