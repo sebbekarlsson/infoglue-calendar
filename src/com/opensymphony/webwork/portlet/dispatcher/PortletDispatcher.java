@@ -26,49 +26,18 @@ import javax.portlet.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 {
-    /*
-    public void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException
-    {
-        response.setContentType("text/html");
-        
-        String action = request.getParameter("actionName");
-        
-        System.out.println("action:" + action);
-        
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
-        PortletURL url = response.createActionURL();
-        System.out.println("url:" + url);
-        
-        response.getWriter().println("doView APAPAPAPA <a href");
-    }
-
-    public void doEdit(RenderRequest request, RenderResponse response) throws PortletException, IOException
-    {
-        response.setContentType("text/html");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
-        response.getWriter().println("doEdit APAPAPAPA");
-    }
-
-    public void processAction(ActionRequest request, ActionResponse response) throws PortletException, IOException
-    {
-        System.out.println("processAction");
-        String action = request.getParameter("actionName");
-        
-        System.out.println("action:" + action);
-    }
-    */
-    
-  
     protected static final Log log = LogFactory.getLog(PortletDispatcher.class);
 
     private static final String PORTLET_DISPATCHER = "com.opensymphony.webwork.portlet.dispatcher.PortletDispatcher";
 
     public static final String ACTION_CONTEXT = "com.opensymphony.webwork.portlet.ActionContext";
 
+   
     public static HashMap createContextMap(Map requestMap, Map parameterMap,
             Map sessionMap, Map applicationMap, PortletRequest request,
             PortletResponse response, PortletConfig portletConfig)
@@ -131,9 +100,8 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
             ActionResponse actionResponse) throws PortletException, IOException
     {
         System.out.println("processAction*****************************");
-        System.out.println("processAction action:" + getPortletConfig().getInitParameter("action"));
-        System.out.println("processAction action:" + getPortletConfig().getInitParameter("action"));
-    
+        System.out.println("calendarId:" + actionRequest.getParameter("calendarId"));
+        
         log.debug("Got to processAction!!");
         try
         {
@@ -199,9 +167,15 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         // getPortletApplicationMap());
         log.debug("Getting to serviceAction");
         System.out.println("Getting to serviceAction");
-        
+       
+        /*
         serviceAction(request, response, getPortletName(),
                 getModeActionName(request.getPortletMode()),
+                getRequestMap(request), getParameterMap(request),
+                getSessionMap(request), getPortletApplicationMap());
+        */
+        serviceAction(request, response, getPortletName(),
+                getActionName(request),
                 getRequestMap(request), getParameterMap(request),
                 getSessionMap(request), getPortletApplicationMap());
     }
@@ -214,7 +188,8 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         System.out.println("Getting to serviceAction with namespace:" + namespace + " actionName:" + actionName);
         
         HashMap extraContext = createContextMap(requestMap, parameterMap, sessionMap, applicationMap, request, response, getPortletConfig());
-
+        System.out.println("calendarId:" + extraContext.get("calendarId"));
+        
         if (namespace.length() > 0)
         {
             namespace = new StringBuffer("/").append(namespace).toString();
@@ -225,51 +200,59 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         extraContext.put(PORTLET_DISPATCHER, this);
         log.debug("Getting to beginning of serviceAction");
         System.out.println("Getting to beginning of serviceAction");
-        log
-                .debug(new StringBuffer().append("Namespace: ").append(
-                        namespace).append("\nAction: ").append(actionName)
-                        .append("\nPortlet Name: ").append(getPortletName())
-                        .toString());
+        log.debug(new StringBuffer().append("Namespace: ").append(namespace).append("\nAction: ").append(actionName).append("\nPortlet Name: ").append(getPortletName()).toString());
+        
         try
         {
             if (request instanceof RenderRequest)
             {
-                if (request.getPortletSession(true)
-                        .getAttribute(ACTION_CONTEXT) != null)
+                System.out.println("Yes - it was a render request....");
+                if (request.getPortletSession(true).getAttribute(ACTION_CONTEXT) != null)
                 {
                     log.debug("Getting key for old action");
-                    //          String oldActionKey =
-                    // request.getParameter("com.opensymphony.webwork.portlet.ActionContextKey");
-                    ActionContext oldAction = (ActionContext) request
-                            .getPortletSession().getAttribute(ACTION_CONTEXT);
-                    extraContext.put(ActionContext.VALUE_STACK, oldAction
-                            .getValueStack());
-                    extraContext.put(ActionContext.PARAMETERS, oldAction
-                            .getParameters());
+                    // String oldActionKey = request.getParameter("com.opensymphony.webwork.portlet.ActionContextKey");
+                    ActionContext oldAction = (ActionContext) request.getPortletSession().getAttribute(ACTION_CONTEXT);
+                    extraContext.put(ActionContext.VALUE_STACK, oldAction.getValueStack());
+                    extraContext.put(ActionContext.PARAMETERS, oldAction.getParameters());
                     request.getPortletSession().removeAttribute(ACTION_CONTEXT);
                     log.debug("Should have removed the key");
-
                 }
             }
-            String actionOverride = (String) request
-                    .getParameter("xwork.action");
+            String actionOverride = (String) request.getParameter("xwork.action");
             if (actionOverride != null)
             {
                 log.debug("Override action is " + actionOverride);
                 actionName = actionOverride;
             }
 
-            ActionProxy proxy = ActionProxyFactory.getFactory()
-                    .createActionProxy(namespace, actionName, extraContext);
-            request.setAttribute("webwork.valueStack", proxy.getInvocation()
-                    .getStack());
+            System.out.println("calendarId:" + extraContext.get("calendarId"));
+            
+            /*
+            System.out.println("****************************");
+            System.out.println("*      PARAMETERS BEFORE   *");
+            System.out.println("****************************");
+            Iterator requestIterator = extraContext.keySet().iterator();
+            while(requestIterator.hasNext())
+            {
+                Object key = requestIterator.next();
+                Object value = extraContext.get(key);
+                System.out.println("" + key + "=" + value);
+                
+            }
+            */
+            
+            ActionProxy proxy = ActionProxyFactory.getFactory().createActionProxy(namespace, actionName, extraContext);
+            System.out.println("Stack:" + proxy.getInvocation().getStack());
+            request.setAttribute("webwork.valueStack", proxy.getInvocation().getStack());
+            
             proxy.execute();
-            //TODO: This code is a B.S. cheat by me. Need to figure out if this
-            // is even needed.
+            
+            System.out.println("request:" + request.getClass().getName());
+            //TODO: This code is a B.S. cheat by me. Need to figure out if this is even needed.
             if (request instanceof ActionRequest)
             {
-                request.getPortletSession().setAttribute(ACTION_CONTEXT,
-                        proxy.getInvocation().getInvocationContext());
+                System.out.println("request was ActionRequest.........");
+                request.getPortletSession().setAttribute(ACTION_CONTEXT, proxy.getInvocation().getInvocationContext());
             }
         } catch (ConfigurationException e)
         {
@@ -301,13 +284,29 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         return actionName;
     } 
     
-    protected String getModeActionName(PortletMode mode)
-            throws PortletException
+	/**
+     * Build the name of the action from the request. Checks the request parameter
+     * <code>action</action> for the action name
+     *
+     * @param request the HttpServletRequest object.
+     * @return the name or alias of the action to execute.
+     */
+    protected String getActionName(PortletRequest request) {
+        String actionName = request.getParameter("action");
+        if(actionName == null) {
+            actionName = (String) getPortletConfig().getInitParameter(request.getPortletMode().toString());
+        }
+        log.debug("actionName = " + actionName);
+        return actionName;
+    } 
+    
+    protected String getModeActionName(PortletMode mode) throws PortletException
     {
         System.out.println("PortletMode is: " + mode.toString());
         log.debug("PortletMode is: " + mode.toString());
         //  TODO: Move this exception throwing somewhere else.  Nested too deep.
         String actionName = (String) getPortletConfig().getInitParameter(mode.toString());
+
         System.out.println("actionName in getModeActionName:" + actionName);
         
         if (actionName == null)

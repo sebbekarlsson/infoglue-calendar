@@ -27,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.portlet.RenderResponse;
+
 import com.opensymphony.xwork.ActionSupport;
 
 /**
@@ -119,5 +121,15 @@ public abstract class CalendarAbstractAction extends ActionSupport
         return calendar;
     }
 
+    public String getRenderUrl(RenderResponse renderResponse, String url)
+    {
+        return renderResponse.encodeURL(url);
+	    /*
+        PortletURL eventUrl = renderResponse.createRenderURL();
+		eventUrl.setParameter("action", "ViewEvent");
+	    eventUrl.setParameter("eventId", "<ww:property value="id"/>");
+	    */
+    }
+    
 }
 

@@ -89,7 +89,7 @@ public class Calendar
 	}
 		
 	/**
-     * @hibernate.set lazy="true"
+     * @hibernate.set lazy="false"
      * @hibernate.collection-key column="calendar_id"
      * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Event"
    	 *
@@ -97,8 +97,7 @@ public class Calendar
 	 */ 
 	public Set getEvents() 
 	{
-	    System.out.println("Events:" + events.size());
-		return events;
+	    return events;
 	}
 	
 	public void setEvents(Set events) 

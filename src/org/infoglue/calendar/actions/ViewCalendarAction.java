@@ -71,6 +71,39 @@ public class ViewCalendarAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+        
+        System.out.println("****************************");
+        System.out.println("*      getContextMap       *");
+        System.out.println("****************************");
+        Iterator requestIterator = ActionContext.getContext().getContextMap().keySet().iterator();
+        while(requestIterator.hasNext())
+        {
+            Object key = (Object)requestIterator.next();
+            Object value = (Object)ActionContext.getContext().getContextMap().get(key);
+            System.out.println("" + key + "=" + value);
+            
+        }
+        System.out.println("calendarId:" + ActionContext.getContext().getContextMap().get("calendarId"));
+
+        System.out.println("****************************");
+        System.out.println("*      PARAMETERS          *");
+        System.out.println("****************************");
+        
+        requestIterator = ActionContext.getContext().getParameters().keySet().iterator();
+        while(requestIterator.hasNext())
+        {
+            Object key = (Object)requestIterator.next();
+            Object value = (Object)ActionContext.getContext().getParameters().get(key);
+            System.out.println("" + key + "=" + value);
+            
+        }
+        
+        System.out.println("calendarId:" + ActionContext.getContext().getParameters().get("calendarId"));
+        System.out.println("****************************");
+        
+        if(calendarId == null)
+            this.calendarId = new Long((String)ActionContext.getContext().getParameters().get("calendarId"));
+        
         this.calendar = CalendarController.getController().getCalendar(calendarId);
         
         this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
@@ -264,6 +297,18 @@ public class ViewCalendarAction extends CalendarAbstractAction
     public void setCalendarId(Long calendarId)
     {
         this.calendarId = calendarId;
+    }
+
+    public void setCalendarId(String calendarId)
+    {
+        System.out.println("calendarId in String" + calendarId);
+        this.calendarId = new Long(calendarId);
+    }
+
+    public void setCalendarId(String[] calendarId)
+    {
+        System.out.println("calendarId in String[]" + calendarId[0]);
+        this.calendarId = new Long(calendarId[0]);
     }
 
     public Calendar getCalendar()

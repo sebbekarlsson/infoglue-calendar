@@ -1,4 +1,4 @@
-//$Id: PortletDispatchResult.java,v 1.1 2004/11/26 18:22:00 mattias Exp $
+//$Id: PortletDispatchResult.java,v 1.2 2004/12/06 17:06:46 mattias Exp $
 package com.opensymphony.webwork.portlet.alternative.action;
 
 import java.util.Iterator;
@@ -40,7 +40,9 @@ public class PortletDispatchResult implements Result {
 	 * {@link PortletContext} and includes the JSP.
 	 * @see com.opensymphony.xwork.Result#execute(com.opensymphony.xwork.ActionInvocation)
 	 */
-	public void execute(ActionInvocation actionInvocation) throws Exception {
+	
+	public void execute(ActionInvocation actionInvocation) throws Exception 
+	{
 		log.debug("execute");
 		ActionContext ctx = ActionContext.getContext();
 		
@@ -49,16 +51,13 @@ public class PortletDispatchResult implements Result {
 		{
 		    System.out.println("Key:" + ctxIterator.next());
 		}
-		
+
 		PortletDispatcher dispatcher = (PortletDispatcher)ctx.get("com.opensymphony.webwork.portlet.dispatcher.PortletDispatcher");
 		System.out.println("dispatcher:" + dispatcher);
 		PortletContext context = dispatcher.getPortletContext();
-		//PortletRequestDispatcher rd = context.getRequestDispatcher(dispatchTo);
-        //rd.include(request,response);
+		Object o = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
+		System.out.println("o:" + o.getClass().getName());
 		
-		//PortletConfig cfg = (PortletConfig)ctx.get(PortletActionConstants.PORTLET_CONFIG);
-        //RenderRequest req = (RenderRequest)ctx.get(PortletActionConstants.REQUEST);
-        //RenderResponse res = (RenderResponse)ctx.get(PortletActionConstants.RESPONSE);
         RenderRequest req = (RenderRequest)ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
         RenderResponse res = (RenderResponse)ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
 		log.debug("Including jsp " + dispatchTo);

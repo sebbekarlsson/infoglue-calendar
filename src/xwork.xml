@@ -86,10 +86,29 @@
 			<result-type name="portletDispatch" class="com.opensymphony.webwork.portlet.alternative.action.PortletDispatchResult"/>
 			<result-type name="eventProcessed" class="com.opensymphony.webwork.portlet.alternative.action.ActionResult"/>
 		</result-types>
+		
+		<interceptors>
+			<interceptor name="timer" class="com.opensymphony.xwork.interceptor.TimerInterceptor"/>
+		      	<interceptor name="logger" class="com.opensymphony.xwork.interceptor.LoggingInterceptor"/>
+		      	<interceptor name="chain" class="com.opensymphony.xwork.interceptor.ChainingInterceptor"/>
+		      	<interceptor name="params" class="com.opensymphony.xwork.interceptor.ParametersInterceptor"/>
+		      	<interceptor name="static-params" class="com.opensymphony.xwork.interceptor.StaticParametersInterceptor"/>
+		      	
+		      <interceptor-stack name="defaultStack">
+		        <interceptor-ref name="static-params"/>
+		        <interceptor-ref name="params"/>
+		      </interceptor-stack>
+		      <interceptor-stack name="debugStack">
+		        <interceptor-ref name="timer"/>
+		        <interceptor-ref name="logger"/>
+		      </interceptor-stack>
+		</interceptors>
+		
 		<default-interceptor-ref name="defaultStack"/>
+		
 		<action name="ViewCalendarAdministration.action" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">
-				<param name="dispatchTo">/jsp/viewCalendarAdministration.jsp</param>
+				<param name="dispatchTo">/jsp/portlet/viewCalendarAdministration.jsp</param>
 			</result>
 		</action>
 		
@@ -101,7 +120,9 @@
 		</action>
 		-->
 		<action name="ViewCalendar" class="org.infoglue.calendar.actions.ViewCalendarAction">
-			<result name="success" type="portletDispatch">jsp/viewCalendar.jsp</result>
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewCalendar.jsp</param>
+			</result>
 		</action>
 		<!--
 		<action name="UpdateCalendar" class="org.infoglue.calendar.actions.UpdateCalendarAction">
@@ -112,5 +133,34 @@
 		</action>
 		-->
 		
+		<!-- EVENT ACTIONS -->
+		<!--
+		<action name="CreateEvent" class="org.infoglue.calendar.actions.CreateEventAction">
+			<result name="input" type="dispatcher">jsp/createEvent.jsp</result>
+			<result name="success" type="redirect">
+				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		-->
+		<action name="ViewEvent" class="org.infoglue.calendar.actions.ViewEventAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewEvent.jsp</param>
+			</result>
+		</action>
+		<!--
+		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
+			<result name="success" type="redirect">
+				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
+			<result name="success" type="redirect">
+				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		-->
 	</package>
 </xwork>

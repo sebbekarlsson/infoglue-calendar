@@ -1,8 +1,11 @@
-<%@ page import="java.util.Map,
+<%@ page import="javax.portlet.PortletURL,
+				 java.util.Map,
 				 java.util.Iterator,
 				 java.util.List"%>
 
 <%@ taglib uri="webwork" prefix="ww" %>
+<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
 
 <portlet:defineObjects/>
@@ -13,7 +16,7 @@
 <head>
 	<title>Calendar Administration</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="css/calendar.css" />
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 </head>
 
 <body>
@@ -23,7 +26,22 @@
 	<div id="contentListHeader">
 		Calendars sss
 	</div>
-		
+	
+	<%=renderResponse.encodeURL(renderRequest.getContextPath() + "/images/no.gif")%>
+	<%	
+		PortletURL url = renderResponse.createActionURL();
+		url.setParameter("action", "ViewCalendar");
+        url.setParameter("calendarId", "1");
+
+		PortletURL url2 = renderResponse.createRenderURL();
+		url2.setParameter("action", "ViewCalendar");
+        url2.setParameter("calendarId", "1");
+    %>    
+    <%=url%>
+    <%=url2%>
+	<a href="<%=url%>">Test</a>
+	<a href="<%=url2%>">Test2</a>
+	
 	<div id="contentList">
 		<ww:iterator value="administrationUCCBean.calendars" status="rowstatus">
 		<p>

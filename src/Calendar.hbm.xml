@@ -54,7 +54,7 @@
 
         <set
             name="events"
-            lazy="true"
+            lazy="false"
             inverse="false"
             cascade="none"
             sort="unsorted"
