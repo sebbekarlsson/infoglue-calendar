@@ -24,6 +24,7 @@
 package org.infoglue.calendar.actions;
 
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.portlet.PortletURL;
@@ -70,8 +71,46 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+        /*
+        System.out.println("****************************");
+        System.out.println("*      getContextMap       *");
+        System.out.println("****************************");
+        Iterator requestIterator = ActionContext.getContext().getContextMap().keySet().iterator();
+        while(requestIterator.hasNext())
+        {
+            Object key = (Object)requestIterator.next();
+            Object value = (Object)ActionContext.getContext().getContextMap().get(key);
+            System.out.println("" + key + "=" + value);
+            
+        }
+        System.out.println("calendarId:" + ActionContext.getContext().getContextMap().get("calendarId"));
+
+        System.out.println("****************************");
+        System.out.println("*      PARAMETERS          *");
+        System.out.println("****************************");
+        
+        requestIterator = ActionContext.getContext().getParameters().keySet().iterator();
+        while(requestIterator.hasNext())
+        {
+            Object key = (Object)requestIterator.next();
+            Object value = (Object)ActionContext.getContext().getParameters().get(key);
+            System.out.println("" + key + "=" + value);
+            
+        }
+
+        System.out.println("calendarId:" + calendarId);
+        System.out.println("name:" + name);
+        System.out.println("description:" + description);
+        System.out.println("startCalendar:" + startDateTime);
+        System.out.println("endCalendar:" + endDateTime);
+
+        System.out.println("calendarId:" + ActionContext.getContext().getParameters().get("calendarId"));
+        System.out.println("****************************");
+        */
+        
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
+        
         
         EventController.getController().createEvent(calendarId, name, description, startCalendar, endCalendar, locationId, categoryId, participantUserName);
         

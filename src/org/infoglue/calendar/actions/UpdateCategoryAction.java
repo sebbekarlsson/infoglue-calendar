@@ -45,8 +45,6 @@ public class UpdateCategoryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("In ViewCalendarAction.execute");
-        
         CategoryController.getController().updateCategory(categoryId, name, description);
         
         return Action.SUCCESS;

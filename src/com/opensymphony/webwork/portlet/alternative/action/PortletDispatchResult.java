@@ -1,4 +1,4 @@
-//$Id: PortletDispatchResult.java,v 1.2 2004/12/06 17:06:46 mattias Exp $
+//$Id: PortletDispatchResult.java,v 1.3 2004/12/08 16:29:38 mattias Exp $
 package com.opensymphony.webwork.portlet.alternative.action;
 
 import java.util.Iterator;
@@ -46,14 +46,16 @@ public class PortletDispatchResult implements Result {
 		log.debug("execute");
 		ActionContext ctx = ActionContext.getContext();
 		
+		/*
 		Iterator ctxIterator = ctx.getContextMap().keySet().iterator();
 		while(ctxIterator.hasNext())
 		{
 		    System.out.println("Key:" + ctxIterator.next());
 		}
+		*/
 
 		PortletDispatcher dispatcher = (PortletDispatcher)ctx.get("com.opensymphony.webwork.portlet.dispatcher.PortletDispatcher");
-		System.out.println("dispatcher:" + dispatcher);
+		//System.out.println("dispatcher:" + dispatcher);
 		PortletContext context = dispatcher.getPortletContext();
 		Object o = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
 		System.out.println("o:" + o.getClass().getName());

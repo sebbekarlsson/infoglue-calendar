@@ -45,7 +45,12 @@
 	</div>
 
 	<div id="contentList" style="display: block;">
-		<form name="inputForm" method="POST" action="UpdateEvent.action">
+	
+		<portlet:actionURL var="updateEventActionUrl">
+			<portlet:param name="action" value="UpdateEvent"/>
+		</portlet:actionURL>
+		
+		<form name="inputForm" method="POST" action="<c:out value="${updateEventActionUrl}"/>">
 			<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
 			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
@@ -167,7 +172,7 @@
 			</p>
 			<p>
 				Attach file:<br>
-				<ww:file name="'file'"/>
+				<input type="file" name="file"/>
 			</p>
 			<p>
 				<input type="submit" value="Update">

@@ -124,30 +124,6 @@ public abstract class CalendarAbstractAction extends ActionSupport
         return calendar;
     }
 
-    public String getRenderUrl(String url)
-    {
-        try
-        {
-	        RenderResponse renderResponse = (RenderResponse)ActionContext.getContext().get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
-	        RenderRequest renderRequest = (RenderRequest)ActionContext.getContext().get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
-	        System.out.println("*********************************");
-	        System.out.println("renderResponse:" + renderResponse);
-	        System.out.println("url:" + url);
-	        System.out.println("*********************************");
-	        return renderResponse.encodeURL(url);
-		    /*
-	        PortletURL eventUrl = renderResponse.createRenderURL();
-			eventUrl.setParameter("action", "ViewEvent");
-		    eventUrl.setParameter("eventId", "<ww:property value="id"/>");
-		    */
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        
-        return "Error occurred when getting encoded url..";
-    }
     
 }
 

@@ -67,8 +67,6 @@ public class ViewEventAction extends CalendarAbstractAction
 
     public String getResourceUrl(Long resourceId) throws Exception
     {
-        System.out.println("resourceId:" + resourceId);
-        
         return ResourceController.getController().getResourceUrl(resourceId);
     }
     

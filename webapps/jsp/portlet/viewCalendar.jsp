@@ -151,7 +151,12 @@
 	</div>
 
 	<div id="contentList">
-		<form name="inputForm" method="POST" action="UpdateCalendar.action">
+		<portlet:actionURL var="updateCalendarActionUrl">
+			<portlet:param name="action" value="UpdateCalendar"/>
+		</portlet:actionURL>
+		
+		<form name="inputForm" method="POST" action="<c:out value="${updateCalendarActionUrl}"/>">
+	
 		<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
 		<p>
 			Name:<br> <input type="textfield" name="name" class="normalInput" value="<ww:property value="calendar.name"/>">
@@ -256,7 +261,7 @@
 					<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 				</portlet:renderURL>
 					   		
-		   		<a href="<c:out value="${eventUrl}"/><ww:property value="name"/></a> 
+		   		<a href="<c:out value="${eventUrl}"/>"><ww:property value="name"/></a> 
 			</ww:iterator>
 		</ww:if>
 </div>
@@ -315,7 +320,35 @@
 			<ww:set name="hour" value="top" />
 			<ww:iterator value="dates">
 				<ww:set name="hourEvents" value="this.getWeekEvents(top, #hour)" />
-				<td width="14%" valign="bottom" style=" bottom-padding: 0px; border-top: 1px solid black; border-right: 1px solid black;" onclick="javascript:addEvent('<ww:property value="this.getFormattedDate(top, 'yyyy-MM-dd')"/>', '<ww:property value="#hour"/>');" onmouseover="javascript:markElement(this);"><span class="dayItem"><ww:if test="#hourEvents.size > 0"><ww:iterator value="#hourEvents"><a href="ViewEvent.action?eventId=<ww:property value="id"/>" onmouseover="javascript:toggleDiv('event_<ww:property value="id"/>');" onmouseout="javascript:hideDiv('event_<ww:property value="id"/>');"><img src="images/trans.gif" width="10" height="12" style="background-color: blue; aborder: 1px solid black; margin: 0px 1px 0px 1px;" border="0"></a><div id="event_<ww:property value="id"/>" style="position: absolute; visibility:hidden; width: 100px; height: 50px; background: white"><ww:property value="name"/><ww:property value="description"/></div></ww:iterator></ww:if><img src="images/trans.gif" width="1" height="12"></span></td>
+
+				<ww:set name="calendarId" value="calendar.id" scope="page"/>
+				<ww:set name="startDateTime" value="this.getFormattedDate(top, 'yyyy-MM-dd')" scope="page"/>
+				<ww:set name="endDateTime" value="this.getFormattedDate(top, 'yyyy-MM-dd')" scope="page"/>
+				<ww:set name="time" value="#hour" scope="page"/>
+	
+				<portlet:renderURL var="createEventUrl">
+					<portlet:param name="action" value="CreateEvent!input"/>
+					<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+					<portlet:param name="mode" value="week"/>
+					<portlet:param name="startDateTime" value="<%= pageContext.getAttribute("startDateTime").toString() %>"/>
+					<portlet:param name="endDateTime" value="<%= pageContext.getAttribute("endDateTime").toString() %>"/>
+					<portlet:param name="time" value="<%= pageContext.getAttribute("time").toString() %>"/>
+				</portlet:renderURL>
+				
+				<td width="14%" valign="bottom" style=" bottom-padding: 0px; border-top: 1px solid black; border-right: 1px solid black;" onclick="javascript:addEvent('<c:out value="${createEventUrl}"/>');" onmouseover="javascript:markElement(this);">
+					<span class="dayItem"><ww:if test="#hourEvents.size > 0">
+							<ww:iterator value="#hourEvents">
+								<ww:set name="eventId" value="top.id" scope="page"/>
+								<portlet:renderURL var="eventUrl">
+									<portlet:param name="action" value="ViewEvent"/>
+									<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+								</portlet:renderURL>
+							
+								<a href="<c:out value="${eventUrl}"/>" onmouseover="javascript:toggleDiv('event_<ww:property value="id"/>');" onmouseout="javascript:hideDiv('event_<ww:property value="id"/>');"><img src="images/trans.gif" width="10" height="12" style="background-color: blue; aborder: 1px solid black; margin: 0px 1px 0px 1px;" border="0"></a><div id="event_<ww:property value="id"/>" style="position: absolute; overflow: auto; visibility:hidden; width: 100px; height: 50px; background: white"><ww:property value="name"/><br><ww:property value="description"/></div>
+							</ww:iterator>
+						</ww:if><img src="images/trans.gif" width="1" height="12">
+					</span>
+				</td>
 			</ww:iterator>
 		</tr>
 		</ww:iterator>

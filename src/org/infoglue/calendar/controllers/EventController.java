@@ -77,7 +77,16 @@ public class EventController extends BasicController
 		try 
 		{
 			tx = session.beginTransaction();
+			
 			System.out.println("calendarId:" + calendarId);
+	        System.out.println("name:" + name);
+	        System.out.println("description:" + description);
+	        System.out.println("startCalendar:" + startDateTime);
+	        System.out.println("endCalendar:" + endDateTime);
+	        System.out.println("locationId:" + locationId);
+	        System.out.println("categoryId:" + categoryId);
+	        System.out.println("participantUserName:" + participantUserName);
+	        
 			Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
 			System.out.println("calendar:" + calendar);
 			

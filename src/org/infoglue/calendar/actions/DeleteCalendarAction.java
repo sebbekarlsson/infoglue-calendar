@@ -52,8 +52,6 @@ public class DeleteCalendarAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("In ViewCalendarAction.execute");
-        
         CalendarController.getController().deleteCalendar(calendarId);
         
         return Action.SUCCESS;

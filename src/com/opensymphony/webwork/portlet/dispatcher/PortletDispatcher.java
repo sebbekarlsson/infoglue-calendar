@@ -224,10 +224,11 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
                 log.debug("Override action is " + actionOverride);
                 actionName = actionOverride;
             }
-
-            System.out.println("calendarId:" + extraContext.get("calendarId"));
             
             /*
+            System.out.println("calendarId:" + extraContext.get("calendarId"));
+            
+            
             System.out.println("****************************");
             System.out.println("*      PARAMETERS BEFORE   *");
             System.out.println("****************************");

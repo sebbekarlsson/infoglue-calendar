@@ -71,7 +71,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        
+        /*
         System.out.println("****************************");
         System.out.println("*      getContextMap       *");
         System.out.println("****************************");
@@ -103,13 +103,14 @@ public class ViewCalendarAction extends CalendarAbstractAction
         
         if(calendarId == null)
             this.calendarId = new Long((String)ActionContext.getContext().getParameters().get("calendarId"));
+        */
         
         this.calendar = CalendarController.getController().getCalendar(calendarId);
         
         this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
         this.endCalendar   = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23));
-        System.out.println("startDateTime:" + startDateTime);
-        System.out.println("startCalendar:" + startCalendar.getTime());
+        //System.out.println("startDateTime:" + startDateTime);
+        //System.out.println("startCalendar:" + startCalendar.getTime());
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(new Date(startCalendar.getTime().getTime()));
 
@@ -147,15 +148,15 @@ public class ViewCalendarAction extends CalendarAbstractAction
         weekEndCalendar.set(java.util.Calendar.SECOND, 59);
         weekEndCalendar.set(java.util.Calendar.MILLISECOND, 999);
 
-        System.out.println("DAY_OF_WEEK: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK));
-        System.out.println("DAY_OF_WEEK_IN_MONTH: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-        System.out.println("DATE:" + weekStartCalendar.getTime());
-        System.out.println("DAY_OF_WEEK: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK));
-        System.out.println("DAY_OF_WEEK_IN_MONTH: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-        System.out.println("DATE:" + weekEndCalendar.getTime());
+        //System.out.println("DAY_OF_WEEK: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK));
+        //System.out.println("DAY_OF_WEEK_IN_MONTH: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        //System.out.println("DATE:" + weekStartCalendar.getTime());
+        //System.out.println("DAY_OF_WEEK: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK));
+        //System.out.println("DAY_OF_WEEK_IN_MONTH: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        //System.out.println("DATE:" + weekEndCalendar.getTime());
 
-        System.out.println("weekStartCalendar:" + weekStartCalendar.getTime());
-        System.out.println("weekEndCalendar:" + weekEndCalendar.getTime());
+        //System.out.println("weekStartCalendar:" + weekStartCalendar.getTime());
+        //System.out.println("weekEndCalendar:" + weekEndCalendar.getTime());
 
         
         this.events = EventController.getController().getEventList(calendarId, startCalendar, endCalendar);
@@ -176,19 +177,19 @@ public class ViewCalendarAction extends CalendarAbstractAction
     
     private List getDateList(java.util.Calendar calendar)
     {
-        System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
-        System.out.println("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-        System.out.println("DATE:" + calendar.getTime());
+        //System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
+        //System.out.println("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        //System.out.println("DATE:" + calendar.getTime());
         calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 12);
-        System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
-        System.out.println("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-        System.out.println("DATE:" + calendar.getTime());
+        //System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
+        //System.out.println("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        //System.out.println("DATE:" + calendar.getTime());
            
         List dateList = new ArrayList();
         for(int i=0; i<7; i++)
         {
-            System.out.println("DATE:" + calendar.getTime());
+            //System.out.println("DATE:" + calendar.getTime());
             dateList.add(calendar.getTime());
             calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
         }

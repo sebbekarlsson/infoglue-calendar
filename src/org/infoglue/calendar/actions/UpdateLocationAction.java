@@ -45,8 +45,6 @@ public class UpdateLocationAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("In ViewCalendarAction.execute");
-        
         LocationController.getController().updateLocation(locationId, name, description);
         
         return Action.SUCCESS;

@@ -36,19 +36,29 @@
 				<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
 			</portlet:renderURL>
 
-		<p>
+			<portlet:actionURL var="deleteCalendarUrl">
+				<portlet:param name="action" value="DeleteCalendar"/>
+				<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+			</portlet:actionURL>
+
+		<p class="nobreak">
 			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
+		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${calendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
 		    </ww:if>
 		    <ww:else>
-		    	<span><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
+		    	<span><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${calendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
 		    </ww:else>
 		</p>
 		</ww:iterator>
 	</div>
 
 	<div id="contentListFooter">
-		<a href="CreateCalendar!input.action">Add Calendar</a>
+		
+		<portlet:renderURL var="createCalendarUrl">
+			<portlet:param name="action" value="CreateCalendar!input"/>
+		</portlet:renderURL>
+		
+		<a href="<c:out value="${createCalendarUrl}"/>">Add Calendar</a>
 	</div>
 </div>
 
@@ -60,19 +70,35 @@
 
 	<div id="contentList">
 		<ww:iterator value="administrationUCCBean.locations" status="rowstatus">
-		<p>
+		
+			<ww:set name="locationId" value="id" scope="page"/>
+			<portlet:renderURL var="locationUrl">
+				<portlet:param name="action" value="ViewLocation"/>
+				<portlet:param name="locationId" value="<%= pageContext.getAttribute("locationId").toString() %>"/>
+			</portlet:renderURL>
+			
+			<portlet:actionURL var="deleteLocationUrl">
+				<portlet:param name="action" value="DeleteLocation"/>
+				<portlet:param name="locationId" value="<%= pageContext.getAttribute("locationId").toString() %>"/>
+			</portlet:actionURL>
+			
+		<p class="nobreak">
 			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>.<ww:property value="name"/> : <a href="ViewLocation.action?locationId=<ww:property value="id"/>">Edit</a> : <a href="DeleteLocation.action?locationId=<ww:property value="id"/>">Delete</a></span>
+		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${locationUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${locationUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteLocationUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
 		    </ww:if>
 		    <ww:else>
-		    	<span><ww:property value="id"/>.<ww:property value="name"/> : <a href="ViewLocation.action?locationId=<ww:property value="id"/>">Edit</a> : <a href="DeleteLocation.action?locationId=<ww:property value="id"/>">Delete</a></span>
+		    	<span><ww:property value="id"/>.<a href="<c:out value="${locationUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${locationUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteLocationUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
 		    </ww:else>
 		</p>
 		</ww:iterator>
 	</div>
 
 	<div id="contentListFooter">
-		<a href="CreateLocation!input.action">Add Location</a>
+		<portlet:renderURL var="createLocationUrl">
+			<portlet:param name="action" value="CreateLocation!input"/>
+		</portlet:renderURL>
+		
+		<a href="<c:out value="${createLocationUrl}"/>">Add Location</a>
 	</div>
 </div>
 
@@ -84,19 +110,35 @@
 
 	<div id="contentList">
 		<ww:iterator value="administrationUCCBean.categories" status="rowstatus">
-		<p>
+			
+			<ww:set name="categoryId" value="id" scope="page"/>
+			<portlet:renderURL var="categoryUrl">
+				<portlet:param name="action" value="ViewCategory"/>
+				<portlet:param name="categoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
+			</portlet:renderURL>
+
+			<portlet:actionURL var="deleteCategoryUrl">
+				<portlet:param name="action" value="DeleteCategory"/>
+				<portlet:param name="categoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
+			</portlet:actionURL>
+			
+		<p class="nobreak">
 			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>.<ww:property value="name"/> : <a href="ViewCategory.action?categoryId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCategory.action?categoryId=<ww:property value="id"/>">Delete</a></span>
+		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${categoryUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${categoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCategoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
 		    </ww:if>
 		    <ww:else>
-		    	<span><ww:property value="id"/>.<ww:property value="name"/> : <a href="ViewCategory.action?categoryId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCategory.action?categoryId=<ww:property value="id"/>">Delete</a></span>
+		    	<span><ww:property value="id"/>.<a href="<c:out value="${categoryUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${categoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCategoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
 		    </ww:else>
 		</p>
 		</ww:iterator>
 	</div>
 
 	<div id="contentListFooter">
-		<a href="CreateCategory!input.action">Add Category</a>
+		<portlet:renderURL var="createCategoryUrl">
+			<portlet:param name="action" value="CreateCategory!input"/>
+		</portlet:renderURL>
+		
+		<a href="<c:out value="${createCategoryUrl}"/>">Add Category</a>
 	</div>
 </div>
 

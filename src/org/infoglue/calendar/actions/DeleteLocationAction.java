@@ -53,8 +53,6 @@ public class DeleteLocationAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("In ViewCalendarAction.execute");
-        
         LocationController.getController().deleteLocation(locationId);
         
         return Action.SUCCESS;

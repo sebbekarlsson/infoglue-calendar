@@ -1,9 +1,29 @@
+<%@ page import="javax.portlet.PortletURL,
+				 java.util.Map,
+				 java.util.Iterator,
+				 java.util.List"%>
+
 <%@ taglib uri="webwork" prefix="ww" %>
+<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
+<portlet:defineObjects/>
 
-<html>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+	<title>Calendar information</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
+	
+	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
+	
 </head>
+
 <body>
 
 <div id="inputForm">
@@ -13,11 +33,23 @@
 	</div>
 
 	<div id="contentList">
-		<form name="inputForm" method="POST" action="UpdateCategory.action">
-		<input type="hidden" name="categoryId" value="<ww:property value="category.id"/>">
-			name: <input type="textfield" name="name" value="<ww:property value="category.name"/>">
-			description: <input type="textfield" name="description" value="<ww:property value="category.description"/>">
+		<portlet:actionURL var="updateCategoryActionUrl">
+			<portlet:param name="action" value="UpdateCategory"/>
+		</portlet:actionURL>
+		
+		<form name="inputForm" method="POST" action="<c:out value="${updateCategoryActionUrl}"/>">
+			<input type="hidden" name="categoryId" value="<ww:property value="category.id"/>">
+		<p>
+			name: <br>
+			<input type="textfield" name="name" value="<ww:property value="category.name"/>" class="normalInput">
+		</p>
+		<p>	
+			description: <br>
+			<input type="textfield" name="description" value="<ww:property value="category.description"/>" class="normalInput">
+		</p>
+		<p>
 			<input type="submit">
+		</p>
 		</form>
 	</div>
 

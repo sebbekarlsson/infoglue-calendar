@@ -78,8 +78,10 @@
 		</action>
 	</package>
 	
-	<package name="mypackage" namespace="/WebworkDispatcherPortlet">
+	<package name="mypackage" namespace="/WebworkDispatcherPortlet" extends="portletwork-default">
 		<result-types>
+			<!--<result-type name="portletDispatch" class="com.opensymphony.webwork.portlet.alternative.action.PortletDispatchResult"/>-->
+			<result-type name="eventProcessed" class="com.opensymphony.webwork.portlet.alternative.action.ActionResult"/>
 			<result-type name="dispatcher" class="com.opensymphony.webwork.dispatcher.ServletDispatcherResult" default="true"/>
 			<result-type name="redirect" class="com.opensymphony.webwork.dispatcher.ServletRedirectResult"/>
 			<result-type name="velocity" class="com.opensymphony.webwork.dispatcher.VelocityResult"/>
@@ -113,31 +115,74 @@
 		</action>
 		
 		<!-- CALENDAR ACTIONS -->
-		<!--
 		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
-			<result name="input" type="dispatcher">jsp/createCalendar.jsp</result>
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
+			<result name="input" type="dispatcher">/jsp/portlet/createCalendar.jsp</result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration</param>
+			</result>
 		</action>
-		-->
 		<action name="ViewCalendar" class="org.infoglue.calendar.actions.ViewCalendarAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendar.jsp</param>
 			</result>
 		</action>
-		<!--
 		<action name="UpdateCalendar" class="org.infoglue.calendar.actions.UpdateCalendarAction">
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration</param>
+			</result>
 		</action>
 		<action name="DeleteCalendar" class="org.infoglue.calendar.actions.DeleteCalendarAction">
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration</param>
+			</result>
 		</action>
-		-->
+		
+		<!-- LOCATION ACTIONS -->
+		<action name="CreateLocation" class="org.infoglue.calendar.actions.CreateLocationAction">
+			<result name="input" type="dispatcher">/jsp/portlet/createLocation.jsp</result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration</param>
+			</result>
+		</action>
+		<action name="ViewLocation" class="org.infoglue.calendar.actions.ViewLocationAction">
+			<result name="success" type="dispatcher">/jsp/portlet/viewLocation.jsp</result>
+		</action>
+		<action name="UpdateLocation" class="org.infoglue.calendar.actions.UpdateLocationAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration</param>
+			</result>
+		</action>
+		<action name="DeleteLocation" class="org.infoglue.calendar.actions.DeleteLocationAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration</param>
+			</result>
+		</action>
+		<!-- CATEGORY ACTIONS -->
+		<action name="CreateCategory" class="org.infoglue.calendar.actions.CreateCategoryAction">
+			<result name="input" type="dispatcher">/jsp/portlet/createCategory.jsp</result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration</param>
+			</result>
+		</action>
+		<action name="ViewCategory" class="org.infoglue.calendar.actions.ViewCategoryAction">
+			<result name="success" type="dispatcher">/jsp/portlet/viewCategory.jsp</result>
+		</action>
+		<action name="UpdateCategory" class="org.infoglue.calendar.actions.UpdateCategoryAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration</param>
+			</result>
+		</action>
+		<action name="DeleteCategory" class="org.infoglue.calendar.actions.DeleteCategoryAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration</param>
+			</result>
+		</action>
 		
 		<!-- EVENT ACTIONS -->
 		<action name="CreateEvent" class="org.infoglue.calendar.actions.CreateEventAction">
 			<result name="input" type="dispatcher">/jsp/portlet/createEvent.jsp</result>
-			<result name="success" type="redirect">
-				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
 				<param name="parse">true</param>
 			</result>
 		</action>
@@ -146,19 +191,18 @@
 				<param name="dispatchTo">/jsp/portlet/viewEvent.jsp</param>
 			</result>
 		</action>
-		<!--
-		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
-			<result name="success" type="redirect">
-				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+			<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>-->
 				<param name="parse">true</param>
 			</result>
 		</action>
 		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
-			<result name="success" type="redirect">
+			<result name="success" type="eventProcessed">
 				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
 				<param name="parse">true</param>
 			</result>
 		</action>
-		-->
+		
 	</package>
 </xwork>

@@ -59,10 +59,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("In UpdateEventAction.execute");
-        
-        System.out.println("file:" + this.getFile());
-
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
 
@@ -78,10 +74,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String upload() throws Exception 
     {
-        System.out.println("In UpdateEventAction.upload");
-        
-        System.out.println("file:" + this.getFile());  
-        
         ResourceController.getController().createResource(this.eventId, this.getAssetKey(), this.getFileContentType(), this.getFileFileName(), this.getFile());
         
         return Action.SUCCESS;
