@@ -52,8 +52,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
     private Long calendarId;
     private String mode;
     private String selectedFormattedDate;
-    private String startDate;
-    private String endDate;
+    private String startDateTime;
+    private String endDateTime;
     
     private Calendar calendar;
     private List events;
@@ -66,8 +66,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
     {
         this.calendar = CalendarController.getController().getCalendar(calendarId);
         
-        java.util.Calendar startCalendar = super.getCalendar(startDate, "yyyy-MM-dd", new Integer(0));
-        java.util.Calendar endCalendar 	 = super.getCalendar(endDate, "yyyy-MM-dd", new Integer(23));
+        java.util.Calendar startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
+        java.util.Calendar endCalendar 	 = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23));
         
         this.events = EventController.getController().getEventList(calendarId, startCalendar, endCalendar);
         
@@ -82,6 +82,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
 
     public List getEvents(String hour)
     {
+        System.out.println("getEvents with hour:" + hour);
         List hourEvents = new ArrayList();
         
         Iterator eventIterator = this.events.iterator();
@@ -93,6 +94,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
                 hourEvents.add(event);
             }
         }
+        
+        System.out.println("returning:" + hourEvents.size());
         
         return hourEvents;
     }
@@ -124,26 +127,26 @@ public class ViewCalendarAction extends CalendarAbstractAction
 
     public String getFormattedStartDate()
     {
-        Date parsedDate = this.parseDate(startDate, "yyyy-MM-dd");
+        Date parsedDate = this.parseDate(startDateTime, "yyyy-MM-dd");
         
         return this.formatDate(parsedDate, "yyyy/MM/dd");
     }
 
     public String getFormattedEndDate()
     {
-        Date parsedDate = this.parseDate(endDate, "yyyy-MM-dd");
+        Date parsedDate = this.parseDate(endDateTime, "yyyy-MM-dd");
         
         return this.formatDate(parsedDate, "yyyy/MM/dd");
     }
 
-    public String getEndDate()
+    public String getEndDateTime()
     {
-        return endDate;
+        return endDateTime;
     }
     
-    public void setEndDate(String endDate)
+    public void setEndDateTime(String endDateTime)
     {
-        this.endDate = endDate;
+        this.endDateTime = endDateTime;
     }
     
     public List getEvents()
@@ -156,13 +159,13 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.events = events;
     }
     
-    public String getStartDate()
+    public String getStartDateTime()
     {
-        return startDate;
+        return startDateTime;
     }
     
-    public void setStartDate(String startDate)
+    public void setStartDateTime(String startDateTime)
     {
-        this.startDate = startDate;
+        this.startDateTime = startDateTime;
     }
 }

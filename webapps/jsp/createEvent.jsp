@@ -33,10 +33,10 @@
 			
 			name: <input type="textfield" name="name" value=""><br>
 			description: <input type="textfield" name="description" value=""><br>
-			startDateTime: <input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="date"/>">
+			startDateTime: <input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="startDateTime"/>">
 			<img src="images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" /><br>
       
-			endDateTime: <input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="date"/>">
+			endDateTime: <input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="endDateTime"/>">
 			<img src="images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" /><br>
 
 			StartTime: <input type="textfield" name="startTime" value="<ww:property value="time"/>">

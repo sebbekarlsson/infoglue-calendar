@@ -10,6 +10,8 @@
   background: Window;
   color: WindowText;
   font-family: tahoma,verdana,sans-serif;
+  awidth: 500px;
+  aheight: 500px;
 }
 
 .calendar table {
@@ -20,6 +22,8 @@
   background: Window;
   color: WindowText;
   font-family: tahoma,verdana,sans-serif;
+  awidth: 500px;
+  aheight: 500px;
 }
 
 /* Header part -- contains navigation buttons and day names. */
