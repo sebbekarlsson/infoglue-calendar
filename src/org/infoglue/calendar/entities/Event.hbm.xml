@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="org.infoglue.calendar.entities.Event"
+        table="Event"
+        dynamic-update="false"
+        dynamic-insert="false"
+        select-before-update="false"
+        optimistic-lock="version"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="long"
+            unsaved-value="null"
+        >
+            <generator class="native">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-Event.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="name"
+            type="string"
+            update="true"
+            insert="true"
+            access="property"
+            column="name"
+            not-null="false"
+            unique="true"
+        />
+
+        <property
+            name="description"
+            type="string"
+            update="true"
+            insert="true"
+            access="property"
+            column="description"
+            not-null="false"
+            unique="false"
+        />
+
+        <property
+            name="endDateTime"
+            type="calendar"
+            update="true"
+            insert="true"
+            access="property"
+            column="endDateTime"
+            not-null="false"
+            unique="false"
+        />
+
+        <property
+            name="startDateTime"
+            type="calendar"
+            update="true"
+            insert="true"
+            access="property"
+            column="startDateTime"
+            not-null="false"
+            unique="false"
+        />
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-Event.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

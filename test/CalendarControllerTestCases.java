@@ -1,4 +1,7 @@
+import net.sf.hibernate.HibernateException;
+
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.entities.Calendar;
 
 import junit.framework.TestCase;
 /* ===============================================================================
@@ -55,11 +58,31 @@ public class CalendarControllerTestCases extends TestCase
         super(arg0);
     }
 
-    public void testCreateCalendar() throws Exception
+    public void testCreateCalendar()
     {
-        System.out.println("testCreateCalendar...");
-        CalendarController calendarController = CalendarController.getController();
-        calendarController.createCalendar("TestCalendar");
+        try
+        {
+	        System.out.println("testCreateCalendar...");
+	        CalendarController calendarController = CalendarController.getController();
+	        Calendar existingCalendar = (Calendar)(calendarController.getCalendar("TestCalendarUpdated")).get(0);
+	        calendarController.deleteCalendar(existingCalendar.getId());
+	    } 
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        try
+        {
+	        System.out.println("testCreateCalendar...");
+	        CalendarController calendarController = CalendarController.getController();
+	        Calendar calendar = calendarController.createCalendar("TestCalendar", "This is the testcalendar...");
+	        calendarController.updateCalendar(calendar, "TestCalendarUpdated", "This is the testcalendar updated...");
+        } 
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 }

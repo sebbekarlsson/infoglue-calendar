@@ -1,53 +1,43 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
-<!DOCTYPE web-app
-    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     "http://java.sun.com/dtd/web-app_2_3.dtd">
-
 <web-app>
-
-<display-name>My WebWork Application</display-name>
+	<display-name>My WebWork Application</display-name>
 	<servlet>
 		<servlet-name>webwork</servlet-name>
 		<servlet-class>com.opensymphony.webwork.dispatcher.ServletDispatcher</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<servlet-name>velocity</servlet-name>
+		<servlet-class>com.opensymphony.webwork.views.velocity.WebWorkVelocityServlet</servlet-class>
+		<load-on-startup>10</load-on-startup>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>webwork</servlet-name>
 		<url-pattern>*.action</url-pattern>
 	</servlet-mapping>
-
-	<servlet>
-	  <servlet-name>velocity</servlet-name> 
-	  <servlet-class>com.opensymphony.webwork.views.velocity.WebWorkVelocityServlet</servlet-class> 
-	  <load-on-startup>10</load-on-startup> 
-	</servlet>
-	
 	<servlet-mapping>
-	  <servlet-name>velocity</servlet-name> 
-	  <url-pattern>*.vm</url-pattern> 
+		<servlet-name>velocity</servlet-name>
+		<url-pattern>*.vm</url-pattern>
 	</servlet-mapping>
-	
-
-    <welcome-file-list>
- 		<welcome-file>index.html</welcome-file>
-    </welcome-file-list>
-
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
 	<error-page>
-    	<error-code>400</error-code>
-    	<location>/index.html</location>
-  	</error-page>
-
+		<error-code>400</error-code>
+		<location>/index.html</location>
+	</error-page>
 	<error-page>
-    	<error-code>404</error-code>
-    	<location>/index.html</location>
-  	</error-page>
-
+		<error-code>404</error-code>
+		<location>/index.html</location>
+	</error-page>
+	<!--
 	<taglib>
 		<taglib-uri>webwork</taglib-uri>
-		<taglib-location>/WEB-INF/lib/webwork-2.1.1.jar</taglib-location>
+		<taglib-location>/WEB-INF/lib/webwork-2.1.6.jar</taglib-location>
 	</taglib>
-	
+	-->
 	<!--
 	<security-constraint>
 		<web-resource-collection>
@@ -67,5 +57,4 @@
 		</form-login-config>
 	</login-config>
 	-->
-	
 </web-app>

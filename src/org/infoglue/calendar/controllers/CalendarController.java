@@ -36,26 +36,11 @@ import java.util.List;
 import net.sf.hibernate.*;
 import net.sf.hibernate.cfg.*;
 
-public class CalendarController 
+public class CalendarController extends BasicController
 {    
+    //Logger for this class
     private static Log log = LogFactory.getLog(CalendarController.class);
-    
-    private static SessionFactory sessionFactory;
-    
-    static 
-    {
-        try 
-        {
-            // Create the SessionFactory
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-        } 
-        catch (Throwable ex) 
-        {
-            log.error("Initial SessionFactory creation failed.", ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
-    
+        
     
     /**
      * Factory method to get CalendarController
@@ -67,26 +52,124 @@ public class CalendarController
     {
         return new CalendarController();
     }
+        
+    /**
+     * This method is used to create a new Calendar object in the database.
+     */
     
-    /*
-    public void configure() throws HibernateException 
+    public Calendar createCalendar(String name, String description) throws HibernateException, Exception 
     {
-        _sessions = new Configuration()
-            .addClass(Blog.class)
-            .addClass(BlogItem.class)
-            .buildSessionFactory();
-    }
-    */
-    
-    
-    public Calendar createCalendar(String name) throws HibernateException {
+        System.out.println("Creating new calendar...");
         
         Calendar calendar = new Calendar();
         calendar.setName(name);
-        calendar.setEvents( new ArrayList() );
-        calendar.setDescription("My first calendar...");
+        calendar.setDescription(description);
         
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
+        
+        Transaction tx = null;
+        
+        try 
+        {
+            tx = session.beginTransaction();
+            session.save(calendar);
+            tx.commit();
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+            
+            if (tx!=null) 
+                tx.rollback();
+        }
+        finally 
+        {
+            session.close();
+        }
+        
+        System.out.println("Finished creating calendar...");
+        
+        return calendar;
+    }
+    
+    /**
+     * Updates an calendar.
+     * 
+     * @throws Exception
+     */
+    
+    public void updateCalendar(Calendar calendar, String name, String description) throws Exception 
+    {
+        calendar.setName(name);
+        calendar.setDescription(description);
+	
+        Session session = getSession();
+        
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			session.update(calendar);
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
+	}
+    
+ 
+    /**
+     * This method returns a Calendar based on it's primary key
+     * @return Calendar
+     * @throws Exception
+     */
+    
+    public Calendar getCalendar(Long id) throws Exception
+    {
+        Calendar calendar = null;
+        
+        Session session = getSession();
+        
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			calendar = (Calendar)session.load(Calendar.class, id);
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
+		
+		return calendar;
+    }
+    
+    
+    /**
+     * Gets a list of all calendars available sorted by primary key.
+     * @return List of Calendar
+     * @throws Exception
+     */
+    
+    public List getCalendarList() throws Exception 
+    {
+        List result = null;
+        
+        Session session = getSession();
         
         Transaction tx = null;
         
@@ -94,128 +177,6 @@ public class CalendarController
         {
             tx = session.beginTransaction();
             
-            session.save(calendar);
-            
-            tx.commit();
-        }
-        catch (HibernateException he) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw he;
-        }
-        finally 
-        {
-            session.close();
-        }
-        
-        return calendar;
-    }
-    
-    /*
-    public BlogItem createBlogItem(Blog blog, String title, String text)
-                        throws HibernateException {
-        
-        BlogItem item = new BlogItem();
-        item.setTitle(title);
-        item.setText(text);
-        item.setBlog(blog);
-        item.setDatetime( Calendar.getInstance() );
-        blog.getItems().add(item);
-        
-        Session session = _sessions.openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            session.update(blog);
-            tx.commit();
-        }
-        catch (HibernateException he) {
-            if (tx!=null) tx.rollback();
-            throw he;
-        }
-        finally {
-            session.close();
-        }
-        return item;
-    }
-    
-    public BlogItem createBlogItem(Long blogid, String title, String text)
-                        throws HibernateException {
-        
-        BlogItem item = new BlogItem();
-        item.setTitle(title);
-        item.setText(text);
-        item.setDatetime( Calendar.getInstance() );
-        
-        Session session = _sessions.openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            Blog blog = (Blog) session.load(Blog.class, blogid);
-            item.setBlog(blog);
-            blog.getItems().add(item);
-            tx.commit();
-        }
-        catch (HibernateException he) {
-            if (tx!=null) tx.rollback();
-            throw he;
-        }
-        finally {
-            session.close();
-        }
-        return item;
-    }
-    
-    public void updateBlogItem(BlogItem item, String text)
-                    throws HibernateException {
-        
-        item.setText(text);
-        
-        Session session = _sessions.openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            session.update(item);
-            tx.commit();
-        }
-        catch (HibernateException he) {
-            if (tx!=null) tx.rollback();
-            throw he;
-        }
-        finally {
-            session.close();
-        }
-    }
-    
-    public void updateBlogItem(Long itemid, String text)
-                    throws HibernateException {
-    
-        Session session = _sessions.openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            BlogItem item = (BlogItem) session.load(BlogItem.class, itemid);
-            item.setText(text);
-            tx.commit();
-        }
-        catch (HibernateException he) {
-            if (tx!=null) tx.rollback();
-            throw he;
-        }
-        finally {
-            session.close();
-        }
-    }
-    
-    public List listAllBlogNamesAndItemCounts(int max)
-                    throws HibernateException {
-        
-        Session session = _sessions.openSession();
-        Transaction tx = null;
-        List result = null;
-        try {
-            tx = session.beginTransaction();
             Query q = session.createQuery(
                 "select blog.id, blog.name, count(blogItem) " +
                 "from Blog as blog " +
@@ -223,75 +184,92 @@ public class CalendarController
                 "group by blog.name, blog.id " +
                 "order by max(blogItem.datetime)"
             );
-            q.setMaxResults(max);
-            result = q.list();
-            tx.commit();
-        }
-        catch (HibernateException he) {
-            if (tx!=null) tx.rollback();
-            throw he;
-        }
-        finally {
-            session.close();
-        }
-        return result;
-    }
-    
-    public Blog getBlogAndAllItems(Long blogid)
-                    throws HibernateException {
-        
-        Session session = _sessions.openSession();
-        Transaction tx = null;
-        Blog blog = null;
-        try {
-            tx = session.beginTransaction();
-            Query q = session.createQuery(
-                "from Blog as blog " +
-                "left outer join fetch blog.items " +
-                "where blog.id = :blogid"
-            );
-            q.setParameter("blogid", blogid);
-            blog  = (Blog) q.list().get(0);
-            tx.commit();
-        }
-        catch (HibernateException he) {
-            if (tx!=null) tx.rollback();
-            throw he;
-        }
-        finally {
-            session.close();
-        }
-        return blog;
-    }
-    
-    public List listBlogsAndRecentItems() throws HibernateException {
-        
-        Session session = _sessions.openSession();
-        Transaction tx = null;
-        List result = null;
-        try {
-            tx = session.beginTransaction();
-            Query q = session.createQuery(
-                "from Blog as blog " +
-                "inner join blog.items as blogItem " +
-                "where blogItem.datetime > :minDate"
-            );
-
-            Calendar cal = Calendar.getInstance();
-            cal.roll(Calendar.MONTH, false);
-            q.setCalendar("minDate", cal);
             
             result = q.list();
+            
             tx.commit();
         }
-        catch (HibernateException he) {
-            if (tx!=null) tx.rollback();
-            throw he;
+        catch (Exception e) 
+        {
+            if (tx!=null) 
+                tx.rollback();
+            throw e;
         }
-        finally {
+        finally 
+        {
             session.close();
         }
+        
         return result;
     }
-    */
+    
+    /**
+     * Gets a list of calendars fetched by name.
+     * @return List of Calendar
+     * @throws Exception
+     */
+    
+    public List getCalendar(String name) throws Exception 
+    {
+        List calendars = null;
+        
+        Session session = getSession();
+        
+        Transaction tx = null;
+        
+        try 
+        {
+            tx = session.beginTransaction();
+            
+            calendars = session.find("from Calendar as calendar where calendar.name = ?", name, Hibernate.STRING);
+                
+            tx.commit();
+        }
+        catch (Exception e) 
+        {
+            if (tx!=null) 
+                tx.rollback();
+            throw e;
+        }
+        finally 
+        {
+            session.close();
+        }
+        
+        return calendars;
+    }
+    
+    
+    /**
+     * Deletes a calendar object in the database. Also cascades all events associated to it.
+     * @throws Exception
+     */
+    
+    public void deleteCalendar(Long id) throws Exception 
+    {
+        Session session = getSession();
+        
+        Transaction tx = null;
+        
+        try 
+        {
+            tx = session.beginTransaction();
+            
+            Calendar calendar = this.getCalendar(id);
+            session.delete(calendar);
+            
+            tx.commit();
+        }
+        catch (Exception e) 
+        {
+            if (tx!=null) 
+                tx.rollback();
+            throw e;
+        }
+        finally 
+        {
+            session.close();
+        }
+    }
+    
 }

@@ -65,8 +65,9 @@ public class SchemaExportController
             .addClass(Event.class);
         
         cfg.setProperty("hibernate.dialect", "net.sf.hibernate.dialect.MySQLDialect");
-        
-        new SchemaExport(cfg).create(true, true);
+        SchemaExport schemaExport = new SchemaExport(cfg);
+        schemaExport.setOutputFile("calendar.sql");
+        schemaExport.create(true, true);
     }
 
 }
