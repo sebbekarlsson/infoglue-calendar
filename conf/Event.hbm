@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+	<!-- org.infoglue.calendar.entities.Event root -->
+	<class name="org.infoglue.calendar.entities.Event" table="Event">
+		<id name="id" type="long" column="id">
+			<generator class="native"/>
+		</id>
+		<property name="name" column="name" type="string"/>
+		<list name="resources" table="resources" lazy="true">
+			<key column="uid"/>
+			<index column="i"/>
+			<element column="elm"/>
+		</list>
+		<component name="calendar" class="org.infoglue.calendar.entities.Calendar">
+			<property name="name" column="name_1" type="string"/>
+			<list name="events" table="events" lazy="true">
+				<key column="uid_1"/>
+				<index column="i_1"/>
+				<element column="elm_1"/>
+			</list>
+			<property name="description" column="description" type="string"/>
+			<property name="id" column="id_1" type="long"/>
+		</component>
+		<list name="categories" table="categories" lazy="true">
+			<key column="uid_2"/>
+			<index column="i_2"/>
+			<element column="elm_2"/>
+		</list>
+		<list name="participants" table="participants" lazy="true">
+			<key column="uid_3"/>
+			<index column="i_3"/>
+			<element column="elm_3"/>
+		</list>
+		<list name="locations" table="locations" lazy="true">
+			<key column="uid_4"/>
+			<index column="i_4"/>
+			<element column="elm_4"/>
+		</list>
+		<property name="description" column="description_1" type="string"/>
+		<property name="endDateTime" column="endDateTime" type="calendar"/>
+		<property name="startDateTime" column="startDateTime" type="calendar"/>
+	</class>
+</hibernate-mapping>

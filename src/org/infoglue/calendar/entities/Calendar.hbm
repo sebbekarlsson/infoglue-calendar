@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping package="org.infoglue.calendar.entities">
+
+    <class name="Blog" 
+        table="BLOGS" 
+        lazy="true">
+        
+        <id 
+            name="id" 
+            column="BLOG_ID">
+            
+            <generator class="native"/>
+            
+        </id>
+        
+        <property 
+            name="name" 
+            column="NAME" 
+            not-null="true" 
+            unique="true"/>
+            
+        <bag 
+            name="items" 
+            inverse="true" 
+            lazy="true"
+            order-by="DATE_TIME" 
+            cascade="all">
+            
+            <key column="BLOG_ID"/>
+            <one-to-many class="BlogItem"/>
+            
+        </bag>
+        
+    </class>
+    
+</hibernate-mapping>
