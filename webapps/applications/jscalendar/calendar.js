@@ -813,7 +813,6 @@ Calendar.prototype.create = function (_par) {
 
 	var tbody = Calendar.createElement("tbody", table);
 	this.tbody = tbody;
-
 	for (i = 6; i > 0; --i) {
 		row = Calendar.createElement("tr", tbody);
 		if (this.weekNumbers) {
@@ -1105,6 +1104,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 				hasdays = true;
 			}
 			cell.disabled = false;
+			//Setting value for month cell - MB
 			cell.firstChild.data = iday;
 			if (typeof this.getDateStatus == "function") {
 				var status = this.getDateStatus(date, year, month, iday);

@@ -10,6 +10,15 @@
 
 <portlet:defineObjects/>
 
+<ww:set name="calendarId" value="calendar.id" scope="page"/>
+
+<portlet:renderURL var="viewCalendarUrl">
+	<portlet:param name="action" value="ViewCalendar"/>
+	<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+	<portlet:param name="mode" value="day"/>
+	<portlet:param name="startDateTime" value="$startDateTime"/>
+	<portlet:param name="endDateTime" value="$endDateTime"/>
+</portlet:renderURL>
 
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -44,13 +53,17 @@
 		      
 		      var date = "" + y + "-" + month + "-" + day;
 		      
-		      document.getForm<ww:property value="componentId"/>.mode.value = "day";
-		      document.getForm<ww:property value="componentId"/>.startDateTime.value = date;
-		      document.getForm<ww:property value="componentId"/>.endDateTime.value = date;
-		      document.getForm<ww:property value="componentId"/>.submit();
+		      //document.helpForm<ww:property value="componentId"/>.mode.value = "day";
+		      //document.helpForm<ww:property value="componentId"/>.startDateTime.value = date;
+		      //document.helpForm<ww:property value="componentId"/>.endDateTime.value = date;
+		      //document.helpForm<ww:property value="componentId"/>.submit();
 		      
 		      // redirect...
-		      //window.location = "ViewCalendar.action?calendarId=<ww:property value="calendar.id"/>&mode=day&startDateTime=" + date + "&endDateTime=" + date;
+		      var url = "<c:out value="${viewCalendarUrl}"/>";
+		      convertedUrl = url.replace("$startDateTime", date);
+		      convertedUrl = convertedUrl.replace("$endDateTime", date);
+		      //alert("convertedUrl:" + convertedUrl);
+		      window.location = convertedUrl;
 		    	
 		    }
 		};
@@ -197,7 +210,7 @@
 			calendar<ww:property value="componentId"/>.create(params.flat);
 			calendar<ww:property value="componentId"/>.show();
 			*/
-
+			
 			Calendar.setup
 			(
 			    {
@@ -209,8 +222,7 @@
 			      date		   : "<ww:property value="formattedStartDate"/>"
 			    }
 		  	);
-		  	
-		  	alert("calendar<ww:property value="componentId"/>:" + calendar<ww:property value="componentId"/>);
+		  	//alert("calendar<ww:property value="componentId"/>:" + calendar<ww:property value="componentId"/>);
 		}
 		
 	</script>
@@ -451,16 +463,21 @@
   init<ww:property value="componentId"/>();
 </script>
 
-<portlet:renderURL var="viewCalendarUrl">
-	<portlet:param name="action" value="ViewCalendar"/>
-</portlet:renderURL>
+<!--
+<aportlet:renderURL var="viewCalendarUrl">
+	<aportlet:param name="action" value="ViewCalendar"/>
+</aportlet:renderURL>
+-->
 
-<form name="getForm<ww:property value="componentId"/>" method="POST" action="<c:out value="${viewCalendarUrl}"/>">
-	<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
+<!--
+<form id="helpForm<ww:property value="componentId"/>" name="helpForm<ww:property value="componentId"/>" method="POST" action="<c:out value="${viewCalendarUrl}"/>">
+	<input type="textfield" name="calendarId" value="<ww:property value="calendar.id"/>">
+	<input type="textfield" name="componentId" value="<ww:property value="componentId"/>">
 	<input type="hidden" name="mode" value="day">
 	<input type="hidden" name="startDateTime" value="">
 	<input type="hidden" name="endDateTime" value="">
 </form>
-	
+-->
+
 </body>
 </html>

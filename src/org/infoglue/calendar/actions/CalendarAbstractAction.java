@@ -31,6 +31,7 @@ import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.ActionSupport;
 
@@ -54,6 +55,11 @@ public abstract class CalendarAbstractAction extends ActionSupport
 	{
 		return this;
 	}
+
+    public Integer getComponentId()
+    {
+        return (Integer)ServletActionContext.getRequest().getAttribute("componentId");
+    }
 
     public String formatDate(Date date, String pattern)
     {	

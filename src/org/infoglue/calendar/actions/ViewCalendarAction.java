@@ -75,6 +75,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+        /*
         System.out.println("****************************");
         System.out.println("*      getContextMap       *");
         System.out.println("****************************");
@@ -103,14 +104,18 @@ public class ViewCalendarAction extends CalendarAbstractAction
         
         System.out.println("calendarId:" + ActionContext.getContext().getParameters().get("calendarId"));
         System.out.println("****************************");
-        /*
+        
         if(calendarId == null)
             this.calendarId = new Long((String)ActionContext.getContext().getParameters().get("calendarId"));
         */
         
+        this.componentId = getComponentId();
         System.out.println("****************************");
         System.out.println("calendarId:" + calendarId);
         System.out.println("componentId:" + componentId);
+        System.out.println("startDateTime:" + startDateTime);
+        System.out.println("endDateTime:" + endDateTime);
+        System.out.println("mode:" + mode);
         System.out.println("****************************");
         this.calendar = CalendarController.getController().getCalendar(calendarId);
         
@@ -419,8 +424,4 @@ public class ViewCalendarAction extends CalendarAbstractAction
         return endCalendar;
     }
     
-    public Integer getComponentId()
-    {
-        return (Integer)ServletActionContext.getRequest().getAttribute("componentId");
-    }
 }
