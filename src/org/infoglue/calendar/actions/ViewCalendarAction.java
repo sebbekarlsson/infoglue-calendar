@@ -61,6 +61,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
     
     private Calendar calendar;
     private List events;
+    private List weekEvents;
+    private List monthEvents;
     private List dates;
     
     /**
@@ -77,8 +79,55 @@ public class ViewCalendarAction extends CalendarAbstractAction
         System.out.println("startCalendar:" + startCalendar.getTime());
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(new Date(startCalendar.getTime().getTime()));
+
+        java.util.Calendar monthStartCalendar = java.util.Calendar.getInstance();
+        monthStartCalendar.setTime(new Date(startCalendar.getTime().getTime()));
+        monthStartCalendar.set(java.util.Calendar.DAY_OF_MONTH, 1);
+        monthStartCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        monthStartCalendar.set(java.util.Calendar.MINUTE, 0);
+        monthStartCalendar.set(java.util.Calendar.SECOND, 0);
+        monthStartCalendar.set(java.util.Calendar.MILLISECOND, 0);
+        System.out.println("monthStartCalendar:" + monthStartCalendar.getTime());
+        
+        java.util.Calendar monthEndCalendar = java.util.Calendar.getInstance();
+        monthEndCalendar.setTime(new Date(startCalendar.getTime().getTime()));
+        monthEndCalendar.set(java.util.Calendar.DAY_OF_MONTH, monthEndCalendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH) );
+        monthEndCalendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
+        monthEndCalendar.set(java.util.Calendar.MINUTE, 59);
+        monthEndCalendar.set(java.util.Calendar.SECOND, 59);
+        monthEndCalendar.set(java.util.Calendar.MILLISECOND, 999);
+        System.out.println("monthEndCalendar:" + monthEndCalendar.getTime());
+
+        java.util.Calendar weekStartCalendar = java.util.Calendar.getInstance();
+        weekStartCalendar.setTime(new Date(startCalendar.getTime().getTime()));
+        weekStartCalendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
+        weekStartCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        weekStartCalendar.set(java.util.Calendar.MINUTE, 0);
+        weekStartCalendar.set(java.util.Calendar.SECOND, 0);
+        weekStartCalendar.set(java.util.Calendar.MILLISECOND, 0);
+        
+        java.util.Calendar weekEndCalendar = java.util.Calendar.getInstance();
+        weekEndCalendar.setTime(new Date(startCalendar.getTime().getTime()));
+        weekEndCalendar.set(java.util.Calendar.DAY_OF_WEEK, weekEndCalendar.getActualMaximum(java.util.Calendar.DAY_OF_WEEK));
+        weekEndCalendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
+        weekEndCalendar.set(java.util.Calendar.MINUTE, 59);
+        weekEndCalendar.set(java.util.Calendar.SECOND, 59);
+        weekEndCalendar.set(java.util.Calendar.MILLISECOND, 999);
+
+        System.out.println("DAY_OF_WEEK: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK));
+        System.out.println("DAY_OF_WEEK_IN_MONTH: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        System.out.println("DATE:" + weekStartCalendar.getTime());
+        System.out.println("DAY_OF_WEEK: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK));
+        System.out.println("DAY_OF_WEEK_IN_MONTH: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        System.out.println("DATE:" + weekEndCalendar.getTime());
+
+        System.out.println("weekStartCalendar:" + weekStartCalendar.getTime());
+        System.out.println("weekEndCalendar:" + weekEndCalendar.getTime());
+
         
         this.events = EventController.getController().getEventList(calendarId, startCalendar, endCalendar);
+        this.weekEvents = EventController.getController().getEventList(calendarId, weekStartCalendar, weekEndCalendar);
+        this.monthEvents = EventController.getController().getEventList(calendarId, monthStartCalendar, monthEndCalendar);
         this.dates = getDateList(calendar);
             
         System.out.println("startCalendar:" + startCalendar.getTime());
@@ -96,11 +145,11 @@ public class ViewCalendarAction extends CalendarAbstractAction
     {
         System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
         System.out.println("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-        System.out.println("DATE:" + startCalendar.getTime());
+        System.out.println("DATE:" + calendar.getTime());
         calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 12);
         System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
-        System.out.println("DAY_OF_WEEK_IN_MONTH: " + startCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        System.out.println("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
         System.out.println("DATE:" + calendar.getTime());
            
         List dateList = new ArrayList();
@@ -122,7 +171,6 @@ public class ViewCalendarAction extends CalendarAbstractAction
 
     public List getEvents(Date date, String hour)
     {
-        System.out.println("getEvents with hour:" + date + ":" + hour);
         List hourEvents = new ArrayList();
         
         java.util.Calendar calendar = java.util.Calendar.getInstance();
@@ -132,16 +180,93 @@ public class ViewCalendarAction extends CalendarAbstractAction
         while(eventIterator.hasNext())
         {
             Event event = (Event)eventIterator.next();
-            if(mode.equalsIgnoreCase("day") && event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR) && event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) == Integer.parseInt(hour))
+            //System.out.println("event:" + event.getName());
+            if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR) && event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) == Integer.parseInt(hour))
             {
                 hourEvents.add(event);
             }
         }
         
-        //System.out.println("returning:" + hourEvents.size());
+        /*
+        if(hourEvents.size() > 0)
+        {
+            System.out.println("getEvents with hour:" + date + ":" + hour);
+            System.out.println("returning:" + hourEvents.size());
+        }
+        */
         
         return hourEvents;
     }
+
+    
+    /**
+     * 
+     * @param hour
+     * @return
+     */
+
+    public List getWeekEvents(Date date, String hour)
+    {
+        List hourEvents = new ArrayList();
+        
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(date);
+        
+        System.out.println("this.weekEvents:" + this.weekEvents.size());
+        
+        Iterator eventIterator = this.weekEvents.iterator();
+        while(eventIterator.hasNext())
+        {
+            Event event = (Event)eventIterator.next();
+            System.out.println("event:" + event.getName());
+            if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR) && (event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) <= Integer.parseInt(hour) && event.getEndDateTime().get(java.util.Calendar.HOUR_OF_DAY) >= Integer.parseInt(hour)))
+            {
+                hourEvents.add(event);
+            }
+        }
+        
+        if(hourEvents.size() > 0)
+        {
+            System.out.println("getWeekEvents with hour:" + date + ":" + hour);
+            System.out.println("returning:" + hourEvents.size());
+        }
+        
+        return hourEvents;
+    }
+    
+    /**
+     * 
+     * @param hour
+     * @return
+     */
+
+    public List getMonthEvents(Date date)
+    {
+        List hourEvents = new ArrayList();
+        
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(date);
+        
+        Iterator eventIterator = this.monthEvents.iterator();
+        while(eventIterator.hasNext())
+        {
+            Event event = (Event)eventIterator.next();
+            System.out.println("event:" + event.getName());
+            if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR))
+            {
+                hourEvents.add(event);
+            }
+        }
+        
+        if(hourEvents.size() > 0)
+        {
+            System.out.println("getEvents with hour:" + date);
+            System.out.println("returning:" + hourEvents.size());
+        }
+        
+        return hourEvents;
+    }
+
     
     public Long getCalendarId()
     {

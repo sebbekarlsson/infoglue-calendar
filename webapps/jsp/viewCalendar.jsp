@@ -58,9 +58,17 @@
 		function addEvent(time)
 		{
 			url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=day&startDateTime=<ww:property value="startDateTime"/>&endDateTime=<ww:property value="endDateTime"/>&time=" + time;
-			alert("Calling:" + url);
+			//alert("Calling:" + url);
 			document.location.href = url;
 		}
+
+		function addEvent(date, time)
+		{
+			url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=week&startDateTime=" + date + "&endDateTime=" + date + "&time=" + time;
+			//alert("Calling:" + url);
+			document.location.href = url;
+		}
+
 
 		var previousElement;	
 		function markElement(element)
@@ -76,10 +84,32 @@
 			previousElement = element;
 		}
 		
+		var previousDiv;	
+		function toggleDiv(id)
+		{
+			if(previousDiv)
+				previousDiv.style.visibility = "hidden";
+			
+			element = document.getElementById(id);
+			element.style.visibility = "visible";
+			previousDiv = element;
+		}
+
+		function hideDiv(id)
+		{
+			if(previousDiv)
+				previousDiv.style.visibility = "hidden";
+		}
+
+		
 		function init()
 		{
+		  	if("<ww:property value="mode"/>" == "events")
+		  		setActiveTab("events");
 		  	if("<ww:property value="mode"/>" == "day")
 		  		setActiveTab("day");
+		  	else if("<ww:property value="mode"/>" == "week")
+		  		setActiveTab("week");
 		  	else
 		  		setActiveTab("calendar");
 
@@ -131,6 +161,10 @@
 </tr>
 </table>
 
+<!-- *********************************** -->
+<!-- *   HERE COMES THE COMING EVENTS  * -->
+<!-- *********************************** -->
+
 <div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver" id="events">
 <table border="0" width="100%" cellpadding="2" cellspacing="0">
 <tr>
@@ -144,8 +178,10 @@
 
 <div class="event" style="margin: 10px 10px 10px 10px;">
 <ww:iterator value="calendar.events">
+<p>
 <a href="ViewEvent.action?eventId=<ww:property value="id"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
 <ww:property value="description"/>
+</p>
 </ww:iterator>
 </div>
 </div>
@@ -169,12 +205,15 @@
 <div class="dayItem" onClick="javascript:addEvent('<ww:property/>');" onmouseover="javascript:markElement(this);" style="border-bottom: 1px solid black;">
 	<ww:property/>.00 
 		<ww:if test="#hourEvents.size > 0">
-		   <ww:iterator value="#hourEvents"><a href="ViewEvent.action?eventId=<ww:property value="id"/>"><ww:property value="name"/></a></ww:iterator>
+		   <ww:iterator value="#hourEvents"><a href="ViewEvent.action?eventId=<ww:property value="id"/>"><ww:property value="name"/></a> </ww:iterator>
 		</ww:if>
 </div>
 </ww:iterator>
 </div>
 
+<!-- *********************************** -->
+<!-- *   HERE COMES THE WEEK CALENDAR  * -->
+<!-- *********************************** -->
 
 <div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver" id="week">
 <table border="0" width="100%" cellpadding="2" cellspacing="0">
@@ -190,7 +229,7 @@
 </tr>
 <tr>
 	<td width="20px" valign="top">
-		<table border="0" width="10%" cellpadding="2" cellspacing="0" style="border: 1px solid silver;">
+		<table border="0" width="10%" cellpadding="0" cellspacing="0" style="border: 1px solid silver;">
 			<tr>
 				<td>
 					<span class="dayItem">&nbsp;<br/>&nbsp;</span>
@@ -206,7 +245,7 @@
 		</table>
 	</td>
 	<td valign="top">
-		<table style="border: 1px solid black;" border="0" width="100%" cellpadding="2" cellspacing="0">
+		<table style="border: 1px solid black;" border="0" width="100%" cellpadding="0" cellspacing="0">
 		<tr>
 			<ww:iterator value="dates">
 			<td style="border-right: 1px solid black;">
@@ -220,12 +259,19 @@
 		<tr>
 			<ww:set name="hour" value="top" />
 			<ww:iterator value="dates">
-				<ww:set name="hourEvents" value="this.getEvents(top, #hour)" />
-				<td style="border-top: 1px solid black; border-right: 1px solid black;" onclick="javascript:addEvent('<ww:property/>');" onmouseover="javascript:markElement(this);">
+				<ww:set name="hourEvents" value="this.getWeekEvents(top, #hour)" />
+				<td style="border-top: 1px solid black; border-right: 1px solid black;" onclick="javascript:addEvent('<ww:property value="this.getFormattedDate(top, 'yyyy-MM-dd')"/>', '<ww:property value="#hour"/>');" onmouseover="javascript:markElement(this);">
 					<span class="dayItem">
 						<ww:if test="#hourEvents.size > 0">
-						   <ww:iterator value="#hourEvents"><a href="ViewEvent.action?eventId=<ww:property value="id"/>"><ww:property value="name"/></a></ww:iterator>
-						   <span onClick="javascript:addEvent('<ww:property/>');"></span>
+						   <ww:iterator value="#hourEvents">
+						   		<a href="ViewEvent.action?eventId=<ww:property value="id"/>" onmouseover="javascript:toggleDiv('event_<ww:property value="id"/>');" onmouseout="javascript:hideDiv('event_<ww:property value="id"/>');">
+						   			<img src="images/trans.gif" width="8" height="10" style="background-color: red; border: 1px solid black;" border="0">
+						   		</a>
+						   		<div id="event_<ww:property value="id"/>" style="position: absolute; visibility:hidden; width: 100px; height: 50px; background: white">
+									<ww:property value="name"/>
+									<ww:property value="description"/>
+								</div>
+						   </ww:iterator>
 						</ww:if>
 						<br>
 					</span>
