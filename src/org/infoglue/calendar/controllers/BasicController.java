@@ -36,7 +36,7 @@ import net.sf.hibernate.cfg.Configuration;
  * @author Mattias Bogeblad
  */
 
-public class BasicController
+public abstract class BasicController
 {
     private static SessionFactory sessionFactory = null;
     

@@ -34,6 +34,7 @@ public class Location
 {
     private Long id;
     private String name;
+    private String description;
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -64,4 +65,19 @@ public class Location
     {
         this.name = name;
     }
+    
+    /**
+     * @hibernate.property name="getDescription" column="description" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+	public String getDescription() 
+	{
+		return description;
+	}
+	
+	public void setDescription(String description) 
+	{
+		this.description = description;
+	}
 }

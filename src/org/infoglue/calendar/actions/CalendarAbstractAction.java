@@ -23,6 +23,9 @@
 
 package org.infoglue.calendar.actions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.opensymphony.xwork.ActionSupport;
 
 /**
@@ -46,5 +49,37 @@ public abstract class CalendarAbstractAction extends ActionSupport
 		return this;
 	}
 
+    public String formatDate(Date date, String pattern)
+    {	
+    	if(date == null)
+            return "";
+     
+        // Format the current time.
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        String dateString = formatter.format(date);
+
+        return dateString;
+    }
+    
+    public Date parseDate(String dateString, String pattern)
+    {	
+        if(dateString == null)
+            return new Date();
+        
+        Date date = new Date();    
+        
+        try
+        {
+	        // Format the current time.
+	        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+	        date = formatter.parse(dateString);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        return date;
+    }
 }
 

@@ -23,16 +23,9 @@
 
 package org.infoglue.calendar.actions;
 
-import java.util.List;
-
-import javax.portlet.PortletURL;
-
-import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
-import org.infoglue.common.util.DBSessionWrapper;
+import org.infoglue.calendar.controllers.CalendarController;
 
 import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -53,7 +46,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
     {
         System.out.println("In ViewCalendarAdministrationAction.execute");
         
-        CalendarAdministrationUCCController.getController().createCalendar(name, description);
+        CalendarController.getController().createCalendar(name, description);
         
         return Action.SUCCESS;
     } 

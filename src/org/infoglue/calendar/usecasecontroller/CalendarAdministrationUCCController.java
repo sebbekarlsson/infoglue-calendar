@@ -30,6 +30,8 @@ import net.sf.hibernate.Transaction;
 
 import org.infoglue.calendar.controllers.BasicController;
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
 
@@ -63,8 +65,12 @@ public class CalendarAdministrationUCCController extends BasicController
         {
             tx = session.beginTransaction();
   
-            List calendars = CalendarController.getController().getCalendarList(session);
+            List calendars 	= CalendarController.getController().getCalendarList(session);
+            List locations 	= LocationController.getController().getLocationList(session);
+            List categories = CategoryController.getController().getCategoryList(session);
             administrationUCCBean.setCalendars(calendars);
+            administrationUCCBean.setLocations(locations);
+            administrationUCCBean.setCategories(categories);
             
             tx.commit();
         }

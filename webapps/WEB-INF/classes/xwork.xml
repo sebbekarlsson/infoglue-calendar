@@ -12,8 +12,49 @@
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction"> 
 			<result name="success" type="dispatcher">jsp/viewCalendarAdministration.jsp</result> 
 		</action> 
+
+		<!-- CALENDAR ACTIONS -->		
 		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction"> 
 			<result name="input" type="dispatcher">jsp/createCalendar.jsp</result>
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
+		<action name="ViewCalendar" class="org.infoglue.calendar.actions.ViewCalendarAction"> 
+			<result name="success" type="dispatcher">jsp/viewCalendar.jsp</result> 
+		</action> 
+		<action name="UpdateCalendar" class="org.infoglue.calendar.actions.UpdateCalendarAction"> 
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
+		<action name="DeleteCalendar" class="org.infoglue.calendar.actions.DeleteCalendarAction"> 
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
+
+		<!-- LOCATION ACTIONS -->		
+		<action name="CreateLocation" class="org.infoglue.calendar.actions.CreateLocationAction"> 
+			<result name="input" type="dispatcher">jsp/createLocation.jsp</result>
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
+		<action name="ViewLocation" class="org.infoglue.calendar.actions.ViewLocationAction"> 
+			<result name="success" type="dispatcher">jsp/viewLocation.jsp</result> 
+		</action> 
+		<action name="UpdateLocation" class="org.infoglue.calendar.actions.UpdateLocationAction"> 
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
+		<action name="DeleteLocation" class="org.infoglue.calendar.actions.DeleteLocationAction"> 
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
+
+		<!-- CATEGORY ACTIONS -->		
+		<action name="CreateCategory" class="org.infoglue.calendar.actions.CreateCategoryAction"> 
+			<result name="input" type="dispatcher">jsp/createCategory.jsp</result>
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
+		<action name="ViewCategory" class="org.infoglue.calendar.actions.ViewCategoryAction"> 
+			<result name="success" type="dispatcher">jsp/viewCategory.jsp</result> 
+		</action> 
+		<action name="UpdateCategory" class="org.infoglue.calendar.actions.UpdateCategoryAction"> 
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
+		</action> 
+		<action name="DeleteCategory" class="org.infoglue.calendar.actions.DeleteCategoryAction"> 
 			<result name="success" type="redirect">ViewCalendarAdministration.action</result> 
 		</action> 
 	

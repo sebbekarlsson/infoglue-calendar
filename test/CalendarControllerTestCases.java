@@ -1,5 +1,10 @@
-import net.sf.hibernate.HibernateException;
+import java.util.List;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+
+import org.infoglue.calendar.controllers.BasicController;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.entities.Calendar;
 
@@ -58,31 +63,162 @@ public class CalendarControllerTestCases extends TestCase
         super(arg0);
     }
 
-    public void testCreateCalendar()
+    public void testCreateCalendar() throws Exception
     {
-        try
-        {
-	        System.out.println("testCreateCalendar...");
-	        CalendarController calendarController = CalendarController.getController();
-	        Calendar existingCalendar = (Calendar)(calendarController.getCalendar("TestCalendarUpdated")).get(0);
-	        calendarController.deleteCalendar(existingCalendar.getId());
-	    } 
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        Session session = BasicController.getSession();
         
-        try
+        Transaction tx = null;
+        
+        try 
         {
-	        System.out.println("testCreateCalendar...");
-	        CalendarController calendarController = CalendarController.getController();
-	        Calendar calendar = calendarController.createCalendar("TestCalendar", "This is the testcalendar...");
-	        calendarController.updateCalendar(calendar, "TestCalendarUpdated", "This is the testcalendar updated...");
-        } 
-        catch (Exception e)
+            tx = session.beginTransaction();
+  
+	        try
+	        {
+		        System.out.println("testCreateCalendar...");
+		        CalendarController calendarController = CalendarController.getController();
+		        Calendar calendar = calendarController.createCalendar("TestCalendar" + System.currentTimeMillis(), "This is the testcalendar...", session);
+	        } 
+	        catch (Exception e)
+	        {
+	            e.printStackTrace();
+	        }
+
+	        tx.commit();
+        }
+        catch (Exception e) 
         {
             e.printStackTrace();
+            
+            if (tx!=null) 
+                tx.rollback();
         }
+        finally 
+        {
+            session.close();
+        }
+
+    }
+
+    public void testDeleteCalendar() throws Exception
+    {
+        Session session = BasicController.getSession();
+        
+        Transaction tx = null;
+        
+        try 
+        {
+            tx = session.beginTransaction();
+  
+	        try
+	        {
+		        System.out.println("testCreateCalendar...");
+		        CalendarController calendarController = CalendarController.getController();
+		        
+		        List calendars = calendarController.getCalendarList(session);
+		        if(calendars.size() > 0)
+		            calendarController.deleteCalendar(((Calendar)calendars.get(0)).getId());
+		    } 
+	        catch (Exception e)
+	        {
+	            e.printStackTrace();
+	        }
+
+	        tx.commit();
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+            
+            if (tx!=null) 
+                tx.rollback();
+        }
+        finally 
+        {
+            session.close();
+        }
+
+    }
+
+    public void testGetCalendarList() throws Exception
+    {
+        Session session = BasicController.getSession();
+        
+        Transaction tx = null;
+        
+        try 
+        {
+            tx = session.beginTransaction();
+  
+	        try
+	        {
+		        System.out.println("testCreateCalendar...");
+		        CalendarController calendarController = CalendarController.getController();
+		        List calendars = calendarController.getCalendarList(session);
+		        System.out.println("calendars:" + calendars);
+	        } 
+	        catch (Exception e)
+	        {
+	            e.printStackTrace();
+	        }
+
+	        tx.commit();
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+            
+            if (tx!=null) 
+                tx.rollback();
+        }
+        finally 
+        {
+            session.close();
+        }
+
+    }
+    
+    public void testUpdateCalendar() throws Exception
+    {
+        Session session = BasicController.getSession();
+        
+        Transaction tx = null;
+        
+        try 
+        {
+            tx = session.beginTransaction();
+  
+	        try
+	        {
+		        System.out.println("testUpdateCalendar...");
+		        CalendarController calendarController = CalendarController.getController();
+		        
+		        List calendars = calendarController.getCalendarList(session);
+		        if(calendars.size() > 0)
+		        {
+		            Calendar calendar = (Calendar)calendars.get(0);
+		            calendarController.updateCalendar(calendar, "UpdatedCalendar", "This action updated the calendar", session);
+		        }
+		    } 
+	        catch (Exception e)
+	        {
+	            e.printStackTrace();
+	        }
+
+	        tx.commit();
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+            
+            if (tx!=null) 
+                tx.rollback();
+        }
+        finally 
+        {
+            session.close();
+        }
+
     }
 
 }

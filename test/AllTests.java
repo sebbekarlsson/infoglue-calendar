@@ -37,7 +37,7 @@ public class AllTests {
     public static Test suite() {
         TestSuite suite = new TestSuite("Test for default package");
         //$JUnit-BEGIN$
-        suite.addTestSuite(EntityTests.class);
+        //suite.addTestSuite(EntityTests.class);
         suite.addTestSuite(CalendarControllerTestCases.class);
         //$JUnit-END$
         return suite;

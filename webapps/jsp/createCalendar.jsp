@@ -20,9 +20,6 @@
 		</form>
 	</div>
 
-	<div id="contentListFooter">
-		<a href="CreateCalendar!input.action">Add Calendar</a>
-	</div>
 </div>
 
 </body>

@@ -53,8 +53,41 @@ public class CalendarController extends BasicController
         return new CalendarController();
     }
         
+    
     /**
      * This method is used to create a new Calendar object in the database.
+     */
+    
+    public Calendar createCalendar(String name, String description) throws HibernateException, Exception 
+    {
+        Calendar calendar = null;
+        
+        Session session = getSession();
+        
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			calendar = createCalendar(name, description, session);
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
+		
+        return calendar;
+    }
+
+    
+    /**
+     * This method is used to create a new Calendar object in the database inside a transaction.
      */
     
     public Calendar createCalendar(String name, String description, Session session) throws HibernateException, Exception 
@@ -72,24 +105,25 @@ public class CalendarController extends BasicController
         return calendar;
     }
     
+    
     /**
      * Updates an calendar.
      * 
      * @throws Exception
      */
     
-    public void updateCalendar(Calendar calendar, String name, String description) throws Exception 
+    public void updateCalendar(Long id, String name, String description) throws Exception 
     {
-        calendar.setName(name);
-        calendar.setDescription(description);
-	
-        Session session = getSession();
-        
+	    Session session = getSession();
+	    
 		Transaction tx = null;
 		try 
 		{
 			tx = session.beginTransaction();
-			session.update(calendar);
+		
+			Calendar calendar = getCalendar(id, session);
+			updateCalendar(calendar, name, description, session);
+			
 			tx.commit();
 		}
 		catch (Exception e) 
@@ -102,6 +136,20 @@ public class CalendarController extends BasicController
 		{
 		    session.close();
 		}
+    }
+    
+    /**
+     * Updates an calendar inside an transaction.
+     * 
+     * @throws Exception
+     */
+    
+    public void updateCalendar(Calendar calendar, String name, String description, Session session) throws Exception 
+    {
+        calendar.setName(name);
+        calendar.setDescription(description);
+	
+		session.update(calendar);
 	}
     
  
@@ -121,7 +169,7 @@ public class CalendarController extends BasicController
 		try 
 		{
 			tx = session.beginTransaction();
-			calendar = (Calendar)session.load(Calendar.class, id);
+			calendar = getCalendar(id, session);
 			tx.commit();
 		}
 		catch (Exception e) 
@@ -134,6 +182,19 @@ public class CalendarController extends BasicController
 		{
 		    session.close();
 		}
+		
+		return calendar;
+    }
+    
+    /**
+     * This method returns a Calendar based on it's primary key inside a transaction
+     * @return Calendar
+     * @throws Exception
+     */
+    
+    public Calendar getCalendar(Long id, Session session) throws Exception
+    {
+        Calendar calendar = (Calendar)session.load(Calendar.class, id);
 		
 		return calendar;
     }
