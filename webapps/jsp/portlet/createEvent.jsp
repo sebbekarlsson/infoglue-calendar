@@ -1,30 +1,30 @@
 <%@ page import="javax.portlet.PortletURL,
 				 java.util.Map,
 				 java.util.Iterator,
-				 java.util.List"%>
+				 java.util.List,
+				 java.util.Locale,
+				 java.util.ResourceBundle,
+				 org.infoglue.common.util.ResourceBundleHelper"%>
 
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
+
 <portlet:defineObjects/>
 
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Calendar information</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
-	
-</head>
+<ww:set name="languageCode" value="languageCode" scope="page"/>
+<% 
+	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
+	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+%>
 
-<body>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
+
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
 
 <div id="inputForm">
 	
@@ -53,30 +53,38 @@
 				<input type="textfield" name="description" value="" class="normalInput">
 			</p>
 			<p>
-				<div style="position: relative; height: 25px;">
-					<div style="float: left">
-						startDateTime:<br> 
+				<table border="0" cellspacing="0">
+				<tr>
+					<td><span class="label">Startdatum:</span></td> 
+					<td><span class="label">Starttid:</span></td> 
+				</tr>
+				<tr>
+					<td width="20%" nowrap>
 						<input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="startDateTime"/>" class="dateInput">
 						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
-					</div>
-					<div style="float: left">
-						StartTime:<br> 
-						<input type="textfield" name="startTime" value="<ww:property value="time"/>" class="hourInput">
-	      			</div>
-				</div>
+					</td>				
+					<td>
+						<input type="textfield" name="startTime" value="<ww:property value="time"/>" class="hourInput">					
+					</td>				
+				</tr>
+				</table>				
 			</p>    
 			<p>
-				<div style="position: relative; height: 25px;">
-					<div style="float: left">
-						endDateTime:<br>
+				<table border="0" cellspacing="0">
+				<tr>
+					<td><span class="label">Startdatum:</span></td> 
+					<td><span class="label">Starttid:</span></td> 
+				</tr>
+				<tr>
+					<td width="20%" nowrap>
 						<input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="endDateTime"/>" class="dateInput">
 						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
-					</div>
-					<div style="float: left">
-		      			EndTime:<br>
-		      			<input type="textfield" name="endTime" value="<ww:property value="time"/>" class="hourInput">
-	      			</div>
-				</div>
+					</td>				
+					<td>
+						<input type="textfield" name="endTime" value="<ww:property value="time"/>" class="hourInput">
+					</td>				
+				</tr>
+				</table>
 			</p>
       		<p>
 	      		Location (Hold shift to select multiple):<br>
@@ -129,6 +137,3 @@
         singleClick    :    true
     });
 </script>
-
-</body>
-</html>

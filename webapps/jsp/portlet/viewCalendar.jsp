@@ -1,13 +1,23 @@
 <%@ page import="javax.portlet.PortletURL,
 				 java.util.Map,
 				 java.util.Iterator,
-				 java.util.List"%>
+				 java.util.List,
+				 java.util.Locale,
+				 java.util.ResourceBundle,
+				 org.infoglue.common.util.ResourceBundleHelper"%>
 
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
+
 <portlet:defineObjects/>
+
+<ww:set name="languageCode" value="languageCode" scope="page"/>
+<% 
+	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
+	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+%>
 
 <ww:set name="calendarId" value="calendar.id" scope="page"/>
 
@@ -19,226 +29,173 @@
 	<portlet:param name="endDateTime" value="$endDateTime"/>
 </portlet:renderURL>
 
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Calendar information</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
-	
-	<script type="text/javascript">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
 
-		function dateChanged<ww:property value="componentId"/>(calendar) 
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
+
+<script type="text/javascript">
+
+	function dateChanged<ww:property value="componentId"/>(calendar) 
+	{
+	    // Beware that this function is called even if the end-user only
+	    // changed the month/year.  In order to determine if a date was
+	    // clicked you can use the dateClicked property of the calendar:
+	    if (calendar.dateClicked) 
+	    {
+	      var y = calendar.date.getFullYear();
+	      var m = calendar.date.getMonth();     // integer, 0..11
+	      var d = calendar.date.getDate();      // integer, 1..31
+	      
+	      month = m + 1;
+	      day = d;
+	      if(d < 10) 
+	      	day = "0" + day
+	      
+	      var date = "" + y + "-" + month + "-" + day;
+	      
+	      //document.helpForm<ww:property value="componentId"/>.mode.value = "day";
+	      //document.helpForm<ww:property value="componentId"/>.startDateTime.value = date;
+	      //document.helpForm<ww:property value="componentId"/>.endDateTime.value = date;
+	      //document.helpForm<ww:property value="componentId"/>.submit();
+	      
+	      // redirect...
+	      var url = "<c:out value="${viewCalendarUrl}"/>";
+	      convertedUrl = url.replace("$startDateTime", date);
+	      convertedUrl = convertedUrl.replace("$endDateTime", date);
+	      //alert("convertedUrl:" + convertedUrl);
+	      window.location = convertedUrl;
+	    	
+	    }
+	};
+	
+	var edit<ww:property value="componentId"/> = false;
+	
+	function toggleShowEditForm<ww:property value="componentId"/>()
+	{
+		if(!edit<ww:property value="componentId"/>)
 		{
-		    // Beware that this function is called even if the end-user only
-		    // changed the month/year.  In order to determine if a date was
-		    // clicked you can use the dateClicked property of the calendar:
-		    if (calendar.dateClicked) 
+			document.getElementById("calendarArea<ww:property value="componentId"/>").style.display = "none";
+			document.getElementById("contentList<ww:property value="componentId"/>").style.display = "block";
+			edit<ww:property value="componentId"/> = true;
+		}
+		else
+		{
+			document.getElementById("calendarArea<ww:property value="componentId"/>").style.display = "block";
+			document.getElementById("contentList<ww:property value="componentId"/>").style.display = "none";
+			edit<ww:property value="componentId"/> = false;
+		}
+	}
+
+	var oldTab<ww:property value="componentId"/>Id;
+	
+	function setActiveTab<ww:property value="componentId"/>(id)
+	{
+		//alert("id:" + id);
+		//alert("oldTab<ww:property value="componentId"/>Id:" + oldTab<ww:property value="componentId"/>Id);
+		
+		if(oldTab<ww:property value="componentId"/>Id)
+		{
+			document.getElementById(oldTab<ww:property value="componentId"/>Id).style.display = "none";
+			document.getElementById(oldTab<ww:property value="componentId"/>Id + "Tab").setAttribute("class", "tab");
+			document.getElementById(oldTab<ww:property value="componentId"/>Id + "Link").setAttribute("class", "tabText");
+		}
+			
+		document.getElementById(id).style.display 		= "block";
+		document.getElementById(id + "Tab").setAttribute("class", "activeTab");
+		document.getElementById(id + "Link").setAttribute("class", "activeTabText");
+		oldTab<ww:property value="componentId"/>Id = id;
+		//alert("oldTab<ww:property value="componentId"/>Id becomes:" + id);
+	}
+
+	function addEvent(time)
+	{
+		url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=day&startDateTime=<ww:property value="startDateTime"/>&endDateTime=<ww:property value="endDateTime"/>&time=" + time;
+		//alert("Calling:" + url);
+		document.location.href = url;
+	}
+
+	function addEvent(url)
+	{
+		//url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=week&startDateTime=" + date + "&endDateTime=" + date + "&time=" + time;
+		//alert("Calling:" + url);
+		document.location.href = url;
+	}
+
+
+	var previousElement;	
+	function markElement(element)
+	{
+		//if(previousDiv<ww:property value="componentId"/>)
+		//	previousDiv<ww:property value="componentId"/>.style.visibility = "hidden";
+			
+		if(previousElement)
+		{
+			previousElement.bgColor = '';
+			previousElement.style.background = '';
+		}
+		
+		element.bgColor = 'gray';
+		element.style.background = 'gray';
+		previousElement = element;
+	}
+	
+	var previousDiv<ww:property value="componentId"/>;	
+	function toggleDiv<ww:property value="componentId"/>(id)
+	{
+		if(previousDiv<ww:property value="componentId"/>)
+			previousDiv<ww:property value="componentId"/>.style.visibility = "hidden";
+		
+		element = document.getElementById(id);
+		element.style.visibility = "visible";
+		previousDiv<ww:property value="componentId"/> = element;
+	}
+
+	function hideDiv(id)
+	{
+		previousDiv = document.getElementById(id);
+		if(previousDiv)
+			previousDiv.style.visibility = "hidden";
+	}
+
+	function init<ww:property value="componentId"/>()
+	{
+	  	if("<ww:property value="mode"/>" == "events")
+	  		setActiveTab<ww:property value="componentId"/>("events<ww:property value="componentId"/>");
+	  	if("<ww:property value="mode"/>" == "day")
+	  		setActiveTab<ww:property value="componentId"/>("day<ww:property value="componentId"/>");
+	  	else if("<ww:property value="mode"/>" == "week")
+	  		setActiveTab<ww:property value="componentId"/>("week<ww:property value="componentId"/>");
+	  	else
+	  		setActiveTab<ww:property value="componentId"/>("calendar<ww:property value="componentId"/>");
+				
+		Calendar.setup
+		(
 		    {
-		      var y = calendar.date.getFullYear();
-		      var m = calendar.date.getMonth();     // integer, 0..11
-		      var d = calendar.date.getDate();      // integer, 1..31
-		      
-		      month = m + 1;
-		      day = d;
-		      if(d < 10) 
-		      	day = "0" + day
-		      
-		      var date = "" + y + "-" + month + "-" + day;
-		      
-		      //document.helpForm<ww:property value="componentId"/>.mode.value = "day";
-		      //document.helpForm<ww:property value="componentId"/>.startDateTime.value = date;
-		      //document.helpForm<ww:property value="componentId"/>.endDateTime.value = date;
-		      //document.helpForm<ww:property value="componentId"/>.submit();
-		      
-		      // redirect...
-		      var url = "<c:out value="${viewCalendarUrl}"/>";
-		      convertedUrl = url.replace("$startDateTime", date);
-		      convertedUrl = convertedUrl.replace("$endDateTime", date);
-		      //alert("convertedUrl:" + convertedUrl);
-		      window.location = convertedUrl;
-		    	
+		      flat         : "calendar<ww:property value="componentId"/>", // ID of the parent element
+		      flatCallback : dateChanged<ww:property value="componentId"/>,// our callback function
+		      firstDay     : 1,
+		      ifFormat 	   : "%Y-%m-%d",
+		      daFormat     : "%Y-%m-%d",
+		      date		   : "<ww:property value="formattedStartDate"/>"
 		    }
-		};
-		
-		var edit<ww:property value="componentId"/> = false;
-		
-		function toggleShowEditForm<ww:property value="componentId"/>()
-		{
-			if(!edit<ww:property value="componentId"/>)
-			{
-				document.getElementById("calendarArea<ww:property value="componentId"/>").style.display = "none";
-				document.getElementById("contentList<ww:property value="componentId"/>").style.display = "block";
-				edit<ww:property value="componentId"/> = true;
-			}
-			else
-			{
-				document.getElementById("calendarArea<ww:property value="componentId"/>").style.display = "block";
-				document.getElementById("contentList<ww:property value="componentId"/>").style.display = "none";
-				edit<ww:property value="componentId"/> = false;
-			}
-		}
+	  	);
+	  	//alert("calendar<ww:property value="componentId"/>:" + calendar<ww:property value="componentId"/>);
+	}
 	
-		var oldTab<ww:property value="componentId"/>Id;
-		
-		function setActiveTab<ww:property value="componentId"/>(id)
-		{
-			//alert("id:" + id);
-			//alert("oldTab<ww:property value="componentId"/>Id:" + oldTab<ww:property value="componentId"/>Id);
-			
-			if(oldTab<ww:property value="componentId"/>Id)
-			{
-				document.getElementById(oldTab<ww:property value="componentId"/>Id).style.display = "none";
-				document.getElementById(oldTab<ww:property value="componentId"/>Id + "Tab").setAttribute("class", "tab");
-				document.getElementById(oldTab<ww:property value="componentId"/>Id + "Link").setAttribute("class", "tabText");
-			}
-				
-			document.getElementById(id).style.display 		= "block";
-			document.getElementById(id + "Tab").setAttribute("class", "activeTab");
-			document.getElementById(id + "Link").setAttribute("class", "activeTabText");
-			oldTab<ww:property value="componentId"/>Id = id;
-			//alert("oldTab<ww:property value="componentId"/>Id becomes:" + id);
-		}
-	
-		function addEvent(time)
-		{
-			url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=day&startDateTime=<ww:property value="startDateTime"/>&endDateTime=<ww:property value="endDateTime"/>&time=" + time;
-			//alert("Calling:" + url);
-			document.location.href = url;
-		}
-
-		function addEvent(url)
-		{
-			//url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=week&startDateTime=" + date + "&endDateTime=" + date + "&time=" + time;
-			//alert("Calling:" + url);
-			document.location.href = url;
-		}
-
-
-		var previousElement;	
-		function markElement(element)
-		{
-			//if(previousDiv<ww:property value="componentId"/>)
-			//	previousDiv<ww:property value="componentId"/>.style.visibility = "hidden";
-				
-			if(previousElement)
-			{
-				previousElement.bgColor = '';
-				previousElement.style.background = '';
-			}
-			
-			element.bgColor = 'gray';
-			element.style.background = 'gray';
-			previousElement = element;
-		}
-		
-		var previousDiv<ww:property value="componentId"/>;	
-		function toggleDiv<ww:property value="componentId"/>(id)
-		{
-			if(previousDiv<ww:property value="componentId"/>)
-				previousDiv<ww:property value="componentId"/>.style.visibility = "hidden";
-			
-			element = document.getElementById(id);
-			element.style.visibility = "visible";
-			previousDiv<ww:property value="componentId"/> = element;
-		}
-
-		function hideDiv(id)
-		{
-			previousDiv = document.getElementById(id);
-			if(previousDiv)
-				previousDiv.style.visibility = "hidden";
-		}
-
-		function init<ww:property value="componentId"/>()
-		{
-		  	if("<ww:property value="mode"/>" == "events")
-		  		setActiveTab<ww:property value="componentId"/>("events<ww:property value="componentId"/>");
-		  	if("<ww:property value="mode"/>" == "day")
-		  		setActiveTab<ww:property value="componentId"/>("day<ww:property value="componentId"/>");
-		  	else if("<ww:property value="mode"/>" == "week")
-		  		setActiveTab<ww:property value="componentId"/>("week<ww:property value="componentId"/>");
-		  	else
-		  		setActiveTab<ww:property value="componentId"/>("calendar<ww:property value="componentId"/>");
-			
-			/*
-			var params = {
-			      flat         : document.getElementById("calendar<ww:property value="componentId"/>"), // ID of the parent element
-			      flatCallback : dateChanged<ww:property value="componentId"/>,// our callback function
-			      onSelect 	   : dateChanged<ww:property value="componentId"/>,// our callback function
-			      firstDay     : 1,
-			      ifFormat 	   : "%Y-%m-%d",
-			      daFormat     : "%Y-%m-%d",
-			      date		   : "<ww:property value="formattedStartDate"/>"
-			    };
-			
-			function onSelect<ww:property value="componentId"/>(cal) {
-				alert("cal i onSelect...");
-				var p = cal.params;
-				var update = (cal.dateClicked || p.electric);
-				if (update && p.flat) {
-					alert("update and p.flat");
-					if (typeof p.flatCallback == "function")
-						p.flatCallback(cal);
-					else
-						alert("No flatCallback given -- doing nothing.");
-					return false;
-				}
-				if (update && p.inputField) {
-					p.inputField.value = cal.date.print(p.ifFormat);
-					if (typeof p.inputField.onchange == "function")
-						p.inputField.onchange();
-				}
-				if (update && p.displayArea)
-					p.displayArea.innerHTML = cal.date.print(p.daFormat);
-				if (update && p.singleClick && cal.dateClicked)
-					cal.callCloseHandler();
-				if (update && typeof p.onUpdate == "function")
-					p.onUpdate(cal);
-			};    
-			
-			var calendar<ww:property value="componentId"/> = new Calendar(params.firstDay, params.date, onSelect<ww:property value="componentId"/>);
-			//calendar<ww:property value="componentId"/>.flat = params.flat;
-			calendar<ww:property value="componentId"/>.flatCallback = params.flatCallback;
-			calendar<ww:property value="componentId"/>.params = params;
-			calendar<ww:property value="componentId"/>.weekNumbers = params.weekNumbers;
-			calendar<ww:property value="componentId"/>.ifFormat = params.ifFormat;
-			calendar<ww:property value="componentId"/>.daFormat = params.daFormat;
-			calendar<ww:property value="componentId"/>.create(params.flat);
-			calendar<ww:property value="componentId"/>.show();
-			*/
-			
-			Calendar.setup
-			(
-			    {
-			      flat         : "calendar<ww:property value="componentId"/>", // ID of the parent element
-			      flatCallback : dateChanged<ww:property value="componentId"/>,// our callback function
-			      firstDay     : 1,
-			      ifFormat 	   : "%Y-%m-%d",
-			      daFormat     : "%Y-%m-%d",
-			      date		   : "<ww:property value="formattedStartDate"/>"
-			    }
-		  	);
-		  	//alert("calendar<ww:property value="componentId"/>:" + calendar<ww:property value="componentId"/>);
-		}
-		
-	</script>
-</head>
-
-<body>
+</script>
 
 <div id="inputForm<ww:property value="componentId"/>">
-	
+
 	<div id="contentListHeader<ww:property value="componentId"/>">
-		Calendar <ww:property value="calendar.name"/> <a href="javascript:toggleShowEditForm<ww:property value="componentId"/>();">(Edit)</a>
-		<br>
+		<span class="headline"><%= resourceBundle.getString("labels.public.calendar.headline") %> <ww:property value="calendar.name"/></span>
+		<a href="javascript:toggleShowEditForm<ww:property value="componentId"/>();">(Edit)</a>
+		<!--<ww:property value="calendar.description"/><br>-->
 	</div>
+
+	<hr/>	
 
 	<div id="contentList<ww:property value="componentId"/>" style="display: none;">
 		<portlet:actionURL var="updateCalendarActionUrl">
@@ -259,14 +216,14 @@
 		</p>
 		</form>
 	</div>
-	
+		
 <div style="float: left; display: block; border: 0px solid black;" id="calendarArea<ww:property value="componentId"/>">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td><div id="events<ww:property value="componentId"/>Tab" class="tab"><a id="events<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('events<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText">Events</a></div></td>
-	<td><div id="day<ww:property value="componentId"/>Tab" class="tab"><a id="day<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('day<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText">Day</a></div></td>
-	<td><div id="week<ww:property value="componentId"/>Tab" class="tab"><a id="week<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('week<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText">Week</a></div></td>
-	<td><div id="calendar<ww:property value="componentId"/>Tab" class="tab"><a id="calendar<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('calendar<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText">Month</a></div></td>
+	<td><div id="events<ww:property value="componentId"/>Tab" class="tab"><a id="events<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('events<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.eventsTabLabel") %></a></div></td>
+	<td><div id="day<ww:property value="componentId"/>Tab" class="tab"><a id="day<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('day<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.dayTabLabel") %></a></div></td>
+	<td><div id="week<ww:property value="componentId"/>Tab" class="tab"><a id="week<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('week<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.weekTabLabel") %></a></div></td>
+	<td><div id="calendar<ww:property value="componentId"/>Tab" class="tab"><a id="calendar<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('calendar<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.monthTabLabel") %></a></div></td>
 	<td width="80%"></td>
 </tr>
 </table>
@@ -275,18 +232,10 @@
 <!-- *   HERE COMES THE COMING EVENTS  * -->
 <!-- *********************************** -->
 
-<div style="position: relative; float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver; border: 0px black solid;" id="events<ww:property value="componentId"/>">
-<table border="0" width="100%" cellpadding="2" cellspacing="0">
-<tr>
-	<td align="left" colspan="2" style="border-bottom: 0px solid black; height: 20px;">
-		<div style="float: left;">
-			<span class="dayItem">Coming events</span>
-		</div>
-	</td>
-</tr>
-</table>
+<div class="panel" id="events<ww:property value="componentId"/>">
 
 <div class="event" style="margin: 10px 10px 10px 10px;">
+<span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.comingEventsLabel") %></span>
 <ww:iterator value="calendar.events">
 
 	<ww:set name="eventId" value="id" scope="page"/>
@@ -308,7 +257,7 @@
 <!-- *   HERE COMES THE DAYS EVENTS  * -->
 <!-- *********************************** -->
 
-<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver; border: 1px black solid;" id="day<ww:property value="componentId"/>">
+<div class="panel" id="day<ww:property value="componentId"/>">
 
 <table border="0" width="100%" cellpadding="2" cellspacing="0">
 <tr>
@@ -360,7 +309,7 @@
 <!-- *   HERE COMES THE WEEK CALENDAR  * -->
 <!-- *********************************** -->
 
-<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver; border: 1px black solid;" id="week<ww:property value="componentId"/>">
+<div class="panel" id="week<ww:property value="componentId"/>">
 <table border="0" width="100%" cellpadding="0" cellspacing="0">
 <tr>
 	<td align="left" colspan="2" style="border-bottom: 1px solid black; height: 20px;">
@@ -377,7 +326,7 @@
 </tr>
 <tr>
 	<td width="20px" valign="top">
-		<table border="0" width="10%" cellpadding="0" cellspacing="0" style="border: 1px solid silver;">
+		<table border="0" width="10%" cellpadding="0" cellspacing="0" style="border: 1px solid gray;">
 			<tr>
 				<td>
 					<span class="dayItem">&nbsp;<br/>&nbsp;</span>
@@ -434,13 +383,7 @@
 	<td colspan="2"><img src="<%=request.getContextPath()%>/images/trans.gif" height="5" width="1"></td>
 </tr>
 <tr>
-	<td align="left" colspan="2" style="border-top: 1px solid black; height: 50px; background-color: silver;">
-		<div style="float: left;">
-			<span class="dayItem"><ww:property value="this.getFormattedDate(startDateTime, 'MMM yyyy')"/></span>
-		</div>
-		<div style="float: right;">
-			<span class="dayItem">Week <ww:property value="this.getFormattedDate(startDateTime, 'ww')"/></span>
-		</div>
+	<td align="left" class="panel" colspan="2" style="border-top: 1px solid black; height: 20px;">
 	</td>
 </tr>
 </table>
@@ -453,25 +396,5 @@
 </div>
 
 <script type="text/javascript">
-  //alert("apa");
   init<ww:property value="componentId"/>();
 </script>
-
-<!--
-<aportlet:renderURL var="viewCalendarUrl">
-	<aportlet:param name="action" value="ViewCalendar"/>
-</aportlet:renderURL>
--->
-
-<!--
-<form id="helpForm<ww:property value="componentId"/>" name="helpForm<ww:property value="componentId"/>" method="POST" action="<c:out value="${viewCalendarUrl}"/>">
-	<input type="textfield" name="calendarId" value="<ww:property value="calendar.id"/>">
-	<input type="textfield" name="componentId" value="<ww:property value="componentId"/>">
-	<input type="hidden" name="mode" value="day">
-	<input type="hidden" name="startDateTime" value="">
-	<input type="hidden" name="endDateTime" value="">
-</form>
--->
-
-</body>
-</html>

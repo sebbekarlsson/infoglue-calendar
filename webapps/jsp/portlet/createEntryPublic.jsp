@@ -1,30 +1,31 @@
 <%@ page import="javax.portlet.PortletURL,
 				 java.util.Map,
 				 java.util.Iterator,
-				 java.util.List"%>
+				 java.util.List,
+				 java.util.Locale,
+				 java.util.ResourceBundle,
+				 org.infoglue.common.util.ResourceBundleHelper"%>
 
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
+
 <portlet:defineObjects/>
-<?xml version="1.0" encoding="utf-8"?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Create Entry</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-</head>
+<ww:set name="languageCode" value="languageCode" scope="page"/>
+<% 
+	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
+	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+%>
 
-<body>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
 
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Create new entry
+		<%= resourceBundle.getString("labels.public.entry.newEntryHeader") %>
 	</div>
 
 	<div id="contentList">
@@ -35,15 +36,12 @@
 
 		<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 			<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
-			First name: <input type="textfield" class="normalInput" name="firstName" value="">
-			Last name: <input type="textfield" class="normalInput" name="lastName" value="">
-			E-mail: <input type="textfield" class="normalInput" name="email" value="">
+			<%= resourceBundle.getString("labels.public.entry.firstNameLabel") %> <input type="textfield" class="normalInput" name="firstName" value="">
+			<%= resourceBundle.getString("labels.public.entry.lastNameLabel") %> <input type="textfield" class="normalInput" name="lastName" value="">
+			<%= resourceBundle.getString("labels.public.entry.emailLabel") %> <input type="textfield" class="normalInput" name="email" value="">
 			<br><br>
-			<input type="submit">
+			<input type="submit" value="<%= resourceBundle.getString("labels.public.entry.submitLabel") %>">
 		</form>
 	</div>
 
 </div>
-
-</body>
-</html>

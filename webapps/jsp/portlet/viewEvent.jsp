@@ -1,7 +1,10 @@
 <%@ page import="javax.portlet.PortletURL,
 				 java.util.Map,
 				 java.util.Iterator,
-				 java.util.List"%>
+				 java.util.List,
+				 java.util.Locale,
+				 java.util.ResourceBundle,
+				 org.infoglue.common.util.ResourceBundleHelper"%>
 
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
@@ -10,33 +13,29 @@
 
 <portlet:defineObjects/>
 
+<ww:set name="languageCode" value="languageCode" scope="page"/>
+<% 
+	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
+	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+%>
 
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Calendar information</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
-	
-	<script type="text/javascript">
-	
-		function showUploadForm()
-		{
-			document.getElementById("contentList").style.display = "none";
-			document.getElementById("upload").style.display = "block";
-		}
-	
-	</script>
-	
-</head>
 
-<body>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
+
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
+
+<script type="text/javascript">
+
+	function showUploadForm()
+	{
+		document.getElementById("contentList").style.display = "none";
+		document.getElementById("upload").style.display = "block";
+	}
+
+</script>
 
 <div id="inputForm">
 	
@@ -113,35 +112,25 @@
        		<p>
 	      		<span class="label">Plats (Håll ner Ctrl för att välja flera):</span><br>
 				<select name="locationId" multiple="true" class="listBox">
-	      		<ww:iterator value="locations">
-	      			<ww:set name="location" value="top"/>
-		      		<ww:iterator value="event.locations">
-		      			<ww:if test="top.id == #location.id">
-		      				<option value="<ww:property value='#location.id'/>" selected="1"><ww:property value="#location.name"/></option>
-						</ww:if>
-						
-						<ww:else>
-						   <option value="<ww:property value='#location.id'/>"><ww:property value="#location.name"/></option>
-						</ww:else>
-					</ww:iterator>
-	      		</ww:iterator>
-      			</select>
+      				<ww:iterator value="selectedLocations">
+		      			<option value="<ww:property value='top.id'/>" selected="1"><ww:property value="top.name"/></option>
+		      		</ww:iterator>
+		      		<option value="">-------------------</option>
+		      		<ww:iterator value="remainingLocations">
+		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
+		      		</ww:iterator>		      		
+				</select>
   			</p>
 			<p>
 	      		<span class="label">Kategori (Håll ner Ctrl för att välja flera):</span><br>
 				<select name="categoryId" multiple="true" class="listBox">
-		      		<ww:iterator value="categories">
-		      			<ww:set name="category" value="top"/>
-			      		<ww:iterator value="event.categories">
-			      			<ww:if test="top.id == #category.id">
-			      				<option value="<ww:property value='#category.id'/>" selected="1"><ww:property value="#category.name"/></option>
-							</ww:if>
-							
-							<ww:else>
-							   <option value="<ww:property value='#category.id'/>"><ww:property value="#category.name"/></option>
-							</ww:else>
-						</ww:iterator>
+					<ww:iterator value="selectedCategories">
+		      			<option value="<ww:property value='top.id'/>" selected="1"><ww:property value="top.name"/></option>
 		      		</ww:iterator>
+		      		<option value="">-------------------</option>
+		      		<ww:iterator value="remainingCategories">
+		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
+		      		</ww:iterator>		      		
 	      		</select>
 	       	</p>
 	       	<p>  		
@@ -223,6 +212,3 @@
         singleClick    :    true
     });
 </script>
-
-</body>
-</html>

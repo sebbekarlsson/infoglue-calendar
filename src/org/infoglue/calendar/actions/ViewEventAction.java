@@ -32,6 +32,7 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
+import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
@@ -54,8 +55,12 @@ public class ViewEventAction extends CalendarAbstractAction
     private Long calendarId;
     private String mode = "day";
 
-    private List locations;
-    private List categories;
+    private List remainingLocations;
+    private List selectedLocations = new ArrayList();
+    
+    private List remainingCategories;
+    private List selectedCategories = new ArrayList();
+    
     private List infogluePrincipals;
     private List participatingPrincipals = new ArrayList();
     
@@ -67,15 +72,59 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         this.event = EventController.getController().getEvent(eventId);
         this.calendarId = this.event.getCalendar().getId();
-        this.locations 	= LocationController.getController().getLocationList();
-        this.categories = CategoryController.getController().getCategoryList();
+        //this.locations 	= LocationController.getController().getLocationList();
+        //this.categories = CategoryController.getController().getCategoryList();
+
+        
+        this.remainingLocations = LocationController.getController().getLocationList();
+        this.selectedLocations.addAll(this.remainingLocations);
+        
+        Iterator selectedLocationsIterator = this.selectedLocations.iterator();
+        while(selectedLocationsIterator.hasNext())
+        {
+            Location location = (Location)selectedLocationsIterator.next();
+            boolean isSelected = false;
+            Iterator selectedLocationsInterator = this.selectedLocations.iterator();
+            while(selectedLocationsInterator.hasNext())
+            {
+                Location selectedLocation = (Location)selectedLocationsInterator.next();
+                if(selectedLocation.getId().equals(location.getId()))
+                    isSelected = true;
+            }
+            
+            if(!isSelected)
+                selectedLocationsIterator.remove();
+            else
+                remainingLocations.remove(location);
+        }
+
+        
+        this.remainingCategories = CategoryController.getController().getCategoryList();
+        this.selectedCategories.addAll(this.remainingCategories);
+        
+        Iterator selectedCategoriesIterator = this.selectedCategories.iterator();
+        while(selectedCategoriesIterator.hasNext())
+        {
+            Category location = (Category)selectedCategoriesIterator.next();
+            boolean isSelected = false;
+            Iterator selectedCategoriesInterator = this.selectedCategories.iterator();
+            while(selectedCategoriesInterator.hasNext())
+            {
+                Category selectedCategory = (Category)selectedCategoriesInterator.next();
+                if(selectedCategory.getId().equals(location.getId()))
+                    isSelected = true;
+            }
+            
+            if(!isSelected)
+                selectedCategoriesIterator.remove();
+            else
+                remainingCategories.remove(location);
+        }
+        
         
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.participatingPrincipals.addAll(this.infogluePrincipals);
         
-        System.out.println("this.infogluePrincipals:" + this.infogluePrincipals.size());
-        System.out.println("this.participatingPrincipals:" + this.participatingPrincipals.size());
-
         Iterator participatingPrincipalsIterator = this.participatingPrincipals.iterator();
         while(participatingPrincipalsIterator.hasNext())
         {
@@ -94,9 +143,6 @@ public class ViewEventAction extends CalendarAbstractAction
             else
                 infogluePrincipals.remove(infogluePrincipal);
         }
-        
-        System.out.println("this.infogluePrincipals:" + this.infogluePrincipals.size());
-        System.out.println("this.participatingPrincipals:" + this.participatingPrincipals.size());
         
         return Action.SUCCESS;
     } 
@@ -127,15 +173,6 @@ public class ViewEventAction extends CalendarAbstractAction
         this.eventId = eventId;
     }
     
-    public List getCategories()
-    {
-        return categories;
-    }
-    
-    public List getLocations()
-    {
-        return locations;
-    }
     
     public Long getCalendarId()
     {
@@ -160,5 +197,25 @@ public class ViewEventAction extends CalendarAbstractAction
     public List getParticipatingPrincipals()
     {
         return participatingPrincipals;
+    }
+    
+    public List getRemainingCategories()
+    {
+        return remainingCategories;
+    }
+    
+    public List getRemainingLocations()
+    {
+        return remainingLocations;
+    }
+    
+    public List getSelectedCategories()
+    {
+        return selectedCategories;
+    }
+    
+    public List getSelectedLocations()
+    {
+        return selectedLocations;
     }
 }

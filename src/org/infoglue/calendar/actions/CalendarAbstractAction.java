@@ -27,6 +27,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
@@ -67,6 +68,44 @@ public abstract class CalendarAbstractAction extends ActionSupport
     public Integer getComponentId()
     {
         return (Integer)ServletActionContext.getRequest().getAttribute("componentId");
+    }
+
+    public String getLanguageCode()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("languageCode");
+    }
+
+    public String formatDate(Date date, String pattern, Locale locale)
+    {	
+    	if(date == null)
+            return "";
+     
+        // Format the current time.
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, locale);
+        String dateString = formatter.format(date);
+
+        return dateString;
+    }
+    
+    public Date parseDate(String dateString, String pattern, Locale locale)
+    {	
+        if(dateString == null)
+            return new Date();
+        
+        Date date = new Date();    
+        
+        try
+        {
+	        // Format the current time.
+	        SimpleDateFormat formatter = new SimpleDateFormat(pattern, locale);
+	        date = formatter.parse(dateString);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        return date;
     }
 
     public String formatDate(Date date, String pattern)

@@ -1,49 +1,50 @@
 <%@ page import="javax.portlet.PortletURL,
 				 java.util.Map,
 				 java.util.Iterator,
-				 java.util.List"%>
+				 java.util.List,
+				 java.util.Locale,
+				 java.util.ResourceBundle,
+				 org.infoglue.common.util.ResourceBundleHelper"%>
 
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
+
 <portlet:defineObjects/>
 
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Entry Search</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-	
-	<script type="text/javascript">
-		
-		function toggleSearchForm()
-		{
-			searchFormElement = document.getElementById("searchForm");
-			hitListElement = document.getElementById("hitlist");
-			if(searchFormElement.style.display == "none")
-			{
-				searchFormElement.style.display = "block";
-				hitListElement.style.display = "none";
-			}
-			else
-			{
-				searchFormElement.style.display = "none";
-				hitListElement.style.display = "block";
-			}
-		}
-		
-	</script>
-</head>
+<ww:set name="languageCode" value="languageCode" scope="page"/>
+<% 
+	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
+	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+%>
 
-<body>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
+
+<script type="text/javascript">
+	
+	function toggleSearchForm()
+	{
+		searchFormElement = document.getElementById("searchForm");
+		hitListElement = document.getElementById("hitlist");
+		if(searchFormElement.style.display == "none")
+		{
+			searchFormElement.style.display = "block";
+			hitListElement.style.display = "none";
+		}
+		else
+		{
+			searchFormElement.style.display = "none";
+			hitListElement.style.display = "block";
+		}
+	}
+	
+</script>
 
 <div id="searchForm" class="marginalizedDiv" style="display: <ww:if test="entries == null">block</ww:if><ww:else>none</ww:else>;">
 
-<h1>Sök anmälan</h1>
+<span class="headline">Sök anmälan</span>
 <hr/>
 
 <portlet:renderURL var="searchEntryActionUrl">
@@ -51,7 +52,9 @@
 </portlet:renderURL>
 		
 <form name="register" method="post" action="<c:out value="${searchEntryActionUrl}"/>">
-<h4>Fyll i ett eller flera fält som du vill söka på</h4>
+<p>
+<span class="subheadline">Fyll i ett eller flera fält som du vill söka på</span>
+</p>
 
 <div class="descriptionsmall">
 	<span class="label">Events:</span>
@@ -103,11 +106,13 @@
 </div>
 
 <div id="hitlist" class="marginalizedDiv" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
-<h1>Sök anmälan</h1>
+<span class="headline">Sök anmälan</span>
 
 <hr/>
 
-<h4>Träfflista</h4>
+<p>
+	<span class="subheadline">Träfflista</span>
+</p>
 
 <table border="0" width="100%" cellpadding="2" cellspacing="0">
 <tr>
@@ -117,20 +122,21 @@
 </tr>
 
 <ww:iterator value="entries">
+	<ww:set name="entryId" value="id" scope="page"/>
+	<portlet:renderURL var="viewEntryRenderURL">
+		<portlet:param name="action" value="ViewEntry"/>
+		<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+	</portlet:renderURL>
+
+	<portlet:actionURL var="deleteEntryUrl">
+		<portlet:param name="action" value="DeleteEntry"/>
+		<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+	</portlet:actionURL>
+
 <tr>
 	<td><ww:property value="id"/></td>
 	<td><a href="<c:out value="${viewEntryRenderURL}"/>"><ww:property value="firstName"/> <ww:property value="lastName"/></a></td>
 	<td>
-		<ww:set name="entryId" value="id" scope="page"/>
-		<portlet:renderURL var="viewEntryRenderURL">
-			<portlet:param name="action" value="ViewEntry"/>
-			<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
-		</portlet:renderURL>
-
-		<portlet:actionURL var="deleteEntryUrl">
-			<portlet:param name="action" value="DeleteEntry"/>
-			<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
-		</portlet:actionURL>
 		
 		<a href="<c:out value="${viewEntryRenderURL}"/>">Ändra</a>
 		<a href="<c:out value="${deleteEntryUrl}"/>">Ta bort</a>
@@ -155,6 +161,3 @@
 </form>
 <hr/>
 </div>
-
-</body>
-</html>

@@ -1,7 +1,10 @@
 <%@ page import="javax.portlet.PortletURL,
 				 java.util.Map,
 				 java.util.Iterator,
-				 java.util.List"%>
+				 java.util.List,
+				 java.util.Locale,
+				 java.util.ResourceBundle,
+				 org.infoglue.common.util.ResourceBundleHelper"%>
 
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
@@ -10,33 +13,29 @@
 
 <portlet:defineObjects/>
 
+<ww:set name="languageCode" value="languageCode" scope="page"/>
+<% 
+	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
+	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+%>
 
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Calendar information</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
-	
-	<script type="text/javascript">
-	
-		function showUploadForm()
-		{
-			document.getElementById("contentList").style.display = "none";
-			document.getElementById("upload").style.display = "block";
-		}
-	
-	</script>
-	
-</head>
 
-<body>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
+
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
+
+<script type="text/javascript">
+
+	function showUploadForm()
+	{
+		document.getElementById("contentList").style.display = "none";
+		document.getElementById("upload").style.display = "block";
+	}
+
+</script>
 
 <div class="marginalizedDiv" id="inputForm">
 		
@@ -44,37 +43,37 @@
 	<hr/>
 	<div id="contentList" style="display: block;">
 		<p>
-			<span class="label">Beskrivning:</span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
 			<ww:property value="event.description"/>
 		</p>
 		<p>
-			<span class="label">Datum/tid:</span><br>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.dateTimeLabel") %></span><br>
 			<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>
-			till 
+			<%= resourceBundle.getString("labels.public.event.untilLabel") %> 
 			<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>
 		</p>    			
    		<p>
-      		<span class="label">Plats:</span><br>
+      		<span class="label"><%= resourceBundle.getString("labels.public.event.locationLabel") %></span><br>
 			<ww:iterator value="event.locations">
 	      		<ww:set name="location" value="top"/>
  				<ww:property value='#location.name'/>
       		</ww:iterator>
   		</p>
 		<p>
-      		<span class="label">Kategori:</span><br>
+      		<span class="label"><%= resourceBundle.getString("labels.public.event.categoryLabel") %></span><br>
 			<ww:iterator value="event.categories">
 	      		<ww:set name="category" value="top"/>
  				<ww:property value='#category.name'/>
       		</ww:iterator>
        	</p>
 		<p>  		
-  			<span class="label">Deltagare:</span><br>
+  			<span class="label"><%= resourceBundle.getString("labels.public.event.participantsLabel") %></span><br>
       		<ww:iterator value="infogluePrincipals">
       			<ww:property value="top.firstName"/> <ww:property value="top.lastName"/>,
       		</ww:iterator>
  		</p>
 		<p>
-			<span class="label">Bifogade filer:</span><br>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.filesLabel") %></span><br>
 			<ww:iterator value="event.resources">
 				<a href="<ww:property value='this.getResourceUrl(top.id)'/>"><ww:property value='assetKey'/></a><br>     			
       		</ww:iterator>
@@ -86,7 +85,7 @@
 				<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 			</portlet:renderURL>
 			
-			<a href="<c:out value="${createEntryRenderURL}"/>">Sign up for this event</a>
+			<a href="<c:out value="${createEntryRenderURL}"/>"><%= resourceBundle.getString("labels.public.event.signUpLabel") %></a>
 		</p>
 		
 		<a href="<%=request.getContextPath()%>/<ww:property value="this.getVCalendar(event)"/>"><img src="<%=request.getContextPath()%>/images/calendarIcon.jpg" border="0"> Add to my calendar (vCal)</a>
@@ -94,6 +93,3 @@
 	</div>		
 
 </div>
-
-</body>
-</html>
