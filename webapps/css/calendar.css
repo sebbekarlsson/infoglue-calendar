@@ -6,10 +6,11 @@ html, body		  { font-family: Verdana, Arial, Helvetica, sans-serif; text-align: 
 .activeTabText		{ position: absolute; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: white; border: 0px solid black; middle; padding: 7px 5px 5px 10px } 
 .dayItem			{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; } 
 .event				{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; } 
-.normalInput		{ width: 300px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; } 
-.dateInput			{ width: 80px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; } 
-.hourInput			{ width: 50px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; } 
-.listBox			{ width: 300px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; } 
+.normalInput		{ width: 300px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; border: 1px solid gray;} 
+.dateInput			{ width: 80px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; border: 1px solid gray;} 
+.hourInput			{ width: 50px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; border: 1px solid gray;} 
+.listBox			{ width: 300px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: black; border: 1px solid gray;} 
+textarea			{ width: 300px; height: 100px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; border: 1px solid gray;}
 
 #list				{ background-color: white; font-family: Verdana, Arial, Helvetica, sans-serif; border: 1px solid black; margin: 0px 0px 10px 0px; } 
 #contentListHeader  { background-color: white; color: #666666; font-size: 14px; font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; margin-top: 1em; margin-left: 0.2em }
@@ -64,7 +65,6 @@ p  				{ font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif }
 .workflow 		{ border-top: 3px double #bebebe; border-bottom: 5px solid #000000 }
 .rubrik 		   { color: black; font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; background-color: #dfdfdf; padding-top: 0; padding-bottom: 0; padding-left: 8px; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #ccc }
 
-textarea		{ width: 500px; height: 100px; border: 1px solid gray;}
 .longtextfield	{ width: 400px; height: 16px; border: 1px solid gray;}
 
  /*printer styles*/ 

@@ -27,6 +27,7 @@ import java.util.Calendar;
 
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
+import org.infoglue.calendar.controllers.ResourceController;
 
 import com.opensymphony.xwork.Action;
 
@@ -36,7 +37,7 @@ import com.opensymphony.xwork.Action;
  * @author Mattias Bogeblad
  */
 
-public class UpdateEventAction extends CalendarAbstractAction
+public class UpdateEventAction extends CalendarUploadAbstractAction
 {
     private Long eventId;
     private String name;
@@ -58,16 +59,33 @@ public class UpdateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("In ViewCalendarAction.execute");
+        System.out.println("In UpdateEventAction.execute");
         
+        System.out.println("file:" + this.getFile());
+
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
 
         EventController.getController().updateEvent(eventId, name, description, startCalendar, endCalendar, locationId, categoryId, participantUserName);
         
+        
         return Action.SUCCESS;
     } 
     
+    /**
+     * This is the entry point for the main listing.
+     */
+    
+    public String upload() throws Exception 
+    {
+        System.out.println("In UpdateEventAction.upload");
+        
+        System.out.println("file:" + this.getFile());  
+        
+        ResourceController.getController().createResource(this.eventId, this.getAssetKey(), this.getFileContentType(), this.getFileFileName(), this.getFile());
+        
+        return Action.SUCCESS;
+    } 
     
     public String getDescription()
     {

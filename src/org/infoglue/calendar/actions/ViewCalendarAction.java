@@ -212,23 +212,17 @@ public class ViewCalendarAction extends CalendarAbstractAction
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(date);
         
-        System.out.println("this.weekEvents:" + this.weekEvents.size());
+        //System.out.println("this.weekEvents:" + this.weekEvents.size());
         
         Iterator eventIterator = this.weekEvents.iterator();
         while(eventIterator.hasNext())
         {
             Event event = (Event)eventIterator.next();
-            System.out.println("event:" + event.getName());
+            //System.out.println("event:" + event.getName());
             if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR) && (event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) <= Integer.parseInt(hour) && event.getEndDateTime().get(java.util.Calendar.HOUR_OF_DAY) >= Integer.parseInt(hour)))
             {
                 hourEvents.add(event);
             }
-        }
-        
-        if(hourEvents.size() > 0)
-        {
-            System.out.println("getWeekEvents with hour:" + date + ":" + hour);
-            System.out.println("returning:" + hourEvents.size());
         }
         
         return hourEvents;
@@ -251,17 +245,11 @@ public class ViewCalendarAction extends CalendarAbstractAction
         while(eventIterator.hasNext())
         {
             Event event = (Event)eventIterator.next();
-            System.out.println("event:" + event.getName());
+            //System.out.println("event:" + event.getName());
             if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR))
             {
                 hourEvents.add(event);
             }
-        }
-        
-        if(hourEvents.size() > 0)
-        {
-            System.out.println("getEvents with hour:" + date);
-            System.out.println("returning:" + hourEvents.size());
         }
         
         return hourEvents;

@@ -28,6 +28,7 @@ import java.util.List;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
+import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 
@@ -64,6 +65,14 @@ public class ViewEventAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
 
+    public String getResourceUrl(Long resourceId) throws Exception
+    {
+        System.out.println("resourceId:" + resourceId);
+        
+        return ResourceController.getController().getResourceUrl(resourceId);
+    }
+    
+    
     public Event getEvent()
     {
         return event;

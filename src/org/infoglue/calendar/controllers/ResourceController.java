@@ -23,6 +23,10 @@
 
 package org.infoglue.calendar.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.sql.Blob;
 import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
@@ -32,6 +36,7 @@ import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
+import org.infoglue.calendar.entities.Resource;
 
 
 import java.util.Date;
@@ -45,10 +50,10 @@ import net.sf.hibernate.cfg.*;
 import net.sf.hibernate.expression.Expression;
 import net.sf.hibernate.type.Type;
 
-public class EventController extends BasicController
+public class ResourceController extends BasicController
 {    
     //Logger for this class
-    private static Log log = LogFactory.getLog(EventController.class);
+    private static Log log = LogFactory.getLog(ResourceController.class);
         
     
     /**
@@ -57,9 +62,9 @@ public class EventController extends BasicController
      * @return EventController
      */
     
-    public static EventController getController()
+    public static ResourceController getController()
     {
-        return new EventController();
+        return new ResourceController();
     }
         
     
@@ -67,9 +72,9 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database.
      */
     
-    public Event createEvent(Long calendarId, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId, String[] participantUserName) throws HibernateException, Exception 
+    public Resource createResource(Long eventId, String assetKey, String contentType, String fileName, File file) throws HibernateException, Exception 
     {
-        Event event = null;
+        Resource resource = null;
         
         Session session = getSession();
         
@@ -77,35 +82,11 @@ public class EventController extends BasicController
 		try 
 		{
 			tx = session.beginTransaction();
-			System.out.println("calendarId:" + calendarId);
-			Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
-			System.out.println("calendar:" + calendar);
+			System.out.println("eventId:" + eventId);
+			Event event = EventController.getController().getEvent(eventId, session);
+			System.out.println("event:" + event);
 			
-			Set locations = new HashSet();
-			for(int i=0; i<locationId.length; i++)
-			{
-			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
-			    locations.add(location);
-			}
-
-			Set categories = new HashSet();
-			for(int i=0; i<categoryId.length; i++)
-			{
-			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
-			    categories.add(category);
-			}
-
-			Set participants = new HashSet();
-			for(int i=0; i<participantUserName.length; i++)
-			{
-			    Participant participant = new Participant();
-			    participant.setUserName(participantUserName[i]);
-			    participant.setEvent(event);
-			    session.save(participant);
-			    participants.add(participant);
-			}
-
-			event = createEvent(calendar, name, description, startDateTime, endDateTime, locations, categories, participants, session);
+			resource = createResource(event, assetKey, contentType, fileName, file, session);
 
 			tx.commit();
 		}
@@ -120,7 +101,7 @@ public class EventController extends BasicController
 		    session.close();
 		}
 		
-        return event;
+        return resource;
     }
 
     
@@ -128,27 +109,21 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database inside a transaction.
      */
     
-    public Event createEvent(Calendar calendar, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Set participants, Session session) throws HibernateException, Exception 
+    public Resource createResource(Event event, String assetKey, String contentType, String fileName, File file, Session session) throws HibernateException, Exception 
     {
-        System.out.println("Creating new event...");
+        System.out.println("Creating new resource...");
         
-        Event event = new Event();
-        event.setName(name);
-        event.setDescription(description);
-        event.setStartDateTime(startDateTime);
-        event.setEndDateTime(endDateTime); 
+        Resource resource = new Resource();
+        resource.setAssetKey(assetKey);
+        resource.setResource(Hibernate.createBlob(new FileInputStream(file)));
         
-        event.setCalendar(calendar);
-        event.setLocations(locations);
-        event.setCategories(categories);
-        event.setParticipants(participants);
-        calendar.getEvents().add(event);
+        event.getResources().add(resource);
         
-        session.save(event);
+        session.save(resource);
         
-        System.out.println("Finished creating event...");
+        System.out.println("Finished creating resource...");
         
-        return event;
+        return resource;
     }
     
     
@@ -157,7 +132,7 @@ public class EventController extends BasicController
      * 
      * @throws Exception
      */
-    
+    /*
     public void updateEvent(Long id, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId, String[] participantUserName) throws Exception 
     {
 	    Session session = getSession();
@@ -208,13 +183,14 @@ public class EventController extends BasicController
 		    session.close();
 		}
     }
+    */
     
     /**
      * Updates an event inside an transaction.
      * 
      * @throws Exception
      */
-    
+    /*
     public void updateEvent(Event event, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Set participants, Session session) throws Exception 
     {
         event.setName(name);
@@ -227,17 +203,17 @@ public class EventController extends BasicController
         
 		session.update(event);
 	}
+    */
     
- 
     /**
-     * This method returns a Event based on it's primary key
-     * @return Event
+     * This method returns a Resource based on it's primary key
+     * @return Resource
      * @throws Exception
      */
     
-    public Event getEvent(Long id) throws Exception
+    public String getResourceUrl(Long id) throws Exception
     {
-        Event event = null;
+        String url = "";
         
         Session session = getSession();
         
@@ -245,7 +221,18 @@ public class EventController extends BasicController
 		try 
 		{
 			tx = session.beginTransaction();
-			event = getEvent(id, session);
+			Resource resource = getResource(id, session);
+			
+			FileOutputStream fos = new FileOutputStream("c:/temp/" + resource.getId() + "_" + resource.getAssetKey() + ".gif");
+			Blob blob = resource.getResource();
+			byte[] bytes = blob.getBytes(1, (int) blob.length());
+			System.out.println(bytes.length);
+			fos.write(bytes);
+			fos.flush();
+			fos.close(); 
+
+			url = "file://c:/temp/" + resource.getId() + "_" + resource.getAssetKey() + ".gif";
+
 			tx.commit();
 		}
 		catch (Exception e) 
@@ -259,26 +246,60 @@ public class EventController extends BasicController
 		    session.close();
 		}
 		
-		return event;
+		return url;
     }
     
+ 
     /**
-     * This method returns a Event based on it's primary key inside a transaction
-     * @return Event
+     * This method returns a Resource based on it's primary key
+     * @return Resource
      * @throws Exception
      */
     
-    public Event getEvent(Long id, Session session) throws Exception
+    public Resource getResource(Long id) throws Exception
     {
-        Event event = (Event)session.load(Event.class, id);
+        Resource resource = null;
+        
+        Session session = getSession();
+        
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			resource = getResource(id, session);
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
 		
-		return event;
+		return resource;
+    }
+    
+    /**
+     * This method returns a Resource based on it's primary key inside a transaction
+     * @return Resource
+     * @throws Exception
+     */
+    
+    public Resource getResource(Long id, Session session) throws Exception
+    {
+        Resource resource = (Resource)session.load(Resource.class, id);
+		
+		return resource;
     }
     
     
     /**
      * Gets a list of all events available sorted by primary key.
-     * @return List of Event
+     * @return List of Resource
      * @throws Exception
      */
     
@@ -417,11 +438,11 @@ public class EventController extends BasicController
     
     
     /**
-     * Deletes a event object in the database. Also cascades all events associated to it.
+     * Deletes a resource object in the database. Also cascades all resources associated to it.
      * @throws Exception
      */
     
-    public void deleteEvent(Long id) throws Exception 
+    public void deleteResource(Long id) throws Exception 
     {
         Session session = getSession();
         
@@ -431,8 +452,8 @@ public class EventController extends BasicController
         {
             tx = session.beginTransaction();
             
-            Event event = this.getEvent(id);
-            session.delete(event);
+            Resource resource = this.getResource(id);
+            session.delete(resource);
             
             tx.commit();
         }

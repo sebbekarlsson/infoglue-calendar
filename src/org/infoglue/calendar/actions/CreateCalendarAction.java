@@ -44,8 +44,6 @@ public class CreateCalendarAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("In ViewCalendarAdministrationAction.execute");
-        
         CalendarController.getController().createCalendar(name, description);
         
         return Action.SUCCESS;
@@ -57,8 +55,6 @@ public class CreateCalendarAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
-        System.out.println("In ViewCalendarAdministrationAction.execute");
-        
         return Action.INPUT;
     } 
     

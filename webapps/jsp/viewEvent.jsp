@@ -14,6 +14,16 @@
 	<script type="text/javascript" src="applications/jscalendar/lang/calendar-en.js"></script>
 	<script type="text/javascript" src="applications/jscalendar/calendar-setup.js"></script>
 	
+	<script type="text/javascript">
+	
+		function showUploadForm()
+		{
+			document.getElementById("contentList").style.display = "none";
+			document.getElementById("upload").style.display = "block";
+		}
+	
+	</script>
+	
 </head>
 
 <body>
@@ -24,8 +34,8 @@
 		 <ww:property value="event.name"/> <a href="DeleteEvent.action?eventId=<ww:property value="event.id"/>&calendarId=<ww:property value="calendarId"/>&mode=<ww:property value="mode"/>">Delete</a>
 	</div>
 
-	<div id="contentList">
-		<form name="inputForm" method="GET" action="UpdateEvent.action">
+	<div id="contentList" style="display: block;">
+		<form name="inputForm" method="POST" action="UpdateEvent.action">
 			<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
 			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
@@ -121,11 +131,41 @@
       		</select>
 			</p>
 			<p>
+				Attached files:<br>
+				<ww:iterator value="event.resources">
+					<a href="<ww:property value='this.getResourceUrl(top.id)'/>"><ww:property value='assetKey'/></a><br>     			
+	      		</ww:iterator>
+	      		<a href="javascript:showUploadForm();">Add resource</a>
+			</p>
+			<p>
 				<input type="submit" value="Update">
 			</p>
-			
 		</form>
 	</div>
+	
+	<div id="upload" style="display: none;">
+		<form name="inputForm" method="POST" action="UpdateEvent!upload.action" enctype="multipart/form-data">
+			<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
+			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
+			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
+			<input type="hidden" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>"/>
+			<input type="hidden" name="endDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>"/>
+			
+			<p>
+				Attachment key:<br>
+				<input type="textfield" name="assetKey" class="normalInput">
+			</p>
+			<p>
+				Attach file:<br>
+				<ww:file name="'file'"/>
+			</p>
+			<p>
+				<input type="submit" value="Update">
+			</p>
+			</form>
+	
+	</div>
+	
 
 </div>
 

@@ -143,10 +143,10 @@
 		<form name="inputForm" method="POST" action="UpdateCalendar.action">
 		<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
 		<p>
-			Name:<br> <input type="textfield" name="name" value="<ww:property value="calendar.name"/>">
+			Name:<br> <input type="textfield" name="name" class="normalInput" value="<ww:property value="calendar.name"/>">
 		</p>
 		<p>
-			Description:<br> <input type="textfield" name="description" value="<ww:property value="calendar.description"/>">
+			Description:<br> <textarea name="description"><ww:property value="calendar.description"/></textarea>
 		</p>
 		<p>
 			<input type="submit" value="Save">
@@ -171,7 +171,7 @@
 <!-- *   HERE COMES THE COMING EVENTS  * -->
 <!-- *********************************** -->
 
-<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver" id="events">
+<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver; border: 1px black solid;" id="events">
 <table border="0" width="100%" cellpadding="2" cellspacing="0">
 <tr>
 	<td align="left" colspan="2" style="border-bottom: 1px solid black; height: 20px;">
@@ -196,7 +196,7 @@
 <!-- *   HERE COMES THE DAYS EVENTS  * -->
 <!-- *********************************** -->
 
-<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver" id="day">
+<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver; border: 1px black solid;" id="day">
 
 <table border="0" width="100%" cellpadding="2" cellspacing="0">
 <tr>
@@ -225,7 +225,7 @@
 <!-- *   HERE COMES THE WEEK CALENDAR  * -->
 <!-- *********************************** -->
 
-<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver" id="week">
+<div style="float: left; overflow:auto; left: 0px; display: none; width: 300px; height: 250px; background: silver; border: 1px black solid;" id="week">
 <table border="0" width="100%" cellpadding="0" cellspacing="0">
 <tr>
 	<td align="left" colspan="2" style="border-bottom: 1px solid black; height: 20px;">
@@ -238,8 +238,7 @@
 	</td>
 </tr>
 <tr>
-	<td>&nbsp;
-	</td>
+	<td colspan="2"><img src="images/trans.gif" height="5" width="1"></td>
 </tr>
 <tr>
 	<td width="20px" valign="top">
@@ -279,6 +278,19 @@
 		</tr>
 		</ww:iterator>
 		</table>
+	</td>
+</tr>
+<tr>
+	<td colspan="2"><img src="images/trans.gif" height="5" width="1"></td>
+</tr>
+<tr>
+	<td align="left" colspan="2" style="border-top: 1px solid black; height: 50px; background-color: silver;">
+		<div style="float: left;">
+			<span class="dayItem"><ww:property value="this.getFormattedDate(startDateTime, 'MMM yyyy')"/></span>
+		</div>
+		<div style="float: right;">
+			<span class="dayItem">Week <ww:property value="this.getFormattedDate(startDateTime, 'ww')"/></span>
+		</div>
 	</td>
 </tr>
 </table>

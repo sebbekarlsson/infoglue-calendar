@@ -70,8 +70,6 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("CreateEventAction....." + calendarId);
-        
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         

@@ -3,9 +3,11 @@
 <xwork>
 	<!-- Include webwork defaults (from WebWork JAR). -->
 	<include file="webwork-default.xml"/>
+	
 	<!-- Configuration for the default package. -->
 	<package name="default" extends="webwork-default">
-		<default-interceptor-ref name="defaultStack"/>
+		<default-interceptor-ref name="fileUploadStack"/>
+		
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="dispatcher">jsp/viewCalendarAdministration.jsp</result>
 		</action>
