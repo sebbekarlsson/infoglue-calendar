@@ -123,7 +123,7 @@ public class Event
     }
     
     /**
-     * @hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Location"
+     * hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Location"
      *
      * @return List
      */
@@ -138,7 +138,7 @@ public class Event
     }
     
     /**
-     * @hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Participant"
+     * hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Participant"
      *
      * @return List
      */
@@ -153,7 +153,7 @@ public class Event
     }
     
     /**
-     * @hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Resource"
+     * hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Resource"
      *
      * @return List
      */
@@ -169,7 +169,7 @@ public class Event
     }
     
     /**
-     * @hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Category"
+     * hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Category"
      *
      * @return List
      */
@@ -185,7 +185,7 @@ public class Event
     }
     
     /**
-     * @hibernate.property column="calendar_id" type="org.infoglue.calendar.entities.Calendar" not-null="true" 
+     * hibernate.property column="calendar_id" type="org.infoglue.calendar.entities.Calendar" not-null="true" 
      *
      * @return Calendar
      */

@@ -7,7 +7,13 @@
 
     <session-factory>
 
-        <property name="connection.datasource">java:comp/env/jdbc/calendar</property>
+        <!--<property name="connection.datasource">java:jdbc/calendar</property>-->
+        
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/calendar</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"></property>
+        <property name="hibernate.connection.pool_size">10</property>
         <property name="show_sql">true</property>
         <property name="dialect">net.sf.hibernate.dialect.MySQLDialect</property>
 
@@ -15,6 +21,8 @@
         <mapping resource="conf/org/infoglue/calendar/entities/Calendar.hbm.xml"/>
         <mapping resource="conf/org/infoglue/calendar/entities/Category.hbm.xml"/>
         <mapping resource="conf/org/infoglue/calendar/entities/Event.hbm.xml"/>
+        <mapping resource="conf/org/infoglue/calendar/entities/Location.hbm.xml"/>
+        <mapping resource="conf/org/infoglue/calendar/entities/Participant.hbm.xml"/>
 
     </session-factory>
 

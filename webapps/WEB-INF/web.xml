@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+    <!-- Start WebWork -->
+    <servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>webwork.dispatcher.ServletDispatcher</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>velocity</servlet-name>
+        <servlet-class>org.infoglue.common.application.actions.VelocityServlet</servlet-class>
+        <init-param>
+        <param-name>packageNames</param-name>
+        <param-value>com.frovi.vmi.applications,com.frovi.vmi.entities</param-value>
+        </init-param>
+        <load-on-startup/>
+    </servlet>
+
+    <servlet>
+        <servlet-name>xslt</servlet-name>
+        <servlet-class>webwork.view.xslt.XSLTServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>dispatch</servlet-name>
+        <servlet-class>webwork.dispatcher.ClientServletDispatcher</servlet-class>
+    </servlet>
+
+
+<!-- ************************************* -->
+<!-- This part is for webworks / velocity  -->
+<!-- ************************************* -->
+
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.action</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>velocity</servlet-name>
+        <url-pattern>*.vm</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>xslt</servlet-name>
+        <url-pattern>*.xslt</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+ 		<welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+	<error-page>
+    	<error-code>400</error-code>
+    	<location>/index.html</location>
+  	</error-page>
+
+	<error-page>
+    	<error-code>404</error-code>
+    	<location>/index.html</location>
+  	</error-page>
+
+
+   <taglib>
+      <taglib-uri>webwork</taglib-uri>
+      <taglib-location>/WEB-INF/lib/webwork.jar</taglib-location>
+   </taglib>
+   <!-- End WebWork -->   
+
+	<!--
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>CMS Application</web-resource-name>
+			<url-pattern>*.action</url-pattern>
+		</web-resource-collection> 
+		<auth-constraint>
+			<role-name>vmiUser</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/Login.action</form-login-page>
+			<form-error-page>/Login!invalidLogin.action</form-error-page>
+		</form-login-config>
+	</login-config>
+	-->
+	
+</web-app>
