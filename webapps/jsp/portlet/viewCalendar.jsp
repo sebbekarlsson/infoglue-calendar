@@ -73,10 +73,10 @@
 			document.location.href = url;
 		}
 
-		function addEvent(date, time)
+		function addEvent(url)
 		{
-			url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=week&startDateTime=" + date + "&endDateTime=" + date + "&time=" + time;
-			//alert("Calling:" + url);
+			//url = "CreateEvent!input.action?calendarId=<ww:property value="calendar.id"/>&mode=week&startDateTime=" + date + "&endDateTime=" + date + "&time=" + time;
+			alert("Calling:" + url);
 			document.location.href = url;
 		}
 
@@ -196,17 +196,17 @@
 <div class="event" style="margin: 10px 10px 10px 10px;">
 <ww:iterator value="calendar.events">
 
-	<%
-	PortletURL eventUrl = renderResponse.createRenderURL();
-	eventUrl.setParameter("action", "ViewEvent");
-    eventUrl.setParameter("eventId", 1<ww:property value="id"/>");
-	%>
+	<ww:set name="eventId" value="id" scope="page"/>
+	<portlet:renderURL var="eventUrl">
+		<portlet:param name="action" value="ViewEvent"/>
+		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+	</portlet:renderURL>
+
+	<p>
+	<a href="<c:out value="${eventUrl}"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
+	<ww:property value="description"/>
+	</p>
 	
-<p>
-<a href="ViewEvent.action?eventId=<ww:property value="id"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
-<a href="<%=eventUrl%>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
-<ww:property value="description"/>
-</p>
 </ww:iterator>
 </div>
 </div>
@@ -229,12 +229,35 @@
 
 <ww:iterator value="{'08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'}">
 
-<ww:set name="hourEvents" value="this.getEvents(startCalendar.time, top)" />
+	<ww:set name="hourEvents" value="this.getEvents(startCalendar.time, top)" />
 
-<div class="dayItem" onClick="javascript:addEvent('<ww:property value="this.getFormattedDate(startCalendar.time, 'yyyy-MM-dd')"/>', '<ww:property/>');" onmouseover="javascript:markElement(this);" style="border-bottom: 1px solid black;">
+	<ww:set name="calendarId" value="calendar.id" scope="page"/>
+	<ww:set name="startDateTime" value="this.getFormattedDate(startCalendar.time, 'yyyy-MM-dd')" scope="page"/>
+	<ww:set name="endDateTime" value="this.getFormattedDate(startCalendar.time, 'yyyy-MM-dd')" scope="page"/>
+	<ww:set name="time" value="top" scope="page"/>
+	
+	<portlet:renderURL var="createEventUrl">
+		<portlet:param name="action" value="CreateEvent!input"/>
+		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="mode" value="week"/>
+		<portlet:param name="startDateTime" value="<%= pageContext.getAttribute("startDateTime").toString() %>"/>
+		<portlet:param name="endDateTime" value="<%= pageContext.getAttribute("endDateTime").toString() %>"/>
+		<portlet:param name="time" value="<%= pageContext.getAttribute("time").toString() %>"/>
+	</portlet:renderURL>
+	
+<div class="dayItem" onClick="javascript:addEvent('<c:out value="${createEventUrl}"/>');" onmouseover="javascript:markElement(this);" style="border-bottom: 1px solid black;">
 	<ww:property/>.00 
 		<ww:if test="#hourEvents.size > 0">
-		   <ww:iterator value="#hourEvents"><a href="ViewEvent.action?eventId=<ww:property value="id"/>"><ww:property value="name"/></a> </ww:iterator>
+		   	<ww:iterator value="#hourEvents">
+		   		
+	   			<ww:set name="eventId" value="id" scope="page"/>
+				<portlet:renderURL var="eventUrl">
+					<portlet:param name="action" value="ViewEvent"/>
+					<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+				</portlet:renderURL>
+					   		
+		   		<a href="<c:out value="${eventUrl}"/><ww:property value="name"/></a> 
+			</ww:iterator>
 		</ww:if>
 </div>
 </ww:iterator>

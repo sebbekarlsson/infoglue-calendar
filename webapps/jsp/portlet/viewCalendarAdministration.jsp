@@ -24,32 +24,24 @@
 <div id="list">
 
 	<div id="contentListHeader">
-		Calendars sss
+		Calendars
 	</div>
-	
-	<%=renderResponse.encodeURL(renderRequest.getContextPath() + "/images/no.gif")%>
-	<%	
-		PortletURL url = renderResponse.createActionURL();
-		url.setParameter("action", "ViewCalendar");
-        url.setParameter("calendarId", "1");
-
-		PortletURL url2 = renderResponse.createRenderURL();
-		url2.setParameter("action", "ViewCalendar");
-        url2.setParameter("calendarId", "1");
-    %>    
-    <%=url%>
-    <%=url2%>
-	<a href="<%=url%>">Test</a>
-	<a href="<%=url2%>">Test2</a>
-	
+		
 	<div id="contentList">
 		<ww:iterator value="administrationUCCBean.calendars" status="rowstatus">
+			
+			<ww:set name="calendarId" value="id" scope="page"/>
+			<portlet:renderURL var="calendarUrl">
+				<portlet:param name="action" value="ViewCalendar"/>
+				<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+			</portlet:renderURL>
+
 		<p>
 			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>.<a href="ViewCalendar.action?calendarId=<ww:property value="id"/>"><ww:property value="name"/></a> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
+		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
 		    </ww:if>
 		    <ww:else>
-		    	<span><ww:property value="id"/>.<a href="ViewCalendar.action?calendarId=<ww:property value="id"/>"><ww:property value="name"/></a> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
+		    	<span><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
 		    </ww:else>
 		</p>
 		</ww:iterator>
