@@ -161,6 +161,9 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         
         try
         {
+            //response.setContentType("text/html");
+            //response.getWriter().println("doView APAPAPAPA <a href");
+            
             service(request, response);
         } 
         catch (Exception e)

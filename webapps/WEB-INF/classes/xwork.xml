@@ -31,14 +31,23 @@
 		 <result-type name="dispatcher" class="com.opensymphony.webwork.dispatcher.ServletDispatcherResult" default="true"/>
 		 <result-type name="redirect" class="com.opensymphony.webwork.dispatcher.ServletRedirectResult"/>
 		 <result-type name="velocity" class="com.opensymphony.webwork.dispatcher.VelocityResult"/>
+         <result-type name="portletDispatch" class="com.opensymphony.webwork.portlet.alternative.action.PortletDispatchResult"/>
+         <result-type name="eventProcessed" class="com.opensymphony.webwork.portlet.alternative.action.ActionResult"/>
 		</result-types>
 
 		<default-interceptor-ref name="defaultStack" />
 
+		<!--
 		<action name="ViewCalendarAdministration.action" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction"> 
 			<result name="success" type="dispatcher">jsp/viewCalendarAdministration.jsp</result>
 		</action> 
+		-->
 		
+		<action name="ViewCalendarAdministration.action" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
+			<result name="success" type="portletDispatch">
+ 	        	<param name="dispatchTo">/jsp/viewCalendarAdministration.jsp</param>
+ 	        </result>
+ 	    </action>
 	</package>
 </xwork>
 

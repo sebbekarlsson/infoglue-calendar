@@ -39,12 +39,21 @@ public class ViewCalendarAdministrationAction extends CalendarAbstractAction
     {
         System.out.println("In ViewCalendarAdministrationAction.execute");
         
+        //response.setContentType("text/html");
+        //PortletURL url = response.createActionURL();
+        //System.out.println("url:" + url);
+        //response.getWriter().println("doView APAPAPAPA <a href");
+        
+        //return Action.NONE;
+        
         if (result == null) 
         {
             result = Action.SUCCESS;
         }
         
         return result;
+        
+        
     } 
 
 }
