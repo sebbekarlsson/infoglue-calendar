@@ -29,20 +29,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import org.exolab.castor.jdo.Database;
-import org.infoglue.cms.controllers.kernel.impl.simple.BaseController;
-import org.infoglue.cms.controllers.kernel.impl.simple.CastorDatabaseService;
-import org.infoglue.cms.controllers.kernel.impl.simple.RoleController;
-import org.infoglue.cms.controllers.kernel.impl.simple.SystemUserController;
-import org.infoglue.cms.entities.kernel.BaseEntityVO;
-import org.infoglue.cms.entities.management.Role;
-import org.infoglue.cms.entities.management.RoleVO;
-import org.infoglue.cms.entities.management.SystemUser;
-import org.infoglue.cms.entities.management.SystemUserVO;
-import org.infoglue.cms.exception.Bug;
-import org.infoglue.cms.exception.SystemException;
-import org.infoglue.cms.util.CmsLogger;
-import org.infoglue.cms.util.CmsPropertyHandler;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.common.util.PropertyHelper;
+
 
 /**
  * @author Mattias Bogeblad
@@ -50,8 +40,10 @@ import org.infoglue.cms.util.CmsPropertyHandler;
  * This authentication module authenticates an user against the ordinary infoglue database.
  */
 
-public class InfoGlueBasicAuthorizationModule extends BaseController implements AuthorizationModule
+public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 {
+    private static final Log log = LogFactory.getLog(InfoGlueBasicAuthorizationModule.class);
+    
 	private Properties extraProperties = null;
 
 	/**
@@ -90,8 +82,8 @@ public class InfoGlueBasicAuthorizationModule extends BaseController implements 
 	{
 		InfoGluePrincipal infogluePrincipal = null;
 		
-		String administratorUserName = CmsPropertyHandler.getProperty("administratorUserName");
-		String administratorEmail 	 = CmsPropertyHandler.getProperty("administratorEmail");
+		String administratorUserName = PropertyHelper.getProperty("administratorUserName");
+		String administratorEmail 	 = PropertyHelper.getProperty("administratorEmail");
 		
 		final boolean isAdministrator = (userName != null && userName.equalsIgnoreCase(administratorUserName)) ? true : false;
 		if(isAdministrator)
@@ -123,7 +115,7 @@ public class InfoGlueBasicAuthorizationModule extends BaseController implements 
 			} 
 			catch (Exception e) 
 			{
-				CmsLogger.logInfo("An error occurred so we should not complete the transaction:" + e);
+				log.debug("An error occurred so we should not complete the transaction:" + e);
 				rollbackTransaction(db);
 				throw new SystemException(e.getMessage());
 			}
@@ -156,7 +148,7 @@ public class InfoGlueBasicAuthorizationModule extends BaseController implements 
 	{
 		List roles = new ArrayList();
 		
-		String administratorUserName = CmsPropertyHandler.getProperty("administratorUserName");
+		String administratorUserName = PropertyHelper.getProperty("administratorUserName");
 		
 		boolean isAdministrator = userName.equalsIgnoreCase(administratorUserName) ? true : false;
 		if(isAdministrator)
@@ -255,7 +247,7 @@ public class InfoGlueBasicAuthorizationModule extends BaseController implements 
 	
 	public List getUsers(String roleName) throws Exception
 	{
-		CmsLogger.logInfo("roleName:" + roleName);
+		log.debug("roleName:" + roleName);
 		List users = new ArrayList();
 		
 		List systemUserVOList = RoleController.getController().getRoleSystemUserVOList(roleName);
@@ -270,14 +262,14 @@ public class InfoGlueBasicAuthorizationModule extends BaseController implements 
 		return users;
 	}
 
-	public void createInfoGluePrincipal(SystemUserVO systemUserVO) throws Exception
+	public void createInfoGluePrincipal(String userName, String password, String firstName, String lastName, String email) throws Exception
 	{
-		SystemUserController.getController().create(systemUserVO);
+		SystemUserController.getController().create(userName, password, firstName, lastName, email);
 	}
 
-	public void updateInfoGluePrincipal(SystemUserVO systemUserVO, String[] roleNames) throws Exception
+	public void updateInfoGluePrincipal(String userName, String password, String firstName, String lastName, String email, String[] roleNames) throws Exception
 	{
-		SystemUserController.getController().update(systemUserVO, roleNames);
+		SystemUserController.getController().update(userName, password, firstName, lastName, email, roleNames);
 	}
 
 	/**
@@ -295,14 +287,14 @@ public class InfoGlueBasicAuthorizationModule extends BaseController implements 
 		SystemUserController.getController().delete(userName);
 	}
 
-	public void createInfoGlueRole(RoleVO roleVO) throws Exception
+	public void createInfoGlueRole(String roleName, String description) throws Exception
 	{
-		RoleController.getController().create(roleVO);
+		RoleController.getController().create(roleName, description);
 	}
 
-	public void updateInfoGlueRole(RoleVO roleVO, String[] userNames) throws Exception
+	public void updateInfoGlueRole(String roleName, String description, String[] userNames) throws Exception
 	{
-		RoleController.getController().update(roleVO, userNames);
+		RoleController.getController().update(roleName, description, userNames);
 	}
 
 	public void deleteInfoGlueRole(String roleName) throws Exception
@@ -318,11 +310,6 @@ public class InfoGlueBasicAuthorizationModule extends BaseController implements 
 	public void setExtraProperties(Properties extraProperties)
 	{
 		this.extraProperties = extraProperties;
-	}
-
-	public BaseEntityVO getNewVO()
-	{
-		return null;
 	}
 
 }

@@ -27,14 +27,11 @@ package org.infoglue.common.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.infoglue.cms.entities.kernel.BaseEntityVO;
-import org.infoglue.cms.entities.management.SystemUserVO;
-import org.infoglue.cms.exception.ConstraintException;
-import org.infoglue.cms.exception.SystemException;
-import org.infoglue.cms.security.AuthorizationModule;
-import org.infoglue.cms.security.InfoGlueAuthenticationFilter;
-import org.infoglue.cms.security.InfoGluePrincipal;
-import org.infoglue.cms.util.CmsLogger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.common.exceptions.ConstraintException;
+import org.infoglue.common.exceptions.SystemException;
+
 
 /**
  * @author Mattias Bogeblad
@@ -44,6 +41,8 @@ import org.infoglue.cms.util.CmsLogger;
 
 public class UserControllerProxy
 {
+    private static final Log log = LogFactory.getLog(UserControllerProxy.class);
+    
 	private static AuthorizationModule authorizationModule = null;
 	
 	public static UserControllerProxy getController()
@@ -61,16 +60,16 @@ public class UserControllerProxy
 		{
 			try
 	    	{
-			    CmsLogger.logInfo("InfoGlueAuthenticationFilter.authorizerClass:" + InfoGlueAuthenticationFilter.authorizerClass);
+			    log.debug("InfoGlueAuthenticationFilter.authorizerClass:" + InfoGlueAuthenticationFilter.authorizerClass);
 				authorizationModule = (AuthorizationModule)Class.forName(InfoGlueAuthenticationFilter.authorizerClass).newInstance();
-				CmsLogger.logInfo("authorizationModule:" + authorizationModule);
+				log.debug("authorizationModule:" + authorizationModule);
 				authorizationModule.setExtraProperties(InfoGlueAuthenticationFilter.extraProperties);
-				CmsLogger.logInfo("InfoGlueAuthenticationFilter.extraProperties:" + InfoGlueAuthenticationFilter.extraProperties);
+				log.debug("InfoGlueAuthenticationFilter.extraProperties:" + InfoGlueAuthenticationFilter.extraProperties);
 	    	}
 	    	catch(Exception e)
 	    	{
 	    		//e.printStackTrace();
-	    		CmsLogger.logSevere("There was an error initializing the authorizerClass:" + e.getMessage(), e);
+	    		log.error("There was an error initializing the authorizerClass:" + e.getMessage(), e);
 	    		throw new SystemException("There was an error initializing the authorizerClass:" + e.getMessage(), e);
 	    	}
 		}
@@ -149,22 +148,22 @@ public class UserControllerProxy
 	 * This method creates a new user
 	 */
 	
-	public InfoGluePrincipal createUser(SystemUserVO systemUserVO) throws ConstraintException, SystemException, Exception
+	public InfoGluePrincipal createUser(String userName, String password, String firstName, String lastName, String email) throws ConstraintException, SystemException, Exception
 	{
 		InfoGluePrincipal infoGluePrincipal = null;
     	
-		getAuthorizationModule().createInfoGluePrincipal(systemUserVO);
+		getAuthorizationModule().createInfoGluePrincipal(userName, password, firstName, lastName, email);
     	
-		return getUser(systemUserVO.getUserName());
+		return getUser(userName);
 	}
 
 	/**
 	 * This method updates an existing user
 	 */
 	
-	public void updateUser(SystemUserVO systemUserVO, String[] roleNames) throws ConstraintException, SystemException, Exception
+	public void updateUser(String userName, String password, String firstName, String lastName, String email, String[] roleNames) throws ConstraintException, SystemException, Exception
 	{
-		getAuthorizationModule().updateInfoGluePrincipal(systemUserVO, roleNames);
+		getAuthorizationModule().updateInfoGluePrincipal(userName, password, firstName, lastName, email, roleNames);
 	}
 
 	/**
@@ -184,10 +183,5 @@ public class UserControllerProxy
 	{
 		getAuthorizationModule().deleteInfoGluePrincipal(userName);
 	}
-	
-	public BaseEntityVO getNewVO()
-	{
-		return null;
-	}
- 
+	 
 }

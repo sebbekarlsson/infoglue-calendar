@@ -41,6 +41,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import edu.yale.its.tp.cas.client.ProxyTicketValidator;
 import edu.yale.its.tp.cas.client.Util;
 
@@ -53,6 +56,8 @@ import edu.yale.its.tp.cas.client.Util;
 
 public class CASBasicAuthenticationModule implements AuthenticationModule//, AuthorizationModule
 {
+    private static final Log log = LogFactory.getLog(CASBasicAuthenticationModule.class);
+    
 	private String loginUrl 			= null;
 	private String invalidLoginUrl 		= null;
 	private String authenticatorClass 	= null;
@@ -75,7 +80,7 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 		HttpSession session = ((HttpServletRequest)request).getSession();
 
 		String ticket = request.getParameter("ticket");
-		CmsLogger.logInfo("ticket:" + ticket);
+		log.debug("ticket:" + ticket);
 		
 		// no ticket?  abort request processing and redirect
 		if (ticket == null || ticket.equals("")) 
@@ -89,7 +94,7 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 			}
   
 			String requestURI = request.getRequestURI();
-			CmsLogger.logInfo("requestURI:" + requestURI);
+			log.debug("requestURI:" + requestURI);
 
 			String redirectUrl = "";
 
@@ -98,18 +103,18 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 			else
 				redirectUrl = loginUrl + "?service=" + getService(request) + ((casRenew != null && !casRenew.equals("")) ? "&renew="+ casRenew : "");
 	
-			CmsLogger.logInfo("redirectUrl:" + redirectUrl);
+			log.debug("redirectUrl:" + redirectUrl);
 			response.sendRedirect(redirectUrl);
 
 			return null;
 		} 
 	   	
 		authenticatedUserName = authenticate(ticket);
-		CmsLogger.logInfo("authenticatedUserName:" + authenticatedUserName);
+		log.debug("authenticatedUserName:" + authenticatedUserName);
 		if(authenticatedUserName == null)
 		{
 			String requestURI = request.getRequestURI();
-			CmsLogger.logInfo("requestURI:" + requestURI);
+			log.debug("requestURI:" + requestURI);
 	
 			String redirectUrl = "";
 	
@@ -118,7 +123,7 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 			else
 				redirectUrl = loginUrl + "?service=" + getService(request) + ((casRenew != null && !casRenew.equals("")) ? "&renew="+ casRenew : "");
 		
-			CmsLogger.logInfo("redirectUrl:" + redirectUrl);
+			log.debug("redirectUrl:" + redirectUrl);
 			response.sendRedirect(redirectUrl);
 	
 			return null;
@@ -138,7 +143,7 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 		String authenticatedUserName = null;
 
 		String ticket = (String)request.get("ticket");
-		CmsLogger.logInfo("ticket:" + ticket);
+		log.debug("ticket:" + ticket);
 		
 		// no ticket?  abort request processing and redirect
 		if (ticket == null || ticket.equals("")) 
@@ -147,7 +152,7 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 		} 
 	   	
 		authenticatedUserName = authenticate(ticket);
-		CmsLogger.logInfo("authenticatedUserName:" + authenticatedUserName);
+		log.debug("authenticatedUserName:" + authenticatedUserName);
 
 		return authenticatedUserName;
 	}
@@ -158,7 +163,7 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 	
 	private String authenticate(String ticket) throws Exception
 	{
-		CmsLogger.logInfo("ticket:" + ticket);
+		log.debug("ticket:" + ticket);
 	
 		TrustManager[] trustAllCerts = new TrustManager[]
 		{
@@ -172,12 +177,12 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 				public void checkClientTrusted
 				(
 					java.security.cert.X509Certificate[] certs, String authType) {
-					CmsLogger.logInfo("Checking if client is trusted...");
+					log.debug("Checking if client is trusted...");
 				}
 				/*
 				public void checkServerTrusted(X509Certificate[] certs, String authType)
 				{
-					CmsLogger.logInfo("Checking if server is trusted...");				
+					log.debug("Checking if server is trusted...");				
 				}
 				*/
 				
@@ -219,7 +224,7 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 
 		/* if we want to look at the raw response, we can use getResponse() */
 		String xmlResponse = pv.getResponse();
-		CmsLogger.logInfo("xmlResponse:" + xmlResponse);
+		log.debug("xmlResponse:" + xmlResponse);
 		
 		/* read the response */
 		if(pv.isAuthenticationSuccesful()) 
@@ -239,7 +244,7 @@ public class CASBasicAuthenticationModule implements AuthenticationModule//, Aut
 		/* If we did set the proxy callback url, we can get proxy tickets with: */
 
 		//String proxyTicket = edu.yale.its.tp.cas.proxy.ProxyTicketReceptor.getProxyTicket(pv.getPgtIou(), casServiceUrl);
-		CmsLogger.logInfo("proxies:\n " + pv.getProxyList()); 
+		log.debug("proxies:\n " + pv.getProxyList()); 
 		
 		return authenticatedUserName;
 	} 

@@ -32,6 +32,11 @@ import java.util.Properties;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.common.exceptions.SystemException;
+import org.infoglue.common.util.PropertyHelper;
+
 /**
  * This filter protects actions withing InfoGlue from access without authentication. 
  * It is very generic and can use any authentication module. The filter is responsible for reading the
@@ -40,6 +45,8 @@ import javax.servlet.http.*;
 
 public class InfoGlueAuthenticationFilter implements Filter 
 {
+    private static final Log log = LogFactory.getLog(InfoGlueAuthenticationFilter.class);
+
 	public final static String INFOGLUE_FILTER_USER = "org.infoglue.cms.security.user";
 	
  	public static String loginUrl 				= null;
@@ -72,11 +79,11 @@ public class InfoGlueAuthenticationFilter implements Filter
 			try
 			{
 				extraProperties = new Properties();
-				extraProperties.load(CmsPropertyHandler.class.getResourceAsStream("/" + extraParametersFile));	
+				extraProperties.load(PropertyHelper.class.getResourceAsStream("/" + extraParametersFile));	
 			}	
 			catch(Exception e)
 			{
-				CmsLogger.logSevere("Error loading properties from file " + "/" + extraParametersFile + ". Reason:" + e.getMessage());
+				log.error("Error loading properties from file " + "/" + extraParametersFile + ". Reason:" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -101,17 +108,17 @@ public class InfoGlueAuthenticationFilter implements Filter
 	
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		
-		String sessionTimeout = CmsPropertyHandler.getProperty("session.timeout");
+		String sessionTimeout = PropertyHelper.getProperty("session.timeout");
 		if(sessionTimeout == null)
 		    sessionTimeout = "1800";
 		
 		session.setMaxInactiveInterval(new Integer(sessionTimeout).intValue());
 
 		// if our attribute's already present, don't do anything
-		//CmsLogger.logInfo("User:" + session.getAttribute(INFOGLUE_FILTER_USER));
+		//log.debug("User:" + session.getAttribute(INFOGLUE_FILTER_USER));
 		if (session != null && session.getAttribute(INFOGLUE_FILTER_USER) != null) 
 		{
-			//CmsLogger.logInfo("Found user in session:" + session.getAttribute(INFOGLUE_FILTER_USER));
+			//log.debug("Found user in session:" + session.getAttribute(INFOGLUE_FILTER_USER));
 		  	fc.doFilter(request, response);
 		  	return;
 		}
@@ -157,7 +164,7 @@ public class InfoGlueAuthenticationFilter implements Filter
   	{
   	    boolean isAuthorized = false;
 
-        CmsLogger.logInfo("authConstraint:" + authConstraint);
+        log.debug("authConstraint:" + authConstraint);
 
   	    if(authConstraint == null || authConstraint.equalsIgnoreCase(""))
   	        return true;
@@ -166,7 +173,7 @@ public class InfoGlueAuthenticationFilter implements Filter
   	    while(rolesIterator.hasNext())
   	    {
   	        InfoGlueRole role = (InfoGlueRole)rolesIterator.next();
-  	        CmsLogger.logInfo("role:" + role);
+  	        log.debug("role:" + role);
   	        if(role.getName().equalsIgnoreCase(authConstraint))
   	        {
   	            isAuthorized = true;
@@ -206,11 +213,11 @@ public class InfoGlueAuthenticationFilter implements Filter
 	{
 		AuthorizationModule authorizationModule = (AuthorizationModule)Class.forName(authorizerClass).newInstance();
 		authorizationModule.setExtraProperties(extraProperties);
-		CmsLogger.logInfo("authorizerClass:" + authorizerClass + ":" + authorizationModule.getClass().getName());
+		log.debug("authorizerClass:" + authorizerClass + ":" + authorizationModule.getClass().getName());
 		
 		InfoGluePrincipal infoGluePrincipal = authorizationModule.getAuthorizedInfoGluePrincipal(userName);
-		CmsLogger.logInfo("infoGluePrincipal:" + infoGluePrincipal);
-		CmsLogger.logInfo("roles:" + infoGluePrincipal.getRoles());
+		log.debug("infoGluePrincipal:" + infoGluePrincipal);
+		log.debug("roles:" + infoGluePrincipal.getRoles());
 		
 		return infoGluePrincipal;		
   	}
@@ -223,43 +230,44 @@ public class InfoGlueAuthenticationFilter implements Filter
 	{
 		try
 		{
-		    authenticatorClass 	= CmsPropertyHandler.getProperty("authenticatorClass");
-		    authorizerClass 	= CmsPropertyHandler.getProperty("authorizerClass");
-		    invalidLoginUrl 	= CmsPropertyHandler.getProperty("invalidLoginUrl");
-		    loginUrl 			= CmsPropertyHandler.getProperty("loginUrl");
-		    serverName 			= CmsPropertyHandler.getProperty("serverName");
-		    casRenew 			= CmsPropertyHandler.getProperty("casRenew");
-		    casServiceUrl 		= CmsPropertyHandler.getProperty("casServiceUrl");
-		    casValidateUrl 		= CmsPropertyHandler.getProperty("casValidateUrl");
+		    authenticatorClass 	= PropertyHelper.getProperty("authenticatorClass");
+		    authorizerClass 	= PropertyHelper.getProperty("authorizerClass");
+		    invalidLoginUrl 	= PropertyHelper.getProperty("invalidLoginUrl");
+		    loginUrl 			= PropertyHelper.getProperty("loginUrl");
+		    serverName 			= PropertyHelper.getProperty("serverName");
+		    casRenew 			= PropertyHelper.getProperty("casRenew");
+		    casServiceUrl 		= PropertyHelper.getProperty("casServiceUrl");
+		    casValidateUrl 		= PropertyHelper.getProperty("casValidateUrl");
 		    
-		    String extraPropertiesFile = CmsPropertyHandler.getProperty("extraPropertiesFile");
+		    String extraPropertiesFile = PropertyHelper.getProperty("extraPropertiesFile");
 		    
 		    if(extraPropertiesFile != null)
 			{
 				try
 				{
 					extraProperties = new Properties();
-					extraProperties.load(CmsPropertyHandler.class.getResourceAsStream("/" + extraPropertiesFile));	
+					extraProperties.load(PropertyHelper.class.getResourceAsStream("/" + extraPropertiesFile));	
 				}	
 				catch(Exception e)
 				{
-					CmsLogger.logSevere("Error loading properties from file " + "/" + extraPropertiesFile + ". Reason:" + e.getMessage());
+					log.error("Error loading properties from file " + "/" + extraPropertiesFile + ". Reason:" + e.getMessage());
 					e.printStackTrace();
 				}
 			}
 			    
-		    CmsLogger.logInfo("authenticatorClass:" + authenticatorClass);
-		    CmsLogger.logInfo("authorizerClass:" + authorizerClass);
-		    CmsLogger.logInfo("invalidLoginUrl:" + invalidLoginUrl);
-		    CmsLogger.logInfo("loginUrl:" + loginUrl);
-		    CmsLogger.logInfo("serverName:" + serverName);
-		    CmsLogger.logInfo("casRenew:" + casRenew);
-		    CmsLogger.logInfo("casServiceUrl:" + casServiceUrl);
-		    CmsLogger.logInfo("casValidateUrl:" + casValidateUrl);
+		    log.debug("authenticatorClass:" + authenticatorClass);
+		    log.debug("authorizerClass:" + authorizerClass);
+		    log.debug("invalidLoginUrl:" + invalidLoginUrl);
+		    log.debug("loginUrl:" + loginUrl);
+		    log.debug("serverName:" + serverName);
+		    log.debug("casRenew:" + casRenew);
+		    log.debug("casServiceUrl:" + casServiceUrl);
+		    log.debug("casValidateUrl:" + casValidateUrl);
 		}
 		catch(Exception e)
 		{
-			CmsLogger.logSevere("An error occurred so we should not complete the transaction:" + e, e);
+		    log.error("An error occurred so we should not complete the transaction:" + e, e);
+			log.error("An error occurred so we should not complete the transaction:" + e, e);
 			throw new SystemException("Setting the security parameters failed: " + e.getMessage(), e);
 		}
 	}

@@ -27,13 +27,10 @@ package org.infoglue.common.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.infoglue.cms.entities.kernel.BaseEntityVO;
-import org.infoglue.cms.entities.management.RoleVO;
-import org.infoglue.cms.exception.ConstraintException;
-import org.infoglue.cms.exception.SystemException;
-import org.infoglue.cms.security.AuthorizationModule;
-import org.infoglue.cms.security.InfoGlueAuthenticationFilter;
-import org.infoglue.cms.security.InfoGlueRole;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.common.exceptions.ConstraintException;
+import org.infoglue.common.exceptions.SystemException;
 
 /**
  * @author Mattias Bogeblad
@@ -43,6 +40,8 @@ import org.infoglue.cms.security.InfoGlueRole;
 
 public class RoleControllerProxy 
 {
+    private static final Log log = LogFactory.getLog(RoleControllerProxy.class);
+
 	private static AuthorizationModule authorizationModule = null;
 
 	public static RoleControllerProxy getController()

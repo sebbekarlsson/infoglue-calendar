@@ -21,7 +21,7 @@
 * ===============================================================================
 */
 
-package org.infoglue.calendar.util;
+package org.infoglue.common.util;
 
 import java.util.Properties;
 import java.io.*;
@@ -38,7 +38,7 @@ import java.util.Enumeration;
 * @author Mattias Bogeblad 
 */
 
-public class CalendarPropertyHelper
+public class PropertyHelper
 {
 	private static Properties cachedProperties = null;
 	private static File propertyFile = null;
@@ -64,7 +64,7 @@ public class CalendarPropertyHelper
 			if(propertyFile != null)
 			    cachedProperties.load(new FileInputStream(propertyFile));
 			else
-			    cachedProperties.load(CalendarPropertyHelper.class.getResourceAsStream("/calendar.properties"));
+			    cachedProperties.load(PropertyHelper.class.getResourceAsStream("/application.properties"));
 			
 		}	
 		catch(Exception e)

@@ -37,7 +37,7 @@ import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.util.CalendarHelper;
-import org.infoglue.calendar.util.CalendarPropertyHelper;
+import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
@@ -147,7 +147,7 @@ public abstract class CalendarAbstractAction extends ActionSupport
 	    
         try
         {
-            String contextRootPath = CalendarPropertyHelper.getProperty("calendarsPath");
+            String contextRootPath = PropertyHelper.getProperty("calendarsPath");
             
 			String file = contextRootPath + "event_" + event.getId() + ".vcs";
 	

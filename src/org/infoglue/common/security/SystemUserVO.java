@@ -21,7 +21,7 @@
  * ===============================================================================
  */
 
-package org.infoglue.cms.entities.management;
+package org.infoglue.common.security;
 
 
 import java.util.Iterator;

@@ -34,7 +34,7 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
+import org.infoglue.common.security.UserControllerProxy;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
@@ -219,13 +219,13 @@ public class CreateEventAction extends CalendarAbstractAction
         this.participantUserName = participantUserName;
     }
     
-    public List getUsers()
+    public List getInfogluePrincipals()
     {
-        return users;
+        return infogluePrincipals;
     }
     
-    public void setUsers(List users)
+    public void setInfogluePrincipals(List infogluePrincipals)
     {
-        this.users = users;
+        this.infogluePrincipals = infogluePrincipals;
     }
 }

@@ -51,6 +51,6 @@
 	<classpathentry kind="lib" path="webapps/WEB-INF/lib/webflow-2.1.6.jar"/>
 	<classpathentry kind="lib" path="webapps/WEB-INF/lib/webwork-migration.jar"/>
 	<classpathentry kind="lib" path="webapps/WEB-INF/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="/InfoGlue2/lib/build/casclient.jar"/>
+	<classpathentry kind="lib" path="lib/casclient.jar"/>
 	<classpathentry kind="output" path="webapps/WEB-INF/classes"/>
 </classpath>

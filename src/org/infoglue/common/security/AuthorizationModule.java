@@ -109,13 +109,13 @@ public interface AuthorizationModule
 	 * This method is used to create a new user.  
 	 */
 
-	public void createInfoGluePrincipal(SystemUserVO systemUserVO) throws Exception;
+	public void createInfoGluePrincipal(String userName, String password, String firstName, String lastName, String email) throws Exception;
 
 	/**
 	 * This method is used to update an existing user.  
 	 */
 
-	public void updateInfoGluePrincipal(SystemUserVO systemUserVO, String[] roleNames) throws Exception;
+	public void updateInfoGluePrincipal(String userName, String password, String firstName, String lastName, String email, String[] roleNames) throws Exception;
 
 	/**
 	 * This method is used to send out a newpassword to an existing users.  
@@ -134,13 +134,13 @@ public interface AuthorizationModule
 	 * This method is used to create a new rol.  
 	 */
 
-	public void createInfoGlueRole(RoleVO roleVO) throws Exception;
+	public void createInfoGlueRole(String roleName, String description) throws Exception;
 
 	/**
 	 * This method is used to update an existing role.  
 	 */
 
-	public void updateInfoGlueRole(RoleVO roleVO, String[] userNames) throws Exception;
+	public void updateInfoGlueRole(String roleName, String description, String[] userNames) throws Exception;
 
 	/**
 	 * This method is used to delete an existing role.  

@@ -21,15 +21,17 @@
  * ===============================================================================
  */
 
-package org.infoglue.cms.entities.management;
+package org.infoglue.common.security;
 
-import org.infoglue.cms.util.validators.*;
-import org.infoglue.cms.entities.kernel.BaseEntityVO;
-import org.infoglue.cms.entities.management.impl.simple.RoleImpl;
-import org.infoglue.cms.util.ConstraintExceptionBuffer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.common.exceptions.ConstraintException;
 
-public class RoleVO  implements BaseEntityVO
+
+public class RoleVO
 {
+    private static final Log log = LogFactory.getLog(RoleVO.class);
+
 	private java.lang.String roleName;
 	private java.lang.String description;
   
@@ -71,9 +73,9 @@ public class RoleVO  implements BaseEntityVO
 	 * @see org.infoglue.cms.entities.kernel.BaseEntityVO#validate()
 	 */
 	
-	public ConstraintExceptionBuffer validate() 
+	public ConstraintException validate() 
 	{
-    	ConstraintExceptionBuffer ceb = new ConstraintExceptionBuffer();
+    	ConstraintException ceb = new ConstraintException();
     	if (roleName != null) ValidatorFactory.createStringValidator("Role.roleName", true, 3, 50, true, RoleImpl.class, this.getId(), this.getRoleName()).validate(roleName, ceb);
 		if (description != null) ValidatorFactory.createStringValidator("Role.description", true, 1, 100).validate(description, ceb); 
 
