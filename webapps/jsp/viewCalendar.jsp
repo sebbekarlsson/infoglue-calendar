@@ -186,7 +186,7 @@
 <ww:iterator value="calendar.events">
 <p>
 <a href="ViewEvent.action?eventId=<ww:property value="id"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
-<ww:property value="description"/>
+<ww:property value="description"/> <a href="<ww:property value="this.getVCalendar(top)"/>">vCal A<ww:property value="this.getVCalendar(top)"/>A </a>
 </p>
 </ww:iterator>
 </div>

@@ -23,6 +23,7 @@
 
 package org.infoglue.calendar.actions;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -36,8 +37,10 @@ import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
+import org.infoglue.calendar.util.CalendarHelper;
 import org.infoglue.common.util.DBSessionWrapper;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 import com.sun.rsasign.j;
@@ -327,6 +330,20 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.mode = mode;
     }
 
+    public String getVCalendar(Event event) throws Exception
+    {
+        String contextRootPath = ServletActionContext.getServletContext().getRealPath("/");
+		if(!contextRootPath.endsWith("/") && !contextRootPath.endsWith("\\")) 
+			contextRootPath = contextRootPath + "/";
+		
+		String file = contextRootPath + "calendars" + File.separator + "event_" + event.getId() + ".vcs";
+
+        CalendarHelper.getCalendarHelper().getVCalendar(event, file);
+
+        System.out.println("calendars" + File.separator + "event_" + event.getId() + ".vcs");
+		return "calendars" + File.separator + "event_" + event.getId() + ".vcs";
+    }
+    
     public String getFormattedStartDate()
     {
         Date parsedDate = this.parseDate(startDateTime, "yyyy-MM-dd");
