@@ -40,6 +40,7 @@ import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
+import com.sun.rsasign.j;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -55,8 +56,12 @@ public class ViewCalendarAction extends CalendarAbstractAction
     private String startDateTime;
     private String endDateTime;
     
+    private java.util.Calendar startCalendar = null;
+    private java.util.Calendar endCalendar = null;
+    
     private Calendar calendar;
     private List events;
+    private List dates;
     
     /**
      * This is the entry point for the main listing.
@@ -66,36 +71,74 @@ public class ViewCalendarAction extends CalendarAbstractAction
     {
         this.calendar = CalendarController.getController().getCalendar(calendarId);
         
-        java.util.Calendar startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
-        java.util.Calendar endCalendar 	 = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23));
+        this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
+        this.endCalendar   = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23));
+        System.out.println("startDateTime:" + startDateTime);
+        System.out.println("startCalendar:" + startCalendar.getTime());
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(new Date(startCalendar.getTime().getTime()));
         
         this.events = EventController.getController().getEventList(calendarId, startCalendar, endCalendar);
+        this.dates = getDateList(calendar);
+            
+        System.out.println("startCalendar:" + startCalendar.getTime());
         
         return Action.SUCCESS;
     } 
 
+    /**
+     * Gets all dates that should be shown
+     * @param hour
+     * @return
+     */
+    
+    private List getDateList(java.util.Calendar calendar)
+    {
+        System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
+        System.out.println("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        System.out.println("DATE:" + startCalendar.getTime());
+        calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 12);
+        System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
+        System.out.println("DAY_OF_WEEK_IN_MONTH: " + startCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        System.out.println("DATE:" + calendar.getTime());
+           
+        List dateList = new ArrayList();
+        for(int i=0; i<7; i++)
+        {
+            System.out.println("DATE:" + calendar.getTime());
+            dateList.add(calendar.getTime());
+            calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        }
+        
+        return dateList;
+    }
+    
     /**
      * 
      * @param hour
      * @return
      */
 
-    public List getEvents(String hour)
+    public List getEvents(Date date, String hour)
     {
-        System.out.println("getEvents with hour:" + hour);
+        System.out.println("getEvents with hour:" + date + ":" + hour);
         List hourEvents = new ArrayList();
+        
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(date);
         
         Iterator eventIterator = this.events.iterator();
         while(eventIterator.hasNext())
         {
             Event event = (Event)eventIterator.next();
-            if(mode.equalsIgnoreCase("day") && event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) == Integer.parseInt(hour))
+            if(mode.equalsIgnoreCase("day") && event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR) && event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) == Integer.parseInt(hour))
             {
                 hourEvents.add(event);
             }
         }
         
-        System.out.println("returning:" + hourEvents.size());
+        //System.out.println("returning:" + hourEvents.size());
         
         return hourEvents;
     }
@@ -146,6 +189,11 @@ public class ViewCalendarAction extends CalendarAbstractAction
         return this.formatDate(parsedDate, pattern);
     }
 
+    public String getFormattedDate(Date date, String pattern)
+    {
+        return this.formatDate(date, pattern);
+    }
+
     public String getEndDateTime()
     {
         return endDateTime;
@@ -174,5 +222,20 @@ public class ViewCalendarAction extends CalendarAbstractAction
     public void setStartDateTime(String startDateTime)
     {
         this.startDateTime = startDateTime;
+    }
+    
+    public List getDates()
+    {
+        return dates;
+    }
+        
+    public java.util.Calendar getStartCalendar()
+    {
+        return startCalendar;
+    }
+
+    public java.util.Calendar getEndCalendar()
+    {
+        return endCalendar;
     }
 }

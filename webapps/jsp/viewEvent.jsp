@@ -44,12 +44,38 @@
 			
 			Location: 
       		
-      		<ww:select label="'Location'" name="'locationId'" listKey="id" listValue="name" list="locations" value="id" multiple="true"/> 
-			
+      		<select name="locationId" multiple="true">
+	      		<ww:iterator value="locations">
+	      			<ww:set name="location" value="top"/>
+		      		<ww:iterator value="event.locations">
+		      			<ww:if test="top.id == #location.id">
+		      				<option value="<ww:property value='#location.id'/>" selected="1"><ww:property value="#location.name"/></option>
+						</ww:if>
+						
+						<ww:else>
+						   <option value="<ww:property value='#location.id'/>"><ww:property value="#location.name"/></option>
+						</ww:else>
+					</ww:iterator>
+	      		</ww:iterator>
+      		</select>
+      		   
       		Category:
       		
-      		<ww:select label="'Category'" name="'categoryId'" listKey="id" listValue="name" list="categories" value="id" multiple="true"/> 
-			
+      		<select name="categoryId" multiple="true">
+	      		<ww:iterator value="categories">
+	      			<ww:set name="category" value="top"/>
+		      		<ww:iterator value="event.categories">
+		      			<ww:if test="top.id == #category.id">
+		      				<option value="<ww:property value='#category.id'/>" selected="1"><ww:property value="#category.name"/></option>
+						</ww:if>
+						
+						<ww:else>
+						   <option value="<ww:property value='#category.id'/>"><ww:property value="#category.name"/></option>
+						</ww:else>
+					</ww:iterator>
+	      		</ww:iterator>
+      		</select>
+      		
 			<input type="submit">
 		</form>
 	</div>

@@ -3,7 +3,6 @@
 .calendar {
   position: relative;
   display: none;
-  border: 1px solid;
   border-color: #fff #000 #000 #fff;
   font-size: 11px;
   cursor: default;
@@ -15,7 +14,7 @@
 }
 
 .calendar table {
-  border: 1px solid;
+  border-right: 1px solid black;
   border-color: #fff #000 #000 #fff;
   font-size: 11px;
   cursor: default;

@@ -21,10 +21,10 @@
 		<ww:iterator value="administrationUCCBean.calendars" status="rowstatus">
 		<p>
 			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>.<ww:property value="name"/> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
+		    	<span class="marked"><ww:property value="id"/>.<a href="ViewCalendar.action?calendarId=<ww:property value="id"/>"><ww:property value="name"/></a> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
 		    </ww:if>
 		    <ww:else>
-		    	<span><ww:property value="id"/>.<ww:property value="name"/> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
+		    	<span><ww:property value="id"/>.<a href="ViewCalendar.action?calendarId=<ww:property value="id"/>"><ww:property value="name"/></a> : <a href="ViewCalendar.action?calendarId=<ww:property value="id"/>">Edit</a> : <a href="DeleteCalendar.action?calendarId=<ww:property value="id"/>">Delete</a></span>
 		    </ww:else>
 		</p>
 		</ww:iterator>
