@@ -68,42 +68,50 @@
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 			
 			<p>
-				name:<br>
+				<span class="label">Namn:</span><br>
 				<input type="textfield" name="name" value="<ww:property value="event.name"/>" class="normalInput">
 			</p>
 			<p>
-				description:<br> 
+				<span class="label">Beskrivning:</span><br> 
 				<input type="textfield" name="description" value="<ww:property value="event.description"/>" class="normalInput">
 			</p>
 			<p>
-				<div style="height: 25px;">
-					<div style="float: left">
-						startDateTime:<br> 
+				<table border="0" cellspacing="0">
+				<tr>
+					<td><span class="label">Startdatum:</span></td> 
+					<td><span class="label">Starttid:</span></td> 
+				</tr>
+				<tr>
+					<td width="20%" nowrap>
 						<input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
 						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
-					</div>
-					<div style="float: left">
-						StartTime:<br> 
+					</td>				
+					<td>
 						<input type="textfield" name="startTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>" class="hourInput">
-	      			</div>
-				</div>
+					</td>				
+				</tr>
+				</table>
 			</p>    
 			<p>
-				<div style="height: 25px;">
-					<div style="float: left">
-						endDateTime:<br>
+				<table border="0">
+				<tr>
+					<td><span class="label">Slutdatum:</span></td> 
+					<td><span class="label">Sluttid:</span></td> 
+				</tr>
+				<tr>
+					<td width="20%" nowrap>
 						<input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
 						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
-					</div>
-					<div style="float: left">
-		      			EndTime:<br>
+					</td>				
+					<td>
 		      			<input type="textfield" name="endTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>" class="hourInput">
-	      			</div>
-				</div>
+					</td>				
+				</tr>
+				</table>				
 			</p>
 			
        		<p>
-	      		Location (Hold shift to select multiple):<br>
+	      		<span class="label">Plats (Håll ner Ctrl för att välja flera):</span><br>
 				<select name="locationId" multiple="true" class="listBox">
 	      		<ww:iterator value="locations">
 	      			<ww:set name="location" value="top"/>
@@ -120,7 +128,7 @@
       			</select>
   			</p>
 			<p>
-	      		Category (Hold shift to select multiple):<br>
+	      		<span class="label">Kategori (Håll ner Ctrl för att välja flera):</span><br>
 				<select name="categoryId" multiple="true" class="listBox">
 		      		<ww:iterator value="categories">
 		      			<ww:set name="category" value="top"/>
@@ -137,7 +145,7 @@
 	      		</select>
 	       	</p>
 	       	<p>  		
-      			Participants (Hold shift to select multiple):<br>
+      			<span class="label">Deltagare (Håll ner Ctrl för att välja flera):</span><br>
 	      		<select name="participantUserName" multiple="true" class="listBox">
 	      			<ww:iterator value="participatingPrincipals">
 		      			<option value="<ww:property value='top.name'/>" selected="1"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>
@@ -149,7 +157,7 @@
 	      		</select>
       		</p>
 			<p>
-				Attached files:<br>
+				<span class="label">Attached files:</span><br>
 				<ww:iterator value="event.resources">
 					<a href="<ww:property value='this.getResourceUrl(top.id)'/>"><ww:property value='assetKey'/></a><br>     			
 	      		</ww:iterator>

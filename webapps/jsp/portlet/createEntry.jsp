@@ -24,7 +24,7 @@
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Create new entry
+		Anmälan till event
 	</div>
 
 	<div id="contentList">
@@ -34,12 +34,19 @@
 		</portlet:actionURL>
 
 		<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
-			<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
-			First name: <input type="textfield" class="normalInput" name="firstName" value="">
-			Last name: <input type="textfield" class="normalInput" name="lastName" value="">
-			E-mail: <input type="textfield" class="normalInput" name="email" value="">
-			<br><br>
-			<input type="submit">
+		<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
+		<p>	
+			Förnamn: <br/><input type="textfield" class="normalInput" name="firstName" value="">
+		</p>
+		<p>
+			Efternamn: <br/><input type="textfield" class="normalInput" name="lastName" value="">
+		</p>
+		<p>
+			E-post: <br/><input type="textfield" class="normalInput" name="email" value="">
+		</p>
+		<p>
+			<input type="submit" value="Spara">
+		</p>
 		</form>
 	</div>
 

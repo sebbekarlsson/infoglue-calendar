@@ -49,8 +49,7 @@ public class InfoGlueAuthenticationFilter implements Filter
 
 	public final static String INFOGLUE_FILTER_USER = "org.infoglue.cms.security.user";
 	
-	/*
- 	public static String loginUrl 				= null;
+	public static String loginUrl 				= null;
 	public static String invalidLoginUrl 		= null;
 	public static String authenticatorClass 	= null;
 	public static String authorizerClass 		= null;
@@ -61,33 +60,20 @@ public class InfoGlueAuthenticationFilter implements Filter
 	public static String casValidateUrl			= null;
 	public static String casServiceUrl			= null;
 	public static String casRenew				= null;
- 	*/
+ 	
 	public void init(FilterConfig config) throws ServletException 
 	{
-		loginUrl 			= config.getInitParameter("org.infoglue.cms.security.loginUrl");
-		invalidLoginUrl 	= config.getInitParameter("org.infoglue.cms.security.invalidLoginUrl");
-		authenticatorClass 	= config.getInitParameter("org.infoglue.cms.security.authenticatorClass");
-		authorizerClass 	= config.getInitParameter("org.infoglue.cms.security.authorizerClass");
-		serverName  		= config.getInitParameter("org.infoglue.cms.security.serverName");
-		authConstraint 		= config.getInitParameter("org.infoglue.cms.security.authConstraint");
-		extraParametersFile	= config.getInitParameter("org.infoglue.cms.security.extraParametersFile");
-		casValidateUrl		= config.getInitParameter("org.infoglue.cms.security.casValidateUrl");
-		casServiceUrl		= config.getInitParameter("org.infoglue.cms.security.casServiceUrl");
-		//casRenew			= config.getInitParameter("org.infoglue.cms.security.casRenew");
+		loginUrl 			= SecurityConstants.loginUrl;
+		invalidLoginUrl 	= SecurityConstants.invalidLoginUrl;
+		authenticatorClass 	= SecurityConstants.authenticatorClass;
+		authorizerClass 	= SecurityConstants.authorizerClass;
+		serverName  		= SecurityConstants.serverName;
+		authConstraint 		= SecurityConstants.authConstraint;
+		casValidateUrl		= SecurityConstants.casValidateUrl;
+		casServiceUrl		= SecurityConstants.casServiceUrl;
+		casRenew			= SecurityConstants.casRenew;
 			    
-		if(extraParametersFile != null)
-		{
-			try
-			{
-				extraProperties = new Properties();
-				extraProperties.load(PropertyHelper.class.getResourceAsStream("/" + extraParametersFile));	
-			}	
-			catch(Exception e)
-			{
-				log.error("Error loading properties from file " + "/" + extraParametersFile + ". Reason:" + e.getMessage());
-				e.printStackTrace();
-			}
-		}
+		extraProperties 	= SecurityConstants.extraProperties;
 	}
 
 

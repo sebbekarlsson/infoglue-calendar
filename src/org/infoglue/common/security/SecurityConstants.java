@@ -35,12 +35,20 @@ public class SecurityConstants
     
     public static Properties extraProperties = null;
 	
-	public static String authConstraint;
-	public static String driverClass;
-	public static String connectionUrl;
-	public static String connectionUserName;
-	public static String connectionPassword;
-	public static String authorizerClass;
+	public static String authConstraint			= null;
+	public static String driverClass			= null;
+	public static String connectionUrl			= null;
+	public static String connectionUserName		= null;
+	public static String connectionPassword		= null;
+	public static String authorizerClass		= null;
+	
+	public static String loginUrl 				= null;
+	public static String invalidLoginUrl 		= null;
+	public static String authenticatorClass 	= null;
+	public static String serverName	 			= null;
+	public static String casValidateUrl			= null;
+	public static String casServiceUrl			= null;
+	public static String casRenew				= null;
 	
 	static 
 	{
@@ -53,12 +61,21 @@ public class SecurityConstants
 			extraProperties = new Properties();
 			extraProperties.load(SecurityConstants.class.getResourceAsStream("/infoglueSecurity.properties"));
 		
-			authConstraint 		= extraProperties.getProperty("org.infoglue.common.security.authConstraint");
 			driverClass 		= extraProperties.getProperty("org.infoglue.common.security.jdbc.driverClass");
 			connectionUrl 		= extraProperties.getProperty("org.infoglue.common.security.jdbc.connectionUrl");
 			connectionUserName 	= extraProperties.getProperty("org.infoglue.common.security.jdbc.connectionUserName", "");
 			connectionPassword 	= extraProperties.getProperty("org.infoglue.common.security.jdbc.connectionPassword", "");
+			
+			loginUrl 			= extraProperties.getProperty("org.infoglue.common.security.loginUrl");
+			invalidLoginUrl 	= extraProperties.getProperty("org.infoglue.common.security.invalidLoginUrl");
+			authConstraint 		= extraProperties.getProperty("org.infoglue.common.security.authConstraint");
 			authorizerClass 	= extraProperties.getProperty("org.infoglue.common.security.authorizerClass");
+			authenticatorClass 	= extraProperties.getProperty("org.infoglue.common.security.authenticatorClass");
+			serverName 			= extraProperties.getProperty("org.infoglue.common.security.serverName");
+
+			casValidateUrl 		= extraProperties.getProperty("org.infoglue.common.security.cas.validateUrl");
+			casServiceUrl 		= extraProperties.getProperty("org.infoglue.common.security.cas.serviceUrl");
+			casRenew 			= extraProperties.getProperty("org.infoglue.common.security.cas.renew");			
 			
 			log.debug("authorizerClass:" + authorizerClass);
 			log.debug("connectionUserName:" + connectionUserName);
