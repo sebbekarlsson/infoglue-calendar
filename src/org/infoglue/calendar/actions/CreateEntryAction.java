@@ -23,33 +23,36 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.portlet.PortletURL;
+
 import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
-import org.infoglue.calendar.controllers.ResourceController;
-import org.infoglue.calendar.entities.Event;
-import org.infoglue.calendar.entities.Location;
+import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
+import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 
 /**
- * This action represents a Location Administration screen.
+ * This action represents a Calendar Administration screen.
  * 
  * @author Mattias Bogeblad
  */
 
-public class ViewEventAction extends CalendarAbstractAction
+public class CreateEntryAction extends CalendarAbstractAction
 {
-    private Long eventId;
-    private Event event;
+    private String firstName;
+    private String lastName;
+    private String email;
     
-    private Long calendarId;
-    private String mode = "day";
-
-    private List locations;
-    private List categories;
+    private Long eventId;
     
     /**
      * This is the entry point for the main listing.
@@ -57,39 +60,53 @@ public class ViewEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.event = EventController.getController().getEvent(eventId);
-        this.calendarId = this.event.getCalendar().getId();
-        this.locations 	= LocationController.getController().getLocationList();
-        this.categories = CategoryController.getController().getCategoryList();
-
+        System.out.println("eventId:" + eventId);
+        System.out.println("firstName:" + firstName);
+        System.out.println("lastName:" + lastName);
+        System.out.println("email:" + email);
+        
+        EntryController.getController().createEntry(firstName, lastName, email, eventId);
+        
         return Action.SUCCESS;
     } 
 
     /**
-     * This is the entry point for the main listing.
+     * This is the entry point creating a new calendar.
      */
     
-    public String doViewPublic() throws Exception 
+    public String input() throws Exception 
     {
-        execute();
-
-        return "successPublic";
+        return Action.INPUT;
     } 
     
-    public String getResourceUrl(Long resourceId) throws Exception
+    public String getEmail()
     {
-        return ResourceController.getController().getResourceUrl(resourceId);
+        return email;
     }
     
-    
-    public Event getEvent()
+    public void setEmail(String email)
     {
-        return event;
+        this.email = email;
     }
     
-    public void setEvent(Event event)
+    public String getFirstName()
     {
-        this.event = event;
+        return firstName;
+    }
+    
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
+    
+    public String getLastName()
+    {
+        return lastName;
+    }
+    
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
     }
     
     public Long getEventId()
@@ -100,30 +117,5 @@ public class ViewEventAction extends CalendarAbstractAction
     public void setEventId(Long eventId)
     {
         this.eventId = eventId;
-    }
-    
-    public List getCategories()
-    {
-        return categories;
-    }
-    
-    public List getLocations()
-    {
-        return locations;
-    }
-    
-    public Long getCalendarId()
-    {
-        return calendarId;
-    }
-        
-    public String getMode()
-    {
-        return mode;
-    }
-    
-    public void setMode(String mode)
-    {
-        this.mode = mode;
     }
 }

@@ -63,6 +63,7 @@
 		</action>
 		<action name="ViewEvent" class="org.infoglue.calendar.actions.ViewEventAction">
 			<result name="success" type="dispatcher">jsp/viewEvent.jsp</result>
+			<result name="successPublic" type="dispatcher">jsp/viewEventPublic.jsp</result>
 		</action>
 		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
 			<result name="success" type="redirect">
@@ -76,6 +77,38 @@
 				<param name="parse">true</param>
 			</result>
 		</action>
+
+		<!-- ENTRY ACTIONS -->
+		<action name="CreateEntry" class="org.infoglue.calendar.actions.CreateEntryAction">
+			<result name="input" type="dispatcher">jsp/createEntry.jsp</result>
+			<result name="success" type="redirect">
+				<param name="location">ViewEvent.action?eventId=${eventId}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		<action name="ViewEntrySearch" class="org.infoglue.calendar.actions.ViewEntrySearchAction">
+			<result name="input" type="dispatcher">jsp/viewEntrySearch.jsp</result>
+			<result name="success" type="dispatcher">jsp/viewEntrySearch.jsp</result>
+		</action>
+		<!--
+		<action name="ViewEvent" class="org.infoglue.calendar.actions.ViewEventAction">
+			<result name="success" type="dispatcher">jsp/viewEvent.jsp</result>
+			<result name="successPublic" type="dispatcher">jsp/viewEventPublic.jsp</result>
+		</action>
+		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
+			<result name="success" type="redirect">
+				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
+			<result name="success" type="redirect">
+				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		-->
+
 	</package>
 	
 	<package name="mypackage" namespace="/WebworkDispatcherPortlet" extends="portletwork-default">

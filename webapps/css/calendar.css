@@ -35,7 +35,7 @@ A:active
 
 
 #pagewidth		 { text-align: left; margin-right: auto; margin-left: auto; width: 760px; min-width: 500px; outline: solid 1px #000 } 
-#header   		 { font-family: Verdana, Arial, Helvetica, sans-serif; background-color: #575757; background-image: url("../images/header.jpg"); width: 100%; height: 50px; border-bottom: 1px solid black } 
+#header   		 { font-family: Verdana, Arial, Helvetica, sans-serif; background-color: #575757; background-image: url("header.jpg"); width: 100%; height: 50px; border-bottom: 1px solid black } 
 #leftcol  		  { background-color: #f2f2f2; margin-right: 1px; margin-bottom: -1px; margin-left: -200px; position: relative; width: 200px; float: left; border-right: 1px solid #bebebe }
 #outer			{ 
 				border:solid white 0px; 
@@ -58,7 +58,7 @@ p  				{ font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif }
 .header   		 { color: white; font-size: 14px; font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; margin-top: 1em; margin-left: 0.2em }
 .attachment   	 { }
 .event_done   	 { color: gray }
-.event_active   { color: black; background-image: url("../images/pil.gif"); background-repeat: no-repeat; background-position: 0 3px; margin-left: -8px; padding-left: 8px }
+.event_active   { color: black; background-image: url("pil.gif"); background-repeat: no-repeat; background-position: 0 3px; margin-left: -8px; padding-left: 8px }
 .event_comming  { color: black; }
 .manual 		{ }
 .upload 		{ border-top: 1px solid #ccc; border-bottom: 1px solid #ccc }
@@ -67,7 +67,6 @@ p  				{ font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif }
 .workflow 		{ border-top: 3px double #bebebe; border-bottom: 5px solid #000000 }
 .rubrik 		   { color: black; font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; background-color: #dfdfdf; padding-top: 0; padding-bottom: 0; padding-left: 8px; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #ccc }
 
-.longtextfield	{ width: 400px; height: 16px; border: 1px solid gray;}
 
  /*printer styles*/ 
 @media print	{ 

@@ -24,6 +24,7 @@
         <mapping resource="Location.hbm.xml"/>
         <mapping resource="Participant.hbm.xml"/>
         <mapping resource="Resource.hbm.xml"/>
+        <mapping resource="Entry.hbm.xml"/>
 		<!--
         <mapping resource="conf/org/infoglue/calendar/entities/Calendar.hbm.xml"/>
         <mapping resource="conf/org/infoglue/calendar/entities/Category.hbm.xml"/>
