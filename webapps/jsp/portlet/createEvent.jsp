@@ -97,8 +97,8 @@
     		<p>  		
       			Participants (Hold shift to select multiple):<br>
 	      		<select name="participantUserName" multiple="true" class="listBox">
-		      		<ww:iterator value="users">
-		      			<option value="<ww:property value='top'/>"><ww:property value="top"/></option>
+		      		<ww:iterator value="infogluePrincipals">
+		      			<option value="<ww:property value='top.name'/>"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>
 		      		</ww:iterator>
 	      		</select>
 			</p>

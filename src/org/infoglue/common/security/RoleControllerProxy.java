@@ -59,8 +59,8 @@ public class RoleControllerProxy
 		{
 			try
 			{
-				authorizationModule = (AuthorizationModule)Class.forName(InfoGlueAuthenticationFilter.authorizerClass).newInstance();
-				authorizationModule.setExtraProperties(InfoGlueAuthenticationFilter.extraProperties);
+				authorizationModule = (AuthorizationModule)Class.forName(SecurityConstants.authorizerClass).newInstance();
+				authorizationModule.setExtraProperties(SecurityConstants.extraProperties);
 			}
 			catch(Exception e)
 			{
@@ -142,22 +142,22 @@ public class RoleControllerProxy
 	 * This method creates a new role
 	 */
 	
-	public InfoGlueRole createRole(RoleVO roleVO) throws ConstraintException, SystemException, Exception
+	public InfoGlueRole createRole(String roleName, String description) throws ConstraintException, SystemException, Exception
 	{
 		InfoGlueRole infoGlueRole = null;
     	
-		getAuthorizationModule().createInfoGlueRole(roleVO);
+		getAuthorizationModule().createInfoGlueRole(roleName, description);
     	
-		return getRole(roleVO.getRoleName());
+		return getRole(roleName);
 	}
 
 	/**
 	 * This method updates an existing role
 	 */
 	
-	public void updateRole(RoleVO roleVO, String[] userNames) throws ConstraintException, SystemException, Exception
+	public void updateRole(String roleName, String description, String[] userNames) throws ConstraintException, SystemException, Exception
 	{
-		getAuthorizationModule().updateInfoGlueRole(roleVO, userNames);
+		getAuthorizationModule().updateInfoGlueRole(roleName, description, userNames);
 	}
 
 	/**
@@ -167,12 +167,6 @@ public class RoleControllerProxy
 	public void deleteRole(String roleName) throws ConstraintException, SystemException, Exception
 	{
 		getAuthorizationModule().deleteInfoGlueRole(roleName);
-		AccessRightController.getController().delete(roleName);
-	}
-	
-	public BaseEntityVO getNewVO()
-	{
-		return null;
 	}
  
 }

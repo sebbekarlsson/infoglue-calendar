@@ -76,7 +76,7 @@
 				<input type="textfield" name="description" value="<ww:property value="event.description"/>" class="normalInput">
 			</p>
 			<p>
-				<div style="position: relative; height: 25px;">
+				<div style="height: 25px;">
 					<div style="float: left">
 						startDateTime:<br> 
 						<input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
@@ -89,7 +89,7 @@
 				</div>
 			</p>    
 			<p>
-				<div style="position: relative; height: 25px;">
+				<div style="height: 25px;">
 					<div style="float: left">
 						endDateTime:<br>
 						<input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
@@ -136,27 +136,18 @@
 		      		</ww:iterator>
 	      		</select>
 	       	</p>
-    		<p>  		
+	       	<p>  		
       			Participants (Hold shift to select multiple):<br>
 	      		<select name="participantUserName" multiple="true" class="listBox">
-	      		<ww:iterator value="{'Per', 'Mattias', 'Claes', 'Lena', 'Helena', 'Håkan'}">
-	      			
-	      			<option value="<ww:property value='top'/>" selected="1"><ww:property value="top"/></option>
-	      			<!--
-	      			<ww:set name="userName" value="top"/>
-		      		<ww:iterator value="event.participants">
-		      			<ww:if test="top.userName == #userName">
-		      				<option value="<ww:property value='#userName'/>" selected="1"><ww:property value="#userName"/></option>
-						</ww:if>
-						
-						<ww:else>
-						   <option value="<ww:property value='#userName'/>"><ww:property value="#userName"/></option>
-						</ww:else>
-					</ww:iterator>
-					-->
-	      		</ww:iterator>
-      		</select>
-			</p>
+	      			<ww:iterator value="participatingPrincipals">
+		      			<option value="<ww:property value='top.name'/>" selected="1"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>
+		      		</ww:iterator>
+		      		<option value="">-------------------</option>
+		      		<ww:iterator value="infogluePrincipals">
+		      			<option value="<ww:property value='top.name'/>"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>
+		      		</ww:iterator>
+	      		</select>
+      		</p>
 			<p>
 				Attached files:<br>
 				<ww:iterator value="event.resources">
@@ -165,12 +156,12 @@
 	      		<a href="javascript:showUploadForm();">Add resource</a>
 			</p>
 			<p>
+				<br>
 				<ww:set name="eventId" value="eventId" scope="page"/>
 				<portlet:renderURL var="createEntryRenderURL">
 					<portlet:param name="action" value="CreateEntry!input"/>
 					<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 				</portlet:renderURL>
-				
 				<a href="<c:out value="${createEntryRenderURL}"/>">Sign up for this event</a>
 			</p>
 			<p>

@@ -23,6 +23,8 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.infoglue.calendar.controllers.CategoryController;
@@ -33,6 +35,8 @@ import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
+import org.infoglue.common.security.InfoGluePrincipal;
+import org.infoglue.common.security.UserControllerProxy;
 
 import com.opensymphony.xwork.Action;
 
@@ -52,6 +56,8 @@ public class ViewEventAction extends CalendarAbstractAction
 
     private List locations;
     private List categories;
+    private List infogluePrincipals;
+    private List participatingPrincipals = new ArrayList();
     
     /**
      * This is the entry point for the main listing.
@@ -63,7 +69,35 @@ public class ViewEventAction extends CalendarAbstractAction
         this.calendarId = this.event.getCalendar().getId();
         this.locations 	= LocationController.getController().getLocationList();
         this.categories = CategoryController.getController().getCategoryList();
+        
+        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+        this.participatingPrincipals.addAll(this.infogluePrincipals);
+        
+        System.out.println("this.infogluePrincipals:" + this.infogluePrincipals.size());
+        System.out.println("this.participatingPrincipals:" + this.participatingPrincipals.size());
 
+        Iterator participatingPrincipalsIterator = this.participatingPrincipals.iterator();
+        while(participatingPrincipalsIterator.hasNext())
+        {
+            InfoGluePrincipal infogluePrincipal = (InfoGluePrincipal)participatingPrincipalsIterator.next();
+            boolean isParticipant = false;
+            Iterator participantsInterator = this.event.getParticipants().iterator();
+            while(participantsInterator.hasNext())
+            {
+                Participant participant = (Participant)participantsInterator.next();
+                if(participant.getUserName().equals(infogluePrincipal.getName()))
+                    isParticipant = true;
+            }
+            
+            if(!isParticipant)
+                participatingPrincipalsIterator.remove();
+            else
+                infogluePrincipals.remove(infogluePrincipal);
+        }
+        
+        System.out.println("this.infogluePrincipals:" + this.infogluePrincipals.size());
+        System.out.println("this.participatingPrincipals:" + this.participatingPrincipals.size());
+        
         return Action.SUCCESS;
     } 
 
@@ -116,5 +150,15 @@ public class ViewEventAction extends CalendarAbstractAction
     public void setMode(String mode)
     {
         this.mode = mode;
+    }
+    
+    public List getInfogluePrincipals()
+    {
+        return infogluePrincipals;
+    }
+    
+    public List getParticipatingPrincipals()
+    {
+        return participatingPrincipals;
     }
 }

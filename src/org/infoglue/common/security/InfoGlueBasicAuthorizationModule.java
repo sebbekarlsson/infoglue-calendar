@@ -23,6 +23,10 @@
 
 package org.infoglue.common.security;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -31,6 +35,8 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.infoglue.common.exceptions.Bug;
+import org.infoglue.common.exceptions.SystemException;
 import org.infoglue.common.util.PropertyHelper;
 
 
@@ -43,9 +49,27 @@ import org.infoglue.common.util.PropertyHelper;
 public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 {
     private static final Log log = LogFactory.getLog(InfoGlueBasicAuthorizationModule.class);
+    	
+    private Properties extraProperties;
     
-	private Properties extraProperties = null;
+	private Connection getConnection() throws Exception
+	{	    
+        Class clazz = Class.forName(SecurityConstants.driverClass);
+        Driver driver = (Driver)clazz.newInstance();
 
+        Properties props = new Properties();
+        
+        System.out.println("SecurityConstants.connectionUserName:" + SecurityConstants.connectionUserName);
+        System.out.println("SecurityConstants.connectionPassword:" + SecurityConstants.connectionPassword);
+        props.put("user", SecurityConstants.connectionUserName);
+        props.put("password", SecurityConstants.connectionPassword);
+        
+        Connection conn = driver.connect(SecurityConstants.connectionUrl, props);
+        conn.setAutoCommit(false);
+        
+        return conn;
+   	}
+	
 	/**
 	 * Gets is the implementing class can update as well as read 
 	 */
@@ -94,31 +118,34 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 		{	
 			List roles = new ArrayList();
 			
-			Database db = CastorDatabaseService.getDatabase();
-
-			try 
+			Connection conn = getConnection();
+	        
+		    String sql = "SELECT * FROM cmSystemUser WHERE userName = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userName);
+			
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) 
 			{
-				beginTransaction(db);
+			    sql = "SELECT * FROM cmSystemUser, cmSystemUserRole, cmRole WHERE cmSystemUser.userName = cmSystemUserRole.userName AND cmRole.roleName = cmSystemUserRole.roleName AND cmSystemUser.userName = ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, userName);
 				
-				SystemUser systemUser = SystemUserController.getController().getSystemUserWithName(userName, db);
-				Iterator roleListIterator = systemUser.getRoles().iterator();
-				while(roleListIterator.hasNext())
+				rs = stmt.executeQuery();
+				while(rs.next())
 				{
-					Role role = (Role)roleListIterator.next();
-					InfoGlueRole infoGlueRole = new InfoGlueRole(role.getRoleName(), role.getDescription());
+				    InfoGlueRole infoGlueRole = new InfoGlueRole(rs.getString("roleName"), rs.getString("description"));
 					roles.add(infoGlueRole);
+					log.debug("roleName:" + rs.getString("roleName"));
 				}
-
-				infogluePrincipal = new InfoGluePrincipal(userName, systemUser.getFirstName(), systemUser.getLastName(), systemUser.getEmail(), roles, isAdministrator);
 				
-				commitTransaction(db);
-			} 
-			catch (Exception e) 
-			{
-				log.debug("An error occurred so we should not complete the transaction:" + e);
-				rollbackTransaction(db);
-				throw new SystemException(e.getMessage());
+			    infogluePrincipal = new InfoGluePrincipal(userName, rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"), roles, isAdministrator);
+				
+			    log.debug("userName:" + userName);
 			}
+			
+			rs.close();
+			conn.close();			
 		}
 		
 		return infogluePrincipal;
@@ -132,9 +159,8 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 	{
 		InfoGlueRole infoglueRole = null;
 
-		RoleVO roleVO = RoleController.getController().getRoleVOWithId(roleName);
-		
-		infoglueRole = new InfoGlueRole(roleVO.getRoleName(), roleVO.getDescription());
+		//RoleVO roleVO = RoleController.getController().getRoleVOWithId(roleName);
+		//infoglueRole = new InfoGlueRole(roleVO.getRoleName(), roleVO.getDescription());
 				
 		return infoglueRole;
 	}
@@ -148,6 +174,7 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 	{
 		List roles = new ArrayList();
 		
+		/*
 		String administratorUserName = PropertyHelper.getProperty("administratorUserName");
 		
 		boolean isAdministrator = userName.equalsIgnoreCase(administratorUserName) ? true : false;
@@ -162,6 +189,7 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 			InfoGlueRole infoGlueRole = new InfoGlueRole(roleVO.getRoleName(), roleVO.getDescription());
 			roles.add(infoGlueRole);
 		}
+		*/
 		
 		return roles;
 	}
@@ -174,6 +202,7 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 	{
 		List roles = new ArrayList();
 		
+		/*
 		List roleVOList = RoleController.getController().getRoleVOList();
 		Iterator roleVOListIterator = roleVOList.iterator();
 		while(roleVOListIterator.hasNext())
@@ -182,6 +211,7 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 			InfoGlueRole infoGlueRole = new InfoGlueRole(roleVO.getRoleName(), roleVO.getDescription());
 			roles.add(infoGlueRole);
 		}
+		*/
 		
 		return roles;
 	}
@@ -194,25 +224,38 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 	{
 		List users = new ArrayList();
 		
-		List systemUserVOList = SystemUserController.getController().getSystemUserVOList();
-		Iterator systemUserVOListIterator = systemUserVOList.iterator();
-		while(systemUserVOListIterator.hasNext())
+		Connection conn = getConnection();
+        
+	    String sql = "SELECT * FROM cmSystemUser ORDER BY firstName";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) 
 		{
-			SystemUserVO systemUserVO = (SystemUserVO)systemUserVOListIterator.next();
+		    List roles = new ArrayList();
+		    
+		    String userName 	= rs.getString("userName");
+		    String firstName 	= rs.getString("firstName");
+		    String lastName 	= rs.getString("lastName");
+		    String email 		= rs.getString("email");
 
-			List roles = new ArrayList();
-			Collection roleVOList = RoleController.getController().getRoleVOList(systemUserVO.getUserName());
-			Iterator roleVOListIterator = roleVOList.iterator();
-			while(roleVOListIterator.hasNext())
+		    String sqlRoles = "SELECT * FROM cmSystemUser, cmSystemUserRole, cmRole WHERE cmSystemUser.userName = cmSystemUserRole.userName AND cmRole.roleName = cmSystemUserRole.roleName AND cmSystemUser.userName = ?";
+		    PreparedStatement stmtRoles = conn.prepareStatement(sqlRoles);
+		    stmtRoles.setString(1, userName);
+			
+		    ResultSet rsRoles = stmtRoles.executeQuery();
+			while(rsRoles.next())
 			{
-				RoleVO roleVO = (RoleVO)roleVOListIterator.next();
-				InfoGlueRole infoGlueRole = new InfoGlueRole(roleVO.getRoleName(), roleVO.getDescription());
+			    InfoGlueRole infoGlueRole = new InfoGlueRole(rsRoles.getString("roleName"), rsRoles.getString("description"));
 				roles.add(infoGlueRole);
+				log.debug("roleName:" + rsRoles.getString("roleName"));
 			}
 			
-			InfoGluePrincipal infoGluePrincipal = new InfoGluePrincipal(systemUserVO.getUserName(), systemUserVO.getFirstName(), systemUserVO.getLastName(), systemUserVO.getEmail(), roles, false);
+			InfoGluePrincipal infogluePrincipal = new InfoGluePrincipal(userName, firstName, lastName, email, roles, false);
 			
-			users.add(infoGluePrincipal);
+		    log.debug("userName:" + infogluePrincipal.getName());
+		
+		    users.add(infogluePrincipal);
 		}
 		
 		return users;
@@ -222,6 +265,7 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 	{
 		List users = new ArrayList();
 		
+		/*
 		List systemUserVOList = SystemUserController.getController().getFilteredSystemUserVOList(firstName, lastName, userName, email, roleIds);
 		Iterator systemUserVOListIterator = systemUserVOList.iterator();
 		while(systemUserVOListIterator.hasNext())
@@ -241,7 +285,7 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 			InfoGluePrincipal infoGluePrincipal = new InfoGluePrincipal(systemUserVO.getUserName(), systemUserVO.getFirstName(), systemUserVO.getLastName(), systemUserVO.getEmail(), roles, false);
 			users.add(infoGluePrincipal);
 		}
-		
+		*/
 		return users;
 	}
 	
@@ -249,7 +293,7 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 	{
 		log.debug("roleName:" + roleName);
 		List users = new ArrayList();
-		
+		/*
 		List systemUserVOList = RoleController.getController().getRoleSystemUserVOList(roleName);
 		Iterator systemUserVOListIterator = systemUserVOList.iterator();
 		while(systemUserVOListIterator.hasNext())
@@ -258,18 +302,18 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 			InfoGluePrincipal infoGluePrincipal = new InfoGluePrincipal(systemUserVO.getUserName(), systemUserVO.getFirstName(), systemUserVO.getLastName(), systemUserVO.getEmail(), new ArrayList(), false);
 			users.add(infoGluePrincipal);
 		}
-		
+		*/
 		return users;
 	}
 
 	public void createInfoGluePrincipal(String userName, String password, String firstName, String lastName, String email) throws Exception
 	{
-		SystemUserController.getController().create(userName, password, firstName, lastName, email);
+		//SystemUserController.getController().create(userName, password, firstName, lastName, email);
 	}
 
 	public void updateInfoGluePrincipal(String userName, String password, String firstName, String lastName, String email, String[] roleNames) throws Exception
 	{
-		SystemUserController.getController().update(userName, password, firstName, lastName, email, roleNames);
+		//SystemUserController.getController().update(userName, password, firstName, lastName, email, roleNames);
 	}
 
 	/**
@@ -278,28 +322,28 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 
 	public void updateInfoGluePrincipalPassword(String userName) throws Exception
 	{
-		SystemUserController.getController().updatePassword(userName);
+	    //SystemUserController.getController().updatePassword(userName);
 	}
 	
 	
 	public void deleteInfoGluePrincipal(String userName) throws Exception
 	{
-		SystemUserController.getController().delete(userName);
+	    //SystemUserController.getController().delete(userName);
 	}
 
 	public void createInfoGlueRole(String roleName, String description) throws Exception
 	{
-		RoleController.getController().create(roleName, description);
+	    //RoleController.getController().create(roleName, description);
 	}
 
 	public void updateInfoGlueRole(String roleName, String description, String[] userNames) throws Exception
 	{
-		RoleController.getController().update(roleName, description, userNames);
+	    //RoleController.getController().update(roleName, description, userNames);
 	}
 
 	public void deleteInfoGlueRole(String roleName) throws Exception
 	{
-		RoleController.getController().delete(roleName);
+	    //RoleController.getController().delete(roleName);
 	}
 
 	public Properties getExtraProperties()

@@ -24,30 +24,75 @@
 
 package org.infoglue.common.security;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.exceptions.SystemException;
+import org.infoglue.common.util.PropertyHelper;
 
 
 /**
  * @author Mattias Bogeblad
  * 
- * This class acts as the proxy for getting the right roles.
+ * This class acts as the proxy for getting the all user information.
  */
 
 public class UserControllerProxy
 {
     private static final Log log = LogFactory.getLog(UserControllerProxy.class);
     
-	private static AuthorizationModule authorizationModule = null;
+	private static AuthorizationModule authorizationModule 	= null;
+	private static Properties cachedExtraProperties 		= null;
+	
+	private static String authConstraint;
+	private static String driverClass;
+	private static String connectionUrl;
+	private static String connectionUserName;
+	private static String connectionPassword;
+	private static String authorizerClass;
 	
 	public static UserControllerProxy getController()
 	{
 		return new UserControllerProxy();
+	}
+	
+	/**
+	 * This method initializes the parameters used in this authentication framework.
+	 */
+
+	private static void initializeProperties()
+	{
+		try
+		{
+			System.out.println("*********************************************************");
+			System.out.println("Initializing properties for Authentication framework.....");
+			System.out.println("*********************************************************");
+			
+			cachedExtraProperties = new Properties();
+			cachedExtraProperties.load(UserControllerProxy.class.getResourceAsStream("/infoglueSecurity.properties"));
+		
+			authConstraint 		= cachedExtraProperties.getProperty("org.infoglue.common.security.authConstraint");
+			driverClass 		= cachedExtraProperties.getProperty("org.infoglue.common.security.jdbc.driverClass");
+			connectionUrl 		= cachedExtraProperties.getProperty("org.infoglue.common.security.jdbc.connectionUrl");
+			connectionUserName 	= cachedExtraProperties.getProperty("org.infoglue.common.security.jdbs.connectionUserName");
+			connectionPassword 	= cachedExtraProperties.getProperty("org.infoglue.common.security.jdbs.connectionPassword");
+			authorizerClass 	= cachedExtraProperties.getProperty("org.infoglue.common.security.authorizerClass");						    
+			
+			log.debug("authorizerClass:" + authorizerClass);
+			
+			cachedExtraProperties.list(System.out);
+		}	
+		catch(Exception e)
+		{
+		    cachedExtraProperties = null;
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
@@ -60,11 +105,14 @@ public class UserControllerProxy
 		{
 			try
 	    	{
-			    log.debug("InfoGlueAuthenticationFilter.authorizerClass:" + InfoGlueAuthenticationFilter.authorizerClass);
-				authorizationModule = (AuthorizationModule)Class.forName(InfoGlueAuthenticationFilter.authorizerClass).newInstance();
+				if(cachedExtraProperties == null)
+				    initializeProperties();
+
+				log.debug("authorizerClass:" + authorizerClass);
+				authorizationModule = (AuthorizationModule)Class.forName(authorizerClass).newInstance();
 				log.debug("authorizationModule:" + authorizationModule);
-				authorizationModule.setExtraProperties(InfoGlueAuthenticationFilter.extraProperties);
-				log.debug("InfoGlueAuthenticationFilter.extraProperties:" + InfoGlueAuthenticationFilter.extraProperties);
+				
+				authorizationModule.setExtraProperties(cachedExtraProperties);
 	    	}
 	    	catch(Exception e)
 	    	{

@@ -149,6 +149,7 @@
 
 		function hideDiv(id)
 		{
+			previousDiv = document.getElementById(id);		
 			if(previousDiv)
 				previousDiv.style.visibility = "hidden";
 		}

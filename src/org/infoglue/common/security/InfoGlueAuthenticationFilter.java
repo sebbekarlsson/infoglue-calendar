@@ -49,6 +49,7 @@ public class InfoGlueAuthenticationFilter implements Filter
 
 	public final static String INFOGLUE_FILTER_USER = "org.infoglue.cms.security.user";
 	
+	/*
  	public static String loginUrl 				= null;
 	public static String invalidLoginUrl 		= null;
 	public static String authenticatorClass 	= null;
@@ -60,7 +61,7 @@ public class InfoGlueAuthenticationFilter implements Filter
 	public static String casValidateUrl			= null;
 	public static String casServiceUrl			= null;
 	public static String casRenew				= null;
- 	
+ 	*/
 	public void init(FilterConfig config) throws ServletException 
 	{
 		loginUrl 			= config.getInitParameter("org.infoglue.cms.security.loginUrl");

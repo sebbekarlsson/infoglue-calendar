@@ -736,12 +736,12 @@ public class JNDIBasicAuthorizationModule implements AuthorizationModule
 		return users;
 	}
 
-	public void createInfoGluePrincipal(SystemUserVO systemUserVO) throws Exception
+	public void createInfoGluePrincipal(String userName, String password, String firstName, String lastName, String email) throws Exception
 	{
 		throw new SystemException("The JNDI BASIC Authorization module does not support creation of users yet...");
 	}
 
-	public void updateInfoGluePrincipal(SystemUserVO systemUserVO, String[] roleNames) throws Exception
+	public void updateInfoGluePrincipal(String userName, String password, String firstName, String lastName, String email, String[] roleNames) throws Exception
 	{
 		throw new SystemException("The JNDI BASIC Authorization module does not support updating of users yet...");
 	}
@@ -756,12 +756,12 @@ public class JNDIBasicAuthorizationModule implements AuthorizationModule
 		throw new SystemException("The JNDI BASIC Authorization module does not support deletion of users yet...");
 	}
 	
-	public void createInfoGlueRole(RoleVO roleVO) throws Exception
+	public void createInfoGlueRole(String roleName, String description) throws Exception
 	{
 		throw new SystemException("The JNDI BASIC Authorization module does not support creation of users yet...");
 	}
 
-	public void updateInfoGlueRole(RoleVO roleVO, String[] userNames) throws Exception
+	public void updateInfoGlueRole(String roleName, String description, String[] userNames) throws Exception
 	{
 		throw new SystemException("The JNDI BASIC Authorization module does not support updates of users yet...");
 	}

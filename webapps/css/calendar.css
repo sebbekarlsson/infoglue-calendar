@@ -20,6 +20,7 @@ textarea			{ width: 300px; height: 100px; font-family: Verdana, Arial, Helvetica
 .nobreak{white-space: nowrap;}
 
 .label				{ font-size: 10px; color: #666666; font-weight: bold; } 
+.headline			{ font-size: 18px; color: #666666; font-weight: bold; } 
 
 .marginalizedDiv	{ margin: 2px 2px 2px 2px; } 
 #list				{ background-color: white; font-family: Verdana, Arial, Helvetica, sans-serif; border: 1px solid black; margin: 0px 0px 10px 0px; } 
@@ -62,7 +63,7 @@ A:active
 .content		{padding:8px;} /*padding for content */ 
 #header .content{padding-bottom:0;} /*padding bottom 0 to remove space in IE5 Mac*/ 
 
-p  				{ font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif }
+p  				{ font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif; margin-top: 6px; margin-bottom: 6px; }
 .header   		 { color: white; font-size: 14px; font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; margin-top: 1em; margin-left: 0.2em }
 .attachment   	 { }
 .event_done   	 { color: gray }

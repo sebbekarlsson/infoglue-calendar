@@ -24,6 +24,10 @@
 package org.infoglue.common.security;
 
 import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -59,6 +63,28 @@ public class InfoGlueBasicAuthenticationModule implements AuthenticationModule
 	private String casAuthorizedProxy 	= null;
 	private Properties extraProperties 	= null;
 
+	
+	private Connection getConnection() throws Exception
+	{
+	    String connectionDriver		= extraProperties.getProperty("connectionDriver");
+	    String connectionUserName 	= extraProperties.getProperty("connectionUserName");
+	    String connectionPassword 	= extraProperties.getProperty("connectionPassword");
+	    String connectionUrl 		= extraProperties.getProperty("connectionUrl");
+	    
+        Class clazz = Class.forName(connectionDriver);
+        Driver driver = (Driver)clazz.newInstance();
+
+        Properties props = new Properties();
+        
+        props.put("user", connectionUserName);
+        props.put("password", connectionPassword);
+        
+        Connection conn = driver.connect(connectionUrl, props);
+        conn.setAutoCommit(false);
+        
+        return conn;
+   	}
+	
 	/**
 	 * This method handles all of the logic for checking how to handle a login.
 	 */
@@ -193,13 +219,35 @@ public class InfoGlueBasicAuthenticationModule implements AuthenticationModule
 		//log.debug("password:" + password);
 		boolean isAdministrator = (userName.equalsIgnoreCase(administratorUserName) && password.equalsIgnoreCase(administratorPassword)) ? true : false;
 		
-		if(isAdministrator || SystemUserController.getController().getSystemUserVO(userName, password) != null)
+		if(isAdministrator || getIsAuthenticatedUser(userName, password))
 			isAuthenticated = true;
 		
 		return isAuthenticated;
 	}
 
+	private boolean getIsAuthenticatedUser(String userName, String password) throws Exception
+	{
+	    boolean isAuthenticatedUser = false;
 
+        Connection conn = getConnection();
+        
+	    String sql = "SELECT * FROM cmSystemUser WHERE userName = ? AND password = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, userName);
+		stmt.setString(2, password);
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) 
+		{
+		    isAuthenticatedUser = true;
+		    log.debug("userName:" + userName);
+		}
+		
+		rs.close();
+		conn.close();
+	    
+	    return isAuthenticatedUser; 
+	}
 
 	public String getAuthenticatorClass()
 	{
