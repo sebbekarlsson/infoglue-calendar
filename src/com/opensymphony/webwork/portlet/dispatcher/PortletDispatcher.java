@@ -131,17 +131,25 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
             ActionResponse actionResponse) throws PortletException, IOException
     {
         System.out.println("processAction*****************************");
-        System.out.println("action:" + getPortletConfig().getInitParameter("action"));
+        System.out.println("processAction action:" + getPortletConfig().getInitParameter("action"));
+        System.out.println("processAction action:" + getPortletConfig().getInitParameter("action"));
     
         log.debug("Got to processAction!!");
         try
         {
             serviceAction(actionRequest, actionResponse, getPortletName(),
+                    getActionName(actionRequest),
+                    getRequestMap(actionRequest),
+                    getParameterMap(actionRequest),
+                    getSessionMap(actionRequest), getPortletApplicationMap());
+            /*
+            serviceAction(actionRequest, actionResponse, getPortletName(),
                     (String) getPortletConfig().getInitParameter("action"),
                     getRequestMap(actionRequest),
                     getParameterMap(actionRequest),
                     getSessionMap(actionRequest), getPortletApplicationMap());
-        } catch (Exception e)
+                    */
+         } catch (Exception e)
         {
             if (e instanceof PortletException)
             {
@@ -203,8 +211,8 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
             Map parameterMap, Map sessionMap, Map applicationMap)
     {
         
-        System.out.println("Getting to serviceAction");
-
+        System.out.println("Getting to serviceAction with namespace:" + namespace + " actionName:" + actionName);
+        
         HashMap extraContext = createContextMap(requestMap, parameterMap, sessionMap, applicationMap, request, response, getPortletConfig());
 
         if (namespace.length() > 0)
@@ -277,13 +285,30 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         }
     }
 
+	/**
+     * Build the name of the action from the request. Checks the request parameter
+     * <code>action</action> for the action name
+     *
+     * @param request the HttpServletRequest object.
+     * @return the name or alias of the action to execute.
+     */
+    protected String getActionName(ActionRequest request) {
+        String actionName = request.getParameter("action");
+        if(actionName == null) {
+        	actionName = "default";
+        }
+        log.debug("actionName = " + actionName);
+        return actionName;
+    } 
     
     protected String getModeActionName(PortletMode mode)
             throws PortletException
     {
+        System.out.println("PortletMode is: " + mode.toString());
         log.debug("PortletMode is: " + mode.toString());
         //  TODO: Move this exception throwing somewhere else.  Nested too deep.
         String actionName = (String) getPortletConfig().getInitParameter(mode.toString());
+        System.out.println("actionName in getModeActionName:" + actionName);
         
         if (actionName == null)
         {

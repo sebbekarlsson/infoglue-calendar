@@ -24,13 +24,13 @@
 <div id="list">
 
 	<div id="contentListHeader">
-		Calendars
+		Calendars sss
 	</div>
 	
 	<%=renderResponse.encodeURL(renderRequest.getContextPath() + "/images/no.gif")%>
 	<%	
 		PortletURL url = renderResponse.createActionURL();
-		url.setParameter("action", "ViewCalendar.action");
+		url.setParameter("action", "ViewCalendar");
         url.setParameter("calendarId", "1");
     %>    
     <%=url%>
