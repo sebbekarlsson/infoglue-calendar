@@ -79,7 +79,7 @@
             table="Event_Location"
             lazy="false"
             inverse="false"
-            cascade="all"
+            cascade="none"
             sort="unsorted"
         >
 
@@ -97,11 +97,49 @@
         </set>
 
         <set
+            name="participants"
+            lazy="false"
+            inverse="false"
+            cascade="none"
+            sort="unsorted"
+        >
+
+              <key
+                  column="event_id"
+              >
+              </key>
+
+              <one-to-many
+                  class="org.infoglue.calendar.entities.Participant"
+              />
+
+        </set>
+
+        <set
+            name="resources"
+            lazy="false"
+            inverse="false"
+            cascade="none"
+            sort="unsorted"
+        >
+
+              <key
+                  column="event_id"
+              >
+              </key>
+
+              <one-to-many
+                  class="org.infoglue.calendar.entities.Resource"
+              />
+
+        </set>
+
+        <set
             name="categories"
             table="Event_Category"
             lazy="false"
             inverse="false"
-            cascade="all"
+            cascade="none"
             sort="unsorted"
         >
 

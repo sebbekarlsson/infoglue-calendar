@@ -47,6 +47,7 @@ public class UpdateEventAction extends CalendarAbstractAction
     private Integer endTime;
     private String[] locationId;
     private String[] categoryId;
+    private String[] participantUserName;
 
     private Long calendarId;
     private String mode;
@@ -62,7 +63,7 @@ public class UpdateEventAction extends CalendarAbstractAction
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
 
-        EventController.getController().updateEvent(eventId, name, description, startCalendar, endCalendar, locationId, categoryId);
+        EventController.getController().updateEvent(eventId, name, description, startCalendar, endCalendar, locationId, categoryId, participantUserName);
         
         return Action.SUCCESS;
     } 
@@ -166,5 +167,15 @@ public class UpdateEventAction extends CalendarAbstractAction
     public void setMode(String mode)
     {
         this.mode = mode;
+    }
+    
+    public String[] getParticipantUserName()
+    {
+        return participantUserName;
+    }
+    
+    public void setParticipantUserName(String[] participantUserName)
+    {
+        this.participantUserName = participantUserName;
     }
 }

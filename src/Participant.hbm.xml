@@ -31,14 +31,25 @@
         </id>
 
         <property
-            name="name"
+            name="userName"
             type="string"
             update="true"
             insert="true"
             access="property"
-            column="name"
+            column="userName"
             not-null="false"
-            unique="true"
+            unique="false"
+        />
+
+        <many-to-one
+            name="event"
+            class="org.infoglue.calendar.entities.Event"
+            cascade="none"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            access="property"
+            column="event_id"
         />
 
         <!--

@@ -97,6 +97,44 @@
         </set>
 
         <set
+            name="participants"
+            lazy="true"
+            inverse="false"
+            cascade="none"
+            sort="unsorted"
+        >
+
+              <key
+                  column="event_id"
+              >
+              </key>
+
+              <one-to-many
+                  class="org.infoglue.calendar.entities.Participant"
+              />
+
+        </set>
+
+        <set
+            name="resources"
+            lazy="true"
+            inverse="false"
+            cascade="none"
+            sort="unsorted"
+        >
+
+              <key
+                  column="event_id"
+              >
+              </key>
+
+              <one-to-many
+                  class="org.infoglue.calendar.entities.Resource"
+              />
+
+        </set>
+
+        <set
             name="categories"
             table="Event_Category"
             lazy="false"

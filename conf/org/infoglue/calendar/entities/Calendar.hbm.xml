@@ -54,10 +54,9 @@
 
         <set
             name="events"
-            table="Event"
-            lazy="false"
+            lazy="true"
             inverse="false"
-            cascade="save-update"
+            cascade="none"
             sort="unsorted"
         >
 

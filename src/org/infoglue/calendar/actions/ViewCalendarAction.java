@@ -181,7 +181,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
         {
             Event event = (Event)eventIterator.next();
             //System.out.println("event:" + event.getName());
-            if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR) && event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) == Integer.parseInt(hour))
+            if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR) && (event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) <= Integer.parseInt(hour) && event.getEndDateTime().get(java.util.Calendar.HOUR_OF_DAY) >= Integer.parseInt(hour)))
             {
                 hourEvents.add(event);
             }

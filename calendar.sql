@@ -8,11 +8,15 @@ drop table if exists Event_Category
 drop table if exists Location
 create table Resource (
    id BIGINT NOT NULL AUTO_INCREMENT,
+   assetKey VARCHAR(255),
+   file BLOB not null,
+   event_id BIGINT,
    primary key (id)
 )
 create table Participant (
    id BIGINT NOT NULL AUTO_INCREMENT,
-   name VARCHAR(255) unique,
+   userName VARCHAR(255),
+   event_id BIGINT,
    primary key (id)
 )
 create table Calendar (
@@ -52,6 +56,8 @@ create table Location (
    description VARCHAR(255),
    primary key (id)
 )
+alter table Resource add index FKEF86282E1093C0E0 (event_id), add constraint FKEF86282E1093C0E0 foreign key (event_id) references Event (id)
+alter table Participant add index FK912797131093C0E0 (event_id), add constraint FK912797131093C0E0 foreign key (event_id) references Event (id)
 alter table Event_Location add index FK5DDBFA20EBB9E5 (location_id), add constraint FK5DDBFA20EBB9E5 foreign key (location_id) references Location (id)
 alter table Event_Location add index FK5DDBFA1093C0E0 (event_id), add constraint FK5DDBFA1093C0E0 foreign key (event_id) references Event (id)
 alter table Event add index FK403827A1818C5BC (calendar_id), add constraint FK403827A1818C5BC foreign key (calendar_id) references Calendar (id)

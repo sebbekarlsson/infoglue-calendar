@@ -30,21 +30,44 @@
 			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 			
+			<p>
+				name:<br>
+				<input type="textfield" name="name" value="<ww:property value="event.name"/>" class="normalInput">
+			</p>
+			<p>
+				description:<br> 
+				<input type="textfield" name="description" value="<ww:property value="event.description"/>" class="normalInput">
+			</p>
+			<p>
+				<div style="position: relative; height: 25px;">
+					<div style="float: left">
+						startDateTime:<br> 
+						<input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
+						<img src="images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
+					</div>
+					<div style="float: left">
+						StartTime:<br> 
+						<input type="textfield" name="startTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>" class="hourInput">
+	      			</div>
+				</div>
+			</p>    
+			<p>
+				<div style="position: relative; height: 25px;">
+					<div style="float: left">
+						endDateTime:<br>
+						<input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
+						<img src="images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
+					</div>
+					<div style="float: left">
+		      			EndTime:<br>
+		      			<input type="textfield" name="endTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>" class="hourInput">
+	      			</div>
+				</div>
+			</p>
 			
-			name: <input type="textfield" name="name" value="<ww:property value="event.name"/>"><br>
-			description: <input type="textfield" name="description" value="<ww:property value="event.description"/>"><br>
-			startDateTime: <input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>">
-			<img src="images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" /><br>
-      
-			endDateTime: <input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>">
-			<img src="images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" /><br>
-
-			StartTime: <input type="textfield" name="startTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>">
-      		EndTime: <input type="textfield" name="endTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>">
-			
-			Location: 
-      		
-      		<select name="locationId" multiple="true">
+       		<p>
+	      		Location (Hold shift to select multiple):<br>
+				<select name="locationId" multiple="true" class="listBox">
 	      		<ww:iterator value="locations">
 	      			<ww:set name="location" value="top"/>
 		      		<ww:iterator value="event.locations">
@@ -57,26 +80,50 @@
 						</ww:else>
 					</ww:iterator>
 	      		</ww:iterator>
-      		</select>
-      		   
-      		Category:
-      		
-      		<select name="categoryId" multiple="true">
-	      		<ww:iterator value="categories">
-	      			<ww:set name="category" value="top"/>
-		      		<ww:iterator value="event.categories">
-		      			<ww:if test="top.id == #category.id">
-		      				<option value="<ww:property value='#category.id'/>" selected="1"><ww:property value="#category.name"/></option>
+      			</select>
+  			</p>
+			<p>
+	      		Category (Hold shift to select multiple):<br>
+				<select name="categoryId" multiple="true" class="listBox">
+		      		<ww:iterator value="categories">
+		      			<ww:set name="category" value="top"/>
+			      		<ww:iterator value="event.categories">
+			      			<ww:if test="top.id == #category.id">
+			      				<option value="<ww:property value='#category.id'/>" selected="1"><ww:property value="#category.name"/></option>
+							</ww:if>
+							
+							<ww:else>
+							   <option value="<ww:property value='#category.id'/>"><ww:property value="#category.name"/></option>
+							</ww:else>
+						</ww:iterator>
+		      		</ww:iterator>
+	      		</select>
+	       	</p>
+    		<p>  		
+      			Participants (Hold shift to select multiple):<br>
+	      		<select name="participantUserName" multiple="true" class="listBox">
+	      		<ww:iterator value="{'Per', 'Mattias', 'Claes', 'Lena', 'Helena', 'Håkan'}">
+	      			
+	      			<option value="<ww:property value='top'/>" selected="1"><ww:property value="top"/></option>
+	      			<!--
+	      			<ww:set name="userName" value="top"/>
+		      		<ww:iterator value="event.participants">
+		      			<ww:if test="top.userName == #userName">
+		      				<option value="<ww:property value='#userName'/>" selected="1"><ww:property value="#userName"/></option>
 						</ww:if>
 						
 						<ww:else>
-						   <option value="<ww:property value='#category.id'/>"><ww:property value="#category.name"/></option>
+						   <option value="<ww:property value='#userName'/>"><ww:property value="#userName"/></option>
 						</ww:else>
 					</ww:iterator>
+					-->
 	      		</ww:iterator>
       		</select>
-      		
-			<input type="submit">
+			</p>
+			<p>
+				<input type="submit" value="Update">
+			</p>
+			
 		</form>
 	</div>
 

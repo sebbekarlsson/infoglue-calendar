@@ -31,26 +31,59 @@
 			<input type="hidden" name="date" value="<ww:property value="date"/>"/>
 			<input type="hidden" name="time" value="<ww:property value="time"/>"/>
 			
-			name: <input type="textfield" name="name" value=""><br>
-			description: <input type="textfield" name="description" value=""><br>
-			startDateTime: <input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="startDateTime"/>">
-			<img src="images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" /><br>
-      
-			endDateTime: <input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="endDateTime"/>">
-			<img src="images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" /><br>
-
-			StartTime: <input type="textfield" name="startTime" value="<ww:property value="time"/>">
-      		EndTime: <input type="textfield" name="endTime" value="<ww:property value="time"/>">
-      		
-      		Location: 
-      		
-      		<ww:select label="'Location'" name="'locationId'" listKey="id" listValue="name" list="locations" value="id" multiple="true"/> 
-			
-      		Category:
-      		
-      		<ww:select label="'Category'" name="'categoryId'" listKey="id" listValue="name" list="categories" value="id" multiple="true"/> 
-      		
-			<input type="submit">
+			<p>
+				name:<br>
+				<input type="textfield" name="name" value="" class="normalInput">
+			</p>
+			<p>
+				description:<br> 
+				<input type="textfield" name="description" value="" class="normalInput">
+			</p>
+			<p>
+				<div style="position: relative; height: 25px;">
+					<div style="float: left">
+						startDateTime:<br> 
+						<input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="startDateTime"/>" class="dateInput">
+						<img src="images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
+					</div>
+					<div style="float: left">
+						StartTime:<br> 
+						<input type="textfield" name="startTime" value="<ww:property value="time"/>" class="hourInput">
+	      			</div>
+				</div>
+			</p>    
+			<p>
+				<div style="position: relative; height: 25px;">
+					<div style="float: left">
+						endDateTime:<br>
+						<input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="endDateTime"/>" class="dateInput">
+						<img src="images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
+					</div>
+					<div style="float: left">
+		      			EndTime:<br>
+		      			<input type="textfield" name="endTime" value="<ww:property value="time"/>" class="hourInput">
+	      			</div>
+				</div>
+			</p>
+      		<p>
+	      		Location (Hold shift to select multiple):<br>
+	      		<ww:select name="'locationId'" listKey="id" listValue="name" list="locations" value="id" multiple="true" cssClass="'listBox'"/> 
+			</p>
+			<p>
+	      		Category (Hold shift to select multiple):<br>
+	      		<ww:select name="'categoryId'" listKey="id" listValue="name" list="categories" value="id" multiple="true" cssClass="'listBox'"/> 
+    		</p>
+    		<p>  		
+      			Participants (Hold shift to select multiple):<br>
+	      		<select name="participantUserName" multiple="true" class="listBox">
+		      		<ww:iterator value="{'Per', 'Mattias', 'Claes', 'Lena', 'Helena', 'Håkan'}">
+		      			<option value="<ww:property value='top'/>"><ww:property value="top"/></option>
+		      		</ww:iterator>
+	      		</select>
+			</p>
+			<p>
+				<input type="submit" value="Create">
+			</p>
 		</form>
 	</div>
 

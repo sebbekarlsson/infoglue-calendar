@@ -22,6 +22,8 @@
 */
 package org.infoglue.calendar.entities;
 
+import java.sql.Blob;
+
 /**
  * This class represents a simple resource. That is assets you wish to associate with an event. 
  * Can be binary documents etc.
@@ -35,7 +37,8 @@ public class Resource
 {
     private Long id;
     private String assetKey;
-    private Calendar calendar;
+    private Blob resource;
+    private Event event;
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -52,4 +55,45 @@ public class Resource
         this.id = id;
     }
     
+    /**
+     * @hibernate.property name="getAssetKey" column="assetKey" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getAssetKey()
+    {
+        return assetKey;
+    }
+    
+    public void setAssetKey(String assetKey)
+    {
+        this.assetKey = assetKey;
+    }
+        
+    /**
+    * @hibernate.property column = "file" type = "blob" not-null = "true"
+    */
+    public Blob getResource()
+    {
+        return resource;
+    }
+    
+    public void setResource(Blob resource)
+    {
+        this.resource = resource;
+    }
+    
+    /** 
+     * @hibernate.many-to-one class="org.infoglue.calendar.entities.Event" column="event_id"
+     */  
+    public Event getEvent()
+    {
+        return event;
+    }
+    
+    public void setEvent(Event event)
+    {
+        this.event = event;
+    }
+
 }

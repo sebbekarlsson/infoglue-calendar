@@ -31,6 +31,7 @@ import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
+import org.infoglue.calendar.entities.Participant;
 
 
 import java.util.Date;
@@ -66,7 +67,7 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database.
      */
     
-    public Event createEvent(Long calendarId, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId) throws HibernateException, Exception 
+    public Event createEvent(Long calendarId, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId, String[] participantUserName) throws HibernateException, Exception 
     {
         Event event = null;
         
@@ -94,7 +95,18 @@ public class EventController extends BasicController
 			    categories.add(category);
 			}
 
-			event = createEvent(calendar, name, description, startDateTime, endDateTime, locations, categories, session);
+			Set participants = new HashSet();
+			for(int i=0; i<participantUserName.length; i++)
+			{
+			    Participant participant = new Participant();
+			    participant.setUserName(participantUserName[i]);
+			    participant.setEvent(event);
+			    session.save(participant);
+			    participants.add(participant);
+			}
+
+			event = createEvent(calendar, name, description, startDateTime, endDateTime, locations, categories, participants, session);
+
 			tx.commit();
 		}
 		catch (Exception e) 
@@ -116,7 +128,7 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database inside a transaction.
      */
     
-    public Event createEvent(Calendar calendar, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Session session) throws HibernateException, Exception 
+    public Event createEvent(Calendar calendar, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Set participants, Session session) throws HibernateException, Exception 
     {
         System.out.println("Creating new event...");
         
@@ -129,6 +141,7 @@ public class EventController extends BasicController
         event.setCalendar(calendar);
         event.setLocations(locations);
         event.setCategories(categories);
+        event.setParticipants(participants);
         calendar.getEvents().add(event);
         
         session.save(event);
@@ -145,7 +158,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void updateEvent(Long id, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId) throws Exception 
+    public void updateEvent(Long id, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId, String[] participantUserName) throws Exception 
     {
 	    Session session = getSession();
 	    
@@ -169,8 +182,18 @@ public class EventController extends BasicController
 			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
 			    categories.add(category);
 			}
-			
-			updateEvent(event, name, description, startDateTime, endDateTime, locations, categories, session);
+
+			Set participants = new HashSet();
+			for(int i=0; i<participantUserName.length; i++)
+			{
+			    Participant participant = new Participant();
+			    participant.setUserName(participantUserName[i]);
+			    participant.setEvent(event);
+			    session.save(participant);
+			    participants.add(participant);
+			}
+
+			updateEvent(event, name, description, startDateTime, endDateTime, locations, categories, participants, session);
 			
 			tx.commit();
 		}
@@ -192,7 +215,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void updateEvent(Event event, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Session session) throws Exception 
+    public void updateEvent(Event event, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Set participants, Session session) throws Exception 
     {
         event.setName(name);
         event.setDescription(description);
@@ -200,6 +223,7 @@ public class EventController extends BasicController
         event.setEndDateTime(endDateTime);
         event.setLocations(locations);
         event.setCategories(categories);
+        event.setParticipants(participants);
         
 		session.update(event);
 	}

@@ -34,7 +34,7 @@ package org.infoglue.calendar.entities;
 public class Participant
 {
     private Long id;
-    private String name;
+    private String userName;
     private Event event;
     
     /**
@@ -53,20 +53,23 @@ public class Participant
     }
 
     /**
-     * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
+     * @hibernate.property name="getUserName" column="userName" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    public String getName()
+    public String getUserName()
     {
-        return name;
+        return userName;
     }
     
-    public void setName(String name)
+    public void setUserName(String userName)
     {
-        this.name = name;
+        this.userName = userName;
     }
     
+    /** 
+     * @hibernate.many-to-one class="org.infoglue.calendar.entities.Event" column="event_id"
+     */  
     public Event getEvent()
     {
         return event;
@@ -76,5 +79,4 @@ public class Participant
     {
         this.event = event;
     }
-    
 }

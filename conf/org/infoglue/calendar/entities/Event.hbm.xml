@@ -74,6 +74,99 @@
             unique="false"
         />
 
+        <set
+            name="locations"
+            table="Event_Location"
+            lazy="false"
+            inverse="false"
+            cascade="none"
+            sort="unsorted"
+        >
+
+              <key
+                  column="event_id"
+              >
+              </key>
+
+              <many-to-many
+                  class="org.infoglue.calendar.entities.Location"
+                  column="location_id"
+                  outer-join="auto"
+               />
+
+        </set>
+
+        <set
+            name="participants"
+            lazy="true"
+            inverse="false"
+            cascade="none"
+            sort="unsorted"
+        >
+
+              <key
+                  column="event_id"
+              >
+              </key>
+
+              <one-to-many
+                  class="org.infoglue.calendar.entities.Participant"
+              />
+
+        </set>
+
+        <set
+            name="resources"
+            lazy="true"
+            inverse="false"
+            cascade="none"
+            sort="unsorted"
+        >
+
+              <key
+                  column="event_id"
+              >
+              </key>
+
+              <one-to-many
+                  class="org.infoglue.calendar.entities.Resource"
+              />
+
+        </set>
+
+        <set
+            name="categories"
+            table="Event_Category"
+            lazy="false"
+            inverse="false"
+            cascade="none"
+            sort="unsorted"
+        >
+
+              <key
+                  column="event_id"
+              >
+              </key>
+
+              <many-to-many
+                  class="org.infoglue.calendar.entities.Category"
+                  column="category_id"
+                  outer-join="auto"
+               />
+
+        </set>
+
+        <many-to-one
+            name="calendar"
+            class="org.infoglue.calendar.entities.Calendar"
+            cascade="none"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            access="property"
+            column="calendar_id"
+        />
+
         <!--
             To add non XDoclet property mappings, create a file named
                 hibernate-properties-Event.xml

@@ -31,12 +31,12 @@
         </id>
 
         <property
-            name="name"
+            name="userName"
             type="string"
             update="true"
             insert="true"
             access="property"
-            column="name"
+            column="userName"
             not-null="false"
             unique="true"
         />

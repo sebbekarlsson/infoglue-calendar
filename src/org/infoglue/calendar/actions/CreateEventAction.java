@@ -54,6 +54,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private Integer endTime;
     private String[] locationId;
     private String[] categoryId;
+    private String[] participantUserName;
     
     private String date;
     private String time;
@@ -74,7 +75,7 @@ public class CreateEventAction extends CalendarAbstractAction
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         
-        EventController.getController().createEvent(calendarId, name, description, startCalendar, endCalendar, locationId, categoryId);
+        EventController.getController().createEvent(calendarId, name, description, startCalendar, endCalendar, locationId, categoryId, participantUserName);
         
         return Action.SUCCESS;
     } 
@@ -209,5 +210,10 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setLocationId(String[] locationId)
     {
         this.locationId = locationId;
+    }
+    
+    public void setParticipantUserName(String[] participantUserName)
+    {
+        this.participantUserName = participantUserName;
     }
 }

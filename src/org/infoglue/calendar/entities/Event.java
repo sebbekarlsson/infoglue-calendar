@@ -140,11 +140,13 @@ public class Event
         this.locations = locations;
     }
     
-    /**
-     * hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Participant"
-     *
-     * @return List
-     */
+	/**
+     * @hibernate.set lazy="false"
+     * @hibernate.collection-key column="event_id"
+     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Participant"
+   	 *
+	 * @return Set
+	 */ 
     public Set getParticipants()
     {
         return participants;
@@ -155,11 +157,13 @@ public class Event
         this.participants = participants;
     }
     
-    /**
-     * hibernate.many-to-many column="event_id" class="org.infoglue.calendar.entities.Resource"
-     *
-     * @return List
-     */
+	/**
+     * @hibernate.set lazy="false"
+     * @hibernate.collection-key column="event_id"
+     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Resource"
+   	 *
+	 * @return Set
+	 */ 
     public Set getResources()
     {
         return resources;
