@@ -6,52 +6,28 @@
 
 <web-app>
 
-    <!-- Start WebWork -->
-    <servlet>
-        <servlet-name>action</servlet-name>
-        <servlet-class>webwork.dispatcher.ServletDispatcher</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+<display-name>My WebWork Application</display-name>
+	<servlet>
+		<servlet-name>webwork</servlet-name>
+		<servlet-class>com.opensymphony.webwork.dispatcher.ServletDispatcher</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>webwork</servlet-name>
+		<url-pattern>*.action</url-pattern>
+	</servlet-mapping>
 
-    <servlet>
-        <servlet-name>velocity</servlet-name>
-        <servlet-class>org.infoglue.common.application.actions.VelocityServlet</servlet-class>
-        <init-param>
-        <param-name>packageNames</param-name>
-        <param-value>com.frovi.vmi.applications,com.frovi.vmi.entities</param-value>
-        </init-param>
-        <load-on-startup/>
-    </servlet>
-
-    <servlet>
-        <servlet-name>xslt</servlet-name>
-        <servlet-class>webwork.view.xslt.XSLTServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>dispatch</servlet-name>
-        <servlet-class>webwork.dispatcher.ClientServletDispatcher</servlet-class>
-    </servlet>
-
-
-<!-- ************************************* -->
-<!-- This part is for webworks / velocity  -->
-<!-- ************************************* -->
-
-    <servlet-mapping>
-        <servlet-name>action</servlet-name>
-        <url-pattern>*.action</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>velocity</servlet-name>
-        <url-pattern>*.vm</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>xslt</servlet-name>
-        <url-pattern>*.xslt</url-pattern>
-    </servlet-mapping>
+	<servlet>
+	  <servlet-name>velocity</servlet-name> 
+	  <servlet-class>com.opensymphony.webwork.views.velocity.WebWorkVelocityServlet</servlet-class> 
+	  <load-on-startup>10</load-on-startup> 
+	</servlet>
+	
+	<servlet-mapping>
+	  <servlet-name>velocity</servlet-name> 
+	  <url-pattern>*.vm</url-pattern> 
+	</servlet-mapping>
+	
 
     <welcome-file-list>
  		<welcome-file>index.html</welcome-file>
@@ -67,13 +43,11 @@
     	<location>/index.html</location>
   	</error-page>
 
-
-   <taglib>
-      <taglib-uri>webwork</taglib-uri>
-      <taglib-location>/WEB-INF/lib/webwork.jar</taglib-location>
-   </taglib>
-   <!-- End WebWork -->   
-
+	<taglib>
+		<taglib-uri>webwork</taglib-uri>
+		<taglib-location>/WEB-INF/lib/webwork-2.1.1.jar</taglib-location>
+	</taglib>
+	
 	<!--
 	<security-constraint>
 		<web-resource-collection>

@@ -1,0 +1,12 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN" 
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+
+<xwork>
+	<!-- Include webwork defaults (from WebWork JAR). -->
+	<include file="webwork-default.xml" />
+	
+	<!-- Configuration for the default package. -->
+	<package name="default" extends="webwork-default">
+	</package>
+</xwork>
+
