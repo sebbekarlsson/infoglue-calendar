@@ -130,8 +130,9 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
     public void processAction(ActionRequest actionRequest,
             ActionResponse actionResponse) throws PortletException, IOException
     {
-        System.out.println("processAction");
-
+        System.out.println("processAction*****************************");
+        System.out.println("action:" + getPortletConfig().getInitParameter("action"));
+    
         log.debug("Got to processAction!!");
         try
         {

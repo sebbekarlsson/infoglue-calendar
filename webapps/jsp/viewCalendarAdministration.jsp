@@ -1,4 +1,14 @@
+<%@ page import="javax.portlet.PortletURL,
+				 java.util.Map,
+				 java.util.Iterator,
+				 java.util.List"%>
+
 <%@ taglib uri="webwork" prefix="ww" %>
+<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+
+<portlet:defineObjects/>
 
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -16,7 +26,16 @@
 	<div id="contentListHeader">
 		Calendars
 	</div>
-
+	
+	<%=renderResponse.encodeURL(renderRequest.getContextPath() + "/images/no.gif")%>
+	<%	
+		PortletURL url = renderResponse.createActionURL();
+		url.setParameter("action", "ViewCalendar.action");
+        url.setParameter("calendarId", "1");
+    %>    
+    <%=url%>
+	<a href="<%=url%>">Test</a>
+	
 	<div id="contentList">
 		<ww:iterator value="administrationUCCBean.calendars" status="rowstatus">
 		<p>

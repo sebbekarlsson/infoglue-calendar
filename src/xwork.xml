@@ -77,6 +77,7 @@
 			</result>
 		</action>
 	</package>
+	
 	<package name="mypackage" namespace="/WebworkDispatcherPortlet">
 		<result-types>
 			<result-type name="dispatcher" class="com.opensymphony.webwork.dispatcher.ServletDispatcherResult" default="true"/>
@@ -86,15 +87,30 @@
 			<result-type name="eventProcessed" class="com.opensymphony.webwork.portlet.alternative.action.ActionResult"/>
 		</result-types>
 		<default-interceptor-ref name="defaultStack"/>
-		<!--
-		<action name="ViewCalendarAdministration.action" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction"> 
-			<result name="success" type="dispatcher">jsp/viewCalendarAdministration.jsp</result>
-		</action> 
-		-->
 		<action name="ViewCalendarAdministration.action" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/viewCalendarAdministration.jsp</param>
 			</result>
 		</action>
+		
+		<!-- CALENDAR ACTIONS -->
+		<!--
+		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
+			<result name="input" type="dispatcher">jsp/createCalendar.jsp</result>
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
+		</action>
+		-->
+		<action name="ViewCalendar" class="org.infoglue.calendar.actions.ViewCalendarAction">
+			<result name="success" type="portletDispatch">jsp/viewCalendar.jsp</result>
+		</action>
+		<!--
+		<action name="UpdateCalendar" class="org.infoglue.calendar.actions.UpdateCalendarAction">
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
+		</action>
+		<action name="DeleteCalendar" class="org.infoglue.calendar.actions.DeleteCalendarAction">
+			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
+		</action>
+		-->
+		
 	</package>
 </xwork>
