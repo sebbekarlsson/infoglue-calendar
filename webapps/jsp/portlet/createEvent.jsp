@@ -1,5 +1,13 @@
-<%@ taglib uri="webwork" prefix="ww" %>
+<%@ page import="javax.portlet.PortletURL,
+				 java.util.Map,
+				 java.util.Iterator,
+				 java.util.List"%>
 
+<%@ taglib uri="webwork" prefix="ww" %>
+<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<portlet:defineObjects/>
 
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -7,12 +15,12 @@
 <head>
 	<title>Calendar information</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="css/calendar.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="applications/jscalendar/calendar-system.css" title="system" />
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
 	
-	<script type="text/javascript" src="applications/jscalendar/calendar.js"></script>
-	<script type="text/javascript" src="applications/jscalendar/lang/calendar-en.js"></script>
-	<script type="text/javascript" src="applications/jscalendar/calendar-setup.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
 	
 </head>
 
@@ -25,7 +33,13 @@
 	</div>
 
 	<div id="contentList">
-		<form name="inputForm" method="GET" action="CreateEvent.action">
+
+		<ww:set name="createEventUrl" value="${calendarId}" scope="page"/>
+		<portlet:actionURL var="createEventUrl">
+			<portlet:param name="action" value="CreateEvent"/>
+		</portlet:actionURL>
+		
+		<form name="inputForm" method="POST" action="<c:out value="${createEventUrl}"/>">
 			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 			<input type="hidden" name="date" value="<ww:property value="date"/>"/>
@@ -44,7 +58,7 @@
 					<div style="float: left">
 						startDateTime:<br> 
 						<input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="startDateTime"/>" class="dateInput">
-						<img src="images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
+						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
 					</div>
 					<div style="float: left">
 						StartTime:<br> 
@@ -57,7 +71,7 @@
 					<div style="float: left">
 						endDateTime:<br>
 						<input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="endDateTime"/>" class="dateInput">
-						<img src="images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
+						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
 					</div>
 					<div style="float: left">
 		      			EndTime:<br>
@@ -67,11 +81,19 @@
 			</p>
       		<p>
 	      		Location (Hold shift to select multiple):<br>
-	      		<ww:select name="'locationId'" listKey="id" listValue="name" list="locations" value="id" multiple="true" cssClass="'listBox'"/> 
+	      		<select name="locationId" multiple="true" class="listBox">
+		      		<ww:iterator value="locations">
+		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
+		      		</ww:iterator>
+	      		</select>
 			</p>
 			<p>
 	      		Category (Hold shift to select multiple):<br>
-	      		<ww:select name="'categoryId'" listKey="id" listValue="name" list="categories" value="id" multiple="true" cssClass="'listBox'"/> 
+	      		<select name="categoryId" multiple="true" class="listBox">
+		      		<ww:iterator value="categories">
+		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
+		      		</ww:iterator>
+	      		</select>
     		</p>
     		<p>  		
       			Participants (Hold shift to select multiple):<br>
