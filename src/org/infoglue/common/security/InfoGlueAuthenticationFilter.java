@@ -127,7 +127,7 @@ public class InfoGlueAuthenticationFilter implements Filter
 				}
 				
 				//TODO - we must fix so these caches are individual to the person - now a login will slow down for all
-				CacheController.clearCache("authorizationCache");
+				//CacheController.clearCache("authorizationCache");
 
 				// Store the authenticated user in the session
 				if(session != null)

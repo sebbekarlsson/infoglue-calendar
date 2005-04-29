@@ -76,7 +76,12 @@ public class CreateEventAction extends CalendarAbstractAction
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         
+        if(locationId == null || categoryId == null)
+            return Action.INPUT;
+        
+        System.out.println("Going to create event1..");
         EventController.getController().createEvent(calendarId, name, description, startCalendar, endCalendar, locationId, categoryId, participantUserName);
+        System.out.println("Going to create event2..");
         
         return Action.SUCCESS;
     } 
