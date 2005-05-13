@@ -113,8 +113,7 @@
 	
 	<package name="mypackage" namespace="/WebworkDispatcherPortlet" extends="portletwork-default">
 		<result-types>
-			<!--<result-type name="portletDispatch" class="com.opensymphony.webwork.portlet.alternative.action.PortletDispatchResult"/>-->
-			<result-type name="eventProcessed" class="com.opensymphony.webwork.portlet.alternative.action.ActionResult"/>
+			<!--<result-type name="eventProcessed" class="com.opensymphony.webwork.portlet.alternative.action.ActionResult"/>-->
 			<result-type name="dispatcher" class="com.opensymphony.webwork.dispatcher.ServletDispatcherResult" default="true"/>
 			<result-type name="redirect" class="com.opensymphony.webwork.dispatcher.ServletRedirectResult"/>
 			<result-type name="velocity" class="com.opensymphony.webwork.dispatcher.VelocityResult"/>
@@ -141,7 +140,7 @@
 		
 		<default-interceptor-ref name="defaultStack"/>
 		
-		<action name="ViewCalendarAdministration.action" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
+		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarAdministration.jsp</param>
 			</result>
@@ -229,6 +228,10 @@
 			<result name="input" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/createEvent.jsp</param>
             </result>
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">CreateEvent!input.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="parse">true</param>
+			</result>
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
 				<param name="parse">true</param>
@@ -243,6 +246,10 @@
 			</result>
 		</action>
 		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">ViewEvent.action?eventId=${eventId}&amp;calendarId=${calendarId}&amp;mode=${mode}</param>
+				<param name="parse">true</param>
+			</result>
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
 				<param name="parse">true</param>

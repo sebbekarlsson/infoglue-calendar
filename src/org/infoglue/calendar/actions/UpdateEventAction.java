@@ -30,6 +30,7 @@ import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
 
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -53,6 +54,12 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private Long calendarId;
     private String mode;
     
+    private String nameErrorMessage = "Mandatory field";
+    private String descriptionErrorMessage = "Mandatory field";
+    private String locationErrorMessage = "Mandatory field";
+    private String categoryErrorMessage = "Mandatory field";
+    private String participantsErrorMessage = "Mandatory field";
+
     /**
      * This is the entry point for the main listing.
      */
@@ -61,6 +68,34 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
+
+        if(name == null || 
+           name.equalsIgnoreCase("") || 
+           description == null || 
+           description.equalsIgnoreCase("") || 
+           locationId == null || 
+           locationId[0].equalsIgnoreCase("") || 
+           categoryId == null ||
+           categoryId[0].equalsIgnoreCase("") 
+           )
+        {
+            ActionContext.getContext().getSession().put("eventErrorName", this.name);
+            ActionContext.getContext().getSession().put("eventErrorDescription", this.description);
+            
+            if(this.name == null || this.name.length() == 0)
+                ActionContext.getContext().getSession().put("nameErrorMessage", this.nameErrorMessage);
+            if(this.description == null || this.description.length() == 0)
+                ActionContext.getContext().getSession().put("descriptionErrorMessage", this.descriptionErrorMessage);
+            if(this.locationId == null)
+                ActionContext.getContext().getSession().put("locationErrorMessage", this.locationErrorMessage);
+            if(this.categoryId == null)
+                ActionContext.getContext().getSession().put("categoryErrorMessage", this.categoryErrorMessage);
+            
+            //ActionContext.getContext().getSession().put("participantsErrorMessage", this.participantsErrorMessage);
+
+            return "error";
+            //return Action.INPUT;
+        }
 
         EventController.getController().updateEvent(eventId, name, description, startCalendar, endCalendar, locationId, categoryId, participantUserName);
         
@@ -187,5 +222,30 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     public void setParticipantUserName(String[] participantUserName)
     {
         this.participantUserName = participantUserName;
+    }
+    
+    public String getCategoryErrorMessage()
+    {
+        return categoryErrorMessage;
+    }
+    
+    public String getDescriptionErrorMessage()
+    {
+        return descriptionErrorMessage;
+    }
+    
+    public String getLocationErrorMessage()
+    {
+        return locationErrorMessage;
+    }
+    
+    public String getNameErrorMessage()
+    {
+        return nameErrorMessage;
+    }
+    
+    public String getParticipantsErrorMessage()
+    {
+        return participantsErrorMessage;
     }
 }

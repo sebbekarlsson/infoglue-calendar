@@ -40,6 +40,7 @@ import org.infoglue.common.security.InfoGluePrincipal;
 import org.infoglue.common.security.UserControllerProxy;
 
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Location Administration screen.
@@ -64,12 +65,31 @@ public class ViewEventAction extends CalendarAbstractAction
     private List infogluePrincipals;
     private List participatingPrincipals = new ArrayList();
     
+    private String nameErrorMessage = "Mandatory field";
+    private String descriptionErrorMessage = "Mandatory field";
+    private String locationErrorMessage = "Mandatory field";
+    private String categoryErrorMessage = "Mandatory field";
+    private String participantsErrorMessage = "Mandatory field";
+
+    
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
+        this.nameErrorMessage = (String)ActionContext.getContext().getSession().get("nameErrorMessage");
+        this.descriptionErrorMessage = (String)ActionContext.getContext().getSession().get("descriptionErrorMessage");
+        this.locationErrorMessage = (String)ActionContext.getContext().getSession().get("locationErrorMessage");
+        this.categoryErrorMessage = (String)ActionContext.getContext().getSession().get("categoryErrorMessage");
+        this.participantsErrorMessage = (String)ActionContext.getContext().getSession().get("participantsErrorMessage");
+                
+        ActionContext.getContext().getSession().remove("nameErrorMessage");
+        ActionContext.getContext().getSession().remove("descriptionErrorMessage");
+        ActionContext.getContext().getSession().remove("locationErrorMessage");
+        ActionContext.getContext().getSession().remove("categoryErrorMessage");
+        ActionContext.getContext().getSession().remove("participantsErrorMessage");
+        
         this.event = EventController.getController().getEvent(eventId);
         this.calendarId = this.event.getCalendar().getId();
         //this.locations 	= LocationController.getController().getLocationList();

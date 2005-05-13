@@ -41,7 +41,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
     public static HashMap createContextMap(Map requestMap, Map parameterMap,
             Map sessionMap, Map applicationMap, PortletRequest request,
             PortletResponse response, PortletConfig portletConfig)
-    {
+    {        
         HashMap extraContext = new HashMap();
         extraContext.put(ActionContext.PARAMETERS, parameterMap);
         extraContext.put(ActionContext.SESSION, sessionMap);
@@ -101,6 +101,13 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
     {
         System.out.println("processAction*****************************");
         System.out.println("calendarId:" + actionRequest.getParameter("calendarId"));
+        
+        //String name = actionRequest.getParameter("name");
+        //System.out.println("********************************************name:" + name);
+        //System.out.println("********************************************name: едц");
+        //actionRequest.setCharacterEncoding("utf-8");
+        //String name = actionRequest.getParameter("name");
+        System.out.println("********************************************name:" + actionRequest.getCharacterEncoding());
         
         log.debug("Got to processAction!!");
         try

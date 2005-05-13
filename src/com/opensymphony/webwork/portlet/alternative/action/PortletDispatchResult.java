@@ -1,4 +1,4 @@
-//$Id: PortletDispatchResult.java,v 1.3 2004/12/08 16:29:38 mattias Exp $
+//$Id: PortletDispatchResult.java,v 1.4 2005/05/13 13:15:07 mattias Exp $
 package com.opensymphony.webwork.portlet.alternative.action;
 
 import java.util.Iterator;
@@ -60,6 +60,8 @@ public class PortletDispatchResult implements Result {
 		Object o = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
 		System.out.println("o:" + o.getClass().getName());
 		
+        System.out.println("Request:" + ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest"));
+        System.out.println("Response:" + ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse"));
         RenderRequest req = (RenderRequest)ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
         RenderResponse res = (RenderResponse)ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
 		log.debug("Including jsp " + dispatchTo);

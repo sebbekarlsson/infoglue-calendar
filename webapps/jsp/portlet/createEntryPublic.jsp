@@ -36,10 +36,15 @@
 
 		<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 			<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
-			<%= resourceBundle.getString("labels.public.entry.firstNameLabel") %> <input type="textfield" class="normalInput" name="firstName" value="">
+			<p>
+				<%= resourceBundle.getString("labels.public.entry.firstNameLabel") %> <input type="textfield" class="normalInput" name="firstName" value="">
+			</p>
+			<p>
 			<%= resourceBundle.getString("labels.public.entry.lastNameLabel") %> <input type="textfield" class="normalInput" name="lastName" value="">
+			</p>
+			<p>
 			<%= resourceBundle.getString("labels.public.entry.emailLabel") %> <input type="textfield" class="normalInput" name="email" value="">
-			<br><br>
+			</p>
 			<input type="submit" value="<%= resourceBundle.getString("labels.public.entry.submitLabel") %>">
 		</form>
 	</div>

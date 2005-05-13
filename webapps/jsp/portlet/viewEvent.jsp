@@ -67,11 +67,11 @@
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 			
 			<p>
-				<span class="label">Namn:</span><br>
+				<span class="label">Namn:</span><span class="alert"><ww:property value="nameErrorMessage"/></span><br>
 				<input type="textfield" name="name" value="<ww:property value="event.name"/>" class="normalInput">
 			</p>
 			<p>
-				<span class="label">Beskrivning:</span><br> 
+				<span class="label">Beskrivning:</span><span class="alert"><ww:property value="descriptionErrorMessage"/></span><br> 
 				<input type="textfield" name="description" value="<ww:property value="event.description"/>" class="normalInput">
 			</p>
 			<p>
@@ -110,7 +110,7 @@
 			</p>
 			
        		<p>
-	      		<span class="label">Plats (Håll ner Ctrl för att välja flera):</span><br>
+	      		<span class="label">Plats (Håll ner Ctrl för att välja flera):</span><span class="alert"><ww:property value="locationErrorMessage"/></span><br>
 				<select name="locationId" multiple="true" class="listBox">
       				<ww:iterator value="selectedLocations">
 		      			<option value="<ww:property value='top.id'/>" selected="1"><ww:property value="top.name"/></option>
@@ -122,7 +122,7 @@
 				</select>
   			</p>
 			<p>
-	      		<span class="label">Kategori (Håll ner Ctrl för att välja flera):</span><br>
+	      		<span class="label">Kategori (Håll ner Ctrl för att välja flera):</span><span class="alert"><ww:property value="categoryErrorMessage"/></span><br>
 				<select name="categoryId" multiple="true" class="listBox">
 					<ww:iterator value="selectedCategories">
 		      			<option value="<ww:property value='top.id'/>" selected="1"><ww:property value="top.name"/></option>
@@ -134,7 +134,7 @@
 	      		</select>
 	       	</p>
 	       	<p>  		
-      			<span class="label">Deltagare (Håll ner Ctrl för att välja flera):</span><br>
+      			<span class="label">Deltagare (Håll ner Ctrl för att välja flera):</span><span class="alert"><ww:property value="principalsErrorMessage"/></span><br>
 	      		<select name="participantUserName" multiple="true" class="listBox">
 	      			<ww:iterator value="participatingPrincipals">
 		      			<option value="<ww:property value='top.name'/>" selected="1"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>

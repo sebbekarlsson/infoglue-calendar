@@ -45,12 +45,12 @@
 			<input type="hidden" name="time" value="<ww:property value="time"/>"/>
 			
 			<p>
-				name:<br>
-				<input type="textfield" name="name" value="" class="normalInput">
+				name: <span class="alert"><ww:property value="nameErrorMessage"/></span><br>
+				<input type="textfield" name="name" value="<ww:property value="name"/>" class="normalInput">
 			</p>
 			<p>
-				description:<br> 
-				<input type="textfield" name="description" value="" class="normalInput">
+				description: <span class="alert"><ww:property value="descriptionErrorMessage"/></span><br> 
+				<input type="textfield" name="description" value="<ww:property value="description"/>" class="normalInput">
 			</p>
 			<p>
 				<table border="0" cellspacing="0">
@@ -87,7 +87,7 @@
 				</table>
 			</p>
       		<p>
-	      		Location (Hold shift to select multiple):<br>
+	      		Location (Hold shift to select multiple): <span class="alert"><ww:property value="locationErrorMessage"/></span><br>
 	      		<select name="locationId" multiple="true" class="listBox">
 		      		<ww:iterator value="locations">
 		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
@@ -95,7 +95,7 @@
 	      		</select>
 			</p>
 			<p>
-	      		Category (Hold shift to select multiple):<br>
+	      		Category (Hold shift to select multiple): <span class="alert"><ww:property value="categoryErrorMessage"/></span><br>
 	      		<select name="categoryId" multiple="true" class="listBox">
 		      		<ww:iterator value="categories">
 		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
@@ -103,7 +103,7 @@
 	      		</select>
     		</p>
     		<p>  		
-      			Participants (Hold shift to select multiple):<br>
+      			Participants (Hold shift to select multiple): <span class="alert"><ww:property value="participantsErrorMessage"/></span><br>
 	      		<select name="participantUserName" multiple="true" class="listBox">
 		      		<ww:iterator value="infogluePrincipals">
 		      			<option value="<ww:property value='top.name'/>"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>
