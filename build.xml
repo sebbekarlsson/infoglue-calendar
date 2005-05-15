@@ -32,7 +32,7 @@
     <!-- specified in the 'basedir' attribute of the project tag)        -->
 
 	<property name="build" value="build"/>
-	<property name="build.classes" value="${build}/WEB-INF/classes"/>
+	<property name="build.classes" value="${build}"/>
 
     <property name="conf.dir" value="bin"/>        
     <property name="build.dir" value="webapps/WEB-INF"/>        
