@@ -24,13 +24,20 @@
 package org.infoglue.calendar.actions;
 
 import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.Map;
+
+import javax.servlet.ServletInputStream;
 
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
 
+import com.opensymphony.webwork.ServletActionContext;
+import com.opensymphony.webwork.util.AttributeMap;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
+import com.opensymphony.xwork.util.OgnlValueStack;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -109,6 +116,45 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String upload() throws Exception 
     {
+        Enumeration enum = ServletActionContext.getRequest().getParameterNames();
+        while(enum.hasMoreElements())
+        {
+            String name = (String)enum.nextElement();
+            System.out.println("Parameter name:" + name);
+        }
+
+        enum = ServletActionContext.getRequest().getHeaderNames();
+        while(enum.hasMoreElements())
+        {
+            String name = (String)enum.nextElement();
+            System.out.println("Header name:" + name);
+        }
+
+        enum = ServletActionContext.getRequest().getAttributeNames();
+        while(enum.hasMoreElements())
+        {
+            String name = (String)enum.nextElement();
+            System.out.println("Attribute name:" + name);
+        }
+
+        OgnlValueStack o = (OgnlValueStack)ServletActionContext.getRequest().getAttribute("webwork.valueStack");
+        System.out.println("O:" + o.toString());
+        System.out.println("O:" + o.getContext().keySet().toString());
+        
+        Map parameters2 = (Map) o.getContext().get("parameters");
+        System.out.println("parameters:" + parameters2.keySet().toString());
+
+        AttributeMap attr = (AttributeMap) o.getContext().get("attr");
+        System.out.println("attr:" + attr.toString());
+
+        ServletInputStream in = ServletActionContext.getRequest().getInputStream();
+        int i = in.read();
+        while (i != -1) {
+            System.out.print((char)i);
+            i = in.read();
+        }
+
+        System.out.println("");
         ResourceController.getController().createResource(this.eventId, this.getAssetKey(), this.getFileContentType(), this.getFileFileName(), this.getFile());
         
         return Action.SUCCESS;

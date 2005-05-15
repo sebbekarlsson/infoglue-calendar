@@ -59,10 +59,19 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 
         Properties props = new Properties();
         
-        System.out.println("SecurityConstants.connectionUserName:" + SecurityConstants.connectionUserName);
-        System.out.println("SecurityConstants.connectionPassword:" + SecurityConstants.connectionPassword);
         props.put("user", SecurityConstants.connectionUserName);
         props.put("password", SecurityConstants.connectionPassword);
+        
+        int index = 0;
+        String parameterName = (String)SecurityConstants.extraProperties.get("org.infoglue.common.security.jdbc." + index + ".connectionParameter.name");
+        while(parameterName != null)
+        {
+            String parameterValue = (String)SecurityConstants.extraProperties.get("org.infoglue.common.security.jdbc." + index + ".connectionParameter.value");
+            props.put(parameterName, parameterValue);
+        
+            index++;
+            parameterName = (String)SecurityConstants.extraProperties.get("org.infoglue.common.security.jdbc." + index + ".connectionParameter.name");
+        }
         
         Connection conn = driver.connect(SecurityConstants.connectionUrl, props);
         conn.setAutoCommit(false);

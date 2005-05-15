@@ -167,8 +167,13 @@
 		</form>
 	</div>
 	
+	<portlet:actionURL var="updateEventUploadActionUrl">
+		<portlet:param name="action" value="UpdateEvent!upload"/>
+	</portlet:actionURL>
+	
 	<div id="upload" style="display: none;">
-		<form name="inputForm" method="POST" action="UpdateEvent!upload.action" enctype="multipart/form-data">
+		
+		<form enctype="multipart/form-data" name="inputForm" method="POST" action="<c:out value="${updateEventUploadActionUrl}"/>">
 			<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
 			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
@@ -180,8 +185,12 @@
 				<input type="textfield" name="assetKey" class="normalInput">
 			</p>
 			<p>
+				APA:<br>
+				<input type="textfield" name="APA" class="normalInput">
+			</p>
+			<p>
 				Attach file:<br>
-				<input type="file" name="file"/>
+				<input type="file" name="file" id="file"/>
 			</p>
 			<p>
 				<input type="submit" value="Update">

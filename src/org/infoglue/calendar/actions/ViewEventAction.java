@@ -144,7 +144,7 @@ public class ViewEventAction extends CalendarAbstractAction
         
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.participatingPrincipals.addAll(this.infogluePrincipals);
-        
+
         Iterator participatingPrincipalsIterator = this.participatingPrincipals.iterator();
         while(participatingPrincipalsIterator.hasNext())
         {

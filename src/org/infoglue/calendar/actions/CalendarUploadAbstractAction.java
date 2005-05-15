@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionSupport;
 
 /**
@@ -79,6 +80,9 @@ public abstract class CalendarUploadAbstractAction extends CalendarAbstractActio
     
     public File getFile()
     {
+        if(ServletActionContext.getRequest().getAttribute("file") != null)
+            return (File)ServletActionContext.getRequest().getAttribute("file");
+        
         return file;
     }
     
