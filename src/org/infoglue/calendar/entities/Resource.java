@@ -37,6 +37,7 @@ public class Resource
 {
     private Long id;
     private String assetKey;
+    private String fileName;
     private Blob resource;
     private Event event;
     
@@ -69,7 +70,22 @@ public class Resource
     {
         this.assetKey = assetKey;
     }
-        
+
+    /**
+     * @hibernate.property name="getFileName" column="fileName" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getFileName()
+    {
+        return fileName;
+    }
+    
+    public void setFileName(String fileName)
+    {
+        this.fileName = fileName;
+    }
+
     /**
     * @hibernate.property column = "file" type = "blob" not-null = "true"
     */

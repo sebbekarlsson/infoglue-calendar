@@ -9,7 +9,7 @@
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-
+<%@ taglib uri="calendar" prefix="calendar" %>
 
 <portlet:defineObjects/>
 
@@ -148,8 +148,11 @@
 			<p>
 				<span class="label">Attached files:</span><br>
 				<ww:iterator value="event.resources">
-					<a href="<ww:property value='this.getResourceUrl(top.id)'/>"><ww:property value='assetKey'/></a><br>     			
+					<ww:set name="resourceId" value="top.id" scope="request"/>
+					<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
+					<a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a><br>     			
 	      		</ww:iterator>
+	      		<br/>
 	      		<a href="javascript:showUploadForm();">Add resource</a>
 			</p>
 			<p>
@@ -167,13 +170,13 @@
 		</form>
 	</div>
 	
-	<portlet:actionURL var="updateEventUploadActionUrl">
-		<portlet:param name="action" value="UpdateEvent!upload"/>
+	<portlet:actionURL var="createResourceUploadActionUrl">
+		<portlet:param name="action" value="CreateResource"/>
 	</portlet:actionURL>
 	
 	<div id="upload" style="display: none;">
 		
-		<form enctype="multipart/form-data" name="inputForm" method="POST" action="<c:out value="${updateEventUploadActionUrl}"/>">
+		<form enctype="multipart/form-data" name="inputForm" method="POST" action="<c:out value="${createResourceUploadActionUrl}"/>">
 			<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
 			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
@@ -183,10 +186,6 @@
 			<p>
 				Attachment key:<br>
 				<input type="textfield" name="assetKey" class="normalInput">
-			</p>
-			<p>
-				APA:<br>
-				<input type="textfield" name="APA" class="normalInput">
 			</p>
 			<p>
 				Attach file:<br>

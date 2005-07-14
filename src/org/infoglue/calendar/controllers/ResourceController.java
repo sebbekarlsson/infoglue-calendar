@@ -37,6 +37,7 @@ import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.entities.Resource;
+import org.infoglue.common.util.PropertyHelper;
 
 
 import java.util.Date;
@@ -74,6 +75,7 @@ public class ResourceController extends BasicController
     
     public Resource createResource(Long eventId, String assetKey, String contentType, String fileName, File file) throws HibernateException, Exception 
     {
+        System.out.println("File:" + file.getAbsolutePath());
         Resource resource = null;
         
         Session session = getSession();
@@ -112,9 +114,11 @@ public class ResourceController extends BasicController
     public Resource createResource(Event event, String assetKey, String contentType, String fileName, File file, Session session) throws HibernateException, Exception 
     {
         System.out.println("Creating new resource...");
-        
+        System.out.println("FileName:" + fileName);
+
         Resource resource = new Resource();
         resource.setAssetKey(assetKey);
+        resource.setFileName(fileName);
         resource.setResource(Hibernate.createBlob(new FileInputStream(file)));
         
         event.getResources().add(resource);
@@ -223,7 +227,10 @@ public class ResourceController extends BasicController
 			tx = session.beginTransaction();
 			Resource resource = getResource(id, session);
 			
-			FileOutputStream fos = new FileOutputStream("c:/temp/" + resource.getId() + "_" + resource.getAssetKey() + ".gif");
+			String digitalAssetPath = PropertyHelper.getProperty("digitalAssetPath");
+			String fileName = resource.getId() + "_" + resource.getAssetKey() + "_" + resource.getFileName();
+			FileOutputStream fos = new FileOutputStream(digitalAssetPath + fileName);
+			
 			Blob blob = resource.getResource();
 			byte[] bytes = blob.getBytes(1, (int) blob.length());
 			System.out.println(bytes.length);
@@ -231,7 +238,9 @@ public class ResourceController extends BasicController
 			fos.flush();
 			fos.close(); 
 
-			url = "file://c:/temp/" + resource.getId() + "_" + resource.getAssetKey() + ".gif";
+			String urlBase = PropertyHelper.getProperty("urlBase");
+			
+			url = urlBase + "digitalAssets/" + fileName;
 
 			tx.commit();
 		}

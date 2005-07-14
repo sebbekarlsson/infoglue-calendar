@@ -40,7 +40,18 @@
             not-null="false"
             unique="false"
         />
-
+		
+		<property
+            name="fileName"
+            type="string"
+            update="true"
+            insert="true"
+            access="property"
+            column="fileName"
+            not-null="false"
+            unique="false"
+        />
+        
         <property
             name="resource"
             type="blob"

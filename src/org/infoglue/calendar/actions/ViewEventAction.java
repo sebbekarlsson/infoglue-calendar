@@ -39,6 +39,7 @@ import org.infoglue.calendar.entities.Participant;
 import org.infoglue.common.security.InfoGluePrincipal;
 import org.infoglue.common.security.UserControllerProxy;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 
@@ -90,6 +91,16 @@ public class ViewEventAction extends CalendarAbstractAction
         ActionContext.getContext().getSession().remove("categoryErrorMessage");
         ActionContext.getContext().getSession().remove("participantsErrorMessage");
         
+        System.out.println("eventId:" + this.eventId);
+        System.out.println("calendarId:" + this.calendarId);
+        System.out.println("mode:" + this.mode);
+        
+        if(this.eventId == null)
+            this.eventId = new Long(ServletActionContext.getRequest().getParameter("eventId"));
+
+        if(this.calendarId == null)
+            this.calendarId = new Long(ServletActionContext.getRequest().getParameter("calendarId"));
+
         this.event = EventController.getController().getEvent(eventId);
         this.calendarId = this.event.getCalendar().getId();
         //this.locations 	= LocationController.getController().getLocationList();

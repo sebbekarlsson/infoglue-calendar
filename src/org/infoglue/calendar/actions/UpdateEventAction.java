@@ -23,12 +23,19 @@
 
 package org.infoglue.calendar.actions;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import javax.portlet.ActionRequest;
 import javax.servlet.ServletInputStream;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.portlet.PortletFileUpload;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
@@ -116,42 +123,46 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String upload() throws Exception 
     {
-        Enumeration enum = ServletActionContext.getRequest().getParameterNames();
-        while(enum.hasMoreElements())
-        {
-            String name = (String)enum.nextElement();
-            System.out.println("Parameter name:" + name);
-        }
-
-        enum = ServletActionContext.getRequest().getHeaderNames();
-        while(enum.hasMoreElements())
-        {
-            String name = (String)enum.nextElement();
-            System.out.println("Header name:" + name);
-        }
-
-        enum = ServletActionContext.getRequest().getAttributeNames();
-        while(enum.hasMoreElements())
-        {
-            String name = (String)enum.nextElement();
-            System.out.println("Attribute name:" + name);
-        }
-
-        OgnlValueStack o = (OgnlValueStack)ServletActionContext.getRequest().getAttribute("webwork.valueStack");
-        System.out.println("O:" + o.toString());
-        System.out.println("O:" + o.getContext().keySet().toString());
+        System.out.println("-------------Uploading file.....");
         
-        Map parameters2 = (Map) o.getContext().get("parameters");
-        System.out.println("parameters:" + parameters2.keySet().toString());
+        try
+        {
+	        DiskFileItemFactory factory = new DiskFileItemFactory();
+	        // Configure the factory here, if desired.
+	        PortletFileUpload upload = new PortletFileUpload(factory);
+	        // Configure the uploader here, if desired.
+	        List fileItems = upload.parseRequest(ServletActionContext.getRequest());
+            System.out.println("fileItems:" + fileItems.size());
+	        Iterator i = fileItems.iterator();
+	        while(i.hasNext())
+	        {
+	            Object o = i.next();
+	            DiskFileItem dfi = (DiskFileItem)o;
+	            System.out.println("dfi:" + dfi.getFieldName());
+	            System.out.println("dfi:" + dfi);
+	            
+	            if (!dfi.isFormField()) {
+	                String fieldName = dfi.getFieldName();
+	                String fileName = dfi.getName();
+	                String contentType = dfi.getContentType();
+	                boolean isInMemory = dfi.isInMemory();
+	                long sizeInBytes = dfi.getSize();
+	                
+	                System.out.println("fieldName:" + fieldName);
+	                System.out.println("fileName:" + fileName);
+	                System.out.println("contentType:" + contentType);
+	                System.out.println("isInMemory:" + isInMemory);
+	                System.out.println("sizeInBytes:" + sizeInBytes);
+	                File uploadedFile = new File("c:/temp/uploads/" + fileName);
+	                dfi.write(uploadedFile);
+	            }
 
-        AttributeMap attr = (AttributeMap) o.getContext().get("attr");
-        System.out.println("attr:" + attr.toString());
-
-        ServletInputStream in = ServletActionContext.getRequest().getInputStream();
-        int i = in.read();
-        while (i != -1) {
-            System.out.print((char)i);
-            i = in.read();
+	        }
+	        
+	    }
+        catch(Exception e)
+        {
+            e.printStackTrace();
         }
 
         System.out.println("");

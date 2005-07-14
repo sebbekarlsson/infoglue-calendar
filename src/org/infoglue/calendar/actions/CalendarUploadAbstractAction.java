@@ -26,9 +26,18 @@ package org.infoglue.calendar.actions;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.portlet.PortletFileUpload;
 
 import com.opensymphony.webwork.ServletActionContext;
+import com.opensymphony.webwork.dispatcher.multipart.MultiPartRequestWrapper;
 import com.opensymphony.xwork.ActionSupport;
 
 /**
@@ -42,6 +51,7 @@ public abstract class CalendarUploadAbstractAction extends CalendarAbstractActio
 {
     protected File file;
     protected String assetKey;
+    protected String fileName;
     protected String fileContentType;
     protected String fileFileName;
     protected File[] files;
@@ -80,8 +90,77 @@ public abstract class CalendarUploadAbstractAction extends CalendarAbstractActio
     
     public File getFile()
     {
-        if(ServletActionContext.getRequest().getAttribute("file") != null)
-            return (File)ServletActionContext.getRequest().getAttribute("file");
+        /*
+        MultiPartRequestWrapper multiWrapper = (MultiPartRequestWrapper) ServletActionContext.getRequest();
+        if (multiWrapper.hasErrors()) {
+            Collection errors = multiWrapper.getErrors();
+            Iterator i = errors.iterator();
+            while (i.hasNext()) {
+                String error = (String) i.next();
+              addActionError(error);
+              System.out.println("Error:" + error);
+            }
+            return null;
+          }
+        
+        Enumeration e = multiWrapper.getFileNames();
+
+        while (e.hasMoreElements()) {
+           String inputValue = (String) e.nextElement();
+           String contentType = multiWrapper.getContentType(inputValue);
+           String fileName = multiWrapper.getFilesystemName(inputValue);
+           File file = multiWrapper.getFile(inputValue);
+
+           // If it's null the upload failed
+           if (file == null) {
+              addActionError("Error uploading: " + multiWrapper.getFilesystemName(inputValue));
+           }
+
+           return file;
+        }
+        */
+        
+        try
+        {
+	        DiskFileItemFactory factory = new DiskFileItemFactory();
+	        // Configure the factory here, if desired.
+	        PortletFileUpload upload = new PortletFileUpload(factory);
+	        // Configure the uploader here, if desired.
+	        List fileItems = upload.parseRequest(ServletActionContext.getRequest());
+            System.out.println("fileItems:" + fileItems.size());
+	        Iterator i = fileItems.iterator();
+	        while(i.hasNext())
+	        {
+	            Object o = i.next();
+	            DiskFileItem dfi = (DiskFileItem)o;
+	            System.out.println("dfi:" + dfi.getFieldName());
+	            System.out.println("dfi:" + dfi);
+	            
+	            if (!dfi.isFormField()) {
+	                String fieldName = dfi.getFieldName();
+	                String fileName = dfi.getName();
+	                String contentType = dfi.getContentType();
+	                boolean isInMemory = dfi.isInMemory();
+	                long sizeInBytes = dfi.getSize();
+	                
+	                System.out.println("fieldName:" + fieldName);
+	                System.out.println("fileName:" + fileName);
+	                System.out.println("contentType:" + contentType);
+	                System.out.println("isInMemory:" + isInMemory);
+	                System.out.println("sizeInBytes:" + sizeInBytes);
+	                File uploadedFile = new File("c:/temp/uploads/" + fileName);
+	                dfi.write(uploadedFile);
+	                return uploadedFile;
+	            }
+
+	        }
+	        
+	    }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
         
         return file;
     }
@@ -119,6 +198,16 @@ public abstract class CalendarUploadAbstractAction extends CalendarAbstractActio
     public void setAssetKey(String assetKey)
     {
         this.assetKey = assetKey;
+    }
+    
+    public String getFileName()
+    {
+        return fileName;
+    }
+    
+    public void setFileName(String fileName)
+    {
+        this.fileName = fileName;
     }
 }
 

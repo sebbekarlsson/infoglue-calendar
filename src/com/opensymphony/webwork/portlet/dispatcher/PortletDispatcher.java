@@ -252,16 +252,16 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
             */
             
             ActionProxy proxy = ActionProxyFactory.getFactory().createActionProxy(namespace, actionName, extraContext);
-            System.out.println("Stack:" + proxy.getInvocation().getStack());
+            //System.out.println("Stack:" + proxy.getInvocation().getStack());
             request.setAttribute("webwork.valueStack", proxy.getInvocation().getStack());
             
             proxy.execute();
             
-            System.out.println("request:" + request.getClass().getName());
+            //System.out.println("request:" + request.getClass().getName());
             //TODO: This code is a B.S. cheat by me. Need to figure out if this is even needed.
             if (request instanceof ActionRequest)
             {
-                System.out.println("request was ActionRequest.........");
+                //System.out.println("request was ActionRequest.........");
                 request.getPortletSession().setAttribute(ACTION_CONTEXT, proxy.getInvocation().getInvocationContext());
             }
         } catch (ConfigurationException e)
