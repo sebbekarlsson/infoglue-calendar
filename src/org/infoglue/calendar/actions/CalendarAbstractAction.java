@@ -33,11 +33,11 @@ import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import org.infoglue.calendar.controllers.ICalendarController;
 import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Participant;
-import org.infoglue.calendar.util.CalendarHelper;
 import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -178,31 +178,9 @@ public abstract class CalendarAbstractAction extends ActionSupport
     }
 
     
-    public String getVCalendar(Event event) throws Exception
+    public String getVCalendar(Long eventId) throws Exception
     {
-        String url = "";
-        
-        System.out.println("*******************START*********************");
-	    
-        try
-        {
-            String contextRootPath = PropertyHelper.getProperty("calendarsPath");
-            
-			String file = contextRootPath + "event_" + event.getId() + ".vcs";
-	
-	        CalendarHelper.getCalendarHelper().getVCalendar(event, file);
-	
-	        System.out.println("event_" + event.getId() + ".vcs");
-	        url = "calendars" + File.separator + "event_" + event.getId() + ".vcs";
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        
-        System.out.println("*******************END***********************");
-        
-	    return url;
+        return ICalendarController.getICalendarController().getICalendarUrl(eventId);
     }
     
     public String getResourceUrl(Long resourceId) throws Exception

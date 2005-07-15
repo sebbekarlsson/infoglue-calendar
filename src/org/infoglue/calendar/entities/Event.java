@@ -42,6 +42,21 @@ public class Event
     private java.util.Calendar startDateTime;
     private java.util.Calendar endDateTime;
     
+    private Boolean isInternal;
+    private Boolean isOrganizedByGU;
+    private String organizerName;
+    private String lecturer;
+    private String customLocation;
+    private String shortDescription;
+    private String longDescription;
+    private String eventUrl;
+    private String contactName;
+    private String contactEmail;
+    private String contactPhone;
+    private Float price;
+    private java.util.Calendar lastRegistrationDateTime;
+    private Integer maxumumParticipants;
+    
     private Calendar calendar;
     private Set locations;
     private Set participants;
@@ -204,4 +219,215 @@ public class Event
     {
         this.calendar = calendar;
     }
+    
+    /**
+     * @hibernate.property name="getContactEmail" column="contactEmail" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getContactEmail()
+    {
+        return contactEmail;
+    }
+    
+    public void setContactEmail(String contactEmail)
+    {
+        this.contactEmail = contactEmail;
+    }
+    
+    /**
+     * @hibernate.property name="getContactName" column="contactName" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getContactName()
+    {
+        return contactName;
+    }
+    
+    public void setContactName(String contactName)
+    {
+        this.contactName = contactName;
+    }
+    
+    /**
+     * @hibernate.property name="getContactPhone" column="contactPhone" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getContactPhone()
+    {
+        return contactPhone;
+    }
+    
+    public void setContactPhone(String contactPhone)
+    {
+        this.contactPhone = contactPhone;
+    }
+    
+    /**
+     * @hibernate.property name="getCustomLocation" column="customLocation" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getCustomLocation()
+    {
+        return customLocation;
+    }
+    
+    public void setCustomLocation(String customLocation)
+    {
+        this.customLocation = customLocation;
+    }
+    
+    /**
+     * @hibernate.property name="getEventUrl" column="eventUrl" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getEventUrl()
+    {
+        return eventUrl;
+    }
+    
+    public void setEventUrl(String eventUrl)
+    {
+        this.eventUrl = eventUrl;
+    }
+    
+    /**
+     * @hibernate.property name="getIsInternal" column="isInternal" type="boolean" not-null="false" unique="false"
+     * 
+     * @return Boolean
+     */
+    public Boolean getIsInternal()
+    {
+        return isInternal;
+    }
+    
+    public void setIsInternal(Boolean isInternal)
+    {
+        this.isInternal = isInternal;
+    }
+    
+    /**
+     * @hibernate.property name="getIsOrganizedByGU" column="isOrganizedByGU" type="boolean" not-null="false" unique="false"
+     * 
+     * @return Boolean
+     */
+    public Boolean getIsOrganizedByGU()
+    {
+        return isOrganizedByGU;
+    }
+    
+    public void setIsOrganizedByGU(Boolean isOrganizedByGU)
+    {
+        this.isOrganizedByGU = isOrganizedByGU;
+    }
+
+    /**
+     * @hibernate.property name="getLastRegistrationDateTime" column="lastRegistrationDateTime" type="calendar" not-null="false" unique="false"
+     * 
+     * @return java.util.Calendar
+     */
+
+    public java.util.Calendar getLastRegistrationDateTime()
+    {
+        return lastRegistrationDateTime;
+    }
+
+    public void setLastRegistrationDateTime(java.util.Calendar lastRegistrationDateTime)
+    {
+        this.lastRegistrationDateTime = lastRegistrationDateTime;
+    }
+
+    /**
+     * @hibernate.property name="getLecturer" column="lecturer" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getLecturer()
+    {
+        return lecturer;
+    }
+    
+    public void setLecturer(String lecturer)
+    {
+        this.lecturer = lecturer;
+    }
+        
+    /**
+     * @hibernate.property name="getMaxumumParticipants" column="maxumumParticipants" type="string" not-null="false" unique="false"
+     * 
+     * @return Integer
+     */
+    public Integer getMaxumumParticipants()
+    {
+        return maxumumParticipants;
+    }
+    
+    public void setMaxumumParticipants(Integer maxumumParticipants)
+    {
+        this.maxumumParticipants = maxumumParticipants;
+    }
+    
+    /**
+     * @hibernate.property name="getOrganizerName" column="organizerName" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getOrganizerName()
+    {
+        return organizerName;
+    }
+    
+    public void setOrganizerName(String organizerName)
+    {
+        this.organizerName = organizerName;
+    }
+    
+    /**
+     * @hibernate.property name="getPrice" column="price" type="float" not-null="false" unique="false"
+     * 
+     * @return Float
+     */
+    public Float getPrice()
+    {
+        return price;
+    }
+    public void setPrice(Float price)
+    {
+        this.price = price;
+    }
+    
+    /**
+     * @hibernate.property name="getShortDescription" column="shortDescription" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getShortDescription()
+    {
+        return shortDescription;
+    }
+    
+    public void setShortDescription(String shortDescription)
+    {
+        this.shortDescription = shortDescription;
+    }
+    
+    /**
+     * @hibernate.property name="getLongDescription" column="longDescription" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getLongDescription()
+    {
+        return longDescription;
+    }
+    
+    public void setLongDescription(String longDescription)
+    {
+        this.longDescription = longDescription;
+    }
+
 }

@@ -61,6 +61,23 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private String endDateTime;
     private Integer startTime;
     private Integer endTime;
+
+    private Boolean isInternal;
+    private Boolean isOrganizedByGU;
+    private String organizerName;
+    private String lecturer;
+    private String customLocation;
+    private String shortDescription;
+    private String longDescription;
+    private String eventUrl;
+    private String contactName;
+    private String contactEmail;
+    private String contactPhone;
+    private Float price;
+    private String lastRegistrationDateTime;
+    private Integer lastRegistrationTime;
+    private Integer maxumumParticipants;
+
     private String[] locationId;
     private String[] categoryId;
     private String[] participantUserName;
@@ -82,6 +99,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
+        Calendar lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
 
         if(name == null || 
            name.equalsIgnoreCase("") || 
@@ -111,7 +129,33 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
             //return Action.INPUT;
         }
 
-        EventController.getController().updateEvent(eventId, name, description, startCalendar, endCalendar, locationId, categoryId, participantUserName);
+        System.out.println("isInternal: " + isInternal);
+        System.out.println("isOrganizedByGU: " + isOrganizedByGU);
+        System.out.println("price: " + price);
+        System.out.println("lastRegistrationCalendar: " + lastRegistrationCalendar.getTime());
+        EventController.getController().updateEvent(
+                eventId, 
+                name,
+                description, 
+                isInternal, 
+                isOrganizedByGU, 
+                organizerName, 
+                lecturer, 
+                customLocation,
+                shortDescription,
+                longDescription,
+                eventUrl,
+                contactName,
+                contactEmail,
+                contactPhone,
+                price,
+                lastRegistrationCalendar,
+                maxumumParticipants,
+                startCalendar, 
+                endCalendar, 
+                locationId, 
+                categoryId, 
+                participantUserName);
         
         
         return Action.SUCCESS;
@@ -304,5 +348,155 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     public String getParticipantsErrorMessage()
     {
         return participantsErrorMessage;
+    }
+    
+    public String getContactEmail()
+    {
+        return contactEmail;
+    }
+    public void setContactEmail(String contactEmail)
+    {
+        this.contactEmail = contactEmail;
+    }
+    public String getContactName()
+    {
+        return contactName;
+    }
+    public void setContactName(String contactName)
+    {
+        this.contactName = contactName;
+    }
+    public String getContactPhone()
+    {
+        return contactPhone;
+    }
+    public void setContactPhone(String contactPhone)
+    {
+        this.contactPhone = contactPhone;
+    }
+    public String getCustomLocation()
+    {
+        return customLocation;
+    }
+    public void setCustomLocation(String customLocation)
+    {
+        this.customLocation = customLocation;
+    }
+    public String getEventUrl()
+    {
+        return eventUrl;
+    }
+    public void setEventUrl(String eventUrl)
+    {
+        this.eventUrl = eventUrl;
+    }
+    public Boolean getIsInternal()
+    {
+        return isInternal;
+    }
+    public void setIsInternal(Boolean isInternal)
+    {
+        System.out.println("Setting isInternal: " + isInternal);
+        this.isInternal = isInternal;
+    }
+    public Boolean getIsOrganizedByGU()
+    {
+        return isOrganizedByGU;
+    }
+    public void setIsOrganizedByGU(Boolean isOrganizedByGU)
+    {
+        this.isOrganizedByGU = isOrganizedByGU;
+    }
+    public String getLastRegistrationDateTime()
+    {
+        return lastRegistrationDateTime;
+    }
+    public void setLastRegistrationDateTime(String lastRegistrationDateTime)
+    {
+        this.lastRegistrationDateTime = lastRegistrationDateTime;
+    }
+    public String getLecturer()
+    {
+        return lecturer;
+    }
+    public void setLecturer(String lecturer)
+    {
+        this.lecturer = lecturer;
+    }
+    public String getLongDescription()
+    {
+        return longDescription;
+    }
+    public void setLongDescription(String longDescription)
+    {
+        this.longDescription = longDescription;
+    }
+    public Integer getMaxumumParticipants()
+    {
+        return maxumumParticipants;
+    }
+    public void setMaxumumParticipants(Integer maxumumParticipants)
+    {
+        this.maxumumParticipants = maxumumParticipants;
+    }
+    public String getOrganizerName()
+    {
+        return organizerName;
+    }
+    public void setOrganizerName(String organizerName)
+    {
+        this.organizerName = organizerName;
+    }
+    public Float getPrice()
+    {
+        return price;
+    }
+    public void setPrice(Float price)
+    {
+        this.price = price;
+    }
+    public String getShortDescription()
+    {
+        return shortDescription;
+    }
+    public void setShortDescription(String shortDescription)
+    {
+        this.shortDescription = shortDescription;
+    }
+    public String[] getCategoryId()
+    {
+        return categoryId;
+    }
+    public String[] getLocationId()
+    {
+        return locationId;
+    }
+    public void setCategoryErrorMessage(String categoryErrorMessage)
+    {
+        this.categoryErrorMessage = categoryErrorMessage;
+    }
+    public void setDescriptionErrorMessage(String descriptionErrorMessage)
+    {
+        this.descriptionErrorMessage = descriptionErrorMessage;
+    }
+    public void setLocationErrorMessage(String locationErrorMessage)
+    {
+        this.locationErrorMessage = locationErrorMessage;
+    }
+    public void setNameErrorMessage(String nameErrorMessage)
+    {
+        this.nameErrorMessage = nameErrorMessage;
+    }
+    public void setParticipantsErrorMessage(String participantsErrorMessage)
+    {
+        this.participantsErrorMessage = participantsErrorMessage;
+    }
+    public Integer getLastRegistrationTime()
+    {
+        return lastRegistrationTime;
+    }
+    public void setLastRegistrationTime(Integer lastRegistrationTime)
+    {
+        this.lastRegistrationTime = lastRegistrationTime;
     }
 }

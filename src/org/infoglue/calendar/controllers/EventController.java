@@ -167,7 +167,31 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void updateEvent(Long id, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId, String[] participantUserName) throws Exception 
+    public void updateEvent(
+            Long id, 
+            String name, 
+            String description, 
+            Boolean isInternal, 
+            Boolean isOrganizedByGU, 
+            String organizerName, 
+            String lecturer, 
+            
+            String customLocation,
+            String shortDescription,
+            String longDescription,
+            String eventUrl,
+            String contactName,
+            String contactEmail,
+            String contactPhone,
+            Float price,
+            java.util.Calendar lastRegistrationCalendar,
+            Integer maxumumParticipants,
+            
+            java.util.Calendar startDateTime, 
+            java.util.Calendar endDateTime, 
+            String[] locationId, 
+            String[] categoryId, 
+            String[] participantUserName) throws Exception 
     {
 	    Session session = getSession();
 	    
@@ -202,7 +226,30 @@ public class EventController extends BasicController
 			    participants.add(participant);
 			}
 
-			updateEvent(event, name, description, startDateTime, endDateTime, locations, categories, participants, session);
+			updateEvent(
+			        event, 
+			        name, 
+			        description, 
+			        isInternal, 
+			        isOrganizedByGU, 
+			        organizerName, 
+			        lecturer, 
+			        customLocation,
+	                shortDescription,
+	                longDescription,
+	                eventUrl,
+	                contactName,
+	                contactEmail,
+	                contactPhone,
+	                price,
+	                lastRegistrationCalendar,
+	                maxumumParticipants,
+			        startDateTime, 
+			        endDateTime, 
+			        locations, 
+			        categories, 
+			        participants, 
+			        session);
 			
 			tx.commit();
 		}
@@ -224,10 +271,47 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void updateEvent(Event event, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Set participants, Session session) throws Exception 
+    public void updateEvent(
+            Event event, 
+            String name, 
+            String description, 
+            Boolean isInternal, 
+            Boolean isOrganizedByGU, 
+            String organizerName, 
+            String lecturer, 
+            String customLocation,
+            String shortDescription,
+            String longDescription,
+            String eventUrl,
+            String contactName,
+            String contactEmail,
+            String contactPhone,
+            Float price,
+            java.util.Calendar lastRegistrationCalendar,
+            Integer maxumumParticipants,
+            java.util.Calendar startDateTime, 
+            java.util.Calendar endDateTime, 
+            Set locations, 
+            Set categories, 
+            Set participants, 
+            Session session) throws Exception 
     {
         event.setName(name);
         event.setDescription(description);
+        event.setIsInternal(isInternal);
+        event.setIsOrganizedByGU(isOrganizedByGU);
+        event.setOrganizerName(organizerName);
+        event.setLecturer(lecturer);
+        event.setCustomLocation(customLocation);
+        event.setShortDescription(shortDescription);
+        event.setLongDescription(longDescription);
+        event.setEventUrl(eventUrl);
+        event.setContactName(contactName);
+        event.setContactEmail(contactEmail);
+        event.setContactPhone(contactPhone);
+        event.setPrice(price);
+        event.setMaxumumParticipants(maxumumParticipants);
+        event.setLastRegistrationDateTime(lastRegistrationCalendar);
         event.setStartDateTime(startDateTime);
         event.setEndDateTime(endDateTime);
         event.setLocations(locations);

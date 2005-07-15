@@ -9,6 +9,7 @@
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="calendar" prefix="calendar" %>
 
 
 <portlet:defineObjects/>
@@ -75,7 +76,10 @@
 		<p>
 			<span class="label"><%= resourceBundle.getString("labels.public.event.filesLabel") %></span><br>
 			<ww:iterator value="event.resources">
-				<a href="<ww:property value='this.getResourceUrl(top.id)'/>"><ww:property value='assetKey'/></a><br>     			
+				<ww:set name="resourceId" value="top.id" scope="page"/>
+				<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
+					
+				<a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a><br>     			
       		</ww:iterator>
 		</p>
 		<p>
@@ -88,7 +92,8 @@
 			<a href="<c:out value="${createEntryRenderURL}"/>"><%= resourceBundle.getString("labels.public.event.signUpLabel") %></a>
 		</p>
 		
-		<a href="<%=request.getContextPath()%>/<ww:property value="this.getVCalendar(event)"/>"><img src="<%=request.getContextPath()%>/images/calendarIcon.jpg" border="0"> Add to my calendar (vCal)</a>
+		<calendar:vCalendarUrl id="vCalendarUrl" eventId="${eventId}"/>
+		<a href="<c:out value="${vCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/calendarIcon.jpg" border="0"> Add to my calendar (vCal)</a>
 		<hr/>
 	</div>		
 

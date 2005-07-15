@@ -1,4 +1,4 @@
-package org.infoglue.calendar.util;
+package org.infoglue.calendar.controllers;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -6,19 +6,69 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.sql.Blob;
 import java.util.Date;
 import java.util.LinkedList;
 
-import org.infoglue.calendar.entities.Event;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
 
-public class CalendarHelper
+import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.Resource;
+import org.infoglue.calendar.util.ICalendar;
+import org.infoglue.calendar.util.ICalendarVEvent;
+import org.infoglue.common.util.PropertyHelper;
+
+public class ICalendarController extends BasicController
 {
-    private CalendarHelper(){}
+    private ICalendarController(){}
     
-    public static final CalendarHelper getCalendarHelper()
+    public static final ICalendarController getICalendarController()
     {
-        return new CalendarHelper();
+        return new ICalendarController();
     }
+    
+    /**
+     * This method returns a ICalendar based on it's primary key
+     */
+    
+    public String getICalendarUrl(Long id) throws Exception
+    {
+        String url = "";
+        
+        Session session = getSession();
+        
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			Event event = EventController.getController().getEvent(id, session);
+			
+			String calendarPath = PropertyHelper.getProperty("calendarPath");
+			String fileName = "event_" + event.getId() + ".vcs";
+			
+			getVCalendar(event, calendarPath + fileName);
+			
+			String urlBase = PropertyHelper.getProperty("urlBase");
+			
+			url = urlBase + "calendars/" + fileName;
+
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
+		
+		return url;
+    }
+
     
     public void getVCalendar(Event event, String file) throws Exception
     {
@@ -52,6 +102,7 @@ public class CalendarHelper
 		writeISO88591ToFile(new File(file), iCal.getVCalendar(), false);
 		//writeUTF8ToFile(new File("c:/calendar.vcs"), iCal.getVCalendar(), false);
     }
+    
     
     public synchronized void writeUTF8ToFile(File file, String text, boolean isAppend) throws Exception
 	{

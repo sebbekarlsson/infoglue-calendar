@@ -9,6 +9,7 @@
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="calendar" prefix="calendar" %>
 
 <portlet:defineObjects/>
@@ -18,6 +19,11 @@
 	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
 	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
 %>
+
+<ww:set name="event" value="event" scope="page"/>
+<ww:set name="eventId" value="event.id" scope="page"/>
+<ww:set name="calendarId" value="calendarId" scope="page"/>
+<ww:set name="mode" value="mode" scope="page"/>
 
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
@@ -67,17 +73,17 @@
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 			
 			<p>
-				<span class="label">Namn:</span><span class="alert"><ww:property value="nameErrorMessage"/></span><br>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.nameLabel") %></span><span class="alert"><ww:property value="nameErrorMessage"/></span><br>
 				<input type="textfield" name="name" value="<ww:property value="event.name"/>" class="normalInput">
 			</p>
 			<p>
-				<span class="label">Beskrivning:</span><span class="alert"><ww:property value="descriptionErrorMessage"/></span><br> 
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.descriptionLabel") %></span><span class="alert"><ww:property value="descriptionErrorMessage"/></span><br> 
 				<input type="textfield" name="description" value="<ww:property value="event.description"/>" class="normalInput">
 			</p>
 			<p>
 				<table border="0" cellspacing="0">
 				<tr>
-					<td><span class="label">Startdatum:</span></td> 
+					<td><span class="label"><%= resourceBundle.getString("labels.internal.event.startDateTimeLabel") %></span></td> 
 					<td><span class="label">Starttid:</span></td> 
 				</tr>
 				<tr>
@@ -94,7 +100,7 @@
 			<p>
 				<table border="0">
 				<tr>
-					<td><span class="label">Slutdatum:</span></td> 
+					<td><span class="label"><%= resourceBundle.getString("labels.internal.event.endDateTimeLabel") %></span></td> 
 					<td><span class="label">Sluttid:</span></td> 
 				</tr>
 				<tr>
@@ -108,6 +114,81 @@
 				</tr>
 				</table>				
 			</p>
+			<!-- NEW -->
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.isInternalLabel") %></span><span class="alert"><ww:property value="isInternalErrorMessage"/></span> 
+				<input type="checkbox" name="isInternal" value="true" <c:if test="${event.isInternal == true}">checked="1"</c:if> >
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.isOrganizedByGULabel") %></span><span class="alert"><ww:property value="isOrganizedByGUErrorMessage"/></span> 
+				<input type="checkbox" name="isOrganizedByGU" value="true" <c:if test="${event.isOrganizedByGU == true}">checked="1"</c:if> >
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.organizerNameLabel") %></span><span class="alert"><ww:property value="organizerNameErrorMessage"/></span><br> 
+				<input type="textfield" name="organizerName" value="<ww:property value="event.organizerName"/>" class="normalInput">
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.lecturerLabel") %></span><span class="alert"><ww:property value="lecturerErrorMessage"/></span><br> 
+				<input type="textfield" name="lecturer" value="<ww:property value="event.lecturer"/>" class="normalInput">
+			</p>
+
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.customLocationLabel") %></span><span class="alert"><ww:property value="customLocationErrorMessage"/></span><br> 
+				<input type="textfield" name="customLocation" value="<ww:property value="event.customLocation"/>" class="normalInput">
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.shortDescriptionLabel") %></span><span class="alert"><ww:property value="shortDescriptionErrorMessage"/></span><br> 
+				<input type="textfield" name="shortDescription" value="<ww:property value="event.shortDescription"/>" class="normalInput">
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.longDescriptionLabel") %></span><span class="alert"><ww:property value="longDescriptionErrorMessage"/></span><br> 
+				<input type="textfield" name="longDescription" value="<ww:property value="event.longDescription"/>" class="normalInput">
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.eventUrlLabel") %></span><span class="alert"><ww:property value="eventUrlErrorMessage"/></span><br> 
+				<input type="textfield" name="eventUrl" value="<ww:property value="event.eventUrl"/>" class="normalInput">
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.contactEmailLabel") %></span><span class="alert"><ww:property value="contactEmailErrorMessage"/></span><br> 
+				<input type="textfield" name="contactEmail" value="<ww:property value="event.contactEmail"/>" class="normalInput">
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.contactPhoneLabel") %></span><span class="alert"><ww:property value="contactPhoneErrorMessage"/></span><br> 
+				<input type="textfield" name="contactPhone" value="<ww:property value="event.contactPhone"/>" class="normalInput">
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.contactNameLabel") %></span><span class="alert"><ww:property value="contactNameErrorMessage"/></span><br> 
+				<input type="textfield" name="contactName" value="<ww:property value="event.contactName"/>" class="normalInput">
+			</p>
+
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.priceLabel") %></span><span class="alert"><ww:property value="priceErrorMessage"/></span><br> 
+				<input type="textfield" name="price" value="<ww:property value="event.price"/>" class="normalInput">
+			</p>
+			<p>
+				<span class="label"><%= resourceBundle.getString("labels.internal.event.maxumumParticipantsLabel") %></span><span class="alert"><ww:property value="maxumumParticipantsErrorMessage"/></span><br> 
+				<input type="textfield" name="maxumumParticipants" value="<ww:property value="event.maxumumParticipants"/>" class="normalInput">
+			</p>
+
+			<p>
+				<table border="0">
+				<tr>
+					<td><span class="label"><%= resourceBundle.getString("labels.internal.event.lastRegistrationDateTimeLabel") %></span></td> 
+					<td><span class="label">Sluttid:</span></td> 
+				</tr>
+				<tr>
+					<td width="20%" nowrap>
+						<input type="textfield" id="lastRegistrationDateTime" name="lastRegistrationDateTime" value="<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
+						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_lastRegistrationDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
+					</td>				
+					<td>
+		      			<input type="textfield" name="lastRegistrationTime" value="<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>" class="hourInput">
+					</td>				
+				</tr>
+				</table>				
+			</p>
+
+			<!-- END NEW -->
 			
        		<p>
 	      		<span class="label">Plats (Håll ner Ctrl för att välja flera):</span><span class="alert"><ww:property value="locationErrorMessage"/></span><br>
@@ -135,7 +216,7 @@
 	       	</p>
 	       	<p>  		
       			<span class="label">Deltagare (Håll ner Ctrl för att välja flera):</span><span class="alert"><ww:property value="principalsErrorMessage"/></span><br>
-	      		<select name="participantUserName" multiple="true" class="listBox">
+	      		<select size="10" name="participantUserName" multiple="true" class="listBox">
 	      			<ww:iterator value="participatingPrincipals">
 		      			<option value="<ww:property value='top.name'/>" selected="1"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>
 		      		</ww:iterator>
@@ -148,9 +229,19 @@
 			<p>
 				<span class="label">Attached files:</span><br>
 				<ww:iterator value="event.resources">
-					<ww:set name="resourceId" value="top.id" scope="request"/>
+				
+					<ww:set name="resourceId" value="top.id" scope="page"/>
 					<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
-					<a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a><br>     			
+			
+					<portlet:actionURL var="deleteResourceUrl">
+						<calendar:evalParam name="action" value="DeleteResource"/>
+						<calendar:evalParam name="resourceId" value="${resourceId}"/>
+						<calendar:evalParam name="eventId" value="${eventId}"/>
+						<calendar:evalParam name="calendarId" value="${calendarId}"/>
+						<calendar:evalParam name="mode" value="${mode}"/>
+					</portlet:actionURL>
+						
+					<a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a>&nbsp;<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a><br>     			
 	      		</ww:iterator>
 	      		<br/>
 	      		<a href="javascript:showUploadForm();">Add resource</a>
@@ -216,6 +307,16 @@
         inputField     :    "endDateTime",     // id of the input field
         ifFormat       :    "%Y-%m-%d",      // format of the input field
         button         :    "trigger_endDateTime",  // trigger for the calendar (button ID)
+        align          :    "Tl",           // alignment (defaults to "Bl")
+        singleClick    :    true
+    });
+</script>
+
+<script type="text/javascript">
+    Calendar.setup({
+        inputField     :    "lastRegistrationDateTime",     // id of the input field
+        ifFormat       :    "%Y-%m-%d",      // format of the input field
+        button         :    "trigger_lastRegistrationDateTime",  // trigger for the calendar (button ID)
         align          :    "Tl",           // alignment (defaults to "Bl")
         singleClick    :    true
     });

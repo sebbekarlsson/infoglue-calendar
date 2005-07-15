@@ -199,6 +199,7 @@
 				<param name="viewAction">ViewCalendarAdministration</param>
 			</result>
 		</action>
+		
 		<!-- CATEGORY ACTIONS -->
 		<action name="CreateCategory" class="org.infoglue.calendar.actions.CreateCategoryAction">
 			<result name="input" type="portletDispatch">
@@ -256,6 +257,14 @@
 				<param name="parse">true</param>
 			</result>
 		</action>
+		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		
+		<!-- RESOURCE ACTIONS -->
 		<action name="CreateResource" class="org.infoglue.calendar.actions.CreateResourceAction">
 			<result name="error" type="eventProcessed">
 				<param name="viewAction">ViewEvent.action?eventId=${eventId}&amp;calendarId=${calendarId}&amp;mode=${mode}</param>
@@ -266,12 +275,13 @@
 				<param name="parse">true</param>
 			</result>
 		</action>
-		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
+		<action name="DeleteResource" class="org.infoglue.calendar.actions.DeleteResourceAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="viewAction">ViewEvent.action?eventId=${eventId}&amp;calendarId=${calendarId}&amp;mode=${mode}</param>
 				<param name="parse">true</param>
 			</result>
 		</action>
+		
 		
 		<!-- ENTRY ACTIONS -->
 		<action name="CreateEntry" class="org.infoglue.calendar.actions.CreateEntryAction">

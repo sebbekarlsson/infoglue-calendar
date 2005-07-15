@@ -366,10 +366,17 @@
 				<include name="**/*.css"/>
 			</fileset>
 		</copy>
-		
+
+		<echo message="Copying CSS-files"/>
+		<copy todir="${deploy.dir.working}/images">
+			<fileset dir="${webapp}/images">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+
 		<echo message="Copying Resourse bundle-files"/>
 		<copy todir="${deploy.dir.working}/WEB-INF/classes">
-			<fileset dir="${webapp}/WEB-INF/classes">
+			<fileset dir="${build.classes}">
 				<include name="infoglueCalendar_en.properties"/>
 				<include name="infoglueCalendar_sv.properties"/>
 			</fileset>

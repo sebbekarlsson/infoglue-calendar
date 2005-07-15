@@ -43,10 +43,10 @@
 
 		<p class="nobreak">
 			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${calendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
+		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${calendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
 		    </ww:if>
 		    <ww:else>
-		    	<span><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${calendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
+		    	<span><ww:property value="id"/>.<a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${calendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
 		    </ww:else>
 		</p>
 		</ww:iterator>
@@ -84,10 +84,10 @@
 			
 		<p class="nobreak">
 			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${locationUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${locationUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteLocationUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
+		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${locationUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${locationUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteLocationUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
 		    </ww:if>
 		    <ww:else>
-		    	<span><ww:property value="id"/>.<a href="<c:out value="${locationUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${locationUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteLocationUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
+		    	<span><ww:property value="id"/>.<a href="<c:out value="${locationUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${locationUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteLocationUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
 		    </ww:else>
 		</p>
 		</ww:iterator>
@@ -124,10 +124,10 @@
 			
 		<p class="nobreak">
 			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${categoryUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${categoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCategoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
+		    	<span class="marked"><ww:property value="id"/>.<a href="<c:out value="${categoryUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${categoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCategoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
 		    </ww:if>
 		    <ww:else>
-		    	<span><ww:property value="id"/>.<a href="<c:out value="${categoryUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${categoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCategoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.jpg" border="0"></a></span>
+		    	<span><ww:property value="id"/>.<a href="<c:out value="${categoryUrl}"/>"><ww:property value="name"/></a> <a href="<c:out value="${categoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a><a href="<c:out value="${deleteCategoryUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
 		    </ww:else>
 		</p>
 		</ww:iterator>
