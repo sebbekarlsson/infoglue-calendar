@@ -32,7 +32,7 @@ import org.infoglue.common.util.ConstraintExceptionBuffer;
  * @hibernate.class table="Category"
  */
 
-public class Category
+public class Category implements BaseEntity
 {
     private Long id;
     private String name;

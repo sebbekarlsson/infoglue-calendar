@@ -31,7 +31,7 @@ package org.infoglue.calendar.entities;
  * @hibernate.class table="Participant"
  */
 
-public class Participant
+public class Participant implements BaseEntity
 {
     private Long id;
     private String userName;
@@ -78,5 +78,10 @@ public class Participant
     public void setEvent(Event event)
     {
         this.event = event;
+    }
+
+    public String getName()
+    {
+        return this.getUserName();
     }
 }

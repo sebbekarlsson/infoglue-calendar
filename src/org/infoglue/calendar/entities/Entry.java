@@ -38,7 +38,7 @@ import java.util.Set;
  * @hibernate.class table="Entry"
  */
 
-public class Entry 
+public class Entry implements BaseEntity
 {
     private Long id;
     private String firstName;
@@ -119,5 +119,10 @@ public class Entry
     public void setEvent(Event event)
     {
         this.event = event;
+    }
+
+    public String getName()
+    {
+        return this.getFirstName() + " " + this.getLastName();
     }
 }

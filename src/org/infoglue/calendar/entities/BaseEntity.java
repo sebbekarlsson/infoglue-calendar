@@ -22,62 +22,21 @@
 */
 package org.infoglue.calendar.entities;
 
+import java.util.List;
+import java.util.Set;
+
 /**
- * This class represents a location where events can take place.
+ * This interface represents what basic things we require of the entities.
  * 
  * @author mattias
- * 
- * @hibernate.class table="Location"
  */
 
-public class Location implements BaseEntity
+public interface BaseEntity
 {
-    private Long id;
-    private String name;
-    private String description;
+    public Long getId();
     
-    /**
-     * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
-     * 
-     * @return long
-     */    
-    public Long getId()
-    {
-        return id;
-    }
-    
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-    
-    /**
-     * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
-     * 
-     * @return String
-     */
-    public String getName()
-    {
-        return name;
-    }
-    
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-    
-    /**
-     * @hibernate.property name="getDescription" column="description" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-	public String getDescription() 
-	{
-		return description;
-	}
-	
-	public void setDescription(String description) 
-	{
-		this.description = description;
-	}
+    public void setId(Long id);
+     
+    public String getName();
+
 }

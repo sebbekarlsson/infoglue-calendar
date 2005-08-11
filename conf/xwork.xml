@@ -251,8 +251,9 @@
             	<param name="dispatchTo">/jsp/portlet/createEvent.jsp</param>
             </result>
 			<result name="error" type="eventProcessed">
-				<param name="viewAction">CreateEvent!input.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
-				<param name="parse">true</param>
+				<!--<param name="viewAction">CreateEvent!input.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>-->
+				<param name="viewAction">CreateEvent!input.action</param>
+				<!--<param name="parse">true</param>-->
 			</result>
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>

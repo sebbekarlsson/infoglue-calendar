@@ -36,7 +36,7 @@ import java.util.Set;
  * @hibernate.class table="Calendar"
  */
 
-public class Calendar 
+public class Calendar implements BaseEntity
 {
     private Long id;
     private String name;

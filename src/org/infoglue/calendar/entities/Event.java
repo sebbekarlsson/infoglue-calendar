@@ -34,7 +34,7 @@ import java.util.Set;
  * @hibernate.class table="Event"
  */
 
-public class Event
+public class Event implements BaseEntity
 {
     private Long id;
     private String name;

@@ -33,7 +33,7 @@ import java.sql.Blob;
  * @hibernate.class table="Resource"
  */
 
-public class Resource
+public class Resource implements BaseEntity
 {
     private Long id;
     private String assetKey;
@@ -110,6 +110,11 @@ public class Resource
     public void setEvent(Event event)
     {
         this.event = event;
+    }
+
+    public String getName()
+    {
+        return this.getAssetKey();
     }
 
 }

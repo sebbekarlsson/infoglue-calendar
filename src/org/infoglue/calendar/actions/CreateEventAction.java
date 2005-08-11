@@ -29,10 +29,12 @@ import java.util.List;
 
 import javax.portlet.PortletURL;
 
+import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.security.UserControllerProxy;
 import org.infoglue.common.util.DBSessionWrapper;
@@ -40,6 +42,7 @@ import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -49,12 +52,17 @@ import com.opensymphony.xwork.ActionContext;
 
 public class CreateEventAction extends CalendarAbstractAction
 {
+    private Event dataBean = new Event();
+
+    /*
     private String name;
     private String description;
+    */
     private String startDateTime;
     private String endDateTime;
     private Integer startTime;
     private Integer endTime;
+
     private String[] locationId;
     private String[] categoryId;
     private String[] participantUserName;
@@ -68,12 +76,6 @@ public class CreateEventAction extends CalendarAbstractAction
     private List categories;
     private List infogluePrincipals;
     
-    private String nameErrorMessage = "Mandatory field";
-    private String descriptionErrorMessage = "Mandatory field";
-    private String locationErrorMessage = "Mandatory field";
-    private String categoryErrorMessage = "Mandatory field";
-    private String participantsErrorMessage = "Mandatory field";
-    
     /**
      * This is the entry point for the main listing.
      */
@@ -82,9 +84,20 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-                
+           
+        try
+        {
+            validateInput(this);
+            EventController.getController().createEvent(calendarId, dataBean.getName(), dataBean.getDescription(), startCalendar, endCalendar, locationId, categoryId, participantUserName);
+        }
+        catch(ValidationException e)
+        {
+            return Action.ERROR;            
+        }
+        
         //System.out.println("locationId:" + locationId);
         //System.out.println("categoryId:" + categoryId);
+        /*
         if(name == null || 
            name.equalsIgnoreCase("") || 
            description == null || 
@@ -112,10 +125,7 @@ public class CreateEventAction extends CalendarAbstractAction
             return "error";
             //return Action.INPUT;
         }
-        
-        System.out.println("Going to create event1..");
-        EventController.getController().createEvent(calendarId, name, description, startCalendar, endCalendar, locationId, categoryId, participantUserName);
-        System.out.println("Going to create event2..");
+        */
         
         return Action.SUCCESS;
     } 
@@ -126,6 +136,7 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
+        /*
         this.name = (String)ActionContext.getContext().getSession().get("eventErrorName");
         this.description = (String)ActionContext.getContext().getSession().get("eventErrorDescription");
         
@@ -143,6 +154,7 @@ public class CreateEventAction extends CalendarAbstractAction
         ActionContext.getContext().getSession().remove("locationErrorMessage");
         ActionContext.getContext().getSession().remove("categoryErrorMessage");
         ActionContext.getContext().getSession().remove("participantsErrorMessage");
+        */
         
         this.locations 	= LocationController.getController().getLocationList();
         this.categories = CategoryController.getController().getCategoryList();
@@ -153,32 +165,32 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String getDescription()
     {
-        return description;
+        return dataBean.getDescription();
     }
     
     public void setDescription(String description)
     {
-        this.description = description;
+        this.dataBean.setDescription(description);
     }
     
     public String getName()
     {
-        return name;
+        return dataBean.getName();
     }
     
     public void setName(String name)
     {
-        this.name = name;
+        this.dataBean.setName(name);
     }
     
     public Long getCalendarId()
     {
-        return calendarId;
+        return dataBean.getId();
     }
     
     public void setCalendarId(Long calendarId)
     {
-        this.calendarId = calendarId;
+        this.dataBean.setId(calendarId);
     }
     
     public String getDate()
@@ -286,34 +298,24 @@ public class CreateEventAction extends CalendarAbstractAction
         this.infogluePrincipals = infogluePrincipals;
     }
     
-    public String getCategoryErrorMessage()
+    public String[] getCategoryId()
     {
-        return categoryErrorMessage;
+        return categoryId;
     }
     
-    public String getDescriptionErrorMessage()
+    public String[] getLocationId()
     {
-        return descriptionErrorMessage;
+        return locationId;
     }
     
-    public String getLocationErrorMessage()
+    public String[] getParticipantUserName()
     {
-        return locationErrorMessage;
+        return participantUserName;
     }
-    
-    public String getNameErrorMessage()
-    {
-        return nameErrorMessage;
-    }
-    
-    public String getParticipantsErrorMessage()
-    {
-        return participantsErrorMessage;
-    }
-    
+
     public Object getErrorBean()
     {
-        return null;
+        return dataBean;
     }
 
 }

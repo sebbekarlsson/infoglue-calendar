@@ -9,7 +9,7 @@
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-
+<%@ taglib uri="calendar" prefix="calendar" %>
 
 <portlet:defineObjects/>
 
@@ -45,12 +45,10 @@
 			<input type="hidden" name="time" value="<ww:property value="time"/>"/>
 			
 			<p>
-				name: <span class="alert"><ww:property value="nameErrorMessage"/></span><br>
-				<input type="textfield" name="name" value="<ww:property value="name"/>" class="normalInput">
+				<calendar:textField label="Name:" name="name" value="event.name" cssClass="normalInput"/>
 			</p>
 			<p>
-				description: <span class="alert"><ww:property value="descriptionErrorMessage"/></span><br> 
-				<input type="textfield" name="description" value="<ww:property value="description"/>" class="normalInput">
+				<calendar:textField label="Description:" name="description" value="event.description" cssClass="normalInput"/>
 			</p>
 			<p>
 				<table border="0" cellspacing="0">
@@ -87,12 +85,7 @@
 				</table>
 			</p>
       		<p>
-	      		Location (Hold shift to select multiple): <span class="alert"><ww:property value="locationErrorMessage"/></span><br>
-	      		<select name="locationId" multiple="true" class="listBox">
-		      		<ww:iterator value="locations">
-		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
-		      		</ww:iterator>
-	      		</select>
+      			<calendar:selectField label="Location (Hold shift to select multiple):" name="locationId" multiple="true" value="locations" cssClass="listBox"/>
 			</p>
 			<p>
 	      		Category (Hold shift to select multiple): <span class="alert"><ww:property value="categoryErrorMessage"/></span><br>
