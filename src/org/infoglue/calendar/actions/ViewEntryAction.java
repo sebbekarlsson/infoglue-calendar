@@ -72,4 +72,10 @@ public class ViewEntryAction extends CalendarAbstractAction
     {
         this.entryId = entryId;
     }
+    
+    public Object getErrorBean()
+    {
+        return null;
+    }
+
 }

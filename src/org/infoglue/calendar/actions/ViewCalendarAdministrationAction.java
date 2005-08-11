@@ -66,4 +66,10 @@ public class ViewCalendarAdministrationAction extends CalendarAbstractAction
     {
         this.administrationUCCBean = administrationUCCBean;
     }
+    
+    public Object getErrorBean()
+    {
+        return null;
+    }
+
 }

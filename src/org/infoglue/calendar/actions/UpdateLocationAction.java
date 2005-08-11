@@ -24,20 +24,21 @@
 package org.infoglue.calendar.actions;
 
 import org.infoglue.calendar.controllers.LocationController;
+import org.infoglue.calendar.entities.Location;
 
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
- * This action represents a Calendar Administration screen.
+ * This action represents a Location Administration screen.
  * 
  * @author Mattias Bogeblad
  */
 
 public class UpdateLocationAction extends CalendarAbstractAction
 {
-    private Long locationId;
-    private String name;
-    private String description;
+
+    private Location dataBean = new Location();
     
     /**
      * This is the entry point for the main listing.
@@ -45,38 +46,52 @@ public class UpdateLocationAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        LocationController.getController().updateLocation(locationId, name, description);
+        try
+        {
+            validateInput(this);
+            LocationController.getController().updateLocation(dataBean.getId(), dataBean.getName(), dataBean.getDescription());
+        }
+        catch(ValidationException e)
+        {
+            return Action.ERROR;            
+        }
         
         return Action.SUCCESS;
     } 
     
     public Long getLocationId()
     {
-        return locationId;
+        return dataBean.getId();
     }
+
     public void setLocationId(Long locationId)
     {
-        this.locationId = locationId;
+        this.dataBean.setId(locationId);
     }
 
     public String getDescription()
     {
-        return description;
+        return this.dataBean.getDescription();
     }
     
     public void setDescription(String description)
     {
-        this.description = description;
+        this.dataBean.setDescription(description);
     }
     
     public String getName()
     {
-        return name;
+        return this.dataBean.getName();
     }
     
     public void setName(String name)
     {
-        this.name = name;
+        this.dataBean.setName(name);
     }
     
+    public Object getErrorBean()
+    {
+        return this.dataBean;
+    }
+
 }

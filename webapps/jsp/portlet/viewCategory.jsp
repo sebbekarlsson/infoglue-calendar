@@ -6,6 +6,7 @@
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="calendar" prefix="calendar" %>
 
 <portlet:defineObjects/>
 
@@ -44,25 +45,16 @@
 		
 		<form name="inputForm" method="POST" action="<c:out value="${updateCategoryActionUrl}"/>">
 			<input type="hidden" name="categoryId" value="<ww:property value="category.id"/>">
-		<p>
-			Name:
-			<ww:iterator value="#fieldErrors.name" status="rowstatus">
-				<span class="errorMessage">- <ww:property value="top"/></span>
-			</ww:iterator>
-			<br>
-			<input type="textfield" name="name" value="<ww:property value="category.name"/>" class="normalInput">
-		</p>
-		<p>	
-			Description: 
-			<ww:iterator value="#fieldErrors.description" status="rowstatus">
-				<span class="errorMessage">- <ww:property value="top"/></span>
-			</ww:iterator>
-			<br>
-			<input type="textfield" name="description" value="<ww:property value="category.description"/>" class="normalInput">
-		</p>
-		<p>
-			<input type="submit">
-		</p>
+
+			<p>
+				<calendar:textField label="Name:" name="name" value="category.name" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Description:" name="description" value="category.description" cssClass="normalInput"/>
+			</p>
+			<p>
+				<input type="submit" value="Save">
+			</p>
 		</form>
 	</div>
 

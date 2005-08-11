@@ -65,4 +65,9 @@ public class ViewLocationAction extends CalendarAbstractAction
         return location;
     }
 
+    public Object getErrorBean()
+    {
+        return null;
+    }
+
 }

@@ -372,4 +372,9 @@ public class ViewCalendarAction extends CalendarAbstractAction
         return endCalendar;
     }
     
+    public Object getErrorBean()
+    {
+        return null;
+    }
+
 }

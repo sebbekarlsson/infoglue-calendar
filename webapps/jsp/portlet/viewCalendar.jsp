@@ -9,7 +9,7 @@
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-
+<%@ taglib uri="calendar" prefix="calendar" %>
 
 <portlet:defineObjects/>
 
@@ -31,7 +31,12 @@
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-
+<style type="text/css">
+	.errorMessage {
+	    color: red;
+	}
+</style>
+	
 <script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
@@ -207,14 +212,15 @@
 			<portlet:param name="action" value="UpdateCalendar"/>
 		</portlet:actionURL>
 		
+		Bean <ww:property value="#errorBean.id"/>
+		
 		<form name="inputForm" method="POST" action="<c:out value="${updateCalendarActionUrl}"/>">
-	
 		<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
 		<p>
-			Name:<br> <input type="textfield" name="name" class="normalInput" value="<ww:property value="calendar.name"/>">
+			<calendar:textField label="Name:" name="name" value="calendar.name" cssClass="normalInput"/>
 		</p>
 		<p>
-			Description:<br> <textarea name="description"><ww:property value="calendar.description"/></textarea>
+			<calendar:textField label="Description:" name="description" value="calendar.description" cssClass="normalInput"/>
 		</p>
 		<p>
 			<input type="submit" value="Save">
@@ -232,6 +238,14 @@
 	<td width="80%"></td>
 </tr>
 </table>
+
+<ww:if test="#errorBean.id > 0">
+<script type="text/javascript">
+<!--
+	toggleShowEditForm<ww:property value="componentId"/>();
+-->
+</script>
+</ww:if>
 
 <!-- *********************************** -->
 <!-- *   HERE COMES THE COMING EVENTS  * -->

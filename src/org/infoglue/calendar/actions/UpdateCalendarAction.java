@@ -28,6 +28,7 @@ import java.util.List;
 import javax.portlet.PortletURL;
 
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
@@ -35,6 +36,7 @@ import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -44,49 +46,60 @@ import com.opensymphony.xwork.ActionContext;
 
 public class UpdateCalendarAction extends CalendarAbstractAction
 {
-    private Long calendarId;
-    private String name;
-    private String description;
-    
+    private Calendar dataBean = new Calendar();
+
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
-        CalendarController.getController().updateCalendar(calendarId, name, description);
+        try
+        {
+            validateInput(this);
+            CalendarController.getController().updateCalendar(dataBean.getId(), dataBean.getName(), dataBean.getDescription());
+        }
+        catch(ValidationException e)
+        {
+            return Action.ERROR;            
+        }
         
         return Action.SUCCESS;
     } 
     
     public Long getCalendarId()
     {
-        return calendarId;
+        return dataBean.getId();
     }
-    
+
     public void setCalendarId(Long calendarId)
     {
-        this.calendarId = calendarId;
+        this.dataBean.setId(calendarId);
     }
 
     public String getDescription()
     {
-        return description;
+        return this.dataBean.getDescription();
     }
     
     public void setDescription(String description)
     {
-        this.description = description;
+        this.dataBean.setDescription(description);
     }
     
     public String getName()
     {
-        return name;
+        return this.dataBean.getName();
     }
     
     public void setName(String name)
     {
-        this.name = name;
+        this.dataBean.setName(name);
     }
     
+    public Object getErrorBean()
+    {
+        return this.dataBean;
+    }
+
 }

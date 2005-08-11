@@ -499,4 +499,10 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         this.lastRegistrationTime = lastRegistrationTime;
     }
+    
+    public Object getErrorBean()
+    {
+        return null;
+    }
+
 }

@@ -26,6 +26,8 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspTagException;
 
+import com.opensymphony.xwork.ActionContext;
+
 
 /**
  * Base class for all Tags operating on the TemplateController.
@@ -75,4 +77,12 @@ public abstract class AbstractCalendarTag extends AbstractTag
 			throw new JspTagException("IO error: " + e.getMessage());
 		}
 	}
+	
+    public static Object findOnValueStack(String expr) 
+    {
+		ActionContext a = ActionContext.getContext();
+		Object value = a.getValueStack().findValue(expr);
+		return value;
+	}
+
 }

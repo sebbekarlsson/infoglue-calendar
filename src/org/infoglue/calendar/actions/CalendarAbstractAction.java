@@ -38,11 +38,14 @@ import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Participant;
+import org.infoglue.common.exceptions.ConstraintException;
+import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.ActionSupport;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
 * @author Mattias Bogeblad
@@ -192,5 +195,21 @@ public abstract class CalendarAbstractAction extends ActionSupport
     {
         return ParticipantController.getController().getParticipant(participantId);
     }
+    
+    public void validateInput(CalendarAbstractAction action) throws ValidationException
+    {
+        String context = ActionContext.getContext().getName();
+        ActionValidatorManager.validate(this, context);
+        if(this.getFieldErrors() != null && this.getFieldErrors().size() > 0)
+        {
+            ActionContext.getContext().getValueStack().getContext().put("actionErrors", this.getActionErrors());
+            ActionContext.getContext().getValueStack().getContext().put("fieldErrors", this.getFieldErrors());
+            ActionContext.getContext().getValueStack().getContext().put("errorBean", this.getErrorBean());
+            throw new ValidationException("An validation error occurred - more information is in the valuestack...");
+        }
+    }
+    
+    public abstract Object getErrorBean();
+    
 }
 

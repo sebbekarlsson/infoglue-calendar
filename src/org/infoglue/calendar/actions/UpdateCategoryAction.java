@@ -28,6 +28,7 @@ import javax.servlet.RequestDispatcher;
 
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.entities.Category;
+import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.util.ActionValidatorManager;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -38,19 +39,14 @@ import com.opensymphony.xwork.util.OgnlValueStack;
 import com.opensymphony.xwork.validator.ValidationException;
 
 /**
- * This action represents a Calendar Administration screen.
+ * This action represents updating a category.
  * 
  * @author Mattias Bogeblad
  */
 
 public class UpdateCategoryAction extends ViewCategoryAction
 {
-    private Category category = new Category();
-    private String validationAction = "/WebworkDispatcherPortlet/UpdateCategory";
-    
-    private Long categoryId;
-    private String name;
-    private String description;
+    private Category dataBean = new Category();
     
     /**
      * This is the entry point for the main listing.
@@ -58,72 +54,54 @@ public class UpdateCategoryAction extends ViewCategoryAction
     
     public String execute() throws Exception 
     {
-        System.out.println();
-        System.out.println();
         System.out.println("UpdateCategoryAction....");
-        System.out.println("name:" + name);
-        String context = ActionContext.getContext().getName();
+        System.out.println("name:" + dataBean.getName());
         
-        ActionValidatorManager.validate(this, context); 
-        //System.out.println("ActionErrors:" + this.getActionErrors().size());
-        //System.out.println("FieldErrors:" + this.getFieldErrors().size());
-        if(this.getFieldErrors().size() > 0)
+        try
         {
-            ActionContext.getContext().getValueStack().getContext().put("actionErrors", this.getActionErrors());
-            ActionContext.getContext().getValueStack().getContext().put("fieldErrors", this.getFieldErrors());
-            System.out.println("INPUT....");
-            System.out.println();
-            System.out.println();
-            return Action.INPUT;
+            validateInput(this);
+            CategoryController.getController().updateCategory(dataBean.getId(), dataBean.getName(), dataBean.getDescription());
         }
-        else
+        catch(ValidationException e)
         {
-            CategoryController.getController().updateCategory(categoryId, name, description);
-            System.out.println("SUCCESS....");
-            System.out.println();
-            System.out.println();
-            return Action.SUCCESS;
+            return Action.ERROR;            
         }
+
+        return Action.SUCCESS;
     } 
     
     public Long getCategoryId()
     {
-        return categoryId;
+        return dataBean.getId();
     }
 
     public void setCategoryId(Long categoryId)
     {
-        this.categoryId = categoryId;
+        this.dataBean.setId(categoryId);
     }
 
     public String getDescription()
     {
-        return description;
+        return this.dataBean.getDescription();
     }
     
     public void setDescription(String description)
     {
-        this.description = description;
+        this.dataBean.setDescription(description);
     }
     
     public String getName()
     {
-        return name;
+        return this.dataBean.getName();
     }
     
     public void setName(String name)
     {
-        this.name = name;
+        this.dataBean.setName(name);
     }
     
-    public Category getBean() 
+    public Object getErrorBean()
     {
-        return category;
+        return this.dataBean;
     }
-
-    public String getValidationAction() 
-    {
-        return validationAction;
-    }
-
 }

@@ -68,4 +68,9 @@ public class DeleteLocationAction extends CalendarAbstractAction
         this.locationId = locationId;
     }
     
+    public Object getErrorBean()
+    {
+        return null;
+    }
+
 }

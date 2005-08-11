@@ -249,4 +249,10 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         return selectedLocations;
     }
+    
+    public Object getErrorBean()
+    {
+        return null;
+    }
+
 }

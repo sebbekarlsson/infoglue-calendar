@@ -27,13 +27,17 @@ import java.util.List;
 
 import javax.portlet.PortletURL;
 
+import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -43,16 +47,23 @@ import com.opensymphony.xwork.ActionContext;
 
 public class CreateLocationAction extends CalendarAbstractAction
 {
-    private String name;
-    private String description;
-    
+    private Location dataBean = new Location();
+
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
-        LocationController.getController().createLocation(name, description);
+        try
+        {
+            validateInput(this);
+            LocationController.getController().createLocation(dataBean.getName(), dataBean.getDescription());
+        }
+        catch(ValidationException e)
+        {
+            return Action.ERROR;            
+        }
         
         return Action.SUCCESS;
     } 
@@ -68,21 +79,27 @@ public class CreateLocationAction extends CalendarAbstractAction
     
     public String getDescription()
     {
-        return description;
+        return this.dataBean.getDescription();
     }
     
     public void setDescription(String description)
     {
-        this.description = description;
+        this.dataBean.setDescription(description);
     }
     
     public String getName()
     {
-        return name;
+        return this.dataBean.getName();
     }
     
     public void setName(String name)
     {
-        this.name = name;
+        this.dataBean.setName(name);
     }
+    
+    public Object getErrorBean()
+    {
+        return this.dataBean;
+    }
+
 }

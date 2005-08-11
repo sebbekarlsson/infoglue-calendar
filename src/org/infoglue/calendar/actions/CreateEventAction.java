@@ -310,4 +310,10 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         return participantsErrorMessage;
     }
+    
+    public Object getErrorBean()
+    {
+        return null;
+    }
+
 }

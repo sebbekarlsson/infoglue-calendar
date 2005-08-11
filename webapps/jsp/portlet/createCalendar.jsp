@@ -6,6 +6,7 @@
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="calendar" prefix="calendar" %>
 
 <portlet:defineObjects/>
 
@@ -21,6 +22,11 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
+	<style type="text/css">
+		.errorMessage {
+		    color: red;
+		}
+	</style>
 	  
 </head>
 
@@ -39,12 +45,10 @@
 		
 		<form name="inputForm" method="POST" action="<c:out value="${createCalendarActionUrl}"/>">
 		<p>
-			name: <br>
-			<input type="textfield" name="name" value="" class="normalInput">
+			<calendar:textField label="Name:" name="name" value="calendar.name" cssClass="normalInput"/>
 		</p>
 		<p>
-			description: <br>
-			<input type="textfield" name="description" value="" class="normalInput">
+			<calendar:textField label="Description:" name="description" value="calendar.description" cssClass="normalInput"/>
 		</p>
 		<p>
 			<input type="submit">
