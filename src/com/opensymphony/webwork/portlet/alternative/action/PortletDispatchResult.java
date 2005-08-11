@@ -1,8 +1,10 @@
-//$Id: PortletDispatchResult.java,v 1.4 2005/05/13 13:15:07 mattias Exp $
+//$Id: PortletDispatchResult.java,v 1.5 2005/08/11 01:33:07 mattias Exp $
 package com.opensymphony.webwork.portlet.alternative.action;
 
 import java.util.Iterator;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletContext;
 import javax.portlet.PortletRequestDispatcher;
@@ -53,27 +55,45 @@ public class PortletDispatchResult implements Result {
 		    System.out.println("Key:" + ctxIterator.next());
 		}
 		*/
-
+		
 		PortletDispatcher dispatcher = (PortletDispatcher)ctx.get("com.opensymphony.webwork.portlet.dispatcher.PortletDispatcher");
 		//System.out.println("dispatcher:" + dispatcher);
 		PortletContext context = dispatcher.getPortletContext();
-		Object o = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
-		System.out.println("o:" + o.getClass().getName());
+		Object requestObject = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
+		Object responseObject = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
+		System.out.println("requestObject:" + requestObject.getClass().getName());
 		
-        System.out.println("Request:" + ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest"));
-        System.out.println("Response:" + ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse"));
-        RenderRequest req = (RenderRequest)ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
-        RenderResponse res = (RenderResponse)ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
-		log.debug("Including jsp " + dispatchTo);
+		//System.out.println("Request:" + ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest"));
+		//System.out.println("Response:" + ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse"));
+		
+		/*
+        if(requestObject instanceof RenderRequest)
+        {
+        */
+			RenderRequest req = (RenderRequest)requestObject;
+	        RenderResponse res = (RenderResponse)responseObject;
+			log.debug("Including jsp " + dispatchTo);
+		/*
+			context.getRequestDispatcher(dispatchTo).include(req, res);
+        }
+		
+		else
+		{
+		    ActionRequest req = (ActionRequest)requestObject;
+		    ActionResponse res = (ActionResponse)responseObject;
+	        context.getRequestDispatcher(dispatchTo).include(req, res);
+		}
+		*/
 		try 
 		{
+			
 		    //System.out.println("cfg:" + cfg);
 		    //System.out.println("cfg.getPortletContext():" + cfg.getPortletContext());
-		    System.out.println("context:" + context);
+		    //System.out.println("context:" + context);
 		    //System.out.println("rd:" + rd);
-		    System.out.println("dispatchTo:" + dispatchTo);
-		    System.out.println("req:" + req);
-		    System.out.println("res:" + res);
+		    //System.out.println("dispatchTo:" + dispatchTo);
+		    //System.out.println("req:" + req);
+		    //System.out.println("res:" + res);
 		    context.getRequestDispatcher(dispatchTo).include(req, res);
 			//cfg.getPortletContext().getRequestDispatcher(dispatchTo).include(req, res);
 		}

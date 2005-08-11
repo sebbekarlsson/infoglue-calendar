@@ -22,6 +22,8 @@
 */
 package org.infoglue.calendar.entities;
 
+import org.infoglue.common.util.ConstraintExceptionBuffer;
+
 /**
  * This just represents a simple category for events. Such as meeting, horse show or anything else that are common.
  * 
@@ -80,4 +82,5 @@ public class Category
 	{
 		this.description = description;
 	}
+	
 }

@@ -92,15 +92,11 @@ public class CalendarController extends BasicController
     
     public Calendar createCalendar(String name, String description, Session session) throws HibernateException, Exception 
     {
-        System.out.println("Creating new calendar...");
-        
         Calendar calendar = new Calendar();
         calendar.setName(name);
         calendar.setDescription(description);
         
         session.save(calendar);
-        
-        System.out.println("Finished creating calendar...");
         
         return calendar;
     }

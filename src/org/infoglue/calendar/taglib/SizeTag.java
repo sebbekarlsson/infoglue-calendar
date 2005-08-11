@@ -28,47 +28,33 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
-import org.infoglue.calendar.controllers.ResourceController;
-import org.infoglue.calendar.entities.Resource;
 
 /**
  * 
  */
-public class ResourceUrlTag extends AbstractCalendarTag 
+public class SizeTag extends AbstractTag 
 {
 
 	private static final long serialVersionUID = 3617579309963752240L;
 
-	private Long resourceId;
+	private List list;
 	
 	/**
 	 * 
 	 */
-	public ResourceUrlTag() 
+	public SizeTag() 
 	{
 		super();
 	}
 	
 	public int doEndTag() throws JspException
     {
-	    String url;
-
-	    try
-        {
-            url = ResourceController.getController().getResourceUrl(this.resourceId);
-            setResultAttribute(url);
-        } 
-	    catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        
-	    return EVAL_PAGE;
+	    setResultAttribute(new Integer(list.size()));
+        return EVAL_PAGE;
     }
 
-    public void setResourceId(final String resourceId) throws JspException
+    public void setList(final String list) throws JspException
     {
-        this.resourceId = evaluateLong("ResourceUrlTag", "resourceId", resourceId);
+        this.list = evaluateList("sublistTag", "list", list);
     }
-
 }

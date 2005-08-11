@@ -50,8 +50,9 @@ public class ViewCalendarAdministrationAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+        System.out.println("ViewCalendarAdministrationAction.....");
         this.administrationUCCBean = CalendarAdministrationUCCController.getController().getDataBean();
-        
+        System.out.println("Success.....");
         return Action.SUCCESS;
     } 
 

@@ -99,17 +99,17 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
     public void processAction(ActionRequest actionRequest,
             ActionResponse actionResponse) throws PortletException, IOException
     {
-        System.out.println("actionRequest: " + actionRequest.getClass().getName());
+        //System.out.println("actionRequest: " + actionRequest.getClass().getName());
         
-        System.out.println("processAction*****************************");
-        System.out.println("calendarId:" + actionRequest.getParameter("calendarId"));
+        //System.out.println("processAction*****************************");
+        //System.out.println("calendarId:" + actionRequest.getParameter("calendarId"));
         
         //String name = actionRequest.getParameter("name");
         //System.out.println("********************************************name:" + name);
         //System.out.println("********************************************name: едц");
         //actionRequest.setCharacterEncoding("utf-8");
         //String name = actionRequest.getParameter("name");
-        System.out.println("********************************************name:" + actionRequest.getCharacterEncoding());
+        //System.out.println("********************************************name:" + actionRequest.getCharacterEncoding());
         
         log.debug("Got to processAction!!");
         try
@@ -175,7 +175,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         // getParameterMap(request), getSessionMap(request),
         // getPortletApplicationMap());
         log.debug("Getting to serviceAction");
-        System.out.println("Getting to serviceAction");
+        //System.out.println("Getting to serviceAction");
        
         /*
         serviceAction(request, response, getPortletName(),
@@ -197,7 +197,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         System.out.println("Getting to serviceAction with namespace:" + namespace + " actionName:" + actionName);
         
         HashMap extraContext = createContextMap(requestMap, parameterMap, sessionMap, applicationMap, request, response, getPortletConfig());
-        System.out.println("calendarId:" + extraContext.get("calendarId"));
+        //System.out.println("calendarId:" + extraContext.get("calendarId"));
         
         if (namespace.length() > 0)
         {
@@ -208,7 +208,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         log.debug(parameterMap);
         extraContext.put(PORTLET_DISPATCHER, this);
         log.debug("Getting to beginning of serviceAction");
-        System.out.println("Getting to beginning of serviceAction");
+        //System.out.println("Getting to beginning of serviceAction");
         log.debug(new StringBuffer().append("Namespace: ").append(namespace).append("\nAction: ").append(actionName).append("\nPortlet Name: ").append(getPortletName()).toString());
         
         try
@@ -313,12 +313,12 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
     
     protected String getModeActionName(PortletMode mode) throws PortletException
     {
-        System.out.println("PortletMode is: " + mode.toString());
+        //System.out.println("PortletMode is: " + mode.toString());
         log.debug("PortletMode is: " + mode.toString());
         //  TODO: Move this exception throwing somewhere else.  Nested too deep.
         String actionName = (String) getPortletConfig().getInitParameter(mode.toString());
 
-        System.out.println("actionName in getModeActionName:" + actionName);
+        //System.out.println("actionName in getModeActionName:" + actionName);
         
         if (actionName == null)
         {

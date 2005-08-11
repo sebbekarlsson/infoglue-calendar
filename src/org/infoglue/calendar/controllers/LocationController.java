@@ -93,15 +93,11 @@ public class LocationController extends BasicController
     
     public Location createLocation(String name, String description, Session session) throws HibernateException, Exception 
     {
-        System.out.println("Creating new location...");
-        
         Location location = new Location();
         location.setName(name);
         location.setDescription(description);
         
         session.save(location);
-        
-        System.out.println("Finished creating location...");
         
         return location;
     }

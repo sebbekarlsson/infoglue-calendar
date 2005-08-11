@@ -3,7 +3,9 @@ package com.opensymphony.webwork.portlet.alternative.action;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.RenderRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -54,20 +56,23 @@ public class ActionResult implements Result
 		*/
 		System.out.println("***************************************");
 		System.out.println("viewAction = " + viewAction);
-		
+		ActionRequest req = (ActionRequest)actionInvocation.getInvocationContext().get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
+		System.out.println("Request error:" + req.getAttribute("ErrorMessage"));
+
 		if (parse) {
             OgnlValueStack stack = ActionContext.getContext().getValueStack();
             viewAction = TextParseUtil.translateVariables(viewAction, stack);
         }
 		
 		System.out.println("viewAction = " + viewAction);
-		System.out.println("***************************************");
 
 		if(StringUtils.isNotEmpty(viewAction)) {
 			//ActionResponse response = (ActionResponse)actionInvocation.getInvocationContext().getContextMap().get(PortletActionConstants.RESPONSE);
+			ActionRequest request = (ActionRequest)actionInvocation.getInvocationContext().getContextMap().get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
 			ActionResponse response = (ActionResponse)actionInvocation.getInvocationContext().getContextMap().get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
-			System.out.println("response:" + response);
-	        
+			//System.out.println("response:" + response);
+			System.out.println("request:" + request);
+			
 			if (viewAction.indexOf('?') != -1) 
 			{
 	            convertQueryParamsToRenderParams(response, viewAction.substring(viewAction.indexOf('?') + 1));
@@ -89,19 +94,28 @@ public class ActionResult implements Result
 	        }
 	        */
 		}
+
+		System.out.println("viewAction = " + viewAction);
+		System.out.println("***************************************");
 	}
+	
 	/**
 	 * Get the view action to prepare.
 	 * @return Returns the viewAction.
 	 */
-	public String getViewAction() {
+	
+	public String getViewAction() 
+	{
 		return viewAction;
 	}
+	
 	/**
 	 * Set the name of the view action to execute in the render phase
 	 * @param viewAction The viewAction to set.
 	 */
-	public void setViewAction(String viewAction) {
+	
+	public void setViewAction(String viewAction) 
+	{
 		this.viewAction = viewAction;
 	}
 	
@@ -111,13 +125,16 @@ public class ActionResult implements Result
      *
      * @param parse <tt>true</tt> if the location parameter is an OGNL expression, <tt>false</tt> otherwise.
      */
-    public void setParse(boolean parse) {
+	
+    public void setParse(boolean parse) 
+    {
         this.parse = parse;
     }
     
     /**
      * @param string
      */
+    
     protected static void convertQueryParamsToRenderParams(ActionResponse response, String queryParams) 
 	{
     	StringTokenizer tok = new StringTokenizer(queryParams, "&");

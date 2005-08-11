@@ -92,15 +92,11 @@ public class CategoryController extends BasicController
     
     public Category createCategory(String name, String description, Session session) throws HibernateException, Exception 
     {
-        System.out.println("Creating new category...");
-        
         Category category = new Category();
         category.setName(name);
         category.setDescription(description);
         
         session.save(category);
-        
-        System.out.println("Finished creating category...");
         
         return category;
     }
@@ -114,6 +110,9 @@ public class CategoryController extends BasicController
     
     public void updateCategory(Long id, String name, String description) throws Exception 
     {
+        //if(name == null || name.length() == 0)
+        //    throw new Exception("The name must be between 2 and 50 characters long");
+            
 	    Session session = getSession();
 	    
 		Transaction tx = null;

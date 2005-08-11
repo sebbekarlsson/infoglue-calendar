@@ -402,6 +402,7 @@
 		<copy todir="${deploy.dir.working}/WEB-INF/classes">
 			<fileset dir="${conf}">
 				<include name="*"/>
+				<include name="**/*-validation.xml"/>
 				<exclude name="portlet.xml"/>
 				<exclude name="web.xml"/>
 			</fileset>

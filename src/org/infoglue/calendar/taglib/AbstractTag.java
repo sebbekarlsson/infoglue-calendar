@@ -15,6 +15,15 @@ public abstract class AbstractTag extends TagSupport
 		super();
 	}
 
+	protected void setResultAttribute(Object value)
+	{
+		if(value == null)
+			pageContext.removeAttribute(id);
+		else
+			pageContext.setAttribute(id, value);
+		
+	}
+	
 	protected Object evaluate(String tagName, String attributeName, String expression, Class expectedType) throws JspException
 	{
 		return ExpressionUtil.evalNotNull(tagName, attributeName, expression, expectedType, this, pageContext);

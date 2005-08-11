@@ -43,6 +43,23 @@
 		</attribute>
 	</tag>
   	   	 
+  	<tag>
+	    <name>size</name>
+	    <tagclass>org.infoglue.calendar.taglib.SizeTag</tagclass>
+	    <bodycontent>empty</bodycontent>
+	    <info></info>
+	    <attribute>
+		    <name>id</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+	    <attribute>
+		    <name>list</name>
+	    	<required>true</required>
+	        <rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
     <tag>
         <name>evalParam</name>
         <tagclass>org.infoglue.calendar.taglib.EvalParamTag</tagclass>
