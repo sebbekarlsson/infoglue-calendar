@@ -24,10 +24,12 @@
 package org.infoglue.calendar.actions;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.common.security.UserControllerProxy;
 
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
@@ -41,7 +43,12 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class CreateCalendarAction extends CalendarAbstractAction
 {
-    private Calendar dataBean = new Calendar();
+    private String name;
+    private String description;
+    private String owner;
+    
+    private List infogluePrincipals;
+
     
     /**
      * This is the entry point for the main listing.
@@ -52,7 +59,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CalendarController.getController().createCalendar(dataBean.getName(), dataBean.getDescription());
+            CalendarController.getController().createCalendar(name, description, owner);
         }
         catch(ValidationException e)
         {
@@ -68,32 +75,37 @@ public class CreateCalendarAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
+        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+
         return Action.INPUT;
     } 
     
     public String getDescription()
     {
-        return this.dataBean.getDescription();
+        return description;
     }
-    
     public void setDescription(String description)
     {
-        this.dataBean.setDescription(description);
+        this.description = description;
     }
-    
     public String getName()
     {
-        return this.dataBean.getName();
+        return name;
     }
-    
     public void setName(String name)
     {
-        this.dataBean.setName(name);
+        this.name = name;
     }
-    
-    public Object getErrorBean()
+    public String getOwner()
     {
-        return this.dataBean;
+        return owner;
     }
-
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+    }
+    public List getInfogluePrincipals()
+    {
+        return infogluePrincipals;
+    }
 }

@@ -32,6 +32,8 @@ import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.common.security.UserControllerProxy;
+
 import com.opensymphony.xwork.Action;
 
 /**
@@ -58,6 +60,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
     private List monthEvents;
     private List dates;
     
+    private List infogluePrincipals;
+
     /**
      * This is the entry point for the main listing.
      */
@@ -131,6 +135,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.monthEvents = EventController.getController().getEventList(calendarId, monthStartCalendar, monthEndCalendar);
         this.dates = getDateList(calendar);
             
+        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+
         System.out.println("startCalendar:" + startCalendar.getTime());
         
         return Action.SUCCESS;
@@ -372,9 +378,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
         return endCalendar;
     }
     
-    public Object getErrorBean()
+    public List getInfogluePrincipals()
     {
-        return null;
+        return infogluePrincipals;
     }
-
 }

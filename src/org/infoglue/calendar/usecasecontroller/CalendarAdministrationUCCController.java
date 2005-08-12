@@ -90,36 +90,7 @@ public class CalendarAdministrationUCCController extends BasicController
     }
     
     
-    /**
-     * This method is used to create a new Calendar object in the database.
-     */
-    
-    public void createCalendar(String name, String description) throws HibernateException, Exception 
-    {
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-  
-            CalendarController.getController().createCalendar(name, description, session);
-            
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-            
-            if (tx!=null) 
-                tx.rollback();
-        }
-        finally 
-        {
-            session.close();
-        }
-    }
+
     
     
 }

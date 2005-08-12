@@ -92,9 +92,5 @@ public class DeleteEventAction extends CalendarAbstractAction
         this.mode = mode;
     }
     
-    public Object getErrorBean()
-    {
-        return null;
-    }
 
 }

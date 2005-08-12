@@ -67,9 +67,4 @@ public class DeleteCalendarAction extends CalendarAbstractAction
         this.calendarId = calendarId;
     }
     
-    public Object getErrorBean()
-    {
-        return null;
-    }
-
 }

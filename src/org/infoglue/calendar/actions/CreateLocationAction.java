@@ -97,9 +97,4 @@ public class CreateLocationAction extends CalendarAbstractAction
         this.dataBean.setName(name);
     }
     
-    public Object getErrorBean()
-    {
-        return this.dataBean;
-    }
-
 }

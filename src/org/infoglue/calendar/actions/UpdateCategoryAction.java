@@ -100,8 +100,4 @@ public class UpdateCategoryAction extends ViewCategoryAction
         this.dataBean.setName(name);
     }
     
-    public Object getErrorBean()
-    {
-        return this.dataBean;
-    }
 }

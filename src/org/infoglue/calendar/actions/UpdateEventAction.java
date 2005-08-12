@@ -45,6 +45,7 @@ import com.opensymphony.webwork.util.AttributeMap;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.util.OgnlValueStack;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -85,12 +86,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private Long calendarId;
     private String mode;
     
-    private String nameErrorMessage = "Mandatory field";
-    private String descriptionErrorMessage = "Mandatory field";
-    private String locationErrorMessage = "Mandatory field";
-    private String categoryErrorMessage = "Mandatory field";
-    private String participantsErrorMessage = "Mandatory field";
-
     /**
      * This is the entry point for the main listing.
      */
@@ -101,63 +96,38 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         Calendar lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
 
-        if(name == null || 
-           name.equalsIgnoreCase("") || 
-           description == null || 
-           description.equalsIgnoreCase("") || 
-           locationId == null || 
-           locationId[0].equalsIgnoreCase("") || 
-           categoryId == null ||
-           categoryId[0].equalsIgnoreCase("") 
-           )
+        try
         {
-            ActionContext.getContext().getSession().put("eventErrorName", this.name);
-            ActionContext.getContext().getSession().put("eventErrorDescription", this.description);
-            
-            if(this.name == null || this.name.length() == 0)
-                ActionContext.getContext().getSession().put("nameErrorMessage", this.nameErrorMessage);
-            if(this.description == null || this.description.length() == 0)
-                ActionContext.getContext().getSession().put("descriptionErrorMessage", this.descriptionErrorMessage);
-            if(this.locationId == null)
-                ActionContext.getContext().getSession().put("locationErrorMessage", this.locationErrorMessage);
-            if(this.categoryId == null)
-                ActionContext.getContext().getSession().put("categoryErrorMessage", this.categoryErrorMessage);
-            
-            //ActionContext.getContext().getSession().put("participantsErrorMessage", this.participantsErrorMessage);
-
-            return "error";
-            //return Action.INPUT;
+            validateInput(this);
+            EventController.getController().updateEvent(
+                    eventId, 
+                    name,
+                    description, 
+                    isInternal, 
+                    isOrganizedByGU, 
+                    organizerName, 
+                    lecturer, 
+                    customLocation,
+                    shortDescription,
+                    longDescription,
+                    eventUrl,
+                    contactName,
+                    contactEmail,
+                    contactPhone,
+                    price,
+                    lastRegistrationCalendar,
+                    maxumumParticipants,
+                    startCalendar, 
+                    endCalendar, 
+                    locationId, 
+                    categoryId, 
+                    participantUserName);
+        }
+        catch(ValidationException e)
+        {
+            return Action.ERROR;            
         }
 
-        System.out.println("isInternal: " + isInternal);
-        System.out.println("isOrganizedByGU: " + isOrganizedByGU);
-        System.out.println("price: " + price);
-        System.out.println("lastRegistrationCalendar: " + lastRegistrationCalendar.getTime());
-        EventController.getController().updateEvent(
-                eventId, 
-                name,
-                description, 
-                isInternal, 
-                isOrganizedByGU, 
-                organizerName, 
-                lecturer, 
-                customLocation,
-                shortDescription,
-                longDescription,
-                eventUrl,
-                contactName,
-                contactEmail,
-                contactPhone,
-                price,
-                lastRegistrationCalendar,
-                maxumumParticipants,
-                startCalendar, 
-                endCalendar, 
-                locationId, 
-                categoryId, 
-                participantUserName);
-        
-        
         return Action.SUCCESS;
     } 
     
@@ -325,31 +295,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         this.participantUserName = participantUserName;
     }
     
-    public String getCategoryErrorMessage()
-    {
-        return categoryErrorMessage;
-    }
-    
-    public String getDescriptionErrorMessage()
-    {
-        return descriptionErrorMessage;
-    }
-    
-    public String getLocationErrorMessage()
-    {
-        return locationErrorMessage;
-    }
-    
-    public String getNameErrorMessage()
-    {
-        return nameErrorMessage;
-    }
-    
-    public String getParticipantsErrorMessage()
-    {
-        return participantsErrorMessage;
-    }
-    
     public String getContactEmail()
     {
         return contactEmail;
@@ -396,7 +341,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     }
     public void setIsInternal(Boolean isInternal)
     {
-        System.out.println("Setting isInternal: " + isInternal);
         this.isInternal = isInternal;
     }
     public Boolean getIsOrganizedByGU()
@@ -471,26 +415,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         return locationId;
     }
-    public void setCategoryErrorMessage(String categoryErrorMessage)
-    {
-        this.categoryErrorMessage = categoryErrorMessage;
-    }
-    public void setDescriptionErrorMessage(String descriptionErrorMessage)
-    {
-        this.descriptionErrorMessage = descriptionErrorMessage;
-    }
-    public void setLocationErrorMessage(String locationErrorMessage)
-    {
-        this.locationErrorMessage = locationErrorMessage;
-    }
-    public void setNameErrorMessage(String nameErrorMessage)
-    {
-        this.nameErrorMessage = nameErrorMessage;
-    }
-    public void setParticipantsErrorMessage(String participantsErrorMessage)
-    {
-        this.participantsErrorMessage = participantsErrorMessage;
-    }
     public Integer getLastRegistrationTime()
     {
         return lastRegistrationTime;
@@ -500,9 +424,4 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         this.lastRegistrationTime = lastRegistrationTime;
     }
     
-    public Object getErrorBean()
-    {
-        return null;
-    }
-
 }

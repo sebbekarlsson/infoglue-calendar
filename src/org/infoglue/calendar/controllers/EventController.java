@@ -67,7 +67,28 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database.
      */
     
-    public Event createEvent(Long calendarId, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, String[] locationId, String[] categoryId, String[] participantUserName) throws HibernateException, Exception 
+    public Event createEvent(Long calendarId, 
+            				String name, 
+            				String description, 
+            				Boolean isInternal, 
+            	            Boolean isOrganizedByGU, 
+            	            String organizerName, 
+            	            String lecturer, 
+            	            String customLocation,
+            	            String shortDescription,
+            	            String longDescription,
+            	            String eventUrl,
+            	            String contactName,
+            	            String contactEmail,
+            	            String contactPhone,
+            	            Float price,
+            	            java.util.Calendar lastRegistrationCalendar,
+            	            Integer maxumumParticipants,
+            	            java.util.Calendar startDateTime, 
+            	            java.util.Calendar endDateTime, 
+            	            String[] locationId, 
+            	            String[] categoryId, 
+            	            String[] participantUserName) throws HibernateException, Exception 
     {
         Event event = null;
         
@@ -114,7 +135,29 @@ public class EventController extends BasicController
 			    participants.add(participant);
 			}
 
-			event = createEvent(calendar, name, description, startDateTime, endDateTime, locations, categories, participants, session);
+			event = createEvent(calendar, 
+			        			name, 
+			        			description, 
+			        			isInternal, 
+			                    isOrganizedByGU, 
+			                    organizerName, 
+			                    lecturer, 
+			                    customLocation,
+			                    shortDescription,
+			                    longDescription,
+			                    eventUrl,
+			                    contactName,
+			                    contactEmail,
+			                    contactPhone,
+			                    price,
+			                    lastRegistrationCalendar,
+			                    maxumumParticipants,
+			        			startDateTime, 
+			        			endDateTime, 
+			        			locations, 
+			        			categories, 
+			        			participants, 
+			        			session);
 
 			tx.commit();
 		}
@@ -137,13 +180,49 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database inside a transaction.
      */
     
-    public Event createEvent(Calendar calendar, String name, String description, java.util.Calendar startDateTime, java.util.Calendar endDateTime, Set locations, Set categories, Set participants, Session session) throws HibernateException, Exception 
+    public Event createEvent(Calendar calendar, 
+            				String name, 
+            				String description, 
+            				Boolean isInternal, 
+            	            Boolean isOrganizedByGU, 
+            	            String organizerName, 
+            	            String lecturer, 
+            	            String customLocation,
+            	            String shortDescription,
+            	            String longDescription,
+            	            String eventUrl,
+            	            String contactName,
+            	            String contactEmail,
+            	            String contactPhone,
+            	            Float price,
+            	            java.util.Calendar lastRegistrationCalendar,
+            	            Integer maxumumParticipants,
+            	            java.util.Calendar startDateTime, 
+            				java.util.Calendar endDateTime, 
+            				Set locations, 
+            				Set categories, 
+            				Set participants, 
+            				Session session) throws HibernateException, Exception 
     {
         System.out.println("Creating new event...");
         
         Event event = new Event();
         event.setName(name);
         event.setDescription(description);
+        event.setIsInternal(isInternal);
+        event.setIsOrganizedByGU(isOrganizedByGU);
+        event.setOrganizerName(organizerName);
+        event.setLecturer(lecturer);
+        event.setCustomLocation(customLocation);
+        event.setShortDescription(shortDescription);
+        event.setLongDescription(longDescription);
+        event.setEventUrl(eventUrl);
+        event.setContactName(contactName);
+        event.setContactEmail(contactEmail);
+        event.setContactPhone(contactPhone);
+        event.setPrice(price);
+        event.setMaxumumParticipants(maxumumParticipants);
+        event.setLastRegistrationDateTime(lastRegistrationCalendar);
         event.setStartDateTime(startDateTime);
         event.setEndDateTime(endDateTime); 
         
@@ -175,7 +254,6 @@ public class EventController extends BasicController
             Boolean isOrganizedByGU, 
             String organizerName, 
             String lecturer, 
-            
             String customLocation,
             String shortDescription,
             String longDescription,
@@ -186,7 +264,6 @@ public class EventController extends BasicController
             Float price,
             java.util.Calendar lastRegistrationCalendar,
             Integer maxumumParticipants,
-            
             java.util.Calendar startDateTime, 
             java.util.Calendar endDateTime, 
             String[] locationId, 

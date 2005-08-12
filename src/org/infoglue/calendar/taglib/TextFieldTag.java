@@ -46,8 +46,8 @@ public class TextFieldTag extends AbstractCalendarTag
 	private String value;
 	private String label;
 	private List fieldErrors;
-	private Object errorBean = null;
-	
+	private Object errorAction = null;
+
 	/**
 	 * 
 	 */
@@ -59,13 +59,14 @@ public class TextFieldTag extends AbstractCalendarTag
 	public int doEndTag() throws JspException
     {
 	    fieldErrors = (List)findOnValueStack("#fieldErrors." + name);
-	    errorBean = findOnValueStack("#errorBean");
-	    if(errorBean != null)
+	    
+	    errorAction = findOnValueStack("#errorAction");
+	    if(errorAction != null)
 	    {
-            value = findOnValueStack("#errorBean." + name).toString();
+	        value = findOnValueStack("#errorAction." + name).toString();
 	        System.out.println("value:" + value);
         }
-	        
+	    
 	    StringBuffer sb = new StringBuffer();
 	    if(this.label != null)
 	        sb.append(this.label);
@@ -94,16 +95,6 @@ public class TextFieldTag extends AbstractCalendarTag
         this.cssClass = cssClass;
     }
     
-    public void setErrorBean(String errorBean)
-    {
-        this.errorBean = errorBean;
-    }
-    
-    public void setFieldErrors(String fieldErrors) throws JspException
-    {
-        this.fieldErrors = evaluateList("TextField", "fieldErrors", fieldErrors);
-    }
-
     public void setName(String name)
     {
         this.name = name;

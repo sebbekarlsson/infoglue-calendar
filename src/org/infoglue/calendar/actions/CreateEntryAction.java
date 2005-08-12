@@ -139,9 +139,5 @@ public class CreateEntryAction extends CalendarAbstractAction
         this.eventId = eventId;
     }
     
-    public Object getErrorBean()
-    {
-        return null;
-    }
 
 }

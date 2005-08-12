@@ -94,10 +94,5 @@ public class CreateCategoryAction extends CalendarAbstractAction
     {
         this.dataBean.setName(name);
     }
-    
-    public Object getErrorBean()
-    {
-        return this.dataBean;
-    }
 
 }

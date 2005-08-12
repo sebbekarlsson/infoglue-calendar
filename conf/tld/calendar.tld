@@ -139,6 +139,11 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
+		    <name>selectedValue</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
 		    <name>cssClass</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>

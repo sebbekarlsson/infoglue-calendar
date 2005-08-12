@@ -24,8 +24,10 @@
 package org.infoglue.calendar.actions;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.PortletURL;
 
@@ -52,16 +54,30 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class CreateEventAction extends CalendarAbstractAction
 {
-    private Event dataBean = new Event();
+    //private Map dataBean = new HashMap();
 
-    /*
     private String name;
     private String description;
-    */
     private String startDateTime;
     private String endDateTime;
     private Integer startTime;
     private Integer endTime;
+
+    private Boolean isInternal;
+    private Boolean isOrganizedByGU;
+    private String organizerName;
+    private String lecturer;
+    private String customLocation;
+    private String shortDescription;
+    private String longDescription;
+    private String eventUrl;
+    private String contactName;
+    private String contactEmail;
+    private String contactPhone;
+    private Float price;
+    private String lastRegistrationDateTime;
+    private Integer lastRegistrationTime;
+    private Integer maxumumParticipants;
 
     private String[] locationId;
     private String[] categoryId;
@@ -82,50 +98,50 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+        System.out.println();
+        System.out.println();
+        System.out.println("######################");
+        System.out.println("calendarId:" + calendarId);
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-           
+        Calendar lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
+        System.out.println("lastRegistrationCalendar:" + lastRegistrationCalendar);
+   
         try
         {
             validateInput(this);
-            EventController.getController().createEvent(calendarId, dataBean.getName(), dataBean.getDescription(), startCalendar, endCalendar, locationId, categoryId, participantUserName);
+            EventController.getController().createEvent(calendarId,
+									                    name, 
+									                    description,
+									                    isInternal, 
+									                    isOrganizedByGU, 
+									                    organizerName, 
+									                    lecturer, 
+									                    customLocation,
+									                    shortDescription,
+									                    longDescription,
+									                    eventUrl,
+									                    contactName,
+									                    contactEmail,
+									                    contactPhone,
+									                    price,
+									                    lastRegistrationCalendar,
+									                    maxumumParticipants,
+									                    startCalendar, 
+									                    endCalendar, 
+									                    locationId, 
+									                    categoryId, 
+									                    participantUserName);
         }
         catch(ValidationException e)
         {
+            System.out.println("ERROR");
+            e.printStackTrace();
             return Action.ERROR;            
-        }
-        
-        //System.out.println("locationId:" + locationId);
-        //System.out.println("categoryId:" + categoryId);
-        /*
-        if(name == null || 
-           name.equalsIgnoreCase("") || 
-           description == null || 
-           description.equalsIgnoreCase("") || 
-           locationId == null || 
-           locationId[0].equalsIgnoreCase("") || 
-           categoryId == null ||
-           categoryId[0].equalsIgnoreCase("") 
-           )
-        {
-            ActionContext.getContext().getSession().put("eventErrorName", this.name);
-            ActionContext.getContext().getSession().put("eventErrorDescription", this.description);
-            
-            if(this.name == null || this.name.length() == 0)
-                ActionContext.getContext().getSession().put("nameErrorMessage", this.nameErrorMessage);
-            if(this.description == null || this.description.length() == 0)
-                ActionContext.getContext().getSession().put("descriptionErrorMessage", this.descriptionErrorMessage);
-            if(this.locationId == null)
-                ActionContext.getContext().getSession().put("locationErrorMessage", this.locationErrorMessage);
-            if(this.categoryId == null)
-                ActionContext.getContext().getSession().put("categoryErrorMessage", this.categoryErrorMessage);
-            
-            //ActionContext.getContext().getSession().put("participantsErrorMessage", this.participantsErrorMessage);
 
-            return "error";
-            //return Action.INPUT;
         }
-        */
+
+        System.out.println("SUCCESS");
         
         return Action.SUCCESS;
     } 
@@ -136,26 +152,6 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
-        /*
-        this.name = (String)ActionContext.getContext().getSession().get("eventErrorName");
-        this.description = (String)ActionContext.getContext().getSession().get("eventErrorDescription");
-        
-        this.nameErrorMessage = (String)ActionContext.getContext().getSession().get("nameErrorMessage");
-        this.descriptionErrorMessage = (String)ActionContext.getContext().getSession().get("descriptionErrorMessage");
-        this.locationErrorMessage = (String)ActionContext.getContext().getSession().get("locationErrorMessage");
-        this.categoryErrorMessage = (String)ActionContext.getContext().getSession().get("categoryErrorMessage");
-        this.participantsErrorMessage = (String)ActionContext.getContext().getSession().get("participantsErrorMessage");
-                
-        ActionContext.getContext().getSession().remove("eventErrorName");
-        ActionContext.getContext().getSession().remove("eventErrorDescription");
-        
-        ActionContext.getContext().getSession().remove("nameErrorMessage");
-        ActionContext.getContext().getSession().remove("descriptionErrorMessage");
-        ActionContext.getContext().getSession().remove("locationErrorMessage");
-        ActionContext.getContext().getSession().remove("categoryErrorMessage");
-        ActionContext.getContext().getSession().remove("participantsErrorMessage");
-        */
-        
         this.locations 	= LocationController.getController().getLocationList();
         this.categories = CategoryController.getController().getCategoryList();
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
@@ -163,36 +159,149 @@ public class CreateEventAction extends CalendarAbstractAction
         return Action.INPUT;
     } 
     
-    public String getDescription()
-    {
-        return dataBean.getDescription();
-    }
-    
-    public void setDescription(String description)
-    {
-        this.dataBean.setDescription(description);
-    }
-    
-    public String getName()
-    {
-        return dataBean.getName();
-    }
-    
-    public void setName(String name)
-    {
-        this.dataBean.setName(name);
-    }
-    
     public Long getCalendarId()
     {
-        return dataBean.getId();
+        return calendarId;
     }
     
     public void setCalendarId(Long calendarId)
     {
-        this.dataBean.setId(calendarId);
+        this.calendarId = calendarId;
     }
     
+    public String getDescription()
+    {
+        return description;
+    }
+    
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+    
+    public String getName()
+    {
+        return name;
+    }
+    
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getContactEmail()
+    {
+        return contactEmail;
+    }
+    public void setContactEmail(String contactEmail)
+    {
+        this.contactEmail = contactEmail;
+    }
+    public String getContactName()
+    {
+        return contactName;
+    }
+    public void setContactName(String contactName)
+    {
+        this.contactName = contactName;
+    }
+    public String getContactPhone()
+    {
+        return contactPhone;
+    }
+    public void setContactPhone(String contactPhone)
+    {
+        this.contactPhone = contactPhone;
+    }
+    public String getCustomLocation()
+    {
+        return customLocation;
+    }
+    public void setCustomLocation(String customLocation)
+    {
+        this.customLocation = customLocation;
+    }
+    public String getEventUrl()
+    {
+        return eventUrl;
+    }
+    public void setEventUrl(String eventUrl)
+    {
+        this.eventUrl = eventUrl;
+    }
+    public Boolean getIsInternal()
+    {
+        return isInternal;
+    }
+    public void setIsInternal(Boolean isInternal)
+    {
+        this.isInternal = isInternal;
+    }
+    public Boolean getIsOrganizedByGU()
+    {
+        return isOrganizedByGU;
+    }
+    public void setIsOrganizedByGU(Boolean isOrganizedByGU)
+    {
+        this.isOrganizedByGU = isOrganizedByGU;
+    }
+    public String getLastRegistrationDateTime()
+    {
+        return lastRegistrationDateTime;
+    }
+    public void setLastRegistrationDateTime(String lastRegistrationDateTime)
+    {
+        this.lastRegistrationDateTime = lastRegistrationDateTime;
+    }
+    public String getLecturer()
+    {
+        return lecturer;
+    }
+    public void setLecturer(String lecturer)
+    {
+        this.lecturer = lecturer;
+    }
+    public String getLongDescription()
+    {
+        return longDescription;
+    }
+    public void setLongDescription(String longDescription)
+    {
+        this.longDescription = longDescription;
+    }
+    public Integer getMaxumumParticipants()
+    {
+        return maxumumParticipants;
+    }
+    public void setMaxumumParticipants(Integer maxumumParticipants)
+    {
+        this.maxumumParticipants = maxumumParticipants;
+    }
+    public String getOrganizerName()
+    {
+        return organizerName;
+    }
+    public void setOrganizerName(String organizerName)
+    {
+        this.organizerName = organizerName;
+    }
+    public Float getPrice()
+    {
+        return price;
+    }
+    public void setPrice(Float price)
+    {
+        this.price = price;
+    }
+    public String getShortDescription()
+    {
+        return shortDescription;
+    }
+    public void setShortDescription(String shortDescription)
+    {
+        this.shortDescription = shortDescription;
+    }
+
     public String getDate()
     {
         return date;
@@ -312,10 +421,5 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         return participantUserName;
     }
-
-    public Object getErrorBean()
-    {
-        return dataBean;
-    }
-
+    
 }

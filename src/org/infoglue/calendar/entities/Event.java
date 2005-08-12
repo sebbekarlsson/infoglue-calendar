@@ -56,6 +56,7 @@ public class Event implements BaseEntity
     private Float price;
     private java.util.Calendar lastRegistrationDateTime;
     private Integer maxumumParticipants;
+    private Boolean isPublished = new Boolean(true); //Default if not otherwise set
     
     private Calendar calendar;
     private Set locations;
@@ -428,6 +429,21 @@ public class Event implements BaseEntity
     public void setLongDescription(String longDescription)
     {
         this.longDescription = longDescription;
+    }
+
+    /**
+     * @hibernate.property name="getIsPublished" column="isPublished" type="boolean" not-null="false" unique="false"
+     * 
+     * @return Boolean
+     */
+    public Boolean getIsPublished()
+    {
+        return isPublished;
+    }
+
+    public void setIsPublished(Boolean isPublished)
+    {
+        this.isPublished = isPublished;
     }
 
 }

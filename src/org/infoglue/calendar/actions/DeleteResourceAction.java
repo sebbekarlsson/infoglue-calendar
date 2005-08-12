@@ -68,9 +68,4 @@ public class DeleteResourceAction extends CalendarAbstractAction
         this.resourceId = resourceId;
     }
     
-    public Object getErrorBean()
-    {
-        return null;
-    }
-
 }

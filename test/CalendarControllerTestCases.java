@@ -77,7 +77,7 @@ public class CalendarControllerTestCases extends TestCase
 	        {
 		        System.out.println("testCreateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
-		        Calendar calendar = calendarController.createCalendar("TestCalendar" + System.currentTimeMillis(), "This is the testcalendar...", session);
+		        Calendar calendar = calendarController.createCalendar("TestCalendar" + System.currentTimeMillis(), "This is the testcalendar...", "root", session);
 	        } 
 	        catch (Exception e)
 	        {
@@ -197,7 +197,7 @@ public class CalendarControllerTestCases extends TestCase
 		        if(calendars.size() > 0)
 		        {
 		            Calendar calendar = (Calendar)calendars.get(0);
-		            calendarController.updateCalendar(calendar, "UpdatedCalendar", "This action updated the calendar", session);
+		            calendarController.updateCalendar(calendar, "UpdatedCalendar", "This action updated the calendar", "root", session);
 		        }
 		    } 
 	        catch (Exception e)

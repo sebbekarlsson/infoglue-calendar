@@ -58,9 +58,4 @@ public class DeleteCategoryAction extends CalendarAbstractAction
         this.categoryId = categoryId;
     }
     
-    public Object getErrorBean()
-    {
-        return null;
-    }
-
 }

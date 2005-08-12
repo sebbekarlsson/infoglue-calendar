@@ -50,7 +50,52 @@
 			<p>
 				<calendar:textField label="Description:" name="description" value="event.description" cssClass="normalInput"/>
 			</p>
+			
 			<p>
+				<calendar:textField label="Internal:" name="isInternal" value="event.isInternal" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Is organized by us:" name="isOrganizedByGU" value="event.isOrganizedByGU" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Name of organizer:" name="organizerName" value="event.organizerName" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Lecturer:" name="lecturer" value="event.lecturer" cssClass="normalInput"/>
+			</p>
+
+			<p>
+				<calendar:textField label="Custom location:" name="customLocation" value="event.customLocation" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Short description:" name="shortDescription" value="event.shortDescription" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Long description:" name="longDescription" value="event.longDescription" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Event URL:" name="eventUrl" value="event.eventUrl" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Contact name:" name="contactName" value="event.contactName" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Contact email:" name="contactEmail" value="event.contactEmail" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Contact phone:" name="contactPhone" value="event.contactPhone" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Price:" name="price" value="event.price" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Contact name:" name="contactName" value="event.contactName" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="Maximum participants:" name="maxumumParticipants" value="event.maxumumParticipants" cssClass="normalInput"/>
+			</p>
+
+            <p>
 				<table border="0" cellspacing="0">
 				<tr>
 					<td><span class="label">Startdatum:</span></td> 
@@ -84,6 +129,23 @@
 				</tr>
 				</table>
 			</p>
+			<p>
+				<table border="0" cellspacing="0">
+				<tr>
+					<td><span class="label">Sista anmälningsdatum:</span></td> 
+					<td><span class="label">Tid:</span></td> 
+				</tr>
+				<tr>
+					<td width="20%" nowrap>
+						<input type="textfield" id="lastRegistrationDateTime" name="lastRegistrationDateTime" value="<ww:property value="lastRegistrationDateTime"/>" class="dateInput">
+						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_lastRegistrationDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
+					</td>				
+					<td>
+						<input type="textfield" name="lastRegistrationTime" value="<ww:property value="lastRegistrationTime"/>" class="hourInput">					
+					</td>				
+				</tr>
+				</table>				
+			</p>    
       		<p>
       			<calendar:selectField label="Location (Hold shift to select multiple):" name="locationId" multiple="true" value="locations" cssClass="listBox"/>
 			</p>

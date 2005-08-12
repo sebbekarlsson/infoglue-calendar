@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE hibernate-mapping PUBLIC
-    "-//Hibernate/Hibernate Mapping DTD 2.0//EN" 
-    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
 
-<hibernate-mapping
->
-    <class
-        name="org.infoglue.calendar.entities.Calendar"
-        table="Calendar"
-        dynamic-update="false"
-        dynamic-insert="false"
-        select-before-update="false"
-        optimistic-lock="version"
-    >
+<hibernate-mapping>
+    <class name="org.infoglue.calendar.entities.Calendar" table="Calendar" dynamic-update="false" dynamic-insert="false" select-before-update="false" optimistic-lock="version">
 
-        <id
-            name="id"
-            column="id"
-            type="long"
-            unsaved-value="null"
-        >
+        <id name="id" column="id" type="long" unsaved-value="null">
             <generator class="native">
               <!--  
                   To add non XDoclet generator parameters, create a file named 
@@ -30,45 +15,13 @@
             </generator>
         </id>
 
-        <property
-            name="name"
-            type="string"
-            update="true"
-            insert="true"
-            access="property"
-            column="name"
-            not-null="false"
-            unique="true"
-        />
-
-        <property
-            name="description"
-            type="string"
-            update="true"
-            insert="true"
-            access="property"
-            column="description"
-            not-null="false"
-            unique="false"
-        />
-
-        <set
-            name="events"
-            lazy="false"
-            inverse="false"
-            cascade="none"
-            sort="unsorted"
-        >
-
-              <key
-                  column="calendar_id"
-              >
-              </key>
-
-              <one-to-many
-                  class="org.infoglue.calendar.entities.Event"
-              />
-
+        <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="true"/>
+        <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false"/>
+		<property name="owner" type="string" update="true" insert="true" access="property" column="owner" not-null="false" unique="false"/>
+        
+        <set name="events" lazy="false" inverse="false" cascade="none" sort="unsorted">
+			<key column="calendar_id"></key>
+			<one-to-many class="org.infoglue.calendar.entities.Event"/>
         </set>
 
         <!--
@@ -76,7 +29,6 @@
                 hibernate-properties-Calendar.xml
             containing the additional properties and place it in your merge dir.
         -->
-
+        
     </class>
-
 </hibernate-mapping>

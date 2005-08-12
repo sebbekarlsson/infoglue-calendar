@@ -31,7 +31,10 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.BaseEntity;
+
+import org.infoglue.common.security.InfoGluePrincipal;
 
 import com.opensymphony.xwork.ActionContext;
 
@@ -45,12 +48,12 @@ public class SelectFieldTag extends AbstractCalendarTag
 	
 	private String name;
 	private String cssClass = "";
-	private List selectedValues;
+	private String[] selectedValues;
 	private List values;
 	private String label;
 	private String multiple = "false";
 	private List fieldErrors;
-	private Object errorBean = null;
+	private Object errorAction = null;
 	
 	/**
 	 * 
@@ -63,15 +66,19 @@ public class SelectFieldTag extends AbstractCalendarTag
 	public int doEndTag() throws JspException
     {
 	    fieldErrors = (List)findOnValueStack("#fieldErrors." + name);
-	    errorBean = findOnValueStack("#errorBean");
-	    /*
-	    if(errorBean != null)
+	    
+	    errorAction = findOnValueStack("#errorAction");
+	    if(errorAction != null)
 	    {
-            value = findOnValueStack("#errorBean." + name).toString();
-	        System.out.println("value:" + value);
-        }
-        */
+	        Object obj = findOnValueStack("#errorAction." + name);
+	        if(obj instanceof String)
+	            selectedValues = new String[]{(String)obj};
+	        else if(obj instanceof String[])
+	            selectedValues = (String[])obj;
 	        
+	        System.out.println("values:" + values);
+        }
+
 	    StringBuffer sb = new StringBuffer();
 	    if(this.label != null)
 	        sb.append(this.label);
@@ -88,14 +95,39 @@ public class SelectFieldTag extends AbstractCalendarTag
 	        }
 	    }	
         sb.append("<br>");
-        
         sb.append("<select name=\"" + name + "\" multiple=\"" + multiple + "\" class=\"" + cssClass + "\">");
         
         Iterator valuesIterator = values.iterator();
         while(valuesIterator.hasNext())
 	    {
-            BaseEntity value = (BaseEntity)valuesIterator.next();
-            sb.append("<option value=\"" + value.getId() + "\">" + value.getName() + "</option>");
+            String id;
+            String optionText;
+            Object obj = valuesIterator.next();
+            if(obj instanceof InfoGluePrincipal)
+            {
+                InfoGluePrincipal value = (InfoGluePrincipal)obj;
+                id = value.getName().toString();
+                optionText = value.getFirstName() + " " + value.getLastName();
+            } 
+            else
+            {
+                BaseEntity value = (BaseEntity)obj;
+                id = value.getId().toString();
+                optionText = value.getName();
+            }
+            
+            String selected = "";
+            System.out.println("-----------------selectedValues:" + selectedValues);
+            if(selectedValues != null)
+            {
+	            for(int i=0; i<selectedValues.length; i++)
+	            {
+	                System.out.println(id + "=" + selectedValues[i]);
+	                if(id.equalsIgnoreCase(selectedValues[i]))
+	                    selected = " selected=\"1\"";
+	            }
+            }
+            sb.append("<option value=\"" + id + "\"" + selected + ">" + optionText + "</option>");
         }
         sb.append("</select>");
 
@@ -126,7 +158,16 @@ public class SelectFieldTag extends AbstractCalendarTag
 
     public void setSelectedValues(String selectedValues) throws JspException
     {
-        this.selectedValues = evaluateList("SelectTag", "selectedValues", selectedValues);
+        this.selectedValues = evaluateStringArray("SelectTag", "selectedValues", selectedValues);
+    }
+
+    public void setSelectedValue(String selectedValue) throws JspException
+    {
+        Object o = findOnValueStack(selectedValue);
+        if(o != null) 
+            this.selectedValues = new String[] {o.toString()};
+
+        //this.selectedValues = new String[] {evaluateString("SelectTag", "selectedValue", selectedValue)};
     }
     
     public void setValue(String value) throws JspException

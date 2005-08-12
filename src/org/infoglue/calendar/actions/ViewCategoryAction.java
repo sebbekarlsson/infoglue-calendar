@@ -65,9 +65,5 @@ public class ViewCategoryAction extends CalendarAbstractAction
         return category;
     }
 
-    public Object getErrorBean()
-    {
-        return null;
-    }
 
 }

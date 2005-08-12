@@ -173,9 +173,4 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
         this.mode = mode;
     }
 
-    public Object getErrorBean()
-    {
-        return null;
-    }
-   
 }

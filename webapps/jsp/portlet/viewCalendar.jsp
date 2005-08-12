@@ -212,8 +212,6 @@
 			<portlet:param name="action" value="UpdateCalendar"/>
 		</portlet:actionURL>
 		
-		Bean <ww:property value="#errorBean.id"/>
-		
 		<form name="inputForm" method="POST" action="<c:out value="${updateCalendarActionUrl}"/>">
 		<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
 		<p>
@@ -223,6 +221,10 @@
 			<calendar:textField label="Description:" name="description" value="calendar.description" cssClass="normalInput"/>
 		</p>
 		<p>
+		    <calendar:selectField label="Calendar Owner:" name="owner" multiple="false" value="infogluePrincipals" selectedValue="calendar.owner" cssClass="listBox"/>
+		</p>
+		
+		<p>
 			<input type="submit" value="Save">
 		</p>
 		</form>
@@ -231,6 +233,7 @@
 <div style="float: left; display: block; border: 0px solid black;" id="calendarArea<ww:property value="componentId"/>">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
+	<td><div id="waitingEvents<ww:property value="componentId"/>Tab" class="tab"><a id="waitingEvents<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('waitingEvents<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.waitingEventsTabLabel") %></a></div></td>
 	<td><div id="events<ww:property value="componentId"/>Tab" class="tab"><a id="events<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('events<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.eventsTabLabel") %></a></div></td>
 	<td><div id="day<ww:property value="componentId"/>Tab" class="tab"><a id="day<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('day<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.dayTabLabel") %></a></div></td>
 	<td><div id="week<ww:property value="componentId"/>Tab" class="tab"><a id="week<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('week<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.weekTabLabel") %></a></div></td>

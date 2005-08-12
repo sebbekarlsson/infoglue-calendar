@@ -39,6 +39,7 @@ import java.util.Set;
 public class Calendar implements BaseEntity
 {
     private Long id;
+    private String owner;
     private String name;
     private String description;
     private Set events = new HashSet();
@@ -57,7 +58,22 @@ public class Calendar implements BaseEntity
     {
         this.id = id;
     }
-    
+ 
+    /**
+     * @hibernate.property name="getOwner" column="owner" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getOwner()
+    {
+        return owner;
+    }
+
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+    }
+
     /**
      * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
      * 
@@ -104,4 +120,5 @@ public class Calendar implements BaseEntity
 	{
 		this.events = events;
 	}
+	
 }

@@ -46,7 +46,11 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class UpdateCalendarAction extends CalendarAbstractAction
 {
-    private Calendar dataBean = new Calendar();
+    private Long calendarId;
+    private String name;
+    private String description;
+    private String owner;
+
 
     /**
      * This is the entry point for the main listing.
@@ -57,7 +61,7 @@ public class UpdateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CalendarController.getController().updateCalendar(dataBean.getId(), dataBean.getName(), dataBean.getDescription());
+            CalendarController.getController().updateCalendar(calendarId, name, description, owner);
         }
         catch(ValidationException e)
         {
@@ -67,39 +71,37 @@ public class UpdateCalendarAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
     
+ 
     public Long getCalendarId()
     {
-        return dataBean.getId();
+        return calendarId;
     }
-
     public void setCalendarId(Long calendarId)
     {
-        this.dataBean.setId(calendarId);
+        this.calendarId = calendarId;
     }
-
     public String getDescription()
     {
-        return this.dataBean.getDescription();
+        return description;
     }
-    
     public void setDescription(String description)
     {
-        this.dataBean.setDescription(description);
+        this.description = description;
     }
-    
     public String getName()
     {
-        return this.dataBean.getName();
+        return name;
     }
-    
     public void setName(String name)
     {
-        this.dataBean.setName(name);
+        this.name = name;
     }
-    
-    public Object getErrorBean()
+    public String getOwner()
     {
-        return this.dataBean;
+        return owner;
     }
-
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+    }
 }

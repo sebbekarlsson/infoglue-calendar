@@ -91,9 +91,4 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
         this.lastName = lastName;
     }
     
-    public Object getErrorBean()
-    {
-        return null;
-    }
-
 }

@@ -58,7 +58,7 @@ public class CalendarController extends BasicController
      * This method is used to create a new Calendar object in the database.
      */
     
-    public Calendar createCalendar(String name, String description) throws HibernateException, Exception 
+    public Calendar createCalendar(String name, String description, String owner) throws HibernateException, Exception 
     {
         Calendar calendar = null;
         
@@ -68,7 +68,7 @@ public class CalendarController extends BasicController
 		try 
 		{
 			tx = session.beginTransaction();
-			calendar = createCalendar(name, description, session);
+			calendar = createCalendar(name, description, owner, session);
 			tx.commit();
 		}
 		catch (Exception e) 
@@ -90,11 +90,12 @@ public class CalendarController extends BasicController
      * This method is used to create a new Calendar object in the database inside a transaction.
      */
     
-    public Calendar createCalendar(String name, String description, Session session) throws HibernateException, Exception 
+    public Calendar createCalendar(String name, String description, String owner, Session session) throws HibernateException, Exception 
     {
         Calendar calendar = new Calendar();
         calendar.setName(name);
         calendar.setDescription(description);
+        calendar.setOwner(owner);
         
         session.save(calendar);
         
@@ -108,7 +109,7 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public void updateCalendar(Long id, String name, String description) throws Exception 
+    public void updateCalendar(Long id, String name, String description, String owner) throws Exception 
     {
 	    Session session = getSession();
 	    
@@ -118,7 +119,7 @@ public class CalendarController extends BasicController
 			tx = session.beginTransaction();
 		
 			Calendar calendar = getCalendar(id, session);
-			updateCalendar(calendar, name, description, session);
+			updateCalendar(calendar, name, description, owner, session);
 			
 			tx.commit();
 		}
@@ -140,10 +141,11 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public void updateCalendar(Calendar calendar, String name, String description, Session session) throws Exception 
+    public void updateCalendar(Calendar calendar, String name, String description, String owner, Session session) throws Exception 
     {
         calendar.setName(name);
         calendar.setDescription(description);
+        calendar.setOwner(owner);
 	
 		session.update(calendar);
 	}

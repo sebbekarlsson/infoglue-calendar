@@ -46,6 +46,9 @@
 			<calendar:textField label="Description:" name="description" value="calendar.description" cssClass="normalInput"/>
 		</p>
 		<p>
+		    <calendar:selectField label="Calendar Owner:" name="owner" multiple="false" value="infogluePrincipals" cssClass="listBox"/>
+		</p>
+		<p>
 			<input type="submit">
 		</p>
 		</form>
