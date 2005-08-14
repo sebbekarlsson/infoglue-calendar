@@ -98,8 +98,8 @@ public class ViewEventAction extends CalendarAbstractAction
         if(this.eventId == null)
             this.eventId = new Long(ServletActionContext.getRequest().getParameter("eventId"));
 
-        if(this.calendarId == null)
-            this.calendarId = new Long(ServletActionContext.getRequest().getParameter("calendarId"));
+        //if(this.calendarId == null)
+        //    this.calendarId = new Long(ServletActionContext.getRequest().getParameter("calendarId"));
 
         this.event = EventController.getController().getEvent(eventId);
         this.calendarId = this.event.getCalendar().getId();

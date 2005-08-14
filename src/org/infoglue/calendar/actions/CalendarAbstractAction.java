@@ -78,6 +78,11 @@ public abstract class CalendarAbstractAction extends ActionSupport
         return (String)ServletActionContext.getRequest().getAttribute("languageCode");
     }
 
+    public String getInfoGlueRemoteUser()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("infoglueRemoteUser");
+    }
+
     public String formatDate(Date date, String pattern, Locale locale)
     {	
     	if(date == null)
@@ -207,6 +212,13 @@ public abstract class CalendarAbstractAction extends ActionSupport
             ActionContext.getContext().getValueStack().getContext().put("errorAction", this);
             throw new ValidationException("An validation error occurred - more information is in the valuestack...");
         }
+    }
+    
+    public boolean useEventPublishing()
+    {
+        String useEventPublishing = PropertyHelper.getProperty("useEventPublishing");
+        
+        return (useEventPublishing.equalsIgnoreCase("true") ? true : false);
     }
     
 }

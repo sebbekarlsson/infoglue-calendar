@@ -250,13 +250,25 @@
 				<br>
 				<ww:set name="eventId" value="eventId" scope="page"/>
 				<portlet:renderURL var="createEntryRenderURL">
-					<portlet:param name="action" value="CreateEntry!input"/>
-					<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+					<calendar:evalParam name="action" value="CreateEntry!input"/>
+					<calendar:evalParam name="eventId" value="${eventId}"/>
+					<calendar:evalParam name="calendarId" value="${calendarId}"/>
+					<calendar:evalParam name="mode" value="${mode}"/>
 				</portlet:renderURL>
 				<a href="<c:out value="${createEntryRenderURL}"/>">Sign up for this event</a>
 			</p>
 			<p>
 				<input type="submit" value="Update">
+
+				<ww:if test="event.isPublished == false">
+					<portlet:actionURL var="publishEventActionUrl">
+						<calendar:evalParam name="action" value="UpdateEvent!publishEvent"/>
+						<calendar:evalParam name="eventId" value="${eventId}"/>
+						<calendar:evalParam name="calendarId" value="${calendarId}"/>
+						<calendar:evalParam name="mode" value="${mode}"/>
+					</portlet:actionURL>
+					<a href="<c:out value="${publishEventActionUrl}"/>"><input type="button" value="Publish event"/></a>
+				</ww:if>
 			</p>
 		</form>
 	</div>

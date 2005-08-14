@@ -88,7 +88,8 @@ public class EventController extends BasicController
             	            java.util.Calendar endDateTime, 
             	            String[] locationId, 
             	            String[] categoryId, 
-            	            String[] participantUserName) throws HibernateException, Exception 
+            	            String[] participantUserName,
+            	            boolean isPublished) throws HibernateException, Exception 
     {
         Event event = null;
         
@@ -156,7 +157,8 @@ public class EventController extends BasicController
 			        			endDateTime, 
 			        			locations, 
 			        			categories, 
-			        			participants, 
+			        			participants,
+			        			isPublished,
 			        			session);
 
 			tx.commit();
@@ -201,7 +203,8 @@ public class EventController extends BasicController
             				java.util.Calendar endDateTime, 
             				Set locations, 
             				Set categories, 
-            				Set participants, 
+            				Set participants,
+            				boolean isPublished,
             				Session session) throws HibernateException, Exception 
     {
         System.out.println("Creating new event...");
@@ -225,6 +228,7 @@ public class EventController extends BasicController
         event.setLastRegistrationDateTime(lastRegistrationCalendar);
         event.setStartDateTime(startDateTime);
         event.setEndDateTime(endDateTime); 
+        event.setIsPublished(new Boolean(isPublished));
         
         event.setCalendar(calendar);
         event.setLocations(locations);
@@ -400,6 +404,39 @@ public class EventController extends BasicController
     
  
     /**
+     * Publishes an event.
+     * 
+     * @throws Exception
+     */
+    
+    public void publishEvent(Long id) throws Exception 
+    {
+	    Session session = getSession();
+	    
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+		
+			Event event = getEvent(id, session);
+			event.setIsPublished(new Boolean(true));
+			
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
+    }
+    
+    
+    /**
      * This method returns a Event based on it's primary key
      * @return Event
      * @throws Exception
@@ -497,7 +534,7 @@ public class EventController extends BasicController
         
         return result;
     }
-    
+
     
     /**
      * This method returns a list of Events based on a number of parameters
@@ -505,7 +542,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(Long id, java.util.Calendar startDate, java.util.Calendar endDate) throws Exception
+    public List getEventList(Long id, boolean isPublished, java.util.Calendar startDate, java.util.Calendar endDate) throws Exception
     {
         List list = null;
         
@@ -516,7 +553,7 @@ public class EventController extends BasicController
 		{
 			tx = session.beginTransaction();
 			Calendar calendar = CalendarController.getController().getCalendar(id);
-			list = getEventList(calendar, startDate, endDate, session);
+			list = getEventList(calendar, isPublished, startDate, endDate, session);
 			tx.commit();
 		}
 		catch (Exception e) 
@@ -540,14 +577,17 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(Calendar calendar, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
+    public List getEventList(Calendar calendar, boolean isPublished, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
         //System.out.println("**********************");
-        
-        Query q = session.createQuery("from Event as event inner join fetch event.calendar as calendar where event.calendar = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
+        System.out.println("**********************");
+        System.out.println("isPublished:" + isPublished);
+        System.out.println("**********************");
+        Query q = session.createQuery("from Event as event inner join fetch event.calendar as calendar where event.calendar = ? AND event.isPublished = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
         q.setEntity(0, calendar);
-        q.setCalendar(1, startDate);
-        q.setCalendar(2, endDate);
+        q.setBoolean(1, isPublished);
+        q.setCalendar(2, startDate);
+        q.setCalendar(3, endDate);
         
         List list = q.list();
         
@@ -557,7 +597,7 @@ public class EventController extends BasicController
             Object o = iterator.next();
             //System.out.println("o:" + o.getClass().getName());
             Event event = (Event)o;
-            //System.out.println("event:" + event);
+            System.out.println("event:" + event.getName());
         }
         
         //System.out.println("**********************");
@@ -566,7 +606,8 @@ public class EventController extends BasicController
         
 		return list;
     }
-    
+
+
     /**
      * Gets a list of events fetched by name.
      * @return List of Event

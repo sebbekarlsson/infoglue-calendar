@@ -110,6 +110,11 @@ public class CreateEventAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
+            
+            boolean isPublished = true;
+            if(useEventPublishing())
+                isPublished = false;
+            
             EventController.getController().createEvent(calendarId,
 									                    name, 
 									                    description,
@@ -131,7 +136,8 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    endCalendar, 
 									                    locationId, 
 									                    categoryId, 
-									                    participantUserName);
+									                    participantUserName,
+									                    isPublished);
         }
         catch(ValidationException e)
         {

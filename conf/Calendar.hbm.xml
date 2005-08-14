@@ -24,6 +24,16 @@
 			<one-to-many class="org.infoglue.calendar.entities.Event"/>
         </set>
 
+        <set name="publishedEvents" where="isPublished=1" lazy="false" inverse="false" cascade="none" sort="unsorted">
+			<key column="calendar_id"></key>
+			<one-to-many class="org.infoglue.calendar.entities.Event"/>
+        </set>
+
+        <set name="waitingEvents" where="isPublished=0" lazy="false" inverse="false" cascade="none" sort="unsorted">
+			<key column="calendar_id"></key>
+			<one-to-many class="org.infoglue.calendar.entities.Event"/>
+        </set>
+
         <!--
             To add non XDoclet property mappings, create a file named
                 hibernate-properties-Calendar.xml
@@ -31,4 +41,5 @@
         -->
         
     </class>
+    
 </hibernate-mapping>

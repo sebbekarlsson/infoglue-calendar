@@ -1,4 +1,4 @@
-//$Id: PortletDispatchResult.java,v 1.5 2005/08/11 01:33:07 mattias Exp $
+//$Id: PortletDispatchResult.java,v 1.6 2005/08/14 21:15:00 mattias Exp $
 package com.opensymphony.webwork.portlet.alternative.action;
 
 import java.util.Iterator;
@@ -72,6 +72,8 @@ public class PortletDispatchResult implements Result {
         */
 			RenderRequest req = (RenderRequest)requestObject;
 	        RenderResponse res = (RenderResponse)responseObject;
+			System.out.println("Remote user:" + req.getRemoteUser());
+			System.out.println("Remote user:" + req.getUserPrincipal());
 			log.debug("Including jsp " + dispatchTo);
 		/*
 			context.getRequestDispatcher(dispatchTo).include(req, res);

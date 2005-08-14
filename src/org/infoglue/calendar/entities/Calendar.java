@@ -43,6 +43,8 @@ public class Calendar implements BaseEntity
     private String name;
     private String description;
     private Set events = new HashSet();
+    private Set publishedEvents = new HashSet();
+    private Set waitingEvents = new HashSet();
 
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -120,5 +122,39 @@ public class Calendar implements BaseEntity
 	{
 		this.events = events;
 	}
+
+	/**
+     * @hibernate.set lazy="true"
+     * @hibernate.collection-key column="calendar_id"
+     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Event"
+   	 *
+	 * @return Set
+	 */ 
+	public Set getPublishedEvents() 
+	{
+	    return publishedEvents;
+	}
 	
+	public void setPublishedEvents(Set publishedEvents) 
+	{
+		this.publishedEvents = publishedEvents;
+	}
+
+	/**
+     * @hibernate.set lazy="true"
+     * @hibernate.collection-key column="calendar_id"
+     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Event"
+   	 *
+	 * @return Set
+	 */ 
+	public Set getWaitingEvents() 
+	{
+	    return waitingEvents;
+	}
+	
+	public void setWaitingEvents(Set waitingEvents) 
+	{
+		this.waitingEvents = waitingEvents;
+	}
+
 }

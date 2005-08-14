@@ -131,6 +131,18 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         return Action.SUCCESS;
     } 
     
+    
+    /**
+     * This is the action command for publishing an event.
+     */
+    
+    public String publishEvent() throws Exception 
+    {
+        EventController.getController().publishEvent(eventId);
+
+        return Action.SUCCESS;
+    } 
+    
     /**
      * This is the entry point for the main listing.
      */

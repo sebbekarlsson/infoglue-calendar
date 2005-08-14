@@ -195,7 +195,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
     {
         
         System.out.println("Getting to serviceAction with namespace:" + namespace + " actionName:" + actionName);
-        
+
         HashMap extraContext = createContextMap(requestMap, parameterMap, sessionMap, applicationMap, request, response, getPortletConfig());
         //System.out.println("calendarId:" + extraContext.get("calendarId"));
         

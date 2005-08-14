@@ -233,7 +233,9 @@
 <div style="float: left; display: block; border: 0px solid black;" id="calendarArea<ww:property value="componentId"/>">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
+	<ww:if test="isPublisher == true">
 	<td><div id="waitingEvents<ww:property value="componentId"/>Tab" class="tab"><a id="waitingEvents<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('waitingEvents<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.waitingEventsTabLabel") %></a></div></td>
+	</ww:if>
 	<td><div id="events<ww:property value="componentId"/>Tab" class="tab"><a id="events<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('events<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.eventsTabLabel") %></a></div></td>
 	<td><div id="day<ww:property value="componentId"/>Tab" class="tab"><a id="day<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('day<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.dayTabLabel") %></a></div></td>
 	<td><div id="week<ww:property value="componentId"/>Tab" class="tab"><a id="week<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('week<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.weekTabLabel") %></a></div></td>
@@ -251,6 +253,32 @@
 </ww:if>
 
 <!-- *********************************** -->
+<!-- *   HERE COMES THE WAITING EVENTS  * -->
+<!-- *********************************** -->
+
+<div class="panel" id="waitingEvents<ww:property value="componentId"/>">
+
+<div class="waitingEvent" style="margin: 10px 10px 10px 10px;">
+<span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.waitingEventsLabel") %></span>
+<ww:iterator value="calendar.waitingEvents">
+
+	<ww:set name="eventId" value="id" scope="page"/>
+	<portlet:renderURL var="eventUrl">
+		<portlet:param name="action" value="ViewEvent"/>
+		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+	</portlet:renderURL>
+
+	<p>
+	<a href="<c:out value="${eventUrl}"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
+	<ww:property value="description"/>
+	</p>
+	
+</ww:iterator>
+</div>
+</div>
+
+
+<!-- *********************************** -->
 <!-- *   HERE COMES THE COMING EVENTS  * -->
 <!-- *********************************** -->
 
@@ -258,7 +286,7 @@
 
 <div class="event" style="margin: 10px 10px 10px 10px;">
 <span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.comingEventsLabel") %></span>
-<ww:iterator value="calendar.events">
+<ww:iterator value="calendar.publishedEvents">
 
 	<ww:set name="eventId" value="id" scope="page"/>
 	<portlet:renderURL var="eventUrl">
