@@ -117,12 +117,12 @@ public class SelectFieldTag extends AbstractCalendarTag
             }
             
             String selected = "";
-            System.out.println("-----------------selectedValues:" + selectedValues);
+            //System.out.println("-----------------selectedValues:" + selectedValues);
             if(selectedValues != null)
             {
 	            for(int i=0; i<selectedValues.length; i++)
 	            {
-	                System.out.println(id + "=" + selectedValues[i]);
+	                //System.out.println(id + "=" + selectedValues[i]);
 	                if(id.equalsIgnoreCase(selectedValues[i]))
 	                    selected = " selected=\"1\"";
 	            }

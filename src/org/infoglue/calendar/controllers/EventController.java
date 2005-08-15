@@ -23,6 +23,9 @@
 
 package org.infoglue.calendar.controllers;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
@@ -32,12 +35,20 @@ import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
+import org.infoglue.common.security.InfoGluePrincipal;
+import org.infoglue.common.security.UserControllerProxy;
+import org.infoglue.common.util.PropertyHelper;
+import org.infoglue.common.util.VelocityTemplateProcessor;
+import org.infoglue.common.util.io.FileHelper;
+import org.infoglue.common.util.mail.MailServiceFactory;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.sf.hibernate.*;
@@ -113,29 +124,38 @@ public class EventController extends BasicController
 			System.out.println("calendar:" + calendar);
 			
 			Set locations = new HashSet();
-			for(int i=0; i<locationId.length; i++)
+			if(locationId != null)
 			{
-			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
-			    locations.add(location);
+				for(int i=0; i<locationId.length; i++)
+				{
+				    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
+				    locations.add(location);
+				}
 			}
-
+			
 			Set categories = new HashSet();
-			for(int i=0; i<categoryId.length; i++)
+			if(categoryId != null)
 			{
-			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
-			    categories.add(category);
+				for(int i=0; i<categoryId.length; i++)
+				{
+				    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
+				    categories.add(category);
+				}
 			}
-
+			
 			Set participants = new HashSet();
-			for(int i=0; i<participantUserName.length; i++)
+			if(participantUserName != null)
 			{
-			    Participant participant = new Participant();
-			    participant.setUserName(participantUserName[i]);
-			    participant.setEvent(event);
-			    session.save(participant);
-			    participants.add(participant);
+				for(int i=0; i<participantUserName.length; i++)
+				{
+				    Participant participant = new Participant();
+				    participant.setUserName(participantUserName[i]);
+				    participant.setEvent(event);
+				    session.save(participant);
+				    participants.add(participant);
+				}
 			}
-
+			
 			event = createEvent(calendar, 
 			        			name, 
 			        			description, 
@@ -677,4 +697,56 @@ public class EventController extends BasicController
         }
     }
     
+    
+    /**
+     * This method emails the owner of an event the new information and an address to visit.
+     * @throws Exception
+     */
+    
+    public void notifyPublisher(Event event, String publishEventUrl) throws Exception
+    {
+	    String email = "";
+	    
+	    try
+	    {
+	        System.out.println("CalendarOwner:" + event.getCalendar().getOwner());
+	        InfoGluePrincipal inforgluePrincipal = UserControllerProxy.getController().getUser(event.getCalendar().getOwner());
+	        
+	        String template;
+	        
+	        String contentType = PropertyHelper.getProperty("mail.contentType");
+	        if(contentType == null || contentType.length() == 0)
+	            contentType = "text/html";
+	        
+	        if(contentType.equalsIgnoreCase("text/plain"))
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEventNotification_plain.vm"));
+		    else
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEventNotification_html.vm"));
+		    
+	        System.out.println("inforgluePrincipal:" + inforgluePrincipal.getEmail());
+	        System.out.println("template:" + template);
+	        
+		    Map parameters = new HashMap();
+		    parameters.put("event", event);
+		    parameters.put("publishEventUrl", publishEventUrl.replaceAll("\\{eventId\\}", event.getId().toString()));
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
+			email = tempString.toString();
+	    
+			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
+			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
+				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
+
+			System.out.println("email:" + email);
+			MailServiceFactory.getService().send(systemEmailSender, inforgluePrincipal.getEmail(), "InfoGlue Calendar - new event waiting", email, contentType, "UTF-8");
+		}
+		catch(Exception e)
+		{
+		    e.printStackTrace();
+			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+		}
+		
+    }
 }

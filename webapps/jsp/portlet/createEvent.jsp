@@ -37,12 +37,37 @@
 		<portlet:actionURL var="createEventUrl">
 			<portlet:param name="action" value="CreateEvent"/>
 		</portlet:actionURL>
-		
+
+		<portlet:renderURL var="publishEventUrl">
+			<portlet:param name="action" value="ViewEvent"/>
+			<portlet:param name="eventId" value="{eventId}"/>
+		</portlet:renderURL>
+
+		<ww:property value="#arequest"/>	
+			
+		<%
+		Object requestObject = request.getAttribute("javax.portlet.request");
+		//System.out.println("requestObject:" + requestObject.getClass().getName());
+		javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
+		//System.out.println("RenderRequestIG:" + renderRequestIG);
+		//System.out.println("PortalContext:" + renderRequestIG.getPortalContext()); 
+		/*
+		java.util.Enumeration enumeration = renderRequestIG.getPropertyNames();
+		while(enumeration.hasMoreElements())
+		{
+			String name = (String)enumeration.nextElement();
+			String value = (String)renderRequestIG.getProperty(name);
+			System.out.println(name + "=" + value); 
+		}
+		*/
+		String hostName = (String)renderRequestIG.getProperty("host");
+		%>		
 		<form name="inputForm" method="POST" action="<c:out value="${createEventUrl}"/>">
 			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 			<input type="hidden" name="date" value="<ww:property value="date"/>"/>
 			<input type="hidden" name="time" value="<ww:property value="time"/>"/>
+			<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
 			
 			<p>
 				<calendar:textField label="Name:" name="name" value="event.name" cssClass="normalInput"/>

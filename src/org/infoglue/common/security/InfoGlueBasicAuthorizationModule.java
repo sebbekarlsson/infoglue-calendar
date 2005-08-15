@@ -137,16 +137,17 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 			if(rs.next()) 
 			{
 			    sql = "SELECT * FROM cmSystemUser, cmSystemUserRole, cmRole WHERE cmSystemUser.userName = cmSystemUserRole.userName AND cmRole.roleName = cmSystemUserRole.roleName AND cmSystemUser.userName = ?";
-				stmt = conn.prepareStatement(sql);
-				stmt.setString(1, userName);
+			    PreparedStatement stmtRole = conn.prepareStatement(sql);
+				stmtRole.setString(1, userName);
 				
-				rs = stmt.executeQuery();
-				while(rs.next())
+				ResultSet rsRole = stmtRole.executeQuery();
+				while(rsRole.next())
 				{
-				    InfoGlueRole infoGlueRole = new InfoGlueRole(rs.getString("roleName"), rs.getString("description"));
+				    InfoGlueRole infoGlueRole = new InfoGlueRole(rsRole.getString("roleName"), rsRole.getString("description"));
 					roles.add(infoGlueRole);
-					log.debug("roleName:" + rs.getString("roleName"));
+					log.debug("roleName:" + rsRole.getString("roleName"));
 				}
+				rsRole.close();
 				
 			    infogluePrincipal = new InfoGluePrincipal(userName, rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"), roles, isAdministrator);
 				

@@ -208,10 +208,31 @@ public class ViewCalendarAction extends CalendarAbstractAction
         while(eventIterator.hasNext())
         {
             Event event = (Event)eventIterator.next();
+            int startDayOfYear = event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR);
+            int endDayOfYear = event.getEndDateTime().get(java.util.Calendar.DAY_OF_YEAR);
+            int eventDayOfYear = calendar.get(java.util.Calendar.DAY_OF_YEAR);
+            
+            int startHourOfDay = event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY);
+            int endHourOfDay = event.getEndDateTime().get(java.util.Calendar.HOUR_OF_DAY);
+            int eventHourOfDay = calendar.get(java.util.Calendar.HOUR_OF_DAY);
+            
             //System.out.println("event:" + event.getName());
-            if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR) && (event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) <= Integer.parseInt(hour) && event.getEndDateTime().get(java.util.Calendar.HOUR_OF_DAY) >= Integer.parseInt(hour)))
+            boolean singleHourEvent = false;
+            if(startDayOfYear == endDayOfYear && endDayOfYear == eventDayOfYear && (endHourOfDay - startHourOfDay < 2))
+                singleHourEvent = true;
+            
+            if(startDayOfYear <= eventDayOfYear && endDayOfYear >= eventDayOfYear)
             {
-                hourEvents.add(event);
+                System.out.println("hour:" + hour + "=" + singleHourEvent);
+                if(singleHourEvent && startHourOfDay <= Integer.parseInt(hour) && endHourOfDay >= Integer.parseInt(hour))
+                {
+                    hourEvents.add(event);
+                }
+                else if(startHourOfDay <= Integer.parseInt(hour) && endHourOfDay > Integer.parseInt(hour))
+                {
+                    hourEvents.add(event);                    
+                }
+
             }
         }
         
@@ -247,10 +268,39 @@ public class ViewCalendarAction extends CalendarAbstractAction
         {
             Event event = (Event)eventIterator.next();
             //System.out.println("event:" + event.getName());
+            
+            int startDayOfYear = event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR);
+            int endDayOfYear = event.getEndDateTime().get(java.util.Calendar.DAY_OF_YEAR);
+            int eventDayOfYear = calendar.get(java.util.Calendar.DAY_OF_YEAR);
+            
+            int startHourOfDay = event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY);
+            int endHourOfDay = event.getEndDateTime().get(java.util.Calendar.HOUR_OF_DAY);
+            int eventHourOfDay = calendar.get(java.util.Calendar.HOUR_OF_DAY);
+            
+            //System.out.println("event:" + event.getName());
+            boolean singleHourEvent = false;
+            if(startDayOfYear == endDayOfYear && endDayOfYear == eventDayOfYear && (endHourOfDay - startHourOfDay < 2))
+                singleHourEvent = true;
+            
+            if(startDayOfYear <= eventDayOfYear && endDayOfYear >= eventDayOfYear)
+            {
+                System.out.println("hour:" + hour + "=" + singleHourEvent);
+                if(singleHourEvent && startHourOfDay <= Integer.parseInt(hour) && endHourOfDay >= Integer.parseInt(hour))
+                {
+                    hourEvents.add(event);
+                }
+                else if(startHourOfDay <= Integer.parseInt(hour) && endHourOfDay > Integer.parseInt(hour))
+                {
+                    hourEvents.add(event);                    
+                }
+
+            }
+            /*
             if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR) && (event.getStartDateTime().get(java.util.Calendar.HOUR_OF_DAY) <= Integer.parseInt(hour) && event.getEndDateTime().get(java.util.Calendar.HOUR_OF_DAY) >= Integer.parseInt(hour)))
             {
                 hourEvents.add(event);
             }
+            */
         }
         
         return hourEvents;

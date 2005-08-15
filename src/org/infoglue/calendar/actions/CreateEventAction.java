@@ -92,6 +92,8 @@ public class CreateEventAction extends CalendarAbstractAction
     private List categories;
     private List infogluePrincipals;
     
+    private String publishEventUrl;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -115,7 +117,7 @@ public class CreateEventAction extends CalendarAbstractAction
             if(useEventPublishing())
                 isPublished = false;
             
-            EventController.getController().createEvent(calendarId,
+            Event newEvent = EventController.getController().createEvent(calendarId,
 									                    name, 
 									                    description,
 									                    isInternal, 
@@ -138,6 +140,9 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    categoryId, 
 									                    participantUserName,
 									                    isPublished);
+
+            if(useEventPublishing())
+                EventController.getController().notifyPublisher(newEvent, publishEventUrl);
         }
         catch(ValidationException e)
         {
@@ -428,4 +433,8 @@ public class CreateEventAction extends CalendarAbstractAction
         return participantUserName;
     }
     
+    public void setPublishEventUrl(String publishEventUrl)
+    {
+        this.publishEventUrl = publishEventUrl;
+    }
 }
