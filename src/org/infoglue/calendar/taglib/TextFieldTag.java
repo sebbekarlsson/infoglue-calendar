@@ -26,11 +26,16 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.infoglue.common.util.ResourceBundleHelper;
+
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
 
 
@@ -90,6 +95,7 @@ public class TextFieldTag extends AbstractCalendarTag
         return EVAL_PAGE;
     }
 
+	
     public void setCssClass(String cssClass)
     {
         this.cssClass = cssClass;
@@ -100,9 +106,13 @@ public class TextFieldTag extends AbstractCalendarTag
         this.name = name;
     }
 
-    public void setLabel(String label) throws JspException
+    public void setLabel(String rawLabel) throws JspException
     {
-        this.label = evaluateString("TextFieldTag", "label", label);
+        String translatedLabel = this.getLabel(rawLabel);
+        if(translatedLabel != null && translatedLabel.length() > 0)
+            this.label = translatedLabel;
+        else
+            this.label = evaluateString("TextFieldTag", "label", rawLabel);
     }
     
     public void setValue(String value)

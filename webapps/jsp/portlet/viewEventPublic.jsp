@@ -47,6 +47,59 @@
 			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
 			<ww:property value="event.description"/>
 		</p>
+		
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.organizer"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.lecturer"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.customLocation"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.shortDescription"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.fullDescription"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.eventURL"/>
+		</p>
+
+
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.contactEmail"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.contactPhone"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.contactName"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.price"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="event.maxumumParticipants"/>
+		</p>
+		<p>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>
+		</p>
+		
+		
 		<p>
 			<span class="label"><%= resourceBundle.getString("labels.public.event.dateTimeLabel") %></span><br>
 			<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>

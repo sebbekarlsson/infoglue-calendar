@@ -23,9 +23,14 @@
 package org.infoglue.calendar.taglib;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspTagException;
 
+import org.infoglue.common.util.ResourceBundleHelper;
+
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
 
 
@@ -84,5 +89,21 @@ public abstract class AbstractCalendarTag extends AbstractTag
 		Object value = a.getValueStack().findValue(expr);
 		return value;
 	}
+    
+	public String getLanguageCode()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("languageCode");
+    }
+	
+	public String getLabel(String key)
+    {
+    	Locale locale = new Locale(this.getLanguageCode());
+    	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+        
+        String label = resourceBundle.getString(key);
+            
+        return label;
+    }
+
 
 }

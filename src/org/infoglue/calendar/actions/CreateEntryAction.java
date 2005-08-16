@@ -35,6 +35,7 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Entry;
+import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.util.DBSessionWrapper;
 
@@ -74,6 +75,15 @@ public class CreateEntryAction extends CalendarAbstractAction
         System.out.println("lastName:" + lastName);
         System.out.println("email:" + email);
         
+        if(useEntryLimitation())
+        {
+		    Event event = EventController.getController().getEvent(eventId);
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
+	        
+	        if(event.getMaxumumParticipants().intValue() <= entries.size())
+	            return "maximumReachedPublic";
+        }
+
         Entry entry = EntryController.getController().createEntry(firstName, 
                 									lastName, 
                 									email, 
@@ -97,6 +107,15 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String doPublic() throws Exception 
     {
+        if(useEntryLimitation())
+        {
+		    Event event = EventController.getController().getEvent(eventId);
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
+	        
+	        if(event.getMaxumumParticipants().intValue() <= entries.size())
+	            return "maximumReachedPublic";
+        }
+
         this.execute();
         
         return Action.SUCCESS + "Public";
@@ -108,6 +127,15 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
+        if(useEntryLimitation())
+        {
+	        Event event = EventController.getController().getEvent(eventId);
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
+	        
+	        if(event.getMaxumumParticipants().intValue() <= entries.size())
+	            return "maximumReached";
+        }
+        
         return Action.INPUT;
     } 
     
@@ -117,6 +145,15 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String inputPublic() throws Exception 
     {
+        if(useEntryLimitation())
+        {
+		    Event event = EventController.getController().getEvent(eventId);
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
+	        
+	        if(event.getMaxumumParticipants().intValue() <= entries.size())
+	            return "maximumReachedPublic";
+        }
+        
         return Action.INPUT + "Public";
     } 
     

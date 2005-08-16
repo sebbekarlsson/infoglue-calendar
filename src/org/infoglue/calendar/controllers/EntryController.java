@@ -483,7 +483,7 @@ public class EntryController extends BasicController
         
         return result;
     }
-    
+
     /**
      * Gets a list of entrys fetched by name.
      * @return List of Entry

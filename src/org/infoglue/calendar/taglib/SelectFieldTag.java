@@ -146,9 +146,13 @@ public class SelectFieldTag extends AbstractCalendarTag
         this.name = name;
     }
 
-    public void setLabel(String label) throws JspException
+    public void setLabel(String rawLabel) throws JspException
     {
-        this.label = evaluateString("TextFieldTag", "label", label);
+        String translatedLabel = this.getLabel(rawLabel);
+        if(translatedLabel != null && translatedLabel.length() > 0)
+            this.label = translatedLabel;
+        else
+            this.label = evaluateString("SelectFieldTag", "label", rawLabel);
     }
 
     public void setMultiple(String multiple)

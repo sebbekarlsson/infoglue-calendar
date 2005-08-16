@@ -27,7 +27,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
@@ -41,6 +44,7 @@ import org.infoglue.calendar.entities.Participant;
 import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.PropertyHelper;
+import org.infoglue.common.util.ResourceBundleHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
@@ -220,6 +224,22 @@ public abstract class CalendarAbstractAction extends ActionSupport
         
         return (useEventPublishing.equalsIgnoreCase("true") ? true : false);
     }
+
+    public boolean useEntryLimitation()
+    {
+        String useEntryLimitation = PropertyHelper.getProperty("useEntryLimitation");
+        
+        return (useEntryLimitation.equalsIgnoreCase("true") ? true : false);
+    }
     
+    public String getLabel(String key)
+    {
+    	Locale locale = new Locale(this.getLanguageCode());
+    	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+        
+        String label = resourceBundle.getString(key);
+            
+        return label;
+    }
 }
 

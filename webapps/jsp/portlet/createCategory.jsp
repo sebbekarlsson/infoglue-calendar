@@ -14,7 +14,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Calendar information</title>
+	<title><ww:property value="this.getLabel('labels.internal.category.createCategory.title')"/></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
@@ -35,7 +35,7 @@
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Create new category
+		<ww:property value="this.getLabel('labels.internal.category.createNewCategory')"/>
 	</div>
 
 	<div id="contentList">
@@ -46,10 +46,10 @@
 		<form name="inputForm" method="POST" action="<c:out value="${createCategoryActionUrl}"/>">
 		
 		<p>
-			<calendar:textField label="Name:" name="name" value="category.name" cssClass="normalInput"/>
+			<calendar:textField label="labels.internal.category.name" name="name" value="category.name" cssClass="normalInput"/>
 		</p>
 		<p>
-			<calendar:textField label="Description:" name="description" value="category.description" cssClass="normalInput"/>
+			<calendar:textField label="labels.internal.category.description" name="description" value="category.description" cssClass="normalInput"/>
 		</p>
 		<p>
 			<input type="submit">

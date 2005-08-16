@@ -14,7 +14,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Calendar information</title>
+	<title><ww:property value="this.getLabel('labels.internal.location.createLocation.title')"/></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
@@ -34,7 +34,7 @@
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Create new location
+		<ww:property value="this.getLabel('labels.internal.location.createNewLocation')"/>
 	</div>
 
 	<div id="contentList">
@@ -44,10 +44,10 @@
 		
 		<form name="inputForm" method="POST" action="<c:out value="${createLocationActionUrl}"/>">
 		<p>
-			<calendar:textField label="Name:" name="name" value="location.name" cssClass="normalInput"/>
+			<calendar:textField label="labels.internal.location.name" name="name" value="location.name" cssClass="normalInput"/>
 		</p>
 		<p>
-			<calendar:textField label="Description:" name="description" value="location.description" cssClass="normalInput"/>
+			<calendar:textField label="labels.internal.location.description" name="description" value="location.description" cssClass="normalInput"/>
 		</p>
 		<p>
 			<input type="submit">

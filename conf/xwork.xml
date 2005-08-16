@@ -335,6 +335,12 @@
 				<param name="viewAction">ViewEvent!public.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>
+            <result name="maximumReached" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/maximumEntriesReached.jsp</param>
+			</result>
+            <result name="maximumReachedPublic" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/maximumEntriesReachedPublic.jsp</param>
+			</result>
 		</action>
 		<action name="ViewEntrySearch" class="org.infoglue.calendar.actions.ViewEntrySearchAction">
 			<result name="input" type="portletDispatch">

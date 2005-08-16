@@ -213,7 +213,7 @@
 
 <div class="event" style="margin: 10px 10px 10px 10px;">
 <span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.comingEventsLabel") %></span>
-<ww:iterator value="calendar.events">
+<ww:iterator value="calendar.publishedEvents">
 
 	<ww:set name="eventId" value="id" scope="page"/>
 	<portlet:renderURL var="eventUrl">
