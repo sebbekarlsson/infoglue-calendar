@@ -23,6 +23,7 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.infoglue.calendar.controllers.CategoryController;
@@ -30,6 +31,7 @@ import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
+import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 
@@ -43,10 +45,10 @@ import com.opensymphony.xwork.Action;
 
 public class ViewEntrySearchAction extends CalendarAbstractAction
 {
-    private Long eventId;
-    private String firstName;
-    private String lastName;
-    private String email;
+    private Long searchEventId;
+    private String searchFirstName;
+    private String searchLastName;
+    private String searchEmail;
     private String[] categoryId;
     private String[] locationId;
     
@@ -55,6 +57,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     private List locationList;
     
     private List entries;
+    private String emailAddresses = "";
     
     private void initialize() throws Exception
     {
@@ -73,7 +76,23 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         initialize();
 
-        this.entries = EntryController.getController().getEntryList(firstName, lastName, email, eventId, categoryId, locationId);
+        System.out.println("-----------------------------eventId:" + searchEventId);
+        this.entries = EntryController.getController().getEntryList(searchFirstName, 
+                													searchLastName, 
+                													searchEmail, 
+                													searchEventId, 
+                													categoryId, 
+                													locationId);
+        
+        Iterator entriesIterator = entries.iterator();
+        while(entriesIterator.hasNext())
+        {
+            Entry entry = (Entry)entriesIterator.next();
+            if(emailAddresses.length() != 0)
+                emailAddresses += ";" + entry.getEmail();
+            else
+                emailAddresses += entry.getEmail();
+        }
         
         return Action.SUCCESS;
     } 
@@ -88,37 +107,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
 
         return Action.INPUT;
     } 
-    
-    public String getFirstName()
-    {
-        return firstName;
-    }
-    
-    public void setFirstName(String firstName)
-    {
-        this.firstName = firstName;
-    }
-    
-    public String getLastName()
-    {
-        return lastName;
-    }
-    
-    public void setLastName(String lastName)
-    {
-        this.lastName = lastName;
-    }
-    
-    public String getEmail()
-    {
-        return email;
-    }
-    
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
-    
+        
     public List getEntries()
     {
         return entries;
@@ -169,13 +158,42 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         return eventList;
     }
  
-    public Long getEventId()
+    public Long getSearchEventId()
     {
-        return eventId;
-    }
-    public void setEventId(Long eventId)
-    {
-        this.eventId = eventId;
+        return searchEventId;
     }
     
+    public void setSearchEventId(Long searchEventId)
+    {
+        this.searchEventId = searchEventId;
+    }
+    
+    public String getSearchEmail()
+    {
+        return searchEmail;
+    }
+    public void setSearchEmail(String searchEmail)
+    {
+        this.searchEmail = searchEmail;
+    }
+    public String getSearchFirstName()
+    {
+        return searchFirstName;
+    }
+    public void setSearchFirstName(String searchFirstName)
+    {
+        this.searchFirstName = searchFirstName;
+    }
+    public String getSearchLastName()
+    {
+        return searchLastName;
+    }
+    public void setSearchLastName(String searchLastName)
+    {
+        this.searchLastName = searchLastName;
+    }
+    public String getEmailAddresses()
+    {
+        return emailAddresses;
+    }
 }

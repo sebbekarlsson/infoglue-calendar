@@ -130,7 +130,8 @@ public class MailService
 
 			//message.setContent(content, contentType);
 			message.setFrom(createInternetAddress(from));
-			message.setRecipient(Message.RecipientType.TO, createInternetAddress(to));
+			//message.setRecipient(Message.RecipientType.TO, createInternetAddress(to));
+			message.setRecipients(Message.RecipientType.TO, createInternetAddresses(to));
 			//message.setSubject(subject);
 	
 	        ((MimeMessage)message).setSubject(subject, encoding);
@@ -161,5 +162,30 @@ public class MailService
 	        throw new Bug("Badly formatted email address [" + address + "].", e);
 	    }
 	}
-	
+
+	/**
+	 *
+	 */
+	private Address[] createInternetAddresses(String emailAddressString) 
+	{
+	    String[] emailAddresses = emailAddressString.split(";");
+	    
+	    Address[] addresses = new Address[emailAddresses.length];
+	    for(int i=0; i<emailAddresses.length; i++)
+	    {
+	        String email = emailAddresses[i];
+	        try 
+			{
+	            addresses[i] = new InternetAddress(email);
+	            System.out.println("Adding " + email + " to recipient list...");
+			} 
+		    catch(AddressException e) 
+		    {
+		        throw new Bug("Badly formatted email address [" + email + "].", e);
+		    }
+	    }
+	    
+	    return addresses;
+	}
+
 }

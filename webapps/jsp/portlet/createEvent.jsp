@@ -43,23 +43,9 @@
 			<portlet:param name="eventId" value="{eventId}"/>
 		</portlet:renderURL>
 
-		<ww:property value="#arequest"/>	
-			
 		<%
 		Object requestObject = request.getAttribute("javax.portlet.request");
-		//System.out.println("requestObject:" + requestObject.getClass().getName());
 		javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
-		//System.out.println("RenderRequestIG:" + renderRequestIG);
-		//System.out.println("PortalContext:" + renderRequestIG.getPortalContext()); 
-		/*
-		java.util.Enumeration enumeration = renderRequestIG.getPropertyNames();
-		while(enumeration.hasMoreElements())
-		{
-			String name = (String)enumeration.nextElement();
-			String value = (String)renderRequestIG.getProperty(name);
-			System.out.println(name + "=" + value); 
-		}
-		*/
 		String hostName = (String)renderRequestIG.getProperty("host");
 		%>		
 		<form name="inputForm" method="POST" action="<c:out value="${createEventUrl}"/>">

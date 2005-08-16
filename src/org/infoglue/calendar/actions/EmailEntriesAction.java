@@ -35,9 +35,11 @@ import com.opensymphony.xwork.Action;
  * @author Mattias Bogeblad
  */
 
-public class DeleteEntryAction extends CalendarAbstractAction
+public class EmailEntriesAction extends CalendarAbstractAction
 {
-    private Long entryId;
+    private String emailAddresses;
+    private String subject;
+    private String message;
     
     private Long searchEventId;
     private String searchFirstName;
@@ -50,20 +52,21 @@ public class DeleteEntryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        EntryController.getController().deleteEntry(entryId);
-        
+        System.out.println();
+        System.out.println();
+        System.out.println("********************************");
+        System.out.println("emailAddresses:" + emailAddresses);
+        System.out.println("message:" + message);
+        System.out.println("********************************");
+        EntryController.getController().mailEntries(this.emailAddresses, subject, message);
+
+        System.out.println("********************************");
+        System.out.println();
+        System.out.println();
+
         return Action.SUCCESS;
     } 
     
-    public Long getEntryId()
-    {
-        return entryId;
-    }
-    
-    public void setEntryId(Long entryId)
-    {
-        this.entryId = entryId;
-    }
     
     public String getSearchEmail()
     {
@@ -96,5 +99,30 @@ public class DeleteEntryAction extends CalendarAbstractAction
     public void setSearchLastName(String searchLastName)
     {
         this.searchLastName = searchLastName;
+    }
+    
+    public String getEmailAddresses()
+    {
+        return emailAddresses;
+    }
+    public void setEmailAddresses(String emailAddresses)
+    {
+        this.emailAddresses = emailAddresses;
+    }
+    public String getMessage()
+    {
+        return message;
+    }
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
+    public String getSubject()
+    {
+        return subject;
+    }
+    public void setSubject(String subject)
+    {
+        this.subject = subject;
     }
 }

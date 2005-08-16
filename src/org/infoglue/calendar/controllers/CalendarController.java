@@ -197,7 +197,40 @@ public class CalendarController extends BasicController
 		return calendar;
     }
     
+
+    /**
+     * Gets a list of all calendars available sorted by primary key.
+     * @return List of Calendar
+     * @throws Exception
+     */
     
+    public List getCalendarList() throws Exception 
+    {
+        List calendars = null;
+
+        Session session = getSession();
+        
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			calendars = getCalendarList(session);
+			tx.commit();
+		}
+		catch (Exception e) 
+		{
+		    if (tx!=null) 
+		        tx.rollback();
+		    throw e;
+		}
+		finally 
+		{
+		    session.close();
+		}
+        
+        return calendars;
+    }
+
     /**
      * Gets a list of all calendars available sorted by primary key.
      * @return List of Calendar

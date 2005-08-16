@@ -41,6 +41,12 @@ public class ViewEntryAction extends CalendarAbstractAction
 {
     private Long entryId;
     private Entry entry;
+    
+    private Long searchEventId;
+    private String searchFirstName;
+    private String searchLastName;
+    private String searchEmail;
+
         
     /**
      * This is the entry point for the main listing.
@@ -73,4 +79,36 @@ public class ViewEntryAction extends CalendarAbstractAction
         this.entryId = entryId;
     }
     
+    public String getSearchEmail()
+    {
+        return searchEmail;
+    }
+    public void setSearchEmail(String searchEmail)
+    {
+        this.searchEmail = searchEmail;
+    }
+    public Long getSearchEventId()
+    {
+        return searchEventId;
+    }
+    public void setSearchEventId(Long searchEventId)
+    {
+        this.searchEventId = searchEventId;
+    }
+    public String getSearchFirstName()
+    {
+        return searchFirstName;
+    }
+    public void setSearchFirstName(String searchFirstName)
+    {
+        this.searchFirstName = searchFirstName;
+    }
+    public String getSearchLastName()
+    {
+        return searchLastName;
+    }
+    public void setSearchLastName(String searchLastName)
+    {
+        this.searchLastName = searchLastName;
+    }
 }

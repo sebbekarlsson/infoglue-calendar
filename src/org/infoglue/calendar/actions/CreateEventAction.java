@@ -100,14 +100,9 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println();
-        System.out.println();
-        System.out.println("######################");
-        System.out.println("calendarId:" + calendarId);
         Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         Calendar lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
-        System.out.println("lastRegistrationCalendar:" + lastRegistrationCalendar);
    
         try
         {
@@ -157,6 +152,65 @@ public class CreateEventAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
 
+    
+    /**
+     * Creates an event by copying an old one
+     */
+    
+    public String copy() throws Exception 
+    {
+        Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
+        Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
+        Calendar lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
+   
+        try
+        {
+            validateInput(this);
+            
+            boolean isPublished = true;
+            if(useEventPublishing())
+                isPublished = false;
+            
+            Event newEvent = EventController.getController().createEvent(calendarId,
+									                    name, 
+									                    description,
+									                    isInternal, 
+									                    isOrganizedByGU, 
+									                    organizerName, 
+									                    lecturer, 
+									                    customLocation,
+									                    shortDescription,
+									                    longDescription,
+									                    eventUrl,
+									                    contactName,
+									                    contactEmail,
+									                    contactPhone,
+									                    price,
+									                    lastRegistrationCalendar,
+									                    maxumumParticipants,
+									                    startCalendar, 
+									                    endCalendar, 
+									                    locationId, 
+									                    categoryId, 
+									                    participantUserName,
+									                    isPublished);
+
+            if(useEventPublishing())
+                EventController.getController().notifyPublisher(newEvent, publishEventUrl);
+        }
+        catch(ValidationException e)
+        {
+            System.out.println("ERROR");
+            e.printStackTrace();
+            return Action.ERROR;            
+
+        }
+
+        System.out.println("SUCCESS");
+        
+        return Action.SUCCESS;
+    } 
+    
     /**
      * This is the entry point creating a new calendar.
      */

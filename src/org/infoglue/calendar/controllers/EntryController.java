@@ -23,6 +23,9 @@
 
 package org.infoglue.calendar.controllers;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
@@ -31,6 +34,10 @@ import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
+import org.infoglue.common.util.PropertyHelper;
+import org.infoglue.common.util.VelocityTemplateProcessor;
+import org.infoglue.common.util.io.FileHelper;
+import org.infoglue.common.util.mail.MailServiceFactory;
 
 
 import java.util.HashMap;
@@ -63,7 +70,17 @@ public class EntryController extends BasicController
      * This method is used to create a new Entry object in the database.
      */
     
-    public Entry createEntry(String firstName, String lastName, String email, Long eventId) throws HibernateException, Exception 
+    public Entry createEntry(String firstName, 
+				            String lastName, 
+				            String email, 
+				            String organisation,
+				            String address,
+				            String zipcode,
+				            String city,
+				            String phone,
+				            String fax,
+				            String message,
+							Long eventId) throws HibernateException, Exception 
     {
         Entry entry = null;
         
@@ -74,7 +91,19 @@ public class EntryController extends BasicController
 		{
 			tx = session.beginTransaction();
 			Event event = EventController.getController().getEvent(eventId, session);
-			entry = createEntry(firstName, lastName, email, event, session);
+			entry = createEntry(firstName, 
+						        lastName, 
+						        email, 
+						        organisation,
+								address,
+								zipcode,
+								city,
+								phone,
+								fax,
+								message, 
+								event, 
+								session);
+			
 			tx.commit();
 		}
 		catch (Exception e) 
@@ -96,7 +125,18 @@ public class EntryController extends BasicController
      * This method is used to create a new Entry object in the database inside a transaction.
      */
     
-    public Entry createEntry(String firstName, String lastName, String email, Event event, Session session) throws HibernateException, Exception 
+    public Entry createEntry(String firstName, 
+            				 String lastName, 
+            				 String email, 
+            				 String organisation,
+ 				             String address,
+ 				             String zipcode,
+ 				             String city,
+ 				             String phone,
+ 				             String fax,
+ 				             String message,
+ 				             Event event, 
+ 				             Session session) throws HibernateException, Exception 
     {
         System.out.println("Creating new entry...");
         
@@ -104,6 +144,13 @@ public class EntryController extends BasicController
         entry.setFirstName(firstName);
         entry.setLastName(lastName);
         entry.setEmail(email);
+        entry.setOrganisation(organisation);
+        entry.setAddress(address);
+        entry.setZipcode(zipcode);
+        entry.setCity(city);
+        entry.setPhone(phone);
+        entry.setFax(fax);
+        entry.setMessage(message);
         
         entry.setEvent(event);
         
@@ -121,7 +168,17 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void updateEntry(Long id, String firstName, String lastName, String email) throws Exception 
+    public void updateEntry(Long id, 
+            				String firstName, 
+            				String lastName, 
+            				String email,
+            				String organisation,
+				            String address,
+				            String zipcode,
+				            String city,
+				            String phone,
+				            String fax,
+				            String message) throws Exception 
     {
 	    Session session = getSession();
 	    
@@ -131,7 +188,19 @@ public class EntryController extends BasicController
 			tx = session.beginTransaction();
 		
 			Entry entry = getEntry(id, session);
-			updateEntry(entry, firstName, lastName, email, session);
+			
+			updateEntry(entry, 
+			        	firstName, 
+			        	lastName, 
+			        	email, 
+			        	organisation,
+						address,
+						zipcode,
+						city,
+						phone,
+						fax,
+						message,
+						session);
 			
 			tx.commit();
 		}
@@ -153,11 +222,29 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void updateEntry(Entry entry, String firstName, String lastName, String email, Session session) throws Exception 
+    public void updateEntry(Entry entry, 
+            				String firstName, 
+            				String lastName, 
+            				String email,
+            				String organisation,
+				            String address,
+				            String zipcode,
+				            String city,
+				            String phone,
+				            String fax,
+				            String message,
+            				Session session) throws Exception 
     {
         entry.setFirstName(firstName);
         entry.setLastName(lastName);
         entry.setEmail(email);
+        entry.setOrganisation(organisation);
+        entry.setAddress(address);
+        entry.setZipcode(zipcode);
+        entry.setCity(city);
+        entry.setPhone(phone);
+        entry.setFax(fax);
+        entry.setMessage(message);
         
 		session.update(entry);
 	}
@@ -466,4 +553,102 @@ public class EntryController extends BasicController
         }
     }
     
+    
+    /**
+     * This method emails all persons in an email-address string a message.
+     * @throws Exception
+     */
+    
+    public void mailEntries(String emailAddresses, String subject, String message) throws Exception
+    {
+	    String email = "";
+	    
+	    try
+	    {
+	        System.out.println("emailAddresses:" + emailAddresses);
+	        System.out.println("subject:" + subject);
+		    System.out.println("message:" + message);
+	        
+	        String template;
+	        
+	        String contentType = PropertyHelper.getProperty("mail.contentType");
+	        if(contentType == null || contentType.length() == 0)
+	            contentType = "text/html";
+	        
+	        if(contentType.equalsIgnoreCase("text/plain"))
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryMessage_plain.vm"));
+		    else
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryMessage_html.vm"));
+		    
+		    Map parameters = new HashMap();
+		    parameters.put("message", message);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
+			email = tempString.toString();
+	    
+			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
+			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
+				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
+
+			System.out.println("email:" + email);
+			MailServiceFactory.getService().send(systemEmailSender, emailAddresses, subject, email, contentType, "UTF-8");
+		}
+		catch(Exception e)
+		{
+		    e.printStackTrace();
+			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+		}
+		
+    }
+ 
+    
+    /**
+     * This method emails the person with a confirmation message.
+     * @throws Exception
+     */
+    
+    public void mailVerification(Entry entry) throws Exception
+    {
+	    String email = "";
+	    
+	    try
+	    {
+	        System.out.println("emailAddresse:" + entry.getEmail());
+	        
+	        String template;
+	        
+	        String contentType = PropertyHelper.getProperty("mail.contentType");
+	        if(contentType == null || contentType.length() == 0)
+	            contentType = "text/html";
+	        
+	        if(contentType.equalsIgnoreCase("text/plain"))
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_plain.vm"));
+		    else
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_html.vm"));
+		    
+		    Map parameters = new HashMap();
+		    parameters.put("entry", entry);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
+			email = tempString.toString();
+	    
+			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
+			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
+				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
+
+			System.out.println("email:" + email);
+			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), entry.getEvent().getName() + " - Verification", email, contentType, "UTF-8");
+		}
+		catch(Exception e)
+		{
+		    e.printStackTrace();
+			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+		}
+		
+    }
+ 
 }

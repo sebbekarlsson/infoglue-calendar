@@ -749,4 +749,22 @@ public class EventController extends BasicController
 		}
 		
     }
+    
+    public List getAssetKeys()
+    {
+        List assetKeys = new ArrayList();
+        
+        int i = 0;
+        String assetKey = PropertyHelper.getProperty("assetKey." + i);
+        while(assetKey != null && assetKey.length() > 0)
+        {
+            assetKeys.add(assetKey);
+            
+            i++;
+            assetKey = PropertyHelper.getProperty("assetKey." + i);
+        }
+        
+        return assetKeys;
+    }
+
 }

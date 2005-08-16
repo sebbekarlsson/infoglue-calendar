@@ -25,9 +25,16 @@ package org.infoglue.calendar.actions;
 
 import java.util.List;
 
-import org.infoglue.calendar.controllers.EntryController;
+import javax.portlet.PortletURL;
+
+import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
+import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -35,66 +42,23 @@ import com.opensymphony.xwork.Action;
  * @author Mattias Bogeblad
  */
 
-public class DeleteEntryAction extends CalendarAbstractAction
+public class ViewCategoryListAction extends CalendarAbstractAction
 {
-    private Long entryId;
+    private List categories;
     
-    private Long searchEventId;
-    private String searchFirstName;
-    private String searchLastName;
-    private String searchEmail;
-
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
-        EntryController.getController().deleteEntry(entryId);
-        
+        this.categories = CategoryController.getController().getCategoryList();
+
         return Action.SUCCESS;
     } 
-    
-    public Long getEntryId()
+
+    public List getCategories()
     {
-        return entryId;
-    }
-    
-    public void setEntryId(Long entryId)
-    {
-        this.entryId = entryId;
-    }
-    
-    public String getSearchEmail()
-    {
-        return searchEmail;
-    }
-    public void setSearchEmail(String searchEmail)
-    {
-        this.searchEmail = searchEmail;
-    }
-    public Long getSearchEventId()
-    {
-        return searchEventId;
-    }
-    public void setSearchEventId(Long searchEventId)
-    {
-        this.searchEventId = searchEventId;
-    }
-    public String getSearchFirstName()
-    {
-        return searchFirstName;
-    }
-    public void setSearchFirstName(String searchFirstName)
-    {
-        this.searchFirstName = searchFirstName;
-    }
-    public String getSearchLastName()
-    {
-        return searchLastName;
-    }
-    public void setSearchLastName(String searchLastName)
-    {
-        this.searchLastName = searchLastName;
+        return categories;
     }
 }

@@ -41,13 +41,29 @@
 		document.getElementById("upload").style.display = "block";
 	}
 
+	function createEventFromCopy(action)
+	{
+		document.updateForm.action = action;
+		document.updateForm.submit();
+	} 
 </script>
 
-<div id="inputForm">
+<div id="inputDiv">
 	
 	<portlet:actionURL var="deleteEventUrl">
 		<portlet:param name="action" value="DeleteEvent"/>
 	</portlet:actionURL>
+
+	<portlet:renderURL var="publishEventUrl">
+		<portlet:param name="action" value="ViewEvent"/>
+		<portlet:param name="eventId" value="{eventId}"/>
+	</portlet:renderURL>
+
+	<%
+	Object requestObject = request.getAttribute("javax.portlet.request");
+	javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
+	String hostName = (String)renderRequestIG.getProperty("host");
+	%>		
 
 	<form name="deleteLinkForm" method="POST" action="<c:out value="${deleteEventUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
@@ -67,11 +83,12 @@
 			<portlet:param name="action" value="UpdateEvent"/>
 		</portlet:actionURL>
 		
-		<form name="inputForm" method="POST" action="<c:out value="${updateEventActionUrl}"/>">
+		<form name="updateForm" method="POST" action="<c:out value="${updateEventActionUrl}"/>">
 			<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
-			<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
+			<input type="hidden" name="calendarId" value="<ww:property value="event.calendar.id"/>"/>
 			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
-			
+			<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
+						
 			<p>
 				<span class="label"><%= resourceBundle.getString("labels.internal.event.nameLabel") %></span><span class="alert"><ww:property value="nameErrorMessage"/></span><br>
 				<input type="textfield" name="name" value="<ww:property value="event.name"/>" class="normalInput">
@@ -269,6 +286,11 @@
 					</portlet:actionURL>
 					<a href="<c:out value="${publishEventActionUrl}"/>"><input type="button" value="Publish event"/></a>
 				</ww:if>
+
+				<portlet:actionURL var="createEventAsCopyActionUrl">
+					<calendar:evalParam name="action" value="CreateEvent!copy"/>
+				</portlet:actionURL>
+				<a href="javascript:createEventFromCopy('<c:out value="${createEventAsCopyActionUrl}"/>')"><input type="button" value="Create new event"/></a>
 			</p>
 		</form>
 	</div>
@@ -288,7 +310,12 @@
 			
 			<p>
 				Attachment key:<br>
-				<input type="textfield" name="assetKey" class="normalInput">
+				<!--<input type="textfield" name="assetKey" class="normalInput">-->
+				<select name="assetKey" class="normalInput">
+					<ww:iterator value="assetKeys">
+		      			<option value="<ww:property value='top'/>"><ww:property value="top"/></option>
+		      		</ww:iterator>
+				</select>
 			</p>
 			<p>
 				Attach file:<br>

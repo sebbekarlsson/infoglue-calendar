@@ -150,6 +150,11 @@
 		</action>
 		
 		<!-- CALENDAR ACTIONS -->
+		<action name="ViewCalendarList" class="org.infoglue.calendar.actions.ViewCalendarListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewCalendarList.jsp</param>
+			</result>
+		</action>
 		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
 			<result name="input" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/createCalendar.jsp</param>
@@ -158,7 +163,7 @@
 				<param name="viewAction">CreateCalendar!input.action</param>
 			</result>
             <result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendarAdministration</param>
+				<param name="viewAction">ViewCalendarList.action</param>
 			</result>
 		</action>
 		<action name="ViewCalendar" class="org.infoglue.calendar.actions.ViewCalendarAction">
@@ -171,7 +176,7 @@
 		</action>
 		<action name="UpdateCalendar" class="org.infoglue.calendar.actions.UpdateCalendarAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendarAdministration</param>
+				<param name="viewAction">ViewCalendarList.action</param>
 			</result>
 			<result name="error" type="eventProcessed">
 				<param name="viewAction">ViewCalendar.action</param>
@@ -179,17 +184,22 @@
 		</action>
 		<action name="DeleteCalendar" class="org.infoglue.calendar.actions.DeleteCalendarAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendarAdministration</param>
+				<param name="viewAction">ViewCalendarList.action</param>
 			</result>
 		</action>
 		
 		<!-- LOCATION ACTIONS -->
+		<action name="ViewLocationList" class="org.infoglue.calendar.actions.ViewLocationListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewLocationList.jsp</param>
+			</result>
+		</action>
 		<action name="CreateLocation" class="org.infoglue.calendar.actions.CreateLocationAction">
 			<result name="input" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/createLocation.jsp</param>
             </result>
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendarAdministration</param>
+				<param name="viewAction">ViewLocationList.action</param>
 			</result>
 			<result name="error" type="eventProcessed">
 				<param name="viewAction">CreateLocation!input.action</param>
@@ -202,7 +212,7 @@
 		</action>
 		<action name="UpdateLocation" class="org.infoglue.calendar.actions.UpdateLocationAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendarAdministration</param>
+				<param name="viewAction">ViewLocationList.action</param>
 			</result>
 			<result name="error" type="eventProcessed">
 				<param name="viewAction">ViewLocation.action</param>
@@ -210,11 +220,16 @@
 		</action>
 		<action name="DeleteLocation" class="org.infoglue.calendar.actions.DeleteLocationAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendarAdministration</param>
+				<param name="viewAction">ViewLocationList.action</param>
 			</result>
 		</action>
 		
 		<!-- CATEGORY ACTIONS -->
+		<action name="ViewCategoryList" class="org.infoglue.calendar.actions.ViewCategoryListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewCategoryList.jsp</param>
+			</result>
+		</action>
 		<action name="CreateCategory" class="org.infoglue.calendar.actions.CreateCategoryAction">
 			<result name="input" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/createCategory.jsp</param>
@@ -223,7 +238,7 @@
 				<param name="viewAction">CreateCategory!input.action</param>
 			</result>
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendarAdministration</param>
+				<param name="viewAction">ViewCategoryList.action</param>
 			</result>
 		</action>
 		<action name="ViewCategory" class="org.infoglue.calendar.actions.ViewCategoryAction">
@@ -233,7 +248,7 @@
 		</action>
 		<action name="UpdateCategory" class="org.infoglue.calendar.actions.UpdateCategoryAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendarAdministration</param>
+				<param name="viewAction">ViewCategoryList.action</param>
 			</result>
 			<result name="error" type="eventProcessed">
 				<param name="viewAction">ViewCategory.action</param>
@@ -241,7 +256,7 @@
 		</action>
 		<action name="DeleteCategory" class="org.infoglue.calendar.actions.DeleteCategoryAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendarAdministration</param>
+				<param name="viewAction">ViewCategoryList.action</param>
 			</result>
 		</action>
 		
@@ -336,13 +351,19 @@
 		</action>
 		<action name="UpdateEntry" class="org.infoglue.calendar.actions.UpdateEntryAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewEntry.action?entryId=${entryId}</param>
+				<param name="viewAction">ViewEntrySearch.action</param>
 				<param name="parse">true</param>
 			</result>
 		</action>
 		<action name="DeleteEntry" class="org.infoglue.calendar.actions.DeleteEntryAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewEntrySearch!input.action</param>
+				<param name="viewAction">ViewEntrySearch.action</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		<action name="EmailEntries" class="org.infoglue.calendar.actions.EmailEntriesAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEntrySearch.action</param>
 				<param name="parse">true</param>
 			</result>
 		</action>

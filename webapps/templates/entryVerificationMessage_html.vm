@@ -1,0 +1,16 @@
+<html>
+<head>
+	<title>InfoGlue Calendar Verification Message</a>
+</head>
+<body style="font-family: verdana, arial, sans-serif; font-size: 10px;">
+
+<h2>Message</h2>
+<p>
+	You are registered for the event $entry.event.name
+	<hr>
+	This email was sent from the InfoGlue Calendar Application.<br>
+	Do not reply to this email. <br>
+</p>
+
+</body>
+</html>

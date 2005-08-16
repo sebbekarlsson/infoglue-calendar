@@ -43,7 +43,14 @@ public class Entry implements BaseEntity
     private Long id;
     private String firstName;
     private String lastName;
-    private String email;
+    private String email;    
+    private String organisation;
+    private String address;
+    private String zipcode;
+    private String city;
+    private String phone;
+    private String fax;
+    private String message;
     
     private Event event;
 
@@ -124,5 +131,74 @@ public class Entry implements BaseEntity
     public String getName()
     {
         return this.getFirstName() + " " + this.getLastName();
+    }
+    
+    public String getAddress()
+    {
+        return address;
+    }
+    
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+    
+    public String getCity()
+    {
+        return city;
+    }
+    
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+    public String getFax()
+    {
+        return fax;
+    }
+    
+    public void setFax(String fax)
+    {
+        this.fax = fax;
+    }
+    
+    public String getMessage()
+    {
+        return message;
+    }
+    
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
+    
+    public String getOrganisation()
+    {
+        return organisation;
+    }
+    
+    public void setOrganisation(String organisation)
+    {
+        this.organisation = organisation;
+    }
+    
+    public String getPhone()
+    {
+        return phone;
+    }
+    
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
+    }
+    
+    public String getZipcode()
+    {
+        return zipcode;
+    }
+    
+    public void setZipcode(String zipcode)
+    {
+        this.zipcode = zipcode;
     }
 }

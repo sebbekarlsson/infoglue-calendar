@@ -66,6 +66,8 @@ public class ViewEventAction extends CalendarAbstractAction
     private List infogluePrincipals;
     private List participatingPrincipals = new ArrayList();
     
+    private List assetKeys;
+    
     private String nameErrorMessage = "Mandatory field";
     private String descriptionErrorMessage = "Mandatory field";
     private String locationErrorMessage = "Mandatory field";
@@ -105,7 +107,8 @@ public class ViewEventAction extends CalendarAbstractAction
         this.calendarId = this.event.getCalendar().getId();
         //this.locations 	= LocationController.getController().getLocationList();
         //this.categories = CategoryController.getController().getCategoryList();
-
+        
+        this.assetKeys = EventController.getController().getAssetKeys();
         
         this.remainingLocations = LocationController.getController().getLocationList();
         this.selectedLocations.addAll(this.remainingLocations);
@@ -250,5 +253,8 @@ public class ViewEventAction extends CalendarAbstractAction
         return selectedLocations;
     }
     
-
+    public List getAssetKeys()
+    {
+        return assetKeys;
+    }
 }

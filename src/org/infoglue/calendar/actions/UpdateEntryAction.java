@@ -39,6 +39,18 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
     private String firstName;
     private String lastName;
     private String email;
+    private String organisation;
+    private String address;
+    private String zipcode;
+    private String city;
+    private String phone;
+    private String fax;
+    private String message;
+
+    private Long searchEventId;
+    private String searchFirstName;
+    private String searchLastName;
+    private String searchEmail;
 
     /**
      * This is the entry point for the main listing.
@@ -46,7 +58,17 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
     
     public String execute() throws Exception 
     {
-        EntryController.getController().updateEntry(entryId, firstName, lastName, email);
+        EntryController.getController().updateEntry(entryId, 
+                									firstName, 
+                									lastName, 
+                									email,
+                									organisation,
+                									address,
+                									zipcode,
+                									city,
+                									phone,
+                									fax,
+                									message);
         
         return Action.SUCCESS;
     } 
@@ -91,4 +113,93 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
         this.lastName = lastName;
     }
     
+    public String getAddress()
+    {
+        return address;
+    }
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+    public String getCity()
+    {
+        return city;
+    }
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+    public String getFax()
+    {
+        return fax;
+    }
+    public void setFax(String fax)
+    {
+        this.fax = fax;
+    }
+    public String getMessage()
+    {
+        return message;
+    }
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
+    public String getOrganisation()
+    {
+        return organisation;
+    }
+    public void setOrganisation(String organisation)
+    {
+        this.organisation = organisation;
+    }
+    public String getPhone()
+    {
+        return phone;
+    }
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
+    }
+    public String getZipcode()
+    {
+        return zipcode;
+    }
+    public void setZipcode(String zipcode)
+    {
+        this.zipcode = zipcode;
+    }
+    
+    public String getSearchEmail()
+    {
+        return searchEmail;
+    }
+    public void setSearchEmail(String searchEmail)
+    {
+        this.searchEmail = searchEmail;
+    }
+    public Long getSearchEventId()
+    {
+        return searchEventId;
+    }
+    public void setSearchEventId(Long searchEventId)
+    {
+        this.searchEventId = searchEventId;
+    }
+    public String getSearchFirstName()
+    {
+        return searchFirstName;
+    }
+    public void setSearchFirstName(String searchFirstName)
+    {
+        this.searchFirstName = searchFirstName;
+    }
+    public String getSearchLastName()
+    {
+        return searchLastName;
+    }
+    public void setSearchLastName(String searchLastName)
+    {
+        this.searchLastName = searchLastName;
+    }
 }

@@ -34,6 +34,7 @@ import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.util.DBSessionWrapper;
 
@@ -52,6 +53,14 @@ public class CreateEntryAction extends CalendarAbstractAction
     private String lastName;
     private String email;
     
+    private String organisation;
+    private String address;
+    private String zipcode;
+    private String city;
+    private String phone;
+    private String fax;
+    private String message;
+
     private Long eventId;
     
     /**
@@ -65,8 +74,20 @@ public class CreateEntryAction extends CalendarAbstractAction
         System.out.println("lastName:" + lastName);
         System.out.println("email:" + email);
         
-        EntryController.getController().createEntry(firstName, lastName, email, eventId);
+        Entry entry = EntryController.getController().createEntry(firstName, 
+                									lastName, 
+                									email, 
+                									organisation,
+                									address,
+                									zipcode,
+                									city,
+                									phone,
+                									fax,
+                									message, 
+                									eventId);
         
+        EntryController.getController().mailVerification(entry);
+
         return Action.SUCCESS;
     } 
     
@@ -140,4 +161,60 @@ public class CreateEntryAction extends CalendarAbstractAction
     }
     
 
+    public String getAddress()
+    {
+        return address;
+    }
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+    public String getCity()
+    {
+        return city;
+    }
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+    public String getFax()
+    {
+        return fax;
+    }
+    public void setFax(String fax)
+    {
+        this.fax = fax;
+    }
+    public String getMessage()
+    {
+        return message;
+    }
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
+    public String getOrganisation()
+    {
+        return organisation;
+    }
+    public void setOrganisation(String organisation)
+    {
+        this.organisation = organisation;
+    }
+    public String getPhone()
+    {
+        return phone;
+    }
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
+    }
+    public String getZipcode()
+    {
+        return zipcode;
+    }
+    public void setZipcode(String zipcode)
+    {
+        this.zipcode = zipcode;
+    }
 }

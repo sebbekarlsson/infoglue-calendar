@@ -45,6 +45,28 @@
 			<p>
 			<%= resourceBundle.getString("labels.public.entry.emailLabel") %> <input type="textfield" class="normalInput" name="email" value="">
 			</p>
+			<p>
+				Organisation: <br/><input type="textfield" class="normalInput" name="organisation" value="">
+			</p>
+			<p>
+				Address: <br/><input type="textfield" class="normalInput" name="address" value="">
+			</p>
+			<p>
+				Postnummer: <br/><input type="textfield" class="normalInput" name="zipcode" value="">
+			</p>
+			<p>
+				Ort: <br/><input type="textfield" class="normalInput" name="city" value="">
+			</p>
+			<p>
+				Telefon: <br/><input type="textfield" class="normalInput" name="phone" value="">
+			</p>
+			<p>
+				Fax: <br/><input type="textfield" class="normalInput" name="fax" value="">
+			</p>
+			<p>
+				Message: <br/><input type="textfield" class="normalInput" name="message" value="">
+			</p>
+				
 			<input type="submit" value="<%= resourceBundle.getString("labels.public.entry.submitLabel") %>">
 		</form>
 	</div>
