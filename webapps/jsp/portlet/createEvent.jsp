@@ -13,12 +13,6 @@
 
 <portlet:defineObjects/>
 
-<ww:set name="languageCode" value="languageCode" scope="page"/>
-<% 
-	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
-	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-%>
-
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
 
@@ -29,7 +23,7 @@
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Create new event
+		<ww:property value="this.getLabel('labels.internal.event.createNewEvent')"/>
 	</div>
 
 	<div id="contentList">
@@ -56,61 +50,59 @@
 			<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
 			
 			<p>
-				<calendar:textField label="Name:" name="name" value="event.name" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="normalInput"/>
 			</p>
 			<p>
-				<calendar:textField label="Description:" name="description" value="event.description" cssClass="normalInput"/>
-			</p>
-			
-			<p>
-				<calendar:textField label="Internal:" name="isInternal" value="event.isInternal" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.event.description" name="description" value="event.description" cssClass="normalInput"/>
 			</p>
 			<p>
-				<calendar:textField label="Is organized by us:" name="isOrganizedByGU" value="event.isOrganizedByGU" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.event.isInternal" name="isInternal" value="event.isInternal" cssClass="normalInput"/>
 			</p>
 			<p>
-				<calendar:textField label="Name of organizer:" name="organizerName" value="event.organizerName" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.event.isOrganizedByGU" name="isOrganizedByGU" value="event.isOrganizedByGU" cssClass="normalInput"/>
 			</p>
 			<p>
-				<calendar:textField label="Lecturer:" name="lecturer" value="event.lecturer" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="event.organizerName" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.lecturer" name="lecturer" value="event.lecturer" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.customLocation" name="customLocation" value="event.customLocation" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.eventUrl" name="eventUrl" value="event.eventUrl" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.contactName" name="contactName" value="event.contactName" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.contactEmail" name="contactEmail" value="event.contactEmail" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.contactPhone" name="contactPhone" value="event.contactPhone" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.price" name="price" value="event.price" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="event.maxumumParticipants" cssClass="normalInput"/>
 			</p>
 
 			<p>
-				<calendar:textField label="Custom location:" name="customLocation" value="event.customLocation" cssClass="normalInput"/>
+				<span class="errorMessage"><ww:property value="#fieldErrors.startDateTime"/></span>
 			</p>
-			<p>
-				<calendar:textField label="Short description:" name="shortDescription" value="event.shortDescription" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="Long description:" name="longDescription" value="event.longDescription" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="Event URL:" name="eventUrl" value="event.eventUrl" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="Contact name:" name="contactName" value="event.contactName" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="Contact email:" name="contactEmail" value="event.contactEmail" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="Contact phone:" name="contactPhone" value="event.contactPhone" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="Price:" name="price" value="event.price" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="Contact name:" name="contactName" value="event.contactName" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="Maximum participants:" name="maxumumParticipants" value="event.maxumumParticipants" cssClass="normalInput"/>
-			</p>
-
             <p>
 				<table border="0" cellspacing="0">
 				<tr>
-					<td><span class="label">Startdatum:</span></td> 
-					<td><span class="label">Starttid:</span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.startTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -126,8 +118,8 @@
 			<p>
 				<table border="0" cellspacing="0">
 				<tr>
-					<td><span class="label">Startdatum:</span></td> 
-					<td><span class="label">Starttid:</span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.endTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -143,8 +135,8 @@
 			<p>
 				<table border="0" cellspacing="0">
 				<tr>
-					<td><span class="label">Sista anmälningsdatum:</span></td> 
-					<td><span class="label">Tid:</span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -158,26 +150,16 @@
 				</table>				
 			</p>    
       		<p>
-      			<calendar:selectField label="Location (Hold shift to select multiple):" name="locationId" multiple="true" value="locations" cssClass="listBox"/>
+      			<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" cssClass="listBox"/>
 			</p>
 			<p>
-	      		Category (Hold shift to select multiple): <span class="alert"><ww:property value="categoryErrorMessage"/></span><br>
-	      		<select name="categoryId" multiple="true" class="listBox">
-		      		<ww:iterator value="categories">
-		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
-		      		</ww:iterator>
-	      		</select>
+      			<calendar:selectField label="labels.internal.event.category" name="categoryId" multiple="true" value="categories" cssClass="listBox"/>
     		</p>
     		<p>  		
-      			Participants (Hold shift to select multiple): <span class="alert"><ww:property value="participantsErrorMessage"/></span><br>
-	      		<select name="participantUserName" multiple="true" class="listBox">
-		      		<ww:iterator value="infogluePrincipals">
-		      			<option value="<ww:property value='top.name'/>"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>
-		      		</ww:iterator>
-	      		</select>
+      			<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" cssClass="listBox"/>
 			</p>
 			<p>
-				<input type="submit" value="Request publishing">
+				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.createButton')"/>">
 			</p>
 		</form>
 	</div>

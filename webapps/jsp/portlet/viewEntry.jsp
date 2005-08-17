@@ -9,15 +9,10 @@
 <%@ taglib uri="webwork" prefix="ww" %>
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="calendar" prefix="calendar" %>
 
 
 <portlet:defineObjects/>
-
-<ww:set name="languageCode" value="languageCode" scope="page"/>
-<% 
-	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
-	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-%>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
@@ -25,7 +20,7 @@
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Update entry
+		<ww:property value="this.getLabel('labels.internal.entry.updateEntry')"/>
 	</div>
 
 	<div id="contentList">
@@ -41,20 +36,38 @@
 			<input type="hidden" name="searchLastName" value="<ww:property value="searchLastName"/>">
 			<input type="hidden" name="searchEmail" value="<ww:property value="searchEmail"/>">
 
-			First name: <input type="textfield" name="firstName" class="normalInput" value="<ww:property value="entry.firstName"/>"><br>
-			Last name: <input type="textfield" name="lastName" class="normalInput" value="<ww:property value="entry.lastName"/>"><br>
-			E-mail: <input type="textfield" name="email" class="normalInput" value="<ww:property value="entry.email"/>"><br>
-			
-			Organisation: <input type="textfield" name="organisation" class="normalInput" value="<ww:property value="entry.organisation"/>"><br>
-			Address: <input type="textfield" name="address" class="normalInput" value="<ww:property value="entry.address"/>"><br>
-			Postnummer: <input type="textfield" name="zipcode" class="normalInput" value="<ww:property value="entry.zipcode"/>"><br>
-			City: <input type="textfield" name="city" class="normalInput" value="<ww:property value="entry.city"/>"><br>
-			Phone: <input type="textfield" name="phone" class="normalInput" value="<ww:property value="entry.phone"/>"><br>
-			Fax: <input type="textfield" name="fax" class="normalInput" value="<ww:property value="entry.fax"/>"><br>
-			Message: <input type="textfield" name="message" class="normalInput" value="<ww:property value="entry.message"/>"><br>
-						
-			<br>
-			<input type="submit" value="Save">
+			<p>
+				<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.entry.organisation" name="organisation" value="entry.organisation" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.entry.address" name="address" value="entry.address" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.entry.zipcode" name="zipcode" value="entry.zipcode" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.entry.city" name="city" value="entry.city" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.entry.phone" name="phone" value="entry.phone" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="normalInput"/>
+			</p>
+			<p>
+				<ww:property value="this.getLabel('labels.internal.entry.message')"/><br> 
+				<textarea name="message" class="normalInput"><ww:property value="entry.message"/></textarea>
+			</p>
+			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.updateButton')"/>">
 		</form>
 	</div>
 

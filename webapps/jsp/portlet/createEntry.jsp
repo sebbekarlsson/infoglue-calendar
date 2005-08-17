@@ -13,7 +13,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Create Entry</title>
+	<title><ww:property value="this.getLabel('labels.internal.entry.createEntry.title')"/></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
@@ -24,7 +24,7 @@
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Anmälan till event
+		<ww:property value="this.getLabel('labels.internal.entry.createNewEntry')"/>
 	</div>
 
 	<div id="contentList">
@@ -36,37 +36,37 @@
 		<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
 		<p>	
-			Förnamn: <br/><input type="textfield" class="normalInput" name="firstName" value="">
+			<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" cssClass="normalInput"/>
 		</p>
 		<p>
-			Efternamn: <br/><input type="textfield" class="normalInput" name="lastName" value="">
+			<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" cssClass="normalInput"/>
 		</p>
 		<p>
-			E-post: <br/><input type="textfield" class="normalInput" name="email" value="">
+			<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" cssClass="normalInput"/>
 		</p>
 		<p>
-			Organisation: <br/><input type="textfield" class="normalInput" name="organisation" value="">
+			<calendar:textField label="labels.internal.entry.organisation" name="organisation" value="entry.organisation" cssClass="normalInput"/>
 		</p>
 		<p>
-			Address: <br/><input type="textfield" class="normalInput" name="address" value="">
+			<calendar:textField label="labels.internal.entry.address" name="address" value="entry.address" cssClass="normalInput"/>
 		</p>
 		<p>
-			Postnummer: <br/><input type="textfield" class="normalInput" name="zipcode" value="">
+			<calendar:textField label="labels.internal.entry.zipcode" name="zipcode" value="entry.zipcode" cssClass="normalInput"/>
 		</p>
 		<p>
-			Ort: <br/><input type="textfield" class="normalInput" name="city" value="">
+			<calendar:textField label="labels.internal.entry.city" name="city" value="entry.city" cssClass="normalInput"/>
 		</p>
 		<p>
-			Telefon: <br/><input type="textfield" class="normalInput" name="phone" value="">
+			<calendar:textField label="labels.internal.entry.phone" name="phone" value="entry.phone" cssClass="normalInput"/>
 		</p>
 		<p>
-			Fax: <br/><input type="textfield" class="normalInput" name="fax" value="">
+			<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="normalInput"/>
 		</p>
 		<p>
-			Message: <br/><input type="textfield" class="normalInput" name="message" value="">
+			<calendar:textField label="labels.internal.entry.message" name="message" value="entry.message" cssClass="normalInput"/>
 		</p>
 		<p>
-			<input type="submit" value="Spara">
+			<input type="submit" value=" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>"">
 		</p>
 		</form>
 	</div>

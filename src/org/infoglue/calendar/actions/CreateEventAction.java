@@ -94,16 +94,20 @@ public class CreateEventAction extends CalendarAbstractAction
     
     private String publishEventUrl;
     
+    private Calendar startCalendar;
+    private Calendar endCalendar;
+    private Calendar lastRegistrationCalendar;
+    
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
-        Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
-        Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-        Calendar lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
-   
+        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
+        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
+        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
+
         try
         {
             validateInput(this);
@@ -159,9 +163,9 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String copy() throws Exception 
     {
-        Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
-        Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-        Calendar lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
+        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
+        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
+        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
    
         try
         {
@@ -490,5 +494,18 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setPublishEventUrl(String publishEventUrl)
     {
         this.publishEventUrl = publishEventUrl;
+    }
+    
+    public Calendar getEndCalendar()
+    {
+        return endCalendar;
+    }
+    public Calendar getLastRegistrationCalendar()
+    {
+        return lastRegistrationCalendar;
+    }
+    public Calendar getStartCalendar()
+    {
+        return startCalendar;
     }
 }

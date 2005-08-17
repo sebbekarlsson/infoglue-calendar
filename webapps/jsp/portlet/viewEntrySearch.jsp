@@ -13,12 +13,6 @@
 
 <portlet:defineObjects/>
 
-<ww:set name="languageCode" value="languageCode" scope="page"/>
-<% 
-	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
-	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-%>
-
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
 
@@ -66,7 +60,7 @@
 
 <div id="searchForm" class="marginalizedDiv" style="display: <ww:if test="entries == null">block</ww:if><ww:else>none</ww:else>;">
 
-<span class="headline">Sök anmälan</span>
+<span class="headline"><ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/></span>
 <hr/>
 
 <portlet:renderURL var="searchEntryActionUrl">
@@ -75,12 +69,15 @@
 		
 <form name="register" method="post" action="<c:out value="${searchEntryActionUrl}"/>">
 <p>
-<span class="subheadline">Fyll i ett eller flera fält som du vill söka på</span>
+<span class="subheadline"><ww:property value="this.getLabel('labels.internal.soba.searchIntro')"/></span>
 </p>
 
 <div class="descriptionsmall">
-	<span class="label">Events:</span>
+
+	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.events')"/></span>
     <select name="searchEventId" class="smallInput">
+		<option value=""/><ww:property value="this.getLabel('labels.internal.soba.anyEvent')"/></option>
+		<option value=""/>--------------------</option>
 		<ww:iterator value="eventList">
 		<option value="<ww:property value="id"/>"/><ww:property value="name"/></option>
 		</ww:iterator>
@@ -89,21 +86,21 @@
 
 <div class="descriptionbig">
 	<p>
-	<span class="label">Förnamn:</span>
+	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.firstName')"/></span>
 	<input type="text" size="40" name="searchFirstName" id="searchFirstName" class="smallInput" value="<ww:property value="firstName"/>" />
 	</p>
 	<p>
-	<span class="label">Efternamn:</span>
+	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.lastName')"/></span>
 	<input type="text" size="40" name="searchLastName" id="searchLastName" class="smallInput" value="<ww:property value="lastName"/>" />		
 	</p>
 	<p>
-	<span class="label">Email:</span>
+	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.email')"/></span>
 	<input type="text" size="40" name="searchEmail" id="searchEmail" class="smallInput" value="<ww:property value="email"/>" />		
 	</p>
 </div>
 <div class="descriptionsmall">
 	<div class="label">
-		Kategorier (kryssa i dom du vill filtrera på):
+		<ww:property value="this.getLabel('labels.internal.soba.categories')"/>
 	</div>		
 	<div class="category">
 	<ww:iterator value="categoryList">
@@ -114,7 +111,7 @@
 <div style="height:10px"></div>
 <div class="descriptionsmall">
 	<div class="label">
-		Platser (kryssa i dom du vill filtrera på):
+		<ww:property value="this.getLabel('labels.internal.soba.locations')"/>
 	</div>		
 	<div class="locations">
 	<ww:iterator value="locationList">
@@ -123,7 +120,7 @@
 	</div>
 </div>
 <div style="height:10px"></div>
-<input type="submit" value="Sök"/>
+<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.searchButton')"/>"/>
 </form>
 <hr/>
 </div>
@@ -131,7 +128,7 @@
 
 <div id="emailForm" class="marginalizedDiv" style="display: none;">
 
-<span class="headline">Email persons</span>
+<span class="headline"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></span>
 <hr/>
 
 <portlet:actionURL var="emailActionUrl">
@@ -145,46 +142,46 @@
 	<input type="hidden" name="searchEmail" value="<ww:property value="searchEmail"/>">
 
 <p>
-<span class="subheadline">Använd den kommaseparerade listan i ditt epostprogram eller maila direkt härifrån</span>
+<span class="subheadline"><ww:property value="this.getLabel('labels.internal.soba.emailIntro')"/></span>
 </p>
 
 <div class="descriptionsmall">
-	<span class="label">Addresses:</span><br>
+	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.addresses')"/></span><br>
     <input type="textfield" name="emailAddresses" class="normalInput" value="<ww:property value="emailAddresses"/>">
 </div>
 
 <div class="descriptionsmall">
-	<span class="label">Ämne:</span><br>
+	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.subject')"/></span><br>
     <input type="textfield" name="subject" class="normalInput" value="<ww:property value="subject"/>">
 </div>
 
 <div class="descriptionbig">
 	<p>
-	Message:<br>
+	<ww:property value="this.getLabel('labels.internal.soba.message')"/><br>
 	<textarea name="message"></textarea>
 	</p>
 </div>
 <div style="height:10px"></div>
-<input type="submit" value="Skicka meddelande"/>
+<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.sendMessage')"/>"/>
 </form>
 <hr/>
 </div>
 
 
 <div id="hitlist" class="marginalizedDiv" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
-<span class="headline">Sök anmälan</span>
+<span class="headline"><ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/></span>
 
 <hr/>
 
 <p>
-	<span class="subheadline">Träfflista</span>
+	<span class="subheadline"><ww:property value="this.getLabel('labels.internal.soba.hitList')"/></span>
 </p>
 
 <table border="0" width="100%" cellpadding="2" cellspacing="0">
 <tr>
-<th>ID</th>
-<th>Namn</th>
-<th>Actions</th>
+<th><ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/></th>
+<th><ww:property value="this.getLabel('labels.internal.soba.nameColumnHeader')"/></th>
+<th><ww:property value="this.getLabel('labels.internal.soba.actionColumnHeader')"/></th>
 </tr>
 
 <ww:iterator value="entries">
@@ -197,9 +194,6 @@
 		<portlet:param name="action" value="ViewEntry"/>
 		<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
 		<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
-		<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
-		<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
-		<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
 	</portlet:renderURL>
 
 	<portlet:actionURL var="deleteEntryUrl">
@@ -216,15 +210,15 @@
 	<td><a href="<c:out value="${viewEntryRenderURL}"/>"><ww:property value="firstName"/> <ww:property value="lastName"/></a></td>
 	<td>
 		
-		<a href="<c:out value="${viewEntryRenderURL}"/>">Ändra</a>
-		<a href="<c:out value="${deleteEntryUrl}"/>">Ta bort</a>
+		<a href="<c:out value="${viewEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.internal.soba.edit')"/></a>
+		<a href="<c:out value="${deleteEntryUrl}"/>"><ww:property value="this.getLabel('labels.internal.soba.delete')"/></a>
 	</td>		
 </tr>
 </ww:iterator>
 
 <ww:if test="entries == null || entries.size() == 0">
 <tr>
-	<td colspan="3">Inga poster hittades</td>
+	<td colspan="3"><ww:property value="this.getLabel('labels.internal.soba.noHits')"/></td>
 </tr>
 </ww:if>
 </table>
@@ -235,7 +229,7 @@
 </portlet:renderURL>
 
 	<div style="height:10px"></div>
-	<a href="javascript:toggleSearchForm();">New search</a>
-	<ww:if test="entries != null"><a href="javascript:toggleEmailForm();">Email persons</a></ww:if>
+	<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
+	<ww:if test="entries != null"><a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
 <hr/>
 </div>

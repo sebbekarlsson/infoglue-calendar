@@ -97,11 +97,23 @@ public abstract class AbstractCalendarTag extends AbstractTag
 	
 	public String getLabel(String key)
     {
-    	Locale locale = new Locale(this.getLanguageCode());
-    	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-        
-        String label = resourceBundle.getString(key);
-            
+	    String label = key;
+	    
+	    try
+	    {
+	    	Locale locale = new Locale(this.getLanguageCode());
+	    	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+	        
+	        label = resourceBundle.getString(key);
+	        if(label == null || label.equals(""))
+	            label = key;
+	    }
+	    catch(Exception e)
+	    {
+	        e.printStackTrace();
+	        System.out.println("Problem but nothing important...:" + key);
+	    }
+	    
         return label;
     }
 

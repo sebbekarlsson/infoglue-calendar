@@ -197,10 +197,10 @@
 <div style="float: left; display: block; border: 0px solid black;" id="calendarArea<ww:property value="componentId"/>">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td><div id="events<ww:property value="componentId"/>Tab" class="tab"><a id="events<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('events<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.eventsTabLabel") %></a></div></td>
-	<td><div id="day<ww:property value="componentId"/>Tab" class="tab"><a id="day<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('day<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.dayTabLabel") %></a></div></td>
-	<td><div id="week<ww:property value="componentId"/>Tab" class="tab"><a id="week<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('week<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.weekTabLabel") %></a></div></td>
-	<td><div id="calendar<ww:property value="componentId"/>Tab" class="tab"><a id="calendar<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('calendar<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.monthTabLabel") %></a></div></td>
+	<td><div id="events<ww:property value="componentId"/>Tab" class="tab"><a id="events<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('events<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.eventsTab") %></a></div></td>
+	<td><div id="day<ww:property value="componentId"/>Tab" class="tab"><a id="day<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('day<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.dayTab") %></a></div></td>
+	<td><div id="week<ww:property value="componentId"/>Tab" class="tab"><a id="week<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('week<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.weekTab") %></a></div></td>
+	<td><div id="calendar<ww:property value="componentId"/>Tab" class="tab"><a id="calendar<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('calendar<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.monthTab") %></a></div></td>
 	<td width="80%"></td>
 </tr>
 </table>
@@ -212,7 +212,7 @@
 <div class="panel" id="events<ww:property value="componentId"/>">
 
 <div class="event" style="margin: 10px 10px 10px 10px;">
-<span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.comingEventsLabel") %></span>
+<span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.comingEvents") %></span>
 <ww:iterator value="calendar.publishedEvents">
 
 	<ww:set name="eventId" value="id" scope="page"/>
@@ -294,7 +294,7 @@
 		<span class="dayItem"><ww:property value="this.getFormattedDate(startDateTime, 'MMM yyyy')"/></span>
 		</div>
 		<div style="float: right;">
-		<span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.weekLabel") %> <ww:property value="this.getFormattedDate(startDateTime, 'ww')"/></span>
+		<span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.week") %> <ww:property value="this.getFormattedDate(startDateTime, 'ww')"/></span>
 		</div>
 	</td>
 </tr>

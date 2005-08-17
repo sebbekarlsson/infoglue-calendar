@@ -57,13 +57,17 @@ public class ViewEventAction extends CalendarAbstractAction
     private Long calendarId;
     private String mode = "day";
 
+    private List locations;
+    private List categories;
+    private List infogluePrincipals;
+
     private List remainingLocations;
     private List selectedLocations = new ArrayList();
     
     private List remainingCategories;
     private List selectedCategories = new ArrayList();
     
-    private List infogluePrincipals;
+    private List remainingInfogluePrincipals;
     private List participatingPrincipals = new ArrayList();
     
     private List assetKeys;
@@ -81,18 +85,6 @@ public class ViewEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.nameErrorMessage = (String)ActionContext.getContext().getSession().get("nameErrorMessage");
-        this.descriptionErrorMessage = (String)ActionContext.getContext().getSession().get("descriptionErrorMessage");
-        this.locationErrorMessage = (String)ActionContext.getContext().getSession().get("locationErrorMessage");
-        this.categoryErrorMessage = (String)ActionContext.getContext().getSession().get("categoryErrorMessage");
-        this.participantsErrorMessage = (String)ActionContext.getContext().getSession().get("participantsErrorMessage");
-                
-        ActionContext.getContext().getSession().remove("nameErrorMessage");
-        ActionContext.getContext().getSession().remove("descriptionErrorMessage");
-        ActionContext.getContext().getSession().remove("locationErrorMessage");
-        ActionContext.getContext().getSession().remove("categoryErrorMessage");
-        ActionContext.getContext().getSession().remove("participantsErrorMessage");
-        
         System.out.println("eventId:" + this.eventId);
         System.out.println("calendarId:" + this.calendarId);
         System.out.println("mode:" + this.mode);
@@ -109,7 +101,12 @@ public class ViewEventAction extends CalendarAbstractAction
         //this.categories = CategoryController.getController().getCategoryList();
         
         this.assetKeys = EventController.getController().getAssetKeys();
-        
+
+        this.locations 	= LocationController.getController().getLocationList();
+        this.categories = CategoryController.getController().getCategoryList();
+        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+
+        /*
         this.remainingLocations = LocationController.getController().getLocationList();
         this.selectedLocations.addAll(this.remainingLocations);
         
@@ -177,6 +174,7 @@ public class ViewEventAction extends CalendarAbstractAction
             else
                 infogluePrincipals.remove(infogluePrincipal);
         }
+        */
         
         return Action.SUCCESS;
     } 
@@ -256,5 +254,14 @@ public class ViewEventAction extends CalendarAbstractAction
     public List getAssetKeys()
     {
         return assetKeys;
+    }
+    
+    public List getCategories()
+    {
+        return categories;
+    }
+    public List getLocations()
+    {
+        return locations;
     }
 }

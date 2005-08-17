@@ -139,6 +139,16 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
+		    <name>selectedValueList</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>selectedValueSet</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
 		    <name>selectedValue</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>

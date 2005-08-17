@@ -13,12 +13,6 @@
 
 <portlet:defineObjects/>
 
-<ww:set name="languageCode" value="languageCode" scope="page"/>
-<% 
-	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
-	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-%>
-
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
 
@@ -37,37 +31,37 @@
 		<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 			<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
 			<p>
-				<%= resourceBundle.getString("labels.public.entry.firstNameLabel") %> <input type="textfield" class="normalInput" name="firstName" value="">
+				<calendar:textField label="labels.public.entry.firstName" name="firstName" value="entry.firstName" cssClass="normalInput"/>
 			</p>
 			<p>
-			<%= resourceBundle.getString("labels.public.entry.lastNameLabel") %> <input type="textfield" class="normalInput" name="lastName" value="">
+				<calendar:textField label="labels.public.entry.lastName" name="lastName" value="entry.lastName" cssClass="normalInput"/>
 			</p>
 			<p>
-			<%= resourceBundle.getString("labels.public.entry.emailLabel") %> <input type="textfield" class="normalInput" name="email" value="">
+				<calendar:textField label="labels.public.entry.email" name="email" value="entry.email" cssClass="normalInput"/>
 			</p>
 			<p>
-				Organisation: <br/><input type="textfield" class="normalInput" name="organisation" value="">
+				<calendar:textField label="labels.public.entry.organisation" name="organisation" value="entry.organisation" cssClass="normalInput"/>
 			</p>
 			<p>
-				Address: <br/><input type="textfield" class="normalInput" name="address" value="">
+				<calendar:textField label="labels.public.entry.address" name="address" value="entry.address" cssClass="normalInput"/>
 			</p>
 			<p>
-				Postnummer: <br/><input type="textfield" class="normalInput" name="zipcode" value="">
+				<calendar:textField label="labels.public.entry.zipcode" name="zipcode" value="entry.zipcode" cssClass="normalInput"/>
 			</p>
 			<p>
-				Ort: <br/><input type="textfield" class="normalInput" name="city" value="">
+				<calendar:textField label="labels.public.entry.city" name="city" value="entry.city" cssClass="normalInput"/>
 			</p>
 			<p>
-				Telefon: <br/><input type="textfield" class="normalInput" name="phone" value="">
+				<calendar:textField label="labels.public.entry.phone" name="phone" value="entry.phone" cssClass="normalInput"/>
 			</p>
 			<p>
-				Fax: <br/><input type="textfield" class="normalInput" name="fax" value="">
+				<calendar:textField label="labels.public.entry.fax" name="fax" value="entry.fax" cssClass="normalInput"/>
 			</p>
 			<p>
-				Message: <br/><input type="textfield" class="normalInput" name="message" value="">
+				<calendar:textField label="labels.public.entry.message" name="message" value="entry.message" cssClass="normalInput"/>
 			</p>
 				
-			<input type="submit" value="<%= resourceBundle.getString("labels.public.entry.submitLabel") %>">
+			<input type="submit" value="<ww:property value="this.get('labels.public.entry.createButton')"/>">
 		</form>
 	</div>
 

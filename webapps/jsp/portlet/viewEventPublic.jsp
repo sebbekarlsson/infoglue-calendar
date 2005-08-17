@@ -44,90 +44,90 @@
 	<hr/>
 	<div id="contentList" style="display: block;">
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.description"/>
 		</p>
 		
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.organizer"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.lecturer"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.customLocation"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.shortDescription"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.fullDescription"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.eventURL"/>
 		</p>
 
 
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.contactEmail"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.contactPhone"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.contactName"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.price"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.maxumumParticipants"/>
 		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.descriptionLabel") %></span><br> 
+			<span class="label"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>
 		</p>
 		
 		
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.dateTimeLabel") %></span><br>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.dateTime") %></span><br>
 			<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>
-			<%= resourceBundle.getString("labels.public.event.untilLabel") %> 
+			<%= resourceBundle.getString("labels.public.event.until") %> 
 			<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>
 		</p>    			
    		<p>
-      		<span class="label"><%= resourceBundle.getString("labels.public.event.locationLabel") %></span><br>
+      		<span class="label"><%= resourceBundle.getString("labels.public.event.location") %></span><br>
 			<ww:iterator value="event.locations">
 	      		<ww:set name="location" value="top"/>
  				<ww:property value='#location.name'/>
       		</ww:iterator>
   		</p>
 		<p>
-      		<span class="label"><%= resourceBundle.getString("labels.public.event.categoryLabel") %></span><br>
+      		<span class="label"><%= resourceBundle.getString("labels.public.event.category") %></span><br>
 			<ww:iterator value="event.categories">
 	      		<ww:set name="category" value="top"/>
  				<ww:property value='#category.name'/>
       		</ww:iterator>
        	</p>
 		<p>  		
-  			<span class="label"><%= resourceBundle.getString("labels.public.event.participantsLabel") %></span><br>
+  			<span class="label"><%= resourceBundle.getString("labels.public.event.participants") %></span><br>
       		<ww:iterator value="infogluePrincipals">
       			<ww:property value="top.firstName"/> <ww:property value="top.lastName"/>,
       		</ww:iterator>
  		</p>
 		<p>
-			<span class="label"><%= resourceBundle.getString("labels.public.event.filesLabel") %></span><br>
+			<span class="label"><%= resourceBundle.getString("labels.public.event.files") %></span><br>
 			<ww:iterator value="event.resources">
 				<ww:set name="resourceId" value="top.id" scope="page"/>
 				<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
@@ -142,7 +142,7 @@
 				<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 			</portlet:renderURL>
 			
-			<a href="<c:out value="${createEntryRenderURL}"/>"><%= resourceBundle.getString("labels.public.event.signUpLabel") %></a>
+			<a href="<c:out value="${createEntryRenderURL}"/>"><%= resourceBundle.getString("labels.public.event.signUp") %></a>
 		</p>
 		
 		<calendar:vCalendarUrl id="vCalendarUrl" eventId="${eventId}"/>

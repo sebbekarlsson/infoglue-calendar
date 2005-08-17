@@ -10,4 +10,9 @@
             <message>You must enter a description.</message>
         </field-validator>
     </field>
+    <field name="owner">
+        <field-validator type="igrequiredstring">
+            <message>You must enter a owner for this calendar.</message>
+        </field-validator>
+    </field>
 </validators>

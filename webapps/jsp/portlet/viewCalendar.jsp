@@ -13,12 +13,6 @@
 
 <portlet:defineObjects/>
 
-<ww:set name="languageCode" value="languageCode" scope="page"/>
-<% 
-	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
-	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-%>
-
 <ww:set name="calendarId" value="calendar.id" scope="page"/>
 
 <portlet:renderURL var="viewCalendarUrl">
@@ -199,10 +193,9 @@
 	</portlet:renderURL>
 	
 	<div id="contentListHeader<ww:property value="componentId"/>">
-		<span class="headline"><%= resourceBundle.getString("labels.public.calendar.headline") %> <ww:property value="calendar.name"/></span><br>
-		<a href="<c:out value="${viewCalendarAdministrationUrl}"/>">Back to main menu</a> |
-		<a href="javascript:toggleShowEditForm<ww:property value="componentId"/>();">Edit Calendar</a>
-		<!--<ww:property value="calendar.description"/><br>-->
+		<span class="headline"><ww:property value="this.getLabel('labels.internal.calendar.headline')"/> <ww:property value="calendar.name"/></span><br>
+		<a href="<c:out value="${viewCalendarAdministrationUrl}"/>"><ww:property value="this.getLabel('labels.internal.application.backToMainMenu')"/></a> |
+		<a href="javascript:toggleShowEditForm<ww:property value="componentId"/>();"><ww:property value="this.getLabel('labels.internal.application.editCalendar')"/></a>
 	</div>
 
 	<hr/>	
@@ -213,20 +206,19 @@
 		</portlet:actionURL>
 		
 		<form name="inputForm" method="POST" action="<c:out value="${updateCalendarActionUrl}"/>">
-		<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
-		<p>
-			<calendar:textField label="Name:" name="name" value="calendar.name" cssClass="normalInput"/>
-		</p>
-		<p>
-			<calendar:textField label="Description:" name="description" value="calendar.description" cssClass="normalInput"/>
-		</p>
-		<p>
-		    <calendar:selectField label="Calendar Owner:" name="owner" multiple="false" value="infogluePrincipals" selectedValue="calendar.owner" cssClass="listBox"/>
-		</p>
-		
-		<p>
-			<input type="submit" value="Save">
-		</p>
+			<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
+			<p>
+				<calendar:textField label="labels.internal.calendar.name" name="name" value="calendar.name" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.calendar.description" name="description" value="calendar.description" cssClass="normalInput"/>
+			</p>
+			<p>
+			    <calendar:selectField label="labels.internal.calendar.owner" name="owner" multiple="false" value="infogluePrincipals" selectedValue="calendar.owner" cssClass="listBox"/>
+			</p>		
+			<p>
+				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.calendar.updateButton')"/>">
+			</p>
 		</form>
 	</div>
 		
@@ -234,12 +226,12 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<ww:if test="isPublisher == true">
-	<td><div id="waitingEvents<ww:property value="componentId"/>Tab" class="tab"><a id="waitingEvents<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('waitingEvents<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.waitingEventsTabLabel") %></a></div></td>
+	<td><div id="waitingEvents<ww:property value="componentId"/>Tab" class="tab"><a id="waitingEvents<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('waitingEvents<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.waitingEventsTab')"/></a></div></td>
 	</ww:if>
-	<td><div id="events<ww:property value="componentId"/>Tab" class="tab"><a id="events<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('events<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.eventsTabLabel") %></a></div></td>
-	<td><div id="day<ww:property value="componentId"/>Tab" class="tab"><a id="day<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('day<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.dayTabLabel") %></a></div></td>
-	<td><div id="week<ww:property value="componentId"/>Tab" class="tab"><a id="week<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('week<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.weekTabLabel") %></a></div></td>
-	<td><div id="calendar<ww:property value="componentId"/>Tab" class="tab"><a id="calendar<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('calendar<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><%= resourceBundle.getString("labels.public.calendar.monthTabLabel") %></a></div></td>
+	<td><div id="events<ww:property value="componentId"/>Tab" class="tab"><a id="events<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('events<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.eventsTab')"/></a></div></td>
+	<td><div id="day<ww:property value="componentId"/>Tab" class="tab"><a id="day<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('day<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.dayTab')"/></a></div></td>
+	<td><div id="week<ww:property value="componentId"/>Tab" class="tab"><a id="week<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('week<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.weekTab')"/></a></div></td>
+	<td><div id="calendar<ww:property value="componentId"/>Tab" class="tab"><a id="calendar<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('calendar<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.monthTab')"/></a></div></td>
 	<td width="80%"></td>
 </tr>
 </table>
@@ -259,7 +251,7 @@
 <div class="panel" id="waitingEvents<ww:property value="componentId"/>">
 
 <div class="waitingEvent" style="margin: 10px 10px 10px 10px;">
-<span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.waitingEventsLabel") %></span>
+<span class="dayItem"><ww:property value="this.getLabel('labels.public.calendar.waitingEvents')"/></span>
 <ww:iterator value="calendar.waitingEvents">
 
 	<ww:set name="eventId" value="id" scope="page"/>
@@ -285,7 +277,7 @@
 <div class="panel" id="events<ww:property value="componentId"/>">
 
 <div class="event" style="margin: 10px 10px 10px 10px;">
-<span class="dayItem"><%= resourceBundle.getString("labels.public.calendar.comingEventsLabel") %></span>
+<span class="dayItem"><ww:property value="this.getLabel('labels.public.calendar.comingEvents')"/></span>
 <ww:iterator value="calendar.publishedEvents">
 
 	<ww:set name="eventId" value="id" scope="page"/>

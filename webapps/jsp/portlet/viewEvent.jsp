@@ -14,12 +14,6 @@
 
 <portlet:defineObjects/>
 
-<ww:set name="languageCode" value="languageCode" scope="page"/>
-<% 
-	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
-	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-%>
-
 <ww:set name="event" value="event" scope="page"/>
 <ww:set name="eventId" value="event.id" scope="page"/>
 <ww:set name="calendarId" value="calendarId" scope="page"/>
@@ -90,18 +84,56 @@
 			<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
 						
 			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.nameLabel") %></span><span class="alert"><ww:property value="nameErrorMessage"/></span><br>
-				<input type="textfield" name="name" value="<ww:property value="event.name"/>" class="normalInput">
+				<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="normalInput"/>
 			</p>
 			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.descriptionLabel") %></span><span class="alert"><ww:property value="descriptionErrorMessage"/></span><br> 
-				<input type="textfield" name="description" value="<ww:property value="event.description"/>" class="normalInput">
+				<calendar:textField label="labels.internal.event.description" name="description" value="event.description" cssClass="normalInput"/>
 			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.isInternal" name="isInternal" value="event.isInternal" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.isOrganizedByGU" name="isOrganizedByGU" value="event.isOrganizedByGU" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="event.organizerName" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.lecturer" name="lecturer" value="event.lecturer" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.customLocation" name="customLocation" value="event.customLocation" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.eventUrl" name="eventUrl" value="event.eventUrl" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.contactName" name="contactName" value="event.contactName" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.contactEmail" name="contactEmail" value="event.contactEmail" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.contactPhone" name="contactPhone" value="event.contactPhone" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.price" name="price" value="event.price" cssClass="normalInput"/>
+			</p>
+			<p>
+				<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="event.maxumumParticipants" cssClass="normalInput"/>
+			</p>
+
 			<p>
 				<table border="0" cellspacing="0">
 				<tr>
-					<td><span class="label"><%= resourceBundle.getString("labels.internal.event.startDateTimeLabel") %></span></td> 
-					<td><span class="label">Starttid:</span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.startTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -117,8 +149,8 @@
 			<p>
 				<table border="0">
 				<tr>
-					<td><span class="label"><%= resourceBundle.getString("labels.internal.event.endDateTimeLabel") %></span></td> 
-					<td><span class="label">Sluttid:</span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.endTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -131,67 +163,11 @@
 				</tr>
 				</table>				
 			</p>
-			<!-- NEW -->
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.isInternalLabel") %></span><span class="alert"><ww:property value="isInternalErrorMessage"/></span> 
-				<input type="checkbox" name="isInternal" value="true" <c:if test="${event.isInternal == true}">checked="1"</c:if> >
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.isOrganizedByGULabel") %></span><span class="alert"><ww:property value="isOrganizedByGUErrorMessage"/></span> 
-				<input type="checkbox" name="isOrganizedByGU" value="true" <c:if test="${event.isOrganizedByGU == true}">checked="1"</c:if> >
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.organizerNameLabel") %></span><span class="alert"><ww:property value="organizerNameErrorMessage"/></span><br> 
-				<input type="textfield" name="organizerName" value="<ww:property value="event.organizerName"/>" class="normalInput">
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.lecturerLabel") %></span><span class="alert"><ww:property value="lecturerErrorMessage"/></span><br> 
-				<input type="textfield" name="lecturer" value="<ww:property value="event.lecturer"/>" class="normalInput">
-			</p>
-
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.customLocationLabel") %></span><span class="alert"><ww:property value="customLocationErrorMessage"/></span><br> 
-				<input type="textfield" name="customLocation" value="<ww:property value="event.customLocation"/>" class="normalInput">
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.shortDescriptionLabel") %></span><span class="alert"><ww:property value="shortDescriptionErrorMessage"/></span><br> 
-				<input type="textfield" name="shortDescription" value="<ww:property value="event.shortDescription"/>" class="normalInput">
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.longDescriptionLabel") %></span><span class="alert"><ww:property value="longDescriptionErrorMessage"/></span><br> 
-				<input type="textfield" name="longDescription" value="<ww:property value="event.longDescription"/>" class="normalInput">
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.eventUrlLabel") %></span><span class="alert"><ww:property value="eventUrlErrorMessage"/></span><br> 
-				<input type="textfield" name="eventUrl" value="<ww:property value="event.eventUrl"/>" class="normalInput">
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.contactEmailLabel") %></span><span class="alert"><ww:property value="contactEmailErrorMessage"/></span><br> 
-				<input type="textfield" name="contactEmail" value="<ww:property value="event.contactEmail"/>" class="normalInput">
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.contactPhoneLabel") %></span><span class="alert"><ww:property value="contactPhoneErrorMessage"/></span><br> 
-				<input type="textfield" name="contactPhone" value="<ww:property value="event.contactPhone"/>" class="normalInput">
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.contactNameLabel") %></span><span class="alert"><ww:property value="contactNameErrorMessage"/></span><br> 
-				<input type="textfield" name="contactName" value="<ww:property value="event.contactName"/>" class="normalInput">
-			</p>
-
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.priceLabel") %></span><span class="alert"><ww:property value="priceErrorMessage"/></span><br> 
-				<input type="textfield" name="price" value="<ww:property value="event.price"/>" class="normalInput">
-			</p>
-			<p>
-				<span class="label"><%= resourceBundle.getString("labels.internal.event.maxumumParticipantsLabel") %></span><span class="alert"><ww:property value="maxumumParticipantsErrorMessage"/></span><br> 
-				<input type="textfield" name="maxumumParticipants" value="<ww:property value="event.maxumumParticipants"/>" class="normalInput">
-			</p>
-
 			<p>
 				<table border="0">
 				<tr>
-					<td><span class="label"><%= resourceBundle.getString("labels.internal.event.lastRegistrationDateTimeLabel") %></span></td> 
-					<td><span class="label">Sluttid:</span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span></td> 
+					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -206,45 +182,19 @@
 			</p>
 
 			<!-- END NEW -->
+
+      		<p>
+      			<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" selectedValueSet="event.locations" cssClass="listBox"/>
+			</p>
+			<p>
+      			<calendar:selectField label="labels.internal.event.category" name="categoryId" multiple="true" value="categories" selectedValueSet="event.categories" cssClass="listBox"/>
+    		</p>
+    		<p>  		
+      			<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" selectedValueSet="calendar.participants" cssClass="listBox"/>
+			</p>
 			
-       		<p>
-	      		<span class="label">Plats (Håll ner Ctrl för att välja flera):</span><span class="alert"><ww:property value="locationErrorMessage"/></span><br>
-				<select name="locationId" multiple="true" class="listBox">
-      				<ww:iterator value="selectedLocations">
-		      			<option value="<ww:property value='top.id'/>" selected="1"><ww:property value="top.name"/></option>
-		      		</ww:iterator>
-		      		<option value="">-------------------</option>
-		      		<ww:iterator value="remainingLocations">
-		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
-		      		</ww:iterator>		      		
-				</select>
-  			</p>
 			<p>
-	      		<span class="label">Kategori (Håll ner Ctrl för att välja flera):</span><span class="alert"><ww:property value="categoryErrorMessage"/></span><br>
-				<select name="categoryId" multiple="true" class="listBox">
-					<ww:iterator value="selectedCategories">
-		      			<option value="<ww:property value='top.id'/>" selected="1"><ww:property value="top.name"/></option>
-		      		</ww:iterator>
-		      		<option value="">-------------------</option>
-		      		<ww:iterator value="remainingCategories">
-		      			<option value="<ww:property value='top.id'/>"><ww:property value="top.name"/></option>
-		      		</ww:iterator>		      		
-	      		</select>
-	       	</p>
-	       	<p>  		
-      			<span class="label">Deltagare (Håll ner Ctrl för att välja flera):</span><span class="alert"><ww:property value="principalsErrorMessage"/></span><br>
-	      		<select size="10" name="participantUserName" multiple="true" class="listBox">
-	      			<ww:iterator value="participatingPrincipals">
-		      			<option value="<ww:property value='top.name'/>" selected="1"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>
-		      		</ww:iterator>
-		      		<option value="">-------------------</option>
-		      		<ww:iterator value="infogluePrincipals">
-		      			<option value="<ww:property value='top.name'/>"><ww:property value="top.firstName"/> <ww:property value="top.lastName"/></option>
-		      		</ww:iterator>
-	      		</select>
-      		</p>
-			<p>
-				<span class="label">Attached files:</span><br>
+				<span class="label"><ww:property value="this.getLabel('labels.internal.event.attachedFiles')"/></span><br>
 				<ww:iterator value="event.resources">
 				
 					<ww:set name="resourceId" value="top.id" scope="page"/>
@@ -261,7 +211,7 @@
 					<a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a>&nbsp;<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a><br>     			
 	      		</ww:iterator>
 	      		<br/>
-	      		<a href="javascript:showUploadForm();">Add resource</a>
+	      		<a href="javascript:showUploadForm();"><ww:property value="this.getLabel('labels.internal.event.attachFile')"/></a>
 			</p>
 			<p>
 				<br>
@@ -272,7 +222,7 @@
 					<calendar:evalParam name="calendarId" value="${calendarId}"/>
 					<calendar:evalParam name="mode" value="${mode}"/>
 				</portlet:renderURL>
-				<a href="<c:out value="${createEntryRenderURL}"/>">Sign up for this event</a>
+				<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/></a>
 			</p>
 			<p>
 				<input type="submit" value="Update">
@@ -284,13 +234,13 @@
 						<calendar:evalParam name="calendarId" value="${calendarId}"/>
 						<calendar:evalParam name="mode" value="${mode}"/>
 					</portlet:actionURL>
-					<a href="<c:out value="${publishEventActionUrl}"/>"><input type="button" value="Publish event"/></a>
+					<a href="<c:out value="${publishEventActionUrl}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.publishEvent')"/>"/></a>
 				</ww:if>
 
 				<portlet:actionURL var="createEventAsCopyActionUrl">
 					<calendar:evalParam name="action" value="CreateEvent!copy"/>
 				</portlet:actionURL>
-				<a href="javascript:createEventFromCopy('<c:out value="${createEventAsCopyActionUrl}"/>')"><input type="button" value="Create new event"/></a>
+				<a href="javascript:createEventFromCopy('<c:out value="${createEventAsCopyActionUrl}"/>')"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.createNewEvent')"/>"/></a>
 			</p>
 		</form>
 	</div>
@@ -309,8 +259,7 @@
 			<input type="hidden" name="endDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>"/>
 			
 			<p>
-				Attachment key:<br>
-				<!--<input type="textfield" name="assetKey" class="normalInput">-->
+				<ww:property value="this.getLabel('labels.internal.event.assetKey')"/><br>
 				<select name="assetKey" class="normalInput">
 					<ww:iterator value="assetKeys">
 		      			<option value="<ww:property value='top'/>"><ww:property value="top"/></option>
@@ -318,11 +267,11 @@
 				</select>
 			</p>
 			<p>
-				Attach file:<br>
+				<ww:property value="this.getLabel('labels.internal.event.fileToAttach')"/><br>
 				<input type="file" name="file" id="file"/>
 			</p>
 			<p>
-				<input type="submit" value="Update">
+				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.updateButton')"/>">
 			</p>
 			</form>
 	

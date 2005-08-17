@@ -13,7 +13,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Maximum entries reached</title>
+	<title><ww:property value="this.getLabel('labels.internal.maximumEntriesReached.title')"/></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
@@ -24,11 +24,11 @@
 <div id="inputForm">
 	
 	<div id="contentListHeader">
-		Felmeddelande
+		<ww:property value="this.getLabel('labels.internal.maximumEntriesReached.header')"/>
 	</div>
 
 	<div id="contentList">
-		Du kan inte anmäla dig då antalet anmälda uppgår till maximalt antal lediga platser.
+		<ww:property value="this.getLabel('labels.internal.maximumEntriesReached.text')"/>
 	</div>
 
 </div>

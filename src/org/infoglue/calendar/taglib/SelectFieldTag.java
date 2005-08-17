@@ -31,6 +31,8 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import net.sf.hibernate.collection.Set;
+
 import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.BaseEntity;
 
@@ -49,6 +51,8 @@ public class SelectFieldTag extends AbstractCalendarTag
 	private String name;
 	private String cssClass = "";
 	private String[] selectedValues;
+	private List selectedValueList;
+	private Set selectedValueSet;
 	private List values;
 	private String label;
 	private String multiple = "false";
@@ -97,37 +101,87 @@ public class SelectFieldTag extends AbstractCalendarTag
         sb.append("<br>");
         sb.append("<select name=\"" + name + "\" multiple=\"" + multiple + "\" class=\"" + cssClass + "\">");
         
-        Iterator valuesIterator = values.iterator();
-        while(valuesIterator.hasNext())
-	    {
-            String id;
-            String optionText;
-            Object obj = valuesIterator.next();
-            if(obj instanceof InfoGluePrincipal)
-            {
-                InfoGluePrincipal value = (InfoGluePrincipal)obj;
-                id = value.getName().toString();
-                optionText = value.getFirstName() + " " + value.getLastName();
-            } 
-            else
-            {
-                BaseEntity value = (BaseEntity)obj;
-                id = value.getId().toString();
-                optionText = value.getName();
-            }
-            
-            String selected = "";
-            //System.out.println("-----------------selectedValues:" + selectedValues);
-            if(selectedValues != null)
-            {
-	            for(int i=0; i<selectedValues.length; i++)
+        if(values != null)
+        {
+	        Iterator valuesIterator = values.iterator();
+	        while(valuesIterator.hasNext())
+		    {
+	            String id;
+	            String optionText;
+	            Object obj = valuesIterator.next();
+	            if(obj instanceof InfoGluePrincipal)
 	            {
-	                //System.out.println(id + "=" + selectedValues[i]);
-	                if(id.equalsIgnoreCase(selectedValues[i]))
-	                    selected = " selected=\"1\"";
+	                InfoGluePrincipal value = (InfoGluePrincipal)obj;
+	                id = value.getName().toString();
+	                optionText = value.getFirstName() + " " + value.getLastName();
+	            } 
+	            else
+	            {
+	                BaseEntity value = (BaseEntity)obj;
+	                id = value.getId().toString();
+	                optionText = value.getName();
 	            }
-            }
-            sb.append("<option value=\"" + id + "\"" + selected + ">" + optionText + "</option>");
+	            
+	            String selected = "";
+	            //System.out.println("-----------------selectedValues:" + selectedValues);
+	            if(selectedValues != null)
+	            {
+		            for(int i=0; i<selectedValues.length; i++)
+		            {
+		                //System.out.println(id + "=" + selectedValues[i]);
+		                if(id.equalsIgnoreCase(selectedValues[i]))
+		                    selected = " selected=\"1\"";
+		            }
+	            }
+	            else if(selectedValueList != null)
+	            {
+	                Iterator selectedValueListIterator = selectedValueList.iterator();
+	                while(selectedValueListIterator.hasNext())
+		            {
+	                    String selId;
+	                	Object selObj = selectedValueListIterator.next();
+	    	            if(selObj instanceof InfoGluePrincipal)
+	    	            {
+	    	                InfoGluePrincipal selValue = (InfoGluePrincipal)selObj;
+	    	                selId = selValue.getName().toString();
+	    	            } 
+	    	            else
+	    	            {
+	    	                BaseEntity selValue = (BaseEntity)selObj;
+	    	                selId = selValue.getId().toString();
+	    	            }
+	    	            
+		                //System.out.println(id + "=" + selectedValues[i]);
+		                if(id.equalsIgnoreCase(selId))
+		                    selected = " selected=\"1\"";
+		            }
+	            }
+	            else if(selectedValueSet != null)
+	            {
+	                Iterator selectedValueSetIterator = selectedValueSet.iterator();
+	                while(selectedValueSetIterator.hasNext())
+		            {
+	                    String selId;
+	                	Object selObj = selectedValueSetIterator.next();
+	    	            if(selObj instanceof InfoGluePrincipal)
+	    	            {
+	    	                InfoGluePrincipal selValue = (InfoGluePrincipal)selObj;
+	    	                selId = selValue.getName().toString();
+	    	            } 
+	    	            else
+	    	            {
+	    	                BaseEntity selValue = (BaseEntity)selObj;
+	    	                selId = selValue.getId().toString();
+	    	            }
+	    	            
+		                //System.out.println(id + "=" + selectedValues[i]);
+		                if(id.equalsIgnoreCase(selId))
+		                    selected = " selected=\"1\"";
+		            }
+	            }
+	            
+	            sb.append("<option value=\"" + id + "\"" + selected + ">" + optionText + "</option>");
+	        }
         }
         sb.append("</select>");
 
@@ -173,7 +227,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 
         //this.selectedValues = new String[] {evaluateString("SelectTag", "selectedValue", selectedValue)};
     }
-    
+
     public void setValue(String value) throws JspException
     {
         Object o = findOnValueStack(value);
@@ -183,6 +237,25 @@ public class SelectFieldTag extends AbstractCalendarTag
         //this.values = evaluateList("SelectTag", "values", values);
     }
 
-    
+    public void setSelectedValueList(String value) throws JspException
+    {
+        Object o = findOnValueStack(value);
+        if(o != null) 
+        {
+            this.selectedValueList = (List)o;
+        }
+        //this.values = evaluateList("SelectTag", "values", values);
+    }
+
+    public void setSelectedValueSet(String value) throws JspException
+    {
+        Object o = findOnValueStack(value);
+        if(o != null) 
+        {
+            this.selectedValueSet = (Set)o;
+        }
+        //this.values = evaluateList("SelectTag", "values", values);
+    }
+
     
 }
