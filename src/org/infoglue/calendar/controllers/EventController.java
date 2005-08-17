@@ -304,29 +304,38 @@ public class EventController extends BasicController
 			Event event = getEvent(id, session);
 			
 			Set locations = new HashSet();
-			for(int i=0; i<locationId.length; i++)
+			if(locationId != null)
 			{
-			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
-			    locations.add(location);
+				for(int i=0; i<locationId.length; i++)
+				{
+				    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
+				    locations.add(location);
+				}
 			}
-
+			
 			Set categories = new HashSet();
-			for(int i=0; i<categoryId.length; i++)
+			if(categoryId != null)
 			{
-			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
-			    categories.add(category);
+				for(int i=0; i<categoryId.length; i++)
+				{
+				    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
+				    categories.add(category);
+				}
 			}
-
+			
 			Set participants = new HashSet();
-			for(int i=0; i<participantUserName.length; i++)
+			if(participantUserName != null)
 			{
-			    Participant participant = new Participant();
-			    participant.setUserName(participantUserName[i]);
-			    participant.setEvent(event);
-			    session.save(participant);
-			    participants.add(participant);
+				for(int i=0; i<participantUserName.length; i++)
+				{
+				    Participant participant = new Participant();
+				    participant.setUserName(participantUserName[i]);
+				    participant.setEvent(event);
+				    session.save(participant);
+				    participants.add(participant);
+				}
 			}
-
+			
 			updateEvent(
 			        event, 
 			        name, 

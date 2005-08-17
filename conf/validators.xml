@@ -13,6 +13,7 @@
 
 	<validator name="igrequiredstring" class="org.infoglue.common.util.RequiredStringValidator"/> 
 	<validator name="igrequiredoption" class="org.infoglue.common.util.RequiredOptionValidator"/> 
+	<validator name="igemail" class="org.infoglue.common.util.EmailValidator"/> 
 
 </validators>
 

@@ -77,8 +77,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private Float price;
     private String lastRegistrationDateTime;
     private Integer lastRegistrationTime;
-    private Integer maxumumParticipants;
-
+    private Integer maximumParticipants;
+   
     private String[] locationId;
     private String[] categoryId;
     private String[] participantUserName;
@@ -99,6 +99,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         try
         {
             validateInput(this);
+            
+            System.out.println("maximumParticipants: " + maximumParticipants);
             EventController.getController().updateEvent(
                     eventId, 
                     name,
@@ -116,12 +118,13 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
                     contactPhone,
                     price,
                     lastRegistrationCalendar,
-                    maxumumParticipants,
+                    maximumParticipants,
                     startCalendar, 
                     endCalendar, 
                     locationId, 
                     categoryId, 
                     participantUserName);
+            
         }
         catch(ValidationException e)
         {
@@ -387,13 +390,13 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         this.longDescription = longDescription;
     }
-    public Integer getMaxumumParticipants()
+    public Integer getMaximumParticipants()
     {
-        return maxumumParticipants;
+        return maximumParticipants;
     }
-    public void setMaxumumParticipants(Integer maxumumParticipants)
+    public void setMaximumParticipants(Integer maximumParticipants)
     {
-        this.maxumumParticipants = maxumumParticipants;
+        this.maximumParticipants = maximumParticipants;
     }
     public String getOrganizerName()
     {

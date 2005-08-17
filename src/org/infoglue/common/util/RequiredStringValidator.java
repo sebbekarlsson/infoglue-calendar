@@ -34,9 +34,11 @@ public class RequiredStringValidator extends FieldValidatorSupport {
         Object value = this.getFieldValue(fieldName, object);
         System.out.println("fieldName:" + fieldName);
         System.out.println("value:" + value);
+        System.out.println("Before..." + this.getValidatorContext().getFieldErrors());
         
         if (!(value instanceof String)) 
         {
+            System.out.println("Adding error as value was not a string...");
             addFieldError(fieldName, object);
         } 
         else 

@@ -41,6 +41,7 @@ import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -80,24 +81,35 @@ public class CreateEntryAction extends CalendarAbstractAction
 		    Event event = EventController.getController().getEvent(eventId);
 	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
 	        
-	        if(event.getMaxumumParticipants().intValue() <= entries.size())
+	        if(event.getMaxumumParticipants() != null && event.getMaxumumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
         }
 
-        Entry entry = EntryController.getController().createEntry(firstName, 
-                									lastName, 
-                									email, 
-                									organisation,
-                									address,
-                									zipcode,
-                									city,
-                									phone,
-                									fax,
-                									message, 
-                									eventId);
-        
-        EntryController.getController().mailVerification(entry);
+        try
+        {
+            validateInput(this);
 
+	        Entry entry = EntryController.getController().createEntry(firstName, 
+	                									lastName, 
+	                									email, 
+	                									organisation,
+	                									address,
+	                									zipcode,
+	                									city,
+	                									phone,
+	                									fax,
+	                									message, 
+	                									eventId);
+	        
+	        EntryController.getController().mailVerification(entry);
+        
+        }
+        catch(ValidationException e)
+        {
+            e.printStackTrace();
+            return Action.ERROR;            
+        }
+        
         return Action.SUCCESS;
     } 
     
@@ -112,11 +124,20 @@ public class CreateEntryAction extends CalendarAbstractAction
 		    Event event = EventController.getController().getEvent(eventId);
 	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
 	        
-	        if(event.getMaxumumParticipants().intValue() <= entries.size())
+	        if(event.getMaxumumParticipants() != null && event.getMaxumumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
         }
 
-        this.execute();
+        try
+        {
+            validateInput(this);
+
+            this.execute();
+        }
+        catch(ValidationException e)
+        {
+            return Action.ERROR + "Public";            
+        }
         
         return Action.SUCCESS + "Public";
     } 
@@ -132,7 +153,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 	        Event event = EventController.getController().getEvent(eventId);
 	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
 	        
-	        if(event.getMaxumumParticipants().intValue() <= entries.size())
+	        if(event.getMaxumumParticipants() != null && event.getMaxumumParticipants().intValue() <= entries.size())
 	            return "maximumReached";
         }
         
@@ -150,7 +171,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 		    Event event = EventController.getController().getEvent(eventId);
 	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
 	        
-	        if(event.getMaxumumParticipants().intValue() <= entries.size())
+	        if(event.getMaxumumParticipants() != null && event.getMaxumumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
         }
         
