@@ -77,7 +77,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private Float price;
     private String lastRegistrationDateTime;
     private Integer lastRegistrationTime;
-    private Integer maxumumParticipants;
+    private Integer maximumParticipants;
 
     private String[] locationId;
     private String[] categoryId;
@@ -132,7 +132,7 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    contactPhone,
 									                    price,
 									                    lastRegistrationCalendar,
-									                    maxumumParticipants,
+									                    maximumParticipants,
 									                    startCalendar, 
 									                    endCalendar, 
 									                    locationId, 
@@ -192,7 +192,7 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    contactPhone,
 									                    price,
 									                    lastRegistrationCalendar,
-									                    maxumumParticipants,
+									                    maximumParticipants,
 									                    startCalendar, 
 									                    endCalendar, 
 									                    locationId, 
@@ -340,13 +340,13 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         this.longDescription = longDescription;
     }
-    public Integer getMaxumumParticipants()
+    public Integer getMaximumParticipants()
     {
-        return maxumumParticipants;
+        return maximumParticipants;
     }
-    public void setMaxumumParticipants(Integer maxumumParticipants)
+    public void setMaximumParticipants(Integer maximumParticipants)
     {
-        this.maxumumParticipants = maxumumParticipants;
+        this.maximumParticipants = maximumParticipants;
     }
     public String getOrganizerName()
     {

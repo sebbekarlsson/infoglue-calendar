@@ -76,7 +76,7 @@
     -->
     <field name="maximumParticipants">
         <field-validator type="fieldexpression">
-	        <param name="expression">maximumParticipants != null	</param>
+	        <param name="expression">maximumParticipants != null</param>
             <message>You must enter a maximum number of participants.</message>
         </field-validator>
     </field>
