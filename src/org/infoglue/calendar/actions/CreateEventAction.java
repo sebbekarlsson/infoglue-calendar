@@ -23,6 +23,7 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -91,6 +92,8 @@ public class CreateEventAction extends CalendarAbstractAction
     private List locations;
     private List categories;
     private List infogluePrincipals;
+    
+    private List yesOrNo;
     
     private String publishEventUrl;
     
@@ -226,6 +229,9 @@ public class CreateEventAction extends CalendarAbstractAction
         this.locations 	= LocationController.getController().getLocationList(getSession());
         this.categories = CategoryController.getController().getCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+        this.yesOrNo = new ArrayList();
+        this.yesOrNo.add("Yes");
+        this.yesOrNo.add("No");
             
         return Action.INPUT;
     } 
@@ -509,5 +515,10 @@ public class CreateEventAction extends CalendarAbstractAction
     public Calendar getStartCalendar()
     {
         return startCalendar;
+    }
+    
+    public List getYesOrNo()
+    {
+        return yesOrNo;
     }
 }

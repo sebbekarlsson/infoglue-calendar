@@ -46,21 +46,50 @@ public class TextFieldTag extends AbstractCalendarTag
 {
 	private static final long serialVersionUID = 3617579309963752240L;
 	
-	private String name;
+	private String name = "";
 	private String cssClass = "";
-	private String value;
-	private String label;
-	private List fieldErrors;
+	private String value = "";
+	private String label = "";
+	private List fieldErrors = null;
 	private Object errorAction = null;
 
+	/*
+	private String name = "";
+	private String cssClass = "";
+	private String value = "";
+	private String label = "";
+	private List fieldErrors = null;
+	private Object errorAction = null;
+*/
+	
 	/**
 	 * 
 	 */
 	public TextFieldTag() 
 	{
 		super();
+		System.out.println("***************************");
+		System.out.println("Initializing textfield.....");
+		System.out.println("***************************");
 	}
 	
+	
+	/**
+	 * Set defaults for attributes and initialize internal member
+	 * variables.
+	 */
+	/*
+	protected void init()
+	{
+	    _name = name;
+	    _cssClass = cssClass;
+	    _value = value;
+		_label = label;
+		_fieldErrors = fieldErrors;
+		_errorAction = errorAction;
+	}
+	*/
+	  
 	public int doEndTag() throws JspException
     {
 	    fieldErrors = (List)findOnValueStack("#fieldErrors." + name);
@@ -72,7 +101,7 @@ public class TextFieldTag extends AbstractCalendarTag
 	        if(o != null)
 	            value = o.toString();
 	        
-	        System.out.println("value:" + value);
+	        System.out.println("value from errorAction:" + value);
         }
 	    
 	    StringBuffer sb = new StringBuffer();
@@ -123,6 +152,9 @@ public class TextFieldTag extends AbstractCalendarTag
         Object o = findOnValueStack(value);
         if(o != null) 
             this.value = o.toString();
+        else
+            this.value = null;
+        
         //this.value = value;
     }
     

@@ -56,10 +56,10 @@
 				<calendar:textField label="labels.internal.event.description" name="description" value="event.description" cssClass="normalInput"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.event.isInternal" name="isInternal" value="event.isInternal" cssClass="normalInput"/>
+      			<calendar:selectField label="labels.internal.event.isInternal" name="isInternal" multiple="false" size="1" value="yesOrNo" selectedValue="event.isInternal" cssClass="listBox"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.event.isOrganizedByGU" name="isOrganizedByGU" value="event.isOrganizedByGU" cssClass="normalInput"/>
+      			<calendar:selectField label="labels.internal.event.isOrganizedByGU" name="isOrganizedByGU" multiple="false" size="1" value="yesOrNo" selectedValue="event.isInternal" cssClass="listBox"/>
 			</p>
 			<p>
 				<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="event.organizerName" cssClass="normalInput"/>

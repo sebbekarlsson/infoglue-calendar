@@ -49,12 +49,13 @@ public class SelectFieldTag extends AbstractCalendarTag
 	
 	private String name;
 	private String cssClass = "";
+	private String size = "";
+	private String multiple = "false";
 	private String[] selectedValues;
 	private List selectedValueList;
 	private Set selectedValueSet;
 	private List values;
 	private String label;
-	private String multiple = "false";
 	private List fieldErrors;
 	private Object errorAction = null;
 	
@@ -98,7 +99,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	        }
 	    }	
         sb.append("<br>");
-        sb.append("<select name=\"" + name + "\" multiple=\"" + multiple + "\" class=\"" + cssClass + "\">");
+        sb.append("<select name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
         
         if(values != null)
         {
@@ -114,11 +115,17 @@ public class SelectFieldTag extends AbstractCalendarTag
 	                id = value.getName().toString();
 	                optionText = value.getFirstName() + " " + value.getLastName();
 	            } 
-	            else
+	            else if(obj instanceof BaseEntity)
 	            {
 	                BaseEntity value = (BaseEntity)obj;
 	                id = value.getId().toString();
 	                optionText = value.getName();
+	            }
+	            else
+	            {
+	                String value = obj.toString();
+	                id = value;
+	                optionText = value;
 	            }
 	            
 	            String selected = "";
@@ -223,7 +230,9 @@ public class SelectFieldTag extends AbstractCalendarTag
         Object o = findOnValueStack(selectedValue);
         if(o != null) 
             this.selectedValues = new String[] {o.toString()};
-
+        else
+            this.selectedValues = null;
+        
         //this.selectedValues = new String[] {evaluateString("SelectTag", "selectedValue", selectedValue)};
     }
 
@@ -232,7 +241,7 @@ public class SelectFieldTag extends AbstractCalendarTag
         Object o = findOnValueStack(value);
         if(o != null) 
             this.values = (List)o;
-        
+            
         //this.values = evaluateList("SelectTag", "values", values);
     }
 
@@ -243,6 +252,11 @@ public class SelectFieldTag extends AbstractCalendarTag
         {
             this.selectedValueList = (List)o;
         }
+        else
+        {
+            this.selectedValueList = null;
+        }
+
         //this.values = evaluateList("SelectTag", "values", values);
     }
 
@@ -253,8 +267,16 @@ public class SelectFieldTag extends AbstractCalendarTag
         {
             this.selectedValueSet = (Set)o;
         }
+        else
+        {
+            this.selectedValueSet = null;
+        }
         //this.values = evaluateList("SelectTag", "values", values);
     }
 
     
+    public void setSize(String size)
+    {
+        this.size = size;
+    }
 }
