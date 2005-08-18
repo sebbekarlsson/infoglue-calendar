@@ -51,10 +51,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.hibernate.*;
-import net.sf.hibernate.cfg.*;
-import net.sf.hibernate.expression.Expression;
-import net.sf.hibernate.type.Type;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 public class EventController extends BasicController
 {    
@@ -100,99 +103,80 @@ public class EventController extends BasicController
             	            String[] locationId, 
             	            String[] categoryId, 
             	            String[] participantUserName,
-            	            boolean isPublished) throws HibernateException, Exception 
+            	            boolean isPublished,
+            	            Session session) throws HibernateException, Exception 
     {
         Event event = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			
-			System.out.println("calendarId:" + calendarId);
-	        System.out.println("name:" + name);
-	        System.out.println("description:" + description);
-	        System.out.println("startCalendar:" + startDateTime);
-	        System.out.println("endCalendar:" + endDateTime);
-	        System.out.println("locationId:" + locationId);
-	        System.out.println("categoryId:" + categoryId);
-	        System.out.println("participantUserName:" + participantUserName);
-	        
-			Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
-			System.out.println("calendar:" + calendar);
-			
-			Set locations = new HashSet();
-			if(locationId != null)
-			{
-				for(int i=0; i<locationId.length; i++)
-				{
-				    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
-				    locations.add(location);
-				}
-			}
-			
-			Set categories = new HashSet();
-			if(categoryId != null)
-			{
-				for(int i=0; i<categoryId.length; i++)
-				{
-				    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
-				    categories.add(category);
-				}
-			}
-			
-			Set participants = new HashSet();
-			if(participantUserName != null)
-			{
-				for(int i=0; i<participantUserName.length; i++)
-				{
-				    Participant participant = new Participant();
-				    participant.setUserName(participantUserName[i]);
-				    participant.setEvent(event);
-				    session.save(participant);
-				    participants.add(participant);
-				}
-			}
-			
-			event = createEvent(calendar, 
-			        			name, 
-			        			description, 
-			        			isInternal, 
-			                    isOrganizedByGU, 
-			                    organizerName, 
-			                    lecturer, 
-			                    customLocation,
-			                    shortDescription,
-			                    longDescription,
-			                    eventUrl,
-			                    contactName,
-			                    contactEmail,
-			                    contactPhone,
-			                    price,
-			                    lastRegistrationCalendar,
-			                    maxumumParticipants,
-			        			startDateTime, 
-			        			endDateTime, 
-			        			locations, 
-			        			categories, 
-			        			participants,
-			        			isPublished,
-			        			session);
 
-			tx.commit();
-		}
-		catch (Exception e) 
+        System.out.println("calendarId:" + calendarId);
+        System.out.println("name:" + name);
+        System.out.println("description:" + description);
+        System.out.println("startCalendar:" + startDateTime);
+        System.out.println("endCalendar:" + endDateTime);
+        System.out.println("locationId:" + locationId);
+        System.out.println("categoryId:" + categoryId);
+        System.out.println("participantUserName:" + participantUserName);
+        
+		Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
+		System.out.println("calendar:" + calendar);
+		
+		Set locations = new HashSet();
+		if(locationId != null)
 		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
+			for(int i=0; i<locationId.length; i++)
+			{
+			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
+			    locations.add(location);
+			}
 		}
-		finally 
+		
+		Set categories = new HashSet();
+		if(categoryId != null)
 		{
-		    session.close();
+			for(int i=0; i<categoryId.length; i++)
+			{
+			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
+			    categories.add(category);
+			}
 		}
+		
+		Set participants = new HashSet();
+		if(participantUserName != null)
+		{
+			for(int i=0; i<participantUserName.length; i++)
+			{
+			    Participant participant = new Participant();
+			    participant.setUserName(participantUserName[i]);
+			    participant.setEvent(event);
+			    session.save(participant);
+			    participants.add(participant);
+			}
+		}
+		
+		event = createEvent(calendar, 
+		        			name, 
+		        			description, 
+		        			isInternal, 
+		                    isOrganizedByGU, 
+		                    organizerName, 
+		                    lecturer, 
+		                    customLocation,
+		                    shortDescription,
+		                    longDescription,
+		                    eventUrl,
+		                    contactName,
+		                    contactEmail,
+		                    contactPhone,
+		                    price,
+		                    lastRegistrationCalendar,
+		                    maxumumParticipants,
+		        			startDateTime, 
+		        			endDateTime, 
+		        			locations, 
+		        			categories, 
+		        			participants,
+		        			isPublished,
+		        			session);
 		
         return event;
     }
@@ -292,87 +276,70 @@ public class EventController extends BasicController
             java.util.Calendar endDateTime, 
             String[] locationId, 
             String[] categoryId, 
-            String[] participantUserName) throws Exception 
+            String[] participantUserName,
+            Session session) throws Exception 
     {
-	    Session session = getSession();
-	    
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
+
+        Event event = getEvent(id, session);
 		
-			Event event = getEvent(id, session);
-			
-			Set locations = new HashSet();
-			if(locationId != null)
-			{
-				for(int i=0; i<locationId.length; i++)
-				{
-				    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
-				    locations.add(location);
-				}
-			}
-			
-			Set categories = new HashSet();
-			if(categoryId != null)
-			{
-				for(int i=0; i<categoryId.length; i++)
-				{
-				    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
-				    categories.add(category);
-				}
-			}
-			
-			Set participants = new HashSet();
-			if(participantUserName != null)
-			{
-				for(int i=0; i<participantUserName.length; i++)
-				{
-				    Participant participant = new Participant();
-				    participant.setUserName(participantUserName[i]);
-				    participant.setEvent(event);
-				    session.save(participant);
-				    participants.add(participant);
-				}
-			}
-			
-			updateEvent(
-			        event, 
-			        name, 
-			        description, 
-			        isInternal, 
-			        isOrganizedByGU, 
-			        organizerName, 
-			        lecturer, 
-			        customLocation,
-	                shortDescription,
-	                longDescription,
-	                eventUrl,
-	                contactName,
-	                contactEmail,
-	                contactPhone,
-	                price,
-	                lastRegistrationCalendar,
-	                maxumumParticipants,
-			        startDateTime, 
-			        endDateTime, 
-			        locations, 
-			        categories, 
-			        participants, 
-			        session);
-			
-			tx.commit();
-		}
-		catch (Exception e) 
+		Set locations = new HashSet();
+		if(locationId != null)
 		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
+			for(int i=0; i<locationId.length; i++)
+			{
+			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
+			    locations.add(location);
+			}
 		}
-		finally 
+		
+		Set categories = new HashSet();
+		if(categoryId != null)
 		{
-		    session.close();
+			for(int i=0; i<categoryId.length; i++)
+			{
+			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
+			    categories.add(category);
+			}
 		}
+		
+		Set participants = new HashSet();
+		if(participantUserName != null)
+		{
+			for(int i=0; i<participantUserName.length; i++)
+			{
+			    Participant participant = new Participant();
+			    participant.setUserName(participantUserName[i]);
+			    participant.setEvent(event);
+			    session.save(participant);
+			    participants.add(participant);
+			}
+		}
+		
+		updateEvent(
+		        event, 
+		        name, 
+		        description, 
+		        isInternal, 
+		        isOrganizedByGU, 
+		        organizerName, 
+		        lecturer, 
+		        customLocation,
+                shortDescription,
+                longDescription,
+                eventUrl,
+                contactName,
+                contactEmail,
+                contactPhone,
+                price,
+                lastRegistrationCalendar,
+                maxumumParticipants,
+		        startDateTime, 
+		        endDateTime, 
+		        locations, 
+		        categories, 
+		        participants, 
+		        session);
+		
     }
     
     /**
@@ -438,65 +405,11 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void publishEvent(Long id) throws Exception 
+    public void publishEvent(Long id, Session session) throws Exception 
     {
-	    Session session = getSession();
-	    
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-		
-			Event event = getEvent(id, session);
-			event.setIsPublished(new Boolean(true));
-			
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-    }
-    
-    
-    /**
-     * This method returns a Event based on it's primary key
-     * @return Event
-     * @throws Exception
-     */
-    
-    public Event getEvent(Long id) throws Exception
-    {
-        Event event = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			event = getEvent(id, session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-		return event;
-    }
+		Event event = getEvent(id, session);
+		event.setIsPublished(new Boolean(true));
+    }    
     
     /**
      * This method returns a Event based on it's primary key inside a transaction
@@ -512,40 +425,6 @@ public class EventController extends BasicController
     }
     
     
-    /**
-     * This method returns a list of Events based on a number of parameters
-     * @return List
-     * @throws Exception
-     */
-    
-    public List getEventList() throws Exception
-    {
-        List list = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-
-			list = getEventList(session);
-			
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-		return list;
-    }
     
     /**
      * Gets a list of all events available for a particular day.
@@ -571,30 +450,12 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(Long id, boolean isPublished, java.util.Calendar startDate, java.util.Calendar endDate) throws Exception
+    public List getEventList(Long id, boolean isPublished, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
         List list = null;
         
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			Calendar calendar = CalendarController.getController().getCalendar(id);
-			list = getEventList(calendar, isPublished, startDate, endDate, session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
+		Calendar calendar = CalendarController.getController().getCalendar(id, session);
+		list = getEventList(calendar, isPublished, startDate, endDate, session);
 		
 		return list;
     }
@@ -610,6 +471,8 @@ public class EventController extends BasicController
     {
         //System.out.println("**********************");
         System.out.println("**********************");
+        System.out.println("session:" + session.getEntityMode());
+        System.out.println("calendar:" + calendar.getId());
         System.out.println("isPublished:" + isPublished);
         System.out.println("**********************");
         Query q = session.createQuery("from Event as event inner join fetch event.calendar as calendar where event.calendar = ? AND event.isPublished = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
@@ -643,32 +506,11 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEvent(String name) throws Exception 
+    public List getEvent(String name, Session session) throws Exception 
     {
         List events = null;
         
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            events = session.find("from Event as event where event.name = ?", name, Hibernate.STRING);
-                
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        events = session.createQuery("from Event as event where event.name = ?").setString(0, name).list();
         
         return events;
     }
@@ -679,31 +521,10 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void deleteEvent(Long id) throws Exception 
+    public void deleteEvent(Long id, Session session) throws Exception 
     {
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            Event event = this.getEvent(id);
-            session.delete(event);
-            
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        Event event = this.getEvent(id, session);
+        session.delete(event);
     }
     
     

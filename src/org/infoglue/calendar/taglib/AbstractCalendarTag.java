@@ -28,6 +28,8 @@ import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspTagException;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.infoglue.common.util.ResourceBundleHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -95,6 +97,7 @@ public abstract class AbstractCalendarTag extends AbstractTag
         return (String)ServletActionContext.getRequest().getAttribute("languageCode");
     }
 	
+	
 	public String getLabel(String key)
     {
 	    String label = key;
@@ -117,5 +120,8 @@ public abstract class AbstractCalendarTag extends AbstractTag
         return label;
     }
 
+	public Session getSession() throws HibernateException {
+	    return (Session)ServletActionContext.getRequest().getAttribute("HIBERNATE_SESSION");
+	}
 
 }

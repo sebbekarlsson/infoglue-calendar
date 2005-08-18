@@ -95,15 +95,15 @@ public class ViewEventAction extends CalendarAbstractAction
         //if(this.calendarId == null)
         //    this.calendarId = new Long(ServletActionContext.getRequest().getParameter("calendarId"));
 
-        this.event = EventController.getController().getEvent(eventId);
+        this.event = EventController.getController().getEvent(eventId, getSession());
         this.calendarId = this.event.getCalendar().getId();
         //this.locations 	= LocationController.getController().getLocationList();
         //this.categories = CategoryController.getController().getCategoryList();
         
         this.assetKeys = EventController.getController().getAssetKeys();
 
-        this.locations 	= LocationController.getController().getLocationList();
-        this.categories = CategoryController.getController().getCategoryList();
+        this.locations 	= LocationController.getController().getLocationList(getSession());
+        this.categories = CategoryController.getController().getCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
 
         /*

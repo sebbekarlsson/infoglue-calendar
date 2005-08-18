@@ -7,111 +7,11 @@
 	<!-- Configuration for the default package. -->
 	<package name="default" extends="webwork-default">
 		<default-interceptor-ref name="fileUploadStack"/>
-		
-		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
-			<result name="success" type="dispatcher">jsp/viewCalendarAdministration.jsp</result>
-		</action>
-		<!-- CALENDAR ACTIONS -->
-		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
-			<result name="input" type="dispatcher">jsp/createCalendar.jsp</result>
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
-		</action>
-		<action name="ViewCalendar" class="org.infoglue.calendar.actions.ViewCalendarAction">
-			<result name="success" type="dispatcher">jsp/viewCalendar.jsp</result>
-		</action>
-		<action name="UpdateCalendar" class="org.infoglue.calendar.actions.UpdateCalendarAction">
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
-		</action>
-		<action name="DeleteCalendar" class="org.infoglue.calendar.actions.DeleteCalendarAction">
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
-		</action>
-		<!-- LOCATION ACTIONS -->
-		<action name="CreateLocation" class="org.infoglue.calendar.actions.CreateLocationAction">
-			<result name="input" type="dispatcher">jsp/createLocation.jsp</result>
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
-		</action>
-		<action name="ViewLocation" class="org.infoglue.calendar.actions.ViewLocationAction">
-			<result name="success" type="dispatcher">jsp/viewLocation.jsp</result>
-		</action>
-		<action name="UpdateLocation" class="org.infoglue.calendar.actions.UpdateLocationAction">
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
-		</action>
-		<action name="DeleteLocation" class="org.infoglue.calendar.actions.DeleteLocationAction">
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
-		</action>
-		<!-- CATEGORY ACTIONS -->
-		<action name="CreateCategory" class="org.infoglue.calendar.actions.CreateCategoryAction">
-			<result name="input" type="dispatcher">jsp/createCategory.jsp</result>
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
-		</action>
-		<action name="ViewCategory" class="org.infoglue.calendar.actions.ViewCategoryAction">
-			<result name="success" type="dispatcher">jsp/viewCategory.jsp</result>
-		</action>
-		<action name="UpdateCategory" class="org.infoglue.calendar.actions.UpdateCategoryAction">
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
-		</action>
-		<action name="DeleteCategory" class="org.infoglue.calendar.actions.DeleteCategoryAction">
-			<result name="success" type="redirect">ViewCalendarAdministration.action</result>
-		</action>
-		<!-- EVENT ACTIONS -->
-		<action name="CreateEvent" class="org.infoglue.calendar.actions.CreateEventAction">
-			<result name="input" type="dispatcher">jsp/createEvent.jsp</result>
-			<result name="success" type="redirect">
-				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
-				<param name="parse">true</param>
-			</result>
-		</action>
-		<action name="ViewEvent" class="org.infoglue.calendar.actions.ViewEventAction">
-			<result name="success" type="dispatcher">jsp/viewEvent.jsp</result>
-			<result name="successPublic" type="dispatcher">jsp/viewEventPublic.jsp</result>
-		</action>
-		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
-			<result name="success" type="redirect">
-				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
-				<param name="parse">true</param>
-			</result>
-		</action>
-		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
-			<result name="success" type="redirect">
-				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
-				<param name="parse">true</param>
-			</result>
-		</action>
-
-		<!-- ENTRY ACTIONS -->
-		<action name="CreateEntry" class="org.infoglue.calendar.actions.CreateEntryAction">
-			<result name="input" type="dispatcher">jsp/createEntry.jsp</result>
-			<result name="success" type="redirect">
-				<param name="location">ViewEvent.action?eventId=${eventId}</param>
-				<param name="parse">true</param>
-			</result>
-		</action>
-		<action name="ViewEntrySearch" class="org.infoglue.calendar.actions.ViewEntrySearchAction">
-			<result name="input" type="dispatcher">jsp/viewEntrySearch.jsp</result>
-			<result name="success" type="dispatcher">jsp/viewEntrySearch.jsp</result>
-		</action>
-		<!--
-		<action name="ViewEvent" class="org.infoglue.calendar.actions.ViewEventAction">
-			<result name="success" type="dispatcher">jsp/viewEvent.jsp</result>
-			<result name="successPublic" type="dispatcher">jsp/viewEventPublic.jsp</result>
-		</action>
-		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
-			<result name="success" type="redirect">
-				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
-				<param name="parse">true</param>
-			</result>
-		</action>
-		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
-			<result name="success" type="redirect">
-				<param name="location">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
-				<param name="parse">true</param>
-			</result>
-		</action>
-		-->
-
+		<!-- HERE YOU PUT ACTIONS FOR THE NORMAL WEBAPP -->
 	</package>
 	
-	<package name="mypackage" namespace="/WebworkDispatcherPortlet" extends="portletwork-default">
+	<package name="mypackage" namespace="/WebworkDispatcherPortlet" extends="webwork-default">
+		<!--
 		<result-types>
 			<result-type name="dispatcher" class="com.opensymphony.webwork.dispatcher.ServletDispatcherResult" default="true"/>
 			<result-type name="redirect" class="com.opensymphony.webwork.dispatcher.ServletRedirectResult"/>
@@ -140,13 +40,15 @@
 	        	<interceptor-ref name="logger"/>
 	      	</interceptor-stack>
    	    </interceptors>
-		
+		-->
+            		
 		<default-interceptor-ref name="defaultStack"/>
 		
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarAdministration.jsp</param>
 			</result>
+			<interceptor-ref name="defaultStack"/> 
 		</action>
 		
 		<!-- CALENDAR ACTIONS -->
@@ -154,6 +56,7 @@
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarList.jsp</param>
 			</result>
+			<interceptor-ref name="defaultStack"/> 
 		</action>
 		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
 			<result name="input" type="portletDispatch">

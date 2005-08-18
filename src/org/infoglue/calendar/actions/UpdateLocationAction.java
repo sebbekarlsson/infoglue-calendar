@@ -49,7 +49,7 @@ public class UpdateLocationAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            LocationController.getController().updateLocation(dataBean.getId(), dataBean.getName(), dataBean.getDescription());
+            LocationController.getController().updateLocation(dataBean.getId(), dataBean.getName(), dataBean.getDescription(), getSession());
         }
         catch(ValidationException e)
         {

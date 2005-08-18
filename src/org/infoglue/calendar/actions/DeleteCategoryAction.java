@@ -43,7 +43,7 @@ public class DeleteCategoryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        CategoryController.getController().deleteCategory(categoryId);
+        CategoryController.getController().deleteCategory(categoryId, getSession());
         
         return Action.SUCCESS;
     } 

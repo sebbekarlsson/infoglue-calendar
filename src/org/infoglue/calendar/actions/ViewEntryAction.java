@@ -54,7 +54,7 @@ public class ViewEntryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.entry = EntryController.getController().getEntry(entryId);
+        this.entry = EntryController.getController().getEntry(entryId, getSession());
 
         return Action.SUCCESS;
     } 

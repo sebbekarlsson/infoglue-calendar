@@ -52,7 +52,7 @@ public class DeleteCalendarAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        CalendarController.getController().deleteCalendar(calendarId);
+        CalendarController.getController().deleteCalendar(calendarId, getSession());
         
         return Action.SUCCESS;
     } 

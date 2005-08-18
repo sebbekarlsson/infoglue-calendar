@@ -30,12 +30,16 @@ import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Location;
 
-
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.hibernate.*;
-import net.sf.hibernate.cfg.*;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 public class LocationController extends BasicController
 {    
@@ -54,39 +58,7 @@ public class LocationController extends BasicController
         return new LocationController();
     }
         
-    
-    /**
-     * This method is used to create a new Location object in the database.
-     */
-    
-    public Location createLocation(String name, String description) throws HibernateException, Exception 
-    {
-        Location location = null;
         
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			location = createLocation(name, description, session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-        return location;
-    }
-
-    
     /**
      * This method is used to create a new Location object in the database inside a transaction.
      */
@@ -109,30 +81,10 @@ public class LocationController extends BasicController
      * @throws Exception
      */
     
-    public void updateLocation(Long id, String name, String description) throws Exception 
+    public void updateLocation(Long id, String name, String description, Session session) throws Exception 
     {
-	    Session session = getSession();
-	    
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-		
-			Location location = getLocation(id, session);
-			updateLocation(location, name, description, session);
-			
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
+		Location location = getLocation(id, session);
+		updateLocation(location, name, description, session);
     }
     
     /**
@@ -150,38 +102,6 @@ public class LocationController extends BasicController
 	}
     
  
-    /**
-     * This method returns a Location based on it's primary key
-     * @return Location
-     * @throws Exception
-     */
-    
-    public Location getLocation(Long id) throws Exception
-    {
-        Location location = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			location = getLocation(id, session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-		return location;
-    }
     
     /**
      * This method returns a Location based on it's primary key inside a transaction
@@ -197,38 +117,6 @@ public class LocationController extends BasicController
     }
     
     
-    /**
-     * This method returns a list of Locations
-     * @return List
-     * @throws Exception
-     */
-    
-    public List getLocationList() throws Exception
-    {
-        List list = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			list = getLocationList(session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-		return list;
-    }
     
     /**
      * Gets a list of all locations available sorted by primary key.
@@ -253,32 +141,11 @@ public class LocationController extends BasicController
      * @throws Exception
      */
     
-    public List getLocation(String name) throws Exception 
+    public List getLocation(String name, Session session) throws Exception 
     {
         List locations = null;
         
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            locations = session.find("from Location as location where location.name = ?", name, Hibernate.STRING);
-                
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        locations = session.createQuery("from Location as location where location.name = ?").setString(0, name).list();
         
         return locations;
     }
@@ -289,31 +156,10 @@ public class LocationController extends BasicController
      * @throws Exception
      */
     
-    public void deleteLocation(Long id) throws Exception 
+    public void deleteLocation(Long id, Session session) throws Exception 
     {
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            Location location = this.getLocation(id);
-            session.delete(location);
-            
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        Location location = this.getLocation(id, session);
+        session.delete(location);
     }
     
 }

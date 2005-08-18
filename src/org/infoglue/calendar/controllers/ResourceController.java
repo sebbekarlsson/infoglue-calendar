@@ -39,17 +39,20 @@ import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.entities.Resource;
 import org.infoglue.common.util.PropertyHelper;
 
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.hibernate.*;
-import net.sf.hibernate.cfg.*;
-import net.sf.hibernate.expression.Expression;
-import net.sf.hibernate.type.Type;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 
 public class ResourceController extends BasicController
 {    
@@ -73,35 +76,13 @@ public class ResourceController extends BasicController
      * This method is used to create a new Event object in the database.
      */
     
-    public Resource createResource(Long eventId, String assetKey, String contentType, String fileName, File file) throws HibernateException, Exception 
+    public Resource createResource(Long eventId, String assetKey, String contentType, String fileName, File file, Session session) throws HibernateException, Exception 
     {
         System.out.println("File:" + file.getAbsolutePath());
         Resource resource = null;
         
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			System.out.println("eventId:" + eventId);
-			Event event = EventController.getController().getEvent(eventId, session);
-			System.out.println("event:" + event);
-			
-			resource = createResource(event, assetKey, contentType, fileName, file, session);
-
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
+		Event event = EventController.getController().getEvent(eventId, session);
+		resource = createResource(event, assetKey, contentType, fileName, file, session);
 		
         return resource;
     }
@@ -215,81 +196,28 @@ public class ResourceController extends BasicController
      * @throws Exception
      */
     
-    public String getResourceUrl(Long id) throws Exception
+    public String getResourceUrl(Long id, Session session) throws Exception
     {
         String url = "";
         
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			Resource resource = getResource(id, session);
-			
-			String digitalAssetPath = PropertyHelper.getProperty("digitalAssetPath");
-			String fileName = resource.getId() + "_" + resource.getAssetKey() + "_" + resource.getFileName();
-			FileOutputStream fos = new FileOutputStream(digitalAssetPath + fileName);
-			
-			Blob blob = resource.getResource();
-			byte[] bytes = blob.getBytes(1, (int) blob.length());
-			System.out.println(bytes.length);
-			fos.write(bytes);
-			fos.flush();
-			fos.close(); 
+		Resource resource = getResource(id, session);
+		
+		String digitalAssetPath = PropertyHelper.getProperty("digitalAssetPath");
+		String fileName = resource.getId() + "_" + resource.getAssetKey() + "_" + resource.getFileName();
+		FileOutputStream fos = new FileOutputStream(digitalAssetPath + fileName);
+		
+		Blob blob = resource.getResource();
+		byte[] bytes = blob.getBytes(1, (int) blob.length());
+		System.out.println(bytes.length);
+		fos.write(bytes);
+		fos.flush();
+		fos.close(); 
 
-			String urlBase = PropertyHelper.getProperty("urlBase");
-			
-			url = urlBase + "digitalAssets/" + fileName;
-
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
+		String urlBase = PropertyHelper.getProperty("urlBase");
+		
+		url = urlBase + "digitalAssets/" + fileName;
 		
 		return url;
-    }
-    
- 
-    /**
-     * This method returns a Resource based on it's primary key
-     * @return Resource
-     * @throws Exception
-     */
-    
-    public Resource getResource(Long id) throws Exception
-    {
-        Resource resource = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			resource = getResource(id, session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-		return resource;
     }
     
     /**
@@ -346,7 +274,7 @@ public class ResourceController extends BasicController
      * @return List
      * @throws Exception
      */
-    
+    /*
     public List getEventList(Long id, java.util.Calendar startDate, java.util.Calendar endDate) throws Exception
     {
         List list = null;
@@ -374,7 +302,7 @@ public class ResourceController extends BasicController
 		
 		return list;
     }
-    
+    */
     
     /**
      * This method returns a list of Events based on a number of parameters within a transaction
@@ -415,32 +343,11 @@ public class ResourceController extends BasicController
      * @throws Exception
      */
     
-    public List getEvent(String name) throws Exception 
+    public List getEvent(String name, Session session) throws Exception 
     {
         List events = null;
         
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            events = session.find("from Event as event where event.name = ?", name, Hibernate.STRING);
-                
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        events = session.createQuery("from Event as event where event.name = ?").setString(0, name).list();
         
         return events;
     }
@@ -451,31 +358,10 @@ public class ResourceController extends BasicController
      * @throws Exception
      */
     
-    public void deleteResource(Long id) throws Exception 
+    public void deleteResource(Long id, Session session) throws Exception 
     {
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            Resource resource = this.getResource(id);
-            session.delete(resource);
-            
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        Resource resource = this.getResource(id, session);
+        session.delete(resource);
     }
     
 }

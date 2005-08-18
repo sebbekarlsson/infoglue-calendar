@@ -62,9 +62,9 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     private void initialize() throws Exception
     {
         System.out.println("initialize start...");
-        this.eventList = EventController.getController().getEventList();
-        this.categoryList = CategoryController.getController().getCategoryList();
-        this.locationList = LocationController.getController().getLocationList();
+        this.eventList = EventController.getController().getEventList(getSession());
+        this.categoryList = CategoryController.getController().getCategoryList(getSession());
+        this.locationList = LocationController.getController().getLocationList(getSession());
         System.out.println("initialize end...");
     }
     
@@ -82,7 +82,8 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 													searchEmail, 
                 													searchEventId, 
                 													categoryId, 
-                													locationId);
+                													locationId,
+                													getSession());
         
         Iterator entriesIterator = entries.iterator();
         while(entriesIterator.hasNext())

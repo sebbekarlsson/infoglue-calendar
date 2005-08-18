@@ -61,7 +61,7 @@ public class UpdateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CalendarController.getController().updateCalendar(calendarId, name, description, owner);
+            CalendarController.getController().updateCalendar(calendarId, name, description, owner, getSession());
         }
         catch(ValidationException e)
         {

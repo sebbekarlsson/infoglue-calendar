@@ -6,14 +6,12 @@
 
 <hibernate-mapping
 >
-    <class
-        name="org.infoglue.calendar.entities.Location"
-        table="Location"
-        dynamic-update="false"
-        dynamic-insert="false"
-        select-before-update="false"
-        optimistic-lock="version"
-    >
+    <class name="org.infoglue.calendar.entities.Location"
+            table="Location" 
+            dynamic-update="false" 
+            dynamic-insert="false" 
+            select-before-update="false" 
+            optimistic-lock="version">
 
         <id
             name="id"

@@ -81,7 +81,9 @@ public class ViewCalendarAction extends CalendarAbstractAction
         System.out.println("endDateTime:" + endDateTime);
         System.out.println("mode:" + mode);
         System.out.println("****************************");
-        this.calendar = CalendarController.getController().getCalendar(calendarId);
+        this.calendar = CalendarController.getController().getCalendar(calendarId, this.getSession());
+        System.out.println("calendar: " + calendar.getName());
+        System.out.println("calendar: " + calendar.getOwner());
         
         this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
         this.endCalendar   = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23));
@@ -136,18 +138,18 @@ public class ViewCalendarAction extends CalendarAbstractAction
 
         if(useEventPublishing())
         {
-            this.waitingEvents = EventController.getController().getEventList(calendarId, false, startCalendar, endCalendar);
+            this.waitingEvents = EventController.getController().getEventList(calendarId, false, startCalendar, endCalendar, getSession());
             System.out.println("getRemoteUser:" + getInfoGlueRemoteUser());
             String infoglueRemoteUser = getInfoGlueRemoteUser();
             if(infoglueRemoteUser != null && this.calendar.getOwner() != null)
                 this.isPublisher = (this.calendar.getOwner().equalsIgnoreCase(infoglueRemoteUser)) ? true : false;
         }
         
-        this.publishedEvents = EventController.getController().getEventList(calendarId, true, startCalendar, endCalendar);
+        this.publishedEvents = EventController.getController().getEventList(calendarId, true, startCalendar, endCalendar, getSession());
         
-        this.events = EventController.getController().getEventList(calendarId, true, startCalendar, endCalendar);
-        this.weekEvents = EventController.getController().getEventList(calendarId, true, weekStartCalendar, weekEndCalendar);
-        this.monthEvents = EventController.getController().getEventList(calendarId, true, monthStartCalendar, monthEndCalendar);
+        this.events = EventController.getController().getEventList(calendarId, true, startCalendar, endCalendar, getSession());
+        this.weekEvents = EventController.getController().getEventList(calendarId, true, weekStartCalendar, weekEndCalendar, getSession());
+        this.monthEvents = EventController.getController().getEventList(calendarId, true, monthStartCalendar, monthEndCalendar, getSession());
         this.dates = getDateList(calendar);
             
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();

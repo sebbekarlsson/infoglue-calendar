@@ -60,7 +60,7 @@ public class UpdateCategoryAction extends ViewCategoryAction
         try
         {
             validateInput(this);
-            CategoryController.getController().updateCategory(dataBean.getId(), dataBean.getName(), dataBean.getDescription());
+            CategoryController.getController().updateCategory(dataBean.getId(), dataBean.getName(), dataBean.getDescription(), getSession());
         }
         catch(ValidationException e)
         {

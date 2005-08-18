@@ -16,13 +16,22 @@ import com.opensymphony.xwork.ActionProxyFactory;
 import com.opensymphony.xwork.config.ConfigurationException;
 import com.opensymphony.xwork.config.ConfigurationManager;
 import com.opensymphony.xwork.config.providers.XmlConfigurationProvider;
+import com.opensymphony.xwork.interceptor.component.ComponentConfiguration;
 import com.opensymphony.xwork.interceptor.component.ComponentInterceptor;
 import com.opensymphony.xwork.interceptor.component.ComponentManager;
+import com.opensymphony.xwork.interceptor.component.DefaultComponentManager;
 import com.opensymphony.xwork.util.LocalizedTextUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import javax.portlet.*;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -194,6 +203,8 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
             Map parameterMap, Map sessionMap, Map applicationMap)
     {
         
+        addSession(request);
+        
         System.out.println("Getting to serviceAction with namespace:" + namespace + " actionName:" + actionName);
 
         HashMap extraContext = createContextMap(requestMap, parameterMap, sessionMap, applicationMap, request, response, getPortletConfig());
@@ -354,6 +365,30 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 
         // for compatibility
         request.setAttribute("javax.servlet.jsp.jspException", e);
+    }
+
+    private Session session;
+	private Transaction transaction;
+	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
+	
+    private void addSession(PortletRequest request)
+    {
+        System.out.println("Initializing session:" + factory);
+	    
+	    Session session = factory.openSession();
+	    System.out.println("Initializing session:" + session);
+		transaction = session.beginTransaction();
+		
+        request.setAttribute("HIBERNATE_SESSION", session);
+        request.setAttribute("HIBERNATE_TRANSACTION", transaction);
+    }
+    
+    protected PortletContext getPortletContext(PortletSession session) {
+        return session.getPortletContext();
+    }
+    
+    protected DefaultComponentManager createComponentManager() {
+        return new DefaultComponentManager();
     }
 
 }

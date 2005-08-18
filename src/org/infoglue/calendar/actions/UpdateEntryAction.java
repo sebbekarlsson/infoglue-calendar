@@ -68,7 +68,8 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
                 									city,
                 									phone,
                 									fax,
-                									message);
+                									message,
+                									getSession());
         
         return Action.SUCCESS;
     } 

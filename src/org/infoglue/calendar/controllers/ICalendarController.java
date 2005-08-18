@@ -10,8 +10,13 @@ import java.sql.Blob;
 import java.util.Date;
 import java.util.LinkedList;
 
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Resource;
@@ -32,39 +37,20 @@ public class ICalendarController extends BasicController
      * This method returns a ICalendar based on it's primary key
      */
     
-    public String getICalendarUrl(Long id) throws Exception
+    public String getICalendarUrl(Long id, Session session) throws Exception
     {
         String url = "";
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			Event event = EventController.getController().getEvent(id, session);
-			
-			String calendarPath = PropertyHelper.getProperty("calendarPath");
-			String fileName = "event_" + event.getId() + ".vcs";
-			
-			getVCalendar(event, calendarPath + fileName);
-			
-			String urlBase = PropertyHelper.getProperty("urlBase");
-			
-			url = urlBase + "calendars/" + fileName;
 
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
+        Event event = EventController.getController().getEvent(id, session);
+			
+		String calendarPath = PropertyHelper.getProperty("calendarPath");
+		String fileName = "event_" + event.getId() + ".vcs";
+		
+		getVCalendar(event, calendarPath + fileName);
+		
+		String urlBase = PropertyHelper.getProperty("urlBase");
+		
+		url = urlBase + "calendars/" + fileName;
 		
 		return url;
     }

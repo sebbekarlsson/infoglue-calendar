@@ -55,7 +55,7 @@ public class ResourceUrlTag extends AbstractCalendarTag
 
 	    try
         {
-            url = ResourceController.getController().getResourceUrl(this.resourceId);
+            url = ResourceController.getController().getResourceUrl(this.resourceId, getSession());
             setResultAttribute(url);
         } 
 	    catch (Exception e)

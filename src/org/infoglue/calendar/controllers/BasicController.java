@@ -26,9 +26,9 @@ package org.infoglue.calendar.controllers;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.sf.hibernate.Session;
-import net.sf.hibernate.SessionFactory;
-import net.sf.hibernate.cfg.Configuration;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 /**
  * This class represents the basic controller which all other controllers inherits from.
@@ -38,22 +38,5 @@ import net.sf.hibernate.cfg.Configuration;
 
 public abstract class BasicController
 {
-    private static SessionFactory sessionFactory = null;
-    
-    
-    /**
-     * This method returns a sessionFactory
-     * @author Mattias Bogeblad
-     */
-    
-    public static Session getSession() throws Exception 
-    {
-        if(sessionFactory == null)
-        {
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-        }
-        
-        return sessionFactory.openSession();
-    }
     
 }

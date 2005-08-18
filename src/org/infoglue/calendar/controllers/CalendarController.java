@@ -33,8 +33,13 @@ import org.infoglue.calendar.entities.Event;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.hibernate.*;
-import net.sf.hibernate.cfg.*;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 public class CalendarController extends BasicController
 {    
@@ -57,7 +62,7 @@ public class CalendarController extends BasicController
     /**
      * This method is used to create a new Calendar object in the database.
      */
-    
+    /*
     public Calendar createCalendar(String name, String description, String owner) throws HibernateException, Exception 
     {
         Calendar calendar = null;
@@ -84,6 +89,7 @@ public class CalendarController extends BasicController
 		
         return calendar;
     }
+    */
 
     
     /**
@@ -109,30 +115,10 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public void updateCalendar(Long id, String name, String description, String owner) throws Exception 
+    public void updateCalendar(Long id, String name, String description, String owner, Session session) throws Exception 
     {
-	    Session session = getSession();
-	    
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-		
-			Calendar calendar = getCalendar(id, session);
-			updateCalendar(calendar, name, description, owner, session);
-			
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
+		Calendar calendar = getCalendar(id, session);
+		updateCalendar(calendar, name, description, owner, session);
     }
     
     /**
@@ -156,7 +142,7 @@ public class CalendarController extends BasicController
      * @return Calendar
      * @throws Exception
      */
-    
+    /*
     public Calendar getCalendar(Long id) throws Exception
     {
         Calendar calendar = null;
@@ -183,6 +169,7 @@ public class CalendarController extends BasicController
 		
 		return calendar;
     }
+    */
     
     /**
      * This method returns a Calendar based on it's primary key inside a transaction
@@ -203,7 +190,7 @@ public class CalendarController extends BasicController
      * @return List of Calendar
      * @throws Exception
      */
-    
+    /*
     public List getCalendarList() throws Exception 
     {
         List calendars = null;
@@ -230,6 +217,7 @@ public class CalendarController extends BasicController
         
         return calendars;
     }
+    */
 
     /**
      * Gets a list of all calendars available sorted by primary key.
@@ -253,7 +241,7 @@ public class CalendarController extends BasicController
      * @return List of Calendar
      * @throws Exception
      */
-    
+    /*
     public List getCalendar(String name) throws Exception 
     {
         List calendars = null;
@@ -266,7 +254,7 @@ public class CalendarController extends BasicController
         {
             tx = session.beginTransaction();
             
-            calendars = session.find("from Calendar as calendar where calendar.name = ?", name, Hibernate.STRING);
+            calendars = session.createQuery("from Calendar as calendar where calendar.name = ?").setString(0, name).list();
                 
             tx.commit();
         }
@@ -283,13 +271,22 @@ public class CalendarController extends BasicController
         
         return calendars;
     }
-    
-    
+    */
+
+    public List getCalendar(String name, Session session) throws Exception 
+    {
+        List calendars = null;
+        
+        calendars = session.createQuery("from Calendar as calendar where calendar.name = ?").setString(0, name).list();
+        
+        return calendars;
+    }
+
     /**
      * Deletes a calendar object in the database. Also cascades all events associated to it.
      * @throws Exception
      */
-    
+ /*
     public void deleteCalendar(Long id) throws Exception 
     {
         Session session = getSession();
@@ -315,6 +312,12 @@ public class CalendarController extends BasicController
         {
             session.close();
         }
+    }
+*/ 
+    public void deleteCalendar(Long id, Session session) throws Exception 
+    {
+        Calendar calendar = this.getCalendar(id, session);
+        session.delete(calendar);
     }
     
 }

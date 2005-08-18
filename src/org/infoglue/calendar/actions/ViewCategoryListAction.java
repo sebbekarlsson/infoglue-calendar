@@ -52,7 +52,7 @@ public class ViewCategoryListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.categories = CategoryController.getController().getCategoryList();
+        this.categories = CategoryController.getController().getCategoryList(getSession());
 
         return Action.SUCCESS;
     } 

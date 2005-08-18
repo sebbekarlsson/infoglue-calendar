@@ -36,6 +36,9 @@ import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.infoglue.calendar.controllers.ICalendarController;
 import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
@@ -58,9 +61,8 @@ import com.opensymphony.xwork.validator.ValidationException;
 *  Just to not have to put to much in the WebworkAbstractAction.
 */
 
-public abstract class CalendarAbstractAction extends ActionSupport
+public class CalendarAbstractAction extends ActionSupport
 {
-   
 	/**
 	 * This method lets the velocity template get hold of all actions inheriting.
 	 * 
@@ -192,17 +194,17 @@ public abstract class CalendarAbstractAction extends ActionSupport
     
     public String getVCalendar(Long eventId) throws Exception
     {
-        return ICalendarController.getICalendarController().getICalendarUrl(eventId);
+        return ICalendarController.getICalendarController().getICalendarUrl(eventId, getSession());
     }
     
     public String getResourceUrl(Long resourceId) throws Exception
     {
-        return ResourceController.getController().getResourceUrl(resourceId);
+        return ResourceController.getController().getResourceUrl(resourceId, getSession());
     }
       
     public Participant getParticipant(Long participantId) throws Exception
     {
-        return ParticipantController.getController().getParticipant(participantId);
+        return ParticipantController.getController().getParticipant(participantId, getSession());
     }
     
     public void validateInput(CalendarAbstractAction action) throws ValidationException
@@ -252,6 +254,92 @@ public abstract class CalendarAbstractAction extends ActionSupport
 	    }
 	    
 	    return label;
+    }
+    
+    	
+	public Session getSession() throws HibernateException {
+	    return (Session)ServletActionContext.getRequest().getAttribute("HIBERNATE_SESSION");
+	}
+
+	public Transaction getTransaction() throws HibernateException {
+	    return (Transaction)ServletActionContext.getRequest().getAttribute("HIBERNATE_TRANSACTION");
+	}
+
+	public void emptySession() throws HibernateException {
+	    ServletActionContext.getRequest().removeAttribute("HIBERNATE_SESSION");
+	}
+
+	public void emptyTransaction() throws HibernateException {
+	    ServletActionContext.getRequest().removeAttribute("HIBERNATE_TRANSACTION");
+	}
+
+	boolean rollBackOnly = false;
+	
+	public void disposeSession() throws HibernateException {
+		
+		System.out.println("Disposing....................................................");
+		LOG.debug("disposing");
+
+		if (getSession()==null) return;
+
+		if (rollBackOnly) {
+			try {
+				LOG.debug("rolling back");
+				if (getTransaction()!=null) getTransaction().rollback();
+			}
+			catch (HibernateException e) {
+				LOG.error("error during rollback", e);
+				throw e;
+			}
+			finally {
+			    getSession().close();
+				emptySession();
+				emptyTransaction();
+			}
+		}
+		else {
+			try {
+				LOG.debug("committing");
+				System.out.println("committing..........................?");
+				if (getTransaction()!=null) 
+				{
+					System.out.println("committing.......................... yes");
+				    getTransaction().commit();
+				}
+			}
+			catch (HibernateException e) {
+				LOG.error("error during commit", e);
+				getTransaction().rollback();
+				throw e;
+			}
+			finally {
+				getSession().close();
+				emptySession();
+				emptyTransaction();
+			}
+		}
+	}
+	/*
+	protected void setRollbackOnly() {
+		session.setRollBackOnly(true);
+	}
+	*/
+	
+	protected Object get(String name) {
+		return ActionContext.getContext().getSession().get(name);
+	}
+
+	protected void set(String name, Object value) {
+		ActionContext.getContext().getSession().put(name, value);
+	} 
+	
+    public boolean isRollBackOnly()
+    {
+        return rollBackOnly;
+    }
+    public void setRollBackOnly(boolean rollBackOnly)
+    {
+        this.rollBackOnly = rollBackOnly;
     }
 }
 

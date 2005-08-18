@@ -56,7 +56,7 @@ public class VCalendarUrlTag extends AbstractCalendarTag
 
 	    try
         {
-            url = ICalendarController.getICalendarController().getICalendarUrl(this.eventId);
+            url = ICalendarController.getICalendarController().getICalendarUrl(this.eventId, getSession());
             setResultAttribute(url);
         } 
 	    catch (Exception e)

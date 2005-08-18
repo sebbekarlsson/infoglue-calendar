@@ -50,7 +50,7 @@ public class DeleteEntryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        EntryController.getController().deleteEntry(entryId);
+        EntryController.getController().deleteEntry(entryId, getSession());
         
         return Action.SUCCESS;
     } 

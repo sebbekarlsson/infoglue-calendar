@@ -52,7 +52,7 @@ public class ViewLocationListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.locations = LocationController.getController().getLocationList();
+        this.locations = LocationController.getController().getLocationList(getSession());
 
         return Action.SUCCESS;
     } 

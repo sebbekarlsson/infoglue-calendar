@@ -138,7 +138,8 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    locationId, 
 									                    categoryId, 
 									                    participantUserName,
-									                    isPublished);
+									                    isPublished,
+									                    getSession());
 
             if(useEventPublishing())
                 EventController.getController().notifyPublisher(newEvent, publishEventUrl);
@@ -197,7 +198,8 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    locationId, 
 									                    categoryId, 
 									                    participantUserName,
-									                    isPublished);
+									                    isPublished,
+									                    getSession());
 
             if(useEventPublishing())
                 EventController.getController().notifyPublisher(newEvent, publishEventUrl);
@@ -221,8 +223,8 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
-        this.locations 	= LocationController.getController().getLocationList();
-        this.categories = CategoryController.getController().getCategoryList();
+        this.locations 	= LocationController.getController().getLocationList(getSession());
+        this.categories = CategoryController.getController().getCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
             
         return Action.INPUT;

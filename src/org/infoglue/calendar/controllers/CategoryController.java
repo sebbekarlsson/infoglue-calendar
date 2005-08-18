@@ -29,12 +29,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Category;
 
-
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.hibernate.*;
-import net.sf.hibernate.cfg.*;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 public class CategoryController extends BasicController
 {    
@@ -57,7 +61,7 @@ public class CategoryController extends BasicController
     /**
      * This method is used to create a new Category object in the database.
      */
-    
+    /*
     public Category createCategory(String name, String description) throws HibernateException, Exception 
     {
         Category category = null;
@@ -84,6 +88,7 @@ public class CategoryController extends BasicController
 		
         return category;
     }
+    */
 
     
     /**
@@ -107,34 +112,12 @@ public class CategoryController extends BasicController
      * 
      * @throws Exception
      */
-    
-    public void updateCategory(Long id, String name, String description) throws Exception 
+
+    public void updateCategory(Long id, String name, String description, Session session) throws Exception 
     {
-        //if(name == null || name.length() == 0)
-        //    throw new Exception("The name must be between 2 and 50 characters long");
-            
-	    Session session = getSession();
-	    
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-		
-			Category category = getCategory(id, session);
-			updateCategory(category, name, description, session);
-			
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
+        System.out.println("Updating id:" + id + " with " + name);
+		Category category = getCategory(id, session);
+		updateCategory(category, name, description, session);
     }
     
     /**
@@ -148,7 +131,9 @@ public class CategoryController extends BasicController
         category.setName(name);
         category.setDescription(description);
 	
+        System.out.println("Updating category:" + category.getName());
 		session.update(category);
+        System.out.println("Updated category:" + category.getName());
 	}
     
  
@@ -157,7 +142,7 @@ public class CategoryController extends BasicController
      * @return Category
      * @throws Exception
      */
-    
+    /*
     public Category getCategory(Long id) throws Exception
     {
         Category category = null;
@@ -184,6 +169,7 @@ public class CategoryController extends BasicController
 		
 		return category;
     }
+    */
     
     /**
      * This method returns a Category based on it's primary key inside a transaction
@@ -204,7 +190,7 @@ public class CategoryController extends BasicController
      * @return List
      * @throws Exception
      */
-    
+    /*
     public List getCategoryList() throws Exception
     {
         List list = null;
@@ -231,6 +217,7 @@ public class CategoryController extends BasicController
 		
 		return list;
     }
+    */
     
     /**
      * Gets a list of all categorys available sorted by primary key.
@@ -254,7 +241,7 @@ public class CategoryController extends BasicController
      * @return List of Category
      * @throws Exception
      */
-    
+    /*
     public List getCategory(String name) throws Exception 
     {
         List categorys = null;
@@ -267,7 +254,7 @@ public class CategoryController extends BasicController
         {
             tx = session.beginTransaction();
             
-            categorys = session.find("from Category as category where category.name = ?", name, Hibernate.STRING);
+            categorys = session.createQuery("from Category as category where category.name = ?").setString(0, name).list();
                 
             tx.commit();
         }
@@ -284,38 +271,17 @@ public class CategoryController extends BasicController
         
         return categorys;
     }
-    
+    */
     
     /**
      * Deletes a category object in the database. Also cascades all events associated to it.
      * @throws Exception
      */
     
-    public void deleteCategory(Long id) throws Exception 
+    public void deleteCategory(Long id, Session session) throws Exception 
     {
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            Category category = this.getCategory(id);
-            session.delete(category);
-            
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        Category category = this.getCategory(id, session);
+        session.delete(category);            
     }
     
 }

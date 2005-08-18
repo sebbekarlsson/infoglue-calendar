@@ -45,7 +45,7 @@ public class ViewLocationAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.location = LocationController.getController().getLocation(locationId);
+        this.location = LocationController.getController().getLocation(locationId, getSession());
         
         return Action.SUCCESS;
     } 

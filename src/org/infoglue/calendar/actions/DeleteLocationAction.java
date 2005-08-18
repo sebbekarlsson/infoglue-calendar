@@ -53,7 +53,7 @@ public class DeleteLocationAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        LocationController.getController().deleteLocation(locationId);
+        LocationController.getController().deleteLocation(locationId, getSession());
         
         return Action.SUCCESS;
     } 

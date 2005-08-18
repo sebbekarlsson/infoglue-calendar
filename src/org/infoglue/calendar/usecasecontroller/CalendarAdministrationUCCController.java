@@ -24,10 +24,9 @@ package org.infoglue.calendar.usecasecontroller;
 
 import java.util.List;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.infoglue.calendar.controllers.BasicController;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
@@ -53,38 +52,16 @@ public class CalendarAdministrationUCCController extends BasicController
      * This method is used to populate all items on the AdministrationUCCBean in the view usecase.
      */
     
-    public AdministrationUCCBean getDataBean() throws HibernateException, Exception 
+    public AdministrationUCCBean getDataBean(Session session) throws HibernateException, Exception 
     {
         AdministrationUCCBean administrationUCCBean = new AdministrationUCCBean();
         
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-  
-            List calendars 	= CalendarController.getController().getCalendarList(session);
-            List locations 	= LocationController.getController().getLocationList(session);
-            List categories = CategoryController.getController().getCategoryList(session);
-            administrationUCCBean.setCalendars(calendars);
-            administrationUCCBean.setLocations(locations);
-            administrationUCCBean.setCategories(categories);
-            
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-            
-            if (tx!=null) 
-                tx.rollback();
-        }
-        finally 
-        {
-            session.close();
-        }
+        List calendars 	= CalendarController.getController().getCalendarList(session);
+        List locations 	= LocationController.getController().getLocationList(session);
+        List categories = CategoryController.getController().getCategoryList(session);
+        administrationUCCBean.setCalendars(calendars);
+        administrationUCCBean.setLocations(locations);
+        administrationUCCBean.setCategories(categories);
                
         return administrationUCCBean;
     }

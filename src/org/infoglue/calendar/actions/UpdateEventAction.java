@@ -123,7 +123,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
                     endCalendar, 
                     locationId, 
                     categoryId, 
-                    participantUserName);
+                    participantUserName,
+                    getSession());
             
         }
         catch(ValidationException e)
@@ -141,7 +142,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String publishEvent() throws Exception 
     {
-        EventController.getController().publishEvent(eventId);
+        EventController.getController().publishEvent(eventId, getSession());
 
         return Action.SUCCESS;
     } 
@@ -195,7 +196,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         }
 
         System.out.println("");
-        ResourceController.getController().createResource(this.eventId, this.getAssetKey(), this.getFileContentType(), this.getFileFileName(), this.getFile());
+        ResourceController.getController().createResource(this.eventId, this.getAssetKey(), this.getFileContentType(), this.getFileFileName(), this.getFile(), getSession());
         
         return Action.SUCCESS;
     } 

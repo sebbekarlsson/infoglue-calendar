@@ -27,6 +27,7 @@ import java.util.List;
 
 import javax.portlet.PortletURL;
 
+import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.util.DBSessionWrapper;
@@ -51,7 +52,10 @@ public class ViewCalendarAdministrationAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         System.out.println("ViewCalendarAdministrationAction.....");
-        this.administrationUCCBean = CalendarAdministrationUCCController.getController().getDataBean();
+        //this.administrationUCCBean = CalendarAdministrationUCCController.getController().getDataBean();
+        List calendars = CalendarController.getController().getCalendarList(getSession());
+        System.out.println("Calendars:" + calendars);
+        
         System.out.println("Success.....");
         return Action.SUCCESS;
     } 

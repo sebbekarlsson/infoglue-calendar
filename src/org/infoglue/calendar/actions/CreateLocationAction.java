@@ -58,7 +58,7 @@ public class CreateLocationAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            LocationController.getController().createLocation(dataBean.getName(), dataBean.getDescription());
+            LocationController.getController().createLocation(dataBean.getName(), dataBean.getDescription(), getSession());
         }
         catch(ValidationException e)
         {

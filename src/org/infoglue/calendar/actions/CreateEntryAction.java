@@ -78,8 +78,8 @@ public class CreateEntryAction extends CalendarAbstractAction
         
         if(useEntryLimitation())
         {
-		    Event event = EventController.getController().getEvent(eventId);
-	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
+		    Event event = EventController.getController().getEvent(eventId, getSession());
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
 	        
 	        if(event.getMaxumumParticipants() != null && event.getMaxumumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
@@ -99,7 +99,8 @@ public class CreateEntryAction extends CalendarAbstractAction
 	                									phone,
 	                									fax,
 	                									message, 
-	                									eventId);
+	                									eventId,
+	                									getSession());
 	        
 	        EntryController.getController().mailVerification(entry);
         
@@ -121,8 +122,8 @@ public class CreateEntryAction extends CalendarAbstractAction
     {
         if(useEntryLimitation())
         {
-		    Event event = EventController.getController().getEvent(eventId);
-	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
+		    Event event = EventController.getController().getEvent(eventId, getSession());
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
 	        
 	        if(event.getMaxumumParticipants() != null && event.getMaxumumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
@@ -150,8 +151,8 @@ public class CreateEntryAction extends CalendarAbstractAction
     {
         if(useEntryLimitation())
         {
-	        Event event = EventController.getController().getEvent(eventId);
-	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
+	        Event event = EventController.getController().getEvent(eventId, getSession());
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
 	        
 	        if(event.getMaxumumParticipants() != null && event.getMaxumumParticipants().intValue() <= entries.size())
 	            return "maximumReached";
@@ -168,8 +169,8 @@ public class CreateEntryAction extends CalendarAbstractAction
     {
         if(useEntryLimitation())
         {
-		    Event event = EventController.getController().getEvent(eventId);
-	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null);
+		    Event event = EventController.getController().getEvent(eventId, getSession());
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
 	        
 	        if(event.getMaxumumParticipants() != null && event.getMaxumumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";

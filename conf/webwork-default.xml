@@ -12,6 +12,8 @@
             <result-type name="freemarker" class="com.opensymphony.webwork.views.freemarker.FreemarkerResult"/>
             <result-type name="httpheader" class="com.opensymphony.webwork.dispatcher.HttpHeaderResult"/>
             <result-type name="stream" class="com.opensymphony.webwork.dispatcher.StreamResult"/>
+			<result-type name="portletDispatch" class="com.opensymphony.webwork.portlet.alternative.action.PortletDispatchResult"/>
+			<result-type name="eventProcessed" class="com.opensymphony.webwork.portlet.alternative.action.ActionResult"/>
         </result-types>
 
         <interceptors>
@@ -31,14 +33,17 @@
             <interceptor name="conversionError" class="com.opensymphony.webwork.interceptor.WebWorkConversionErrorInterceptor"/>
             <interceptor name="fileUpload" class="com.opensymphony.webwork.interceptor.FileUploadInterceptor"/>
             <interceptor name="execAndWait" class="com.opensymphony.webwork.interceptor.ExecuteAndWaitInterceptor"/>
+			<interceptor name="hibernate" class="org.infoglue.common.interceptor.HibernateInterceptor"/>
 
             <!-- Basic stack -->
             <interceptor-stack name="defaultStack">
+	            <interceptor-ref name="component"/> 
                 <interceptor-ref name="servlet-config"/>
                 <interceptor-ref name="prepare"/>
                 <interceptor-ref name="static-params"/>
                 <interceptor-ref name="params"/>
                 <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="hibernate"/>
             </interceptor-stack>
 
             <!-- Sample validation and workflow stack -->
@@ -98,6 +103,7 @@
                 <interceptor-ref name="conversionError"/>
                 <interceptor-ref name="validation"/>
                 <interceptor-ref name="workflow"/>
+                <interceptor-ref name="hibernate"/>
             </interceptor-stack>
         </interceptors>
     </package>

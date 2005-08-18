@@ -56,7 +56,7 @@ public class CreateCategoryAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CategoryController.getController().createCategory(dataBean.getName(), dataBean.getDescription());
+            CategoryController.getController().createCategory(dataBean.getName(), dataBean.getDescription(), getSession());
         }
         catch(ValidationException e)
         {

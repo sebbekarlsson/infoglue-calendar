@@ -45,7 +45,7 @@ public class ViewCategoryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.category = CategoryController.getController().getCategory(categoryId);
+        this.category = CategoryController.getController().getCategory(categoryId, getSession());
         
         return Action.SUCCESS;
     } 

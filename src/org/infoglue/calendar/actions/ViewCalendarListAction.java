@@ -51,7 +51,7 @@ public class ViewCalendarListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.calendars = CalendarController.getController().getCalendarList();
+        this.calendars = CalendarController.getController().getCalendarList(this.getSession());
 
         return Action.SUCCESS;
     } 

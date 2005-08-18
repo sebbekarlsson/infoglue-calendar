@@ -31,12 +31,16 @@ import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Participant;
 
-
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.hibernate.*;
-import net.sf.hibernate.cfg.*;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 public class ParticipantController extends BasicController
 {    
@@ -55,38 +59,6 @@ public class ParticipantController extends BasicController
         return new ParticipantController();
     }
         
-    
-    /**
-     * This method is used to create a new Participant object in the database.
-     */
-    
-    public Participant createParticipant(String userName, Event event) throws HibernateException, Exception 
-    {
-        Participant participant = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			participant = createParticipant(userName, event, session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-        return participant;
-    }
-
     
     /**
      * This method is used to create a new Participant object in the database inside a transaction.
@@ -114,30 +86,10 @@ public class ParticipantController extends BasicController
      * @throws Exception
      */
     
-    public void updateParticipant(Long id, String userName) throws Exception 
+    public void updateParticipant(Long id, String userName, Session session) throws Exception 
     {
-	    Session session = getSession();
-	    
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-		
-			Participant participant = getParticipant(id, session);
-			updateParticipant(participant, userName, session);
-			
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
+		Participant participant = getParticipant(id, session);
+		updateParticipant(participant, userName, session);
     }
     
     /**
@@ -155,39 +107,6 @@ public class ParticipantController extends BasicController
     
  
     /**
-     * This method returns a Participant based on it's primary key
-     * @return Participant
-     * @throws Exception
-     */
-    
-    public Participant getParticipant(Long id) throws Exception
-    {
-        Participant participant = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			participant = getParticipant(id, session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-		return participant;
-    }
-    
-    /**
      * This method returns a Participant based on it's primary key inside a transaction
      * @return Participant
      * @throws Exception
@@ -201,38 +120,6 @@ public class ParticipantController extends BasicController
     }
     
     
-    /**
-     * This method returns a list of Participants
-     * @return List
-     * @throws Exception
-     */
-    
-    public List getParticipantList() throws Exception
-    {
-        List list = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			list = getParticipantList(session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-		return list;
-    }
     
     /**
      * Gets a list of all participants available sorted by primary key.
@@ -257,32 +144,11 @@ public class ParticipantController extends BasicController
      * @throws Exception
      */
     
-    public List getParticipant(String userName) throws Exception 
+    public List getParticipant(String userName, Session session) throws Exception 
     {
         List participants = null;
         
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            participants = session.find("from Participant as participant where participant.userName = ?", userName, Hibernate.STRING);
-                
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        participants = session.createQuery("from Participant as participant where participant.userName = ?").setString(0, userName).list();
         
         return participants;
     }
@@ -293,31 +159,10 @@ public class ParticipantController extends BasicController
      * @throws Exception
      */
     
-    public void deleteParticipant(Long id) throws Exception 
+    public void deleteParticipant(Long id, Session session) throws Exception 
     {
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            Participant participant = this.getParticipant(id);
-            session.delete(participant);
-            
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        Participant participant = this.getParticipant(id, session);
+        session.delete(participant);
     }
     
 }

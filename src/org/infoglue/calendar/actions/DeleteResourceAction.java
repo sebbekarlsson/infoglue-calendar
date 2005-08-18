@@ -53,7 +53,7 @@ public class DeleteResourceAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        ResourceController.getController().deleteResource(resourceId);
+        ResourceController.getController().deleteResource(resourceId, getSession());
         
         return Action.SUCCESS;
     } 

@@ -45,8 +45,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.hibernate.*;
-import net.sf.hibernate.cfg.*;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 public class EntryController extends BasicController
 {    
@@ -80,46 +85,27 @@ public class EntryController extends BasicController
 				            String phone,
 				            String fax,
 				            String message,
-							Long eventId) throws HibernateException, Exception 
+							Long eventId,
+							Session session) throws HibernateException, Exception 
     {
         Entry entry = null;
         
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			Event event = EventController.getController().getEvent(eventId, session);
-			entry = createEntry(firstName, 
-						        lastName, 
-						        email, 
-						        organisation,
-								address,
-								zipcode,
-								city,
-								phone,
-								fax,
-								message, 
-								event, 
-								session);
+		Event event = EventController.getController().getEvent(eventId, session);
+		entry = createEntry(firstName, 
+					        lastName, 
+					        email, 
+					        organisation,
+							address,
+							zipcode,
+							city,
+							phone,
+							fax,
+							message, 
+							event, 
+							session);
 			
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
         return entry;
     }
-
     
     /**
      * This method is used to create a new Entry object in the database inside a transaction.
@@ -167,7 +153,7 @@ public class EntryController extends BasicController
      * 
      * @throws Exception
      */
-    
+
     public void updateEntry(Long id, 
             				String firstName, 
             				String lastName, 
@@ -178,43 +164,25 @@ public class EntryController extends BasicController
 				            String city,
 				            String phone,
 				            String fax,
-				            String message) throws Exception 
+				            String message,
+				            Session session) throws Exception 
     {
-	    Session session = getSession();
-	    
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
+		Entry entry = getEntry(id, session);
 		
-			Entry entry = getEntry(id, session);
-			
-			updateEntry(entry, 
-			        	firstName, 
-			        	lastName, 
-			        	email, 
-			        	organisation,
-						address,
-						zipcode,
-						city,
-						phone,
-						fax,
-						message,
-						session);
-			
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
+		updateEntry(entry, 
+		        	firstName, 
+		        	lastName, 
+		        	email, 
+		        	organisation,
+					address,
+					zipcode,
+					city,
+					phone,
+					fax,
+					message,
+					session);
     }
+
     
     /**
      * Updates an entry inside an transaction.
@@ -255,7 +223,7 @@ public class EntryController extends BasicController
      * @return Entry
      * @throws Exception
      */
-    
+    /*
     public Entry getEntry(Long id) throws Exception
     {
         Entry entry = null;
@@ -282,6 +250,7 @@ public class EntryController extends BasicController
 		
 		return entry;
     }
+    */
     
     /**
      * This method returns a Entry based on it's primary key inside a transaction
@@ -302,7 +271,7 @@ public class EntryController extends BasicController
      * @return List
      * @throws Exception
      */
-    
+    /*
     public List getEntryList() throws Exception
     {
         List list = null;
@@ -329,6 +298,7 @@ public class EntryController extends BasicController
 		
 		return list;
     }
+    */
     
     /**
      * Gets a list of all entrys available sorted by primary key.
@@ -354,7 +324,7 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public List getEntryList(String firstName, String lastName, String email, Long eventId, String[] categories, String[] locations) throws Exception
+    public List getEntryList(String firstName, String lastName, String email, Long eventId, String[] categories, String[] locations, Session session) throws Exception
     {
         System.out.println("firstName:" + firstName);
         System.out.println("lastName:" + lastName);
@@ -363,79 +333,57 @@ public class EntryController extends BasicController
         System.out.println("categories:" + categories);
         System.out.println("locations:" + locations);
         
-        List list = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
+		List list = getEntryList(eventId, firstName, lastName, email, session);
+		
+		Iterator entryListIterator = list.iterator();
+		while(entryListIterator.hasNext())
 		{
-			tx = session.beginTransaction();
-			
-			list = getEntryList(eventId, firstName, lastName, email, session);
-			
-			Iterator entryListIterator = list.iterator();
-			while(entryListIterator.hasNext())
-			{
-			    Entry entry = (Entry)entryListIterator.next();
-			    
-			    boolean isValid = true;
+		    Entry entry = (Entry)entryListIterator.next();
+		    
+		    boolean isValid = true;
 
-			    if(categories != null)
+		    if(categories != null)
+		    {
+			    Map categoryHash = new HashMap();
+			    Iterator categoryIterator = entry.getEvent().getCategories().iterator();
+			    while(categoryIterator.hasNext())
 			    {
-				    Map categoryHash = new HashMap();
-				    Iterator categoryIterator = entry.getEvent().getCategories().iterator();
-				    while(categoryIterator.hasNext())
-				    {
-				        Category category = (Category)categoryIterator.next();
-				        categoryHash.put(category.getId().toString(), category.getId().toString());
-				    }
-			    
-				    for(int i=0; i<categories.length; i++)
+			        Category category = (Category)categoryIterator.next();
+			        categoryHash.put(category.getId().toString(), category.getId().toString());
+			    }
+		    
+			    for(int i=0; i<categories.length; i++)
+		        {
+		            if(!categoryHash.containsKey(categories[i]))
 			        {
-			            if(!categoryHash.containsKey(categories[i]))
-				        {
-				            isValid = false;
-				            break;
-				        }    
-			        }
+			            isValid = false;
+			            break;
+			        }    
+		        }
+		    }
+		    
+		    if(locations != null)
+		    {
+			    Map locationHash = new HashMap();
+			    Iterator locationIterator = entry.getEvent().getLocations().iterator();
+			    while(locationIterator.hasNext())
+			    {
+			        Location location = (Location)locationIterator.next();
+			        locationHash.put(location.getId().toString(), location.getId().toString());
 			    }
 			    
-			    if(locations != null)
-			    {
-				    Map locationHash = new HashMap();
-				    Iterator locationIterator = entry.getEvent().getLocations().iterator();
-				    while(locationIterator.hasNext())
-				    {
-				        Location location = (Location)locationIterator.next();
-				        locationHash.put(location.getId().toString(), location.getId().toString());
-				    }
-				    
-				    for(int i=0; i<locations.length; i++)
+			    for(int i=0; i<locations.length; i++)
+		        {
+		            if(!locationHash.containsKey(locations[i]))
 			        {
-			            if(!locationHash.containsKey(locations[i]))
-				        {
-				            isValid = false;
-				            break;
-				        }    
-			        }
-			    }
-			    
-			    if(!isValid)
-			        entryListIterator.remove();
-			}
-			
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
+			            isValid = false;
+			            break;
+			        }    
+		        }
+		    }
+		    
+		    if(!isValid)
+		        entryListIterator.remove();
 		}
 		
 		return list;
@@ -490,32 +438,11 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public List getEntry(String firstName) throws Exception 
+    public List getEntry(String firstName, Session session) throws Exception 
     {
         List entrys = null;
         
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            entrys = session.find("from Entry as entry where entry.firstName = ?", firstName, Hibernate.STRING);
-                
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        entrys = session.createQuery("from Entry as entry where entry.firstName = ?").setString(0, firstName).list();
         
         return entrys;
     }
@@ -526,31 +453,10 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void deleteEntry(Long id) throws Exception 
+    public void deleteEntry(Long id, Session session) throws Exception 
     {
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            Entry entry = this.getEntry(id);
-            session.delete(entry);
-            
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
+        Entry entry = this.getEntry(id, session);
+        session.delete(entry);
     }
     
     

@@ -1,9 +1,9 @@
 import java.util.List;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.infoglue.calendar.controllers.BasicController;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.entities.Calendar;
@@ -38,6 +38,24 @@ import junit.framework.TestCase;
 public class CalendarControllerTestCases extends TestCase
 {
 
+    private static SessionFactory sessionFactory = null;
+    
+    
+    /**
+     * This method returns a sessionFactory
+     * @author Mattias Bogeblad
+     */
+    
+    public static Session getSession() throws Exception 
+    {
+        if(sessionFactory == null)
+        {
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+        }
+        
+        return sessionFactory.openSession();
+    }
+
     /*
      * @see TestCase#setUp()
      */
@@ -65,7 +83,7 @@ public class CalendarControllerTestCases extends TestCase
 
     public void testCreateCalendar() throws Exception
     {
-        Session session = BasicController.getSession();
+        Session session = getSession();
         
         Transaction tx = null;
         
@@ -102,7 +120,7 @@ public class CalendarControllerTestCases extends TestCase
 
     public void testDeleteCalendar() throws Exception
     {
-        Session session = BasicController.getSession();
+        Session session = getSession();
         
         Transaction tx = null;
         
@@ -117,7 +135,7 @@ public class CalendarControllerTestCases extends TestCase
 		        
 		        List calendars = calendarController.getCalendarList(session);
 		        if(calendars.size() > 0)
-		            calendarController.deleteCalendar(((Calendar)calendars.get(0)).getId());
+		            calendarController.deleteCalendar(((Calendar)calendars.get(0)).getId(), session);
 		    } 
 	        catch (Exception e)
 	        {
@@ -142,7 +160,7 @@ public class CalendarControllerTestCases extends TestCase
 
     public void testGetCalendarList() throws Exception
     {
-        Session session = BasicController.getSession();
+        Session session = getSession();
         
         Transaction tx = null;
         
@@ -180,7 +198,7 @@ public class CalendarControllerTestCases extends TestCase
     
     public void testUpdateCalendar() throws Exception
     {
-        Session session = BasicController.getSession();
+        Session session = getSession();
         
         Transaction tx = null;
         

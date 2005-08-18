@@ -59,7 +59,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CalendarController.getController().createCalendar(name, description, owner);
+            CalendarController.getController().createCalendar(name, description, owner, getSession());
         }
         catch(ValidationException e)
         {
