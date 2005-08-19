@@ -24,12 +24,12 @@
 			<one-to-many class="org.infoglue.calendar.entities.Event"/>
         </set>
 
-        <set name="publishedEvents" where="isPublished=1" lazy="false" inverse="false" cascade="none" sort="unsorted">
+        <set name="publishedEvents" where="isPublished=1" lazy="false" inverse="false" cascade="none" order-by="startDateTime" sort="unsorted">
 			<key column="calendar_id"></key>
 			<one-to-many class="org.infoglue.calendar.entities.Event"/>
         </set>
 
-        <set name="waitingEvents" where="isPublished=0" lazy="false" inverse="false" cascade="none" sort="unsorted">
+        <set name="waitingEvents" where="isPublished=0" lazy="false" inverse="false" cascade="none" order-by="startDateTime" sort="unsorted">
 			<key column="calendar_id"></key>
 			<one-to-many class="org.infoglue.calendar.entities.Event"/>
         </set>
