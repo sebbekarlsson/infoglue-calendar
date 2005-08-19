@@ -101,6 +101,8 @@ public class CreateEventAction extends CalendarAbstractAction
     private Calendar endCalendar;
     private Calendar lastRegistrationCalendar;
     
+    private Event newEvent = null;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -119,7 +121,7 @@ public class CreateEventAction extends CalendarAbstractAction
             if(useEventPublishing())
                 isPublished = false;
             
-            Event newEvent = EventController.getController().createEvent(calendarId,
+            newEvent = EventController.getController().createEvent(calendarId,
 									                    name, 
 									                    description,
 									                    isInternal, 
@@ -179,7 +181,7 @@ public class CreateEventAction extends CalendarAbstractAction
             if(useEventPublishing())
                 isPublished = false;
             
-            Event newEvent = EventController.getController().createEvent(calendarId,
+            newEvent = EventController.getController().createEvent(calendarId,
 									                    name, 
 									                    description,
 									                    isInternal, 
@@ -519,5 +521,10 @@ public class CreateEventAction extends CalendarAbstractAction
     public List getYesOrNo()
     {
         return yesOrNo;
+    }
+    
+    public Event getNewEvent()
+    {
+        return newEvent;
     }
 }

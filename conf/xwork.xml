@@ -140,9 +140,15 @@
 				<param name="viewAction">CreateEvent!input.action</param>
 			</result>
 			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEvent.action?eventId=${newEvent.id}</param>
+				<param name="parse">true</param>
+			</result>
+			<!--
+			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
 				<param name="parse">true</param>
 			</result>
+			-->
 		</action>
 		<action name="ViewEvent" class="org.infoglue.calendar.actions.ViewEventAction">
 			<result name="success" type="portletDispatch">
