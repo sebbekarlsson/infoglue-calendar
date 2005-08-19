@@ -61,6 +61,8 @@ public class ViewEventAction extends CalendarAbstractAction
     private List categories;
     private List infogluePrincipals;
 
+    private List yesOrNo = new ArrayList();
+
     private List remainingLocations;
     private List selectedLocations = new ArrayList();
     
@@ -105,6 +107,9 @@ public class ViewEventAction extends CalendarAbstractAction
         this.locations 	= LocationController.getController().getLocationList(getSession());
         this.categories = CategoryController.getController().getCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+
+        this.yesOrNo = new ArrayList();
+        this.yesOrNo.add("true");
 
         /*
         this.remainingLocations = LocationController.getController().getLocationList();
@@ -263,5 +268,10 @@ public class ViewEventAction extends CalendarAbstractAction
     public List getLocations()
     {
         return locations;
+    }
+    
+    public List getYesOrNo()
+    {
+        return yesOrNo;
     }
 }

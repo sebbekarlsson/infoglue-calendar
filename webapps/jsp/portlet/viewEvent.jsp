@@ -86,14 +86,16 @@
 			<p>
 				<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="normalInput"/>
 			</p>
+			<!--
 			<p>
 				<calendar:textField label="labels.internal.event.description" name="description" value="event.description" cssClass="normalInput"/>
 			</p>
+			-->
 			<p>
-				<calendar:textField label="labels.internal.event.isInternal" name="isInternal" value="event.isInternal" cssClass="normalInput"/>
+				<calendar:checkboxField label="labels.internal.event.isInternal" name="isInternal" value="yesOrNo" selectedValue="event.isInternal"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.event.isOrganizedByGU" name="isOrganizedByGU" value="event.isOrganizedByGU" cssClass="normalInput"/>
+				<calendar:checkboxField label="labels.internal.event.isOrganizedByGU" name="isOrganizedByGU" value="yesOrNo" selectedValue="event.isOrganizedByGU"/>
 			</p>
 			<p>
 				<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="event.organizerName" cssClass="normalInput"/>
@@ -105,10 +107,10 @@
 				<calendar:textField label="labels.internal.event.customLocation" name="customLocation" value="event.customLocation" cssClass="normalInput"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="normalInput"/>
+				<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="normalInput"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="normalInput"/>
+				<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="normalInput"/>
 			</p>
 			<p>
 				<calendar:textField label="labels.internal.event.eventUrl" name="eventUrl" value="event.eventUrl" cssClass="normalInput"/>

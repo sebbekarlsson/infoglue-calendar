@@ -230,8 +230,7 @@ public class CreateEventAction extends CalendarAbstractAction
         this.categories = CategoryController.getController().getCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.yesOrNo = new ArrayList();
-        this.yesOrNo.add("Yes");
-        this.yesOrNo.add("No");
+        this.yesOrNo.add("true");
             
         return Action.INPUT;
     } 

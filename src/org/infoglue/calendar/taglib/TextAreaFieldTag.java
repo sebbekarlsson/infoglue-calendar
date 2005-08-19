@@ -42,7 +42,7 @@ import com.opensymphony.xwork.ActionContext;
 /**
  * 
  */
-public class TextFieldTag extends AbstractCalendarTag 
+public class TextAreaFieldTag extends AbstractCalendarTag 
 {
 	private static final long serialVersionUID = 3617579309963752240L;
 	
@@ -56,7 +56,7 @@ public class TextFieldTag extends AbstractCalendarTag
 	/**
 	 * 
 	 */
-	public TextFieldTag() 
+	public TextAreaFieldTag() 
 	{
 		super();
 	}
@@ -92,7 +92,7 @@ public class TextFieldTag extends AbstractCalendarTag
 	        }
 	    }	
         sb.append("<br>");
-        sb.append("<input type=\"textfield\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
+        sb.append("<textarea name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
 
         write(sb.toString());
 	    

@@ -24,6 +24,7 @@
 package org.infoglue.calendar.actions;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -85,7 +86,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
 
     private Long calendarId;
     private String mode;
-    
+        
     /**
      * This is the entry point for the main listing.
      */

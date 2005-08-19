@@ -11,44 +11,13 @@
 	</package>
 	
 	<package name="mypackage" namespace="/WebworkDispatcherPortlet" extends="webwork-default">
-		<!--
-		<result-types>
-			<result-type name="dispatcher" class="com.opensymphony.webwork.dispatcher.ServletDispatcherResult" default="true"/>
-			<result-type name="redirect" class="com.opensymphony.webwork.dispatcher.ServletRedirectResult"/>
-			<result-type name="velocity" class="com.opensymphony.webwork.dispatcher.VelocityResult"/>
-			<result-type name="chain" class="com.opensymphony.xwork.ActionChainResult"/>
-			<result-type name="portletDispatch" class="com.opensymphony.webwork.portlet.alternative.action.PortletDispatchResult"/>
-			<result-type name="eventProcessed" class="com.opensymphony.webwork.portlet.alternative.action.ActionResult"/>
-		</result-types>
-		
-		<interceptors>
-			<interceptor name="timer" class="com.opensymphony.xwork.interceptor.TimerInterceptor"/>
-	      	<interceptor name="logger" class="com.opensymphony.xwork.interceptor.LoggingInterceptor"/>
-	      	<interceptor name="chain" class="com.opensymphony.xwork.interceptor.ChainingInterceptor"/>
-	      	<interceptor name="params" class="com.opensymphony.xwork.interceptor.ParametersInterceptor"/>
-	      	<interceptor name="static-params" class="com.opensymphony.xwork.interceptor.StaticParametersInterceptor"/>
-	      	<interceptor name="fileUpload" class="com.opensymphony.webwork.interceptor.FileUploadInterceptor"/>
-	      	<interceptor name="validator" class="com.opensymphony.xwork.validator.ValidationInterceptor"/>
-  	        
-  	        <interceptor-stack name="defaultStack">
-	        	<interceptor-ref name="static-params"/>
-	        	<interceptor-ref name="params"/>
-	        	<interceptor-ref name="fileUpload"/>
-	      	</interceptor-stack>
-	      	<interceptor-stack name="debugStack">
-	        	<interceptor-ref name="timer"/>
-	        	<interceptor-ref name="logger"/>
-	      	</interceptor-stack>
-   	    </interceptors>
-		-->
-            		
+		    		
 		<default-interceptor-ref name="defaultStack"/>
 		
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarAdministration.jsp</param>
 			</result>
-			<interceptor-ref name="defaultStack"/> 
 		</action>
 		
 		<!-- CALENDAR ACTIONS -->
@@ -56,7 +25,6 @@
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarList.jsp</param>
 			</result>
-			<interceptor-ref name="defaultStack"/> 
 		</action>
 		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
 			<result name="input" type="portletDispatch">
