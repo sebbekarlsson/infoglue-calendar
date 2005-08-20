@@ -8,7 +8,7 @@
 >
     <class
         name="org.infoglue.calendar.entities.Resource"
-        table="Resource"
+        table="Asset"
         dynamic-update="false"
         dynamic-insert="false"
         select-before-update="false"
@@ -54,11 +54,11 @@
         
         <property
             name="resource"
-            type="blob"
+            type="assetBlob"
             update="true"
             insert="true"
             access="property"
-            column="file"
+            column="assetBlob"
             not-null="true"
         />
 

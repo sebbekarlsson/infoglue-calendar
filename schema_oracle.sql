@@ -80,10 +80,13 @@ CREATE TABLE participant (
   PRIMARY KEY  (id)
 );
 
-CREATE TABLE resource (
+CREATE TABLE asset (
   id int NOT NULL ,
+  fileName varchar(255) default NULL,
   assetKey varchar(255) default NULL,
-  file blob NOT NULL,
+  assetBlob blob NOT NULL,
   event_id int default NULL,
   PRIMARY KEY  (id)
 );
+
+create sequence hibernate_sequence;

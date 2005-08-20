@@ -115,7 +115,7 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 	                
 	                this.fileName = fileName;
 	                System.out.println("FileName:" + this.fileName);
-	                uploadedFile = new File("c:/temp/uploads/" + fileName);
+	                uploadedFile = new File(getTempFilePath() + File.separator + fileName);
 	                dfi.write(uploadedFile);
 	            }
 

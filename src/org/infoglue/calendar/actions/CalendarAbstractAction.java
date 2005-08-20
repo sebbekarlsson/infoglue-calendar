@@ -227,6 +227,13 @@ public class CalendarAbstractAction extends ActionSupport
         return (useEventPublishing.equalsIgnoreCase("true") ? true : false);
     }
 
+    public String getTempFilePath()
+    {
+        String digitalAssetPath = PropertyHelper.getProperty("digitalAssetPath");
+        
+        return digitalAssetPath;
+    }
+
     public boolean useEntryLimitation()
     {
         String useEntryLimitation = PropertyHelper.getProperty("useEntryLimitation");

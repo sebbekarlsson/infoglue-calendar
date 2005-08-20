@@ -19,7 +19,7 @@
 				<calendar:textField label="labels.internal.category.description" name="description" value="location.description" cssClass="normalInput"/>
 			</p>
 			<p>
-				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.location.updateButton')"/>">
+				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.location.updateButton')"/>" class="calendarButton">
 			</p>
 		</form>
 	</div>

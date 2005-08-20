@@ -78,9 +78,9 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	    
 	    StringBuffer sb = new StringBuffer();
 	    if(this.label != null)
-	        sb.append(this.label);
+	        sb.append("<span class=\"calendarLabel\">" + this.label + "</span>");
 		else
-		    sb.append(name);
+		    sb.append("<span class=\"calendarLabel\">" + name + "</span>");
 		    
 	    if(fieldErrors != null && fieldErrors.size() > 0)
 	    {   

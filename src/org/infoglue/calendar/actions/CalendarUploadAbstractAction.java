@@ -148,7 +148,7 @@ public abstract class CalendarUploadAbstractAction extends CalendarAbstractActio
 	                System.out.println("contentType:" + contentType);
 	                System.out.println("isInMemory:" + isInMemory);
 	                System.out.println("sizeInBytes:" + sizeInBytes);
-	                File uploadedFile = new File("c:/temp/uploads/" + fileName);
+	                File uploadedFile = new File(getTempFilePath() + File.separator + fileName);
 	                dfi.write(uploadedFile);
 	                return uploadedFile;
 	            }

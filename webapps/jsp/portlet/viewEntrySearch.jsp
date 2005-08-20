@@ -74,7 +74,7 @@
 
 <div class="descriptionsmall">
 
-	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.events')"/></span>
+	<span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.soba.events')"/></span>
     <select name="searchEventId" class="smallInput">
 		<option value=""/><ww:property value="this.getLabel('labels.internal.soba.anyEvent')"/></option>
 		<option value=""/>--------------------</option>
@@ -86,20 +86,20 @@
 
 <div class="descriptionbig">
 	<p>
-	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.firstName')"/></span>
+	<span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.soba.firstName')"/></span>
 	<input type="text" size="40" name="searchFirstName" id="searchFirstName" class="smallInput" value="<ww:property value="firstName"/>" />
 	</p>
 	<p>
-	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.lastName')"/></span>
+	<span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.soba.lastName')"/></span>
 	<input type="text" size="40" name="searchLastName" id="searchLastName" class="smallInput" value="<ww:property value="lastName"/>" />		
 	</p>
 	<p>
-	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.email')"/></span>
+	<span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.soba.email')"/></span>
 	<input type="text" size="40" name="searchEmail" id="searchEmail" class="smallInput" value="<ww:property value="email"/>" />		
 	</p>
 </div>
 <div class="descriptionsmall">
-	<div class="label">
+	<div class="calendarLabel">
 		<ww:property value="this.getLabel('labels.internal.soba.categories')"/>
 	</div>		
 	<div class="category">
@@ -110,7 +110,7 @@
 </div>
 <div style="height:10px"></div>
 <div class="descriptionsmall">
-	<div class="label">
+	<div class="calendarLabel">
 		<ww:property value="this.getLabel('labels.internal.soba.locations')"/>
 	</div>		
 	<div class="locations">
@@ -120,7 +120,7 @@
 	</div>
 </div>
 <div style="height:10px"></div>
-<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.searchButton')"/>"/>
+<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.searchButton')"/>" class="calendarButton"/>
 </form>
 <hr/>
 </div>
@@ -146,12 +146,12 @@
 </p>
 
 <div class="descriptionsmall">
-	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.addresses')"/></span><br>
+	<span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.soba.addresses')"/></span><br>
     <input type="textfield" name="emailAddresses" class="normalInput" value="<ww:property value="emailAddresses"/>">
 </div>
 
 <div class="descriptionsmall">
-	<span class="label"><ww:property value="this.getLabel('labels.internal.soba.subject')"/></span><br>
+	<span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.soba.subject')"/></span><br>
     <input type="textfield" name="subject" class="normalInput" value="<ww:property value="subject"/>">
 </div>
 
@@ -162,7 +162,7 @@
 	</p>
 </div>
 <div style="height:10px"></div>
-<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.sendMessage')"/>"/>
+<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.sendMessage')"/>" class="calendarButton"/>
 </form>
 <hr/>
 </div>

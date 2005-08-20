@@ -103,8 +103,8 @@
             <p>
 				<table border="0" cellspacing="0">
 				<tr>
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span></td> 
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.startTime')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.startTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -120,8 +120,8 @@
 			<p>
 				<table border="0" cellspacing="0">
 				<tr>
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span></td> 
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.endTime')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.endTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -137,8 +137,8 @@
 			<p>
 				<table border="0" cellspacing="0">
 				<tr>
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span></td> 
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationTime')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>

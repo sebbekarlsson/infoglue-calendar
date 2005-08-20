@@ -115,10 +115,11 @@ CREATE TABLE `participant` (
 # Structure for table resource : 
 #
 
-CREATE TABLE `resource` (
+CREATE TABLE `asset` (
   `id` bigint(20) NOT NULL auto_increment,
+  `fileName` varchar(255) default NULL,
   `assetKey` varchar(255) default NULL,
-  `file` blob NOT NULL,
+  `assetBlob` blob NOT NULL,
   `event_id` bigint(20) default NULL,
   PRIMARY KEY  (`id`),
   KEY `FKEF86282E1093C0E0` (`event_id`)

@@ -134,8 +134,8 @@
 			<p>
 				<table border="0" cellspacing="0">
 				<tr>
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span></td> 
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.startTime')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.startTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -151,8 +151,8 @@
 			<p>
 				<table border="0">
 				<tr>
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span></td> 
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.endTime')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.endTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -168,8 +168,8 @@
 			<p>
 				<table border="0">
 				<tr>
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span></td> 
-					<td><span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationTime')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span></td> 
+					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationTime')"/></span></td> 
 				</tr>
 				<tr>
 					<td width="20%" nowrap>
@@ -196,7 +196,7 @@
 			</p>
 			
 			<p>
-				<span class="label"><ww:property value="this.getLabel('labels.internal.event.attachedFiles')"/></span><br>
+				<span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.attachedFiles')"/></span><br>
 				<ww:iterator value="event.resources">
 				
 					<ww:set name="resourceId" value="top.id" scope="page"/>
@@ -227,7 +227,7 @@
 				<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/></a>
 			</p>
 			<p>
-				<input type="submit" value="Update">
+				<input type="submit" value="Update" class="calendarButton">
 
 				<ww:if test="event.isPublished == false">
 					<portlet:actionURL var="publishEventActionUrl">
@@ -236,13 +236,13 @@
 						<calendar:evalParam name="calendarId" value="${calendarId}"/>
 						<calendar:evalParam name="mode" value="${mode}"/>
 					</portlet:actionURL>
-					<a href="<c:out value="${publishEventActionUrl}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.publishEvent')"/>"/></a>
+					<a href="<c:out value="${publishEventActionUrl}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.publishEvent')"/>" class="calendarButton"/></a>
 				</ww:if>
 
 				<portlet:actionURL var="createEventAsCopyActionUrl">
 					<calendar:evalParam name="action" value="CreateEvent!copy"/>
 				</portlet:actionURL>
-				<a href="javascript:createEventFromCopy('<c:out value="${createEventAsCopyActionUrl}"/>')"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.createNewEvent')"/>"/></a>
+				<a href="javascript:createEventFromCopy('<c:out value="${createEventAsCopyActionUrl}"/>')"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.createNewEvent')"/>" class="calendarButton"/></a>
 			</p>
 		</form>
 	</div>
@@ -273,7 +273,7 @@
 				<input type="file" name="file" id="file"/>
 			</p>
 			<p>
-				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.updateButton')"/>">
+				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.updateButton')"/>" class="calendarButton">
 			</p>
 			</form>
 	
