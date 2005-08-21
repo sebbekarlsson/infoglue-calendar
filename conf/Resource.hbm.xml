@@ -54,7 +54,7 @@
         
         <property
             name="resource"
-            type="assetBlob"
+            type="blob"
             update="true"
             insert="true"
             access="property"

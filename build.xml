@@ -54,6 +54,13 @@
     <property name="optimize" value="off"/>
     <property name="deprecation" value="off"/>
 
+	<!--
+	* The master filterset, created from build.properties
+	-->
+	<filterset id="project.filters">
+		<filtersfile file="build.properties"/>
+	</filterset>
+
     <!-- =================================================================== -->
     <!-- Builds Classpath                                                    -->
     <!-- =================================================================== -->
@@ -404,50 +411,18 @@
 				<include name="*"/>
 				<include name="**/*-validation.xml"/>
 				<exclude name="portlet.xml"/>
+				<exclude name="*.properties"/>
 				<exclude name="web.xml"/>
 			</fileset>
 		</copy>
 
-		<!--
-
-		<echo message="Copying confs to deliver"/>
-		<copy todir="${build}/deliverwebapp/WEB-INF/classes">
-			<fileset dir="${conf}">
-				<include name="*.properties"/>
-				<include name="*.xml"/>
-				<include name="*.dtd"/>
-				<include name="LICENSE.HTML"/>
-				<exclude name="*web.xml"/>
-			</fileset>
-			<filterset refid="project.filters"/>
-			<filterset>
-				<filter token="context.root.deliver" value="${context.root.working}"/>
-				<filter token="operatingMode.deliver" value="${operatingMode.working}"/>
-			</filterset>
-		</copy>
-		<copy todir="${build}/deliverwebapp/WEB-INF/classes">
-			<fileset dir="${conf}/deliver" includes="mapping.xml"/>
-			<fileset dir="${conf}/deliver" includes="webwork.properties"/>
-		</copy>
-		<copy file="${conf}/deliver-web.xml" tofile="${build}/deliverwebapp/WEB-INF/web.xml">
-			<filterset refid="project.filters"/>
-			<filterset>
-				<filter token="context.root.deliver" value="${context.root.working}"/>
-				<filter token="operatingMode.deliver" value="${operatingMode.working}"/>
-			</filterset>
-		</copy>
-		<copy todir="${build}/deliverwebapp/WEB-INF/classes">
-			<fileset dir="${src}" includes="workflows/*.xml"/>
-		</copy>
-
 		<echo message="Copying confs to cms"/>
-		<copy todir="${build}/cmswebapp/WEB-INF/classes">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes">
 			<fileset dir="${conf}">
 				<include name="*.properties"/>
 				<include name="*.xml"/>
-				<include name="*.dtd"/>
-				<include name="LICENSE.HTML"/>
-				<exclude name="*web.xml"/>
+				<exclude name="portlet.xml"/>
+				<exclude name="web.xml"/>
 			</fileset>
 			<filterset refid="project.filters"/>
 			<filterset>
@@ -455,15 +430,6 @@
 				<filter token="operatingMode.deliver" value="${operatingMode.working}"/>
 			</filterset>
 		</copy>
-		<copy todir="${build}/cmswebapp/WEB-INF/classes">
-			<fileset dir="${conf}/cms" includes="mapping.xml"/>
-			<fileset dir="${conf}/cms" includes="webwork.properties"/>
-		</copy>
-		<copy file="${conf}/cms-web.xml" tofile="${build}/cmswebapp/WEB-INF/web.xml"/>
-		<copy todir="${build}/cmswebapp/WEB-INF/classes">
-			<fileset dir="${src}" includes="workflows/*.xml"/>
-		</copy>
-		-->
 	</target>
 	
 
