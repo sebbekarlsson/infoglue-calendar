@@ -185,7 +185,7 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 		            }
 	            }
 	            
-	            sb.append("<input type=\"checkbox\" name=\"" + name + "\" value=\"" + id + "\" class=\"" + cssClass + "\"" + checked + ">" + optionText);
+	            sb.append("<input type=\"checkbox\" name=\"" + name + "\" value=\"" + id + "\" class=\"" + cssClass + "\"" + checked + "><span class=\"calendarLabel\">" + optionText + "</span>");
 	        }
         }
         sb.append("</select>");

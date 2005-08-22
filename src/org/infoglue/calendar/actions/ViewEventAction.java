@@ -189,7 +189,13 @@ public class ViewEventAction extends CalendarAbstractAction
         this.execute();
         return "successPublic";
     }
-    
+
+    public String doPublicGU() throws Exception 
+    {
+        this.execute();
+        return "successPublicGU";
+    }
+
     public Event getEvent()
     {
         return event;

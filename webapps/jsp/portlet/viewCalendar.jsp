@@ -261,8 +261,8 @@
 	</portlet:renderURL>
 
 	<p>
-	<a href="<c:out value="${eventUrl}"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
-	<ww:property value="description"/>
+	<a class="event" href="<c:out value="${eventUrl}"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
+	<span class="event"><ww:property value="shortDescription"/></span>
 	</p>
 	
 </ww:iterator>
@@ -287,8 +287,8 @@
 	</portlet:renderURL>
 
 	<p>
-	<a href="<c:out value="${eventUrl}"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
-	<ww:property value="description"/>
+	<a class="event" href="<c:out value="${eventUrl}"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
+	<span class="event"><ww:property value="description"/></span>
 	</p>
 	
 </ww:iterator>

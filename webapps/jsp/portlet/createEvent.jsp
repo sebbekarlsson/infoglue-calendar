@@ -150,7 +150,7 @@
 					</td>				
 				</tr>
 				</table>				
-			</p>    
+			</p>
       		<p>
       			<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" cssClass="listBox"/>
 			</p>
@@ -161,7 +161,7 @@
       			<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" cssClass="listBox"/>
 			</p>
 			<p>
-				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.createButton')"/>">
+				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.createButton')"/>" class="calendarButton">
 			</p>
 		</form>
 	</div>
@@ -183,6 +183,16 @@
         inputField     :    "endDateTime",     // id of the input field
         ifFormat       :    "%Y-%m-%d",      // format of the input field
         button         :    "trigger_endDateTime",  // trigger for the calendar (button ID)
+        align          :    "Tl",           // alignment (defaults to "Bl")
+        singleClick    :    true
+    });
+</script>
+
+<script type="text/javascript">
+    Calendar.setup({
+        inputField     :    "lastRegistrationDateTime",     // id of the input field
+        ifFormat       :    "%Y-%m-%d",      // format of the input field
+        button         :    "trigger_lastRegistrationDateTime",  // trigger for the calendar (button ID)
         align          :    "Tl",           // alignment (defaults to "Bl")
         singleClick    :    true
     });

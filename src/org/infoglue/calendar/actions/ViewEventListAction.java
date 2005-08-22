@@ -36,6 +36,7 @@ import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.util.DBSessionWrapper;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 
@@ -47,10 +48,10 @@ import com.opensymphony.xwork.ActionContext;
 
 public class ViewEventListAction extends CalendarAbstractAction
 {
-    private Long calendarId;
+    private String calendarId;
     private Calendar calendar;
 
-    private Set events;
+    private List events;
     
     /**
      * This is the entry point for the main listing.
@@ -58,9 +59,11 @@ public class ViewEventListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.calendar = CalendarController.getController().getCalendar(calendarId, this.getSession());
-        this.events = calendar.getPublishedEvents();
-        //this.events = EventController.getController().getEventList(calendarId, true, startCalendar, endCalendar, getSession());
+        String[] calendarIds = calendarId.split(",");
+        
+        //this.calendar = CalendarController.getController().getCalendar(calendarId, this.getSession());
+        //this.events = calendar.getPublishedEvents();
+        this.events = EventController.getController().getEventList(calendarIds, getSession());
 
         return Action.SUCCESS;
     } 
@@ -79,16 +82,26 @@ public class ViewEventListAction extends CalendarAbstractAction
         return Action.SUCCESS + "ShortGU";
     }
     
-    public Long getCalendarId()
+    public String getCalendarId()
     {
         return calendarId;
     }
-    public void setCalendarId(Long calendarId)
+    public void setCalendarId(String calendarId)
     {
         this.calendarId = calendarId;
     }
-    public Set getEvents()
+    public List getEvents()
     {
         return events;
     }
+    
+    public Integer getNumberOfItems()
+    {
+        Object o = ServletActionContext.getRequest().getAttribute("numberOfItems");
+        if(o != null && o.toString().length() > 0)
+            return new Integer((String)o);
+        else
+            return new Integer(10);
+    }
+
 }

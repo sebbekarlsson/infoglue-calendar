@@ -38,6 +38,7 @@ import org.infoglue.calendar.entities.Participant;
 import org.infoglue.common.security.InfoGluePrincipal;
 import org.infoglue.common.security.UserControllerProxy;
 import org.infoglue.common.util.PropertyHelper;
+import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.io.FileHelper;
 import org.infoglue.common.util.mail.MailServiceFactory;
@@ -409,6 +410,8 @@ public class EventController extends BasicController
     {
 		Event event = getEvent(id, session);
 		event.setIsPublished(new Boolean(true));
+		
+		new RemoteCacheUpdater().updateRemoteCaches();
     }    
     
     /**
@@ -460,6 +463,32 @@ public class EventController extends BasicController
 		return list;
     }
     
+    /**
+     * Gets a list of all events available for a particular day.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public List getEventList(String[] calendarIds, Session session) throws Exception 
+    {
+        List result = null;
+        
+        String calendarSQL = "(";
+        for(int i=0; i<calendarIds.length; i++)
+        {
+            if(i > 0)
+                calendarSQL += ",";
+            
+            calendarSQL += calendarIds[i];
+        }
+        calendarSQL += ")";
+        
+        Query q = session.createQuery("from Event event WHERE event.isPublished = true AND event.calendar.id IN " + calendarSQL + " ORDER BY event.startDateTime");
+   
+        result = q.list();
+        
+        return result;
+    }
     
     /**
      * This method returns a list of Events based on a number of parameters within a transaction

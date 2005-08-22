@@ -54,7 +54,7 @@
 			<textarea name="message" class="normalInput"><ww:property value="entry.message"/></textarea>
 		</p>
 		<p>
-			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')" class="calendarButton"/>">
+			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>" class="calendarButton">
 		</p>
 		</form>
 	</div>

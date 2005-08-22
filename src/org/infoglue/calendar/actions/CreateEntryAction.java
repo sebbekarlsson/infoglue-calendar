@@ -178,7 +178,25 @@ public class CreateEntryAction extends CalendarAbstractAction
         
         return Action.INPUT + "Public";
     } 
+
+    /**
+     * This is the entry point creating a new calendar.
+     */
     
+    public String inputPublicGU() throws Exception 
+    {
+        if(useEntryLimitation())
+        {
+		    Event event = EventController.getController().getEvent(eventId, getSession());
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
+	        
+	        if(event.getMaxumumParticipants() != null && event.getMaxumumParticipants().intValue() <= entries.size())
+	            return "maximumReachedPublic";
+        }
+        
+        return Action.INPUT + "PublicGU";
+    } 
+
     public String getEmail()
     {
         return email;
