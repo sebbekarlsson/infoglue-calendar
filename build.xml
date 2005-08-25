@@ -433,4 +433,89 @@
 	</target>
 	
 
+	<!--****************************************************-->
+	<!-- This target deploys the files to the infoglue apps -->
+	<!--****************************************************-->
+	<target name="deploy" depends="compile">
+		<echo message="Copying JAR-files"/>
+		<copy todir="${deploy.dir.working}/WEB-INF/lib">
+			<fileset dir="${lib}">
+				<include name="**/*"/>
+				<exclude name="pluto-1.0.1-rc1.jar"/>
+				<exclude name="pluto-1.0.1-rc2.jar"/>
+				<exclude name="portlet-api-1.0.jar"/>
+			</fileset>
+		</copy>
+
+		<echo message="Copying infoglueCalendar/WEB-INF/classes"/>
+		<copy todir="${deploy.dir.working}/WEB-INF/classes">
+			<fileset dir="${build.classes}">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
+		
+		<echo message="Copying JSP-files"/>
+		<copy todir="${deploy.dir.working}/jsp/portlet">
+			<fileset dir="${webapp}/jsp/portlet">
+				<include name="**/*.jsp"/>
+			</fileset>
+		</copy>
+
+		<echo message="Copying CSS-files"/>
+		<copy todir="${deploy.dir.working}/css">
+			<fileset dir="${webapp}/css">
+				<include name="**/*.css"/>
+			</fileset>
+		</copy>
+
+		<echo message="Copying CSS-files"/>
+		<copy todir="${deploy.dir.working}/images">
+			<fileset dir="${webapp}/images">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+
+		<echo message="Copying Resourse bundle-files"/>
+		<copy todir="${deploy.dir.working}/WEB-INF/classes">
+			<fileset dir="${build.classes}">
+				<include name="infoglueCalendar_en.properties"/>
+				<include name="infoglueCalendar_sv.properties"/>
+			</fileset>
+		</copy>
+
+		<echo message="Copying TagLib files"/>
+		<copy todir="${deploy.dir.working}/WEB-INF/tld">
+			<fileset dir="${conf}/tld">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+
+		<echo message="Copying TagLib files"/>
+		<copy todir="${deploy.dir.working}/WEB-INF/classes">
+			<fileset dir="${conf}">
+				<include name="*"/>
+				<include name="**/*-validation.xml"/>
+				<exclude name="portlet.xml"/>
+				<exclude name="*.properties"/>
+				<exclude name="web.xml"/>
+			</fileset>
+		</copy>
+
+		<echo message="Copying confs to cms"/>
+		<copy todir="${deploy.dir.working}/WEB-INF/classes">
+			<fileset dir="${conf}">
+				<include name="*.properties"/>
+				<include name="*.xml"/>
+				<exclude name="portlet.xml"/>
+				<exclude name="web.xml"/>
+			</fileset>
+			<filterset refid="project.filters"/>
+			<filterset>
+				<filter token="context.root.deliver" value="${context.root.working}"/>
+				<filter token="operatingMode.deliver" value="${operatingMode.working}"/>
+			</filterset>
+		</copy>
+
+	</target>
+
 </project>
