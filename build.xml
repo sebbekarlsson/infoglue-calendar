@@ -64,12 +64,25 @@
     <!-- =================================================================== -->
     <!-- Builds Classpath                                                    -->
     <!-- =================================================================== -->
-    <path id="classpath">
+    
+	<fileset id="build.libs" dir="${lib}">
+		<include name="**/*.jar"/>
+	</fileset>
+
+	<path id="classpath">
+		<pathelement location="${build.classes}"/>
+		<!--<pathelement location="${infoglue.classes}"/>-->
+		<fileset refid="build.libs"/>
+	</path>
+
+	<!--
+	<path id="classpath">
         <fileset dir="${lib.dir}">
-            <!-- Everything in the project's lib dir -->
             <include name="**/*.jar"/>
         </fileset>        
-    </path>
+    </path>-->
+	
+	
 
     <!-- =================================================================== -->
     <!-- Builds Sourcepath                                                   -->
@@ -90,7 +103,6 @@
         <echo message=""/>
 
         <echo message="java.class.path = ${java.class.path}"/>        
-        <echo message="classpath = ${classpath}"/>        
         <echo message=""/>
         <echo message="java.home = ${java.home}"/>
         <echo message="ant.home = ${ant.home}"/>
@@ -134,12 +146,13 @@
     <!-- =================================================================== -->
     <!-- Compiles java sources of this project                               -->
     <!-- =================================================================== -->
-    <target 
-        name="compile" 
+    <target
+        name="compile"
         description="Compiles java sources of this module"
         depends="clean,init" >
   
-        
+        <echo message="classpath = ${classpath}"/>        
+
         <javac 
             classpathref="classpath"
             destdir="${build.dest.dir}" 
