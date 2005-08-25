@@ -231,11 +231,11 @@
     <!--Fetches the latest code from cvs                                     -->    
     <!-- =================================================================== -->    
     <target
-      name="fetchCMS"
+      name="fetchInfoGlueCalendar"
       description="Get updates from cvs for this module"
     >
         <cvs command="update -P -d"
-             cvsRoot=":pserver:anonymous@www.infoglue.org:2401/home/cvsroot"/>
+             cvsRoot=":pserver:anonymous@www.infoglue.org:2401/home/cvs/infoglue2"/>
     </target>
     <!-- =================================================================== -->    
     <!-- Generates the project's API documentation                           -->    
@@ -275,7 +275,7 @@
     <target
       name="all"
       description="Execute All major targets"
-      depends="clean,init,fetchCMS,war,javadocs"
+      depends="clean,init,fetchInfoGlueCalendar,war,javadocs"
     >
     </target>
 
