@@ -467,11 +467,25 @@
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
-		
+
 		<echo message="Copying JSP-files"/>
 		<copy todir="${deploy.dir.working}/jsp/portlet">
 			<fileset dir="${webapp}/jsp/portlet">
 				<include name="**/*.jsp"/>
+			</fileset>
+		</copy>
+
+		<echo message="Copying Other-files"/>
+		<copy todir="${deploy.dir.working}">
+			<fileset dir="${webapp}">
+				<include name="applications/**/*.*"/>
+				<include name="calendars/**/*.*"/>
+				<include name="css/**/*.*"/>
+				<include name="images/**/*.*"/>
+				<include name="logs/**/*.*"/>
+				<include name="script/**/*.*"/>
+				<include name="templates/**/*.*"/>
+				<include name="index.html"/>
 			</fileset>
 		</copy>
 
