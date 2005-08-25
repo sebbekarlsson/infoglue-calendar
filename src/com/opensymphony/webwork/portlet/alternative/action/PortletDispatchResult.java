@@ -1,4 +1,4 @@
-//$Id: PortletDispatchResult.java,v 1.6 2005/08/14 21:15:00 mattias Exp $
+//$Id: PortletDispatchResult.java,v 1.7 2005/08/25 14:06:21 mattias Exp $
 package com.opensymphony.webwork.portlet.alternative.action;
 
 import java.util.Iterator;
@@ -47,24 +47,13 @@ public class PortletDispatchResult implements Result {
 	{
 		log.debug("execute");
 		ActionContext ctx = ActionContext.getContext();
-		
-		/*
-		Iterator ctxIterator = ctx.getContextMap().keySet().iterator();
-		while(ctxIterator.hasNext())
-		{
-		    System.out.println("Key:" + ctxIterator.next());
-		}
-		*/
-		
+				
 		PortletDispatcher dispatcher = (PortletDispatcher)ctx.get("com.opensymphony.webwork.portlet.dispatcher.PortletDispatcher");
 		//System.out.println("dispatcher:" + dispatcher);
 		PortletContext context = dispatcher.getPortletContext();
 		Object requestObject = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
 		Object responseObject = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
-		System.out.println("requestObject:" + requestObject.getClass().getName());
-		
-		//System.out.println("Request:" + ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest"));
-		//System.out.println("Response:" + ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse"));
+		log.debug("requestObject:" + requestObject.getClass().getName());
 		
 		/*
         if(requestObject instanceof RenderRequest)
@@ -72,8 +61,8 @@ public class PortletDispatchResult implements Result {
         */
 			RenderRequest req = (RenderRequest)requestObject;
 	        RenderResponse res = (RenderResponse)responseObject;
-			System.out.println("Remote user:" + req.getRemoteUser());
-			System.out.println("Remote user:" + req.getUserPrincipal());
+	        log.debug("Remote user:" + req.getRemoteUser());
+	        log.debug("Remote user:" + req.getUserPrincipal());
 			log.debug("Including jsp " + dispatchTo);
 		/*
 			context.getRequestDispatcher(dispatchTo).include(req, res);

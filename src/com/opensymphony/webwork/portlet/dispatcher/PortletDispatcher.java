@@ -205,10 +205,9 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         
         addSession(request);
         
-        System.out.println("Getting to serviceAction with namespace:" + namespace + " actionName:" + actionName);
+        log.debug("Getting to serviceAction with namespace:" + namespace + " actionName:" + actionName);
 
         HashMap extraContext = createContextMap(requestMap, parameterMap, sessionMap, applicationMap, request, response, getPortletConfig());
-        //System.out.println("calendarId:" + extraContext.get("calendarId"));
         
         if (namespace.length() > 0)
         {
@@ -219,14 +218,13 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         log.debug(parameterMap);
         extraContext.put(PORTLET_DISPATCHER, this);
         log.debug("Getting to beginning of serviceAction");
-        //System.out.println("Getting to beginning of serviceAction");
         log.debug(new StringBuffer().append("Namespace: ").append(namespace).append("\nAction: ").append(actionName).append("\nPortlet Name: ").append(getPortletName()).toString());
         
         try
         {
             if (request instanceof RenderRequest)
             {
-                System.out.println("Yes - it was a render request....");
+                log.debug("Yes - it was a render request....");
                 if (request.getPortletSession(true).getAttribute(ACTION_CONTEXT) != null)
                 {
                     log.debug("Getting key for old action");
@@ -245,46 +243,25 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
                 actionName = actionOverride;
             }
             
-            /*
-            System.out.println("calendarId:" + extraContext.get("calendarId"));
-            
-            
-            System.out.println("****************************");
-            System.out.println("*      PARAMETERS BEFORE   *");
-            System.out.println("****************************");
-            Iterator requestIterator = extraContext.keySet().iterator();
-            while(requestIterator.hasNext())
-            {
-                Object key = requestIterator.next();
-                Object value = extraContext.get(key);
-                System.out.println("" + key + "=" + value);
-                
-            }
-            */
             
             ActionProxy proxy = ActionProxyFactory.getFactory().createActionProxy(namespace, actionName, extraContext);
-            //System.out.println("Stack:" + proxy.getInvocation().getStack());
             request.setAttribute("webwork.valueStack", proxy.getInvocation().getStack());
             
             proxy.execute();
             
-            //System.out.println("request:" + request.getClass().getName());
             //TODO: This code is a B.S. cheat by me. Need to figure out if this is even needed.
             if (request instanceof ActionRequest)
             {
-                //System.out.println("request was ActionRequest.........");
                 request.getPortletSession().setAttribute(ACTION_CONTEXT, proxy.getInvocation().getInvocationContext());
             }
         } catch (ConfigurationException e)
         {
             log.error("Could not find action", e);
-            log.debug("Could not find action = " + e);
             //      sendError(request, response, HttpServletResponse.SC_NOT_FOUND,
             // e);
         } catch (Exception e)
         {
             log.error("Could not execute action", e);
-            log.debug("Could not execute action = " + e.getMessage());
             //      sendError(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
         }
     }
@@ -324,12 +301,11 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
     
     protected String getModeActionName(PortletMode mode) throws PortletException
     {
-        //System.out.println("PortletMode is: " + mode.toString());
         log.debug("PortletMode is: " + mode.toString());
         //  TODO: Move this exception throwing somewhere else.  Nested too deep.
         String actionName = (String) getPortletConfig().getInitParameter(mode.toString());
 
-        //System.out.println("actionName in getModeActionName:" + actionName);
+        log.debug("actionName in getModeActionName:" + actionName);
         
         if (actionName == null)
         {
@@ -373,10 +349,10 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 	
     private void addSession(PortletRequest request)
     {
-        System.out.println("Initializing session:" + factory);
+        log.debug("Initializing session:" + factory);
 	    
 	    Session session = factory.openSession();
-	    System.out.println("Initializing session:" + session);
+	    log.debug("Initializing session:" + session);
 		transaction = session.beginTransaction();
 		
         request.setAttribute("HIBERNATE_SESSION", session);

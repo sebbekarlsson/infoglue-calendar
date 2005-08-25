@@ -79,8 +79,6 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	            selectedValues = new String[]{(String)obj};
 	        else if(obj instanceof String[])
 	            selectedValues = (String[])obj;
-	        
-	        System.out.println("values:" + values);
         }
 
 	    StringBuffer sb = new StringBuffer();
@@ -128,12 +126,10 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	            }
 	            
 	            String checked = "";
-	            //System.out.println("-----------------selectedValues:" + selectedValues);
 	            if(selectedValues != null)
 	            {
 		            for(int i=0; i<selectedValues.length; i++)
 		            {
-		                //System.out.println(id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selectedValues[i]))
 		                    checked = " checked=\"1\"";
 		            }
@@ -156,7 +152,6 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
-		                //System.out.println(id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selId))
 		                    checked = " checked=\"1\"";
 		            }
@@ -179,7 +174,6 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
-		                //System.out.println(id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selId))
 		                    checked = " checked=\"1\"";
 		            }

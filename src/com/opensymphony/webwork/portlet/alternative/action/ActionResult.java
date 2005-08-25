@@ -54,24 +54,24 @@ public class ActionResult implements Result
 		    System.out.println("Key:" + ctxIterator.next());
 		}
 		*/
-		System.out.println("***************************************");
-		System.out.println("viewAction = " + viewAction);
+		log.debug("***************************************");
+		log.debug("viewAction = " + viewAction);
 		ActionRequest req = (ActionRequest)actionInvocation.getInvocationContext().get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
-		System.out.println("Request error:" + req.getAttribute("ErrorMessage"));
+		log.debug("Request error:" + req.getAttribute("ErrorMessage"));
 
 		if (parse) {
             OgnlValueStack stack = ActionContext.getContext().getValueStack();
             viewAction = TextParseUtil.translateVariables(viewAction, stack);
         }
 		
-		System.out.println("viewAction = " + viewAction);
+		log.debug("viewAction = " + viewAction);
 
 		if(StringUtils.isNotEmpty(viewAction)) {
 			//ActionResponse response = (ActionResponse)actionInvocation.getInvocationContext().getContextMap().get(PortletActionConstants.RESPONSE);
 			ActionRequest request = (ActionRequest)actionInvocation.getInvocationContext().getContextMap().get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
 			ActionResponse response = (ActionResponse)actionInvocation.getInvocationContext().getContextMap().get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
 			//System.out.println("response:" + response);
-			System.out.println("request:" + request);
+			//System.out.println("request:" + request);
 			
 			if (viewAction.indexOf('?') != -1) 
 			{
@@ -95,8 +95,8 @@ public class ActionResult implements Result
 	        */
 		}
 
-		System.out.println("viewAction = " + viewAction);
-		System.out.println("***************************************");
+		log.debug("viewAction = " + viewAction);
+		log.debug("***************************************");
 	}
 	
 	/**
