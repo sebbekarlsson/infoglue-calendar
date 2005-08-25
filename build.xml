@@ -67,7 +67,7 @@
     <path id="classpath">
         <fileset dir="${lib.dir}">
             <!-- Everything in the project's lib dir -->
-            <include name="*.jar"/>
+            <include name="**/*.jar"/>
         </fileset>        
     </path>
 
