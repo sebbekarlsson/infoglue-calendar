@@ -90,6 +90,7 @@
         <echo message=""/>
 
         <echo message="java.class.path = ${java.class.path}"/>        
+        <echo message="classpath = ${classpath}"/>        
         <echo message=""/>
         <echo message="java.home = ${java.home}"/>
         <echo message="ant.home = ${ant.home}"/>
