@@ -5,14 +5,11 @@
 
 <portlet:defineObjects/>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendarPublic.css" />
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
 
-
+<%--
 <H1><ww:property value="event.calendar.name"/></H1>
 <div class="newspadding">
 <h2><ww:property value="event.name"/></h2>
@@ -50,8 +47,7 @@ href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="even
 <p><span class="calender">Ytterliggare information:</span><a href="tom.html" target="_blank" class="pdficon">AugustiAkademin</a></p>
 <p><span class="calender">Sista anm&auml;lniongsdag:</span> <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> : <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/></p>
 <p><span class="calender">Avgift:</span> <ww:property value="event.price"/></p>
-
-<!--
+--%>
 
 <div class="marginalizedDiv" id="inputForm">
 		
@@ -156,7 +152,7 @@ href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="even
 		<p>
 			<ww:set name="eventId" value="eventId" scope="page"/>
 			<portlet:renderURL var="createEntryRenderURL">
-				<calendar:evalParam name="action" value="CreateEntry!input"/>
+				<calendar:evalParam name="action" value="CreateEntry!inputPublicGU"/>
 				<calendar:evalParam name="eventId" value="${eventId}"/>
 				<calendar:evalParam name="calendarId" value="${calendarId}"/>
 				<calendar:evalParam name="mode" value="${mode}"/>
@@ -171,4 +167,3 @@ href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="even
 	</div>		
 
 </div>
--->

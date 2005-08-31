@@ -483,8 +483,9 @@ public class EventController extends BasicController
         }
         calendarSQL += ")";
         
-        Query q = session.createQuery("from Event event WHERE event.isPublished = true AND event.calendar.id IN " + calendarSQL + " ORDER BY event.startDateTime");
-   
+        Query q = session.createQuery("from Event event WHERE event.isPublished = true AND event.startDateTime >= ? AND event.calendar.id IN " + calendarSQL + " ORDER BY event.startDateTime");
+        q.setCalendar(0, java.util.Calendar.getInstance());
+        
         result = q.list();
         
         return result;

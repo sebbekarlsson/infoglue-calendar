@@ -19,8 +19,9 @@
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 		-->
 
-		<property name="hibernate.connection.driver_class">org.infoglue.common.dbcp.DBCPConnectionProvider</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost/calendar</property>
+		<property name="hibernate.provider_class">org.infoglue.common.dbcp.DBCPConnectionProvider</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost/calendar</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.connection.pool_size">20</property>

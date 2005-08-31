@@ -224,7 +224,7 @@
             	<param name="dispatchTo">/jsp/portlet/createEntryPublic.jsp</param>
             </result>
 			<result name="inputPublicGU" type="portletDispatch">
-            	<param name="dispatchTo">/jsp/portlet/gu/createEntryPublic.jsp</param>
+            	<param name="dispatchTo">/jsp/portlet/gu/createEntry.jsp</param>
             </result>
             <result name="success" type="eventProcessed">
 				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
@@ -232,6 +232,10 @@
 			</result>
             <result name="successPublic" type="eventProcessed">
 				<param name="viewAction">ViewEvent!public.action?eventId=${eventId}</param>
+				<param name="parse">true</param>
+			</result>
+            <result name="successPublicGU" type="eventProcessed">
+				<param name="viewAction">ViewEvent!publicGU.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>
             <result name="maximumReached" type="portletDispatch">

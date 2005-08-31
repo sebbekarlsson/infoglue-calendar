@@ -50,8 +50,7 @@
 			<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="normalInput"/>
 		</p>
 		<p>
-			<ww:property value="this.getLabel('labels.internal.entry.message')"/><br> 
-			<textarea name="message" class="normalInput"><ww:property value="entry.message"/></textarea>
+			<calendar:textAreaField label="labels.internal.entry.message" name="message" value="entry.message" cssClass="normalInput"/>
 		</p>
 		<p>
 			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>" class="calendarButton">

@@ -210,10 +210,10 @@
 						<calendar:evalParam name="mode" value="${mode}"/>
 					</portlet:actionURL>
 						
-					<a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a>&nbsp;<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a><br>     			
+					<a href="<c:out value="${url}"/>" class="calendarLink"><ww:property value='assetKey'/></a>&nbsp;<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a><br>     			
 	      		</ww:iterator>
 	      		<br/>
-	      		<a href="javascript:showUploadForm();"><ww:property value="this.getLabel('labels.internal.event.attachFile')"/></a>
+	      		<a href="javascript:showUploadForm();" class="calendarLink"><ww:property value="this.getLabel('labels.internal.event.attachFile')"/></a>
 			</p>
 			<p>
 				<br>
@@ -224,7 +224,7 @@
 					<calendar:evalParam name="calendarId" value="${calendarId}"/>
 					<calendar:evalParam name="mode" value="${mode}"/>
 				</portlet:renderURL>
-				<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/></a>
+				<a href="<c:out value="${createEntryRenderURL}"/>" class="calendarLink"><ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/></a>
 			</p>
 			<p>
 				<input type="submit" value="Update" class="calendarButton">

@@ -5,8 +5,7 @@
 
 <portlet:defineObjects/>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendarPublic.css" />
 
 <div id="inputForm">
 	
@@ -17,7 +16,7 @@
 	<div id="contentList">
 
 		<portlet:actionURL var="createEntryActionUrl">
-			<portlet:param name="action" value="CreateEntry"/>
+			<portlet:param name="action" value="CreateEntry!publicGU"/>
 		</portlet:actionURL>
 
 		<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
@@ -50,8 +49,7 @@
 			<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="normalInput"/>
 		</p>
 		<p>
-			<ww:property value="this.getLabel('labels.internal.entry.message')"/><br> 
-			<textarea name="message" class="normalInput"><ww:property value="entry.message"/></textarea>
+			<calendar:textAreaField label="labels.internal.entry.message" name="message" value="entry.message" cssClass="normalInput"/>
 		</p>
 		<p>
 			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>" class="calendarButton">
@@ -60,6 +58,3 @@
 	</div>
 
 </div>
-
-</body>
-</html>
