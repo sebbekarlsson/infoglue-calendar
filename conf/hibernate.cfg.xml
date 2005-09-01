@@ -10,15 +10,6 @@
         <!--<property name="connection.datasource">java:jdbc/calendar</property>-->
         
         <!--
-		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost/calendar</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property>
-        <property name="hibernate.connection.pool_size">10</property>
-        <property name="show_sql">false</property>
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-		-->
-
 		<property name="hibernate.provider_class">org.infoglue.common.dbcp.DBCPConnectionProvider</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost/calendar</property>
@@ -30,6 +21,20 @@
         <property name="hibernate.dbcp.initialSize">10</property>
         <property name="hibernate.dbcp.maxWait">3000</property>
         <property name="hibernate.dbcp.validationQuery">select count(*) from calendar</property>
+		-->
+		
+		<property name="hibernate.provider_class">@hibernate.provider_class@</property>
+        <property name="hibernate.connection.driver_class">@hibernate.connection.driver_class@</property>
+		<property name="hibernate.connection.url">@hibernate.connection.url@</property>
+        <property name="hibernate.connection.username">@hibernate.connection.username@</property>
+        <property name="hibernate.connection.password">@hibernate.connection.password@</property>
+        <property name="hibernate.connection.pool_size">@hibernate.connection.pool_size@</property>
+        <property name="show_sql">@show_sql@</property>
+        <property name="dialect">@dialect@</property>
+        <property name="hibernate.dbcp.initialSize">@hibernate.dbcp.initialSize@</property>
+        <property name="hibernate.dbcp.maxWait">@hibernate.dbcp.maxWait@</property>
+        <property name="hibernate.dbcp.validationQuery">@hibernate.dbcp.validationQuery@</property>
+
  		
         <!-- Mapping files -->
         <mapping resource="Calendar.hbm.xml"/>
