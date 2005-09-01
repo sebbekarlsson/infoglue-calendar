@@ -28,11 +28,14 @@ import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspTagException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.infoglue.common.util.ResourceBundleHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
+import com.opensymphony.webwork.portlet.alternative.action.ActionResult;
 import com.opensymphony.xwork.ActionContext;
 
 
@@ -42,6 +45,8 @@ import com.opensymphony.xwork.ActionContext;
 
 public abstract class AbstractCalendarTag extends AbstractTag 
 {
+	private static Log log = LogFactory.getLog(AbstractCalendarTag.class);
+
 	private String id;
 	
 	
@@ -113,8 +118,7 @@ public abstract class AbstractCalendarTag extends AbstractTag
 	    }
 	    catch(Exception e)
 	    {
-	        e.printStackTrace();
-	        System.out.println("Problem but nothing important...:" + key);
+	        log.warn("An label was not found:" + e.getMessage(), e);
 	    }
 	    
         return label;

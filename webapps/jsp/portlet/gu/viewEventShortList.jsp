@@ -14,6 +14,10 @@
 		<span class="newsdate"><ww:property value="this.formatDate(top.startDateTime.getTime(), 'dd MMM')"/> kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
 		[<ww:property value="top.calendar.name"/>]
 		</span>
+		<ww:set name="puffImage" value="this.getResourceUrl(top, 'PuffBild')"/>
+		<ww:if test="#puffImage != null">
+			<img src="<ww:property value="#puffImage"/>" width="30" height="30"/>
+		</ww:if>
 	</div>
 
 </ww:if>

@@ -19,8 +19,6 @@ public class RequiredOptionValidator extends FieldValidatorSupport
     {
         String fieldName = getFieldName();
         Object value = this.getFieldValue(fieldName, object);
-        System.out.println("fieldName:" + fieldName);
-        System.out.println("value:" + value);
         
         if (!(value instanceof String[])) 
         {
@@ -32,11 +30,8 @@ public class RequiredOptionValidator extends FieldValidatorSupport
 
             if (s.length == 0) 
             {
-                System.out.println("Adding error huh...");
                 addFieldError(fieldName, object);
             } 
         }
-        System.out.println("Done..." + this.getValidatorContext().getFieldErrors());
-
     }
 } 

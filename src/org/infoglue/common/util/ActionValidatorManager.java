@@ -50,11 +50,7 @@ public class ActionValidatorManager {
      * @return a list of all validators for the given class and context.
      */
     public static synchronized List getValidators(Class clazz, String context) {
-        System.out.println("clazz:" + clazz);
-        System.out.println("context:" + context);
         final String validatorKey = buildValidatorKey(clazz, context);
-        System.out.println("validatorKey:" + validatorKey);
-        System.out.println("validatorCache:" + validatorCache.size());
         
         if (validatorCache.containsKey(validatorKey)) {
             if (FileManager.isReloadingConfigs()) {
@@ -91,12 +87,10 @@ public class ActionValidatorManager {
         List validators = getValidators(object.getClass(), context);
         Set shortcircuitedFields = null;
         
-        System.out.println("Validators:" + validators.size());
         for (Iterator iterator = validators.iterator(); iterator.hasNext();) {
             Validator validator = (Validator) iterator.next();
             validator.setValidatorContext(validatorContext);
             
-            System.out.println("Running validator: " + validator + " for object " + object);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Running validator: " + validator + " for object " + object);
             }
@@ -196,7 +190,6 @@ public class ActionValidatorManager {
 
     private static List buildClassValidators(Class aClass, boolean checkFile) {
         String fileName = aClass.getName().replace('.', '/') + VALIDATION_CONFIG_SUFFIX;
-        System.out.println("fileName:" + fileName);
         return loadFile(fileName, aClass, checkFile);
     }
 
@@ -241,8 +234,8 @@ public class ActionValidatorManager {
      * @param checked the set of previously checked class-contexts, null if none have been checked
      * @return a list of validators for the given class and context.
      */
-    private static List buildValidators(Class clazz, String context, boolean checkFile, Set checked) {
-        System.out.println("clazz:" + clazz.getName());
+    private static List buildValidators(Class clazz, String context, boolean checkFile, Set checked) 
+    {
         List validators = new ArrayList();
 
         if (checked == null) {

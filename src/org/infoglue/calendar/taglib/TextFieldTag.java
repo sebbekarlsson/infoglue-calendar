@@ -72,8 +72,6 @@ public class TextFieldTag extends AbstractCalendarTag
 	        Object o = findOnValueStack("#errorAction." + name);
 	        if(o != null)
 	            value = o.toString();
-	        
-	        System.out.println("value from errorAction:" + value);
         }
 	    
 	    StringBuffer sb = new StringBuffer();

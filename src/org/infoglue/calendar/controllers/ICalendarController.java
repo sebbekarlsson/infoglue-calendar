@@ -82,7 +82,6 @@ public class ICalendarController extends BasicController
 		iCal.icalEventCollection.add(vevent);
     	
 		// Now write to string and view as file.
-		System.out.println(iCal.getVCalendar()); 
 		
 		//writeUTF8ToFile(new File(file), iCal.getVCalendar(), false);
 		writeISO88591ToFile(new File(file), iCal.getVCalendar(), false);

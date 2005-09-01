@@ -36,9 +36,12 @@ import javax.servlet.ServletInputStream;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.portlet.PortletFileUpload;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
+import org.infoglue.calendar.taglib.AbstractCalendarTag;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.webwork.util.AttributeMap;
@@ -54,6 +57,8 @@ import com.opensymphony.xwork.util.OgnlValueStack;
 
 public class CreateResourceAction extends CalendarUploadAbstractAction
 {
+	private static Log log = LogFactory.getLog(CreateResourceAction.class);
+
     private Long eventId;
 
     private Long calendarId;
@@ -65,7 +70,7 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("-------------Uploading file.....");
+        log.debug("-------------Uploading file.....");
         
         File uploadedFile = null;
         
@@ -76,21 +81,21 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 	        PortletFileUpload upload = new PortletFileUpload(factory);
 	        // Configure the uploader here, if desired.
 	        List fileItems = upload.parseRequest(ServletActionContext.getRequest());
-            System.out.println("fileItems:" + fileItems.size());
+            log.debug("fileItems:" + fileItems.size());
 	        Iterator i = fileItems.iterator();
 	        while(i.hasNext())
 	        {
 	            Object o = i.next();
 	            DiskFileItem dfi = (DiskFileItem)o;
-	            System.out.println("dfi:" + dfi.getFieldName());
-	            System.out.println("dfi:" + dfi);
+	            log.debug("dfi:" + dfi.getFieldName());
+	            log.debug("dfi:" + dfi);
 	            
 	            if (dfi.isFormField()) {
 	                String name = dfi.getFieldName();
 	                String value = dfi.getString();
 	                
-	                System.out.println("name:" + name);
-	                System.out.println("value:" + value);
+	                log.debug("name:" + name);
+	                log.debug("value:" + value);
 	                if(name.equals("assetKey"))
 	                {
 	                    this.assetKey = value;
@@ -114,7 +119,7 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 	                String fileName = dfi.getName();
 	                
 	                this.fileName = fileName;
-	                System.out.println("FileName:" + this.fileName);
+	                log.debug("FileName:" + this.fileName);
 	                uploadedFile = new File(getTempFilePath() + File.separator + fileName);
 	                dfi.write(uploadedFile);
 	            }
@@ -127,7 +132,7 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
             e.printStackTrace();
         }
  
-        System.out.println("Creating resources.....:" + this.eventId + ":" + ServletActionContext.getRequest().getParameter("eventId") + ":" + ServletActionContext.getRequest().getParameter("calendarId"));
+        log.debug("Creating resources.....:" + this.eventId + ":" + ServletActionContext.getRequest().getParameter("eventId") + ":" + ServletActionContext.getRequest().getParameter("calendarId"));
         ResourceController.getController().createResource(this.eventId, this.getAssetKey(), this.getFileContentType(), this.getFileName(), uploadedFile, getSession());
         
         return Action.SUCCESS;

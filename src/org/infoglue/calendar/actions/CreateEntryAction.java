@@ -71,11 +71,6 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("eventId:" + eventId);
-        System.out.println("firstName:" + firstName);
-        System.out.println("lastName:" + lastName);
-        System.out.println("email:" + email);
-        
         if(useEntryLimitation())
         {
 		    Event event = EventController.getController().getEvent(eventId, getSession());

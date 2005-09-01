@@ -79,8 +79,6 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            selectedValues = new String[]{(String)obj};
 	        else if(obj instanceof String[])
 	            selectedValues = (String[])obj;
-	        
-	        System.out.println("values:" + values);
         }
 
 	    StringBuffer sb = new StringBuffer();
@@ -129,12 +127,10 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            }
 	            
 	            String selected = "";
-	            //System.out.println("-----------------selectedValues:" + selectedValues);
 	            if(selectedValues != null)
 	            {
 		            for(int i=0; i<selectedValues.length; i++)
 		            {
-		                //System.out.println(id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selectedValues[i]))
 		                    selected = " selected=\"1\"";
 		            }
@@ -157,7 +153,6 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
-		                //System.out.println(id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selId))
 		                    selected = " selected=\"1\"";
 		            }
@@ -180,7 +175,6 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
-		                //System.out.println(id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selId))
 		                    selected = " selected=\"1\"";
 		            }

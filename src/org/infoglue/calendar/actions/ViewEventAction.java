@@ -87,10 +87,6 @@ public class ViewEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("eventId:" + this.eventId);
-        System.out.println("calendarId:" + this.calendarId);
-        System.out.println("mode:" + this.mode);
-        
         if(this.eventId == null)
             this.eventId = new Long(ServletActionContext.getRequest().getParameter("eventId"));
 

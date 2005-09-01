@@ -108,18 +108,6 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
     public void processAction(ActionRequest actionRequest,
             ActionResponse actionResponse) throws PortletException, IOException
     {
-        //System.out.println("actionRequest: " + actionRequest.getClass().getName());
-        
-        //System.out.println("processAction*****************************");
-        //System.out.println("calendarId:" + actionRequest.getParameter("calendarId"));
-        
-        //String name = actionRequest.getParameter("name");
-        //System.out.println("********************************************name:" + name);
-        //System.out.println("********************************************name: едц");
-        //actionRequest.setCharacterEncoding("utf-8");
-        //String name = actionRequest.getParameter("name");
-        //System.out.println("********************************************name:" + actionRequest.getCharacterEncoding());
-        
         log.debug("Got to processAction!!");
         try
         {
@@ -128,14 +116,8 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
                     getRequestMap(actionRequest),
                     getParameterMap(actionRequest),
                     getSessionMap(actionRequest), getPortletApplicationMap());
-            /*
-            serviceAction(actionRequest, actionResponse, getPortletName(),
-                    (String) getPortletConfig().getInitParameter("action"),
-                    getRequestMap(actionRequest),
-                    getParameterMap(actionRequest),
-                    getSessionMap(actionRequest), getPortletApplicationMap());
-                    */
-         } catch (Exception e)
+        } 
+        catch (Exception e)
         {
             if (e instanceof PortletException)
             {
@@ -175,23 +157,8 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 
     public void service(PortletRequest request, PortletResponse response) throws PortletException
     {
-        // serviceAction(request, response, getNameSpace(request),
-        // getModeActionName(request), getRequestMap(request),
-        // getParameterMap(request), getSessionMap(request), getPortletMap());
-        // serviceAction(request, response,
-        // request.getPortalContext().toString(),
-        // request.getPortletMode().toString(), getRequestMap(request),
-        // getParameterMap(request), getSessionMap(request),
-        // getPortletApplicationMap());
         log.debug("Getting to serviceAction");
-        //System.out.println("Getting to serviceAction");
-       
-        /*
-        serviceAction(request, response, getPortletName(),
-                getModeActionName(request.getPortletMode()),
-                getRequestMap(request), getParameterMap(request),
-                getSessionMap(request), getPortletApplicationMap());
-        */
+        
         serviceAction(request, response, getPortletName(),
                 getActionName(request),
                 getRequestMap(request), getParameterMap(request),

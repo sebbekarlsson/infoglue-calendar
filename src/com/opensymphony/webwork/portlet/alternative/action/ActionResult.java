@@ -47,13 +47,6 @@ public class ActionResult implements Result
 		log.debug("execute");
 		log.debug("viewAction = " + viewAction);
 
-		/*
-		Iterator ctxIterator = actionInvocation.getInvocationContext().getContextMap().keySet().iterator();
-		while(ctxIterator.hasNext())
-		{
-		    System.out.println("Key:" + ctxIterator.next());
-		}
-		*/
 		log.debug("***************************************");
 		log.debug("viewAction = " + viewAction);
 		ActionRequest req = (ActionRequest)actionInvocation.getInvocationContext().get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
@@ -70,8 +63,6 @@ public class ActionResult implements Result
 			//ActionResponse response = (ActionResponse)actionInvocation.getInvocationContext().getContextMap().get(PortletActionConstants.RESPONSE);
 			ActionRequest request = (ActionRequest)actionInvocation.getInvocationContext().getContextMap().get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
 			ActionResponse response = (ActionResponse)actionInvocation.getInvocationContext().getContextMap().get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
-			//System.out.println("response:" + response);
-			//System.out.println("request:" + request);
 			
 			if (viewAction.indexOf('?') != -1) 
 			{

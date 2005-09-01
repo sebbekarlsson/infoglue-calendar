@@ -35,6 +35,9 @@ import java.util.List;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.portlet.PortletFileUpload;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.taglib.AbstractCalendarTag;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.webwork.dispatcher.multipart.MultiPartRequestWrapper;
@@ -49,6 +52,8 @@ import com.opensymphony.xwork.ActionSupport;
 
 public abstract class CalendarUploadAbstractAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(CalendarUploadAbstractAction.class);
+
     protected File file;
     protected String assetKey;
     protected String fileName;
@@ -90,36 +95,6 @@ public abstract class CalendarUploadAbstractAction extends CalendarAbstractActio
     
     public File getFile()
     {
-        /*
-        MultiPartRequestWrapper multiWrapper = (MultiPartRequestWrapper) ServletActionContext.getRequest();
-        if (multiWrapper.hasErrors()) {
-            Collection errors = multiWrapper.getErrors();
-            Iterator i = errors.iterator();
-            while (i.hasNext()) {
-                String error = (String) i.next();
-              addActionError(error);
-              System.out.println("Error:" + error);
-            }
-            return null;
-          }
-        
-        Enumeration e = multiWrapper.getFileNames();
-
-        while (e.hasMoreElements()) {
-           String inputValue = (String) e.nextElement();
-           String contentType = multiWrapper.getContentType(inputValue);
-           String fileName = multiWrapper.getFilesystemName(inputValue);
-           File file = multiWrapper.getFile(inputValue);
-
-           // If it's null the upload failed
-           if (file == null) {
-              addActionError("Error uploading: " + multiWrapper.getFilesystemName(inputValue));
-           }
-
-           return file;
-        }
-        */
-        
         try
         {
 	        DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -127,14 +102,14 @@ public abstract class CalendarUploadAbstractAction extends CalendarAbstractActio
 	        PortletFileUpload upload = new PortletFileUpload(factory);
 	        // Configure the uploader here, if desired.
 	        List fileItems = upload.parseRequest(ServletActionContext.getRequest());
-            System.out.println("fileItems:" + fileItems.size());
+            log.debug("fileItems:" + fileItems.size());
 	        Iterator i = fileItems.iterator();
 	        while(i.hasNext())
 	        {
 	            Object o = i.next();
 	            DiskFileItem dfi = (DiskFileItem)o;
-	            System.out.println("dfi:" + dfi.getFieldName());
-	            System.out.println("dfi:" + dfi);
+	            log.debug("dfi:" + dfi.getFieldName());
+	            log.debug("dfi:" + dfi);
 	            
 	            if (!dfi.isFormField()) {
 	                String fieldName = dfi.getFieldName();
@@ -143,11 +118,11 @@ public abstract class CalendarUploadAbstractAction extends CalendarAbstractActio
 	                boolean isInMemory = dfi.isInMemory();
 	                long sizeInBytes = dfi.getSize();
 	                
-	                System.out.println("fieldName:" + fieldName);
-	                System.out.println("fileName:" + fileName);
-	                System.out.println("contentType:" + contentType);
-	                System.out.println("isInMemory:" + isInMemory);
-	                System.out.println("sizeInBytes:" + sizeInBytes);
+	                log.debug("fieldName:" + fieldName);
+	                log.debug("fileName:" + fileName);
+	                log.debug("contentType:" + contentType);
+	                log.debug("isInMemory:" + isInMemory);
+	                log.debug("sizeInBytes:" + sizeInBytes);
 	                File uploadedFile = new File(getTempFilePath() + File.separator + fileName);
 	                dfi.write(uploadedFile);
 	                return uploadedFile;

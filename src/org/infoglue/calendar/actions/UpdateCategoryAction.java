@@ -54,9 +54,6 @@ public class UpdateCategoryAction extends ViewCategoryAction
     
     public String execute() throws Exception 
     {
-        System.out.println("UpdateCategoryAction....");
-        System.out.println("name:" + dataBean.getName());
-        
         try
         {
             validateInput(this);

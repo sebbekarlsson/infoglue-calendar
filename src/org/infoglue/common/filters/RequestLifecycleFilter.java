@@ -47,7 +47,6 @@ public class RequestLifecycleFilter implements Filter {
      * @throws ServletException if an error occurs while executing the filter
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIITTT");
         chain.doFilter(request, response);
     }
 

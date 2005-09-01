@@ -115,7 +115,6 @@ public class CategoryController extends BasicController
 
     public void updateCategory(Long id, String name, String description, Session session) throws Exception 
     {
-        System.out.println("Updating id:" + id + " with " + name);
 		Category category = getCategory(id, session);
 		updateCategory(category, name, description, session);
     }
@@ -131,9 +130,7 @@ public class CategoryController extends BasicController
         category.setName(name);
         category.setDescription(description);
 	
-        System.out.println("Updating category:" + category.getName());
 		session.update(category);
-        System.out.println("Updated category:" + category.getName());
 	}
     
  

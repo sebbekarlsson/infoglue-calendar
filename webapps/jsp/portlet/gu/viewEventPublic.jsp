@@ -138,6 +138,12 @@ href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="even
       		</ww:iterator>
  			</span>
  		</p>
+ 		<p>
+ 			<ww:set name="puffImage" value="this.getResourceUrl(event, 'DetaljBild')"/>
+			<ww:if test="#puffImage != null">
+				<img src="<ww:property value="#puffImage"/>"/>
+			</ww:if> 		
+ 		</p>
 		<p>
 			<span class="calendarLabel"><ww:property value="this.getLabel('labels.public.event.files')"/></span><br>
 			<span class="calendarValue">

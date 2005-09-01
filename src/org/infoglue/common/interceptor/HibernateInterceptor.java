@@ -1,4 +1,4 @@
-//$Id: HibernateInterceptor.java,v 1.1 2005/08/18 14:01:08 mattias Exp $
+//$Id: HibernateInterceptor.java,v 1.2 2005/09/01 08:34:26 mattias Exp $
 package org.infoglue.common.interceptor;
 
 import org.hibernate.HibernateException;
@@ -26,11 +26,6 @@ public class HibernateInterceptor implements Interceptor {
 
 	public String intercept(ActionInvocation invocation) throws Exception {
 		Action action = invocation.getAction();
-		System.out.println("");
-		System.out.println("");
-		System.out.println("INTERCEPTOR:" + action);
-		System.out.println("");
-		System.out.println("");
 		
 		if ( !(action instanceof CalendarAbstractAction) ) return invocation.invoke();
 		

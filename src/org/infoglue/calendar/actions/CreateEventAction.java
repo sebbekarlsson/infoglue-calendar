@@ -32,6 +32,8 @@ import java.util.Map;
 
 import javax.portlet.PortletURL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
@@ -55,6 +57,8 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class CreateEventAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(CreateEventAction.class);
+
     //private Map dataBean = new HashMap();
 
     private String name;
@@ -151,14 +155,11 @@ public class CreateEventAction extends CalendarAbstractAction
         }
         catch(ValidationException e)
         {
-            System.out.println("ERROR");
-            e.printStackTrace();
+            log.error("An validation error occcurred:" + e.getMessage(), e);
             return Action.ERROR;            
 
         }
 
-        System.out.println("SUCCESS");
-        
         return Action.SUCCESS;
     } 
 
@@ -211,13 +212,10 @@ public class CreateEventAction extends CalendarAbstractAction
         }
         catch(ValidationException e)
         {
-            System.out.println("ERROR");
-            e.printStackTrace();
+            log.error("An validation error occcurred:" + e.getMessage(), e);
             return Action.ERROR;            
 
         }
-
-        System.out.println("SUCCESS");
         
         return Action.SUCCESS;
     } 

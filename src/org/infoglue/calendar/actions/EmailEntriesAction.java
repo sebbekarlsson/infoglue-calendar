@@ -52,17 +52,7 @@ public class EmailEntriesAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println();
-        System.out.println();
-        System.out.println("********************************");
-        System.out.println("emailAddresses:" + emailAddresses);
-        System.out.println("message:" + message);
-        System.out.println("********************************");
         EntryController.getController().mailEntries(this.emailAddresses, subject, message);
-
-        System.out.println("********************************");
-        System.out.println();
-        System.out.println();
 
         return Action.SUCCESS;
     } 

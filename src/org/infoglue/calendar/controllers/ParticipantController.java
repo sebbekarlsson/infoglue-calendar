@@ -66,15 +66,11 @@ public class ParticipantController extends BasicController
     
     public Participant createParticipant(String userName, Event event, Session session) throws HibernateException, Exception 
     {
-        System.out.println("Creating new participant...");
-        
         Participant participant = new Participant();
         participant.setUserName(userName);
         participant.setEvent(event);
         
         session.save(participant);
-        
-        System.out.println("Finished creating participant...");
         
         return participant;
     }

@@ -1,4 +1,4 @@
-//$Id: PortletDispatchResult.java,v 1.7 2005/08/25 14:06:21 mattias Exp $
+//$Id: PortletDispatchResult.java,v 1.8 2005/09/01 08:34:26 mattias Exp $
 package com.opensymphony.webwork.portlet.alternative.action;
 
 import java.util.Iterator;
@@ -49,7 +49,6 @@ public class PortletDispatchResult implements Result {
 		ActionContext ctx = ActionContext.getContext();
 				
 		PortletDispatcher dispatcher = (PortletDispatcher)ctx.get("com.opensymphony.webwork.portlet.dispatcher.PortletDispatcher");
-		//System.out.println("dispatcher:" + dispatcher);
 		PortletContext context = dispatcher.getPortletContext();
 		Object requestObject = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletRequest");
 		Object responseObject = ctx.get("com.opensymphony.xwork.dispatcher.HttpServletResponse");
@@ -78,13 +77,6 @@ public class PortletDispatchResult implements Result {
 		try 
 		{
 			
-		    //System.out.println("cfg:" + cfg);
-		    //System.out.println("cfg.getPortletContext():" + cfg.getPortletContext());
-		    //System.out.println("context:" + context);
-		    //System.out.println("rd:" + rd);
-		    //System.out.println("dispatchTo:" + dispatchTo);
-		    //System.out.println("req:" + req);
-		    //System.out.println("res:" + res);
 		    context.getRequestDispatcher(dispatchTo).include(req, res);
 			//cfg.getPortletContext().getRequestDispatcher(dispatchTo).include(req, res);
 		}

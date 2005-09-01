@@ -108,18 +108,8 @@ public class EventController extends BasicController
             	            Session session) throws HibernateException, Exception 
     {
         Event event = null;
-
-        System.out.println("calendarId:" + calendarId);
-        System.out.println("name:" + name);
-        System.out.println("description:" + description);
-        System.out.println("startCalendar:" + startDateTime);
-        System.out.println("endCalendar:" + endDateTime);
-        System.out.println("locationId:" + locationId);
-        System.out.println("categoryId:" + categoryId);
-        System.out.println("participantUserName:" + participantUserName);
-        
+ 
 		Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
-		System.out.println("calendar:" + calendar);
 		
 		Set locations = new HashSet();
 		if(locationId != null)
@@ -212,7 +202,6 @@ public class EventController extends BasicController
             				boolean isPublished,
             				Session session) throws HibernateException, Exception 
     {
-        System.out.println("Creating new event...");
         
         Event event = new Event();
         event.setName(name);
@@ -242,8 +231,6 @@ public class EventController extends BasicController
         calendar.getEvents().add(event);
         
         session.save(event);
-        
-        System.out.println("Finished creating event...");
         
         return event;
     }
@@ -499,12 +486,6 @@ public class EventController extends BasicController
     
     public List getEventList(Calendar calendar, boolean isPublished, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
-        //System.out.println("**********************");
-        System.out.println("**********************");
-        System.out.println("session:" + session.getEntityMode());
-        System.out.println("calendar:" + calendar.getId());
-        System.out.println("isPublished:" + isPublished);
-        System.out.println("**********************");
         Query q = session.createQuery("from Event as event inner join fetch event.calendar as calendar where event.calendar = ? AND event.isPublished = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
         q.setEntity(0, calendar);
         q.setBoolean(1, isPublished);
@@ -517,14 +498,8 @@ public class EventController extends BasicController
         while(iterator.hasNext())
         {
             Object o = iterator.next();
-            //System.out.println("o:" + o.getClass().getName());
             Event event = (Event)o;
-            System.out.println("event:" + event.getName());
         }
-        
-        //System.out.println("**********************");
-
-        //System.out.println("list:" + list.size());
         
 		return list;
     }
@@ -569,7 +544,6 @@ public class EventController extends BasicController
 	    
 	    try
 	    {
-	        System.out.println("CalendarOwner:" + event.getCalendar().getOwner());
 	        InfoGluePrincipal inforgluePrincipal = UserControllerProxy.getController().getUser(event.getCalendar().getOwner());
 	        
 	        String template;
@@ -583,9 +557,6 @@ public class EventController extends BasicController
 		    else
 	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEventNotification_html.vm"));
 		    
-	        System.out.println("inforgluePrincipal:" + inforgluePrincipal.getEmail());
-	        System.out.println("template:" + template);
-	        
 		    Map parameters = new HashMap();
 		    parameters.put("event", event);
 		    parameters.put("publishEventUrl", publishEventUrl.replaceAll("\\{eventId\\}", event.getId().toString()));
@@ -599,7 +570,6 @@ public class EventController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			System.out.println("email:" + email);
 			MailServiceFactory.getService().send(systemEmailSender, inforgluePrincipal.getEmail(), "InfoGlue Calendar - new event waiting", email, contentType, "UTF-8");
 		}
 		catch(Exception e)

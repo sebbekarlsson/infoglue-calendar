@@ -36,6 +36,8 @@ import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -44,6 +46,7 @@ import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Participant;
+import org.infoglue.calendar.taglib.AbstractCalendarTag;
 import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.PropertyHelper;
@@ -63,6 +66,8 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class CalendarAbstractAction extends ActionSupport
 {
+	private static Log log = LogFactory.getLog(CalendarAbstractAction.class);
+
 	/**
 	 * This method lets the velocity template get hold of all actions inheriting.
 	 * 
@@ -201,7 +206,12 @@ public class CalendarAbstractAction extends ActionSupport
     {
         return ResourceController.getController().getResourceUrl(resourceId, getSession());
     }
-      
+
+    public String getResourceUrl(Event event, String assetKey) throws Exception
+    {
+        return ResourceController.getController().getResourceUrl(event, assetKey, getSession());
+    }
+
     public Participant getParticipant(Long participantId) throws Exception
     {
         return ParticipantController.getController().getParticipant(participantId, getSession());
@@ -256,8 +266,7 @@ public class CalendarAbstractAction extends ActionSupport
 	    }
 	    catch(Exception e)
 	    {
-	        e.printStackTrace();
-	        System.out.println("Problem but nothing important...:" + key);
+	        log.warn("An label was not found:" + e.getMessage(), e);
 	    }
 	    
 	    return label;
@@ -284,18 +293,17 @@ public class CalendarAbstractAction extends ActionSupport
 	
 	public void disposeSession() throws HibernateException {
 		
-		System.out.println("Disposing....................................................");
-		LOG.debug("disposing");
+		log.debug("disposing");
 
 		if (getSession()==null) return;
 
 		if (rollBackOnly) {
 			try {
-				LOG.debug("rolling back");
+				log.debug("rolling back");
 				if (getTransaction()!=null) getTransaction().rollback();
 			}
 			catch (HibernateException e) {
-				LOG.error("error during rollback", e);
+			    log.error("error during rollback", e);
 				throw e;
 			}
 			finally {
@@ -306,16 +314,14 @@ public class CalendarAbstractAction extends ActionSupport
 		}
 		else {
 			try {
-				LOG.debug("committing");
-				System.out.println("committing..........................?");
+			    log.debug("committing");
 				if (getTransaction()!=null) 
 				{
-					System.out.println("committing.......................... yes");
 				    getTransaction().commit();
 				}
 			}
 			catch (HibernateException e) {
-				LOG.error("error during commit", e);
+			    log.error("error during commit", e);
 				getTransaction().rollback();
 				throw e;
 			}

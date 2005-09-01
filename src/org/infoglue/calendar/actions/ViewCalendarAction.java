@@ -28,10 +28,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.taglib.AbstractCalendarTag;
 import org.infoglue.common.security.UserControllerProxy;
 
 import com.opensymphony.xwork.Action;
@@ -44,6 +47,8 @@ import com.opensymphony.xwork.Action;
 
 public class ViewCalendarAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(ViewCalendarAction.class);
+
     private Integer componentId;
     private Long calendarId;
     private String mode;
@@ -74,21 +79,21 @@ public class ViewCalendarAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         this.componentId = getComponentId();
-        System.out.println("****************************");
-        System.out.println("calendarId:" + calendarId);
-        System.out.println("componentId:" + componentId);
-        System.out.println("startDateTime:" + startDateTime);
-        System.out.println("endDateTime:" + endDateTime);
-        System.out.println("mode:" + mode);
-        System.out.println("****************************");
+        log.debug("****************************");
+        log.debug("calendarId:" + calendarId);
+        log.debug("componentId:" + componentId);
+        log.debug("startDateTime:" + startDateTime);
+        log.debug("endDateTime:" + endDateTime);
+        log.debug("mode:" + mode);
+        log.debug("****************************");
         this.calendar = CalendarController.getController().getCalendar(calendarId, this.getSession());
-        System.out.println("calendar: " + calendar.getName());
-        System.out.println("calendar: " + calendar.getOwner());
+        log.debug("calendar: " + calendar.getName());
+        log.debug("calendar: " + calendar.getOwner());
         
         this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
         this.endCalendar   = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23));
-        //System.out.println("startDateTime:" + startDateTime);
-        //System.out.println("startCalendar:" + startCalendar.getTime());
+        //log.debug("startDateTime:" + startDateTime);
+        //log.debug("startCalendar:" + startCalendar.getTime());
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(new Date(startCalendar.getTime().getTime()));
 
@@ -99,7 +104,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
         monthStartCalendar.set(java.util.Calendar.MINUTE, 0);
         monthStartCalendar.set(java.util.Calendar.SECOND, 0);
         monthStartCalendar.set(java.util.Calendar.MILLISECOND, 0);
-        System.out.println("monthStartCalendar:" + monthStartCalendar.getTime());
+        log.debug("monthStartCalendar:" + monthStartCalendar.getTime());
         
         java.util.Calendar monthEndCalendar = java.util.Calendar.getInstance();
         monthEndCalendar.setTime(new Date(startCalendar.getTime().getTime()));
@@ -108,7 +113,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
         monthEndCalendar.set(java.util.Calendar.MINUTE, 59);
         monthEndCalendar.set(java.util.Calendar.SECOND, 59);
         monthEndCalendar.set(java.util.Calendar.MILLISECOND, 999);
-        System.out.println("monthEndCalendar:" + monthEndCalendar.getTime());
+        log.debug("monthEndCalendar:" + monthEndCalendar.getTime());
 
         java.util.Calendar weekStartCalendar = java.util.Calendar.getInstance();
         weekStartCalendar.setTime(new Date(startCalendar.getTime().getTime()));
@@ -126,20 +131,20 @@ public class ViewCalendarAction extends CalendarAbstractAction
         weekEndCalendar.set(java.util.Calendar.SECOND, 59);
         weekEndCalendar.set(java.util.Calendar.MILLISECOND, 999);
 
-        //System.out.println("DAY_OF_WEEK: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK));
-        //System.out.println("DAY_OF_WEEK_IN_MONTH: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-        //System.out.println("DATE:" + weekStartCalendar.getTime());
-        //System.out.println("DAY_OF_WEEK: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK));
-        //System.out.println("DAY_OF_WEEK_IN_MONTH: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-        //System.out.println("DATE:" + weekEndCalendar.getTime());
+        //log.debug("DAY_OF_WEEK: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK));
+        //log.debug("DAY_OF_WEEK_IN_MONTH: " + weekStartCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        //log.debug("DATE:" + weekStartCalendar.getTime());
+        //log.debug("DAY_OF_WEEK: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK));
+        //log.debug("DAY_OF_WEEK_IN_MONTH: " + weekEndCalendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        //log.debug("DATE:" + weekEndCalendar.getTime());
 
-        //System.out.println("weekStartCalendar:" + weekStartCalendar.getTime());
-        //System.out.println("weekEndCalendar:" + weekEndCalendar.getTime());
+        //log.debug("weekStartCalendar:" + weekStartCalendar.getTime());
+        //log.debug("weekEndCalendar:" + weekEndCalendar.getTime());
 
         if(useEventPublishing())
         {
             this.waitingEvents = EventController.getController().getEventList(calendarId, false, startCalendar, endCalendar, getSession());
-            System.out.println("getRemoteUser:" + getInfoGlueRemoteUser());
+            log.debug("getRemoteUser:" + getInfoGlueRemoteUser());
             String infoglueRemoteUser = getInfoGlueRemoteUser();
             if(infoglueRemoteUser != null && this.calendar.getOwner() != null)
                 this.isPublisher = (this.calendar.getOwner().equalsIgnoreCase(infoglueRemoteUser)) ? true : false;
@@ -154,7 +159,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
             
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
 
-        System.out.println("startCalendar:" + startCalendar.getTime());
+        log.debug("startCalendar:" + startCalendar.getTime());
         
         return Action.SUCCESS;
     } 
@@ -173,19 +178,19 @@ public class ViewCalendarAction extends CalendarAbstractAction
     
     private List getDateList(java.util.Calendar calendar)
     {
-        //System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
-        //System.out.println("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-        //System.out.println("DATE:" + calendar.getTime());
+        //log.debug("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
+        //log.debug("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        //log.debug("DATE:" + calendar.getTime());
         calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 12);
-        //System.out.println("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
-        //System.out.println("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-        //System.out.println("DATE:" + calendar.getTime());
+        //log.debug("DAY_OF_WEEK: " + calendar.get(java.util.Calendar.DAY_OF_WEEK));
+        //log.debug("DAY_OF_WEEK_IN_MONTH: " + calendar.get(java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+        //log.debug("DATE:" + calendar.getTime());
            
         List dateList = new ArrayList();
         for(int i=0; i<7; i++)
         {
-            //System.out.println("DATE:" + calendar.getTime());
+            //log.debug("DATE:" + calendar.getTime());
             dateList.add(calendar.getTime());
             calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
         }
@@ -218,14 +223,14 @@ public class ViewCalendarAction extends CalendarAbstractAction
             int endHourOfDay = event.getEndDateTime().get(java.util.Calendar.HOUR_OF_DAY);
             int eventHourOfDay = calendar.get(java.util.Calendar.HOUR_OF_DAY);
             
-            //System.out.println("event:" + event.getName());
+            //log.debug("event:" + event.getName());
             boolean singleHourEvent = false;
             if(startDayOfYear == endDayOfYear && endDayOfYear == eventDayOfYear && (endHourOfDay - startHourOfDay < 2))
                 singleHourEvent = true;
             
             if(startDayOfYear <= eventDayOfYear && endDayOfYear >= eventDayOfYear)
             {
-                System.out.println("hour:" + hour + "=" + singleHourEvent);
+                log.debug("hour:" + hour + "=" + singleHourEvent);
                 if(singleHourEvent && startHourOfDay <= Integer.parseInt(hour) && endHourOfDay >= Integer.parseInt(hour))
                 {
                     hourEvents.add(event);
@@ -241,8 +246,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
         /*
         if(hourEvents.size() > 0)
         {
-            System.out.println("getEvents with hour:" + date + ":" + hour);
-            System.out.println("returning:" + hourEvents.size());
+            log.debug("getEvents with hour:" + date + ":" + hour);
+            log.debug("returning:" + hourEvents.size());
         }
         */
         
@@ -263,13 +268,13 @@ public class ViewCalendarAction extends CalendarAbstractAction
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(date);
         
-        //System.out.println("this.weekEvents:" + this.weekEvents.size());
+        //log.debug("this.weekEvents:" + this.weekEvents.size());
         
         Iterator eventIterator = this.weekEvents.iterator();
         while(eventIterator.hasNext())
         {
             Event event = (Event)eventIterator.next();
-            //System.out.println("event:" + event.getName());
+            //log.debug("event:" + event.getName());
             
             int startDayOfYear = event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR);
             int endDayOfYear = event.getEndDateTime().get(java.util.Calendar.DAY_OF_YEAR);
@@ -279,14 +284,14 @@ public class ViewCalendarAction extends CalendarAbstractAction
             int endHourOfDay = event.getEndDateTime().get(java.util.Calendar.HOUR_OF_DAY);
             int eventHourOfDay = calendar.get(java.util.Calendar.HOUR_OF_DAY);
             
-            //System.out.println("event:" + event.getName());
+            //log.debug("event:" + event.getName());
             boolean singleHourEvent = false;
             if(startDayOfYear == endDayOfYear && endDayOfYear == eventDayOfYear && (endHourOfDay - startHourOfDay < 2))
                 singleHourEvent = true;
             
             if(startDayOfYear <= eventDayOfYear && endDayOfYear >= eventDayOfYear)
             {
-                System.out.println("hour:" + hour + "=" + singleHourEvent);
+                log.debug("hour:" + hour + "=" + singleHourEvent);
                 if(singleHourEvent && startHourOfDay <= Integer.parseInt(hour) && endHourOfDay >= Integer.parseInt(hour))
                 {
                     hourEvents.add(event);
@@ -325,7 +330,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
         while(eventIterator.hasNext())
         {
             Event event = (Event)eventIterator.next();
-            //System.out.println("event:" + event.getName());
+            //log.debug("event:" + event.getName());
             if(event.getStartDateTime().get(java.util.Calendar.DAY_OF_YEAR) == calendar.get(java.util.Calendar.DAY_OF_YEAR))
             {
                 hourEvents.add(event);
@@ -348,13 +353,11 @@ public class ViewCalendarAction extends CalendarAbstractAction
 
     public void setCalendarId(String calendarId)
     {
-        System.out.println("calendarId in String" + calendarId);
         this.calendarId = new Long(calendarId);
     }
 
     public void setCalendarId(String[] calendarId)
     {
-        System.out.println("calendarId in String[]" + calendarId[0]);
         this.calendarId = new Long(calendarId[0]);
     }
 

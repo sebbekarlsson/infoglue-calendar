@@ -124,7 +124,6 @@ public class EntryController extends BasicController
  				             Event event, 
  				             Session session) throws HibernateException, Exception 
     {
-        System.out.println("Creating new entry...");
         
         Entry entry = new Entry();
         entry.setFirstName(firstName);
@@ -141,8 +140,6 @@ public class EntryController extends BasicController
         entry.setEvent(event);
         
         session.save(entry);
-        
-        System.out.println("Finished creating entry...");
         
         return entry;
     }
@@ -326,13 +323,6 @@ public class EntryController extends BasicController
     
     public List getEntryList(String firstName, String lastName, String email, Long eventId, String[] categories, String[] locations, Session session) throws Exception
     {
-        System.out.println("firstName:" + firstName);
-        System.out.println("lastName:" + lastName);
-        System.out.println("email:" + email);
-        System.out.println("eventId:" + eventId);
-        System.out.println("categories:" + categories);
-        System.out.println("locations:" + locations);
-        
 		List list = getEntryList(eventId, firstName, lastName, email, session);
 		
 		Iterator entryListIterator = list.iterator();
@@ -414,7 +404,6 @@ public class EntryController extends BasicController
             arguments += (arguments.length() == 0 ? "" : "and ") + "entry.email = :email ";
             
         String sql = "from Entry entry where " + arguments + " order by entry.id";
-        System.out.println("sql:" + sql);
         
         Query q = session.createQuery(sql);
 
@@ -471,10 +460,6 @@ public class EntryController extends BasicController
 	    
 	    try
 	    {
-	        System.out.println("emailAddresses:" + emailAddresses);
-	        System.out.println("subject:" + subject);
-		    System.out.println("message:" + message);
-	        
 	        String template;
 	        
 	        String contentType = PropertyHelper.getProperty("mail.contentType");
@@ -498,7 +483,6 @@ public class EntryController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			System.out.println("email:" + email);
 			MailServiceFactory.getService().send(systemEmailSender, emailAddresses, subject, email, contentType, "UTF-8");
 		}
 		catch(Exception e)
@@ -521,8 +505,6 @@ public class EntryController extends BasicController
 	    
 	    try
 	    {
-	        System.out.println("emailAddresse:" + entry.getEmail());
-	        
 	        String template;
 	        
 	        String contentType = PropertyHelper.getProperty("mail.contentType");
@@ -546,7 +528,6 @@ public class EntryController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			System.out.println("email:" + email);
 			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), entry.getEvent().getName() + " - Verification", email, contentType, "UTF-8");
 		}
 		catch(Exception e)

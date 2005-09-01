@@ -78,7 +78,6 @@ public class ResourceController extends BasicController
     
     public Resource createResource(Long eventId, String assetKey, String contentType, String fileName, File file, Session session) throws HibernateException, Exception 
     {
-        System.out.println("File:" + file.getAbsolutePath());
         Resource resource = null;
         
 		Event event = EventController.getController().getEvent(eventId, session);
@@ -94,9 +93,6 @@ public class ResourceController extends BasicController
     
     public Resource createResource(Event event, String assetKey, String contentType, String fileName, File file, Session session) throws HibernateException, Exception 
     {
-        System.out.println("Creating new resource...");
-        System.out.println("FileName:" + fileName);
-
         Resource resource = new Resource();
         resource.setAssetKey(assetKey);
         resource.setFileName(fileName);
@@ -105,8 +101,6 @@ public class ResourceController extends BasicController
         event.getResources().add(resource);
         
         session.save(resource);
-        
-        System.out.println("Finished creating resource...");
         
         return resource;
     }
@@ -196,6 +190,43 @@ public class ResourceController extends BasicController
      * @throws Exception
      */
     
+    public String getResourceUrl(Event event, String assetKey, Session session) throws Exception
+    {
+        String url = "";
+        
+        Iterator resourceIterator = event.getResources().iterator();
+        while(resourceIterator.hasNext())
+        {
+            Resource resource = (Resource)resourceIterator.next();
+
+            if(resource.getAssetKey().equalsIgnoreCase(assetKey))
+            {
+				String digitalAssetPath = PropertyHelper.getProperty("digitalAssetPath");
+				String fileName = resource.getId() + "_" + resource.getAssetKey() + "_" + resource.getFileName();
+				FileOutputStream fos = new FileOutputStream(digitalAssetPath + fileName);
+				
+				Blob blob = resource.getResource();
+				byte[] bytes = blob.getBytes(1, (int) blob.length());
+				fos.write(bytes);
+				fos.flush();
+				fos.close(); 
+		
+				String urlBase = PropertyHelper.getProperty("urlBase");
+				
+				url = urlBase + "digitalAssets/" + fileName;
+				
+				return url;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * This method returns a Resource based on it's primary key
+     * @return Resource
+     * @throws Exception
+     */
+    
     public String getResourceUrl(Long id, Session session) throws Exception
     {
         String url = "";
@@ -208,7 +239,6 @@ public class ResourceController extends BasicController
 		
 		Blob blob = resource.getResource();
 		byte[] bytes = blob.getBytes(1, (int) blob.length());
-		System.out.println(bytes.length);
 		fos.write(bytes);
 		fos.flush();
 		fos.close(); 
@@ -312,8 +342,6 @@ public class ResourceController extends BasicController
     
     public List getEventList(Calendar calendar, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
-        //System.out.println("**********************");
-        
         Query q = session.createQuery("from Event as event inner join fetch event.calendar as calendar where event.calendar = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
         q.setEntity(0, calendar);
         q.setCalendar(1, startDate);
@@ -325,14 +353,8 @@ public class ResourceController extends BasicController
         while(iterator.hasNext())
         {
             Object o = iterator.next();
-            //System.out.println("o:" + o.getClass().getName());
             Event event = (Event)o;
-            //System.out.println("event:" + event);
         }
-        
-        //System.out.println("**********************");
-
-        //System.out.println("list:" + list.size());
         
 		return list;
     }

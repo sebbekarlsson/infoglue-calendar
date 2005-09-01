@@ -69,9 +69,9 @@ public class UserControllerProxy
 	{
 		try
 		{
-			System.out.println("*********************************************************");
-			System.out.println("Initializing properties for Authentication framework.....");
-			System.out.println("*********************************************************");
+		    log.debug("*********************************************************");
+		    log.debug("Initializing properties for Authentication framework.....");
+		    log.debug("*********************************************************");
 			
 			cachedExtraProperties = new Properties();
 			cachedExtraProperties.load(UserControllerProxy.class.getResourceAsStream("/infoglueSecurity.properties"));

@@ -54,9 +54,9 @@ public class SecurityConstants
 	{
 		try
 		{
-			System.out.println("*********************************************************");
-			System.out.println("Initializing properties for Authentication framework.....");
-			System.out.println("*********************************************************");
+		    log.debug("*********************************************************");
+		    log.debug("Initializing properties for Authentication framework.....");
+		    log.debug("*********************************************************");
 			
 			extraProperties = new Properties();
 			extraProperties.load(SecurityConstants.class.getResourceAsStream("/infoglueSecurity.properties"));

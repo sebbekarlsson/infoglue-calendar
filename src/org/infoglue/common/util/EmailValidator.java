@@ -18,9 +18,6 @@ public class EmailValidator extends FieldValidatorSupport
         String fieldName = getFieldName();
         String value = (String) this.getFieldValue(fieldName, object);
 
-        System.out.println("fieldName:" + fieldName);
-        System.out.println("value:" + value);
-        
         if (value == null) 
         {
             addFieldError(fieldName, object);
@@ -37,7 +34,6 @@ public class EmailValidator extends FieldValidatorSupport
         }
 
         if (!TextUtils.verifyEmail(value)) {
-            System.out.println("ERRRRRRRRRRRRROR:" + value + ":" + fieldName + ":" + object);
             addFieldError(fieldName, object);
         }
     }

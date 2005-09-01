@@ -177,8 +177,7 @@ public class MailService
 	        try 
 			{
 	            addresses[i] = new InternetAddress(email);
-	            System.out.println("Adding " + email + " to recipient list...");
-			} 
+	        } 
 		    catch(AddressException e) 
 		    {
 		        throw new Bug("Badly formatted email address [" + email + "].", e);
