@@ -20,12 +20,7 @@
 <ww:set name="mode" value="mode" scope="page"/>
 
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendarPublic.css" />
 
 <script type="text/javascript">
 
@@ -53,6 +48,12 @@
 		<portlet:param name="eventId" value="{eventId}"/>
 	</portlet:renderURL>
 
+	<portlet:renderURL var="viewCalendarUrl">
+		<portlet:param name="action" value="ViewCalendar"/>
+		<portlet:param name="calendarId" value="{event.calendarId}"/>
+	</portlet:renderURL>
+
+    <a href="<c:out value="${viewCalendarUrl}"/>">Back</a>
 	<%
 	Object requestObject = request.getAttribute("javax.portlet.request");
 	javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
@@ -210,10 +211,10 @@
 						<calendar:evalParam name="mode" value="${mode}"/>
 					</portlet:actionURL>
 						
-					<a href="<c:out value="${url}"/>" class="calendarLink"><ww:property value='assetKey'/></a>&nbsp;<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a><br>     			
+					<span class="calendarValue"><a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a></span>&nbsp;<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a><br>     			
 	      		</ww:iterator>
 	      		<br/>
-	      		<a href="javascript:showUploadForm();" class="calendarLink"><ww:property value="this.getLabel('labels.internal.event.attachFile')"/></a>
+	      		<span class="calendarValue"><a href="javascript:showUploadForm();"><ww:property value="this.getLabel('labels.internal.event.attachFile')"/></a></span>
 			</p>
 			<p>
 				<br>
@@ -224,7 +225,7 @@
 					<calendar:evalParam name="calendarId" value="${calendarId}"/>
 					<calendar:evalParam name="mode" value="${mode}"/>
 				</portlet:renderURL>
-				<a href="<c:out value="${createEntryRenderURL}"/>" class="calendarLink"><ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/></a>
+				<span class="calendarValue"><a href="<c:out value="${createEntryRenderURL}"/>" class="calendarLink"><ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/></a></span>
 			</p>
 			<p>
 				<input type="submit" value="Update" class="calendarButton">
