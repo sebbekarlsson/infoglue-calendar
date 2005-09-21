@@ -15,49 +15,21 @@
         optimistic-lock="version"
     >
 
-        <id
-            name="id"
-            column="id"
-            type="long"
-            unsaved-value="null"
-        >
-            <generator class="native">
-              <!--  
-                  To add non XDoclet generator parameters, create a file named 
-                  hibernate-generator-params-Category.xml 
-                  containing the additional parameters and place it in your merge dir. 
-              --> 
-            </generator>
+        <id name="id" column="id" type="long" unsaved-value="null">
+            <generator class="native"></generator>
         </id>
 
-        <property
-            name="name"
-            type="string"
-            update="true"
-            insert="true"
-            access="property"
-            column="name"
-            not-null="false"
-            unique="true"
-        />
+        <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="true" />
+        <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false" />
+		<property name="active" column="active" type="boolean"/>
 
-        <property
-            name="description"
-            type="string"
-            update="true"
-            insert="true"
-            access="property"
-            column="description"
-            not-null="false"
-            unique="false"
-        />
-
-        <!--
-            To add non XDoclet property mappings, create a file named
-                hibernate-properties-Category.xml
-            containing the additional properties and place it in your merge dir.
-        -->
-
+   		<many-to-one name="parent" class="org.infoglue.calendar.entities.Category" column="parent_id" not-null="true"/>
+   
+   		<set name="children" table="Category" lazy="false" inverse="false" cascade="none" sort="unsorted">
+            <key column="parent_id"/>
+            <one-to-many class="org.infoglue.calendar.entities.Category"/>
+        </set>
+        
     </class>
 
 </hibernate-mapping>

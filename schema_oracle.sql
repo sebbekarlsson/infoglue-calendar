@@ -10,6 +10,8 @@ CREATE TABLE category (
   id int NOT NULL ,
   name varchar(255) default NULL,
   description varchar(255) default NULL,
+  active int default '1' NOT NULL ,
+  parentId int,  
   PRIMARY KEY  (id)
 );
 

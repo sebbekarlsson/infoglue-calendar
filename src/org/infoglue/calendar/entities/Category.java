@@ -22,7 +22,7 @@
 */
 package org.infoglue.calendar.entities;
 
-import org.infoglue.common.util.ConstraintExceptionBuffer;
+import java.util.Set;
 
 /**
  * This just represents a simple category for events. Such as meeting, horse show or anything else that are common.
@@ -37,6 +37,10 @@ public class Category implements BaseEntity
     private Long id;
     private String name;
     private String description;
+    private Boolean active = new Boolean(true); //Default if not otherwise set
+    
+    private Category parent;
+    private Set children;
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -83,4 +87,33 @@ public class Category implements BaseEntity
 		this.description = description;
 	}
 	
+    public Boolean getActive()
+    {
+        return active;
+    }
+    
+    public void setActive(Boolean active)
+    {
+        this.active = active;
+    }
+    
+    public Set getChildren()
+    {
+        return children;
+    }
+    
+    public void setChildren(Set children)
+    {
+        this.children = children;
+    }
+    
+    public Category getParent()
+    {
+        return parent;
+    }
+    
+    public void setParent(Category parent)
+    {
+        this.parent = parent;
+    }
 }
