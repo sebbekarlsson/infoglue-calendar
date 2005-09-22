@@ -101,7 +101,7 @@ public class ViewEventAction extends CalendarAbstractAction
         this.assetKeys = EventController.getController().getAssetKeys();
 
         this.locations 	= LocationController.getController().getLocationList(getSession());
-        this.categories = CategoryController.getController().getCategoryList(getSession());
+        this.categories = CategoryController.getController().getRootCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
 
         this.yesOrNo = new ArrayList();

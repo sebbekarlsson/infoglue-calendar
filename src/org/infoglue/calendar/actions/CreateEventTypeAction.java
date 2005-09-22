@@ -27,13 +27,16 @@ import java.util.List;
 
 import javax.portlet.PortletURL;
 
-import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.controllers.LocationController;
+import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.EventType;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -41,23 +44,56 @@ import com.opensymphony.xwork.ActionContext;
  * @author Mattias Bogeblad
  */
 
-public class ViewLocationListAction extends CalendarAbstractAction
+public class CreateEventTypeAction extends CalendarAbstractAction
 {
-    private List locations;
-    
+    private EventType dataBean = new EventType();
+
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
-        this.locations = LocationController.getController().getLocationList(getSession());
-
+        try
+        {
+            validateInput(this);
+            EventTypeController.getController().createEventType(dataBean.getName(), dataBean.getDescription(), getSession());
+        }
+        catch(ValidationException e)
+        {
+            return Action.ERROR;            
+        }
+        
         return Action.SUCCESS;
     } 
 
-    public List getLocations()
+    /**
+     * This is the entry point creating a new calendar.
+     */
+    
+    public String input() throws Exception 
     {
-        return locations;
+        return Action.INPUT;
+    } 
+    
+    public String getDescription()
+    {
+        return this.dataBean.getDescription();
     }
+    
+    public void setDescription(String description)
+    {
+        this.dataBean.setDescription(description);
+    }
+    
+    public String getName()
+    {
+        return this.dataBean.getName();
+    }
+    
+    public void setName(String name)
+    {
+        this.dataBean.setName(name);
+    }
+    
 }

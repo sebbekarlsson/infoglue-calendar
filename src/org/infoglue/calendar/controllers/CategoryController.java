@@ -95,11 +95,19 @@ public class CategoryController extends BasicController
      * This method is used to create a new Category object in the database inside a transaction.
      */
     
-    public Category createCategory(String name, String description, Session session) throws HibernateException, Exception 
+    public Category createCategory(String name, String description, Boolean active, Long parentCategoryId, Session session) throws HibernateException, Exception 
     {
         Category category = new Category();
         category.setName(name);
         category.setDescription(description);
+        category.setActive(active);
+        
+        if(parentCategoryId != null)
+        {
+	        Category parentCategory = this.getCategory(parentCategoryId, session);
+	        parentCategory.getChildren().add(category);
+	        category.setParent(parentCategory);
+        }
         
         session.save(category);
         
@@ -222,11 +230,11 @@ public class CategoryController extends BasicController
      * @throws Exception
      */
     
-    public List getCategoryList(Session session) throws Exception 
+    public List getRootCategoryList(Session session) throws Exception 
     {
         List result = null;
         
-        Query q = session.createQuery("from Category category order by category.id");
+        Query q = session.createQuery("from Category category order by category.id where category.parent is null");
    
         result = q.list();
         
@@ -278,6 +286,9 @@ public class CategoryController extends BasicController
     public void deleteCategory(Long id, Session session) throws Exception 
     {
         Category category = this.getCategory(id, session);
+        Category parentCategory = category.getParent();
+        if(parentCategory != null)
+            parentCategory.getChildren().remove(category);
         session.delete(category);            
     }
     

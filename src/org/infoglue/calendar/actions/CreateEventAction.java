@@ -40,7 +40,6 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Event;
-import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.security.UserControllerProxy;
 import org.infoglue.common.util.DBSessionWrapper;
 import org.infoglue.common.util.PropertyHelper;
@@ -227,7 +226,7 @@ public class CreateEventAction extends CalendarAbstractAction
     public String input() throws Exception 
     {
         this.locations 	= LocationController.getController().getLocationList(getSession());
-        this.categories = CategoryController.getController().getCategoryList(getSession());
+        this.categories = CategoryController.getController().getRootCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.yesOrNo = new ArrayList();
         this.yesOrNo.add("true");

@@ -130,6 +130,73 @@
 				<param name="viewAction">ViewCategoryList.action</param>
 			</result>
 		</action>
+
+		<!-- CATEGORY ACTIONS -->
+		<action name="ViewEventTypeList" class="org.infoglue.calendar.actions.ViewEventTypeListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewEventTypeList.jsp</param>
+			</result>
+		</action>
+		<action name="CreateEventType" class="org.infoglue.calendar.actions.CreateEventTypeAction">
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/createEventType.jsp</param>
+            </result>
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">CreateEventType!input.action</param>
+			</result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEventTypeList.action</param>
+			</result>
+		</action>
+		<action name="ViewEventType" class="org.infoglue.calendar.actions.ViewEventTypeAction">
+			<result name="success" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewEventType.jsp</param>
+            </result>
+		</action>
+		<action name="UpdateEventType" class="org.infoglue.calendar.actions.UpdateEventTypeAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEventTypeList.action</param>
+			</result>
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">ViewEventType.action</param>
+			</result>
+		</action>
+		<action name="DeleteEventType" class="org.infoglue.calendar.actions.DeleteEventTypeAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEventTypeList.action</param>
+			</result>
+		</action>
+
+		<!-- EVENTTYPE_CATEGORY ACTIONS -->
+		<action name="CreateEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.CreateEventTypeCategoryAttributeAction">
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/createEventTypeCategoryAttribute.jsp</param>
+            </result>
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">CreateEventTypeCategoryAttribute!input.action</param>
+			</result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEventType.action</param>
+			</result>
+		</action>
+		<action name="ViewEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.ViewEventTypeCategoryAttributeAction">
+			<result name="success" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewEventTypeCategoryAttribute.jsp</param>
+            </result>
+		</action>
+		<action name="UpdateEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.UpdateEventTypeCategoryAttributeAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEventType.action</param>
+			</result>
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">ViewEventTypeCategoryAttribute.action</param>
+			</result>
+		</action>
+		<action name="DeleteEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.DeleteEventTypeCategoryAttributeAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEventType.action</param>
+			</result>
+		</action>
 		
 		<!-- EVENT ACTIONS -->
 		<action name="CreateEvent" class="org.infoglue.calendar.actions.CreateEventAction">

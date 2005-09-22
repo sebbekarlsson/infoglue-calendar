@@ -36,7 +36,6 @@ import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
-import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;

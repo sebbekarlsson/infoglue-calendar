@@ -30,7 +30,6 @@ import javax.portlet.PortletURL;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Category;
-import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
@@ -45,8 +44,12 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class CreateCategoryAction extends CalendarAbstractAction
 {
-    private Category dataBean = new Category();
+    private String name;
+    private String description;
 
+    private Boolean active = new Boolean(true);
+    private Long parentCategoryId;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -56,7 +59,7 @@ public class CreateCategoryAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CategoryController.getController().createCategory(dataBean.getName(), dataBean.getDescription(), getSession());
+            CategoryController.getController().createCategory(this.name, description, active, parentCategoryId, getSession());
         }
         catch(ValidationException e)
         {
@@ -77,22 +80,41 @@ public class CreateCategoryAction extends CalendarAbstractAction
     
     public String getDescription()
     {
-        return this.dataBean.getDescription();
+        return description;
     }
     
     public void setDescription(String description)
     {
-        this.dataBean.setDescription(description);
+        this.description = description;
     }
     
     public String getName()
     {
-        return this.dataBean.getName();
+        return this.name;
     }
     
     public void setName(String name)
     {
-        this.dataBean.setName(name);
+        this.name = name;
     }
 
+    public Boolean getActive()
+    {
+        return active;
+    }
+    
+    public void setActive(Boolean active)
+    {
+        this.active = active;
+    }
+    
+    public Long getParentCategoryId()
+    {
+        return parentCategoryId;
+    }
+    
+    public void setParentCategoryId(Long parentCategoryId)
+    {
+        this.parentCategoryId = parentCategoryId;
+    }
 }

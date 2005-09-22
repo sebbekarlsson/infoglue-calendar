@@ -30,7 +30,6 @@ import javax.portlet.PortletURL;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.calendar.usecasecontroller.CalendarAdministrationUCCController;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
@@ -52,7 +51,7 @@ public class ViewCategoryListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.categories = CategoryController.getController().getCategoryList(getSession());
+        this.categories = CategoryController.getController().getRootCategoryList(getSession());
 
         return Action.SUCCESS;
     } 

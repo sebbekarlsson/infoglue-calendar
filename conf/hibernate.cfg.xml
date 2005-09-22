@@ -40,6 +40,8 @@
         <mapping resource="Calendar.hbm.xml"/>
         <mapping resource="Category.hbm.xml"/>
         <mapping resource="Event.hbm.xml"/>
+        <mapping resource="EventType.hbm.xml"/>
+        <mapping resource="EventTypeCategoryAttribute.hbm.xml"/>
         <mapping resource="Location.hbm.xml"/>
         <mapping resource="Participant.hbm.xml"/>
         <mapping resource="Resource.hbm.xml"/>

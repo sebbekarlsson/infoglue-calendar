@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping
+>
+    <class name="org.infoglue.calendar.entities.EventType"
+            table="eventtype" 
+            dynamic-update="false" 
+            dynamic-insert="false" 
+            select-before-update="false" 
+            optimistic-lock="version">
+
+        <id name="id" column="id" type="long" unsaved-value="null">
+            <generator class="native">
+            </generator>
+        </id>
+
+        <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="true" />
+        <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false" />
+
+        <set name="categoryAttributes" lazy="false" inverse="false" cascade="none" sort="unsorted">
+			<key column="eventtype_id"></key>
+			<one-to-many class="org.infoglue.calendar.entities.EventTypeCategoryAttribute"/>
+        </set>
+
+    </class>
+
+</hibernate-mapping>

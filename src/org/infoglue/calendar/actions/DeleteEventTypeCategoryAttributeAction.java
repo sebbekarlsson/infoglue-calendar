@@ -28,8 +28,9 @@ import java.util.List;
 import javax.portlet.PortletURL;
 
 import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.controllers.LocationController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
@@ -41,9 +42,9 @@ import com.opensymphony.xwork.ActionContext;
  * @author Mattias Bogeblad
  */
 
-public class ViewLocationListAction extends CalendarAbstractAction
+public class DeleteEventTypeCategoryAttributeAction extends CalendarAbstractAction
 {
-    private List locations;
+    private Long eventTypeId;
     
     /**
      * This is the entry point for the main listing.
@@ -51,13 +52,19 @@ public class ViewLocationListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.locations = LocationController.getController().getLocationList(getSession());
-
+        EventTypeController.getController().deleteEventType(eventTypeId, getSession());
+        
         return Action.SUCCESS;
     } 
-
-    public List getLocations()
+    
+    public Long getEventTypeId()
     {
-        return locations;
+        return eventTypeId;
     }
+    
+    public void setEventTypeId(Long eventTypeId)
+    {
+        this.eventTypeId = eventTypeId;
+    }
+    
 }

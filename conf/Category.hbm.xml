@@ -23,7 +23,7 @@
         <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false" />
 		<property name="active" column="active" type="boolean"/>
 
-   		<many-to-one name="parent" class="org.infoglue.calendar.entities.Category" column="parent_id" not-null="true"/>
+   		<many-to-one name="parent" class="org.infoglue.calendar.entities.Category" column="parent_id" not-null="false"/>
    
    		<set name="children" table="Category" lazy="false" inverse="false" cascade="none" sort="unsorted">
             <key column="parent_id"/>

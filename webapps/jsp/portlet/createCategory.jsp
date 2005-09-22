@@ -10,7 +10,7 @@
 		</portlet:actionURL>
 		
 		<form name="inputForm" method="POST" action="<c:out value="${createCategoryActionUrl}"/>">
-		
+			<input type="hidden" name="parentCategoryId" value="<c:out value="${param.parentCategoryId}"/>"/>
 		<p>
 			<calendar:textField label="labels.internal.category.name" name="name" value="category.name" cssClass="normalInput"/>
 		</p>

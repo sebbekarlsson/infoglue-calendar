@@ -101,6 +101,31 @@ CREATE TABLE `location` (
 ) TYPE=MyISAM;
 
 #
+# Structure for table eventtype : 
+#
+
+CREATE TABLE `eventtype` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `description` varchar(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) TYPE=MyISAM;
+
+#
+# Structure for table eventtype_category : 
+#
+
+CREATE TABLE `eventtype_category` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `eventtype_id` bigint(20) NOT NULL default '0',
+  `category_id` bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (`id`) 
+) TYPE=MyISAM;
+
+
+#
 # Structure for table participant : 
 #
 

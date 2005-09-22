@@ -23,27 +23,22 @@
 
 package org.infoglue.calendar.actions;
 
-import java.util.List;
-
-import javax.portlet.PortletURL;
-
-import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.controllers.LocationController;
-import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.common.util.DBSessionWrapper;
+import org.infoglue.calendar.controllers.EventTypeController;
+import org.infoglue.calendar.entities.EventType;
 
 import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
- * This action represents a Calendar Administration screen.
+ * This action represents a EventType Administration screen.
  * 
  * @author Mattias Bogeblad
  */
 
-public class ViewLocationListAction extends CalendarAbstractAction
+public class UpdateEventTypeAction extends CalendarAbstractAction
 {
-    private List locations;
+
+    private EventType dataBean = new EventType();
     
     /**
      * This is the entry point for the main listing.
@@ -51,13 +46,48 @@ public class ViewLocationListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.locations = LocationController.getController().getLocationList(getSession());
-
+        try
+        {
+            validateInput(this);
+            EventTypeController.getController().updateEventType(dataBean.getId(), dataBean.getName(), dataBean.getDescription(), getSession());
+        }
+        catch(ValidationException e)
+        {
+            return Action.ERROR;            
+        }
+        
         return Action.SUCCESS;
     } 
-
-    public List getLocations()
+    
+    public Long getEventTypeId()
     {
-        return locations;
+        return dataBean.getId();
     }
+
+    public void setEventTypeId(Long eventTypeId)
+    {
+        this.dataBean.setId(eventTypeId);
+    }
+
+    public String getDescription()
+    {
+        return this.dataBean.getDescription();
+    }
+    
+    public void setDescription(String description)
+    {
+        this.dataBean.setDescription(description);
+    }
+    
+    public String getName()
+    {
+        return this.dataBean.getName();
+    }
+    
+    public void setName(String name)
+    {
+        this.dataBean.setName(name);
+    }
+    
+
 }

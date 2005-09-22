@@ -30,11 +30,15 @@
 		<portlet:renderURL var="viewCategoryListUrl">
 			<portlet:param name="action" value="ViewCategoryList"/>
 		</portlet:renderURL>
+		<portlet:renderURL var="viewEventTypeListUrl">
+			<portlet:param name="action" value="ViewEventTypeList"/>
+		</portlet:renderURL>
 
 		<ul>
 	    	<li><a href="<c:out value="${viewCalendarListUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationAdministerCalendars')"/></a></li>
 	    	<li><a href="<c:out value="${viewLocationListUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationAdministerLocations')"/></a></li>
 			<li><a href="<c:out value="${viewCategoryListUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationAdministerCategories')"/></a></li>
+			<li><a href="<c:out value="${viewEventTypeListUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationAdministerEventTypes')"/></a></li>
 		</ul>
 	</div>
 

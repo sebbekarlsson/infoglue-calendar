@@ -23,27 +23,21 @@
 
 package org.infoglue.calendar.actions;
 
-import java.util.List;
-
-import javax.portlet.PortletURL;
-
-import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.controllers.LocationController;
-import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.common.util.DBSessionWrapper;
+import org.infoglue.calendar.controllers.EventTypeController;
+import org.infoglue.calendar.entities.EventType;
 
 import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
 
 /**
- * This action represents a Calendar Administration screen.
+ * This action represents a EventType Administration screen.
  * 
  * @author Mattias Bogeblad
  */
 
-public class ViewLocationListAction extends CalendarAbstractAction
+public class ViewEventTypeAction extends CalendarAbstractAction
 {
-    private List locations;
+    private Long eventTypeId;
+    private EventType eventType;
     
     /**
      * This is the entry point for the main listing.
@@ -51,13 +45,24 @@ public class ViewLocationListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.locations = LocationController.getController().getLocationList(getSession());
-
+        this.eventType = EventTypeController.getController().getEventType(eventTypeId, getSession());
+        
         return Action.SUCCESS;
     } 
 
-    public List getLocations()
+    public Long getEventTypeId()
     {
-        return locations;
+        return eventTypeId;
     }
+    
+    public void setEventTypeId(Long eventTypeId)
+    {
+        this.eventTypeId = eventTypeId;
+    }
+
+    public EventType getEventType()
+    {
+        return eventType;
+    }
+
 }
