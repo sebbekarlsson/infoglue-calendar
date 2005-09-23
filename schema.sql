@@ -17,6 +17,8 @@ CREATE TABLE `calendar` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `description` varchar(255) default NULL,
+  `owner` varchar(255) default NULL,
+  `eventtype_id` bigint(20),
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) TYPE=MyISAM;

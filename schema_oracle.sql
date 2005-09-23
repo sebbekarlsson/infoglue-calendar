@@ -3,6 +3,7 @@ CREATE TABLE calendar (
   name varchar(255) default NULL,
   description varchar(255) default NULL,
   owner varchar(255) default NULL,
+  eventtype_id int,
   PRIMARY KEY  (id)
 );
 
