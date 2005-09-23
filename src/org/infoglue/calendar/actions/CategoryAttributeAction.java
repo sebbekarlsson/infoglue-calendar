@@ -28,12 +28,8 @@ import java.util.List;
 import javax.portlet.PortletURL;
 
 import org.infoglue.calendar.controllers.CategoryController;
-import org.infoglue.calendar.controllers.EventTypeCategoryAttributeController;
-import org.infoglue.calendar.controllers.EventTypeController;
-import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.calendar.entities.Calendar;
-import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.entities.Category;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
@@ -46,13 +42,13 @@ import com.opensymphony.xwork.validator.ValidationException;
  * @author Mattias Bogeblad
  */
 
-public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractAction
+public class CategoryAttributeAction extends CalendarAbstractAction
 {
-    private Long eventTypeId;
-    private Long categoryId;
     private String name;
-    
-    private List categories;
+    private String description;
+
+    private Boolean active = new Boolean(true);
+    private Long parentCategoryId;
     
     /**
      * This is the entry point for the main listing.
@@ -63,7 +59,7 @@ public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         try
         {
             validateInput(this);
-            EventTypeCategoryAttributeController.getController().createEventTypeCategoryAttribute(this.eventTypeId, this.categoryId, this.name, getSession());
+            CategoryController.getController().createCategory(this.name, description, active, parentCategoryId, getSession());
         }
         catch(ValidationException e)
         {
@@ -79,45 +75,46 @@ public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractActi
     
     public String input() throws Exception 
     {
-        this.categories = CategoryController.getController().getRootCategoryList(getSession());
-
         return Action.INPUT;
     } 
     
-    
-    public Long getEventTypeId()
+    public String getDescription()
     {
-        return eventTypeId;
+        return description;
     }
     
-    public void setEventTypeId(Long eventTypeId)
+    public void setDescription(String description)
     {
-        this.eventTypeId = eventTypeId;
-    }
-
-    public Long getCategoryId()
-    {
-        return categoryId;
-    }
-    
-    public void setCategoryId(Long categoryId)
-    {
-        this.categoryId = categoryId;
+        this.description = description;
     }
     
     public String getName()
     {
-        return name;
+        return this.name;
     }
     
     public void setName(String name)
     {
         this.name = name;
     }
-    
-    public List getCategories()
-    {
-        return categories;
-    }
 
+    public Boolean getActive()
+    {
+        return active;
+    }
+    
+    public void setActive(Boolean active)
+    {
+        this.active = active;
+    }
+    
+    public Long getParentCategoryId()
+    {
+        return parentCategoryId;
+    }
+    
+    public void setParentCategoryId(Long parentCategoryId)
+    {
+        this.parentCategoryId = parentCategoryId;
+    }
 }

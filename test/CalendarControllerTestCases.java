@@ -6,7 +6,9 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.infoglue.calendar.controllers.BasicController;
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.EventType;
 
 import junit.framework.TestCase;
 /* ===============================================================================
@@ -95,7 +97,8 @@ public class CalendarControllerTestCases extends TestCase
 	        {
 		        System.out.println("testCreateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
-		        Calendar calendar = calendarController.createCalendar("TestCalendar" + System.currentTimeMillis(), "This is the testcalendar...", "root", session);
+		        
+		        Calendar calendar = calendarController.createCalendar("TestCalendar" + System.currentTimeMillis(), "This is the testcalendar...", "root", new Long(1), session);
 	        } 
 	        catch (Exception e)
 	        {
@@ -215,7 +218,9 @@ public class CalendarControllerTestCases extends TestCase
 		        if(calendars.size() > 0)
 		        {
 		            Calendar calendar = (Calendar)calendars.get(0);
-		            calendarController.updateCalendar(calendar, "UpdatedCalendar", "This action updated the calendar", "root", session);
+			        EventType eventType = (EventType)EventTypeController.getController().getEventTypeList(session).get(0);
+
+		            calendarController.updateCalendar(calendar, "UpdatedCalendar", "This action updated the calendar", "root", eventType, session);
 		        }
 		    } 
 	        catch (Exception e)

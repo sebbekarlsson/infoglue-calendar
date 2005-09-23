@@ -45,6 +45,9 @@ public class Calendar implements BaseEntity
     private Set events = new HashSet();
     private Set publishedEvents = new HashSet();
     private Set waitingEvents = new HashSet();
+    
+    private EventType eventType;
+
 
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -157,4 +160,13 @@ public class Calendar implements BaseEntity
 		this.waitingEvents = waitingEvents;
 	}
 
+    public EventType getEventType()
+    {
+        return eventType;
+    }
+    
+    public void setEventType(EventType eventType)
+    {
+        this.eventType = eventType;
+    }
 }

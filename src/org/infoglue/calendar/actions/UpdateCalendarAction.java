@@ -49,7 +49,7 @@ public class UpdateCalendarAction extends CalendarAbstractAction
     private String name;
     private String description;
     private String owner;
-
+    private Long eventTypeId;
 
     /**
      * This is the entry point for the main listing.
@@ -60,7 +60,7 @@ public class UpdateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CalendarController.getController().updateCalendar(calendarId, name, description, owner, getSession());
+            CalendarController.getController().updateCalendar(calendarId, name, description, owner, eventTypeId, getSession());
         }
         catch(ValidationException e)
         {
@@ -102,5 +102,15 @@ public class UpdateCalendarAction extends CalendarAbstractAction
     public void setOwner(String owner)
     {
         this.owner = owner;
+    }
+    
+    public Long getEventTypeId()
+    {
+        return eventTypeId;
+    }
+    
+    public void setEventTypeId(Long eventTypeId)
+    {
+        this.eventTypeId = eventTypeId;
     }
 }

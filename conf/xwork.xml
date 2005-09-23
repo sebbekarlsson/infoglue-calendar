@@ -176,7 +176,7 @@
 				<param name="viewAction">CreateEventTypeCategoryAttribute!input.action</param>
 			</result>
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewEventType.action</param>
+				<param name="viewAction">ViewEventType.action?eventTypeId=${newEventType.id}</param>
 			</result>
 		</action>
 		<action name="ViewEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.ViewEventTypeCategoryAttributeAction">

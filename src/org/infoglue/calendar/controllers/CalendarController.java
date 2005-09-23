@@ -29,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventType;
 
 import java.util.Iterator;
 import java.util.List;
@@ -96,12 +97,16 @@ public class CalendarController extends BasicController
      * This method is used to create a new Calendar object in the database inside a transaction.
      */
     
-    public Calendar createCalendar(String name, String description, String owner, Session session) throws HibernateException, Exception 
+    public Calendar createCalendar(String name, String description, String owner, Long eventTypeId, Session session) throws HibernateException, Exception 
     {
+        EventType eventType = EventTypeController.getController().getEventType(eventTypeId, session);
+        
         Calendar calendar = new Calendar();
         calendar.setName(name);
         calendar.setDescription(description);
         calendar.setOwner(owner);
+        
+        calendar.setEventType(eventType);
         
         session.save(calendar);
         
@@ -115,10 +120,12 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public void updateCalendar(Long id, String name, String description, String owner, Session session) throws Exception 
+    public void updateCalendar(Long id, String name, String description, String owner, Long eventTypeId, Session session) throws Exception 
     {
 		Calendar calendar = getCalendar(id, session);
-		updateCalendar(calendar, name, description, owner, session);
+        EventType eventType = EventTypeController.getController().getEventType(eventTypeId, session);
+
+		updateCalendar(calendar, name, description, owner, eventType, session);
     }
     
     /**
@@ -127,12 +134,13 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public void updateCalendar(Calendar calendar, String name, String description, String owner, Session session) throws Exception 
+    public void updateCalendar(Calendar calendar, String name, String description, String owner, EventType eventType, Session session) throws Exception 
     {
         calendar.setName(name);
         calendar.setDescription(description);
         calendar.setOwner(owner);
-	
+        calendar.setEventType(eventType);
+        
 		session.update(calendar);
 	}
     

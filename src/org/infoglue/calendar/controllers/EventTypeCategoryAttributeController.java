@@ -27,19 +27,15 @@ import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 public class EventTypeCategoryAttributeController extends BasicController
 {    
@@ -60,18 +56,23 @@ public class EventTypeCategoryAttributeController extends BasicController
         
         
     /**
-     * This method is used to create a new EventType object in the database inside a transaction.
+     * This method is used to create a new EventTypeCategoryAttribute object in the database inside a transaction.
      */
     
-    public EventType createEventType(String name, String description, Session session) throws HibernateException, Exception 
+    public EventTypeCategoryAttribute createEventTypeCategoryAttribute(Long eventTypeId, Long categoryId, String name, Session session) throws HibernateException, Exception 
     {
-        EventType eventType = new EventType();
-        eventType.setName(name);
-        eventType.setDescription(description);
+        EventTypeCategoryAttribute eventTypeCategoryAttribute = new EventTypeCategoryAttribute();
+        eventTypeCategoryAttribute.setName(name);
         
-        session.save(eventType);
+        Category category = CategoryController.getController().getCategory(categoryId, session);
+        EventType eventType = EventTypeController.getController().getEventType(eventTypeId, session);
         
-        return eventType;
+        eventTypeCategoryAttribute.setCategory(category);
+        eventTypeCategoryAttribute.setEventType(eventType);
+        
+        session.save(eventTypeCategoryAttribute);
+        
+        return eventTypeCategoryAttribute;
     }
     
     
@@ -83,52 +84,51 @@ public class EventTypeCategoryAttributeController extends BasicController
     
     public void updateEventType(Long id, String name, String description, Session session) throws Exception 
     {
-		EventType eventType = getEventType(id, session);
-		updateEventType(eventType, name, description, session);
+        EventTypeCategoryAttribute eventType = getEventTypeCategoryAttribute(id, session);
+		updateEventTypeCategoryAttribute(eventType, name, description, session);
     }
     
     /**
-     * Updates an eventType inside an transaction.
+     * Updates an eventTypeCategoryAttribute inside an transaction.
      * 
      * @throws Exception
      */
     
-    public void updateEventType(EventType eventType, String name, String description, Session session) throws Exception 
+    public void updateEventTypeCategoryAttribute(EventTypeCategoryAttribute eventTypeCategoryAttribute, String name, String description, Session session) throws Exception 
     {
-        eventType.setName(name);
-        eventType.setDescription(description);
+        eventTypeCategoryAttribute.setName(name);
 	
-		session.update(eventType);
+		session.update(eventTypeCategoryAttribute);
 	}
     
  
     
     /**
-     * This method returns a EventType based on it's primary key inside a transaction
+     * This method returns a EventTypeCategoryAttribute based on it's primary key inside a transaction
      * @return EventType
      * @throws Exception
      */
     
-    public EventType getEventType(Long id, Session session) throws Exception
+    public EventTypeCategoryAttribute getEventTypeCategoryAttribute(Long id, Session session) throws Exception
     {
-        EventType eventType = (EventType)session.load(EventType.class, id);
+        EventTypeCategoryAttribute eventTypeCategoryAttribute = (EventTypeCategoryAttribute)session.load(EventTypeCategoryAttribute.class, id);
 		
-		return eventType;
+		return eventTypeCategoryAttribute;
     }
     
     
     
     /**
-     * Gets a list of all eventTypes available sorted by primary key.
-     * @return List of EventType
+     * Gets a list of all eventTypesCategoryAttribute available sorted by primary key.
+     * @return List of EventTypeCategoryAttribute
      * @throws Exception
      */
     
-    public List getEventTypeList(Session session) throws Exception 
+    public List getEventTypeCategoryAttributeList(Session session) throws Exception 
     {
         List result = null;
         
-        Query q = session.createQuery("from EventType eventType order by eventType.id");
+        Query q = session.createQuery("from EventTypeCategoryAttribute eventTypeCategoryAttribute order by eventTypeCategoryAttribute.id");
    
         result = q.list();
         
@@ -136,18 +136,18 @@ public class EventTypeCategoryAttributeController extends BasicController
     }
     
     /**
-     * Gets a list of eventTypes fetched by name.
-     * @return List of EventType
+     * Gets a list of eventTypeCategoryAttributes fetched by name.
+     * @return List of EventTypeCategoryAttribute
      * @throws Exception
      */
     
-    public List getEventType(String name, Session session) throws Exception 
+    public List getEventTypeCategoryAttribute(String name, Session session) throws Exception 
     {
-        List eventTypes = null;
+        List eventTypeCategoryAttributes = null;
         
-        eventTypes = session.createQuery("from EventType as eventType where eventType.name = ?").setString(0, name).list();
+        eventTypeCategoryAttributes = session.createQuery("from EventTypeCategoryAttribute as eventTypeCategoryAttribute where eventTypeCategoryAttribute.name = ?").setString(0, name).list();
         
-        return eventTypes;
+        return eventTypeCategoryAttributes;
     }
     
     
@@ -156,10 +156,10 @@ public class EventTypeCategoryAttributeController extends BasicController
      * @throws Exception
      */
     
-    public void deleteEventType(Long id, Session session) throws Exception 
+    public void deleteEventTypeCategoryAttribute(Long id, Session session) throws Exception 
     {
-        EventType eventType = this.getEventType(id, session);
-        session.delete(eventType);
+        EventTypeCategoryAttribute eventTypeCategoryAttribute = this.getEventTypeCategoryAttribute(id, session);
+        session.delete(eventTypeCategoryAttribute);
     }
     
 }

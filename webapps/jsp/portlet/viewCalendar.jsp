@@ -217,6 +217,9 @@
 			    <calendar:selectField label="labels.internal.calendar.owner" name="owner" multiple="false" value="infogluePrincipals" selectedValue="calendar.owner" cssClass="listBox"/>
 			</p>		
 			<p>
+			    <calendar:selectField label="labels.internal.calendar.eventType" name="eventTypeId" multiple="false" value="eventTypes" selectedValue="calendar.eventType" cssClass="listBox"/>
+			</p>		
+			<p>
 				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.calendar.updateButton')"/>" class="calendarButton">
 			</p>
 		</form>

@@ -32,6 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.taglib.AbstractCalendarTag;
@@ -69,8 +70,10 @@ public class ViewCalendarAction extends CalendarAbstractAction
     private List dates;
     
     private List infogluePrincipals;
+    private List eventTypes;
     
     private boolean isPublisher = false;
+
 
     /**
      * This is the entry point for the main listing.
@@ -158,6 +161,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.dates = getDateList(calendar);
             
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+        this.eventTypes = EventTypeController.getController().getEventTypeList(getSession());
 
         log.debug("startCalendar:" + startCalendar.getTime());
         
@@ -463,8 +467,14 @@ public class ViewCalendarAction extends CalendarAbstractAction
         return infogluePrincipals;
     }
     
+    public List getEventTypes()
+    {
+        return eventTypes;
+    }
+
     public boolean getIsPublisher()
     {
         return isPublisher;
     }
+    
 }

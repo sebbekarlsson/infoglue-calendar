@@ -29,7 +29,7 @@
 	</div>
 
 	<div id="contentList">
-		<ww:iterator value="eventType.attributeCategory" status="rowstatus">
+		<ww:iterator value="eventType.categoryAttributes" status="rowstatus">
 			
 			<ww:set name="attributeCategoryId" value="id" scope="page"/>
 			<portlet:renderURL var="attributeCategoryUrl">
@@ -57,11 +57,11 @@
 		</ww:iterator>
 		
 		<portlet:renderURL var="createAttributeCategoryUrl">
-			<portlet:param name="action" value="CreateAttributeCategory!input"/>
+			<portlet:param name="action" value="CreateEventTypeCategoryAttribute!input"/>
 			<calendar:evalParam name="eventTypeId" value="${param.eventTypeId}"/>
 		</portlet:renderURL>
 		
-		<a href="<c:out value="${createAttributeCategoryUrl}"/>"><ww:property value="this.getLabel('labels.internal.category.addAvailableCategory')"/></a>
+		<a href="<c:out value="${createAttributeCategoryUrl}"/>"><ww:property value="this.getLabel('labels.internal.eventType.addAvailableCategory')"/></a>
 				
 	</div>
 

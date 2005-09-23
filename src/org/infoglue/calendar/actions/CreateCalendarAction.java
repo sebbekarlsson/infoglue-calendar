@@ -46,6 +46,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
     private String name;
     private String description;
     private String owner;
+    private Long eventTypeId;
     
     private List infogluePrincipals;
 
@@ -59,7 +60,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CalendarController.getController().createCalendar(name, description, owner, getSession());
+            CalendarController.getController().createCalendar(name, description, owner, eventTypeId, getSession());
         }
         catch(ValidationException e)
         {
@@ -107,5 +108,13 @@ public class CreateCalendarAction extends CalendarAbstractAction
     public List getInfogluePrincipals()
     {
         return infogluePrincipals;
+    }
+    public Long getEventTypeId()
+    {
+        return eventTypeId;
+    }
+    public void setEventTypeId(Long eventTypeId)
+    {
+        this.eventTypeId = eventTypeId;
     }
 }

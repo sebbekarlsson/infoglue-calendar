@@ -1,23 +1,24 @@
 <%@ include file="adminHeader.jsp" %>
 	
 	<div id="contentListHeader">
-		<ww:property value="this.getLabel('labels.internal.eventType.createNewEventType')"/>
+		<ww:property value="this.getLabel('labels.internal.eventTypeCategoryAttribute.createNewEventTypeCategoryAttribute')"/>
 	</div>
 
 	<div id="contentList">
-		<portlet:actionURL var="createEventTypeActionUrl">
-			<portlet:param name="action" value="CreateEventType"/>
+		<portlet:actionURL var="createEventTypeCategoryAttributeActionUrl">
+			<portlet:param name="action" value="CreateEventTypeCategoryAttribute"/>
 		</portlet:actionURL>
 		
-		<form name="inputForm" method="POST" action="<c:out value="${createEventTypeActionUrl}"/>">
+		<form name="inputForm" method="POST" action="<c:out value="${createEventTypeCategoryAttributeActionUrl}"/>">
+			<input type="hidden" name="eventTypeId" value="<ww:property value="eventTypeId"/>">
 		<p>
-			<calendar:textField label="labels.internal.eventType.name" name="name" value="eventType.name" cssClass="normalInput"/>
+			<calendar:textField label="labels.internal.eventTypeCategoryAttribute.name" name="name" value="eventTypeCategoryAttribute.name" cssClass="normalInput"/>
 		</p>
 		<p>
-			<calendar:textField label="labels.internal.eventType.description" name="description" value="eventType.description" cssClass="normalInput"/>
+			<calendar:selectField label="labels.internal.eventTypeCategoryAttribute.BaseCategory" name="categoryId" multiple="false" value="categories" cssClass="listBox"/>
 		</p>
 		<p>
-			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventType.createButton')"/>" class="calendarButton">
+			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventTypeCategoryAttribute.createButton')"/>" class="calendarButton">
 		</p>
 		</form>
 	</div>

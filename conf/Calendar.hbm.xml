@@ -19,6 +19,8 @@
         <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false"/>
 		<property name="owner" type="string" update="true" insert="true" access="property" column="owner" not-null="false" unique="false"/>
         
+        <many-to-one name="eventType" class="org.infoglue.calendar.entities.EventType" cascade="none" outer-join="auto" update="true" insert="true" access="property" column="eventtype_id"/>
+        
         <set name="events" lazy="false" inverse="false" cascade="none" sort="unsorted">
 			<key column="calendar_id"></key>
 			<one-to-many class="org.infoglue.calendar.entities.Event"/>
