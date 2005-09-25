@@ -335,7 +335,7 @@ public class EntryController extends BasicController
 		    if(categories != null)
 		    {
 			    Map categoryHash = new HashMap();
-			    Iterator categoryIterator = entry.getEvent().getCategories().iterator();
+			    Iterator categoryIterator = entry.getEvent().getEventCategories().iterator();
 			    while(categoryIterator.hasNext())
 			    {
 			        Category category = (Category)categoryIterator.next();

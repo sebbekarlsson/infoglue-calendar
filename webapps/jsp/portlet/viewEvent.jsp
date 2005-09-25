@@ -189,9 +189,18 @@
       		<p>
       			<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" selectedValueSet="event.locations" cssClass="listBox"/>
 			</p>
+
+			<ww:iterator value="event.calendar.eventType.categoryAttributes" status="rowstatus">
 			<p>
-      			<calendar:selectField label="labels.internal.event.category" name="categoryId" multiple="true" value="categories" selectedValueSet="event.categories" cssClass="listBox"/>
-    		</p>
+				<ww:set name="categoryAttribute" value="top" scope="page"/>
+				<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
+				<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
+				<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
+				<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
+				<calendar:selectField label="categoryAttribute.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValueList="#selectedCategories" cssClass="listBox"/>
+   			</p>
+			</ww:iterator>
+			
     		<p>  		
       			<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" selectedValueSet="calendar.participants" cssClass="listBox"/>
 			</p>

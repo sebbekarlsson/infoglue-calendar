@@ -34,6 +34,8 @@ import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventCategory;
+import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.common.security.InfoGluePrincipal;
@@ -191,7 +193,25 @@ public class ViewEventAction extends CalendarAbstractAction
         this.execute();
         return "successPublicGU";
     }
+    
+    public List getEventCategories(EventTypeCategoryAttribute categoryAttribute)
+    {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAA getEventCategories:" + categoryAttribute);
+        List categories = new ArrayList();
+        
+        System.out.println("this.event.getEventCategories():" + this.event.getEventCategories().size());
+        Iterator i = this.event.getEventCategories().iterator();
+        while(i.hasNext())
+        {
+            EventCategory eventCategory = (EventCategory)i.next();
+            System.out.println("eventCategory:" + eventCategory.getId() + ":" + eventCategory.getEventTypeCategoryAttribute().getId() + "=" + categoryAttribute.getId());
+            if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
+                categories.add(eventCategory.getCategory());
+        }
 
+        return categories;
+    }
+    
     public Event getEvent()
     {
         return event;

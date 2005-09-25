@@ -24,6 +24,7 @@ package org.infoglue.calendar.taglib;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	private String[] selectedValues;
 	private List selectedValueList;
 	private Set selectedValueSet;
-	private List values;
+	private Collection values;
 	private String label;
 	private List fieldErrors;
 	private Object errorAction = null;
@@ -153,6 +154,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
+	    	            System.out.println(id + "=" + selId);
 		                if(id.equalsIgnoreCase(selId))
 		                    selected = " selected=\"1\"";
 		            }
@@ -197,16 +199,36 @@ public class SelectFieldTag extends AbstractCalendarTag
     
     public void setName(String name) throws JspException
     {
-        this.name = name;
+        Object o = findOnValueStack(name);
+        String evaluatedString = evaluateString("SelectFieldTag", "name", name);
+        System.out.println("o:" + o);
+        System.out.println("evaluatedString:" + evaluatedString);
+        if(o != null)
+            this.name = (String)o;
+        else if(evaluatedString != null && !evaluatedString.equals(name))
+            this.name = evaluatedString;
+        else
+        {
+            this.name = name;
+        }
     }
 
     public void setLabel(String rawLabel) throws JspException
     {
-        String translatedLabel = this.getLabel(rawLabel);
-        if(translatedLabel != null && translatedLabel.length() > 0)
-            this.label = translatedLabel;
+        Object o = findOnValueStack(rawLabel);
+        String evaluatedString = evaluateString("SelectFieldTag", "label", rawLabel);
+        System.out.println("o:" + o);
+        System.out.println("evaluatedString:" + evaluatedString);
+        if(o != null)
+            this.label = (String)o;
+        else if(evaluatedString != null && !evaluatedString.equals(rawLabel))
+            this.label = evaluatedString;
         else
-            this.label = evaluateString("SelectFieldTag", "label", rawLabel);
+        {
+            String translatedLabel = this.getLabel(rawLabel);
+            if(translatedLabel != null && translatedLabel.length() > 0)
+                this.label = translatedLabel;
+        }
     }
 
     public void setMultiple(String multiple)
@@ -233,15 +255,21 @@ public class SelectFieldTag extends AbstractCalendarTag
     public void setValue(String value) throws JspException
     {
         Object o = findOnValueStack(value);
-        if(o != null) 
-            this.values = (List)o;
-            
+        if(o != null)
+        {
+            this.values = (Collection)o;
+        }
+        else
+            this.selectedValues = null;
+        
         //this.values = evaluateList("SelectTag", "values", values);
     }
 
     public void setSelectedValueList(String value) throws JspException
     {
+        System.out.println("setSelectedValueList VALUE:" + value);
         Object o = findOnValueStack(value);
+        System.out.println("o in setSelectedValueList: " + o);
         if(o != null) 
         {
             this.selectedValueList = (List)o;
@@ -256,6 +284,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 
     public void setSelectedValueSet(String value) throws JspException
     {
+        System.out.println("setSelectedValueSet VALUE:" + value);
         Object o = findOnValueStack(value);
         if(o != null) 
         {

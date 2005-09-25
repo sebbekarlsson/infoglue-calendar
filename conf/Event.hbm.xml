@@ -51,9 +51,9 @@
             <one-to-many class="org.infoglue.calendar.entities.Resource"/>
         </set>
 
-        <set name="categories" table="Event_Category" lazy="false" inverse="false" cascade="none" sort="unsorted">
+        <set name="eventCategories" table="Event_Category" lazy="false" inverse="false" cascade="none" sort="unsorted">
         	<key column="event_id"></key>
-            <many-to-many class="org.infoglue.calendar.entities.Category" column="category_id" outer-join="auto"/>
+            <one-to-many class="org.infoglue.calendar.entities.EventCategory"/>
         </set>
 
         <many-to-one name="calendar" class="org.infoglue.calendar.entities.Calendar" cascade="none" outer-join="auto" update="true" insert="true" access="property" column="calendar_id"/>

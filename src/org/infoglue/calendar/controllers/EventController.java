@@ -33,6 +33,8 @@ import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventCategory;
+import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.common.security.InfoGluePrincipal;
@@ -102,7 +104,7 @@ public class EventController extends BasicController
             	            java.util.Calendar startDateTime, 
             	            java.util.Calendar endDateTime, 
             	            String[] locationId, 
-            	            String[] categoryId, 
+            	            Map categoryAttributes, 
             	            String[] participantUserName,
             	            boolean isPublished,
             	            Session session) throws HibernateException, Exception 
@@ -118,16 +120,6 @@ public class EventController extends BasicController
 			{
 			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
 			    locations.add(location);
-			}
-		}
-		
-		Set categories = new HashSet();
-		if(categoryId != null)
-		{
-			for(int i=0; i<categoryId.length; i++)
-			{
-			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
-			    categories.add(category);
 			}
 		}
 		
@@ -164,10 +156,36 @@ public class EventController extends BasicController
 		        			startDateTime, 
 		        			endDateTime, 
 		        			locations, 
-		        			categories, 
 		        			participants,
 		        			isPublished,
 		        			session);
+		
+		Set eventCategories = new HashSet();
+		if(categoryAttributes != null)
+		{
+			Iterator categoryAttributesIterator = categoryAttributes.keySet().iterator();
+			while(categoryAttributesIterator.hasNext())
+			{
+			    String categoryAttributeId = (String)categoryAttributesIterator.next(); 
+			    System.out.println("categoryAttributeId:" + categoryAttributeId);
+			    EventTypeCategoryAttribute eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttribute(new Long(categoryAttributeId), session);
+			     
+			    String[] categoriesArray = (String[])categoryAttributes.get(categoryAttributeId);
+			    for(int i=0; i < categoriesArray.length; i++)
+			    {
+			        Category category = CategoryController.getController().getCategory(new Long(categoriesArray[i]), session);
+			        
+			        EventCategory eventCategory = new EventCategory();
+				    eventCategory.setEvent(event);
+				    eventCategory.setCategory(category);
+				    eventCategory.setEventTypeCategoryAttribute(eventTypeCategoryAttribute);
+				    session.save(eventCategory);
+				    
+			        eventCategories.add(eventCategory);
+			    }
+			}
+		}
+		event.setEventCategories(eventCategories);
 		
         return event;
     }
@@ -197,7 +215,6 @@ public class EventController extends BasicController
             	            java.util.Calendar startDateTime, 
             				java.util.Calendar endDateTime, 
             				Set locations, 
-            				Set categories, 
             				Set participants,
             				boolean isPublished,
             				Session session) throws HibernateException, Exception 
@@ -226,7 +243,6 @@ public class EventController extends BasicController
         
         event.setCalendar(calendar);
         event.setLocations(locations);
-        event.setCategories(categories);
         event.setParticipants(participants);
         calendar.getEvents().add(event);
         
@@ -263,7 +279,7 @@ public class EventController extends BasicController
             java.util.Calendar startDateTime, 
             java.util.Calendar endDateTime, 
             String[] locationId, 
-            String[] categoryId, 
+            Map categoryAttributes, 
             String[] participantUserName,
             Session session) throws Exception 
     {
@@ -277,16 +293,6 @@ public class EventController extends BasicController
 			{
 			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
 			    locations.add(location);
-			}
-		}
-		
-		Set categories = new HashSet();
-		if(categoryId != null)
-		{
-			for(int i=0; i<categoryId.length; i++)
-			{
-			    Category category = CategoryController.getController().getCategory(new Long(categoryId[i]), session);
-			    categories.add(category);
 			}
 		}
 		
@@ -324,7 +330,7 @@ public class EventController extends BasicController
 		        startDateTime, 
 		        endDateTime, 
 		        locations, 
-		        categories, 
+		        categoryAttributes, 
 		        participants, 
 		        session);
 		
@@ -357,7 +363,7 @@ public class EventController extends BasicController
             java.util.Calendar startDateTime, 
             java.util.Calendar endDateTime, 
             Set locations, 
-            Set categories, 
+            Map categoryAttributes, 
             Set participants, 
             Session session) throws Exception 
     {
@@ -380,7 +386,41 @@ public class EventController extends BasicController
         event.setStartDateTime(startDateTime);
         event.setEndDateTime(endDateTime);
         event.setLocations(locations);
-        event.setCategories(categories);
+        
+        Iterator eventCategoryIterator = event.getEventCategories().iterator();
+		while(eventCategoryIterator.hasNext())
+		{
+		    EventCategory eventCategory = (EventCategory)eventCategoryIterator.next();
+		    session.delete(eventCategory);
+		}
+		
+        Set eventCategories = new HashSet();
+		if(categoryAttributes != null)
+		{
+			Iterator categoryAttributesIterator = categoryAttributes.keySet().iterator();
+			while(categoryAttributesIterator.hasNext())
+			{
+			    String categoryAttributeId = (String)categoryAttributesIterator.next(); 
+			    System.out.println("categoryAttributeId:" + categoryAttributeId);
+			    EventTypeCategoryAttribute eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttribute(new Long(categoryAttributeId), session);
+			     
+			    String[] categoriesArray = (String[])categoryAttributes.get(categoryAttributeId);
+			    for(int i=0; i < categoriesArray.length; i++)
+			    {
+			        Category category = CategoryController.getController().getCategory(new Long(categoriesArray[i]), session);
+			        
+			        EventCategory eventCategory = new EventCategory();
+				    eventCategory.setEvent(event);
+				    eventCategory.setCategory(category);
+				    eventCategory.setEventTypeCategoryAttribute(eventTypeCategoryAttribute);
+				    session.save(eventCategory);
+				    
+			        eventCategories.add(eventCategory);
+			    }
+			}
+		}
+		event.setEventCategories(eventCategories);
+        
         event.setParticipants(participants);
         
 		session.update(event);

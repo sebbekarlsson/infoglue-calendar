@@ -33,12 +33,12 @@
 			
 			<ww:set name="attributeCategoryId" value="id" scope="page"/>
 			<portlet:renderURL var="attributeCategoryUrl">
-				<portlet:param name="action" value="ViewAttributeCategory"/>
+				<portlet:param name="action" value="ViewEventTypeCategoryAttribute"/>
 				<portlet:param name="attributeCategoryId" value="<%= pageContext.getAttribute("attributeCategoryId").toString() %>"/>
 			</portlet:renderURL>
 			
 			<portlet:actionURL var="deleteAttributeCategoryUrl">
-				<portlet:param name="action" value="DeleteAttributeCategory"/>
+				<portlet:param name="action" value="DeleteEventTypeAttributeCategory"/>
 				<portlet:param name="attributeCategoryId" value="<%= pageContext.getAttribute("attributeCategoryId").toString() %>"/>
 			</portlet:actionURL>
 			

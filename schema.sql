@@ -32,7 +32,7 @@ CREATE TABLE `category` (
   `name` varchar(255) default NULL,
   `description` varchar(255) default NULL,
   `active` TINYINT(4) NOT NULL default '1',
-  `parentId` INTEGER(11),
+  `parent_id` INTEGER(11),
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -71,11 +71,11 @@ CREATE TABLE `event` (
 #
 
 CREATE TABLE `event_category` (
+  `id` bigint(20) NOT NULL auto_increment,
   `event_id` bigint(20) NOT NULL default '0',
   `category_id` bigint(20) NOT NULL default '0',
-  PRIMARY KEY  (`event_id`,`category_id`),
-  KEY `FK9210F9431093C0E0` (`event_id`),
-  KEY `FK9210F9435BA8ABFC` (`category_id`)
+  `eventtype_categoryattribute_id` bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
 #

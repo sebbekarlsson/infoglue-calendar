@@ -35,12 +35,6 @@
 			<key column="calendar_id"></key>
 			<one-to-many class="org.infoglue.calendar.entities.Event"/>
         </set>
-
-        <!--
-            To add non XDoclet property mappings, create a file named
-                hibernate-properties-Calendar.xml
-            containing the additional properties and place it in your merge dir.
-        -->
         
     </class>
     

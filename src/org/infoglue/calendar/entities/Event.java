@@ -62,7 +62,7 @@ public class Event implements BaseEntity
     private Set locations;
     private Set participants;
     private Set resources;
-    private Set categories;
+    private Set eventCategories;
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -188,24 +188,6 @@ public class Event implements BaseEntity
     public void setResources(Set resources)
     {
         this.resources = resources;
-    }
-    
-    
-    /**
-     * @hibernate.set table="Event_Category" cascade="none"
-     * @hibernate.collection-key column="event_id"
-     * @hibernate.collection-many-to-many class="org.infoglue.calendar.entities.Category" column="category_id"
-     * 
-     * @return java.util.Set
-     */
-    public Set getCategories()
-    {
-        return categories;
-    }
-    
-    public void setCategories(Set categories)
-    {
-        this.categories = categories;
     }
     
     /** 
@@ -446,4 +428,13 @@ public class Event implements BaseEntity
         this.isPublished = isPublished;
     }
 
+    public Set getEventCategories()
+    {
+        return eventCategories;
+    }
+    
+    public void setEventCategories(Set eventCategories)
+    {
+        this.eventCategories = eventCategories;
+    }
 }

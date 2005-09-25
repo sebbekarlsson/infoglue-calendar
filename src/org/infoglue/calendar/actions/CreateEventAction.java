@@ -44,6 +44,7 @@ import org.infoglue.common.security.UserControllerProxy;
 import org.infoglue.common.util.DBSessionWrapper;
 import org.infoglue.common.util.PropertyHelper;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.validator.ValidationException;
@@ -92,8 +93,10 @@ public class CreateEventAction extends CalendarAbstractAction
     private String mode;
     private Long calendarId;
     
+    private org.infoglue.calendar.entities.Calendar calendar;
     private List locations;
-    private List categories;
+    //private List categories;
+    private Map categoryAttributes = new HashMap();
     private List infogluePrincipals;
     
     private List yesOrNo;
@@ -118,12 +121,26 @@ public class CreateEventAction extends CalendarAbstractAction
 
         try
         {
+            int i = 0;
+            String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+            System.out.println("idKey:" + idKey);
+            while(idKey != null && idKey.length() > 0)
+            {
+                String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
+                System.out.println("categoryIds:" + categoryIds);
+                categoryAttributes.put(idKey, categoryIds);
+                
+                i++;
+                idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+                System.out.println("idKey:" + idKey);
+            }
+
             validateInput(this);
             
             boolean isPublished = true;
             if(useEventPublishing())
                 isPublished = false;
-            
+                        
             newEvent = EventController.getController().createEvent(calendarId,
 									                    name, 
 									                    description,
@@ -144,7 +161,7 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    startCalendar, 
 									                    endCalendar, 
 									                    locationId, 
-									                    categoryId, 
+									                    categoryAttributes, 
 									                    participantUserName,
 									                    isPublished,
 									                    getSession());
@@ -175,6 +192,20 @@ public class CreateEventAction extends CalendarAbstractAction
    
         try
         {
+            int i = 0;
+            String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+            System.out.println("idKey:" + idKey);
+            while(idKey != null && idKey.length() > 0)
+            {
+                String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
+                System.out.println("categoryIds:" + categoryIds);
+                categoryAttributes.put(idKey, categoryIds);
+                
+                i++;
+                idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+                System.out.println("idKey:" + idKey);
+            }
+            
             validateInput(this);
             
             boolean isPublished = true;
@@ -201,7 +232,7 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    startCalendar, 
 									                    endCalendar, 
 									                    locationId, 
-									                    categoryId, 
+									                    categoryAttributes, 
 									                    participantUserName,
 									                    isPublished,
 									                    getSession());
@@ -225,8 +256,9 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
+        this.calendar = CalendarController.getController().getCalendar(this.calendarId, getSession());
         this.locations 	= LocationController.getController().getLocationList(getSession());
-        this.categories = CategoryController.getController().getRootCategoryList(getSession());
+        //this.categories = CategoryController.getController().getRootCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.yesOrNo = new ArrayList();
         this.yesOrNo.add("true");
@@ -446,11 +478,12 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         this.endTime = endTime;
     }
-    
+    /*
     public List getCategories()
     {
         return categories;
     }
+    */
     
     public List getLocations()
     {
@@ -523,5 +556,15 @@ public class CreateEventAction extends CalendarAbstractAction
     public Event getNewEvent()
     {
         return newEvent;
+    }
+    
+    public org.infoglue.calendar.entities.Calendar getCalendar()
+    {
+        return calendar;
+    }
+    
+    public void setLastRegistrationTime(Integer lastRegistrationTime)
+    {
+        this.lastRegistrationTime = lastRegistrationTime;
     }
 }

@@ -27,6 +27,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +92,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private Long calendarId;
     private String mode;
         
+    private Map categoryAttributes = new HashMap();
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -103,6 +106,20 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
 
         try
         {
+            int i = 0;
+            String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+            System.out.println("idKey:" + idKey);
+            while(idKey != null && idKey.length() > 0)
+            {
+                String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
+                System.out.println("categoryIds:" + categoryIds);
+                categoryAttributes.put(idKey, categoryIds);
+                
+                i++;
+                idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+                System.out.println("idKey:" + idKey);
+            }
+
             validateInput(this);
             
             EventController.getController().updateEvent(
@@ -126,7 +143,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
                     startCalendar, 
                     endCalendar, 
                     locationId, 
-                    categoryId, 
+                    categoryAttributes, 
                     participantUserName,
                     getSession());
             
