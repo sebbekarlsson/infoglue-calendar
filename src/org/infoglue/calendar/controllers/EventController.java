@@ -106,7 +106,8 @@ public class EventController extends BasicController
             	            String[] locationId, 
             	            Map categoryAttributes, 
             	            String[] participantUserName,
-            	            boolean isPublished,
+            	            Integer stateId,
+            	            String creator,
             	            Session session) throws HibernateException, Exception 
     {
         Event event = null;
@@ -157,7 +158,8 @@ public class EventController extends BasicController
 		        			endDateTime, 
 		        			locations, 
 		        			participants,
-		        			isPublished,
+		        			stateId,
+		        			creator,
 		        			session);
 		
 		Set eventCategories = new HashSet();
@@ -216,7 +218,8 @@ public class EventController extends BasicController
             				java.util.Calendar endDateTime, 
             				Set locations, 
             				Set participants,
-            				boolean isPublished,
+            				Integer stateId,
+            				String creator,
             				Session session) throws HibernateException, Exception 
     {
         
@@ -239,7 +242,8 @@ public class EventController extends BasicController
         event.setLastRegistrationDateTime(lastRegistrationCalendar);
         event.setStartDateTime(startDateTime);
         event.setEndDateTime(endDateTime); 
-        event.setIsPublished(new Boolean(isPublished));
+        event.setStateId(stateId);
+        event.setCreator(creator);
         
         event.setCalendar(calendar);
         event.setLocations(locations);
@@ -426,7 +430,20 @@ public class EventController extends BasicController
 		session.update(event);
 	}
     
- 
+
+    /**
+     * Submits an event for publication.
+     * 
+     * @throws Exception
+     */
+    
+    public void submitForPublishEvent(Long id, Session session) throws Exception 
+    {
+		Event event = getEvent(id, session);
+		event.setStateId(Event.STATE_PUBLISH);
+    }    
+
+    
     /**
      * Publishes an event.
      * 
@@ -436,7 +453,7 @@ public class EventController extends BasicController
     public void publishEvent(Long id, Session session) throws Exception 
     {
 		Event event = getEvent(id, session);
-		event.setIsPublished(new Boolean(true));
+		event.setStateId(Event.STATE_PUBLISHED);
 		
 		new RemoteCacheUpdater().updateRemoteCaches();
     }    
@@ -473,6 +490,43 @@ public class EventController extends BasicController
         return result;
     }
 
+    /**
+     * Gets a list of all events available for a particular user which are in working mode.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public List getMyWorkingEventList(String userName, Session session) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Event event where event.creator = ? AND event.stateId = ? order by event.id");
+        q.setString(0, userName);
+        q.setInteger(1, Event.STATE_WORKING.intValue());
+        
+        result = q.list();
+        
+        return result;
+    }
+
+    /**
+     * Gets a list of all events available for a particular user which are in working mode.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public List getWaitingEventList(String userName, Session session) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Event event where event.calendar.owner = ? AND event.stateId = ? order by event.id");
+        q.setString(0, userName);
+        q.setInteger(1, Event.STATE_PUBLISH.intValue());
+        
+        result = q.list();
+        
+        return result;
+    }
     
     /**
      * This method returns a list of Events based on a number of parameters
@@ -480,12 +534,12 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(Long id, boolean isPublished, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
+    public List getEventList(Long id, Integer stateId, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
         List list = null;
         
 		Calendar calendar = CalendarController.getController().getCalendar(id, session);
-		list = getEventList(calendar, isPublished, startDate, endDate, session);
+		list = getEventList(calendar, stateId, startDate, endDate, session);
 		
 		return list;
     }
@@ -510,8 +564,9 @@ public class EventController extends BasicController
         }
         calendarSQL += ")";
         
-        Query q = session.createQuery("from Event event WHERE event.isPublished = true AND event.startDateTime >= ? AND event.calendar.id IN " + calendarSQL + " ORDER BY event.startDateTime");
-        q.setCalendar(0, java.util.Calendar.getInstance());
+        Query q = session.createQuery("from Event event WHERE event.stateId = ? AND event.startDateTime >= ? AND event.calendar.id IN " + calendarSQL + " ORDER BY event.startDateTime");
+        q.setInteger(0, Event.STATE_PUBLISHED.intValue());
+        q.setCalendar(1, java.util.Calendar.getInstance());
         
         result = q.list();
         
@@ -524,11 +579,11 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(Calendar calendar, boolean isPublished, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
+    public List getEventList(Calendar calendar, Integer stateId, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
-        Query q = session.createQuery("from Event as event inner join fetch event.calendar as calendar where event.calendar = ? AND event.isPublished = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
+        Query q = session.createQuery("from Event as event inner join fetch event.calendar as calendar where event.calendar = ? AND event.stateId = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
         q.setEntity(0, calendar);
-        q.setBoolean(1, isPublished);
+        q.setInteger(1, stateId.intValue());
         q.setCalendar(2, startDate);
         q.setCalendar(3, endDate);
         
@@ -610,7 +665,7 @@ public class EventController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			MailServiceFactory.getService().send(systemEmailSender, inforgluePrincipal.getEmail(), "InfoGlue Calendar - new event waiting", email, contentType, "UTF-8");
+			MailServiceFactory.getService().send(systemEmailSender, inforgluePrincipal.getEmail(), null, "InfoGlue Calendar - new event waiting", email, contentType, "UTF-8");
 		}
 		catch(Exception e)
 		{

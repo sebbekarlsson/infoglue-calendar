@@ -176,7 +176,7 @@
 				<param name="viewAction">CreateEventTypeCategoryAttribute!input.action</param>
 			</result>
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewEventType.action?eventTypeId=${newEventType.id}</param>
+				<param name="viewAction">ViewEventType.action?eventTypeId=${newEventTypeCategoryAttribute.eventType.id}</param>
 			</result>
 		</action>
 		<action name="ViewEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.ViewEventTypeCategoryAttributeAction">
@@ -186,7 +186,7 @@
 		</action>
 		<action name="UpdateEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.UpdateEventTypeCategoryAttributeAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewEventType.action</param>
+				<param name="viewAction">ViewEventType.action?eventTypeId=${eventTypeId}</param>
 			</result>
 			<result name="error" type="eventProcessed">
 				<param name="viewAction">ViewEventTypeCategoryAttribute.action</param>
@@ -194,7 +194,7 @@
 		</action>
 		<action name="DeleteEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.DeleteEventTypeCategoryAttributeAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewEventType.action</param>
+				<param name="viewAction">ViewEventType.action?eventTypeId=${eventTypeId}</param>
 			</result>
 		</action>
 		
@@ -260,7 +260,17 @@
 			</result>
 		</action>
 		
+		<action name="ViewMyWorkingEventList" class="org.infoglue.calendar.actions.ViewMyWorkingEventListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewMyWorkingEventList.jsp</param>
+			</result>
+		</action>
 		
+		<action name="ViewWaitingEventList" class="org.infoglue.calendar.actions.ViewWaitingEventListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewWaitingEventList.jsp</param>
+			</result>
+		</action>
 		
 		
 		<!-- RESOURCE ACTIONS -->

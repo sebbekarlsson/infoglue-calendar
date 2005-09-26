@@ -83,6 +83,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private String lastRegistrationDateTime;
     private Integer lastRegistrationTime;
     private Integer maximumParticipants;
+    private String creator;
 
     private String[] locationId;
     private String[] categoryId;
@@ -108,7 +109,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private Calendar lastRegistrationCalendar;
     
     private Event newEvent = null;
-    
+        
     /**
      * This is the entry point for the main listing.
      */
@@ -137,9 +138,9 @@ public class CreateEventAction extends CalendarAbstractAction
 
             validateInput(this);
             
-            boolean isPublished = true;
+            Integer stateId = Event.STATE_PUBLISHED;
             if(useEventPublishing())
-                isPublished = false;
+                stateId = Event.STATE_WORKING;
                         
             newEvent = EventController.getController().createEvent(calendarId,
 									                    name, 
@@ -163,11 +164,21 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    locationId, 
 									                    categoryAttributes, 
 									                    participantUserName,
-									                    isPublished,
+									                    stateId,
+									                    creator,
 									                    getSession());
 
             if(useEventPublishing())
-                EventController.getController().notifyPublisher(newEvent, publishEventUrl);
+            {
+                try
+                {
+                    EventController.getController().notifyPublisher(newEvent, publishEventUrl);
+                }
+                catch(Exception e)
+                {
+                    log.warn("An error occcurred:" + e.getMessage(), e);
+                }
+            }
         }
         catch(ValidationException e)
         {
@@ -208,9 +219,9 @@ public class CreateEventAction extends CalendarAbstractAction
             
             validateInput(this);
             
-            boolean isPublished = true;
+            Integer stateId = Event.STATE_PUBLISHED;
             if(useEventPublishing())
-                isPublished = false;
+                stateId = Event.STATE_WORKING;
             
             newEvent = EventController.getController().createEvent(calendarId,
 									                    name, 
@@ -234,11 +245,21 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    locationId, 
 									                    categoryAttributes, 
 									                    participantUserName,
-									                    isPublished,
+									                    stateId,
+									                    creator,
 									                    getSession());
 
             if(useEventPublishing())
-                EventController.getController().notifyPublisher(newEvent, publishEventUrl);
+            {
+                try
+	            {
+                    EventController.getController().notifyPublisher(newEvent, publishEventUrl);
+	            }
+	            catch(Exception e)
+	            {
+	                log.warn("An error occcurred:" + e.getMessage(), e);
+	            }
+            }
         }
         catch(ValidationException e)
         {
@@ -566,5 +587,15 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setLastRegistrationTime(Integer lastRegistrationTime)
     {
         this.lastRegistrationTime = lastRegistrationTime;
+    }
+    
+    public String getCreator()
+    {
+        return creator;
+    }
+    
+    public void setCreator(String creator)
+    {
+        this.creator = creator;
     }
 }

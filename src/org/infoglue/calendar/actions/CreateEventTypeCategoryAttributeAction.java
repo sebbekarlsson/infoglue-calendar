@@ -34,6 +34,7 @@ import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
@@ -54,6 +55,8 @@ public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractActi
     
     private List categories;
     
+    private EventTypeCategoryAttribute newEventTypeCategoryAttribute;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -63,7 +66,7 @@ public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         try
         {
             validateInput(this);
-            EventTypeCategoryAttributeController.getController().createEventTypeCategoryAttribute(this.eventTypeId, this.categoryId, this.name, getSession());
+            this.newEventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().createEventTypeCategoryAttribute(this.eventTypeId, this.categoryId, this.name, getSession());
         }
         catch(ValidationException e)
         {
@@ -120,4 +123,8 @@ public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         return categories;
     }
 
+    public EventTypeCategoryAttribute getNewEventTypeCategoryAttribute()
+    {
+        return newEventTypeCategoryAttribute;
+    }
 }

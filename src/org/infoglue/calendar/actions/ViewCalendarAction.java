@@ -146,18 +146,18 @@ public class ViewCalendarAction extends CalendarAbstractAction
 
         if(useEventPublishing())
         {
-            this.waitingEvents = EventController.getController().getEventList(calendarId, false, startCalendar, endCalendar, getSession());
+            this.waitingEvents = EventController.getController().getEventList(calendarId, Event.STATE_WORKING, startCalendar, endCalendar, getSession());
             log.debug("getRemoteUser:" + getInfoGlueRemoteUser());
             String infoglueRemoteUser = getInfoGlueRemoteUser();
             if(infoglueRemoteUser != null && this.calendar.getOwner() != null)
                 this.isPublisher = (this.calendar.getOwner().equalsIgnoreCase(infoglueRemoteUser)) ? true : false;
         }
         
-        this.publishedEvents = EventController.getController().getEventList(calendarId, true, startCalendar, endCalendar, getSession());
+        this.publishedEvents = EventController.getController().getEventList(calendarId, Event.STATE_PUBLISHED, startCalendar, endCalendar, getSession());
         
-        this.events = EventController.getController().getEventList(calendarId, true, startCalendar, endCalendar, getSession());
-        this.weekEvents = EventController.getController().getEventList(calendarId, true, weekStartCalendar, weekEndCalendar, getSession());
-        this.monthEvents = EventController.getController().getEventList(calendarId, true, monthStartCalendar, monthEndCalendar, getSession());
+        this.events = EventController.getController().getEventList(calendarId, Event.STATE_PUBLISHED, startCalendar, endCalendar, getSession());
+        this.weekEvents = EventController.getController().getEventList(calendarId, Event.STATE_PUBLISHED, weekStartCalendar, weekEndCalendar, getSession());
+        this.monthEvents = EventController.getController().getEventList(calendarId, Event.STATE_PUBLISHED, monthStartCalendar, monthEndCalendar, getSession());
         this.dates = getDateList(calendar);
             
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();

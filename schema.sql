@@ -54,17 +54,31 @@ CREATE TABLE `entry` (
 # Structure for table event : 
 #
 
-CREATE TABLE `event` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `description` varchar(255) default NULL,
-  `endDateTime` datetime default NULL,
-  `startDateTime` datetime default NULL,
-  `calendar_id` bigint(20) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `FK403827A1818C5BC` (`calendar_id`)
-) TYPE=MyISAM;
+CREATE TABLE event (
+  id int NOT NULL ,
+  name varchar(255) default NULL,
+  description varchar(255) default NULL,
+  endDateTime date default NULL,
+  startDateTime date default NULL,
+  lecturer varchar(255) default NULL,
+  isOrganizedByGU int default NULL,
+  lastRegistrationDateTime date default NULL,
+  longDescription varchar(255) default NULL,
+  maxumumParticipants int default NULL,
+  contactEmail varchar(255) default NULL,
+  shortDescription varchar(255) default NULL,
+  organizerName varchar(255) default NULL,
+  contactPhone varchar(255) default NULL,
+  price float default NULL,
+  customLocation varchar(255) default NULL,
+  isInternal int default NULL,
+  eventUrl varchar(255) default NULL,
+  contactName varchar(255) default NULL,
+  stateId int default NULL,
+  creator varchar(255) NULL,
+  calendar_id int default NULL,
+  PRIMARY KEY  (id)
+);
 
 #
 # Structure for table event_category : 

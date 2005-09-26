@@ -432,7 +432,7 @@
 		</copy>
 
 		<echo message="Copying confs to cms"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes" overwrite="true">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes" overwrite="false">
 			<fileset dir="${conf}">
 				<include name="*.properties"/>
 				<include name="*.xml"/>

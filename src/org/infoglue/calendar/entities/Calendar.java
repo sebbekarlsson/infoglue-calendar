@@ -45,6 +45,7 @@ public class Calendar implements BaseEntity
     private Set events = new HashSet();
     private Set publishedEvents = new HashSet();
     private Set waitingEvents = new HashSet();
+    private Set workingEvents = new HashSet();
     
     private EventType eventType;
 
@@ -168,5 +169,21 @@ public class Calendar implements BaseEntity
     public void setEventType(EventType eventType)
     {
         this.eventType = eventType;
+    }
+    
+	/**
+     * @hibernate.set lazy="true"
+     * @hibernate.collection-key column="calendar_id"
+     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Event"
+   	 *
+	 * @return Set
+	 */ 
+    public Set getWorkingEvents()
+    {
+        return workingEvents;
+    }
+    public void setWorkingEvents(Set workingEvents)
+    {
+        this.workingEvents = workingEvents;
     }
 }

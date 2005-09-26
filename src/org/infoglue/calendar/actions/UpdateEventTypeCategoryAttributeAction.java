@@ -23,8 +23,10 @@
 
 package org.infoglue.calendar.actions;
 
+import org.infoglue.calendar.controllers.EventTypeCategoryAttributeController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.validator.ValidationException;
@@ -38,10 +40,13 @@ import com.opensymphony.xwork.validator.ValidationException;
 public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractAction
 {
 
-    private EventType dataBean = new EventType();
+    private Long eventTypeCategoryAttributeId;
+    private String name;
+    
+    private EventTypeCategoryAttribute eventTypeCategoryAttribute = null;
     
     /**
-     * This is the entry point for the main listing.
+     * This is the entry point for the update procedure.
      */
     
     public String execute() throws Exception 
@@ -49,7 +54,8 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         try
         {
             validateInput(this);
-            EventTypeController.getController().updateEventType(dataBean.getId(), dataBean.getName(), dataBean.getDescription(), getSession());
+            this.eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().updateEventTypeCategoryAttribute(this.eventTypeCategoryAttributeId, this.name, getSession());
+            System.out.println("eventTypeCategoryAttribute:" + eventTypeCategoryAttribute.getEventType().getId());
         }
         catch(ValidationException e)
         {
@@ -59,35 +65,31 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         return Action.SUCCESS;
     } 
     
-    public Long getEventTypeId()
-    {
-        return dataBean.getId();
-    }
+    
 
-    public void setEventTypeId(Long eventTypeId)
+    public Long getEventTypeCategoryAttributeId()
     {
-        this.dataBean.setId(eventTypeId);
-    }
-
-    public String getDescription()
-    {
-        return this.dataBean.getDescription();
+        return eventTypeCategoryAttributeId;
     }
     
-    public void setDescription(String description)
+    public void setEventTypeCategoryAttributeId(Long eventTypeCategoryAttributeId)
     {
-        this.dataBean.setDescription(description);
+        this.eventTypeCategoryAttributeId = eventTypeCategoryAttributeId;
     }
     
     public String getName()
     {
-        return this.dataBean.getName();
+        return name;
     }
     
     public void setName(String name)
     {
-        this.dataBean.setName(name);
+        this.name = name;
     }
     
-
+    public Long getEventTypeId()
+    {
+        System.out.println("Getting eventTypeId:" + eventTypeCategoryAttribute.getEventType().getId());
+        return eventTypeCategoryAttribute.getEventType().getId();
+    }
 }

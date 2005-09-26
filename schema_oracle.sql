@@ -52,7 +52,8 @@ CREATE TABLE event (
   isInternal int default NULL,
   eventUrl varchar(255) default NULL,
   contactName varchar(255) default NULL,
-  isPublished int default NULL,
+  stateId int default NULL,
+  creator varchar(255) NULL,
   calendar_id int default NULL,
   PRIMARY KEY  (id)
 );

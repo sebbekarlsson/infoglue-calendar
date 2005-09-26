@@ -36,6 +36,10 @@ import java.util.Set;
 
 public class Event implements BaseEntity
 {
+    public static final Integer STATE_WORKING = new Integer(0);
+    public static final Integer STATE_PUBLISH = new Integer(2);
+    public static final Integer STATE_PUBLISHED = new Integer(3);
+    
     private Long id;
     private String name;
     private String description;
@@ -56,7 +60,8 @@ public class Event implements BaseEntity
     private Float price;
     private java.util.Calendar lastRegistrationDateTime;
     private Integer maxumumParticipants;
-    private Boolean isPublished = new Boolean(true); //Default if not otherwise set
+    private Integer stateId = STATE_WORKING; //Default if not otherwise set
+    private String creator;
     
     private Calendar calendar;
     private Set locations;
@@ -413,21 +418,6 @@ public class Event implements BaseEntity
         this.longDescription = longDescription;
     }
 
-    /**
-     * @hibernate.property name="getIsPublished" column="isPublished" type="boolean" not-null="false" unique="false"
-     * 
-     * @return Boolean
-     */
-    public Boolean getIsPublished()
-    {
-        return isPublished;
-    }
-
-    public void setIsPublished(Boolean isPublished)
-    {
-        this.isPublished = isPublished;
-    }
-
     public Set getEventCategories()
     {
         return eventCategories;
@@ -436,5 +426,36 @@ public class Event implements BaseEntity
     public void setEventCategories(Set eventCategories)
     {
         this.eventCategories = eventCategories;
+    }
+    
+    /**
+     * @hibernate.property name="getStateId" column="stateId" type="integer" not-null="false" unique="false"
+     * 
+     * @return Integer
+     */
+    public Integer getStateId()
+    {
+        return stateId;
+    }
+    
+    public void setStateId(Integer stateId)
+    {
+        this.stateId = stateId;
+    }
+    
+    /**
+     * @hibernate.property name="getCreator" column="creator" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    
+    public String getCreator()
+    {
+        return creator;
+    }
+    
+    public void setCreator(String creator)
+    {
+        this.creator = creator;
     }
 }

@@ -23,23 +23,31 @@
 
 package org.infoglue.calendar.actions;
 
-import org.infoglue.calendar.controllers.EventTypeCategoryAttributeController;
-import org.infoglue.calendar.controllers.EventTypeController;
-import org.infoglue.calendar.entities.EventType;
-import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
+import java.util.List;
+import java.util.Set;
 
+import javax.portlet.PortletURL;
+
+import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.LocationController;
+import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.common.util.DBSessionWrapper;
+
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 
 /**
- * This action represents a EventTypeCategoryAttribute Administration screen.
+ * This action represents a Calendar Administration screen.
  * 
  * @author Mattias Bogeblad
  */
 
-public class ViewEventTypeCategoryAttributeAction extends CalendarAbstractAction
+public class ViewWaitingEventListAction extends CalendarAbstractAction
 {
-    private Long eventTypeCategoryAttributeId;
-    private EventTypeCategoryAttribute eventTypeCategoryAttribute;
+    private List events;
     
     /**
      * This is the entry point for the main listing.
@@ -47,24 +55,14 @@ public class ViewEventTypeCategoryAttributeAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttribute(eventTypeCategoryAttributeId, getSession());
-        
+        this.events = EventController.getController().getWaitingEventList(this.getInfoGlueRemoteUser(), getSession());
+
         return Action.SUCCESS;
     } 
-
-    public Long getEventTypeCategoryAttributeId()
+    
+    public List getEvents()
     {
-        return eventTypeCategoryAttributeId;
+        return events;
     }
     
-    public void setEventTypeCategoryAttributeId(Long eventTypeCategoryAttributeId)
-    {
-        this.eventTypeCategoryAttributeId = eventTypeCategoryAttributeId;
-    }
-
-    public EventTypeCategoryAttribute getEventTypeCategoryAttribute()
-    {
-        return eventTypeCategoryAttribute;
-    }
-
 }

@@ -158,6 +158,17 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     
     /**
+     * This is the action command for submitting an event to publication.
+     */
+    
+    public String submitForPublishEvent() throws Exception 
+    {
+        EventController.getController().submitForPublishEvent(eventId, getSession());
+
+        return Action.SUCCESS;
+    } 
+
+    /**
      * This is the action command for publishing an event.
      */
     
@@ -167,7 +178,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
 
         return Action.SUCCESS;
     } 
-    
+
     /**
      * This is the entry point for the main listing.
      */

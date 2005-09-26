@@ -78,9 +78,9 @@ public class MailService
 	 * @param content the body of the email.
 	 * @throws SystemException if the email couldn't be sent due to some mail server exception.
 	 */
-	public void send(String from, String to, String subject, String content, String contentType, String encoding) throws SystemException 
+	public void send(String from, String to, String bcc, String subject, String content, String contentType, String encoding) throws SystemException 
 	{
-		final Message message = createMessage(from, to, subject, content, contentType, encoding);
+		final Message message = createMessage(from, to, bcc, subject, content, contentType, encoding);
 	 
 		try 
 		{
@@ -121,7 +121,7 @@ public class MailService
 	/**
 	 *
 	 */
-	private Message createMessage(String from, String to, String subject, String content, String contentType, String encoding) 
+	private Message createMessage(String from, String to, String bcc, String subject, String content, String contentType, String encoding) 
 	{
 		try 
 		{
@@ -130,8 +130,9 @@ public class MailService
 
 			//message.setContent(content, contentType);
 			message.setFrom(createInternetAddress(from));
-			//message.setRecipient(Message.RecipientType.TO, createInternetAddress(to));
-			message.setRecipients(Message.RecipientType.TO, createInternetAddresses(to));
+			message.setRecipient(Message.RecipientType.TO, createInternetAddress(to));
+			if(bcc != null)
+			    message.setRecipients(Message.RecipientType.BCC, createInternetAddresses(bcc));
 			//message.setSubject(subject);
 	
 	        ((MimeMessage)message).setSubject(subject, encoding);

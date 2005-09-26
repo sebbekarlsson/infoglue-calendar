@@ -483,7 +483,7 @@ public class EntryController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			MailServiceFactory.getService().send(systemEmailSender, emailAddresses, subject, email, contentType, "UTF-8");
+			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, emailAddresses, subject, email, contentType, "UTF-8");
 		}
 		catch(Exception e)
 		{
@@ -528,7 +528,7 @@ public class EntryController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), entry.getEvent().getName() + " - Verification", email, contentType, "UTF-8");
+			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), null, entry.getEvent().getName() + " - Verification", email, contentType, "UTF-8");
 		}
 		catch(Exception e)
 		{

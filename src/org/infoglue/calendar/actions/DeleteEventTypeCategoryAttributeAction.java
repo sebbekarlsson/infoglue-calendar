@@ -28,6 +28,7 @@ import java.util.List;
 import javax.portlet.PortletURL;
 
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.EventTypeCategoryAttributeController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
@@ -44,6 +45,7 @@ import com.opensymphony.xwork.ActionContext;
 
 public class DeleteEventTypeCategoryAttributeAction extends CalendarAbstractAction
 {
+    private Long eventTypeCategoryAttributeId;
     private Long eventTypeId;
     
     /**
@@ -52,10 +54,20 @@ public class DeleteEventTypeCategoryAttributeAction extends CalendarAbstractActi
     
     public String execute() throws Exception 
     {
-        EventTypeController.getController().deleteEventType(eventTypeId, getSession());
+        EventTypeCategoryAttributeController.getController().deleteEventTypeCategoryAttribute(eventTypeCategoryAttributeId, getSession());
         
         return Action.SUCCESS;
     } 
+    
+    public Long getEventTypeCategoryAttributeId()
+    {
+        return eventTypeCategoryAttributeId;
+    }
+    
+    public void setEventTypeCategoryAttributeId(Long eventTypeCategoryAttributeId)
+    {
+        this.eventTypeCategoryAttributeId = eventTypeCategoryAttributeId;
+    }
     
     public Long getEventTypeId()
     {
@@ -66,5 +78,4 @@ public class DeleteEventTypeCategoryAttributeAction extends CalendarAbstractActi
     {
         this.eventTypeId = eventTypeId;
     }
-    
 }

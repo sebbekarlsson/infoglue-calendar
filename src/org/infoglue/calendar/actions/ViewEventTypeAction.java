@@ -26,6 +26,7 @@ package org.infoglue.calendar.actions;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.EventType;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 
 /**
@@ -45,6 +46,10 @@ public class ViewEventTypeAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+        System.out.println("eventTypeId in ViewEventType:" + eventTypeId);
+        if(this.eventTypeId == null)
+            this.eventTypeId = new Long(ServletActionContext.getRequest().getParameter("eventTypeId"));
+
         this.eventType = EventTypeController.getController().getEventType(eventTypeId, getSession());
         
         return Action.SUCCESS;
