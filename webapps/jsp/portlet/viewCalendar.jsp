@@ -228,10 +228,12 @@
 <div style="float: left; display: block; border: 0px solid black;" id="calendarArea<ww:property value="componentId"/>">
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
+	<!--
 	<ww:if test="isPublisher == true">
 	<td><div id="waitingEvents<ww:property value="componentId"/>Tab" class="tab"><a id="waitingEvents<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('waitingEvents<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.waitingEventsTab')"/></a></div></td>
 	</ww:if>
 	<td><div id="events<ww:property value="componentId"/>Tab" class="tab"><a id="events<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('events<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.eventsTab')"/></a></div></td>
+	-->
 	<td><div id="day<ww:property value="componentId"/>Tab" class="tab"><a id="day<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('day<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.dayTab')"/></a></div></td>
 	<td><div id="week<ww:property value="componentId"/>Tab" class="tab"><a id="week<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('week<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.weekTab')"/></a></div></td>
 	<td><div id="calendar<ww:property value="componentId"/>Tab" class="tab"><a id="calendar<ww:property value="componentId"/>Link" href="javascript:setActiveTab<ww:property value="componentId"/>('calendar<ww:property value="componentId"/>');" onFocus="this.blur();" class="tabText"><ww:property value="this.getLabel('labels.public.calendar.monthTab')"/></a></div></td>

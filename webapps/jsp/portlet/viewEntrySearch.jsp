@@ -103,9 +103,22 @@
 		<ww:property value="this.getLabel('labels.internal.soba.categories')"/>
 	</div>		
 	<div class="category">
+	<%--	
+	
+		<ww:iterator value="event.calendar.eventType.categoryAttributes" status="rowstatus">
+		<p>
+			<ww:set name="categoryAttribute" value="top" scope="page"/>
+			<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
+			<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
+			<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
+			<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
+			<calendar:selectField label="categoryAttribute.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValueList="#selectedCategories" cssClass="listBox"/>
+   		</p>
+		</ww:iterator>
 	<ww:iterator value="categoryList">
 		<input type="checkbox" name="categoryId" value="<ww:property value="id"/>"/><ww:property value="name"/>
 	</ww:iterator>
+	--%>
 	</div>
 </div>
 <div style="height:10px"></div>

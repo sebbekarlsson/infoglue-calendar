@@ -33,6 +33,12 @@
 		<portlet:renderURL var="viewEventTypeListUrl">
 			<portlet:param name="action" value="ViewEventTypeList"/>
 		</portlet:renderURL>
+		<portlet:renderURL var="viewMyWorkingEventsUrl">
+			<portlet:param name="action" value="ViewMyWorkingEventList"/>
+		</portlet:renderURL>
+		<portlet:renderURL var="viewWaitingEventsUrl">
+			<portlet:param name="action" value="ViewWaitingEventList"/>
+		</portlet:renderURL>
 		<portlet:renderURL var="viewEntrySearchUrl">
 			<portlet:param name="action" value="ViewEntrySearch"/>
 		</portlet:renderURL>
@@ -42,6 +48,8 @@
 	    	<li><a href="<c:out value="${viewLocationListUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationAdministerLocations')"/></a></li>
 			<li><a href="<c:out value="${viewCategoryListUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationAdministerCategories')"/></a></li>
 			<li><a href="<c:out value="${viewEventTypeListUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationAdministerEventTypes')"/></a></li>
+			<li><a href="<c:out value="${viewMyWorkingEventsUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationMyWorkingEvents')"/></a></li>
+			<li><a href="<c:out value="${viewWaitingEventsUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationWaitingEvents')"/></a></li>
 			<li><a href="<c:out value="${viewEntrySearchUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationSearchEntries')"/></a></li>
 		</ul>
 	</div>

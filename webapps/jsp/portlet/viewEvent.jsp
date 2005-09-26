@@ -239,7 +239,7 @@
 			<p>
 				<input type="submit" value="Update" class="calendarButton">
 
-				<ww:if test="event.isPublished == false">
+				<ww:if test="event.stateId == 2">
 					<portlet:actionURL var="publishEventActionUrl">
 						<calendar:evalParam name="action" value="UpdateEvent!publishEvent"/>
 						<calendar:evalParam name="eventId" value="${eventId}"/>
@@ -247,6 +247,16 @@
 						<calendar:evalParam name="mode" value="${mode}"/>
 					</portlet:actionURL>
 					<a href="<c:out value="${publishEventActionUrl}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.publishEvent')"/>" class="calendarButton"/></a>
+				</ww:if>
+
+				<ww:if test="event.stateId == 0">
+					<portlet:actionURL var="submitForPublishEventActionUrl">
+						<calendar:evalParam name="action" value="UpdateEvent!submitForPublishEvent"/>
+						<calendar:evalParam name="eventId" value="${eventId}"/>
+						<calendar:evalParam name="calendarId" value="${calendarId}"/>
+						<calendar:evalParam name="mode" value="${mode}"/>
+					</portlet:actionURL>
+					<a href="<c:out value="${submitForPublishEventActionUrl}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.submitForPublishEvent')"/>" class="calendarButton"/></a>
 				</ww:if>
 
 				<portlet:actionURL var="createEventAsCopyActionUrl">

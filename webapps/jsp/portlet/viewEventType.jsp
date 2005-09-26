@@ -31,15 +31,17 @@
 	<div id="contentList">
 		<ww:iterator value="eventType.categoryAttributes" status="rowstatus">
 			
-			<ww:set name="attributeCategoryId" value="id" scope="page"/>
+			<ww:set name="eventTypeCategoryAttributeId" value="id" scope="page"/>
+			<ww:set name="eventTypeId" value="eventTypeId" scope="page"/>
 			<portlet:renderURL var="attributeCategoryUrl">
 				<portlet:param name="action" value="ViewEventTypeCategoryAttribute"/>
-				<portlet:param name="attributeCategoryId" value="<%= pageContext.getAttribute("attributeCategoryId").toString() %>"/>
+				<portlet:param name="eventTypeCategoryAttributeId" value="<%= pageContext.getAttribute("eventTypeCategoryAttributeId").toString() %>"/>
 			</portlet:renderURL>
 			
 			<portlet:actionURL var="deleteAttributeCategoryUrl">
-				<portlet:param name="action" value="DeleteEventTypeAttributeCategory"/>
-				<portlet:param name="attributeCategoryId" value="<%= pageContext.getAttribute("attributeCategoryId").toString() %>"/>
+				<portlet:param name="action" value="DeleteEventTypeCategoryAttribute"/>
+				<portlet:param name="eventTypeCategoryAttributeId" value="<%= pageContext.getAttribute("eventTypeCategoryAttributeId").toString() %>"/>
+				<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
 			</portlet:actionURL>
 			
 			<p class="nobreak">
