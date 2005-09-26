@@ -97,11 +97,13 @@
             <message>You must choose at least one location.</message>
         </field-validator>
     </field>
+    <!--
     <field name="categoryId">
         <field-validator type="igrequiredoption">
             <message>You must choose at least one category.</message>
         </field-validator>
     </field>
+    -->
     <!--
     <field name="startDateTime">
 		<field-validator type="fieldexpression">
