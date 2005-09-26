@@ -1,18 +1,5 @@
-<%@ page import="javax.portlet.PortletURL,
-				 java.util.Map,
-				 java.util.Iterator,
-				 java.util.List,
-				 java.util.Locale,
-				 java.util.ResourceBundle,
-				 org.infoglue.common.util.ResourceBundleHelper"%>
+<%@ include file="adminHeader.jsp" %>
 
-<%@ taglib uri="webwork" prefix="ww" %>
-<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="calendar" prefix="calendar" %>
-
-<portlet:defineObjects/>
 
 <ww:set name="event" value="event" scope="page"/>
 <ww:set name="eventId" value="event.id" scope="page"/>
@@ -74,197 +61,183 @@
 
 	<div id="contentList" style="display: block;">
 	
-		<portlet:actionURL var="updateEventActionUrl">
-			<portlet:param name="action" value="UpdateEvent"/>
-		</portlet:actionURL>
+		<p>
+			<calendar:textValue label="labels.internal.event.name" value="event.name" cssClass="textValue"/>
+		</p>
+		<!--
+		<p>
+			<calendar:textValue label="labels.internal.event.description" value="event.description" cssClass="textValue"/>
+		</p>
+		-->
+		<p>
+			<calendar:textValue label="labels.internal.event.isInternal" value="event.isInternal"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.isOrganizedByGU" value="event.isOrganizedByGU"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.organizerName" value="event.organizerName" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.lecturer" value="event.lecturer" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.customLocation" value="event.customLocation" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.shortDescription" value="event.shortDescription" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.longDescription" value="event.longDescription" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.eventUrl" value="event.eventUrl" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.contactName" value="event.contactName" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.contactEmail" value="event.contactEmail" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.contactPhone" value="event.contactPhone" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.price" value="event.price" cssClass="textValue"/>
+		</p>
+		<p>
+			<calendar:textValue label="labels.internal.event.maximumParticipants" value="event.maxumumParticipants" cssClass="textValue"/>
+		</p>
+
+		<p>
+			<table border="0" cellspacing="0">
+			<tr>
+				<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span></td> 
+				<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.startTime')"/></span></td> 
+			</tr>
+			<tr>
+				<td width="20%" nowrap>
+					<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>
+				</td>				
+				<td>
+					<ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>
+				</td>				
+			</tr>
+			</table>
+		</p>    
+		<p>
+			<table border="0">
+			<tr>
+				<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span></td> 
+				<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.endTime')"/></span></td> 
+			</tr>
+			<tr>
+				<td width="20%" nowrap>
+					<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
+				</td>				
+				<td>
+	      			<ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>
+				</td>				
+			</tr>
+			</table>				
+		</p>
+		<p>
+			<table border="0">
+			<tr>
+				<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span></td> 
+				<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationTime')"/></span></td> 
+			</tr>
+			<tr>
+				<td width="20%" nowrap>
+					<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/>
+				</td>				
+				<td>
+	      			<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>
+				</td>				
+			</tr>
+			</table>				
+		</p>
+
+		<!-- END NEW -->
+
+  		<p>
+  			<calendar:textValue label="labels.internal.event.location" value="event.locations" cssClass="textValue"/>
+		</p>
+
+		<ww:iterator value="event.calendar.eventType.categoryAttributes" status="rowstatus">
+		<p>
+			<ww:set name="categoryAttribute" value="top" scope="page"/>
+			<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
+			<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
+			<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
+			<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
+			<calendar:textValue label="categoryAttribute.name" value="#selectedCategories" cssClass="textValue"/>
+   		</p>
+		</ww:iterator>
+			
+		<p>  		
+  			<calendar:textValue label="labels.internal.event.participants" value="calendar.participants" cssClass="textValue"/>
+		</p>
 		
-		<form name="updateForm" method="POST" action="<c:out value="${updateEventActionUrl}"/>">
-			<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
-			<input type="hidden" name="calendarId" value="<ww:property value="event.calendar.id"/>"/>
-			<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
-			<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
-						
-			<p>
-				<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="normalInput"/>
-			</p>
-			<!--
-			<p>
-				<calendar:textField label="labels.internal.event.description" name="description" value="event.description" cssClass="normalInput"/>
-			</p>
-			-->
-			<p>
-				<calendar:checkboxField label="labels.internal.event.isInternal" name="isInternal" value="yesOrNo" selectedValue="event.isInternal"/>
-			</p>
-			<p>
-				<calendar:checkboxField label="labels.internal.event.isOrganizedByGU" name="isOrganizedByGU" value="yesOrNo" selectedValue="event.isOrganizedByGU"/>
-			</p>
-			<p>
-				<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="event.organizerName" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="labels.internal.event.lecturer" name="lecturer" value="event.lecturer" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="labels.internal.event.customLocation" name="customLocation" value="event.customLocation" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="labels.internal.event.eventUrl" name="eventUrl" value="event.eventUrl" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="labels.internal.event.contactName" name="contactName" value="event.contactName" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="labels.internal.event.contactEmail" name="contactEmail" value="event.contactEmail" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="labels.internal.event.contactPhone" name="contactPhone" value="event.contactPhone" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="labels.internal.event.price" name="price" value="event.price" cssClass="normalInput"/>
-			</p>
-			<p>
-				<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="event.maxumumParticipants" cssClass="normalInput"/>
-			</p>
-
-			<p>
-				<table border="0" cellspacing="0">
-				<tr>
-					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span></td> 
-					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.startTime')"/></span></td> 
-				</tr>
-				<tr>
-					<td width="20%" nowrap>
-						<input type="textfield" id="startDateTime" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
-						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_startDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
-					</td>				
-					<td>
-						<input type="textfield" name="startTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>" class="hourInput">
-					</td>				
-				</tr>
-				</table>
-			</p>    
-			<p>
-				<table border="0">
-				<tr>
-					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span></td> 
-					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.endTime')"/></span></td> 
-				</tr>
-				<tr>
-					<td width="20%" nowrap>
-						<input type="textfield" id="endDateTime" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
-						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_endDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
-					</td>				
-					<td>
-		      			<input type="textfield" name="endTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>" class="hourInput">
-					</td>				
-				</tr>
-				</table>				
-			</p>
-			<p>
-				<table border="0">
-				<tr>
-					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span></td> 
-					<td><span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationTime')"/></span></td> 
-				</tr>
-				<tr>
-					<td width="20%" nowrap>
-						<input type="textfield" id="lastRegistrationDateTime" name="lastRegistrationDateTime" value="<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/>" class="dateInput">
-						<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_lastRegistrationDateTime" style="cursor: pointer; border: 0px solid black;" title="Date selector" />
-					</td>				
-					<td>
-		      			<input type="textfield" name="lastRegistrationTime" value="<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>" class="hourInput">
-					</td>				
-				</tr>
-				</table>				
-			</p>
-
-			<!-- END NEW -->
-
-      		<p>
-      			<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" selectedValueSet="event.locations" cssClass="listBox"/>
-			</p>
-
-			<ww:iterator value="event.calendar.eventType.categoryAttributes" status="rowstatus">
-			<p>
-				<ww:set name="categoryAttribute" value="top" scope="page"/>
-				<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
-				<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
-				<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
-				<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
-				<calendar:selectField label="categoryAttribute.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValueList="#selectedCategories" cssClass="listBox"/>
-   			</p>
-			</ww:iterator>
+		<p>
+			<span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.attachedFiles')"/></span><br>
+			<ww:iterator value="event.resources">
 			
-    		<p>  		
-      			<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" selectedValueSet="calendar.participants" cssClass="listBox"/>
-			</p>
-			
-			<p>
-				<span class="calendarLabel"><ww:property value="this.getLabel('labels.internal.event.attachedFiles')"/></span><br>
-				<ww:iterator value="event.resources">
-				
-					<ww:set name="resourceId" value="top.id" scope="page"/>
-					<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
-			
-					<portlet:actionURL var="deleteResourceUrl">
-						<calendar:evalParam name="action" value="DeleteResource"/>
-						<calendar:evalParam name="resourceId" value="${resourceId}"/>
-						<calendar:evalParam name="eventId" value="${eventId}"/>
-						<calendar:evalParam name="calendarId" value="${calendarId}"/>
-						<calendar:evalParam name="mode" value="${mode}"/>
-					</portlet:actionURL>
-						
-					<span class="calendarValue"><a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a></span>&nbsp;<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a><br>     			
-	      		</ww:iterator>
-	      		<br/>
-	      		<span class="calendarValue"><a href="javascript:showUploadForm();"><ww:property value="this.getLabel('labels.internal.event.attachFile')"/></a></span>
-			</p>
-			<p>
-				<br>
-				<ww:set name="eventId" value="eventId" scope="page"/>
-				<portlet:renderURL var="createEntryRenderURL">
-					<calendar:evalParam name="action" value="CreateEntry!input"/>
+				<ww:set name="resourceId" value="top.id" scope="page"/>
+				<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
+		
+				<portlet:actionURL var="deleteResourceUrl">
+					<calendar:evalParam name="action" value="DeleteResource"/>
+					<calendar:evalParam name="resourceId" value="${resourceId}"/>
 					<calendar:evalParam name="eventId" value="${eventId}"/>
 					<calendar:evalParam name="calendarId" value="${calendarId}"/>
 					<calendar:evalParam name="mode" value="${mode}"/>
-				</portlet:renderURL>
-				<span class="calendarValue"><a href="<c:out value="${createEntryRenderURL}"/>" class="calendarLink"><ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/></a></span>
-			</p>
-			<p>
-				<input type="submit" value="Update" class="calendarButton">
-
-				<ww:if test="event.stateId == 2">
-					<portlet:actionURL var="publishEventActionUrl">
-						<calendar:evalParam name="action" value="UpdateEvent!publishEvent"/>
-						<calendar:evalParam name="eventId" value="${eventId}"/>
-						<calendar:evalParam name="calendarId" value="${calendarId}"/>
-						<calendar:evalParam name="mode" value="${mode}"/>
-					</portlet:actionURL>
-					<a href="<c:out value="${publishEventActionUrl}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.publishEvent')"/>" class="calendarButton"/></a>
-				</ww:if>
-
-				<ww:if test="event.stateId == 0">
-					<portlet:actionURL var="submitForPublishEventActionUrl">
-						<calendar:evalParam name="action" value="UpdateEvent!submitForPublishEvent"/>
-						<calendar:evalParam name="eventId" value="${eventId}"/>
-						<calendar:evalParam name="calendarId" value="${calendarId}"/>
-						<calendar:evalParam name="mode" value="${mode}"/>
-					</portlet:actionURL>
-					<a href="<c:out value="${submitForPublishEventActionUrl}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.submitForPublishEvent')"/>" class="calendarButton"/></a>
-				</ww:if>
-
-				<portlet:actionURL var="createEventAsCopyActionUrl">
-					<calendar:evalParam name="action" value="CreateEvent!copy"/>
 				</portlet:actionURL>
-				<a href="javascript:createEventFromCopy('<c:out value="${createEventAsCopyActionUrl}"/>')"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.createNewEvent')"/>" class="calendarButton"/></a>
-			</p>
-		</form>
+					
+				<span class="calendarValue"><a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a></span>&nbsp;<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a><br>     			
+      		</ww:iterator>
+      		<br/>
+      		<span class="calendarValue"><a href="javascript:showUploadForm();"><ww:property value="this.getLabel('labels.internal.event.attachFile')"/></a></span>
+		</p>
+		<p>
+			<br>
+			<ww:set name="eventId" value="eventId" scope="page"/>
+			<portlet:renderURL var="createEntryRenderURL">
+				<calendar:evalParam name="action" value="CreateEntry!input"/>
+				<calendar:evalParam name="eventId" value="${eventId}"/>
+				<calendar:evalParam name="calendarId" value="${calendarId}"/>
+				<calendar:evalParam name="mode" value="${mode}"/>
+			</portlet:renderURL>
+			<span class="calendarValue"><a href="<c:out value="${createEntryRenderURL}"/>" class="calendarLink"><ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/></a></span>
+		</p>
+		<p>
+			<input type="submit" value="Update" class="calendarButton">
+
+			<ww:if test="event.stateId == 2">
+				<portlet:actionURL var="publishEventActionUrl">
+					<calendar:evalParam name="action" value="UpdateEvent!publishEvent"/>
+					<calendar:evalParam name="eventId" value="${eventId}"/>
+					<calendar:evalParam name="calendarId" value="${calendarId}"/>
+					<calendar:evalParam name="mode" value="${mode}"/>
+				</portlet:actionURL>
+				<a href="<c:out value="${publishEventActionUrl}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.publishEvent')"/>" class="calendarButton"/></a>
+			</ww:if>
+
+			<ww:if test="event.stateId == 0">
+				<portlet:actionURL var="submitForPublishEventActionUrl">
+					<calendar:evalParam name="action" value="UpdateEvent!submitForPublishEvent"/>
+					<calendar:evalParam name="eventId" value="${eventId}"/>
+					<calendar:evalParam name="calendarId" value="${calendarId}"/>
+					<calendar:evalParam name="mode" value="${mode}"/>
+				</portlet:actionURL>
+				<a href="<c:out value="${submitForPublishEventActionUrl}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.submitForPublishEvent')"/>" class="calendarButton"/></a>
+			</ww:if>
+
+			<portlet:actionURL var="createEventAsCopyActionUrl">
+				<calendar:evalParam name="action" value="CreateEvent!copy"/>
+			</portlet:actionURL>
+			<a href="javascript:createEventFromCopy('<c:out value="${createEventAsCopyActionUrl}"/>')"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.createNewEvent')"/>" class="calendarButton"/></a>
+		</p>
 	</div>
 	
 	<portlet:actionURL var="createResourceUploadActionUrl">
@@ -282,7 +255,7 @@
 			
 			<p>
 				<ww:property value="this.getLabel('labels.internal.event.assetKey')"/><br>
-				<select name="assetKey" class="normalInput">
+				<select name="assetKey" class="textValue">
 					<ww:iterator value="assetKeys">
 		      			<option value="<ww:property value='top'/>"><ww:property value="top"/></option>
 		      		</ww:iterator>
@@ -299,35 +272,6 @@
 	
 	</div>
 	
-
 </div>
 
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    "startDateTime",     // id of the input field
-        ifFormat       :    "%Y-%m-%d",      // format of the input field
-        button         :    "trigger_startDateTime",  // trigger for the calendar (button ID)
-        align          :    "Tl",           // alignment (defaults to "Bl")
-        singleClick    :    true
-    });
-</script>
-
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    "endDateTime",     // id of the input field
-        ifFormat       :    "%Y-%m-%d",      // format of the input field
-        button         :    "trigger_endDateTime",  // trigger for the calendar (button ID)
-        align          :    "Tl",           // alignment (defaults to "Bl")
-        singleClick    :    true
-    });
-</script>
-
-<script type="text/javascript">
-    Calendar.setup({
-        inputField     :    "lastRegistrationDateTime",     // id of the input field
-        ifFormat       :    "%Y-%m-%d",      // format of the input field
-        button         :    "trigger_lastRegistrationDateTime",  // trigger for the calendar (button ID)
-        align          :    "Tl",           // alignment (defaults to "Bl")
-        singleClick    :    true
-    });
-</script>
+<%@ include file="adminFooter.jsp" %>

@@ -108,79 +108,15 @@ public class ViewEventAction extends CalendarAbstractAction
 
         this.yesOrNo = new ArrayList();
         this.yesOrNo.add("true");
-
-        /*
-        this.remainingLocations = LocationController.getController().getLocationList();
-        this.selectedLocations.addAll(this.remainingLocations);
-        
-        Iterator selectedLocationsIterator = this.selectedLocations.iterator();
-        while(selectedLocationsIterator.hasNext())
-        {
-            Location location = (Location)selectedLocationsIterator.next();
-            boolean isSelected = false;
-            Iterator selectedLocationsInterator = this.selectedLocations.iterator();
-            while(selectedLocationsInterator.hasNext())
-            {
-                Location selectedLocation = (Location)selectedLocationsInterator.next();
-                if(selectedLocation.getId().equals(location.getId()))
-                    isSelected = true;
-            }
-            
-            if(!isSelected)
-                selectedLocationsIterator.remove();
-            else
-                remainingLocations.remove(location);
-        }
-
-        
-        this.remainingCategories = CategoryController.getController().getCategoryList();
-        this.selectedCategories.addAll(this.remainingCategories);
-        
-        Iterator selectedCategoriesIterator = this.selectedCategories.iterator();
-        while(selectedCategoriesIterator.hasNext())
-        {
-            Category location = (Category)selectedCategoriesIterator.next();
-            boolean isSelected = false;
-            Iterator selectedCategoriesInterator = this.selectedCategories.iterator();
-            while(selectedCategoriesInterator.hasNext())
-            {
-                Category selectedCategory = (Category)selectedCategoriesInterator.next();
-                if(selectedCategory.getId().equals(location.getId()))
-                    isSelected = true;
-            }
-            
-            if(!isSelected)
-                selectedCategoriesIterator.remove();
-            else
-                remainingCategories.remove(location);
-        }
-        
-        
-        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
-        this.participatingPrincipals.addAll(this.infogluePrincipals);
-
-        Iterator participatingPrincipalsIterator = this.participatingPrincipals.iterator();
-        while(participatingPrincipalsIterator.hasNext())
-        {
-            InfoGluePrincipal infogluePrincipal = (InfoGluePrincipal)participatingPrincipalsIterator.next();
-            boolean isParticipant = false;
-            Iterator participantsInterator = this.event.getParticipants().iterator();
-            while(participantsInterator.hasNext())
-            {
-                Participant participant = (Participant)participantsInterator.next();
-                if(participant.getUserName().equals(infogluePrincipal.getName()))
-                    isParticipant = true;
-            }
-            
-            if(!isParticipant)
-                participatingPrincipalsIterator.remove();
-            else
-                infogluePrincipals.remove(infogluePrincipal);
-        }
-        */
         
         return Action.SUCCESS;
     } 
+
+    public String doEdit() throws Exception 
+    {
+        this.execute();
+        return "successEdit";
+    }
 
     public String doPublic() throws Exception 
     {

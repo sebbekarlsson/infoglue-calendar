@@ -227,6 +227,9 @@
 			<result name="successPublicGU" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/gu/viewEventPublic.jsp</param>
 			</result>
+			<result name="successEdit" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewEventEdit.jsp</param>
+			</result>
 		</action>
 		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
 			<result name="error" type="eventProcessed">

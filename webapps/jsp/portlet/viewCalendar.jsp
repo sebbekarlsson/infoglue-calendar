@@ -1,17 +1,4 @@
-<%@ page import="javax.portlet.PortletURL,
-				 java.util.Map,
-				 java.util.Iterator,
-				 java.util.List,
-				 java.util.Locale,
-				 java.util.ResourceBundle,
-				 org.infoglue.common.util.ResourceBundleHelper"%>
-
-<%@ taglib uri="webwork" prefix="ww" %>
-<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<%@ taglib uri="calendar" prefix="calendar" %>
-
-<portlet:defineObjects/>
+<%@ include file="adminHeader.jsp" %>
 
 <ww:set name="calendarId" value="calendar.id" scope="page"/>
 
@@ -224,6 +211,7 @@
 			</p>
 		</form>
 	</div>
+</div>
 		
 <div style="float: left; display: block; border: 0px solid black;" id="calendarArea<ww:property value="componentId"/>">
 <table cellspacing="0" cellpadding="0" border="0">
@@ -445,3 +433,5 @@
 <script type="text/javascript">
   init<ww:property value="componentId"/>();
 </script>
+
+<%@ include file="adminFooter.jsp" %>

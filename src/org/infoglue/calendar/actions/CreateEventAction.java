@@ -83,8 +83,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private String lastRegistrationDateTime;
     private Integer lastRegistrationTime;
     private Integer maximumParticipants;
-    private String creator;
-
+    
     private String[] locationId;
     private String[] categoryId;
     private String[] participantUserName;
@@ -165,7 +164,7 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    categoryAttributes, 
 									                    participantUserName,
 									                    stateId,
-									                    creator,
+									                    this.getInfoGlueRemoteUser(),
 									                    getSession());
 
             if(useEventPublishing())
@@ -246,7 +245,7 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    categoryAttributes, 
 									                    participantUserName,
 									                    stateId,
-									                    creator,
+									                    this.getInfoGlueRemoteUser(),
 									                    getSession());
 
             if(useEventPublishing())
@@ -589,13 +588,4 @@ public class CreateEventAction extends CalendarAbstractAction
         this.lastRegistrationTime = lastRegistrationTime;
     }
     
-    public String getCreator()
-    {
-        return creator;
-    }
-    
-    public void setCreator(String creator)
-    {
-        this.creator = creator;
-    }
 }
