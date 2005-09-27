@@ -1,16 +1,4 @@
-<%@ page import="javax.portlet.PortletURL,
-				 java.util.Map,
-				 java.util.Iterator,
-				 java.util.List,
-				 java.util.Locale,
-				 java.util.ResourceBundle,
-				 org.infoglue.common.util.ResourceBundleHelper"%>
-
-<%@ taglib uri="webwork" prefix="ww" %>
-<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<%@ taglib uri="calendar" prefix="calendar" %>
-
+<%@ include file="adminHeader.jsp" %>
 
 <portlet:defineObjects/>
 
@@ -72,3 +60,5 @@
 	</div>
 
 </div>
+
+<%@ include file="adminFooter.jsp" %>

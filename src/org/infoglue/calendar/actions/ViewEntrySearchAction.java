@@ -74,6 +74,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         initialize();
 
+        System.out.println("searchEventId:::::" + this.searchEventId);
         this.entries = EntryController.getController().getEntryList(searchFirstName, 
                 													searchLastName, 
                 													searchEmail, 

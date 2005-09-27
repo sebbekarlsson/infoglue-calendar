@@ -22,6 +22,7 @@
 		document.updateForm.action = action;
 		document.updateForm.submit();
 	} 
+
 </script>
 
 <div id="inputDiv">
@@ -246,6 +247,15 @@
 				<calendar:evalParam name="action" value="CreateEvent!copy"/>
 			</portlet:actionURL>
 			<a href="javascript:createEventFromCopy('<c:out value="${createEventAsCopyActionUrl}"/>')"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.createNewEvent')"/>" class="calendarButton"/></a>
+		
+			<portlet:renderURL var="searchEntryActionUrl">
+				<portlet:param name="action" value="ViewEntrySearch"/>
+			</portlet:renderURL>
+			<form name="searchForm" method="post" action="<c:out value="${searchEntryActionUrl}"/>">
+				<input type="hidden" name="searchEventId" value="<c:out value="${eventId}"/>"/>
+			</form>
+			<a href="javascript:document.searchForm.submit();"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.entriesButton')"/>" class="calendarButton"></a>
+		
 		</p>
 	</div>
 	
