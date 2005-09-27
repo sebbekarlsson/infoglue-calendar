@@ -86,7 +86,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private Integer maximumParticipants;
    
     private String[] locationId;
-    private String[] categoryId;
     private String[] participantUserName;
 
     private Long calendarId;
@@ -121,6 +120,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
             }
 
             validateInput(this);
+            
+            System.out.println("SystemUserName:" + this.participantUserName);
             
             EventController.getController().updateEvent(
                     eventId, 
@@ -302,11 +303,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         this.startTime = startTime;
     }
     
-    public void setCategoryId(String[] categoryId)
-    {
-        this.categoryId = categoryId;
-    }
-    
     public void setLocationId(String[] locationId)
     {
         this.locationId = locationId;
@@ -453,10 +449,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     public void setShortDescription(String shortDescription)
     {
         this.shortDescription = shortDescription;
-    }
-    public String[] getCategoryId()
-    {
-        return categoryId;
     }
     public String[] getLocationId()
     {

@@ -175,13 +175,13 @@
 
 <div id="inputForm<ww:property value="componentId"/>">
 
-	<portlet:renderURL var="viewCalendarAdministrationUrl">
-		<portlet:param name="action" value="ViewCalendarAdministration"/>
+	<portlet:renderURL var="viewCalendarListUrl">
+		<portlet:param name="action" value="ViewCalendarList"/>
 	</portlet:renderURL>
 	
 	<div id="contentListHeader<ww:property value="componentId"/>">
 		<span class="headline"><ww:property value="this.getLabel('labels.internal.calendar.headline')"/> <ww:property value="calendar.name"/></span><br>
-		<a href="<c:out value="${viewCalendarAdministrationUrl}"/>"><ww:property value="this.getLabel('labels.internal.application.backToMainMenu')"/></a> |
+		<a href="<c:out value="${viewCalendarListUrl}"/>"><ww:property value="this.getLabel('labels.internal.application.backToMainMenu')"/></a> |
 		<a href="javascript:toggleShowEditForm<ww:property value="componentId"/>();"><ww:property value="this.getLabel('labels.internal.application.editCalendar')"/></a>
 	</div>
 

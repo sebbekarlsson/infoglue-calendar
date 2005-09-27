@@ -300,6 +300,7 @@ public class EventController extends BasicController
 			}
 		}
 		
+	    System.out.println("participantUserName: " + participantUserName);
 		Set participants = new HashSet();
 		if(participantUserName != null)
 		{
@@ -308,6 +309,8 @@ public class EventController extends BasicController
 			    Participant participant = new Participant();
 			    participant.setUserName(participantUserName[i]);
 			    participant.setEvent(event);
+			    System.out.println("Adding " + participantUserName[i]);
+
 			    session.save(participant);
 			    participants.add(participant);
 			}
@@ -489,6 +492,105 @@ public class EventController extends BasicController
         
         return result;
     }
+    
+    
+    /**
+     * Gets a list of all events matching the arguments given.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public List getEventList(String name,
+            java.util.Calendar startDateTime,
+            java.util.Calendar endDateTime,
+        	String organizerName,
+            String customLocation,
+            String contactName,
+            String contactEmail,
+            String contactPhone,
+            Float price,
+            Integer maximumParticipants,
+            Session session) throws Exception 
+    {
+        List result = null;
+        
+        List arguments = new ArrayList();
+        List values = new ArrayList();
+        
+        if(name != null && name.length() > 0)
+        {
+            arguments.add("event.name like ?");
+            values.add("%" + name + "%");
+        }
+        if(organizerName != null && organizerName.length() > 0)
+        {
+            arguments.add("event.organizerName like ?");
+            values.add("%" + organizerName + "%");
+        }
+        if(customLocation != null && customLocation.length() > 0)
+        {
+            arguments.add("event.customLocation like ?");
+            values.add("%" + customLocation + "%");
+        }
+        if(contactName != null && contactName.length() > 0)
+        {
+            arguments.add("event.contactName like ?");
+            values.add("%" + contactName + "%");
+        }
+        if(contactEmail != null && contactEmail.length() > 0)
+        {
+            arguments.add("event.contactEmail like ?");
+            values.add("%" + contactEmail + "%");
+        }
+        if(contactPhone != null && contactPhone.length() > 0)
+        {
+            arguments.add("event.contactPhone like ?");
+            values.add("%" + contactPhone + "%");
+        }
+        if(price != null && price.floatValue() > 0.0)
+        {
+            arguments.add("event.price = ?");
+            values.add(price);
+        }
+        if(maximumParticipants != null)
+        {
+            arguments.add("event.maximumParticipants = ?");
+            values.add(maximumParticipants);
+        }
+
+        String argumentsSQL = "";
+        Iterator argumentsIterator = arguments.iterator();
+        while(argumentsIterator.hasNext())
+        {
+            if(argumentsSQL.length() > 0)
+                argumentsSQL += " AND ";
+            argumentsSQL += (String)argumentsIterator.next();
+        }
+        System.out.println("argumentsSQL:" + argumentsSQL);
+        
+        Query q = session.createQuery("from Event event WHERE " + argumentsSQL + " order by event.id");
+   
+        int i = 0;
+        Iterator valuesIterator = values.iterator();
+        while(valuesIterator.hasNext())
+        {
+            Object o = valuesIterator.next();
+            if(o instanceof Float)
+                q.setFloat(i, ((Float)o).floatValue());
+            else if(o instanceof Integer)
+                q.setInteger(i, ((Integer)o).intValue());
+            else if(o instanceof String)
+                q.setString(i, (String)o);
+            
+            i++;
+        }
+        
+        result = q.list();
+        
+        return result;
+    }
+    
+    
 
     /**
      * Gets a list of all events available for a particular user which are in working mode.
@@ -691,5 +793,7 @@ public class EventController extends BasicController
         
         return assetKeys;
     }
+
+
 
 }

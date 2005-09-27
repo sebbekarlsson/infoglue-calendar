@@ -275,6 +275,15 @@
 			</result>
 		</action>
 		
+		<action name="ViewEventSearch" class="org.infoglue.calendar.actions.ViewEventSearchAction">
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewEventSearchForm.jsp</param>
+            </result>
+            <result name="success" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewEventSearch.jsp</param>
+            </result>
+		</action>
+	
 		
 		<!-- RESOURCE ACTIONS -->
 		<action name="CreateResource" class="org.infoglue.calendar.actions.CreateResourceAction">
@@ -335,8 +344,7 @@
 			</result>
 			<result name="errorPublicGU" type="eventProcessed">
 				<param name="viewAction">CreateEntry!inputPublicGU.action</param>
-			</result>
-			
+			</result>			
 		</action>
 		<action name="ViewEntrySearch" class="org.infoglue.calendar.actions.ViewEntrySearchAction">
 			<result name="input" type="portletDispatch">

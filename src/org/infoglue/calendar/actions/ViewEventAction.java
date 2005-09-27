@@ -112,9 +112,11 @@ public class ViewEventAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
 
-    public String doEdit() throws Exception 
+    public String edit() throws Exception 
     {
+        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
         this.execute();
+        System.out.println("KALAAAA");
         return "successEdit";
     }
 

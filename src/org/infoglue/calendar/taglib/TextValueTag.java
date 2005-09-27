@@ -24,15 +24,18 @@ package org.infoglue.calendar.taglib;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.infoglue.calendar.entities.BaseEntity;
 import org.infoglue.common.util.ResourceBundleHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -47,7 +50,7 @@ public class TextValueTag extends AbstractCalendarTag
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String cssClass = "";
-	private String value = "";
+	private Object value = "";
 	private String label = "";
 	
 	/**
@@ -66,7 +69,21 @@ public class TextValueTag extends AbstractCalendarTag
 	        sb.append("<span class=\"calendarLabel\">" + this.label + "</span>");
 		    
         sb.append("<br>");
-        sb.append("<span class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</span>");
+        sb.append("<span class=\"" + cssClass + "\">");
+        
+        if(value instanceof String)
+            sb.append(((value == null) ? "" : value));
+        else if(value instanceof List || value instanceof Set)
+        {
+            Iterator i = ((Collection)value).iterator();
+            while(i.hasNext())
+            {
+                Object o = i.next();
+                sb.append(((BaseEntity)o).getName() + ", ");
+            }
+        }
+        
+        sb.append("</span>");
 
         write(sb.toString());
 	    
@@ -81,18 +98,28 @@ public class TextValueTag extends AbstractCalendarTag
     
     public void setLabel(String rawLabel) throws JspException
     {
-        String translatedLabel = this.getLabel(rawLabel);
-        if(translatedLabel != null && translatedLabel.length() > 0)
-            this.label = translatedLabel;
+        Object o = findOnValueStack(rawLabel);
+        String evaluatedString = evaluateString("TextValueTag", "label", rawLabel);
+        System.out.println("o:" + o);
+        System.out.println("evaluatedString:" + evaluatedString);
+        if(o != null)
+            this.label = (String)o;
+        else if(evaluatedString != null && !evaluatedString.equals(rawLabel))
+            this.label = evaluatedString;
         else
-            this.label = evaluateString("TextFieldTag", "label", rawLabel);
+        {
+            String translatedLabel = this.getLabel(rawLabel);
+            if(translatedLabel != null && translatedLabel.length() > 0)
+                this.label = translatedLabel;
+        }
     }
+
     
     public void setValue(String value)
     {
         Object o = findOnValueStack(value);
         if(o != null) 
-            this.value = o.toString();
+            this.value = o;
         else
             this.value = null;
     }

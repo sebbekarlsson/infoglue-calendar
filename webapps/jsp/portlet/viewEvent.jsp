@@ -40,7 +40,6 @@
 		<portlet:param name="calendarId" value="{event.calendarId}"/>
 	</portlet:renderURL>
 
-    <a href="<c:out value="${viewCalendarUrl}"/>">Back</a>
 	<%
 	Object requestObject = request.getAttribute("javax.portlet.request");
 	javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
@@ -56,9 +55,9 @@
 	</form>		
 	
 	<div id="contentListHeader">
-		 <ww:property value="event.name"/> <a href="javascript:document.deleteLinkForm.submit();">Delete</a>
+		 <ww:property value="event.name"/>
 	</div>
-
+	
 	<div id="contentList" style="display: block;">
 	
 		<p>
@@ -170,13 +169,14 @@
 			<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
 			<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
 			<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
+			<ww:property value="#categoryAttribute"/>
 			<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
-			<calendar:textValue label="categoryAttribute.name" value="#selectedCategories" cssClass="textValue"/>
+			<calendar:textValue label="top.name" value="#selectedCategories" cssClass="textValue"/>
    		</p>
 		</ww:iterator>
 			
 		<p>  		
-  			<calendar:textValue label="labels.internal.event.participants" value="calendar.participants" cssClass="textValue"/>
+  			<calendar:textValue label="labels.internal.event.participants" value="event.participants" cssClass="textValue"/>
 		</p>
 		
 		<p>
@@ -211,7 +211,16 @@
 			<span class="calendarValue"><a href="<c:out value="${createEntryRenderURL}"/>" class="calendarLink"><ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/></a></span>
 		</p>
 		<p>
-			<input type="submit" value="Update" class="calendarButton">
+			<portlet:renderURL var="editEventRenderURL">
+				<calendar:evalParam name="action" value="ViewEvent!edit"/>
+				<calendar:evalParam name="eventId" value="${eventId}"/>
+				<calendar:evalParam name="calendarId" value="${calendarId}"/>
+				<calendar:evalParam name="mode" value="${mode}"/>
+			</portlet:renderURL>
+
+			<a href="<c:out value="${editEventRenderURL}"/>"><input type="button" value="Edit" class="calendarButton"></a>
+			
+			<a href="javascript:document.deleteLinkForm.submit();"><input type="button" value="Delete" class="calendarButton"></a>
 
 			<ww:if test="event.stateId == 2">
 				<portlet:actionURL var="publishEventActionUrl">
