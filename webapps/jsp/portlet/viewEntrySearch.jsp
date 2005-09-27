@@ -1,17 +1,4 @@
-<%@ page import="javax.portlet.PortletURL,
-				 java.util.Map,
-				 java.util.Iterator,
-				 java.util.List,
-				 java.util.Locale,
-				 java.util.ResourceBundle,
-				 org.infoglue.common.util.ResourceBundleHelper"%>
-
-<%@ taglib uri="webwork" prefix="ww" %>
-<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-
-
-<portlet:defineObjects/>
+<%@ include file="adminHeader.jsp" %>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
@@ -61,7 +48,6 @@
 <div id="searchForm" class="marginalizedDiv" style="display: <ww:if test="entries == null">block</ww:if><ww:else>none</ww:else>;">
 
 <span class="headline"><ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/></span>
-<hr/>
 
 <portlet:renderURL var="searchEntryActionUrl">
 	<portlet:param name="action" value="ViewEntrySearch"/>
@@ -177,14 +163,11 @@
 <div style="height:10px"></div>
 <input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.sendMessage')"/>" class="calendarButton"/>
 </form>
-<hr/>
 </div>
 
 
 <div id="hitlist" class="marginalizedDiv" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
 <span class="headline"><ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/></span>
-
-<hr/>
 
 <p>
 	<span class="subheadline"><ww:property value="this.getLabel('labels.internal.soba.hitList')"/></span>
@@ -244,5 +227,6 @@
 	<div style="height:10px"></div>
 	<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
 	<ww:if test="entries != null"><a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
-<hr/>
 </div>
+
+<%@ include file="adminFooter.jsp" %>

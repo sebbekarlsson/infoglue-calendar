@@ -43,7 +43,7 @@
 			<portlet:param name="action" value="ViewEventSearch!input"/>
 		</portlet:renderURL>
 		<portlet:renderURL var="viewEntrySearchUrl">
-			<portlet:param name="action" value="ViewEntrySearch"/>
+			<portlet:param name="action" value="ViewEntrySearch!input"/>
 		</portlet:renderURL>
 
 		<ul>
