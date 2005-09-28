@@ -100,7 +100,7 @@ public class EventController extends BasicController
             	            String contactPhone,
             	            Float price,
             	            java.util.Calendar lastRegistrationCalendar,
-            	            Integer maxumumParticipants,
+            	            Integer maximumParticipants,
             	            java.util.Calendar startDateTime, 
             	            java.util.Calendar endDateTime, 
             	            String[] locationId, 
@@ -153,7 +153,7 @@ public class EventController extends BasicController
 		                    contactPhone,
 		                    price,
 		                    lastRegistrationCalendar,
-		                    maxumumParticipants,
+		                    maximumParticipants,
 		        			startDateTime, 
 		        			endDateTime, 
 		        			locations, 
@@ -213,7 +213,7 @@ public class EventController extends BasicController
             	            String contactPhone,
             	            Float price,
             	            java.util.Calendar lastRegistrationCalendar,
-            	            Integer maxumumParticipants,
+            	            Integer maximumParticipants,
             	            java.util.Calendar startDateTime, 
             				java.util.Calendar endDateTime, 
             				Set locations, 
@@ -238,7 +238,7 @@ public class EventController extends BasicController
         event.setContactEmail(contactEmail);
         event.setContactPhone(contactPhone);
         event.setPrice(price);
-        event.setMaxumumParticipants(maxumumParticipants);
+        event.setMaximumParticipants(maximumParticipants);
         event.setLastRegistrationDateTime(lastRegistrationCalendar);
         event.setStartDateTime(startDateTime);
         event.setEndDateTime(endDateTime); 
@@ -279,7 +279,7 @@ public class EventController extends BasicController
             String contactPhone,
             Float price,
             java.util.Calendar lastRegistrationCalendar,
-            Integer maxumumParticipants,
+            Integer maximumParticipants,
             java.util.Calendar startDateTime, 
             java.util.Calendar endDateTime, 
             String[] locationId, 
@@ -333,7 +333,7 @@ public class EventController extends BasicController
                 contactPhone,
                 price,
                 lastRegistrationCalendar,
-                maxumumParticipants,
+                maximumParticipants,
 		        startDateTime, 
 		        endDateTime, 
 		        locations, 
@@ -366,7 +366,7 @@ public class EventController extends BasicController
             String contactPhone,
             Float price,
             java.util.Calendar lastRegistrationCalendar,
-            Integer maxumumParticipants,
+            Integer maximumParticipants,
             java.util.Calendar startDateTime, 
             java.util.Calendar endDateTime, 
             Set locations, 
@@ -388,7 +388,7 @@ public class EventController extends BasicController
         event.setContactEmail(contactEmail);
         event.setContactPhone(contactPhone);
         event.setPrice(price);
-        event.setMaxumumParticipants(maxumumParticipants);
+        event.setMaximumParticipants(maximumParticipants);
         event.setLastRegistrationDateTime(lastRegistrationCalendar);
         event.setStartDateTime(startDateTime);
         event.setEndDateTime(endDateTime);
@@ -553,9 +553,19 @@ public class EventController extends BasicController
             values.add(price);
         }
         if(maximumParticipants != null)
-        {
+        {						 
             arguments.add("event.maximumParticipants = ?");
             values.add(maximumParticipants);
+        }
+        if(startDateTime != null)
+        {						 
+            arguments.add("event.startDateTime >= ?");
+            values.add(startDateTime);
+        }
+        if(endDateTime != null)
+        {						 
+            arguments.add("event.endDateTime <= ?");
+            values.add(endDateTime);
         }
 
         String argumentsSQL = "";
@@ -568,7 +578,7 @@ public class EventController extends BasicController
         }
         System.out.println("argumentsSQL:" + argumentsSQL);
         
-        Query q = session.createQuery("from Event event WHERE " + argumentsSQL + " order by event.id");
+        Query q = session.createQuery("from Event event " + (argumentsSQL.length() > 0 ? "WHERE " + argumentsSQL : "") + " order by event.id");
    
         int i = 0;
         Iterator valuesIterator = values.iterator();
@@ -581,6 +591,8 @@ public class EventController extends BasicController
                 q.setInteger(i, ((Integer)o).intValue());
             else if(o instanceof String)
                 q.setString(i, (String)o);
+            else if(o instanceof java.util.Calendar)
+                q.setCalendar(i, (java.util.Calendar)o);
             
             i++;
         }

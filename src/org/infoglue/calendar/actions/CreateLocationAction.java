@@ -27,6 +27,8 @@ import java.util.List;
 
 import javax.portlet.PortletURL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
@@ -46,6 +48,8 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class CreateLocationAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(CreateLocationAction.class);
+
     private Location dataBean = new Location();
 
     /**
@@ -61,6 +65,7 @@ public class CreateLocationAction extends CalendarAbstractAction
         }
         catch(ValidationException e)
         {
+            log.error("An validation error occcurred:" + e.getMessage(), e);
             return Action.ERROR;            
         }
         

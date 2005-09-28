@@ -64,7 +64,7 @@ CREATE TABLE event (
   isOrganizedByGU int default NULL,
   lastRegistrationDateTime date default NULL,
   longDescription varchar(255) default NULL,
-  maxumumParticipants int default NULL,
+  maximumParticipants int default NULL,
   contactEmail varchar(255) default NULL,
   shortDescription varchar(255) default NULL,
   organizerName varchar(255) default NULL,

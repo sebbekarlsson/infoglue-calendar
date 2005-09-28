@@ -59,7 +59,7 @@ public class Event implements BaseEntity
     private String contactPhone;
     private Float price;
     private java.util.Calendar lastRegistrationDateTime;
-    private Integer maxumumParticipants;
+    private Integer maximumParticipants;
     private Integer stateId = STATE_WORKING; //Default if not otherwise set
     private String creator;
     
@@ -345,18 +345,18 @@ public class Event implements BaseEntity
     }
         
     /**
-     * @hibernate.property name="getMaxumumParticipants" column="maxumumParticipants" type="string" not-null="false" unique="false"
+     * @hibernate.property name="getMaximumParticipants" column="maximumParticipants" type="string" not-null="false" unique="false"
      * 
      * @return Integer
      */
-    public Integer getMaxumumParticipants()
+    public Integer getMaximumParticipants()
     {
-        return maxumumParticipants;
+        return maximumParticipants;
     }
     
-    public void setMaxumumParticipants(Integer maxumumParticipants)
+    public void setMaximumParticipants(Integer maximumParticipants)
     {
-        this.maxumumParticipants = maxumumParticipants;
+        this.maximumParticipants = maximumParticipants;
     }
     
     /**

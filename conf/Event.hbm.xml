@@ -21,7 +21,7 @@
 		<property name="isOrganizedByGU" column="isOrganizedByGU" type="boolean"/>
 		<property name="lastRegistrationDateTime" column="lastRegistrationDateTime" type="calendar"/>
 		<property name="longDescription" column="longDescription" type="string"/>
-		<property name="maxumumParticipants" column="maxumumParticipants" type="integer"/>
+		<property name="maximumParticipants" column="maximumParticipants" type="integer"/>
 		<property name="contactEmail" column="contactEmail" type="string"/>
 		<property name="endDateTime" column="endDateTime" type="calendar"/>
 		<property name="shortDescription" column="shortDescription" type="string"/>

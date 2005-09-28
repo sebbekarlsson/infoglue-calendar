@@ -73,7 +73,7 @@
 				<calendar:textField label="labels.internal.event.price" name="price" value="event.price" cssClass="normalInput"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="event.maxumumParticipants" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="event.maximumParticipants" cssClass="normalInput"/>
 			</p>
 
 			<p>

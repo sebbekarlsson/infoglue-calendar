@@ -49,7 +49,7 @@
 
 <div id="searchForm" class="marginalizedDiv" style="display: <ww:if test="entries == null">block</ww:if><ww:else>none</ww:else>;">
 
-<span class="headline"><ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/></span>
+<span class="headline"><ww:property value="this.getLabel('labels.internal.event.searchEvents')"/></span>
 <hr/>
 
 <portlet:renderURL var="searchEntryActionUrl">
@@ -87,7 +87,7 @@
 		<calendar:textField label="labels.internal.event.price" name="price" value="price" cssClass="normalInput"/>
 	</p>
 	<p>
-		<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="maxumumParticipants" cssClass="normalInput"/>
+		<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="maximumParticipants" cssClass="normalInput"/>
 	</p>
 	<p>
 		<table border="0" cellspacing="0">

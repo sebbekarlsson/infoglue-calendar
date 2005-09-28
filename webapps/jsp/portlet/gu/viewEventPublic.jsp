@@ -96,7 +96,7 @@ href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="even
 		</p>
 		<p>
 			<span class="calendarLabel"><ww:property value="this.getLabel('labels.public.event.maximumParticipants')"/></span><br> 
-			<span class="calendarValue"><ww:property value="event.maxumumParticipants"/></span>
+			<span class="calendarValue"><ww:property value="event.maximumParticipants"/></span>
 		</p>
 		<p>
 			<span class="calendarLabel"><ww:property value="this.getLabel('labels.public.event.lastRegistrationDate')"/></span><br> 

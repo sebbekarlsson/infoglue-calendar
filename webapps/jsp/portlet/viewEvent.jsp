@@ -106,7 +106,7 @@
 			<calendar:textValue label="labels.internal.event.price" value="event.price" cssClass="textValue"/>
 		</p>
 		<p>
-			<calendar:textValue label="labels.internal.event.maximumParticipants" value="event.maxumumParticipants" cssClass="textValue"/>
+			<calendar:textValue label="labels.internal.event.maximumParticipants" value="event.maximumParticipants" cssClass="textValue"/>
 		</p>
 
 		<p>
