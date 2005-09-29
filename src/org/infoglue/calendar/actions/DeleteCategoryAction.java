@@ -24,6 +24,7 @@
 package org.infoglue.calendar.actions;
 
 import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.entities.Category;
 
 import com.opensymphony.xwork.Action;
 
@@ -44,11 +45,17 @@ public class DeleteCategoryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.categoryId = CategoryController.getController().getCategory(deleteCategoryId, getSession()).getParent().getId();
+        Category category = CategoryController.getController().getCategory(deleteCategoryId, getSession());
         
         CategoryController.getController().deleteCategory(deleteCategoryId, getSession());
-        
-        return Action.SUCCESS;
+
+        if(category != null && category.getParent() != null)
+        {
+            this.categoryId = category.getParent().getId();
+            return Action.SUCCESS;
+        }
+        else
+            return "successRootCategory";
     } 
     
     public Long getCategoryId()

@@ -4,39 +4,57 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-		<h2><ww:property value="this.getLabel('labels.internal.calendar.subHeader')"/></h2>
+<div class="head"><ww:property value="this.getLabel('labels.internal.location.subHeader')"/></div>
 
-		<ww:iterator value="calendars" status="rowstatus">
-			
-			<ww:set name="calendarId" value="id" scope="page"/>
-			<portlet:renderURL var="calendarUrl">
-				<portlet:param name="action" value="ViewCalendar"/>
-				<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
-			</portlet:renderURL>
+<%@ include file="functionMenu.jsp" %>
 
-			<portlet:actionURL var="deleteCalendarUrl">
-				<portlet:param name="action" value="DeleteCalendar"/>
-				<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
-			</portlet:actionURL>
+<portlet:renderURL var="createCalendarUrl">
+	<portlet:param name="action" value="CreateCalendar!input"/>
+</portlet:renderURL>
 
-		<p class="nobreak">
-			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>. <a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> 
-		    	<a href="<c:out value="${calendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a>
-		    	<a href="<c:out value="${deleteCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
-		    </ww:if>
-		    <ww:else>
-		    	<span><ww:property value="id"/>. <a href="<c:out value="${calendarUrl}"/>"><ww:property value="name"/></a> 
-		    	<a href="<c:out value="${calendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a>
-		    	<a href="<c:out value="${deleteCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
-		    </ww:else>
-		</p>
-		</ww:iterator>
+<div class="subfunctionarea">
+	<a href="<c:out value="${createCalendarUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.calendar.addCalendar')"/></a>
+</div>
 
-		<portlet:renderURL var="createCalendarUrl">
-			<portlet:param name="action" value="CreateCalendar!input"/>
-		</portlet:renderURL>
+<div class="columnlabelarea">
+	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.calendar.name')"/></p></div>
+	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.calendar.description')"/></p></div>
+	<div class="clear"></div>
+</div>
+
+	<ww:iterator value="calendars" status="rowstatus">
 		
-		<a href="<c:out value="${createCalendarUrl}"/>"><ww:property value="this.getLabel('labels.internal.calendar.addCalendar')"/></a>
+		<ww:set name="calendarId" value="id" scope="page"/>
+		<portlet:renderURL var="calendarUrl">
+			<portlet:param name="action" value="ViewCalendar"/>
+			<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		</portlet:renderURL>
+
+		<portlet:actionURL var="deleteCalendarUrl">
+			<portlet:param name="action" value="DeleteCalendar"/>
+			<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		</portlet:actionURL>
+		
+		<ww:if test="#rowstatus.odd == true">
+	    	<div class="oddrow">
+	    </ww:if>
+	    <ww:else>
+			<div class="evenrow">
+	    </ww:else>
+	
+	       	<div class="columnLong">
+	       		<p class="portletHeadline"><a href="<c:out value="${calendarUrl}"/>" title="Visa Kalender"><ww:property value="name"/></a></p>
+	       	</div>
+	       	<div class="columnMedium">
+	       		<p><ww:property value="description"/></p>
+	       	</div>
+	       	<div class="columnEnd">
+	       		<a href="<c:out value="${deleteCalendarUrl}"/>" title="Radera KalenderNamn" class="delete"></a>
+	       	   	<a href="<c:out value="${calendarUrl}"/>" title="Redigera Kalender" class="edit"></a>
+	       	</div>
+	       	<div class="clear"></div>
+	    </div>
+			
+	</ww:iterator>
 
 <%@ include file="adminFooter.jsp" %>

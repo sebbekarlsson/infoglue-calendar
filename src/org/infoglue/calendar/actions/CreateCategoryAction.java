@@ -66,7 +66,10 @@ public class CreateCategoryAction extends CalendarAbstractAction
             return Action.ERROR;            
         }
         
-        return Action.SUCCESS;
+        if(this.parentCategoryId == null)
+            return "successList";
+        else
+            return Action.SUCCESS;
     } 
 
     /**

@@ -4,39 +4,57 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-		<h2><ww:property value="this.getLabel('labels.internal.eventType.subHeader')"/></h2>
+<div class="head"><ww:property value="this.getLabel('labels.internal.eventType.subHeader')"/></div>
 
-		<ww:iterator value="eventTypes" status="rowstatus">
-		
-			<ww:set name="eventTypeId" value="id" scope="page"/>
-			<portlet:renderURL var="eventTypeUrl">
-				<portlet:param name="action" value="ViewEventType"/>
-				<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
-			</portlet:renderURL>
-			
-			<portlet:actionURL var="deleteEventTypeUrl">
-				<portlet:param name="action" value="DeleteEventType"/>
-				<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
-			</portlet:actionURL>
-			
-		<p class="nobreak">
-			<ww:if test="#rowstatus.odd == true">
-		    	<span class="marked"><ww:property value="id"/>. <a href="<c:out value="${eventTypeUrl}"/>"><ww:property value="name"/></a> 
-		    	<a href="<c:out value="${eventTypeUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a>
-		    	<a href="<c:out value="${deleteEventTypeUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
-		    </ww:if>
-		    <ww:else>
-		    	<span><ww:property value="id"/>. <a href="<c:out value="${eventTypeUrl}"/>"><ww:property value="name"/></a> 
-		    	<a href="<c:out value="${eventTypeUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a>
-		    	<a href="<c:out value="${deleteEventTypeUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
-		    </ww:else>
-		</p>
-		</ww:iterator>
+<%@ include file="functionMenu.jsp" %>
 
-		<portlet:renderURL var="createEventTypeUrl">
-			<portlet:param name="action" value="CreateEventType!input"/>
-		</portlet:renderURL>
-		
-		<a href="<c:out value="${createEventTypeUrl}"/>"><ww:property value="this.getLabel('labels.internal.eventType.addEventType')"/></a>
+<portlet:renderURL var="createEventTypeUrl">
+	<portlet:param name="action" value="CreateEventType!input"/>
+</portlet:renderURL>
+
+<div class="subfunctionarea">
+	<a href="<c:out value="${createEventTypeUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.eventType.addEventType')"/></a>
+</div>
+
+<div class="columnlabelarea">
+	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.eventType.name')"/></p></div>
+	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.eventType.description')"/></p></div>
+	<div class="clear"></div>
+</div>
+
+<ww:iterator value="eventTypes" status="rowstatus">
+
+	<ww:set name="eventTypeId" value="id" scope="page"/>
+	<portlet:renderURL var="eventTypeUrl">
+		<portlet:param name="action" value="ViewEventType"/>
+		<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
+	</portlet:renderURL>
+	
+	<portlet:actionURL var="deleteEventTypeUrl">
+		<portlet:param name="action" value="DeleteEventType"/>
+		<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
+	</portlet:actionURL>
+
+	<ww:if test="#rowstatus.odd == true">
+    	<div class="oddrow">
+    </ww:if>
+    <ww:else>
+		<div class="evenrow">
+    </ww:else>
+
+       	<div class="columnLong">
+       		<p class="portletHeadline"><a href="<c:out value="${eventTypeUrl}"/>" title="Visa Eventtyp"><ww:property value="name"/></a></p>
+       	</div>
+       	<div class="columnMedium">
+       		<p><ww:property value="description"/></p>
+       	</div>
+       	<div class="columnEnd">
+       		<a href="<c:out value="${deleteEventTypeUrl}"/>" title="Radera Eventtyp" class="delete"></a>
+       	   	<a href="<c:out value="${eventTypeUrl}"/>" title="Redigera Eventtyp" class="edit"></a>
+       	</div>
+       	<div class="clear"></div>
+    </div>
+
+</ww:iterator>
 
 <%@ include file="adminFooter.jsp" %>

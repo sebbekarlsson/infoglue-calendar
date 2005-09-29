@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.common.security.UserControllerProxy;
 
@@ -49,6 +50,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
     private Long eventTypeId;
     
     private List infogluePrincipals;
+    private List eventTypes;
 
     
     /**
@@ -77,6 +79,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
     public String input() throws Exception 
     {
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+        this.eventTypes = EventTypeController.getController().getEventTypeList(getSession());
 
         return Action.INPUT;
     } 
@@ -116,5 +119,9 @@ public class CreateCalendarAction extends CalendarAbstractAction
     public void setEventTypeId(Long eventTypeId)
     {
         this.eventTypeId = eventTypeId;
+    }
+    public List getEventTypes()
+    {
+        return eventTypes;
     }
 }

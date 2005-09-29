@@ -23,6 +23,9 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.List;
+
+import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventTypeCategoryAttributeController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.EventType;
@@ -40,7 +43,9 @@ public class ViewEventTypeCategoryAttributeAction extends CalendarAbstractAction
 {
     private Long eventTypeCategoryAttributeId;
     private EventTypeCategoryAttribute eventTypeCategoryAttribute;
-    
+
+    private List categories;
+
     /**
      * This is the entry point for the main listing.
      */
@@ -48,7 +53,8 @@ public class ViewEventTypeCategoryAttributeAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         this.eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttribute(eventTypeCategoryAttributeId, getSession());
-        
+        this.categories = CategoryController.getController().getRootCategoryList(getSession());
+
         return Action.SUCCESS;
     } 
 
@@ -67,4 +73,8 @@ public class ViewEventTypeCategoryAttributeAction extends CalendarAbstractAction
         return eventTypeCategoryAttribute;
     }
 
+    public List getCategories()
+    {
+        return categories;
+    }
 }

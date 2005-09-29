@@ -14,17 +14,6 @@
 	<portlet:param name="endDateTime" value="$endDateTime"/>
 </portlet:renderURL>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-<style type="text/css">
-	.errorMessage {
-	    color: red;
-	}
-</style>
-	
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
 
 <script type="text/javascript">
 
@@ -177,19 +166,12 @@
 	
 </script>
 
+<div class="head"><ww:property value="this.getLabel('labels.internal.calendar.headline')"/> <ww:property value="calendar.name"/> (<a href="javascript:toggleShowEditForm<ww:property value="componentId"/>();"><ww:property value="this.getLabel('labels.internal.application.editCalendar')"/></a>)</div>
+
+<%@ include file="functionMenu.jsp" %>
+
 <div id="inputForm<ww:property value="componentId"/>">
 
-	<portlet:renderURL var="viewCalendarListUrl">
-		<portlet:param name="action" value="ViewCalendarList"/>
-	</portlet:renderURL>
-	
-	<div id="contentListHeader<ww:property value="componentId"/>">
-		<span class="headline"><ww:property value="this.getLabel('labels.internal.calendar.headline')"/> <ww:property value="calendar.name"/></span><br>
-		<a href="<c:out value="${viewCalendarListUrl}"/>"><ww:property value="this.getLabel('labels.internal.application.backToMainMenu')"/></a> |
-		<a href="javascript:toggleShowEditForm<ww:property value="componentId"/>();"><ww:property value="this.getLabel('labels.internal.application.editCalendar')"/></a>
-	</div>
-
-	<hr/>	
 
 	<div id="contentList<ww:property value="componentId"/>" style="display: none;">
 		<portlet:actionURL var="updateCalendarActionUrl">
@@ -240,57 +222,6 @@
 -->
 </script>
 </ww:if>
-
-<!-- *********************************** -->
-<!-- *   HERE COMES THE WAITING EVENTS  * -->
-<!-- *********************************** -->
-
-<div class="panel" id="waitingEvents<ww:property value="componentId"/>">
-
-<div class="waitingEvent" style="margin: 10px 10px 10px 10px;">
-<span class="dayItem"><ww:property value="this.getLabel('labels.public.calendar.waitingEvents')"/></span>
-<ww:iterator value="calendar.waitingEvents">
-
-	<ww:set name="eventId" value="id" scope="page"/>
-	<portlet:renderURL var="eventUrl">
-		<portlet:param name="action" value="ViewEvent"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
-	</portlet:renderURL>
-
-	<p>
-	<a class="event" href="<c:out value="${eventUrl}"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
-	<span class="event"><ww:property value="shortDescription"/></span>
-	</p>
-	
-</ww:iterator>
-</div>
-</div>
-
-
-<!-- *********************************** -->
-<!-- *   HERE COMES THE COMING EVENTS  * -->
-<!-- *********************************** -->
-
-<div class="panel" id="events<ww:property value="componentId"/>">
-
-<div class="event" style="margin: 10px 10px 10px 10px;">
-<span class="dayItem"><ww:property value="this.getLabel('labels.public.calendar.comingEvents')"/></span>
-<ww:iterator value="calendar.publishedEvents">
-
-	<ww:set name="eventId" value="id" scope="page"/>
-	<portlet:renderURL var="eventUrl">
-		<portlet:param name="action" value="ViewEvent"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
-	</portlet:renderURL>
-
-	<p>
-	<a class="event" href="<c:out value="${eventUrl}"/>"><ww:property value="name"/> <ww:property value="this.getFormattedDate(startDateTime.getTime(), 'yyyy-MM-dd')"/> - <ww:property value="this.getFormattedDate(endDateTime.getTime(), 'yyyy-MM-dd')"/></a><br>
-	<span class="event"><ww:property value="description"/></span>
-	</p>
-	
-</ww:iterator>
-</div>
-</div>
 
 <!-- *********************************** -->
 <!-- *   HERE COMES THE DAYS EVENTS  * -->

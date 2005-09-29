@@ -33,6 +33,8 @@
 		<a href="<c:out value="${viewCalendarAdministrationUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationHome')"/></a>
 	<c:if test="${activeNavItem == 'Home'}"></span></c:if> |  
 	
+	<ww:if test="infoGlueRemoteUser == 'EventCreator'">
+	
 	<c:if test="${activeNavItem == 'MyWorkingEvents'}"><span class="current"></c:if>
 	   	<a href="<c:out value="${viewMyWorkingEventsUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationMyWorkingEvents')"/></a>
 	<c:if test="${activeNavItem == 'MyWorkingEvents'}"></span></c:if> |  
@@ -49,7 +51,11 @@
 		<a href="<c:out value="${viewEntrySearchUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationSearchEntries')"/></a>
 	<c:if test="${activeNavItem == 'EntrySearch'}"></span></c:if> |  
 	
-	ADMINISTRERA: 
+	</ww:if>
+	
+	<ww:if test="infoGlueRemoteUser == 'administrator'">
+
+	<ww:property value="this.getLabel('labels.internal.applicationAdministrate')"/> 
 	<c:if test="${activeNavItem == 'Calendars'}"><span class="current"></c:if>
 		<a href="<c:out value="${viewCalendarListUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationAdministerCalendars')"/></a>
 	<c:if test="${activeNavItem == 'Calendars'}"></span></c:if> |  
@@ -65,5 +71,6 @@
 	<c:if test="${activeNavItem == 'Locations'}"><span class="current"></c:if>
 		<a href="<c:out value="${viewLocationListUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationAdministerLocations')"/></a>
 	<c:if test="${activeNavItem == 'Locations'}"></span></c:if>
-	
+
+	</ww:if>
 </div>	

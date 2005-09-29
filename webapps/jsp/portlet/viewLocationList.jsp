@@ -46,7 +46,7 @@
        		<p class="portletHeadline"><a href="<c:out value="${locationUrl}"/>" title="Visa KalenderNamn"><ww:property value="name"/></a></p>
        	</div>
        	<div class="columnMedium">
-       		<p>Anteckning</p>
+       		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
        		<a href="<c:out value="${deleteLocationUrl}"/>" title="Radera KalenderNamn" class="delete"></a>

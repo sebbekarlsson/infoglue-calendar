@@ -121,10 +121,10 @@ public class CategoryController extends BasicController
      * @throws Exception
      */
 
-    public void updateCategory(Long id, String name, String description, Session session) throws Exception 
+    public Category updateCategory(Long id, String name, String description, Session session) throws Exception 
     {
 		Category category = getCategory(id, session);
-		updateCategory(category, name, description, session);
+		return updateCategory(category, name, description, session);
     }
     
     /**
@@ -133,12 +133,14 @@ public class CategoryController extends BasicController
      * @throws Exception
      */
     
-    public void updateCategory(Category category, String name, String description, Session session) throws Exception 
+    public Category updateCategory(Category category, String name, String description, Session session) throws Exception 
     {
         category.setName(name);
         category.setDescription(description);
 	
 		session.update(category);
+		
+		return category;
 	}
     
  

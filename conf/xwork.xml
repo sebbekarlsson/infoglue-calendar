@@ -114,6 +114,9 @@
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCategory.action?categoryId=${categoryId}</param>
 			</result>
+			<result name="successList" type="eventProcessed">
+				<param name="viewAction">ViewCategoryList.action</param>
+			</result>
 		</action>
 		<action name="ViewCategory" class="org.infoglue.calendar.actions.ViewCategoryAction">
 			<result name="success" type="portletDispatch">
@@ -125,6 +128,9 @@
 		</action>
 		<action name="UpdateCategory" class="org.infoglue.calendar.actions.UpdateCategoryAction">
 			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCategory.action?categoryId=${categoryId}</param>
+			</result>
+			<result name="successRootCategory" type="eventProcessed">
 				<param name="viewAction">ViewCategoryList.action</param>
 			</result>
 			<result name="error" type="eventProcessed">
@@ -134,6 +140,9 @@
 		<action name="DeleteCategory" class="org.infoglue.calendar.actions.DeleteCategoryAction">
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewCategory.action?categoryId=${categoryId}</param>
+			</result>
+			<result name="successRootCategory" type="eventProcessed">
+				<param name="viewAction">ViewCategoryList.action</param>
 			</result>
 		</action>
 

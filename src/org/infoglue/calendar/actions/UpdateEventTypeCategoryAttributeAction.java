@@ -42,6 +42,7 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
 
     private Long eventTypeCategoryAttributeId;
     private String name;
+    private Long categoryId;
     
     private EventTypeCategoryAttribute eventTypeCategoryAttribute = null;
     
@@ -54,7 +55,7 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         try
         {
             validateInput(this);
-            this.eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().updateEventTypeCategoryAttribute(this.eventTypeCategoryAttributeId, this.name, getSession());
+            this.eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().updateEventTypeCategoryAttribute(this.eventTypeCategoryAttributeId, this.name, this.categoryId, getSession());
             System.out.println("eventTypeCategoryAttribute:" + eventTypeCategoryAttribute.getEventType().getId());
         }
         catch(ValidationException e)
@@ -89,7 +90,16 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
     
     public Long getEventTypeId()
     {
-        System.out.println("Getting eventTypeId:" + eventTypeCategoryAttribute.getEventType().getId());
         return eventTypeCategoryAttribute.getEventType().getId();
+    }
+    
+    public Long getCategoryId()
+    {
+        return categoryId;
+    }
+    
+    public void setCategoryId(Long categoryId)
+    {
+        this.categoryId = categoryId;
     }
 }

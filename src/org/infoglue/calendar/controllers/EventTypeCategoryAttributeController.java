@@ -82,10 +82,11 @@ public class EventTypeCategoryAttributeController extends BasicController
      * @throws Exception
      */
     
-    public EventTypeCategoryAttribute updateEventTypeCategoryAttribute(Long id, String name, Session session) throws Exception 
+    public EventTypeCategoryAttribute updateEventTypeCategoryAttribute(Long id, String name, Long categoryId, Session session) throws Exception 
     {
         EventTypeCategoryAttribute eventTypeCategoryAttribute = getEventTypeCategoryAttribute(id, session);
-		return updateEventTypeCategoryAttribute(eventTypeCategoryAttribute, name, session);
+		Category category = CategoryController.getController().getCategory(categoryId, session);
+        return updateEventTypeCategoryAttribute(eventTypeCategoryAttribute, name, category, session);
     }
     
     /**
@@ -94,10 +95,11 @@ public class EventTypeCategoryAttributeController extends BasicController
      * @throws Exception
      */
     
-    public EventTypeCategoryAttribute updateEventTypeCategoryAttribute(EventTypeCategoryAttribute eventTypeCategoryAttribute, String name, Session session) throws Exception 
+    public EventTypeCategoryAttribute updateEventTypeCategoryAttribute(EventTypeCategoryAttribute eventTypeCategoryAttribute, String name, Category category, Session session) throws Exception 
     {
         eventTypeCategoryAttribute.setName(name);
-	
+        eventTypeCategoryAttribute.setCategory(category);
+        
 		session.update(eventTypeCategoryAttribute);
 		
 		return eventTypeCategoryAttribute;

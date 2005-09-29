@@ -90,6 +90,3 @@
 <div class="calApp">
 
 <div class="portlet">
-
-<!--<div class="head">Kalenderadministration</div>-->
-

@@ -203,7 +203,7 @@ public class SelectFieldTag extends AbstractCalendarTag
         String evaluatedString = evaluateString("SelectFieldTag", "name", name);
         System.out.println("o:" + o);
         System.out.println("evaluatedString:" + evaluatedString);
-        if(o != null)
+        if(o != null && !(o instanceof String[]))
             this.name = (String)o;
         else if(evaluatedString != null && !evaluatedString.equals(name))
             this.name = evaluatedString;

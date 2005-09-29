@@ -46,7 +46,10 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class UpdateCategoryAction extends ViewCategoryAction
 {
-    private Category dataBean = new Category();
+    private Long updateCategoryId;
+    private Long categoryId;
+    private String name;
+    private String description;
     
     /**
      * This is the entry point for the main listing.
@@ -57,44 +60,56 @@ public class UpdateCategoryAction extends ViewCategoryAction
         try
         {
             validateInput(this);
-            CategoryController.getController().updateCategory(dataBean.getId(), dataBean.getName(), dataBean.getDescription(), getSession());
+            
+            Category category = CategoryController.getController().updateCategory(this.updateCategoryId, this.name, this.description, getSession());
+            
+            if(category != null && category.getParent() != null)
+            {
+                this.categoryId = category.getParent().getId();
+                return Action.SUCCESS;
+            }
+            else
+                return "successRootCategory";
         }
         catch(ValidationException e)
         {
             return Action.ERROR;            
         }
-
-        return Action.SUCCESS;
     } 
+    
     
     public Long getCategoryId()
     {
-        return dataBean.getId();
+        return categoryId;
     }
-
-    public void setCategoryId(Long categoryId)
-    {
-        this.dataBean.setId(categoryId);
-    }
-
+    
     public String getDescription()
     {
-        return this.dataBean.getDescription();
+        return description;
     }
     
     public void setDescription(String description)
     {
-        this.dataBean.setDescription(description);
+        this.description = description;
     }
     
     public String getName()
     {
-        return this.dataBean.getName();
+        return name;
     }
     
     public void setName(String name)
     {
-        this.dataBean.setName(name);
+        this.name = name;
     }
     
+    public Long getUpdateCategoryId()
+    {
+        return updateCategoryId;
+    }
+    
+    public void setUpdateCategoryId(Long updateCategoryId)
+    {
+        this.updateCategoryId = updateCategoryId;
+    }
 }
