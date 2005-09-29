@@ -1,24 +1,8 @@
-<%@ page import="javax.portlet.PortletURL,
-				 java.util.Map,
-				 java.util.Iterator,
-				 java.util.List,
-				 java.util.Locale,
-				 java.util.ResourceBundle,
-				 org.infoglue.common.util.ResourceBundleHelper"%>
-
-<%@ taglib uri="webwork" prefix="ww" %>
-<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<%@ taglib uri="calendar" prefix="calendar" %>
 
-<portlet:defineObjects/>
+<c:set var="activeNavItem" value="Events" scope="page"/>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
+<%@ include file="adminHeader.jsp" %>
 
 <div id="inputForm">
 	
@@ -205,3 +189,5 @@
         singleClick    :    true
     });
 </script>
+
+<%@ include file="adminFooter.jsp" %>

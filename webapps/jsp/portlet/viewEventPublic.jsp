@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<c:set var="activeNavItem" value="Event" scope="page"/>
+
 <%@ page import="javax.portlet.PortletURL,
 				 java.util.Map,
 				 java.util.Iterator,

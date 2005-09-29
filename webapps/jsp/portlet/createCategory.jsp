@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<c:set var="activeNavItem" value="Categories" scope="page"/>
+
 <%@ include file="adminHeader.jsp" %>
 	
 	<div id="contentListHeader">
@@ -10,7 +14,7 @@
 		</portlet:actionURL>
 		
 		<form name="inputForm" method="POST" action="<c:out value="${createCategoryActionUrl}"/>">
-			<input type="hidden" name="parentCategoryId" value="<c:out value="${param.parentCategoryId}"/>"/>
+			<input type="hidden" name="parentCategoryId" value="<ww:property value="parentCategoryId"/>"/>
 		<p>
 			<calendar:textField label="labels.internal.category.name" name="name" value="category.name" cssClass="normalInput"/>
 		</p>

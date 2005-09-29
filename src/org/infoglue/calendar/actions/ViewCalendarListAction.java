@@ -55,6 +55,18 @@ public class ViewCalendarListAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
 
+    /**
+     * This is the entry point for the main listing.
+     */
+    
+    public String choose() throws Exception 
+    {
+        execute();
+
+        return "successChoose";
+    } 
+    
+    
     public List getCalendars()
     {
         return calendars;

@@ -1,12 +1,8 @@
-<%@ taglib uri="webwork" prefix="ww" %>
-<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<%@ taglib uri="calendar" prefix="calendar" %>
 
-<portlet:defineObjects/>
+<c:set var="activeNavItem" value="Calendars" scope="page"/>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
+<%@ include file="adminHeader.jsp" %>
 
 <div id="inputForm">
 	
@@ -60,5 +56,5 @@
 
 </div>
 
-</body>
-</html>
+<%@ include file="adminFooter.jsp" %>
+

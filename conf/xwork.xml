@@ -25,6 +25,9 @@
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarList.jsp</param>
 			</result>
+			<result name="successChoose" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/chooseCalendar.jsp</param>
+			</result>
 		</action>
 		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
 			<result name="input" type="portletDispatch">
@@ -109,11 +112,14 @@
 				<param name="viewAction">CreateCategory!input.action</param>
 			</result>
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCategoryList.action</param>
+				<param name="viewAction">ViewCategory.action?categoryId=${categoryId}</param>
 			</result>
 		</action>
 		<action name="ViewCategory" class="org.infoglue.calendar.actions.ViewCategoryAction">
 			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewCategoryList.jsp</param>
+			</result>
+			<result name="successDetail" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewCategory.jsp</param>
             </result>
 		</action>
@@ -127,7 +133,7 @@
 		</action>
 		<action name="DeleteCategory" class="org.infoglue.calendar.actions.DeleteCategoryAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCategoryList.action</param>
+				<param name="viewAction">ViewCategory.action?categoryId=${categoryId}</param>
 			</result>
 		</action>
 

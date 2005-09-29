@@ -23,9 +23,14 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.entities.Category;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 
 /**
@@ -38,6 +43,7 @@ public class ViewCategoryAction extends CalendarAbstractAction
 {
     private Long categoryId;
     private Category category;
+    private List categories;
     
     /**
      * This is the entry point for the main listing.
@@ -45,9 +51,37 @@ public class ViewCategoryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.category = CategoryController.getController().getCategory(categoryId, getSession());
+        System.out.println("*********************************");
+        System.out.println("*********************************");
+        System.out.println("*********************************");
+        Enumeration e = ServletActionContext.getRequest().getParameterNames();
+        while(e.hasMoreElements())
+        {
+            String name = (String)e.nextElement();
+            String value = ServletActionContext.getRequest().getParameter(name);
+            System.out.println(name + "=" + value);
+        }
+        System.out.println("categoryId:" + categoryId);
+        if(categoryId == null)
+        {
+            String categoryIdString = ServletActionContext.getRequest().getParameter("categoryId");
+            if(categoryIdString != null && categoryIdString.length() > 0)
+            	this.categoryId = new Long(categoryIdString);
+        }
         
-        return Action.SUCCESS;
+        if(categoryId != null)
+        {
+            this.category = CategoryController.getController().getCategory(categoryId, getSession());
+            System.out.println("category:" + this.category);
+            return "successDetail";
+        }
+        else
+        {
+            this.categories = CategoryController.getController().getRootCategoryList(getSession());
+            System.out.println("categories:" + this.category);
+            return Action.SUCCESS;
+        }
+        
     } 
 
     public Long getCategoryId()
@@ -66,4 +100,8 @@ public class ViewCategoryAction extends CalendarAbstractAction
     }
 
 
+    public List getCategories()
+    {
+        return categories;
+    }
 }

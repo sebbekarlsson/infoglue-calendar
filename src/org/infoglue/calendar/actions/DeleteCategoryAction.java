@@ -36,6 +36,7 @@ import com.opensymphony.xwork.Action;
 public class DeleteCategoryAction extends CalendarAbstractAction
 {
     private Long categoryId;
+    private Long deleteCategoryId;
     
     /**
      * This is the entry point for the main listing.
@@ -43,7 +44,9 @@ public class DeleteCategoryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        CategoryController.getController().deleteCategory(categoryId, getSession());
+        this.categoryId = CategoryController.getController().getCategory(deleteCategoryId, getSession()).getParent().getId();
+        
+        CategoryController.getController().deleteCategory(deleteCategoryId, getSession());
         
         return Action.SUCCESS;
     } 
@@ -57,5 +60,14 @@ public class DeleteCategoryAction extends CalendarAbstractAction
     {
         this.categoryId = categoryId;
     }
+
+    public Long getDeleteCategoryId()
+    {
+        return deleteCategoryId;
+    }
     
+    public void setDeleteCategoryId(Long deleteCategoryId)
+    {
+        this.deleteCategoryId = deleteCategoryId;
+    }
 }

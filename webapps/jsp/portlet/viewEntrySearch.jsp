@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<c:set var="activeNavItem" value="EntrySearch" scope="page"/>
+
 <%@ include file="adminHeader.jsp" %>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />

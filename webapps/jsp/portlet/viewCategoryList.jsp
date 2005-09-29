@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<c:set var="activeNavItem" value="Categories" scope="page"/>
+
 <%@ include file="adminHeader.jsp" %>
 
 		<h2><ww:property value="this.getLabel('labels.internal.category.subHeader')"/></h2>

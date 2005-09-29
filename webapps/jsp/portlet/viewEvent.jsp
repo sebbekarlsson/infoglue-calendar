@@ -1,5 +1,8 @@
-<%@ include file="adminHeader.jsp" %>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
+<c:set var="activeNavItem" value="Event" scope="page"/>
+
+<%@ include file="adminHeader.jsp" %>
 
 <ww:set name="event" value="event" scope="page"/>
 <ww:set name="eventId" value="event.id" scope="page"/>

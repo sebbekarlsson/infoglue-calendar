@@ -117,4 +117,10 @@ public class CreateCategoryAction extends CalendarAbstractAction
     {
         this.parentCategoryId = parentCategoryId;
     }
+
+    public Long getCategoryId()
+    {
+        return parentCategoryId;
+    }
+
 }

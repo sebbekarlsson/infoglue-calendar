@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<c:set var="activeNavItem" value="Categories" scope="page"/>
+
 <%@ include file="adminHeader.jsp" %>
 	
 	<div id="contentListHeader">
@@ -39,7 +43,7 @@
 			
 			<portlet:actionURL var="deleteCategoryUrl">
 				<portlet:param name="action" value="DeleteCategory"/>
-				<portlet:param name="categoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
+				<portlet:param name="deleteCategoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
 			</portlet:actionURL>
 			
 			<p class="nobreak">

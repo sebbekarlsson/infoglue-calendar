@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<c:set var="activeNavItem" value="Calendars" scope="page"/>
+
 <%@ include file="adminHeader.jsp" %>
 
 <ww:set name="calendarId" value="calendar.id" scope="page"/>
