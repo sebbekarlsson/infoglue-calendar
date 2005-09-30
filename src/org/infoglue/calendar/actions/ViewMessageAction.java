@@ -23,21 +23,31 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.PortletURL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
-import org.infoglue.calendar.controllers.ResourceController;
+import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.calendar.entities.Calendar;
-import org.infoglue.calendar.entities.Category;
-import org.infoglue.calendar.entities.Resource;
+import org.infoglue.calendar.entities.Event;
+import org.infoglue.common.security.UserControllerProxy;
 import org.infoglue.common.util.DBSessionWrapper;
+import org.infoglue.common.util.PropertyHelper;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
+import com.opensymphony.xwork.validator.ValidationException;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -45,38 +55,47 @@ import com.opensymphony.xwork.ActionContext;
  * @author Mattias Bogeblad
  */
 
-public class DeleteResourceAction extends CalendarAbstractAction
+public class ViewMessageAction extends CalendarAbstractAction
 {
-    private Long deleteResourceId;
-    private Long eventId;
+	private static Log log = LogFactory.getLog(ViewMessageAction.class);
     
+	private Long eventId;
+    private Event newEvent;
+        
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
-        Resource resource = ResourceController.getController().getResource(deleteResourceId, getSession());
-        
-        this.eventId = resource.getEvent().getId();
-        
-        ResourceController.getController().deleteResource(deleteResourceId, getSession());
-        
         return Action.SUCCESS;
     } 
+
+    /**
+     * This is the entry point for the main listing.
+     */
     
-    public Long getDeleteResourceId()
+    public String submitted() throws Exception 
     {
-        return deleteResourceId;
-    }
+        return "successSubmitForPublish";
+    } 
+
+    /**
+     * This is the entry point for the main listing.
+     */
     
-    public void setDeleteResourceId(Long deleteResourceId)
+    public String published() throws Exception 
     {
-        this.deleteResourceId = deleteResourceId;
-    }
-    
+        return "successPublish";
+    } 
+
     public Long getEventId()
     {
         return eventId;
+    }
+    
+    public void setEventId(Long eventId)
+    {
+        this.eventId = eventId;
     }
 }

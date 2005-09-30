@@ -43,6 +43,7 @@ import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
+import org.infoglue.calendar.entities.Event;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.webwork.util.AttributeMap;
@@ -93,15 +94,22 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         
     private Map categoryAttributes = new HashMap();
     
+    private Event event;
+    private List assetKeys;
+    
+    private Calendar startCalendar;
+    private Calendar endCalendar;
+    private Calendar lastRegistrationCalendar;
+
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
-        Calendar startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
-        Calendar endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-        Calendar lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
+        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
+        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
+        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
 
         try
         {
@@ -122,6 +130,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
             validateInput(this);
             
             System.out.println("SystemUserName:" + this.participantUserName);
+            System.out.println("name:" + this.name);
             
             EventController.getController().updateEvent(
                     eventId, 
@@ -166,7 +175,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         EventController.getController().submitForPublishEvent(eventId, getSession());
 
-        return Action.SUCCESS;
+        return "successSubmitForPublish";
     } 
 
     /**
@@ -177,7 +186,20 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         EventController.getController().publishEvent(eventId, getSession());
 
-        return Action.SUCCESS;
+        return "successPublish";
+    } 
+
+    /**
+     * This is the action command for publishing an event.
+     */
+    
+    public String uploadForm() throws Exception 
+    {
+        this.event = EventController.getController().getEvent(eventId, getSession());
+
+        this.assetKeys = EventController.getController().getAssetKeys();
+
+        return "uploadForm";
     } 
 
     /**
@@ -230,7 +252,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         log.debug("");
         ResourceController.getController().createResource(this.eventId, this.getAssetKey(), this.getFileContentType(), this.getFileFileName(), this.getFile(), getSession());
         
-        return Action.SUCCESS;
+        return "successUpload";
     } 
     
     public String getDescription()
@@ -265,6 +287,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public Long getEventId()
     {
+        System.out.println("EventId:" + eventId);
         return eventId;
     }
     
@@ -463,4 +486,28 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         this.lastRegistrationTime = lastRegistrationTime;
     }
     
+    public List getAssetKeys()
+    {
+        return assetKeys;
+    }
+
+    public Event getEvent()
+    {
+        return event;
+    }    
+    
+    public Calendar getEndCalendar()
+    {
+        return endCalendar;
+    }
+    
+    public Calendar getLastRegistrationCalendar()
+    {
+        return lastRegistrationCalendar;
+    }
+    
+    public Calendar getStartCalendar()
+    {
+        return startCalendar;
+    }
 }

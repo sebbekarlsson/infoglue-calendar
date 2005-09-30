@@ -49,6 +49,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String name;
+	private String labelCssClass = "";
 	private String cssClass = "";
 	private String size = "";
 	private String multiple = "false";
@@ -60,6 +61,8 @@ public class SelectFieldTag extends AbstractCalendarTag
 	private List fieldErrors;
 	private Object errorAction = null;
 	
+    private boolean mandatory;
+
 	/**
 	 * 
 	 */
@@ -82,23 +85,27 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            selectedValues = (String[])obj;
         }
 
-	    StringBuffer sb = new StringBuffer();
-	    if(this.label != null)
-	        sb.append("<span class=\"calendarLabel\">" + this.label + "</span>");
-		else
-		    sb.append("<span class=\"calendarLabel\">" + name + "</span>");
-		    
+	    String errorMessage = "";
 	    if(fieldErrors != null && fieldErrors.size() > 0)
 	    {   
 	        Iterator i = fieldErrors.iterator();
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	          	sb.append("<span class=\"errorMessage\">- " + fieldError + "</span>");
+	          	errorMessage = "<span class=\"errorMessage\">- " + fieldError + "</span>";
 	        }
 	    }	
-        sb.append("<br>");
-        sb.append("<select name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
+
+	    StringBuffer sb = new StringBuffer();
+
+	    sb.append("<div class=\"fieldrow\">");
+
+	    if(this.label != null)
+	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+		else
+		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+			    
+        sb.append("<select id=\"" + name + "\" name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
         
         if(values != null)
         {
@@ -186,7 +193,8 @@ public class SelectFieldTag extends AbstractCalendarTag
 	        }
         }
         sb.append("</select>");
-
+        sb.append("</div>");
+        
         write(sb.toString());
 	    
         return EVAL_PAGE;
@@ -301,5 +309,14 @@ public class SelectFieldTag extends AbstractCalendarTag
     public void setSize(String size)
     {
         this.size = size;
+    }
+    public void setLabelCssClass(String labelCssClass)
+    {
+        this.labelCssClass = labelCssClass;
+    }
+    
+    public void setMandatory(boolean mandatory)
+    {
+        this.mandatory = mandatory;
     }
 }

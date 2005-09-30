@@ -33,8 +33,6 @@
 		<a href="<c:out value="${viewCalendarAdministrationUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationHome')"/></a>
 	<c:if test="${activeNavItem == 'Home'}"></span></c:if> |  
 	
-	<ww:if test="infoGlueRemoteUser == 'EventCreator'">
-	
 	<c:if test="${activeNavItem == 'MyWorkingEvents'}"><span class="current"></c:if>
 	   	<a href="<c:out value="${viewMyWorkingEventsUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationMyWorkingEvents')"/></a>
 	<c:if test="${activeNavItem == 'MyWorkingEvents'}"></span></c:if> |  
@@ -50,8 +48,6 @@
 	<c:if test="${activeNavItem == 'EntrySearch'}"><span class="current"></c:if>
 		<a href="<c:out value="${viewEntrySearchUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationSearchEntries')"/></a>
 	<c:if test="${activeNavItem == 'EntrySearch'}"></span></c:if> |  
-	
-	</ww:if>
 	
 	<ww:if test="infoGlueRemoteUser == 'administrator'">
 

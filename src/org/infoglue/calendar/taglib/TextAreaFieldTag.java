@@ -47,11 +47,14 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String name = "";
+	private String labelCssClass = "";
 	private String cssClass = "";
 	private String value = "";
 	private String label = "";
 	private List fieldErrors = null;
 	private Object errorAction = null;
+
+    private boolean mandatory;
 	
 	/**
 	 * 
@@ -74,23 +77,35 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	            value = o.toString();
         }
 	    
-	    StringBuffer sb = new StringBuffer();
-	    if(this.label != null)
-	        sb.append("<span class=\"calendarLabel\">" + this.label + "</span>");
-		else
-		    sb.append("<span class=\"calendarLabel\">" + name + "</span>");
-		    
+	    String errorMessage = "";
 	    if(fieldErrors != null && fieldErrors.size() > 0)
 	    {   
 	        Iterator i = fieldErrors.iterator();
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	          	sb.append("<span class=\"errorMessage\">- " + fieldError + "</span>");
+	          	errorMessage = "<span class=\"errorMessage\">- " + fieldError + "</span>";
 	        }
 	    }	
-        sb.append("<br>");
-        sb.append("<textarea name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
+
+	    StringBuffer sb = new StringBuffer();
+	    if(this.label != null)
+	    {
+	        sb.append("<div class=\"fieldrow\">");
+	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
+	    	sb.append("</div>");
+	    }
+	    else
+	    {
+	        sb.append("<div class=\"fieldrow\">");
+	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
+	    	sb.append("</div>");
+	        
+	    }
+        //sb.append("<br>");
+        //sb.append("<textarea name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
 
         write(sb.toString());
 	    
@@ -128,4 +143,17 @@ public class TextAreaFieldTag extends AbstractCalendarTag
         //this.value = value;
     }
     
+    public void setLabelCssClass(String labelCssClass)
+    {
+        this.labelCssClass = labelCssClass;
+    }
+    
+    public void setMandatory(String mandatory)
+    {
+        if(mandatory.equalsIgnoreCase("true"))
+            this.mandatory = true;
+        else
+            this.mandatory = false;    
+    }
+
 }

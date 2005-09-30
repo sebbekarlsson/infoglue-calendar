@@ -5,38 +5,6 @@
             <message>You must enter a name.</message>
         </field-validator>
     </field>
-    <!--
-    <field name="description">
-        <field-validator type="igrequiredstring">
-            <message>You must enter a description.</message>
-        </field-validator>
-    </field>
-    <field name="isInternal">
-        <field-validator type="igrequiredstring">
-            <message>You must enter if it's an internal event.</message>
-        </field-validator>
-    </field>
-    <field name="isOrganizedByGU">
-        <field-validator type="igrequiredstring">
-            <message>You must enter if it's organized by you.</message>
-        </field-validator>
-    </field>
-    -->
-    <field name="organizerName">
-        <field-validator type="igrequiredstring">
-            <message>You must enter the organizer's name.</message>
-        </field-validator>
-    </field>
-    <field name="lecturer">
-        <field-validator type="igrequiredstring">
-            <message>You must enter the lecturer.</message>
-        </field-validator>
-    </field>
-    <field name="customLocation">
-        <field-validator type="igrequiredstring">
-            <message>You must enter a custom location.</message>
-        </field-validator>
-    </field>
     <field name="shortDescription">
         <field-validator type="igrequiredstring">
             <message>You must enter a short description.</message>
@@ -45,6 +13,42 @@
     <field name="longDescription">
         <field-validator type="igrequiredstring">
             <message>You must enter a long description.</message>
+        </field-validator>
+    </field>
+    <!--
+    <field name="description">
+        <field-validator type="igrequiredstring">
+            <message>You must enter a description.</message>
+        </field-validator>
+    </field>
+	-->
+    <field name="isInternal">
+    	<field-validator type="fieldexpression">
+            <param name="expression">isInternal != null</param>
+            <message>You must state if it's an internal event or not.</message>
+        </field-validator>
+    </field>
+    <!--
+    <field name="isOrganizedByGU">
+        <field-validator type="igrequiredstring">
+            <message>You must enter if it's organized by you.</message>
+        </field-validator>
+    </field>
+	-->
+    <field name="organizerName">
+        <field-validator type="igrequiredstring">
+            <message>You must enter the organizer's name.</message>
+        </field-validator>
+    </field>
+	<!--
+    <field name="lecturer">
+        <field-validator type="igrequiredstring">
+            <message>You must enter the lecturer.</message>
+        </field-validator>
+    </field>
+    <field name="customLocation">
+        <field-validator type="igrequiredstring">
+            <message>You must enter a custom location.</message>
         </field-validator>
     </field>
     <field name="eventUrl">
@@ -67,49 +71,45 @@
             <message>You must enter a contact phone.</message>
         </field-validator>
     </field>
-    <!--
     <field name="price">
         <field-validator type="igrequiredstring">
             <message>You must enter a price.</message>
         </field-validator>
     </field>
-	-->
     <field name="maximumParticipants">
         <field-validator type="fieldexpression">
 	        <param name="expression">maximumParticipants != null</param>
             <message>You must enter a maximum number of participants.</message>
         </field-validator>
     </field>
-    <!--
+	-->
     <field name="lastRegistrationDateTime">
         <field-validator type="igrequiredstring">
             <message>You must enter a last registration date.</message>
         </field-validator>
     </field>
     <field name="lastRegistrationTime">
-        <field-validator type="igrequiredstring">
+       	<field-validator type="fieldexpression">
+            <param name="expression">lastRegistrationTime != null</param>
             <message>You must enter a last registration time.</message>
         </field-validator>
     </field>
-    -->
+    <!--
     <field name="locationId">
         <field-validator type="igrequiredoption">
             <message>You must choose at least one location.</message>
         </field-validator>
     </field>
-    <!--
     <field name="categoryId">
         <field-validator type="igrequiredoption">
             <message>You must choose at least one category.</message>
         </field-validator>
     </field>
     -->
-    <!--
     <field name="startDateTime">
 		<field-validator type="fieldexpression">
             <param name="expression">startCalendar.before(endCalendar)</param>
             <message>Startdate must be before end date</message>
         </field-validator>
     </field>
-    -->
 </validators>

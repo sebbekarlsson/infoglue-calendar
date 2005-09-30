@@ -48,16 +48,19 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String name;
+	private String labelCssClass = "";
 	private String cssClass = "";
 	private String size = "";
 	private String multiple = "false";
 	private String[] selectedValues;
 	private List selectedValueList;
 	private Set selectedValueSet;
-	private List values;
+	private Map values;
 	private String label;
 	private List fieldErrors;
 	private Object errorAction = null;
+
+    private boolean mandatory;
 	
 	/**
 	 * 
@@ -81,51 +84,42 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	            selectedValues = (String[])obj;
         }
 
-	    StringBuffer sb = new StringBuffer();
-	    if(this.label != null)
-	        sb.append("<span class=\"calendarLabel\">" + this.label + "</span>");
-		else
-		    sb.append("<span class=\"calendarLabel\">" + name + "</span>");
-		    
+	    String errorMessage = "";
 	    if(fieldErrors != null && fieldErrors.size() > 0)
 	    {   
 	        Iterator i = fieldErrors.iterator();
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	          	sb.append("<span class=\"errorMessage\">- " + fieldError + "</span>");
+	            errorMessage = "<span class=\"errorMessage\">- " + fieldError + "</span>";
 	        }
 	    }	
-        sb.append("<br>");
-        
+
+	    StringBuffer sb = new StringBuffer();
+	    
+	    sb.append("<div class=\"fieldrow\">");
+	    //if(this.label != null)
+	    //{
+	    //	sb.append("<label>" + this.label + "</label><span class=\"redstar\">*</span><br>");
+	    //}
+	    //else
+	    //    sb.append("<label>" + this.name + "</label><span class=\"redstar\">*</span><br>");
+		            
         if(values != null)
         {
-	        Iterator valuesIterator = values.iterator();
+	        Iterator valuesIterator = values.keySet().iterator();
 	        while(valuesIterator.hasNext())
 		    {
-	            String id;
-	            String optionText;
-	            Object obj = valuesIterator.next();
-	            if(obj instanceof InfoGluePrincipal)
-	            {
-	                InfoGluePrincipal value = (InfoGluePrincipal)obj;
-	                id = value.getName().toString();
-	                optionText = value.getFirstName() + " " + value.getLastName();
-	            } 
-	            else if(obj instanceof BaseEntity)
-	            {
-	                BaseEntity value = (BaseEntity)obj;
-	                id = value.getId().toString();
-	                optionText = value.getName();
-	            }
-	            else
-	            {
-	                String value = obj.toString();
-	                id = value;
-	                optionText = value;
-	            }
-	            
+	            String id 			= (String)valuesIterator.next();
+	            String optionText 	= (String)values.get(id);
+
+	            System.out.println("Id:" + id);
+	            System.out.println("optionText:" + optionText);
+
+                System.out.println("selectedValue:" + selectedValues);
+
 	            String checked = "";
+
 	            if(selectedValues != null)
 	            {
 		            for(int i=0; i<selectedValues.length; i++)
@@ -179,10 +173,12 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 		            }
 	            }
 	            
-	            sb.append("<input type=\"checkbox\" name=\"" + name + "\" value=\"" + id + "\" class=\"" + cssClass + "\"" + checked + "><span class=\"calendarLabel\">" + optionText + "</span>");
+	    		sb.append("<input name=\"" + name + "\" value=\"" + id + "\" class=\"\" type=\"checkbox\" id=\"" + name + "\"" + checked + "><label for=\"" + name + "\"> " + this.getLabel(optionText) + "</label><br />");
+
+	            //sb.append("<input type=\"checkbox\" name=\"" + name + "\" value=\"" + id + "\" class=\"" + cssClass + "\"" + checked + "><span class=\"" + cssClass + "\">" + optionText + "</span>");
 	        }
         }
-        sb.append("</select>");
+        sb.append("</div>");
 
         write(sb.toString());
 	    
@@ -215,7 +211,17 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 
     public void setSelectedValues(String selectedValues) throws JspException
     {
-        this.selectedValues = evaluateStringArray("SelectTag", "selectedValues", selectedValues);
+        Object o = findOnValueStack(selectedValues);
+        if(o != null)
+        {
+            if(o instanceof String[])
+                this.selectedValues = (String[])o;
+            else
+                this.selectedValues = new String[] {o.toString()};
+        }
+        else
+            this.selectedValues = null;
+        //this.selectedValues = evaluateStringArray("SelectTag", "selectedValues", selectedValues);
     }
 
     public void setSelectedValue(String selectedValue) throws JspException
@@ -227,15 +233,6 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
             this.selectedValues = null;
         
         //this.selectedValues = new String[] {evaluateString("SelectTag", "selectedValue", selectedValue)};
-    }
-
-    public void setValue(String value) throws JspException
-    {
-        Object o = findOnValueStack(value);
-        if(o != null) 
-            this.values = (List)o;
-            
-        //this.values = evaluateList("SelectTag", "values", values);
     }
 
     public void setSelectedValueList(String value) throws JspException
@@ -267,9 +264,36 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
         //this.values = evaluateList("SelectTag", "values", values);
     }
 
+    public void setValueMap(String valueMap) throws JspException
+    {
+        Object o = findOnValueStack(valueMap);
+        if(o != null) 
+        {
+            this.values = (Map)o;
+        }
+        else
+        {
+            this.values = null;
+        }
+    }
+
     
     public void setSize(String size)
     {
         this.size = size;
     }
+    
+    public void setLabelCssClass(String labelCssClass)
+    {
+        this.labelCssClass = labelCssClass;
+    }
+    
+    public void setMandatory(String mandatory)
+    {
+        if(mandatory.equalsIgnoreCase("true"))
+            this.mandatory = true;
+        else
+            this.mandatory = false;    
+    }
+
 }

@@ -83,6 +83,22 @@
 			}
 		</style>
 
+		<script type="text/javascript">
+		
+			function createEventFromCopy(action)
+			{
+				document.updateForm.action = action;
+				document.updateForm.submit();
+			} 
+
+			function deleteResource(resourceId)
+			{
+				document.deleteResourceForm.resourceId.value = resourceId;
+				document.deleteResourceForm.submit();
+			} 
+		
+		</script>
+
 	</head>
 
 <body onload="resize();">

@@ -73,22 +73,14 @@ public class ViewEventAction extends CalendarAbstractAction
     
     private List remainingInfogluePrincipals;
     private List participatingPrincipals = new ArrayList();
-    
-    private List assetKeys;
-    
-    private String nameErrorMessage = "Mandatory field";
-    private String descriptionErrorMessage = "Mandatory field";
-    private String locationErrorMessage = "Mandatory field";
-    private String categoryErrorMessage = "Mandatory field";
-    private String participantsErrorMessage = "Mandatory field";
-
-    
+            
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
     {
+        System.out.println("this.eventId:" + eventId);
         if(this.eventId == null)
             this.eventId = new Long(ServletActionContext.getRequest().getParameter("eventId"));
 
@@ -100,8 +92,6 @@ public class ViewEventAction extends CalendarAbstractAction
         //this.locations 	= LocationController.getController().getLocationList();
         //this.categories = CategoryController.getController().getCategoryList();
         
-        this.assetKeys = EventController.getController().getAssetKeys();
-
         this.locations 	= LocationController.getController().getLocationList(getSession());
         this.categories = CategoryController.getController().getRootCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
@@ -215,12 +205,7 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         return selectedLocations;
     }
-    
-    public List getAssetKeys()
-    {
-        return assetKeys;
-    }
-    
+        
     public List getCategories()
     {
         return categories;

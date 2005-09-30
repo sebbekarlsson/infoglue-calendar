@@ -247,12 +247,27 @@
 			</result>
 		</action>
 		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
+			<result name="uploadForm" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewUploadForm.jsp</param>
+			</result>
+			<result name="successUpload" type="eventProcessed">
+				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
+				<param name="parse">true</param>
+			</result>
 			<result name="error" type="eventProcessed">
-				<param name="viewAction">ViewEvent.action?eventId=${eventId}&amp;calendarId=${calendarId}&amp;mode=${mode}</param>
+				<param name="viewAction">ViewEvent!edit.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="successSubmitForPublish" type="eventProcessed">
+				<param name="viewAction">ViewMessage!submitted.action?eventId=${eventId}</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="successPublish" type="eventProcessed">
+				<param name="viewAction">ViewMessage!published.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>
 		</action>
@@ -289,6 +304,15 @@
 				<param name="dispatchTo">/jsp/portlet/viewWaitingEventList.jsp</param>
 			</result>
 		</action>
+
+		<action name="ViewMessage" class="org.infoglue.calendar.actions.ViewMessageAction">
+			<result name="successSubmitForPublish" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/eventSubmitted.jsp</param>
+			</result>
+			<result name="successPublished" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/eventPublished.jsp</param>
+			</result>
+		</action>
 		
 		<action name="ViewEventSearch" class="org.infoglue.calendar.actions.ViewEventSearchAction">
 			<result name="input" type="portletDispatch">
@@ -313,7 +337,7 @@
 		</action>
 		<action name="DeleteResource" class="org.infoglue.calendar.actions.DeleteResourceAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewEvent.action?eventId=${eventId}&amp;calendarId=${calendarId}&amp;mode=${mode}</param>
+				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>
 		</action>

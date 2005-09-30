@@ -26,44 +26,46 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
-import org.infoglue.common.util.ResourceBundleHelper;
+import org.infoglue.calendar.actions.CalendarAbstractAction;
+import org.infoglue.calendar.entities.BaseEntity;
 
-import com.opensymphony.webwork.ServletActionContext;
+import org.infoglue.common.security.InfoGluePrincipal;
+
 import com.opensymphony.xwork.ActionContext;
 
 
 /**
  * 
  */
-public class TextFieldTag extends AbstractCalendarTag 
+public class RadioButtonFieldTag extends AbstractCalendarTag 
 {
 	private static final long serialVersionUID = 3617579309963752240L;
 	
-	private String name = "";
+	private String name;
 	private String labelCssClass = "";
 	private String cssClass = "";
-	private String value = "";
-	private String label = "";
-	private boolean mandatory;
-	private List fieldErrors = null;
+	private String selectedValue;
+	private Map values;
+	private String label;
+	private List fieldErrors;
 	private Object errorAction = null;
+
+    private boolean mandatory;
 	
 	/**
 	 * 
 	 */
-	public TextFieldTag() 
+	public RadioButtonFieldTag() 
 	{
 		super();
 	}
 	
-		  
 	public int doEndTag() throws JspException
     {
 	    fieldErrors = (List)findOnValueStack("#fieldErrors." + name);
@@ -71,11 +73,11 @@ public class TextFieldTag extends AbstractCalendarTag
 	    errorAction = findOnValueStack("#errorAction");
 	    if(errorAction != null)
 	    {
-	        Object o = findOnValueStack("#errorAction." + name);
-	        if(o != null)
-	            value = o.toString();
+	        Object obj = findOnValueStack("#errorAction." + name);
+	        if(obj instanceof String)
+	            selectedValue = (String)obj;
         }
-	    
+
 	    String errorMessage = "";
 	    if(fieldErrors != null && fieldErrors.size() > 0)
 	    {   
@@ -88,66 +90,72 @@ public class TextFieldTag extends AbstractCalendarTag
 	    }	
 
 	    StringBuffer sb = new StringBuffer();
-        sb.append("<div class=\"fieldrow\">");
-	    
-        if(this.label != null)
+
+	    sb.append("<div class=\"fieldrow\">");
+	    if(this.label != null)
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
-	    	sb.append("	<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
+			sb.append("<label>" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
 	    }
 	    else
-	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
-	    	sb.append("	<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
-	    }
-		sb.append("</div>");
-			
-        //sb.append("<br>");
-        //sb.append("<input type=\"textfield\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
+	        sb.append("<label>" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+
+        if(values != null)
+        {
+	        Iterator valuesIterator = values.keySet().iterator();
+	        while(valuesIterator.hasNext())
+		    {
+	            String id 			= (String)valuesIterator.next();
+	            System.out.println("Id:" + id);
+	            String optionText 	= (String)values.get(id);
+	            System.out.println("optionText:" + optionText);
+
+                System.out.println("selectedValue:" + selectedValue);
+	            String checked = "";
+	            if(selectedValue != null)
+	            {
+	                if(id.equalsIgnoreCase(selectedValue))
+	                    checked = " checked=\"1\"";
+	            }
+	            
+	    		sb.append("<input name=\"" + name + "\" value=\"" + id + "\" class=\"\" type=\"radio\" id=\"" + name + "\"" + checked + "><label for=\"" + name + "\"> " + this.getLabel(optionText) + "</label><br />");
+	        }
+        }
+        sb.append("</div>");
 
         write(sb.toString());
 	    
         return EVAL_PAGE;
     }
 
-	
     public void setCssClass(String cssClass)
     {
         this.cssClass = cssClass;
     }
     
-    public void setName(String name)
+    public void setName(String name) throws JspException
     {
         this.name = name;
     }
 
     public void setLabel(String rawLabel) throws JspException
     {
-        Object o = findOnValueStack(rawLabel);
-        String evaluatedString = evaluateString("TextFieldTag", "label", rawLabel);
-        System.out.println("o:" + o);
-        System.out.println("evaluatedString:" + evaluatedString);
-        if(o != null)
-            this.label = (String)o;
-        else if(evaluatedString != null && !evaluatedString.equals(rawLabel))
-            this.label = evaluatedString;
+        String translatedLabel = this.getLabel(rawLabel);
+        if(translatedLabel != null && translatedLabel.length() > 0)
+            this.label = translatedLabel;
         else
-        {
-            String translatedLabel = this.getLabel(rawLabel);
-            if(translatedLabel != null && translatedLabel.length() > 0)
-                this.label = translatedLabel;
-        }
+            this.label = evaluateString("SelectFieldTag", "label", rawLabel);
     }
-    
-    public void setValue(String value)
+
+    public void setSelectedValue(String selectedValue) throws JspException
     {
-        Object o = findOnValueStack(value);
+        System.out.println("Setting selectedValue:" + selectedValue);
+        Object o = findOnValueStack(selectedValue);
         if(o != null) 
-            this.value = o.toString();
+            this.selectedValue = o.toString();
         else
-            this.value = null;
+            this.selectedValue = null;        
+        System.out.println("Setting selectedValue:" + this.selectedValue);
         
-        //this.value = value;
     }
     
     public void setLabelCssClass(String labelCssClass)
@@ -162,4 +170,18 @@ public class TextFieldTag extends AbstractCalendarTag
         else
             this.mandatory = false;    
     }
-}
+
+    public void setValueMap(String valueMap) throws JspException
+    {
+        Object o = findOnValueStack(valueMap);
+        if(o != null) 
+        {
+            this.values = (Map)o;
+        }
+        else
+        {
+            this.values = null;
+        }
+    }
+    
+ }

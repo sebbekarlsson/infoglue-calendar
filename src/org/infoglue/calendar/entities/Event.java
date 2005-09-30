@@ -47,7 +47,7 @@ public class Event implements BaseEntity
     private java.util.Calendar endDateTime;
     
     private Boolean isInternal;
-    private Boolean isOrganizedByGU;
+    private Boolean isOrganizedByGU = new Boolean(false);
     private String organizerName;
     private String lecturer;
     private String customLocation;

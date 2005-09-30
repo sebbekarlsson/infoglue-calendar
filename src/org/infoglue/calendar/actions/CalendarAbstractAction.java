@@ -79,6 +79,23 @@ public class CalendarAbstractAction extends ActionSupport
 		return this;
 	}
 
+    public Map getInternalEventMap()
+    {
+        Map yesOrNo = new HashMap();
+        yesOrNo.put("true", "labels.internal.event.isInternal.true");
+        yesOrNo.put("false", "labels.internal.event.isInternal.false");
+        
+        return yesOrNo;
+    }
+
+    public Map getIsOrganizedByGUMap()
+    {
+        Map yesOrNo = new HashMap();
+        yesOrNo.put("true", "labels.internal.event.isOrganizedByGU");
+        
+        return yesOrNo;
+    }
+
     public Integer getComponentId()
     {
         return (Integer)ServletActionContext.getRequest().getAttribute("componentId");

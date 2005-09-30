@@ -49,6 +49,7 @@ public class TextValueTag extends AbstractCalendarTag
 {
 	private static final long serialVersionUID = 3617579309963752240L;
 	
+	private String labelCssClass = "";
 	private String cssClass = "";
 	private Object value = "";
 	private String label = "";
@@ -66,11 +67,13 @@ public class TextValueTag extends AbstractCalendarTag
     {
 	    StringBuffer sb = new StringBuffer();
 	    if(this.label != null)
-	        sb.append("<span class=\"calendarLabel\">" + this.label + "</span>");
+	        sb.append("<span class=\"" + labelCssClass + "\">" + this.label + "</span>");
 		    
         sb.append("<br>");
         sb.append("<span class=\"" + cssClass + "\">");
         
+        if(value instanceof Boolean)
+            sb.append(((value == null) ? "" : value));
         if(value instanceof String)
             sb.append(((value == null) ? "" : value));
         else if(value instanceof List || value instanceof Set)
@@ -95,7 +98,12 @@ public class TextValueTag extends AbstractCalendarTag
     {
         this.cssClass = cssClass;
     }
-    
+
+    public void setLabelCssClass(String labelCssClass)
+    {
+        this.labelCssClass = labelCssClass;
+    }
+
     public void setLabel(String rawLabel) throws JspException
     {
         Object o = findOnValueStack(rawLabel);

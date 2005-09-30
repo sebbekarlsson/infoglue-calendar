@@ -97,6 +97,11 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
+		    <name>labelCssClass</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
 		    <name>cssClass</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
@@ -129,12 +134,22 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
+		    <name>labelCssClass</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
 		    <name>cssClass</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
 		    <name>label</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>mandatory</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
@@ -161,12 +176,22 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
+		    <name>labelCssClass</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
 		    <name>cssClass</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
 		    <name>label</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>mandatory</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
@@ -213,6 +238,11 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
+		    <name>labelCssClass</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
 		    <name>cssClass</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
@@ -232,9 +262,14 @@
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
+		<attribute>
+		    <name>mandatory</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
 	</tag>
   	   	 
-  		<tag>
+  	<tag>
 	    <name>checkboxField</name>
 	    <tagclass>org.infoglue.calendar.taglib.CheckBoxFieldTag</tagclass>
 	    <bodycontent>empty</bodycontent>
@@ -250,7 +285,7 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
-		    <name>value</name>
+		    <name>valueMap</name>
 	    	<required>true</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
@@ -275,6 +310,58 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
+		    <name>labelCssClass</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>cssClass</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>label</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>mandatory</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+	    <name>radioButtonField</name>
+	    <tagclass>org.infoglue.calendar.taglib.RadioButtonFieldTag</tagclass>
+	    <bodycontent>empty</bodycontent>
+	    <info></info>
+	    <attribute>
+		    <name>id</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+	    <attribute>
+		    <name>name</name>
+	    	<required>true</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>valueMap</name>
+	    	<required>true</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>selectedValue</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>labelCssClass</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
 		    <name>cssClass</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
@@ -290,7 +377,7 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
-		    <name>size</name>
+		    <name>mandatory</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>

@@ -99,8 +99,6 @@ public class CreateEventAction extends CalendarAbstractAction
     private Map categoryAttributes = new HashMap();
     private List infogluePrincipals;
     
-    private List yesOrNo;
-    
     private String publishEventUrl;
     
     private Calendar startCalendar;
@@ -118,6 +116,8 @@ public class CreateEventAction extends CalendarAbstractAction
         startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
         endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
+
+        System.out.println("isInternal:" + this.isInternal);
 
         try
         {
@@ -200,6 +200,7 @@ public class CreateEventAction extends CalendarAbstractAction
         endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
    
+        System.out.println("isInternal:" + this.isInternal);
         try
         {
             int i = 0;
@@ -280,8 +281,6 @@ public class CreateEventAction extends CalendarAbstractAction
         this.locations 	= LocationController.getController().getLocationList(getSession());
         //this.categories = CategoryController.getController().getRootCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
-        this.yesOrNo = new ArrayList();
-        this.yesOrNo.add("true");
             
         return Action.INPUT;
     } 
@@ -568,11 +567,6 @@ public class CreateEventAction extends CalendarAbstractAction
         return startCalendar;
     }
     
-    public List getYesOrNo()
-    {
-        return yesOrNo;
-    }
-    
     public Event getNewEvent()
     {
         return newEvent;
@@ -588,4 +582,8 @@ public class CreateEventAction extends CalendarAbstractAction
         this.lastRegistrationTime = lastRegistrationTime;
     }
     
+    public Integer getLastRegistrationTime()
+    {
+        return lastRegistrationTime;
+    }
 }

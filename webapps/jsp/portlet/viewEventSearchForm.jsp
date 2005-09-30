@@ -4,57 +4,11 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<portlet:defineObjects/>
+<div class="head"><ww:property value="this.getLabel('labels.internal.event.searchEvents')"/></div>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendar.css" />
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
-
-<script type="text/javascript">
-	
-	function toggleSearchForm()
-	{
-		searchFormElement = document.getElementById("searchForm");
-		emailFormElement = document.getElementById("emailForm");
-		hitListElement = document.getElementById("hitlist");
-		if(searchFormElement.style.display == "none")
-		{
-			searchFormElement.style.display = "block";
-			hitListElement.style.display = "none";
-			emailFormElement.style.display = "none";
-		}
-		else
-		{
-			searchFormElement.style.display = "none";
-			hitListElement.style.display = "block";
-			emailFormElement.style.display = "none";
-		}
-	}
-
-	function toggleEmailForm()
-	{
-		emailFormElement = document.getElementById("emailForm");
-		hitListElement = document.getElementById("hitlist");
-		searchFormElement = document.getElementById("searchForm");
-		if(emailFormElement.style.display == "none")
-		{
-			emailFormElement.style.display = "block";
-			searchFormElement.style.display = "none";
-			hitListElement.style.display = "none";
-		}
-		else
-		{
-			emailFormElement.style.display = "none";
-			searchFormElement.style.display = "none";
-			hitListElement.style.display = "block";
-		}
-	}
-	
-</script>
+<%@ include file="functionMenu.jsp" %>
 
 <div id="searchForm" class="marginalizedDiv" style="display: <ww:if test="entries == null">block</ww:if><ww:else>none</ww:else>;">
-
-<span class="headline"><ww:property value="this.getLabel('labels.internal.event.searchEvents')"/></span>
-<hr/>
 
 <portlet:renderURL var="searchEntryActionUrl">
 	<portlet:param name="action" value="ViewEventSearch"/>
@@ -81,6 +35,7 @@
 	<p>
 		<calendar:textField label="labels.internal.event.contactName" name="contactName" value="contactName" cssClass="normalInput"/>
 	</p>
+	<!--
 	<p>
 		<calendar:textField label="labels.internal.event.contactEmail" name="contactEmail" value="contactEmail" cssClass="normalInput"/>
 	</p>
@@ -93,6 +48,7 @@
 	<p>
 		<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="maximumParticipants" cssClass="normalInput"/>
 	</p>
+	-->
 	<p>
 		<table border="0" cellspacing="0">
 		<tr>
