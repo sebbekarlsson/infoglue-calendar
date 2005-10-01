@@ -32,7 +32,7 @@
 		<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
 					
 		<p>
-			<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="normalInput"/>
+			<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="longtextfield"/>
 		</p>
 
 		<span class="errorMessage"><ww:property value="#fieldErrors.startDateTime"/></span>
@@ -102,7 +102,7 @@
 		<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" cssClass="listBox"/>
 		
 		<p>
-			<input type="submit" value="Update" class="calendarButton">
+			<input type="submit" value="Update" class="button">
 			
 			<portlet:renderURL var="viewEventUrl">
 				<portlet:param name="action" value="ViewEvent"/>
@@ -111,7 +111,7 @@
 				<calendar:evalParam name="mode" value="${mode}"/>
 			</portlet:renderURL>
 		
-		    <a href="<c:out value="${viewEventUrl}"/>"><input type="submit" value="Cancel" class="calendarButton"></a>
+		    <a href="<c:out value="${viewEventUrl}"/>"><input type="submit" value="Cancel" class="button"></a>
 		    
 		</p>
 	</form>		

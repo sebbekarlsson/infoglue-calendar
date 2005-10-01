@@ -17,13 +17,13 @@
 		<input type="hidden" name="eventTypeCategoryAttributeId" value="<ww:property value="eventTypeCategoryAttribute.id"/>">
 		
 		<p>
-			<calendar:textField label="labels.internal.category.name" name="name" value="eventTypeCategoryAttribute.name" cssClass="normalInput"/>
+			<calendar:textField label="labels.internal.category.name" name="name" value="eventTypeCategoryAttribute.name" cssClass="longtextfield"/>
 		</p>
 		<p>
 			<calendar:selectField label="labels.internal.eventTypeCategoryAttribute.BaseCategory" name="categoryId" multiple="false" value="categories" selectedValue="eventTypeCategoryAttribute.category.id" cssClass="listBox"/>
 		</p>
 		<p>
-			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventType.updateButton')"/>" class="calendarButton">
+			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventType.updateButton')"/>" class="button">
 		</p>
 	</form>
 </div>

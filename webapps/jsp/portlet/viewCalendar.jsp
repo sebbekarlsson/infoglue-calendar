@@ -181,10 +181,10 @@
 		<form name="inputForm" method="POST" action="<c:out value="${updateCalendarActionUrl}"/>">
 			<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
 			<p>
-				<calendar:textField label="labels.internal.calendar.name" name="name" value="calendar.name" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.calendar.name" name="name" value="calendar.name" cssClass="longtextfield"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.calendar.description" name="description" value="calendar.description" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.calendar.description" name="description" value="calendar.description" cssClass="longtextfield"/>
 			</p>
 			<p>
 			    <calendar:selectField label="labels.internal.calendar.owner" name="owner" multiple="false" value="infogluePrincipals" selectedValue="calendar.owner" cssClass="listBox"/>
@@ -193,7 +193,7 @@
 			    <calendar:selectField label="labels.internal.calendar.eventType" name="eventTypeId" multiple="false" value="eventTypes" selectedValue="calendar.eventType" cssClass="listBox"/>
 			</p>		
 			<p>
-				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.calendar.updateButton')"/>" class="calendarButton">
+				<input type="submit" value="<ww:property value="this.getLabel('labels.internal.calendar.updateButton')"/>" class="button">
 			</p>
 		</form>
 	</div>

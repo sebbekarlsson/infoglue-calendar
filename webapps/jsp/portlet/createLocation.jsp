@@ -15,13 +15,13 @@
 	
 	<form name="inputForm" method="POST" action="<c:out value="${createLocationActionUrl}"/>">
 	<p>
-		<calendar:textField label="labels.internal.location.name" name="name" value="location.name" cssClass="normalInput"/>
+		<calendar:textField label="labels.internal.location.name" name="name" value="location.name" cssClass="longtextfield"/>
 	</p>
 	<p>
-		<calendar:textField label="labels.internal.location.description" name="description" value="location.description" cssClass="normalInput"/>
+		<calendar:textField label="labels.internal.location.description" name="description" value="location.description" cssClass="longtextfield"/>
 	</p>
 	<p>
-		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.location.createButton')"/>" class="calendarButton">
+		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.location.createButton')"/>" class="button">
 	</p>
 	</form>
 </div>

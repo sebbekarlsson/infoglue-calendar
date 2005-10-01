@@ -16,13 +16,13 @@
 	<form name="inputForm" method="POST" action="<c:out value="${createCategoryActionUrl}"/>">
 		<input type="hidden" name="parentCategoryId" value="<ww:property value="parentCategoryId"/>"/>
 	<p>
-		<calendar:textField label="labels.internal.category.name" name="name" value="category.name" cssClass="normalInput"/>
+		<calendar:textField label="labels.internal.category.name" name="name" value="category.name" cssClass="longtextfield"/>
 	</p>
 	<p>
-		<calendar:textField label="labels.internal.category.description" name="description" value="category.description" cssClass="normalInput"/>
+		<calendar:textField label="labels.internal.category.description" name="description" value="category.description" cssClass="longtextfield"/>
 	</p>
 	<p>
-		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.category.createButton')"/>" class="calendarButton">
+		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.category.createButton')"/>" class="button">
 	</p>
 	</form>
 </div>

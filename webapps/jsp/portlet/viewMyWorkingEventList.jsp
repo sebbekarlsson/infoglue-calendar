@@ -8,31 +8,53 @@
 
 <%@ include file="functionMenu.jsp" %>
 
-	<ww:iterator value="events" status="rowstatus">
+<portlet:renderURL var="createEventUrl">
+	<portlet:param name="action" value="ViewCalendarList!choose"/>
+</portlet:renderURL>
+
+<div class="subfunctionarea">
+	<a href="<c:out value="${createEventUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.event.addEvent')"/></a>
+</div>
+
+<div class="columnlabelarea">
+	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.event.name')"/></p></div>
+	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.description')"/></p></div>
+	<div class="clear"></div>
+</div>
+
+<ww:iterator value="events" status="rowstatus">
+
+	<ww:set name="eventId" value="id" scope="page"/>
+	<portlet:renderURL var="eventUrl">
+		<portlet:param name="action" value="ViewEvent"/>
+		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+	</portlet:renderURL>
 	
-		<ww:set name="eventId" value="id" scope="page"/>
-		<portlet:renderURL var="eventUrl">
-			<portlet:param name="action" value="ViewEvent"/>
-			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
-		</portlet:renderURL>
-		
-		<portlet:actionURL var="deleteEventUrl">
-			<portlet:param name="action" value="DeleteEvent"/>
-			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
-		</portlet:actionURL>
-		
-	<p class="nobreak">
-		<ww:if test="#rowstatus.odd == true">
-	    	<span class="marked"><ww:property value="id"/>. <a href="<c:out value="${eventUrl}"/>"><ww:property value="name"/></a> 
-	    	<a href="<c:out value="${eventUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a>
-	    	<a href="<c:out value="${deleteEventUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
-	    </ww:if>
-	    <ww:else>
-	    	<span><ww:property value="id"/>. <a href="<c:out value="${eventUrl}"/>"><ww:property value="name"/></a> 
-	    	<a href="<c:out value="${eventUrl}"/>"><img src="<%=request.getContextPath()%>/images/edit.jpg" border="0"></a>
-	    	<a href="<c:out value="${deleteEventUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a></span>
-	    </ww:else>
-	</p>
-	</ww:iterator>
+	<portlet:actionURL var="deleteEventUrl">
+		<portlet:param name="action" value="DeleteEvent"/>
+		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+	</portlet:actionURL>
+	
+	<ww:if test="#rowstatus.odd == true">
+    	<div class="oddrow">
+    </ww:if>
+    <ww:else>
+		<div class="evenrow">
+    </ww:else>
+
+	   	<div class="columnLong">
+	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa Evenemang"><ww:property value="name"/></a></p>
+	   	</div>
+	   	<div class="columnMedium">
+	   		<p><ww:property value="description"/></p>
+	   	</div>
+	   	<div class="columnEnd">
+	   		<a href="<c:out value="${deleteEventUrl}"/>" title="Radera Evenemang" class="delete"></a>
+	   	   	<a href="<c:out value="${eventUrl}"/>" title="Redigera Evenemang" class="edit"></a>
+	   	</div>
+	   	<div class="clear"></div>
+	</div>
+	
+</ww:iterator>
 		
 <%@ include file="adminFooter.jsp" %>

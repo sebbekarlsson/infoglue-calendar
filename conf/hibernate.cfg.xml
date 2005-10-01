@@ -8,7 +8,7 @@
     <session-factory>
 
         <!--<property name="connection.datasource">java:jdbc/calendar</property>-->
-        
+          
         <!--
 		<property name="hibernate.provider_class">org.infoglue.common.dbcp.DBCPConnectionProvider</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>

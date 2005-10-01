@@ -29,37 +29,37 @@
 			<input type="hidden" name="searchEmail" value="<ww:property value="searchEmail"/>">
 
 			<p>
-				<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" cssClass="longtextfield"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" cssClass="longtextfield"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" cssClass="longtextfield"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.entry.organisation" name="organisation" value="entry.organisation" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.entry.organisation" name="organisation" value="entry.organisation" cssClass="longtextfield"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.entry.address" name="address" value="entry.address" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.entry.address" name="address" value="entry.address" cssClass="longtextfield"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.entry.zipcode" name="zipcode" value="entry.zipcode" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.entry.zipcode" name="zipcode" value="entry.zipcode" cssClass="longtextfield"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.entry.city" name="city" value="entry.city" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.entry.city" name="city" value="entry.city" cssClass="longtextfield"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.entry.phone" name="phone" value="entry.phone" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.entry.phone" name="phone" value="entry.phone" cssClass="longtextfield"/>
 			</p>
 			<p>
-				<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="normalInput"/>
+				<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="longtextfield"/>
 			</p>
 			<p>
 				<ww:property value="this.getLabel('labels.internal.entry.message')"/><br> 
-				<textarea name="message" class="normalInput"><ww:property value="entry.message"/></textarea>
+				<textarea name="message" class="longtextfield"><ww:property value="entry.message"/></textarea>
 			</p>
-			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.updateButton')"/>" class="calendarButton">
+			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.updateButton')"/>" class="button">
 		</form>
 	</div>
 

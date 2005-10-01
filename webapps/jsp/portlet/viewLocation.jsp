@@ -17,13 +17,13 @@
 		<input type="hidden" name="locationId" value="<ww:property value="location.id"/>">
 		
 		<p>
-			<calendar:textField label="labels.internal.category.name" name="name" value="location.name" cssClass="normalInput"/>
+			<calendar:textField label="labels.internal.category.name" name="name" value="location.name" cssClass="longtextfield"/>
 		</p>
 		<p>
-			<calendar:textField label="labels.internal.category.description" name="description" value="location.description" cssClass="normalInput"/>
+			<calendar:textField label="labels.internal.category.description" name="description" value="location.description" cssClass="longtextfield"/>
 		</p>
 		<p>
-			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.location.updateButton')"/>" class="calendarButton">
+			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.location.updateButton')"/>" class="button">
 		</p>
 	</form>
 </div>

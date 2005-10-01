@@ -100,7 +100,7 @@
 		<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" cssClass="listBox"/>
 		
 		<p>
-			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.createButton')"/>" class="calendarButton">
+			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.createButton')"/>" class="button">
 		</p>
 	</form>
 </div>

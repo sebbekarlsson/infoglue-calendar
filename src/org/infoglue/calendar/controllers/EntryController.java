@@ -393,7 +393,6 @@ public class EntryController extends BasicController
 
         String arguments = "";
         
-        
         if(eventId != null)
             arguments += "entry.event.id = :eventId ";
         if(firstName != null && firstName.length() != 0)
@@ -402,8 +401,9 @@ public class EntryController extends BasicController
             arguments += (arguments.length() == 0 ? "" : "and ") + "entry.lastName = :lastName ";
         if(email != null && email.length() != 0)
             arguments += (arguments.length() == 0 ? "" : "and ") + "entry.email = :email ";
-            
-        String sql = "from Entry entry where " + arguments + " order by entry.id";
+        
+        String sql = "from Entry entry " + (arguments.length() > 0 ? "WHERE " + arguments : "") + " order by entry.id";
+        System.out.println("SQL:" + sql);
         
         Query q = session.createQuery(sql);
 
