@@ -57,4 +57,13 @@
 
 </ww:iterator>
 
+<ww:if test="locations == null || locations.size() == 0">
+	<div class="oddrow">
+		<div class="columnLong"><p class="portletHeadline"><ww:property value="this.getLabel('labels.internal.applicationNoItemsFound')"/></a></p></div>
+       	<div class="columnMedium"></div>
+       	<div class="columnEnd"></div>
+       	<div class="clear"></div>
+    </div>
+</ww:if>
+
 <%@ include file="adminFooter.jsp" %>

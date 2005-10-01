@@ -31,9 +31,7 @@
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 		<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
 					
-		<p>
-			<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="longtextfield"/>
-		</p>
+		<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="longtextfield"/>
 
 		<span class="errorMessage"><ww:property value="#fieldErrors.startDateTime"/></span>
 		<div class="fieldrow">
@@ -101,19 +99,17 @@
 
 		<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" cssClass="listBox"/>
 		
-		<p>
-			<input type="submit" value="Update" class="button">
-			
-			<portlet:renderURL var="viewEventUrl">
-				<portlet:param name="action" value="ViewEvent"/>
-				<calendar:evalParam name="eventId" value="${eventId}"/>
-				<calendar:evalParam name="calendarId" value="${calendarId}"/>
-				<calendar:evalParam name="mode" value="${mode}"/>
-			</portlet:renderURL>
+		<input type="submit" value="Update" class="button">
 		
-		    <a href="<c:out value="${viewEventUrl}"/>"><input type="submit" value="Cancel" class="button"></a>
-		    
-		</p>
+		<portlet:renderURL var="viewEventUrl">
+			<portlet:param name="action" value="ViewEvent"/>
+			<calendar:evalParam name="eventId" value="${eventId}"/>
+			<calendar:evalParam name="calendarId" value="${calendarId}"/>
+			<calendar:evalParam name="mode" value="${mode}"/>
+		</portlet:renderURL>
+	
+	    <input onclick="document.location.href='<c:out value="${viewEventUrl}"/>';" type="submit" value="Cancel" class="button">
+
 	</form>		
 
 </div>

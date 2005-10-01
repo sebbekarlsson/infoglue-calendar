@@ -4,17 +4,20 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationSubHeader')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationHeader')"/></div>
 
 <%@ include file="functionMenu.jsp" %>
 
-<p>
-<ww:property value="this.getLabel('labels.internal.applicationIntroduction')"/>
-</p>
 <portlet:renderURL var="createEventUrl">
 	<portlet:param name="action" value="ViewCalendarList!choose"/>
 </portlet:renderURL>
 
-<a href="<c:out value="${createEventUrl}"/>">Skapa nytt event</a>
+<div class="portlet_margin">
+<h1><ww:property value="this.getLabel('labels.internal.applicationSubHeader')"/></h1>
+<p>
+	<ww:property value="this.getLabel('labels.internal.applicationIntroduction')"/>
+</p>
+<p><a href="<c:out value="${createEventUrl}"/>"><ww:property value="this.getLabel('labels.internal.event.addEvent')"/></a></p>
+</div>
 
 <%@ include file="adminFooter.jsp" %>

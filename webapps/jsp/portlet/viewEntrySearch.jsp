@@ -76,8 +76,9 @@
 	<calendar:textField label="labels.internal.soba.email" name="searchEmail" value="email" cssClass="longtextfield"/>
 
 	<div style="height:10px"></div>
+	
 	<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.searchButton')"/>" class="button"/>
-	<input type="button" class="button" onclick="toggleSearchForm();" value="<ww:property value="this.getLabel('labels.internal.soba.cancel')"/>"></a>
+	<input type="button" class="button" onclick="toggleSearchForm();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>"></a>
 	</form>
 </div>
 
@@ -101,8 +102,10 @@
 	<calendar:textField label="labels.internal.soba.subject" name="subject" value="subject" cssClass="longtextfield" mandatory="true"/>
 	<calendar:textAreaField label="labels.internal.soba.message" name="message" value="message" cssClass="smalltextarea" mandatory="true"/>
 
+	<div style="height:10px"></div>
+
 	<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.sendMessage')"/>" class="button"/>
-	<input type="button" class="button" onclick="toggleEmailForm();" value="<ww:property value="this.getLabel('labels.internal.soba.cancel')"/>"></a>
+	<input type="button" class="button" onclick="toggleEmailForm();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>"></a>
 
 </form>
 </div>
@@ -178,14 +181,13 @@
 
 </ww:iterator>
 
-
 <ww:if test="entries == null || entries.size() == 0">
-<tr>
-	<td colspan="3"><ww:property value="this.getLabel('labels.internal.soba.noHits')"/></td>
-</tr>
+	<div class="oddrow">
+		<div class="columnLong"><p class="portletHeadline"><ww:property value="this.getLabel('labels.internal.applicationNoItemsFound')"/></a></p></div>
+       	<div class="columnMedium"></div>
+       	<div class="columnEnd"></div>
+       	<div class="clear"></div>
+    </div>
 </ww:if>
-</table>
-
-</div>
 
 <%@ include file="adminFooter.jsp" %>

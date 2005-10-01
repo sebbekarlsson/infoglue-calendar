@@ -8,21 +8,17 @@
 
 <%@ include file="functionMenu.jsp" %>
 
-<div>
+<div class="portlet_margin">
 	<portlet:actionURL var="createEventTypeActionUrl">
 		<portlet:param name="action" value="CreateEventType"/>
 	</portlet:actionURL>
 	
 	<form name="inputForm" method="POST" action="<c:out value="${createEventTypeActionUrl}"/>">
-	<p>
+
 		<calendar:textField label="labels.internal.eventType.name" name="name" value="eventType.name" cssClass="longtextfield"/>
-	</p>
-	<p>
 		<calendar:textField label="labels.internal.eventType.description" name="description" value="eventType.description" cssClass="longtextfield"/>
-	</p>
-	<p>
+		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventType.createButton')"/>" class="button">
-	</p>
 	</form>
 </div>
 

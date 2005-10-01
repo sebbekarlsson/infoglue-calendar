@@ -29,8 +29,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Category;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -289,9 +292,34 @@ public class CategoryController extends BasicController
     {
         Category category = this.getCategory(id, session);
         Category parentCategory = category.getParent();
+        
+        deleteRecursiveCategories(category, null, session);
+		
         if(parentCategory != null)
+		{
             parentCategory.getChildren().remove(category);
-        session.delete(category);            
+		}
     }
+
+    /**
+     * Deletes a category object in the database. Also cascades all events associated to it.
+     * @throws Exception
+     */
     
+    public void deleteRecursiveCategories(Category category, Iterator parentIterator, Session session) throws Exception 
+    {
+        Iterator childCategoryIterator = category.getChildren().iterator();
+        while(childCategoryIterator.hasNext())
+        {
+            Category childCategory = (Category)childCategoryIterator.next();
+            deleteRecursiveCategories(childCategory, childCategoryIterator, session);   			
+   		}
+		category.setChildren(new HashSet());
+   		
+		if(parentIterator != null) 
+		    parentIterator.remove();
+    	
+    	session.delete(category);
+    }
+
 }

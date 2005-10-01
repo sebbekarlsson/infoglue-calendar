@@ -9,7 +9,7 @@
 
 <%@ include file="functionMenu.jsp" %>
 
-<div>
+<div class="portlet_margin">
 	
 	<portlet:actionURL var="createEventTypeCategoryAttributeActionUrl">
 		<portlet:param name="action" value="CreateEventTypeCategoryAttribute"/>
@@ -17,15 +17,11 @@
 	
 	<form name="inputForm" method="POST" action="<c:out value="${createEventTypeCategoryAttributeActionUrl}"/>">
 		<input type="hidden" name="eventTypeId" value="<ww:property value="eventTypeId"/>">
-	<p>
+
 		<calendar:textField label="labels.internal.eventTypeCategoryAttribute.name" name="name" value="eventTypeCategoryAttribute.name" cssClass="longtextfield"/>
-	</p>
-	<p>
 		<calendar:selectField label="labels.internal.eventTypeCategoryAttribute.BaseCategory" name="categoryId" multiple="false" value="categories" cssClass="listBox"/>
-	</p>
-	<p>
+		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventTypeCategoryAttribute.createButton')"/>" class="button">
-	</p>
 	</form>
 </div>
 

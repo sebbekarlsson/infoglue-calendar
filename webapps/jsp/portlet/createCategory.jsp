@@ -8,22 +8,18 @@
 
 <%@ include file="functionMenu.jsp" %>
 
-<div>
+<div class="portlet_margin">
 	<portlet:actionURL var="createCategoryActionUrl">
 		<portlet:param name="action" value="CreateCategory"/>
 	</portlet:actionURL>
 	
 	<form name="inputForm" method="POST" action="<c:out value="${createCategoryActionUrl}"/>">
 		<input type="hidden" name="parentCategoryId" value="<ww:property value="parentCategoryId"/>"/>
-	<p>
+	
 		<calendar:textField label="labels.internal.category.name" name="name" value="category.name" cssClass="longtextfield"/>
-	</p>
-	<p>
 		<calendar:textField label="labels.internal.category.description" name="description" value="category.description" cssClass="longtextfield"/>
-	</p>
-	<p>
+		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.category.createButton')"/>" class="button">
-	</p>
 	</form>
 </div>
 
