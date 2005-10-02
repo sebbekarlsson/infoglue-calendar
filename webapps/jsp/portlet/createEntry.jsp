@@ -4,55 +4,32 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div id="inputForm">
-	
-	<div id="contentListHeader">
-		<ww:property value="this.getLabel('labels.internal.entry.createNewEntry')"/>
-	</div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.entry.createNewEntry')"/></div>
 
-	<div id="contentList">
+<%@ include file="functionMenu.jsp" %>
 
-		<portlet:actionURL var="createEntryActionUrl">
-			<portlet:param name="action" value="CreateEntry"/>
-		</portlet:actionURL>
+<div class="portlet_margin">
 
-		<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
+	<portlet:actionURL var="createEntryActionUrl">
+		<portlet:param name="action" value="CreateEntry"/>
+	</portlet:actionURL>
+
+	<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
-		<p>	
-			<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:textField label="labels.internal.entry.organisation" name="organisation" value="entry.organisation" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:textField label="labels.internal.entry.address" name="address" value="entry.address" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:textField label="labels.internal.entry.zipcode" name="zipcode" value="entry.zipcode" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:textField label="labels.internal.entry.city" name="city" value="entry.city" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:textField label="labels.internal.entry.phone" name="phone" value="entry.phone" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:textAreaField label="labels.internal.entry.message" name="message" value="entry.message" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>" class="button">
-		</p>
-		</form>
-	</div>
+	
+		<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.organisation" name="organisation" value="entry.organisation" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.address" name="address" value="entry.address" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.zipcode" name="zipcode" value="entry.zipcode" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.city" name="city" value="entry.city" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.phone" name="phone" value="entry.phone" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="longtextfield"/>
+		<calendar:textAreaField label="labels.internal.entry.message" name="message" value="entry.message" cssClass="smalltextarea"/>
+		<div style="height:10px"></div>
+		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>" class="button">
+	</form>
 
 </div>
 

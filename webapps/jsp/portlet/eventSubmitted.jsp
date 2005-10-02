@@ -8,11 +8,11 @@
 
 <%@ include file="functionMenu.jsp" %>
 
-	<portlet:renderURL var="homeActionUrl">
-		<portlet:param name="action" value="ViewCalendarAdministration"/>
-	</portlet:renderURL>
+<portlet:renderURL var="homeActionUrl">
+	<portlet:param name="action" value="ViewCalendarAdministration"/>
+</portlet:renderURL>
 
-<div>
+<div class="portlet_margin">
 	<p>
 		<ww:property value="this.getLabel('labels.internal.event.eventSubmittedText')"/>
 		<br>

@@ -18,6 +18,10 @@
 		<filter-name>Set Character Encoding</filter-name>
 		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
+
+	<listener>
+		<listener-class>org.infoglue.calendar.util.CalendarContextListener</listener-class>
+	</listener>
 	
 	<servlet>
 		<servlet-name>webwork</servlet-name>

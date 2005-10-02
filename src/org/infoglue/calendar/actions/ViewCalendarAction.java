@@ -168,6 +168,12 @@ public class ViewCalendarAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
 
+    public String doGui() throws Exception 
+    {
+        this.execute();
+        return "successGui";
+    }
+
     public String doPublic() throws Exception 
     {
         this.execute();

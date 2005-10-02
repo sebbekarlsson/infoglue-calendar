@@ -20,17 +20,11 @@
 		<portlet:param name="eventId" value="{eventId}"/>
 	</portlet:renderURL>
 
-	<%
-	Object requestObject = request.getAttribute("javax.portlet.request");
-	javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
-	String hostName = (String)renderRequestIG.getProperty("host");
-	%>		
 	<form name="inputForm" method="POST" action="<c:out value="${createEventUrl}"/>">
 		<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 		<input type="hidden" name="date" value="<ww:property value="date"/>"/>
 		<input type="hidden" name="time" value="<ww:property value="time"/>"/>
-		<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
 		
 		<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="longtextfield" mandatory="true"/>
 		

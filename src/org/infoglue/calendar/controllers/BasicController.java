@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.infoglue.common.util.PropertyHelper;
 
 /**
  * This class represents the basic controller which all other controllers inherits from.
@@ -39,4 +40,11 @@ import org.hibernate.cfg.Configuration;
 public abstract class BasicController
 {
     
+    public boolean useEventPublishing()
+    {
+        String useEventPublishing = PropertyHelper.getProperty("useEventPublishing");
+        
+        return (useEventPublishing.equalsIgnoreCase("true") ? true : false);
+    }
+
 }

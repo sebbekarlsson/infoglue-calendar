@@ -123,8 +123,8 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
-	<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a> | 
-	<ww:if test="entries != null"><a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
+	<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
+	<ww:if test="entries != null && entries.size() > 0"> | <a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
 </div>
 
 <div class="columnlabelarea">
@@ -154,9 +154,15 @@
 		<c:if test="${searchEventId != null}">
 			<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
 		</c:if>
-		<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
-		<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
-		<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+		<c:if test="${searchFirstName != null}">
+			<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
+		</c:if>
+		<c:if test="${searchLastName != null}">
+			<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
+		</c:if>
+		<c:if test="${searchEmail != null}">
+			<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+		</c:if>
 	</portlet:actionURL>
 
 	<ww:if test="#rowstatus.odd == true">
@@ -181,6 +187,8 @@
 
 </ww:iterator>
 
+<%--
+
 <ww:if test="entries == null || entries.size() == 0">
 	<div class="oddrow">
 		<div class="columnLong"><p class="portletHeadline"><ww:property value="this.getLabel('labels.internal.applicationNoItemsFound')"/></a></p></div>
@@ -189,5 +197,6 @@
        	<div class="clear"></div>
     </div>
 </ww:if>
+--%>
 
 <%@ include file="adminFooter.jsp" %>

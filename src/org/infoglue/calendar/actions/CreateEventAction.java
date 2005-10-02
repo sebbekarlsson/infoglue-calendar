@@ -68,8 +68,8 @@ public class CreateEventAction extends CalendarAbstractAction
     private Integer startTime;
     private Integer endTime;
 
-    private Boolean isInternal;
-    private Boolean isOrganizedByGU;
+    private Boolean isInternal = new Boolean(false);
+    private Boolean isOrganizedByGU = new Boolean(false);
     private String organizerName;
     private String lecturer;
     private String customLocation;
@@ -98,9 +98,7 @@ public class CreateEventAction extends CalendarAbstractAction
     //private List categories;
     private Map categoryAttributes = new HashMap();
     private List infogluePrincipals;
-    
-    private String publishEventUrl;
-    
+        
     private Calendar startCalendar;
     private Calendar endCalendar;
     private Calendar lastRegistrationCalendar;
@@ -167,17 +165,6 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    this.getInfoGlueRemoteUser(),
 									                    getSession());
 
-            if(useEventPublishing())
-            {
-                try
-                {
-                    EventController.getController().notifyPublisher(newEvent, publishEventUrl);
-                }
-                catch(Exception e)
-                {
-                    log.warn("An error occcurred:" + e.getMessage(), e);
-                }
-            }
         }
         catch(ValidationException e)
         {
@@ -249,17 +236,7 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    this.getInfoGlueRemoteUser(),
 									                    getSession());
 
-            if(useEventPublishing())
-            {
-                try
-	            {
-                    EventController.getController().notifyPublisher(newEvent, publishEventUrl);
-	            }
-	            catch(Exception e)
-	            {
-	                log.warn("An error occcurred:" + e.getMessage(), e);
-	            }
-            }
+            
         }
         catch(ValidationException e)
         {
@@ -547,11 +524,6 @@ public class CreateEventAction extends CalendarAbstractAction
     public String[] getParticipantUserName()
     {
         return participantUserName;
-    }
-    
-    public void setPublishEventUrl(String publishEventUrl)
-    {
-        this.publishEventUrl = publishEventUrl;
     }
     
     public Calendar getEndCalendar()

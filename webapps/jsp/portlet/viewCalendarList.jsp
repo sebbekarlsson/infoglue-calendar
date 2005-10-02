@@ -23,8 +23,9 @@
 </div>
 
 <ww:iterator value="calendars" status="rowstatus">
-	
+
 	<ww:set name="calendarId" value="id" scope="page"/>
+			
 	<portlet:renderURL var="calendarUrl">
 		<portlet:param name="action" value="ViewCalendar"/>
 		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>

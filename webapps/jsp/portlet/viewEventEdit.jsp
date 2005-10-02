@@ -98,6 +98,8 @@
    		</ww:iterator>
 
 		<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" cssClass="listBox"/>
+	
+		<div style="height:10px"></div>
 		
 		<input type="submit" value="Update" class="button">
 		

@@ -101,6 +101,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private Calendar endCalendar;
     private Calendar lastRegistrationCalendar;
 
+    private String publishEventUrl;
+
     /**
      * This is the entry point for the main listing.
      */
@@ -173,7 +175,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String submitForPublishEvent() throws Exception 
     {
-        EventController.getController().submitForPublishEvent(eventId, getSession());
+        EventController.getController().submitForPublishEvent(eventId, this.publishEventUrl, getSession());
 
         return "successSubmitForPublish";
     } 
@@ -510,4 +512,10 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         return startCalendar;
     }
+    
+    public void setPublishEventUrl(String publishEventUrl)
+    {
+        this.publishEventUrl = publishEventUrl;
+    }
+
 }

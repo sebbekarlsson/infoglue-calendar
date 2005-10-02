@@ -86,7 +86,7 @@ public class ViewMessageAction extends CalendarAbstractAction
     
     public String published() throws Exception 
     {
-        return "successPublish";
+        return "successPublished";
     } 
 
     public Long getEventId()

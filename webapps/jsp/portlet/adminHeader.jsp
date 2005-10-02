@@ -22,6 +22,7 @@
 			.errorMessage {
 			    color: red;
 			}
+			
 		</style>
 
 		<script type="text/javascript">

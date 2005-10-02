@@ -74,8 +74,12 @@ public class TextValueTag extends AbstractCalendarTag
         
         if(value instanceof Boolean)
             sb.append(((value == null) ? "" : value));
-        if(value instanceof String)
+        else if(value instanceof String)
             sb.append(((value == null) ? "" : value));
+        else if(value instanceof Integer)
+            sb.append(((value == null) ? "" : value.toString()));
+        else if(value instanceof Float)
+            sb.append(((value == null) ? "" : value.toString()));
         else if(value instanceof List || value instanceof Set)
         {
             Iterator i = ((Collection)value).iterator();
@@ -85,6 +89,8 @@ public class TextValueTag extends AbstractCalendarTag
                 sb.append(((BaseEntity)o).getName() + ", ");
             }
         }
+        else
+            sb.append(((value == null) ? "" : value.toString()));
         
         sb.append("</span>");
 

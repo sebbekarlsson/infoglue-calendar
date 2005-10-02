@@ -440,10 +440,23 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void submitForPublishEvent(Long id, Session session) throws Exception 
+    public void submitForPublishEvent(Long id, String publishEventUrl, Session session) throws Exception 
     {
 		Event event = getEvent(id, session);
 		event.setStateId(Event.STATE_PUBLISH);
+		
+        if(useEventPublishing())
+        {
+            try
+            {
+                EventController.getController().notifyPublisher(event, publishEventUrl);
+            }
+            catch(Exception e)
+            {
+                log.warn("An error occcurred:" + e.getMessage(), e);
+            }
+        }
+
     }    
 
     
