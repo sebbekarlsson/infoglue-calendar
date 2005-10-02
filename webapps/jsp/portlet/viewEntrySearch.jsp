@@ -115,7 +115,9 @@
 <!-- ********************* -->
 <div id="hitlist" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
 
-<h1><ww:property value="this.getLabel('labels.internal.soba.hitList')"/></h1>
+<div class="portlet_margin">
+	<h1><ww:property value="this.getLabel('labels.internal.soba.hitList')"/></h1>
+</div>
 
 <portlet:renderURL var="createEntryRenderURL">
 	<portlet:param name="action" value="CreateEntry!input"/>

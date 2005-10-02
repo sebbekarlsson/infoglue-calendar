@@ -681,17 +681,35 @@ public class EventController extends BasicController
     {
         List result = null;
         
-        String calendarSQL = "(";
-        for(int i=0; i<calendarIds.length; i++)
+        String calendarSQL = null;
+        if(calendarIds != null && calendarIds.length > 0)
         {
-            if(i > 0)
-                calendarSQL += ",";
-            
-            calendarSQL += calendarIds[i];
+	        calendarSQL = "(";
+	        for(int i=0; i<calendarIds.length; i++)
+	        {
+	            if(i > 0)
+	                calendarSQL += ",";
+	            
+	            calendarSQL += calendarIds[i];
+	        }
+	        calendarSQL += ")";
         }
-        calendarSQL += ")";
-        
-        Query q = session.createQuery("from Event event WHERE event.stateId = ? AND event.startDateTime >= ? AND event.calendar.id IN " + calendarSQL + " ORDER BY event.startDateTime");
+/*
+        String categoriesSQL = null;
+        if(categories != null && categories.length > 0)
+        {
+            categoriesSQL = "(";
+	        for(int i=0; i<calendarIds.length; i++)
+	        {
+	            if(i > 0)
+	                categoriesSQL += ",";
+	            
+	            categoriesSQL += calendarIds[i];
+	        }
+	        categoriesSQL += ")";
+        }
+*/
+        Query q = session.createQuery("from Event event WHERE event.stateId = ? AND event.startDateTime >= ? " + (calendarSQL != null ? "AND event.calendar.id IN " + calendarSQL : "") + " ORDER BY event.startDateTime");
         q.setInteger(0, Event.STATE_PUBLISHED.intValue());
         q.setCalendar(1, java.util.Calendar.getInstance());
         

@@ -48,6 +48,7 @@ import com.opensymphony.xwork.ActionContext;
 public class ViewEventListAction extends CalendarAbstractAction
 {
     private String calendarId;
+    private String categories;
     private Calendar calendar;
 
     private List events;
@@ -59,6 +60,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         String[] calendarIds = calendarId.split(",");
+        //String[] calendarIds = categories.split(",");
         
         //this.calendar = CalendarController.getController().getCalendar(calendarId, this.getSession());
         //this.events = calendar.getPublishedEvents();
@@ -85,13 +87,20 @@ public class ViewEventListAction extends CalendarAbstractAction
     {
         return calendarId;
     }
+    
     public void setCalendarId(String calendarId)
     {
         this.calendarId = calendarId;
     }
+    
     public List getEvents()
     {
         return events;
+    }
+
+    public void setCategories(String categories)
+    {
+        this.categories = categories;
     }
     
     public Integer getNumberOfItems()
