@@ -59,9 +59,11 @@ CREATE TABLE event (
 );
 
 CREATE TABLE event_category (
+  id int NOT NULL,
   event_id int default 0 NOT NULL,
-  category_id int default 0 NOT NULL ,
-  PRIMARY KEY  (event_id,category_id)
+  category_id int default 0 NOT NULL,
+  EVENTTYPE_CATEGORYATTRIBUTE_ID int default 0 NOT NULL,
+  PRIMARY KEY  (id)
 );
 
 CREATE TABLE event_location (
@@ -92,5 +94,29 @@ CREATE TABLE asset (
   event_id int default NULL,
   PRIMARY KEY  (id)
 );
+
+#
+# Structure for table eventtype : 
+#
+
+CREATE TABLE eventtype (
+  id int NOT NULL,
+  name varchar(255) default NULL,
+  description varchar(255) default NULL,
+  PRIMARY KEY  (id)
+);
+
+#
+# Structure for table eventtype_category : 
+#
+
+CREATE TABLE eventtype_category (
+  id int NOT NULL,
+  name varchar(255) default NULL,
+  eventtype_id int NOT NULL,
+  category_id int NOT NULL,
+  PRIMARY KEY (id)
+);
+
 
 create sequence hibernate_sequence;

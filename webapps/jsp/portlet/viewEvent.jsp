@@ -192,7 +192,6 @@
 				<portlet:param name="eventId" value="{eventId}"/>
 			</portlet:renderURL>
 			
-			URL: <c:out value="${hostName}"/> <c:out value="${publishEventUrl}"/>
 			<portlet:actionURL var="submitForPublishEventActionUrl">
 				<calendar:evalParam name="action" value="UpdateEvent!submitForPublishEvent"/>
 				<calendar:evalParam name="eventId" value="${eventId}"/>

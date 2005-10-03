@@ -1,19 +1,10 @@
-<html>
-<head>
-	<title>Event created - awaiting publishing</a>
-</head>
-<body style="font-family: verdana, arial, sans-serif; font-size: 10px;">
-
-<h2>New event created</h2>
-<p>
-	InfoGlue Calendar Notification: A new event called "$event.getName()" was created but yet not published. <br>
-	<br>
-	You can go to the application and publish it by clicking <a href="$publishEventUrl">here</a><br>
-	<br>
-	<hr>
-	This email was automatically generated and the sender is the Calendar-system.<br>
-	Do not reply to this email. <br>
-</p>
-
-</body>
-</html>
+<div><h2>New event created</h2></div>
+<div>
+	InfoGlue Calendar Notification: A new event called "$event.getName()" was created but yet not published. <br/>
+	<br/>
+	You can go to the application and publish it by clicking <a href="$publishEventUrl">here</a><br/>
+	<br/>
+	<hr/>
+	This email was automatically generated and the sender is the Calendar-system.<br/>
+	Do not reply to this email. <br/>
+</div>

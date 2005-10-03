@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
-<c:set var="activeNavItem" value="Categories" scope="page"/>
+<c:set var="activeNavItem" value="Home" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
 

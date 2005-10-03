@@ -23,6 +23,13 @@ CREATE TABLE `calendar` (
   UNIQUE KEY `name` (`name`)
 ) TYPE=MyISAM;
 
+CREATE TABLE `calendar_group` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `calendar_id` bigint(20) unsigned NOT NULL default '0',
+  `roleName` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
+
 #
 # Structure for table category : 
 #
