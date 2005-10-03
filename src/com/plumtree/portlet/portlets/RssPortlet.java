@@ -127,10 +127,10 @@ public class RssPortlet
     String errorMessage = null;
 
     System.out.println("request:" + request);
-    Enumeration enum = request.getParameterNames();
-    while(enum.hasMoreElements())
+    Enumeration enumeration = request.getParameterNames();
+    while(enumeration.hasMoreElements())
     {
-        String name = (String)enum.nextElement();
+        String name = (String)enumeration.nextElement();
         String value = request.getParameter(name);
         System.out.println(name + "=" + value);
     }
@@ -331,10 +331,10 @@ public class RssPortlet
     try
     {
         System.out.println("request:" + request);
-        Enumeration enum = request.getParameterNames();
-        while(enum.hasMoreElements())
+        Enumeration enumeration = request.getParameterNames();
+        while(enumeration.hasMoreElements())
         {
-            String name = (String)enum.nextElement();
+            String name = (String)enumeration.nextElement();
             String value = request.getParameter(name);
             System.out.println(name + "=" + value);
         }
