@@ -19,11 +19,6 @@
 		<portlet:param name="action" value="DeleteEvent"/>
 	</portlet:actionURL>
 
-	<portlet:renderURL var="publishEventUrl">
-		<portlet:param name="action" value="ViewEvent"/>
-		<portlet:param name="eventId" value="{eventId}"/>
-	</portlet:renderURL>
-
 	<portlet:renderURL var="viewCalendarUrl">
 		<portlet:param name="action" value="ViewCalendar"/>
 		<portlet:param name="calendarId" value="{event.calendarId}"/>
@@ -171,14 +166,16 @@
 		
 		<input onclick="document.deleteLinkForm.submit();" type="button" value="Delete" class="button"></a>
 
+		<%
+		Object requestObject = request.getAttribute("javax.portlet.request");
+		javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
+		String hostName = (String)renderRequestIG.getProperty("host");
+		System.out.println("hostName:" + hostName);
+		pageContext.setAttribute("hostName", hostName);
+		%>		
+		
 		<ww:if test="event.stateId == 2">
-		
-			<%
-			Object requestObject = request.getAttribute("javax.portlet.request");
-			javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
-			String hostName = (String)renderRequestIG.getProperty("host");
-			%>		
-		
+						
 			<portlet:actionURL var="publishEventActionUrl">
 				<calendar:evalParam name="action" value="UpdateEvent!publishEvent"/>
 				<calendar:evalParam name="eventId" value="${eventId}"/>
@@ -190,11 +187,18 @@
 		</ww:if>
 
 		<ww:if test="event.stateId == 0">
+			<portlet:renderURL var="publishEventUrl">
+				<portlet:param name="action" value="ViewEvent"/>
+				<portlet:param name="eventId" value="{eventId}"/>
+			</portlet:renderURL>
+			
+			URL: <c:out value="${hostName}"/> <c:out value="${publishEventUrl}"/>
 			<portlet:actionURL var="submitForPublishEventActionUrl">
 				<calendar:evalParam name="action" value="UpdateEvent!submitForPublishEvent"/>
 				<calendar:evalParam name="eventId" value="${eventId}"/>
 				<calendar:evalParam name="calendarId" value="${calendarId}"/>
 				<calendar:evalParam name="mode" value="${mode}"/>
+				<calendar:evalParam name="publishEventUrl" value="http://${hostName}${publishEventUrl}"/>
 			</portlet:actionURL>
 			<input onclick="document.location.href='<c:out value="${submitForPublishEventActionUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.submitForPublishEvent')"/>" class="button"/>
 		</ww:if>

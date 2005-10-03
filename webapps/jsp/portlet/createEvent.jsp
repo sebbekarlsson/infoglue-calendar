@@ -15,11 +15,6 @@
 		<portlet:param name="action" value="CreateEvent"/>
 	</portlet:actionURL>
 
-	<portlet:renderURL var="publishEventUrl">
-		<portlet:param name="action" value="ViewEvent"/>
-		<portlet:param name="eventId" value="{eventId}"/>
-	</portlet:renderURL>
-
 	<form name="inputForm" method="POST" action="<c:out value="${createEventUrl}"/>">
 		<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
