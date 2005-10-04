@@ -2,7 +2,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.event.attachFile')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.event.attachFile')"/></div>
 
 <%@ include file="functionMenu.jsp" %>
 

@@ -46,7 +46,7 @@
 	
 </script>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/></div>
 
 <%@ include file="functionMenu.jsp" %>
 

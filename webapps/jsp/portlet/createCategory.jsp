@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.category.createNewCategory')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.category.createNewCategory')"/></div>
 
 <%@ include file="functionMenu.jsp" %>
 

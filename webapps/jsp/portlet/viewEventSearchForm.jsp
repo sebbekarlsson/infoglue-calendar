@@ -1,12 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
-<c:set var="activeNavItem" value="EventSearch" scope="page"/>
+<c:set var="activeNavItem" value="Events" scope="page"/>
+<c:set var="activeEventSubNavItem" value="EventSearch" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.event.searchEvents')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.event.searchEvents')"/></div>
 
 <%@ include file="functionMenu.jsp" %>
+
+<%@ include file="eventSubFunctionMenu.jsp" %>
 
 <div class="portlet_margin">
 

@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.location.updateLocation')"/> <ww:property value="location.name"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.location.updateLocation')"/> <ww:property value="location.name"/></div>
 
 <%@ include file="functionMenu.jsp" %>
 

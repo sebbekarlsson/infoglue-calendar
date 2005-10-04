@@ -1,17 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
 <c:set var="activeNavItem" value="Events" scope="page"/>
-<c:set var="activeEventSubNavItem" value="WaitingEvents" scope="page"/>
+<c:set var="activeEventSubNavItem" value="PublishedEvents" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.waitingEvents.subHeader')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.publishedEvents.subHeader')"/></div>
 
 <%@ include file="functionMenu.jsp" %>
-
-<portlet:renderURL var="createEventUrl">
-	<portlet:param name="action" value="ViewCalendarList!choose"/>
-</portlet:renderURL>
 
 <%@ include file="eventSubFunctionMenu.jsp" %>
 

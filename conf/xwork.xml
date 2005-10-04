@@ -14,6 +14,12 @@
 		    		
 		<default-interceptor-ref name="defaultStack"/>
 		
+		<action name="Confirm" class="org.infoglue.calendar.actions.ConfirmAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/confirm.jsp</param>
+			</result>
+		</action>
+		
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarAdministration.jsp</param>
@@ -305,6 +311,12 @@
 		<action name="ViewWaitingEventList" class="org.infoglue.calendar.actions.ViewWaitingEventListAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewWaitingEventList.jsp</param>
+			</result>
+		</action>
+
+		<action name="ViewPublishedEventList" class="org.infoglue.calendar.actions.ViewPublishedEventListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewPublishedEventList.jsp</param>
 			</result>
 		</action>
 

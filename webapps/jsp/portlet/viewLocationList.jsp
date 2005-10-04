@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.location.subHeader')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.location.subHeader')"/></div>
 
 <%@ include file="functionMenu.jsp" %>
 
@@ -25,6 +25,7 @@
 <ww:iterator value="locations" status="rowstatus">
 
 	<ww:set name="locationId" value="id" scope="page"/>
+	<ww:set name="name" value="name" scope="page"/>
 	<portlet:renderURL var="locationUrl">
 		<portlet:param name="action" value="ViewLocation"/>
 		<portlet:param name="locationId" value="<%= pageContext.getAttribute("locationId").toString() %>"/>
@@ -34,6 +35,18 @@
 		<portlet:param name="action" value="DeleteLocation"/>
 		<portlet:param name="locationId" value="<%= pageContext.getAttribute("locationId").toString() %>"/>
 	</portlet:actionURL>
+
+	<portlet:renderURL var="viewLocationListUrl">
+		<portlet:param name="action" value="ViewLocationList"/>
+	</portlet:renderURL>
+
+	<portlet:renderURL var="confirmUrl">
+		<portlet:param name="action" value="Confirm"/>
+		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
+		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteLocationUrl").toString(), "utf-8") %>"/>
+		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewLocationListUrl").toString(), "utf-8") %>"/>
+	</portlet:renderURL>
 
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
@@ -49,7 +62,7 @@
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${deleteLocationUrl}"/>" title="Radera KalenderNamn" class="delete"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera KalenderNamn" class="delete"></a>
        	   	<a href="<c:out value="${locationUrl}"/>" title="Redigera KalenderNamn" class="edit"></a>
        	</div>
        	<div class="clear"></div>

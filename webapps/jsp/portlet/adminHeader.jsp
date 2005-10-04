@@ -9,7 +9,7 @@
 <html lang="sv">
 
 	<head>
-		<title>Admin</title>
+		<title><ww:property value="this.getLabel('labels.internal.applicationTitle')"/></title>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<style type="text/css" media="screen">@import url(http://gu4.modul1.tripnet.se:8081/infoglueDeliverWorking/ViewPage.action?siteNodeId=101891&amp;languageId=100000&amp;contentId=-1);</style>
 
@@ -46,5 +46,3 @@
 <body aonload="resize();">
 
 <div class="calApp">
-
-<div class="portlet">

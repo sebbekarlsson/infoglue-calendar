@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.eventType.updateEventType')"/>  <ww:property value="eventType.name"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.eventType.updateEventType')"/>  <ww:property value="eventType.name"/></div>
 
 <%@ include file="functionMenu.jsp" %>
 

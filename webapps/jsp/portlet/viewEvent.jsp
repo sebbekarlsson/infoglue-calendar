@@ -9,7 +9,7 @@
 <ww:set name="calendarId" value="calendarId" scope="page"/>
 <ww:set name="mode" value="mode" scope="page"/>
 
-<div class="head"><ww:property value="event.name"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="event.name"/></div>
 
 <%@ include file="functionMenu.jsp" %>
 

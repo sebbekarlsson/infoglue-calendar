@@ -1,20 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
-<c:set var="activeNavItem" value="MyWorkingEvents" scope="page"/>
+<c:set var="activeNavItem" value="Events" scope="page"/>
+<c:set var="activeEventSubNavItem" value="MyWorkingEvents" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.myWorkingEvents.subHeader')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.myWorkingEvents.subHeader')"/></div>
 
 <%@ include file="functionMenu.jsp" %>
 
-<portlet:renderURL var="createEventUrl">
-	<portlet:param name="action" value="ViewCalendarList!choose"/>
-</portlet:renderURL>
-
-<div class="subfunctionarea">
-	<a href="<c:out value="${createEventUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.event.addEvent')"/></a>
-</div>
+<%@ include file="eventSubFunctionMenu.jsp" %>
 
 <div class="columnlabelarea">
 	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.event.name')"/></p></div>

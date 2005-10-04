@@ -654,7 +654,26 @@ public class EventController extends BasicController
         
         return result;
     }
+
+    /**
+     * Gets a list of all events available for a particular user which are in working mode.
+     * @return List of Event
+     * @throws Exception
+     */
     
+    public List getPublishedEventList(String userName, Session session) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Event event where event.calendar.owner = ? AND event.stateId = ? order by event.id");
+        q.setString(0, userName);
+        q.setInteger(1, Event.STATE_PUBLISHED.intValue());
+        
+        result = q.list();
+        
+        return result;
+    }
+
     /**
      * This method returns a list of Events based on a number of parameters
      * @return List

@@ -42,12 +42,12 @@
         	<many-to-many class="org.infoglue.calendar.entities.Location" column="location_id" outer-join="auto" />
         </set>
 
-        <set name="participants" lazy="false" inverse="false" cascade="all-delete-orphan" sort="unsorted">
+        <set name="participants" lazy="false" inverse="false" cascade="none" sort="unsorted">
             <key column="event_id"></key>
             <one-to-many class="org.infoglue.calendar.entities.Participant"/>
         </set>
 
-        <set name="resources" lazy="false" inverse="false" cascade="all-delete-orphan" sort="unsorted">
+        <set name="resources" lazy="false" inverse="false" cascade="none" sort="unsorted">
         	<key column="event_id"></key>
             <one-to-many class="org.infoglue.calendar.entities.Resource"/>
         </set>
