@@ -15,8 +15,12 @@
 
 <div id="inputDiv">
 	
-	<portlet:actionURL var="deleteEventUrl">
+	<ww:set name="eventId" value="event.id" scope="page"/>
+	<ww:set name="name" value="event.name" scope="page"/>
+	
+	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEvent"/>
+		<calendar:evalParam name="eventId" value="${eventId}"/>
 	</portlet:actionURL>
 
 	<portlet:renderURL var="viewCalendarUrl">
@@ -24,7 +28,27 @@
 		<portlet:param name="calendarId" value="{event.calendarId}"/>
 	</portlet:renderURL>
 
-	<form name="deleteLinkForm" method="POST" action="<c:out value="${deleteEventUrl}"/>">
+	<portlet:renderURL var="viewListUrl">
+		<portlet:param name="action" value="ViewEvent"/>
+		<calendar:evalParam name="eventId" value="${eventId}"/>
+	</portlet:renderURL>
+
+	<portlet:renderURL var="confirmUrl">
+		<portlet:param name="action" value="Confirm"/>
+		<%--
+		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
+		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
+		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+		--%>
+	</portlet:renderURL>
+
+	<form name="deleteLinkForm" method="POST" action="<c:out value="${confirmUrl}"/>">
+		<input type="hidden" name="confirmTitle" value="Radera - bekräfta"/>
+		<input type="hidden" name="confirmMessage" value="Är du säker på att du vill radera &quot;<c:out value="${name}"/>&quot;"/>
+		<input type="hidden" name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
+		<input type="hidden" name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+
 		<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
 		<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>

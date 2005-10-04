@@ -137,6 +137,7 @@
 
 <ww:iterator value="entries" status="rowstatus">
 	<ww:set name="entryId" value="id" scope="page"/>
+	<ww:set name="name" value="name" scope="page"/>
 	<ww:set name="searchEventId" value="searchEventId" scope="page"/>
 	<ww:set name="searchFirstName" value="searchFirstName" scope="page"/>
 	<ww:set name="searchLastName" value="searchLastName" scope="page"/>
@@ -150,7 +151,7 @@
 		</c:if>
 	</portlet:renderURL>
 
-	<portlet:actionURL var="deleteEntryUrl">
+	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEntry"/>
 		<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
 		<c:if test="${searchEventId != null}">
@@ -167,6 +168,30 @@
 		</c:if>
 	</portlet:actionURL>
 
+	<portlet:actionURL var="viewListUrl">
+		<portlet:param name="action" value="ViewEntrySearch"/>
+		<c:if test="${searchEventId != null}">
+			<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
+		</c:if>
+		<c:if test="${searchFirstName != null}">
+			<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
+		</c:if>
+		<c:if test="${searchLastName != null}">
+			<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
+		</c:if>
+		<c:if test="${searchEmail != null}">
+			<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+		</c:if>
+	</portlet:actionURL>
+
+	<portlet:renderURL var="confirmUrl">
+		<portlet:param name="action" value="Confirm"/>
+		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
+		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
+		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+	</portlet:renderURL>
+
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
     </ww:if>
@@ -181,7 +206,7 @@
 	   		<p><ww:property value="top.event.name"/></p>
 	   	</div>
 	   	<div class="columnEnd">
-	   		<a href="<c:out value="${deleteEntryUrl}"/>" title="Radera anmälan" class="delete"></a>
+	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera anmälan" class="delete"></a>
 	   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera anmälan" class="edit"></a>
 	   	</div>
 	   	<div class="clear"></div>

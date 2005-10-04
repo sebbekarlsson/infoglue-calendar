@@ -20,15 +20,28 @@
 <ww:iterator value="events" status="rowstatus">
 
 	<ww:set name="eventId" value="id" scope="page"/>
+	<ww:set name="name" value="name" scope="page"/>
 	<portlet:renderURL var="eventUrl">
 		<portlet:param name="action" value="ViewEvent"/>
 		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 	</portlet:renderURL>
 	
-	<portlet:actionURL var="deleteEventUrl">
-		<portlet:param name="action" value="DeleteEvent"/>
+	<portlet:actionURL var="deleteUrl">
+		<portlet:param name="action" value="DeleteEvent!working"/>
 		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 	</portlet:actionURL>
+	
+	<portlet:renderURL var="viewListUrl">
+		<portlet:param name="action" value="ViewMyWorkingEventList"/>
+	</portlet:renderURL>
+
+	<portlet:renderURL var="confirmUrl">
+		<portlet:param name="action" value="Confirm"/>
+		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
+		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
+		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+	</portlet:renderURL>
 	
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
@@ -44,7 +57,7 @@
 	   		<p><ww:property value="description"/></p>
 	   	</div>
 	   	<div class="columnEnd">
-	   		<a href="<c:out value="${deleteEventUrl}"/>" title="Radera Evenemang" class="delete"></a>
+	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera Evenemang" class="delete"></a>
 	   	   	<a href="<c:out value="${eventUrl}"/>" title="Redigera Evenemang" class="edit"></a>
 	   	</div>
 	   	<div class="clear"></div>

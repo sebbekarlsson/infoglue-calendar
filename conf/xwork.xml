@@ -282,7 +282,19 @@
 		</action>
 		<action name="DeleteEvent" class="org.infoglue.calendar.actions.DeleteEventAction">
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewCalendar.action?calendarId=${calendarId}&amp;mode=${mode}&amp;startDateTime=${startDateTime}&amp;endDateTime=${endDateTime}</param>
+				<param name="viewAction">ViewWaitingEventList.action</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="successPublished" type="eventProcessed">
+				<param name="viewAction">ViewPublishedEventList.action</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="successWorking" type="eventProcessed">
+				<param name="viewAction">ViewMyWorkingEventList.action</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="successSearch" type="eventProcessed">
+				<param name="viewAction">ViewEventSearch.action</param>
 				<param name="parse">true</param>
 			</result>
 		</action>

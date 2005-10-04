@@ -8,5 +8,7 @@
 
 </div><!-- newsApp end -->
 
+</div><!-- portlet end -->
+
 </body>
 </html>

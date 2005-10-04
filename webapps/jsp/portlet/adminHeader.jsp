@@ -46,3 +46,5 @@
 <body aonload="resize();">
 
 <div class="calApp">
+
+<div class="portlet">

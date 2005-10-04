@@ -59,8 +59,28 @@ public class DeleteEventAction extends CalendarAbstractAction
         
         return Action.SUCCESS;
     } 
-    
-    
+
+    public String published() throws Exception 
+    {
+        execute();
+        
+        return "successPublished";
+    } 
+
+    public String working() throws Exception 
+    {
+        execute();
+        
+        return "successWorking";
+    } 
+
+    public String search() throws Exception 
+    {
+        execute();
+        
+        return "successSearch";
+    } 
+
     public Long getEventId()
     {
         return eventId;

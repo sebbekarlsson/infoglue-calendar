@@ -25,15 +25,29 @@
 <ww:iterator value="eventTypes" status="rowstatus">
 
 	<ww:set name="eventTypeId" value="id" scope="page"/>
+	<ww:set name="name" value="name" scope="page"/>
+	
 	<portlet:renderURL var="eventTypeUrl">
 		<portlet:param name="action" value="ViewEventType"/>
 		<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
 	</portlet:renderURL>
 	
-	<portlet:actionURL var="deleteEventTypeUrl">
+	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEventType"/>
 		<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
 	</portlet:actionURL>
+
+	<portlet:renderURL var="viewListUrl">
+		<portlet:param name="action" value="ViewEventTypeList"/>
+	</portlet:renderURL>
+
+	<portlet:renderURL var="confirmUrl">
+		<portlet:param name="action" value="Confirm"/>
+		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
+		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
+		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+	</portlet:renderURL>
 
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
@@ -49,7 +63,7 @@
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${deleteEventTypeUrl}"/>" title="Radera Eventtyp" class="delete"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera Eventtyp" class="delete"></a>
        	   	<a href="<c:out value="${eventTypeUrl}"/>" title="Redigera Eventtyp" class="edit"></a>
        	</div>
        	<div class="clear"></div>

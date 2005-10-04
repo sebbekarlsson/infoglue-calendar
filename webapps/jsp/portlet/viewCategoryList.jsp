@@ -25,15 +25,28 @@
 <ww:iterator value="categories" status="rowstatus">
 
 	<ww:set name="categoryId" value="id" scope="page"/>
+	<ww:set name="name" value="name" scope="page"/>
 	<portlet:renderURL var="categoryUrl">
 		<portlet:param name="action" value="ViewCategory"/>
 		<portlet:param name="categoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
 	</portlet:renderURL>
 	
-	<portlet:actionURL var="deleteCategoryUrl">
+	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteCategory"/>
 		<portlet:param name="deleteCategoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
 	</portlet:actionURL>
+	
+	<portlet:renderURL var="viewListUrl">
+		<portlet:param name="action" value="ViewCategoryList"/>
+	</portlet:renderURL>
+
+	<portlet:renderURL var="confirmUrl">
+		<portlet:param name="action" value="Confirm"/>
+		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
+		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
+		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+	</portlet:renderURL>
 	
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
@@ -49,7 +62,7 @@
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${deleteCategoryUrl}"/>" title="Radera Kategori" class="delete"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera Kategori" class="delete"></a>
        	   	<a href="<c:out value="${categoryUrl}"/>" title="Redigera Kategori" class="edit"></a>
        	</div>
        	<div class="clear"></div>

@@ -46,17 +46,31 @@
 <ww:iterator value="eventType.categoryAttributes" status="rowstatus">
 		
 	<ww:set name="eventTypeCategoryAttributeId" value="id" scope="page"/>
+	<ww:set name="name" value="name" scope="page"/>
 	<ww:set name="eventTypeId" value="eventTypeId" scope="page"/>
 	<portlet:renderURL var="attributeCategoryUrl">
 		<portlet:param name="action" value="ViewEventTypeCategoryAttribute"/>
 		<portlet:param name="eventTypeCategoryAttributeId" value="<%= pageContext.getAttribute("eventTypeCategoryAttributeId").toString() %>"/>
 	</portlet:renderURL>
 	
-	<portlet:actionURL var="deleteAttributeCategoryUrl">
+	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEventTypeCategoryAttribute"/>
 		<portlet:param name="eventTypeCategoryAttributeId" value="<%= pageContext.getAttribute("eventTypeCategoryAttributeId").toString() %>"/>
 		<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
 	</portlet:actionURL>
+	
+	<portlet:renderURL var="viewListUrl">
+		<portlet:param name="action" value="ViewEventType"/>
+		<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
+	</portlet:renderURL>
+
+	<portlet:renderURL var="confirmUrl">
+		<portlet:param name="action" value="Confirm"/>
+		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
+		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
+		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+	</portlet:renderURL>
 	
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
@@ -72,7 +86,7 @@
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${deleteAttributeCategoryUrl}"/>" title="Radera kategori" class="delete"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera kategori" class="delete"></a>
        	   	<a href="<c:out value="${attributeCategoryUrl}"/>" title="Redigera kategori" class="edit"></a>
        	</div>
        	<div class="clear"></div>
