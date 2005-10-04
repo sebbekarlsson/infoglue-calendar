@@ -100,14 +100,14 @@ public class JNDIBasicAuthorizationModule implements AuthorizationModule
 		final boolean isAdministrator = userName.equalsIgnoreCase(administratorUserName) ? true : false;
 		if(isAdministrator)
 		{
-			infogluePrincipal = new InfoGluePrincipal(userName, "System", "Administrator", administratorEmail, new ArrayList(), isAdministrator);
+			infogluePrincipal = new InfoGluePrincipal(userName, "System", "Administrator", administratorEmail, new ArrayList(), new ArrayList(), isAdministrator);
 		}
 		else
 		{	
 			Map userAttributes = getUserAttributes(userName);
 			List roles = getRoles(userName);
-			
-			infogluePrincipal = new InfoGluePrincipal(userName, (String)userAttributes.get("firstName"), (String)userAttributes.get("lastName"), (String)userAttributes.get("mail"), roles, isAdministrator);
+			//TODO - Groups
+			infogluePrincipal = new InfoGluePrincipal(userName, (String)userAttributes.get("firstName"), (String)userAttributes.get("lastName"), (String)userAttributes.get("mail"), roles, new ArrayList(), isAdministrator);
 		}
 		
 		return infogluePrincipal;
@@ -597,8 +597,8 @@ public class JNDIBasicAuthorizationModule implements AuthorizationModule
 					    roles.add(infoGlueRole);
 					}
 				}
-				
-				InfoGluePrincipal infoGluePrincipal = new InfoGluePrincipal(userNameAttribute.get().toString(), userFirstNameAttribute.get().toString(), userLastNameAttribute.get().toString(), userMailAttribute.get().toString(), roles, false);
+				//TODO
+				InfoGluePrincipal infoGluePrincipal = new InfoGluePrincipal(userNameAttribute.get().toString(), userFirstNameAttribute.get().toString(), userLastNameAttribute.get().toString(), userMailAttribute.get().toString(), roles, new ArrayList(), false);
 				users.add(infoGluePrincipal);
 				
 			} 
@@ -714,8 +714,8 @@ public class JNDIBasicAuthorizationModule implements AuthorizationModule
 							{
 							    userName = userName.substring(userName.indexOf(userNameAttribute) + userNameAttribute.length() + 1);
 							}
-							
-							InfoGluePrincipal infoGluePrincipal = new InfoGluePrincipal(userName, "", "", "", new ArrayList(), false);
+							//TODO
+							InfoGluePrincipal infoGluePrincipal = new InfoGluePrincipal(userName, "", "", "", new ArrayList(), new ArrayList(), false);
 						    users.add(infoGluePrincipal);
 						}
 						

@@ -121,11 +121,12 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 		final boolean isAdministrator = (userName != null && userName.equalsIgnoreCase(administratorUserName)) ? true : false;
 		if(isAdministrator)
 		{
-			infogluePrincipal = new InfoGluePrincipal(userName, "System", "Administrator", administratorEmail, new ArrayList(), isAdministrator);
+			infogluePrincipal = new InfoGluePrincipal(userName, "System", "Administrator", administratorEmail, new ArrayList(), new ArrayList(), isAdministrator);
 		}
 		else
 		{	
 			List roles = new ArrayList();
+			List groups = new ArrayList();
 			
 			Connection conn = getConnection();
 	        
@@ -149,7 +150,21 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 				}
 				rsRole.close();
 				
-			    infogluePrincipal = new InfoGluePrincipal(userName, rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"), roles, isAdministrator);
+
+			    sql = "SELECT * FROM cmSystemUser, cmSystemUserGroup, cmGroup WHERE cmSystemUser.userName = cmSystemUserGroup.userName AND cmGroup.roleName = cmSystemUserGroup.roleName AND cmSystemUser.userName = ?";
+			    PreparedStatement stmtGroup = conn.prepareStatement(sql);
+				stmtGroup.setString(1, userName);
+				
+				ResultSet rsGroup = stmtGroup.executeQuery();
+				while(rsGroup.next())
+				{
+				    InfoGlueGroup infoGlueGroup = new InfoGlueGroup(rsGroup.getString("groupName"), rsGroup.getString("description"));
+					groups.add(infoGlueGroup);
+					log.debug("groupName:" + rsGroup.getString("groupName"));
+				}
+				rsGroup.close();
+
+			    infogluePrincipal = new InfoGluePrincipal(userName, rs.getString("firstName"), rs.getString("lastName"), rs.getString("email"), roles, groups, isAdministrator);
 				
 			    log.debug("userName:" + userName);
 			}
@@ -233,6 +248,7 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 	public List getUsers() throws Exception
 	{
 		List users = new ArrayList();
+		List groups = new ArrayList();
 		
 		Connection conn = getConnection();
         
@@ -260,8 +276,20 @@ public class InfoGlueBasicAuthorizationModule implements AuthorizationModule
 				roles.add(infoGlueRole);
 				log.debug("roleName:" + rsRoles.getString("roleName"));
 			}
+
+		    String sqlGroups = "SELECT * FROM cmSystemUser, cmSystemUserGroup, cmGroup WHERE cmSystemUser.userName = cmSystemUserGroup.userName AND cmGroup.groupName = cmSystemUserGroup.groupName AND cmSystemUser.userName = ?";
+		    PreparedStatement stmtGroups = conn.prepareStatement(sqlGroups);
+		    stmtGroups.setString(1, userName);
 			
-			InfoGluePrincipal infogluePrincipal = new InfoGluePrincipal(userName, firstName, lastName, email, roles, false);
+		    ResultSet rsGroups = stmtGroups.executeQuery();
+			while(rsGroups.next())
+			{
+			    InfoGlueGroup infoGlueGroup = new InfoGlueGroup(rsGroups.getString("groupName"), rsGroups.getString("description"));
+				groups.add(infoGlueGroup);
+				log.debug("groupName:" + rsGroups.getString("groupName"));
+			}
+
+			InfoGluePrincipal infogluePrincipal = new InfoGluePrincipal(userName, firstName, lastName, email, roles, groups, false);
 			
 		    log.debug("userName:" + infogluePrincipal.getName());
 		

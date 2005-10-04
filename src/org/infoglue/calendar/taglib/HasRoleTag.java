@@ -20,39 +20,60 @@
 *
 * ===============================================================================
 */
+package org.infoglue.calendar.taglib;
 
-package org.infoglue.calendar.actions;
-
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import javax.portlet.PortletURL;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspTagException;
 
-import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.common.util.DBSessionWrapper;
+import com.opensymphony.webwork.ServletActionContext;
 
-import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
 
 /**
- * This action represents a Calendar Administration screen.
  * 
- * @author Mattias Bogeblad
  */
-
-public class ViewCalendarAdministrationAction extends CalendarAbstractAction
+public class HasRoleTag extends AbstractTag 
 {
-   
-    /**
-     * This is the entry point for the main listing.
-     */
-    
-    public String execute() throws Exception 
+
+	private static final long serialVersionUID = 3617579309963752240L;
+
+	private List roles;
+	private String roleName;
+	
+	/**
+	 * 
+	 */
+	public HasRoleTag() 
+	{
+		super();
+	}
+	
+	public int doEndTag() throws JspException
     {
-        List calendars = CalendarController.getController().getCalendarList(getSession());
-        
-        return Action.SUCCESS;
-    } 
+		roles = (List)pageContext.getRequest().getAttribute("infoglueRemoteUserRoles");
 
+	    boolean isFound = false;
+	    Iterator i = roles.iterator();
+	    while(i.hasNext())
+	    {
+	        String role = (String)i.next();
+	        if(role.equalsIgnoreCase(roleName))
+	        {
+	            isFound = true;
+	            break;
+	        }
+	    }
+	    
+	    setResultAttribute(new Boolean(isFound));
+	    
+        return EVAL_PAGE;
+    }
 
+    public void setRoleName(final String roleName) throws JspException
+    {
+        this.roleName = roleName;
+    }
 }

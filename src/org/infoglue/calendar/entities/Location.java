@@ -22,6 +22,8 @@
 */
 package org.infoglue.calendar.entities;
 
+import java.util.Set;
+
 /**
  * This class represents a location where events can take place.
  * 
@@ -35,7 +37,8 @@ public class Location implements BaseEntity
     private Long id;
     private String name;
     private String description;
-    
+    private Set events;
+
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
      * 
@@ -80,4 +83,14 @@ public class Location implements BaseEntity
 	{
 		this.description = description;
 	}
+	
+    public Set getEvents()
+    {
+        return events;
+    }
+    
+    public void setEvents(Set events)
+    {
+        this.events = events;
+    }
 }

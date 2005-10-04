@@ -159,6 +159,7 @@ public class LocationController extends BasicController
     public void deleteLocation(Long id, Session session) throws Exception 
     {
         Location location = this.getLocation(id, session);
+        
         session.delete(location);
     }
     

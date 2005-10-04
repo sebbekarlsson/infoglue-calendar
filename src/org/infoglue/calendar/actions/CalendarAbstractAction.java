@@ -24,17 +24,15 @@
 package org.infoglue.calendar.actions;
 
 import java.io.File;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import javax.portlet.PortletResponse;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,8 +44,6 @@ import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Participant;
-import org.infoglue.calendar.taglib.AbstractCalendarTag;
-import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.ResourceBundleHelper;
@@ -109,6 +105,11 @@ public class CalendarAbstractAction extends ActionSupport
     public String getInfoGlueRemoteUser()
     {
         return (String)ServletActionContext.getRequest().getAttribute("infoglueRemoteUser");
+    }
+
+    public List getInfoGlueRemoteUserRoles()
+    {
+        return (List)ServletActionContext.getRequest().getAttribute("infoglueRemoteUserRoles");
     }
 
     public String formatDate(Date date, String pattern, Locale locale)
