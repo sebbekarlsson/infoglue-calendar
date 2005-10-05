@@ -138,22 +138,33 @@
 <ww:iterator value="entries" status="rowstatus">
 	<ww:set name="entryId" value="id" scope="page"/>
 	<ww:set name="name" value="name" scope="page"/>
-	<ww:set name="searchEventId" value="searchEventId" scope="page"/>
-	<ww:set name="searchFirstName" value="searchFirstName" scope="page"/>
-	<ww:set name="searchLastName" value="searchLastName" scope="page"/>
-	<ww:set name="searchEmail" value="searchEmail" scope="page"/>
-
+	<ww:if test="searchEventId != null">
+		<ww:set name="searchEventId" value="searchEventId" scope="page"/>
+	</ww:if>
+	<ww:if test="searchFirstName != null">
+		<ww:set name="searchFirstName" value="searchFirstName" scope="page"/>
+	</ww:if>
+	<ww:if test="searchLastName != null">
+		<ww:set name="searchLastName" value="searchLastName" scope="page"/>
+	</ww:if>
+	<ww:if test="searchEmail != null">
+		<ww:set name="searchEmail" value="searchEmail" scope="page"/>
+	</ww:if>
 	<portlet:renderURL var="viewEntryRenderURL">
 		<portlet:param name="action" value="ViewEntry"/>
-		<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+		<c:if test="${entryId != null}">
+			<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+		</c:if>
 		<c:if test="${searchEventId != null}">
 			<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
-		</c:if>
+		</c:if>		
 	</portlet:renderURL>
 
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEntry"/>
-		<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+		<c:if test="${entryId != null}">
+			<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+		</c:if>
 		<c:if test="${searchEventId != null}">
 			<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
 		</c:if>
