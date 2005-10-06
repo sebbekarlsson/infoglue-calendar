@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.event.eventSubmitted')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.event.eventSubmitted')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
@@ -14,7 +14,7 @@
 
 <div class="portlet_margin">
 	<p>
-		<ww:property value="this.getLabel('labels.internal.event.eventSubmittedText')"/>
+		<ww:property value="this.getLabel('labels.internal.event.eventPublishedText')"/>
 		<br>
 		<a href="<c:out value="${homeActionUrl}"/>"><ww:property value="this.getLabel('labels.internal.event.eventSubmittedHome')"/></a>	
 	</p>

@@ -4,11 +4,12 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.eventTypeCategoryAttribute.updateEventTypeCategoryAttribute')"/> <ww:property value="eventType.name"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.eventTypeCategoryAttribute.updateEventTypeCategoryAttribute')"/> <ww:property value="eventType.name"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
-<div>
+<div class="portlet_margin">
+
 	<portlet:actionURL var="updateEventTypeCategoryAttributeActionUrl">
 		<portlet:param name="action" value="UpdateEventTypeCategoryAttribute"/>
 	</portlet:actionURL>
@@ -16,15 +17,11 @@
 	<form name="inputForm" method="POST" action="<c:out value="${updateEventTypeCategoryAttributeActionUrl}"/>">
 		<input type="hidden" name="eventTypeCategoryAttributeId" value="<ww:property value="eventTypeCategoryAttribute.id"/>">
 		
-		<p>
-			<calendar:textField label="labels.internal.category.name" name="name" value="eventTypeCategoryAttribute.name" cssClass="longtextfield"/>
-		</p>
-		<p>
-			<calendar:selectField label="labels.internal.eventTypeCategoryAttribute.BaseCategory" name="categoryId" multiple="false" value="categories" selectedValue="eventTypeCategoryAttribute.category.id" cssClass="listBox"/>
-		</p>
-		<p>
-			<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventType.updateButton')"/>" class="button">
-		</p>
+		<calendar:textField label="labels.internal.category.name" name="name" value="eventTypeCategoryAttribute.name" cssClass="longtextfield"/>
+		<calendar:selectField label="labels.internal.eventTypeCategoryAttribute.BaseCategory" name="categoryId" multiple="false" value="categories" selectedValue="eventTypeCategoryAttribute.category.id" cssClass="listBox"/>
+		<div style="height:10px"></div>
+		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventType.updateButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 </div>
 

@@ -46,7 +46,7 @@
 	
 </script>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
@@ -125,8 +125,11 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
+<span class="right">
 	<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
 	<ww:if test="entries != null && entries.size() > 0"> | <a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
+</span>	
+<div class="clear"></div>
 </div>
 
 <div class="columnlabelarea">

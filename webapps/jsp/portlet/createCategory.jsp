@@ -1,12 +1,24 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
 <c:set var="activeNavItem" value="Categories" scope="page"/>
+<c:set var="activeSubNavItem" value="NewCategory" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.category.createNewCategory')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.category.createNewCategory')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
+
+<portlet:renderURL var="createCategoryUrl">
+	<portlet:param name="action" value="CreateCategory!input"/>
+</portlet:renderURL>
+
+<div class="subfunctionarea">
+<span class="right">
+	<a href="<c:out value="${createCategoryUrl}"/>" <c:if test="${activeSubNavItem == 'NewCategory'}">class="current"</c:if> title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.category.addCategory')"/></a>
+</span>	
+<div class="clear"></div>
+</div>
 
 <div class="portlet_margin">
 	<portlet:actionURL var="createCategoryActionUrl">
@@ -20,6 +32,7 @@
 		<calendar:textField label="labels.internal.category.description" name="description" value="category.description" cssClass="longtextfield"/>
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.category.createButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 </div>
 

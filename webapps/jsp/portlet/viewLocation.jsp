@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.location.updateLocation')"/> <ww:property value="location.name"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.location.updateLocation')"/> <ww:property value="location.name"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
@@ -21,6 +21,7 @@
 		<calendar:textField label="labels.internal.category.description" name="description" value="location.description" cssClass="longtextfield"/>
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.location.updateButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 </div>
 

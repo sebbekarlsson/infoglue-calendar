@@ -9,7 +9,7 @@
 <ww:set name="calendarId" value="calendarId" scope="page"/>
 <ww:set name="mode" value="mode" scope="page"/>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="event.name"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="event.name"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
@@ -186,9 +186,9 @@
 
   		<input onclick="document.location.href='<c:out value="${uploadFormURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.attachFile')"/>" class="button">
 	
-		<input onclick="document.location.href='<c:out value="${editEventRenderURL}"/>';" type="button" value="Edit" class="button">
+		<input onclick="document.location.href='<c:out value="${editEventRenderURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.editButton')"/>" class="button">
 		
-		<input onclick="document.deleteLinkForm.submit();" type="button" value="Delete" class="button"></a>
+		<input onclick="document.deleteLinkForm.submit();" type="button" value="<ww:property value="this.getLabel('labels.internal.event.deleteButton')"/>" class="button"></a>
 
 		<%
 		Object requestObject = request.getAttribute("javax.portlet.request");

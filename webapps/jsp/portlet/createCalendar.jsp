@@ -1,12 +1,24 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
 <c:set var="activeNavItem" value="Calendars" scope="page"/>
+<c:set var="activeSubNavItem" value="NewCalendar" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.calendar.createNewCalendar')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.calendar.createNewCalendar')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
+
+<portlet:renderURL var="createCalendarUrl">
+	<portlet:param name="action" value="CreateCalendar!input"/>
+</portlet:renderURL>
+
+<div class="subfunctionarea">
+<span class="right">
+	<a href="<c:out value="${createCalendarUrl}"/>" <c:if test="${activeSubNavItem == 'NewCalendar'}">class="current"</c:if> title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.calendar.addCalendar')"/></a>
+</span>	
+<div class="clear"></div>
+</div>
 
 <div class="portlet_margin">
 
@@ -22,6 +34,7 @@
 	    <calendar:selectField label="labels.internal.calendar.eventType" name="eventTypeId" multiple="false" value="eventTypes" selectedValue="calendar.eventType" cssClass="listBox"/>
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.calendar.createButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 </div>
 

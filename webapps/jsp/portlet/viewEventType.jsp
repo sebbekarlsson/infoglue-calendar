@@ -4,9 +4,21 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.eventType.updateEventType')"/>  <ww:property value="eventType.name"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!-- - <ww:property value="this.getLabel('labels.internal.eventType.updateEventType')"/> <ww:property value="eventType.name"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
+
+<portlet:renderURL var="createAttributeCategoryUrl">
+	<portlet:param name="action" value="CreateEventTypeCategoryAttribute!input"/>
+	<calendar:evalParam name="eventTypeId" value="${param.eventTypeId}"/>
+</portlet:renderURL>
+
+<div class="subfunctionarea">
+<span class="right">
+	<a href="<c:out value="${createAttributeCategoryUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.eventType.addAvailableCategory')"/></a>
+</span>	
+<div class="clear"></div>
+</div>
 
 <div class="portlet_margin">
 
@@ -23,17 +35,8 @@
 		<div style="height:10px"></div>
 	
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventType.updateButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
-</div>
-
-
-<portlet:renderURL var="createAttributeCategoryUrl">
-	<portlet:param name="action" value="CreateEventTypeCategoryAttribute!input"/>
-	<calendar:evalParam name="eventTypeId" value="${param.eventTypeId}"/>
-</portlet:renderURL>
-
-<div class="subfunctionarea">
-	<a href="<c:out value="${createAttributeCategoryUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.eventType.addAvailableCategory')"/></a>
 </div>
 
 <div class="columnlabelarea">

@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.location.subHeader')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.location.subHeader')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
@@ -13,7 +13,10 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
+<span class="right">
 	<a href="<c:out value="${createCalendarUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.calendar.addCalendar')"/></a>
+</span>	
+<div class="clear"></div>
 </div>
 
 <div class="columnlabelarea">

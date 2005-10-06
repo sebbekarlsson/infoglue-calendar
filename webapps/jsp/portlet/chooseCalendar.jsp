@@ -5,14 +5,14 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.application.chooseCalendar')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.application.chooseCalendar')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
 <%@ include file="eventSubFunctionMenu.jsp" %>
 
 <div class="portlet_margin">
-	<p><ww:property value="this.getLabel('labels.internal.application.chooseCalendarIntro')"/></p>
+	<p class="instruction"><ww:property value="this.getLabel('labels.internal.application.chooseCalendarIntro')"/></p>
 </div>
 
 <div class="columnlabelarea">

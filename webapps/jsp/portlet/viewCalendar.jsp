@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.calendar.headline')"/> <ww:property value="category.name"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.calendar.headline')"/> <ww:property value="category.name"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
@@ -31,9 +31,11 @@
 	    <calendar:selectField label="labels.internal.calendar.eventType" name="eventTypeId" multiple="false" value="eventTypes" selectedValue="calendar.eventType" cssClass="listBox"/>
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.calendar.updateButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
+		<!--
 		<input onclick="document.location.href='<c:out value="${viewCalendarUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.calendar.viewGUICalendarButton')"/>" class="button">
+		-->
 	</form>
 </div>
-
 
 <%@ include file="adminFooter.jsp" %>

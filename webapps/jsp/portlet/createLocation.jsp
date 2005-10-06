@@ -1,12 +1,24 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
 <c:set var="activeNavItem" value="Locations" scope="page"/>
+<c:set var="activeSubNavItem" value="NewLocation" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.location.createNewLocation')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.location.createNewLocation')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
+
+<portlet:renderURL var="createLocationUrl">
+	<portlet:param name="action" value="CreateLocation!input"/>
+</portlet:renderURL>
+
+<div class="subfunctionarea">
+<span class="right">
+	<a href="<c:out value="${createLocationUrl}"/>" <c:if test="${activeSubNavItem == 'NewLocation'}">class="current"</c:if> title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.location.addLocation')"/></a>
+</span>	
+<div class="clear"></div>
+</div>
 
 <div class="portlet_margin">
 	<portlet:actionURL var="createLocationActionUrl">
@@ -21,6 +33,7 @@
 		<div style="height:10px"></div>
 	
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.location.createButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 </div>
 

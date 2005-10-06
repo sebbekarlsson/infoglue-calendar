@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.entry.updateEntry')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.entry.updateEntry')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
@@ -33,6 +33,7 @@
 		<calendar:textField label="labels.internal.entry.message" name="message" value="entry.message" cssClass="smalltextarea"/>
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.updateButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 
 </div>

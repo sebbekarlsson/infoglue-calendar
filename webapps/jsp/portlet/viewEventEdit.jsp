@@ -4,7 +4,7 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.event.updateEvent')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.event.updateEvent')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
 
@@ -97,8 +97,10 @@
 			<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValueList="#selectedCategories" cssClass="listBox" mandatory="true"/>
    		</ww:iterator>
 
+		<!--
 		<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" cssClass="listBox"/>
-	
+		-->
+		
 		<div style="height:10px"></div>
 		
 		<input type="submit" value="Update" class="button">

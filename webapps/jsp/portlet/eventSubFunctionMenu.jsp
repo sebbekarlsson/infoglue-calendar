@@ -14,26 +14,12 @@
 <div class="subfunctionarea">
 	
 	<ww:if test="infoGlueRemoteUser != 'eventPublisher'">
-		<c:if test="${activeEventSubNavItem == 'NewEvent'}"><span class="current"></c:if>
-			<a href="<c:out value="${createEventUrl}"/>"><ww:property value="this.getLabel('labels.internal.event.addEvent')"/></a>
-		<c:if test="${activeEventSubNavItem == 'NewEvent'}"></span></c:if> |	
-		
-		<c:if test="${activeEventSubNavItem == 'PublishedEvents'}"><span class="current"></c:if>
-		   	<a href="<c:out value="${viewPublishedEventsUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationPublishedEvents')"/></a>
-		<c:if test="${activeEventSubNavItem == 'PublishedEvents'}"></span></c:if> |
-		
-		<c:if test="${activeEventSubNavItem == 'WaitingEvents'}"><span class="current"></c:if>
-		   	<a href="<c:out value="${viewWaitingEventsUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationWaitingEvents')"/></a>
-		<c:if test="${activeEventSubNavItem == 'WaitingEvents'}"></span></c:if> |
-	
-		<c:if test="${activeEventSubNavItem == 'MyWorkingEvents'}"><span class="current"></c:if>
-		   	<a href="<c:out value="${viewMyWorkingEventsUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationMyWorkingEvents')"/></a>
-		<c:if test="${activeEventSubNavItem == 'MyWorkingEvents'}"></span></c:if> |
-	
-		<c:if test="${activeEventSubNavItem == 'EventSearch'}"><span class="current"></c:if>
-			<a href="<c:out value="${viewEventSearchFormUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationSearchEvents')"/></a>
-		<c:if test="${activeEventSubNavItem == 'EventSearch'}"></span></c:if>
-	
+		<a href="<c:out value="${createEventUrl}"/>" <c:if test="${activeEventSubNavItem == 'NewEvent'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.event.addEvent')"/></a> |
+	   	<a href="<c:out value="${viewPublishedEventsUrl}"/>" <c:if test="${activeEventSubNavItem == 'PublishedEvents'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationPublishedEvents')"/></a> |
+	   	<a href="<c:out value="${viewWaitingEventsUrl}"/>" <c:if test="${activeEventSubNavItem == 'WaitingEvents'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationWaitingEvents')"/></a> |
+	   	<a href="<c:out value="${viewMyWorkingEventsUrl}"/>" <c:if test="${activeEventSubNavItem == 'MyWorkingEvents'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationMyWorkingEvents')"/></a> |
+		<a href="<c:out value="${viewEventSearchFormUrl}"/>" <c:if test="${activeEventSubNavItem == 'EventSearch'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationSearchEvents')"/></a>
 	</ww:if>	
 	&nbsp;
+
 </div>

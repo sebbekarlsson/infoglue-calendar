@@ -62,6 +62,7 @@
 			</p>
 				
 			<input type="submit" value="<ww:property value="this.get('labels.public.entry.createButton')"/>" class="button">
+			<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 		</form>
 	</div>
 

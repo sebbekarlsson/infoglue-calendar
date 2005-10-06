@@ -17,9 +17,21 @@
 	</portlet:renderURL>
 </ww:else>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.category.updateCategory')"/> <ww:property value="category.name"/> - <a href="<c:out value="${viewBackUrl}"/>">Back</a></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.category.updateCategory')"/> <ww:property value="category.name"/>--> - <a href="<c:out value="${viewBackUrl}"/>">Back</a></div>
 
 <%@ include file="functionMenu.jsp" %>
+
+<portlet:renderURL var="createCategoryUrl">
+	<portlet:param name="action" value="CreateCategory!input"/>
+	<calendar:evalParam name="parentCategoryId" value="${param.categoryId}"/>
+</portlet:renderURL>
+
+<div class="subfunctionarea">
+<span class="right">
+	<a href="<c:out value="${createCategoryUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.category.addCategory')"/></a>
+</span>	
+<div class="clear"></div>
+</div>
 
 <div class="portlet_margin">
 
@@ -34,18 +46,10 @@
 		<calendar:textField label="labels.internal.category.description" name="description" value="category.description" cssClass="longtextfield"/>
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.category.updateButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 </div>
 
-
-<portlet:renderURL var="createCategoryUrl">
-	<portlet:param name="action" value="CreateCategory!input"/>
-	<calendar:evalParam name="parentCategoryId" value="${param.categoryId}"/>
-</portlet:renderURL>
-
-<div class="subfunctionarea">
-	<a href="<c:out value="${createCategoryUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.category.addCategory')"/></a>
-</div>
 
 <div class="columnlabelarea">
 	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.category.childCategories')"/></p></div>

@@ -1,13 +1,26 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
 <c:set var="activeNavItem" value="EventTypes" scope="page"/>
+<c:set var="activeSubNavItem" value="NewEventTypeCategoryAttribute" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/> - <ww:property value="this.getLabel('labels.internal.eventTypeCategoryAttribute.createNewEventTypeCategoryAttribute')"/></div>
+<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.eventTypeCategoryAttribute.createNewEventTypeCategoryAttribute')"/>--></div>
 
 <%@ include file="functionMenu.jsp" %>
+ 
+<portlet:renderURL var="createAttributeCategoryUrl">
+	<portlet:param name="action" value="CreateEventTypeCategoryAttribute!input"/>
+	<calendar:evalParam name="eventTypeId" value="${param.eventTypeId}"/>
+</portlet:renderURL>
 
+<div class="subfunctionarea">
+<span class="right">
+	<a href="<c:out value="${createAttributeCategoryUrl}"/>" <c:if test="${activeSubNavItem == 'NewEventTypeCategoryAttribute'}">class="current"</c:if> title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.eventType.addAvailableCategory')"/></a>
+</span>	
+<div class="clear"></div>
+</div>
+ 
 <div class="portlet_margin">
 	
 	<portlet:actionURL var="createEventTypeCategoryAttributeActionUrl">
@@ -21,6 +34,7 @@
 		<calendar:selectField label="labels.internal.eventTypeCategoryAttribute.BaseCategory" name="categoryId" multiple="false" value="categories" cssClass="listBox"/>
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.eventTypeCategoryAttribute.createButton')"/>" class="button">
+		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 </div>
 
