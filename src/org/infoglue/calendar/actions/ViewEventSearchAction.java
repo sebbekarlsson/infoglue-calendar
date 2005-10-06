@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
@@ -48,6 +50,8 @@ import com.opensymphony.xwork.Action;
 
 public class ViewEventSearchAction extends CalendarAbstractAction
 {
+    private static Log log = LogFactory.getLog(ViewEventSearchAction.class);
+
     private String name;
     private String startDateTime;
     private String endDateTime;
@@ -82,7 +86,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         if(endDateTime != null && endDateTime.length() > 0)
             endCalendar = getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
 
-        System.out.println("price:" + price);
+        log.info("price:" + price);
         
         this.events = EventController.getController().getEventList(name,
                 													startCalendar,
@@ -214,7 +218,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     
     public void setPrice(Float price)
     {
-        System.out.println("price:" + price);
+        log.info("price:" + price);
 
         this.price = price;
     }

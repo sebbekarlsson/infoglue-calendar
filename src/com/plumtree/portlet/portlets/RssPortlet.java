@@ -23,6 +23,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.plumtree.portlet.portlets;
 
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.actions.ViewEventTypeAction;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -64,9 +67,10 @@ import java.util.TreeSet;
 /**
  * Portlet that transforms an RSS newsfeed
  */
-public class RssPortlet
-  extends GenericPortlet
+public class RssPortlet extends GenericPortlet
 {
+    private static Log log = LogFactory.getLog(RssPortlet.class);
+
   /** xsl file for rss 1.0 */
   private static final String RSS10XSL = "/WEB-INF/html.xsl";
 
@@ -91,7 +95,7 @@ public class RssPortlet
   {
     try
     {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAa");
+        log.info("AAAAAAAAAAAAAAAAAAAAAAa");
         System.setProperty( "javax.xml.transform.TransformerFactory", "org.apache.xalan.processor.TransformerFactoryImpl"); 
         
       InputStream xslstream = this.getPortletContext().getResourceAsStream(
@@ -126,13 +130,13 @@ public class RssPortlet
   {
     String errorMessage = null;
 
-    System.out.println("request:" + request);
+    log.info("request:" + request);
     Enumeration enumeration = request.getParameterNames();
     while(enumeration.hasMoreElements())
     {
         String name = (String)enumeration.nextElement();
         String value = request.getParameter(name);
-        System.out.println(name + "=" + value);
+        log.info(name + "=" + value);
     }
     //checkbox prefs
     //see how the prefs come over- can we just do a single checkbox?
@@ -330,13 +334,13 @@ public class RssPortlet
 
     try
     {
-        System.out.println("request:" + request);
+        log.info("request:" + request);
         Enumeration enumeration = request.getParameterNames();
         while(enumeration.hasMoreElements())
         {
             String name = (String)enumeration.nextElement();
             String value = request.getParameter(name);
-            System.out.println(name + "=" + value);
+            log.info(name + "=" + value);
         }
 
       selectedXml = request.getParameter("selectXml");

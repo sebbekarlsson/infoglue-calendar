@@ -115,22 +115,22 @@ public class CreateEventAction extends CalendarAbstractAction
         endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
 
-        System.out.println("isInternal:" + this.isInternal);
+        log.info("isInternal:" + this.isInternal);
 
         try
         {
             int i = 0;
             String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-            System.out.println("idKey:" + idKey);
+            log.info("idKey:" + idKey);
             while(idKey != null && idKey.length() > 0)
             {
                 String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
-                System.out.println("categoryIds:" + categoryIds);
+                log.info("categoryIds:" + categoryIds);
                 categoryAttributes.put(idKey, categoryIds);
                 
                 i++;
                 idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-                System.out.println("idKey:" + idKey);
+                log.info("idKey:" + idKey);
             }
 
             validateInput(this);
@@ -187,21 +187,21 @@ public class CreateEventAction extends CalendarAbstractAction
         endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
         lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
    
-        System.out.println("isInternal:" + this.isInternal);
+        log.info("isInternal:" + this.isInternal);
         try
         {
             int i = 0;
             String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-            System.out.println("idKey:" + idKey);
+            log.info("idKey:" + idKey);
             while(idKey != null && idKey.length() > 0)
             {
                 String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
-                System.out.println("categoryIds:" + categoryIds);
+                log.info("categoryIds:" + categoryIds);
                 categoryAttributes.put(idKey, categoryIds);
                 
                 i++;
                 idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-                System.out.println("idKey:" + idKey);
+                log.info("idKey:" + idKey);
             }
             
             validateInput(this);

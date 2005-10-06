@@ -35,6 +35,8 @@ import java.util.Set;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.BaseEntity;
 import org.infoglue.common.util.ResourceBundleHelper;
 
@@ -47,6 +49,8 @@ import com.opensymphony.xwork.ActionContext;
  */
 public class TextValueTag extends AbstractCalendarTag 
 {
+    private static Log log = LogFactory.getLog(TextValueTag.class);
+
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String labelCssClass = "";
@@ -114,8 +118,8 @@ public class TextValueTag extends AbstractCalendarTag
     {
         Object o = findOnValueStack(rawLabel);
         String evaluatedString = evaluateString("TextValueTag", "label", rawLabel);
-        System.out.println("o:" + o);
-        System.out.println("evaluatedString:" + evaluatedString);
+        log.info("o:" + o);
+        log.info("evaluatedString:" + evaluatedString);
         if(o != null)
             this.label = (String)o;
         else if(evaluatedString != null && !evaluatedString.equals(rawLabel))

@@ -133,8 +133,8 @@ href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="even
 		<p>  		
   			<span class="calendarLabel"><ww:property value="this.getLabel('labels.public.event.participants')"/></span><br>
       		<span class="calendarValue">
-      		<ww:iterator value="infogluePrincipals">
-      			<ww:property value="top.firstName"/> <ww:property value="top.lastName"/>,
+      		<ww:iterator value="event.participants">
+      			<ww:property value="top.name"/>,
       		</ww:iterator>
  			</span>
  		</p>

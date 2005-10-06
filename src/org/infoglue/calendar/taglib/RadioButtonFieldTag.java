@@ -32,6 +32,8 @@ import java.util.Set;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.BaseEntity;
 
@@ -45,6 +47,8 @@ import com.opensymphony.xwork.ActionContext;
  */
 public class RadioButtonFieldTag extends AbstractCalendarTag 
 {
+    private static Log log = LogFactory.getLog(RadioButtonFieldTag.class);
+
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String name;
@@ -105,11 +109,11 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	        while(valuesIterator.hasNext())
 		    {
 	            String id 			= (String)valuesIterator.next();
-	            System.out.println("Id:" + id);
+	            log.info("Id:" + id);
 	            String optionText 	= (String)values.get(id);
-	            System.out.println("optionText:" + optionText);
+	            log.info("optionText:" + optionText);
 
-                System.out.println("selectedValue:" + selectedValue);
+                log.info("selectedValue:" + selectedValue);
 	            String checked = "";
 	            if(selectedValue != null)
 	            {
@@ -148,13 +152,13 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 
     public void setSelectedValue(String selectedValue) throws JspException
     {
-        System.out.println("Setting selectedValue:" + selectedValue);
+        log.info("Setting selectedValue:" + selectedValue);
         Object o = findOnValueStack(selectedValue);
         if(o != null) 
             this.selectedValue = o.toString();
         else
             this.selectedValue = null;        
-        System.out.println("Setting selectedValue:" + this.selectedValue);
+        log.info("Setting selectedValue:" + this.selectedValue);
         
     }
     

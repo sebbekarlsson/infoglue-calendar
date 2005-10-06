@@ -23,6 +23,8 @@
 
 package org.infoglue.calendar.actions;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.EventType;
 
@@ -37,6 +39,8 @@ import com.opensymphony.xwork.Action;
 
 public class ViewEventTypeAction extends CalendarAbstractAction
 {
+    private static Log log = LogFactory.getLog(ViewEventTypeAction.class);
+
     private Long eventTypeId;
     private EventType eventType;
     
@@ -46,7 +50,7 @@ public class ViewEventTypeAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("eventTypeId in ViewEventType:" + eventTypeId);
+        log.info("eventTypeId in ViewEventType:" + eventTypeId);
         if(this.eventTypeId == null)
             this.eventTypeId = new Long(ServletActionContext.getRequest().getParameter("eventTypeId"));
 

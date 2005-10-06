@@ -32,12 +32,15 @@ import java.util.Set;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.BaseEntity;
 
 import org.infoglue.common.security.InfoGluePrincipal;
 
 import com.opensymphony.xwork.ActionContext;
+import com.plumtree.portlet.portlets.RssPortlet;
 
 
 /**
@@ -45,6 +48,8 @@ import com.opensymphony.xwork.ActionContext;
  */
 public class CheckBoxFieldTag extends AbstractCalendarTag 
 {
+    private static Log log = LogFactory.getLog(CheckBoxFieldTag.class);
+
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String name;
@@ -113,10 +118,10 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	            String id 			= (String)valuesIterator.next();
 	            String optionText 	= (String)values.get(id);
 
-	            System.out.println("Id:" + id);
-	            System.out.println("optionText:" + optionText);
+	            log.info("Id:" + id);
+	            log.info("optionText:" + optionText);
 
-                System.out.println("selectedValue:" + selectedValues);
+                log.info("selectedValue:" + selectedValues);
 
 	            String checked = "";
 

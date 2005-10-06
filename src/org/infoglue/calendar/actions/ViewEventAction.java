@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
@@ -53,6 +55,8 @@ import com.opensymphony.xwork.ActionContext;
 
 public class ViewEventAction extends CalendarAbstractAction
 {
+    private static Log log = LogFactory.getLog(ViewEventAction.class);
+
     private Long eventId;
     private Event event;
     
@@ -80,7 +84,7 @@ public class ViewEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("this.eventId:" + eventId);
+        log.info("this.eventId:" + eventId);
         if(this.eventId == null)
             this.eventId = new Long(ServletActionContext.getRequest().getParameter("eventId"));
 
@@ -104,9 +108,9 @@ public class ViewEventAction extends CalendarAbstractAction
 
     public String edit() throws Exception 
     {
-        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+        log.info("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
         this.execute();
-        System.out.println("KALAAAA");
+        log.info("KALAAAA");
         return "successEdit";
     }
 
@@ -124,15 +128,15 @@ public class ViewEventAction extends CalendarAbstractAction
     
     public List getEventCategories(EventTypeCategoryAttribute categoryAttribute)
     {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAA getEventCategories:" + categoryAttribute);
+        log.info("AAAAAAAAAAAAAAAAAAAAAAAAAA getEventCategories:" + categoryAttribute);
         List categories = new ArrayList();
         
-        System.out.println("this.event.getEventCategories():" + this.event.getEventCategories().size());
+        log.info("this.event.getEventCategories():" + this.event.getEventCategories().size());
         Iterator i = this.event.getEventCategories().iterator();
         while(i.hasNext())
         {
             EventCategory eventCategory = (EventCategory)i.next();
-            System.out.println("eventCategory:" + eventCategory.getId() + ":" + eventCategory.getEventTypeCategoryAttribute().getId() + "=" + categoryAttribute.getId());
+            log.info("eventCategory:" + eventCategory.getId() + ":" + eventCategory.getEventTypeCategoryAttribute().getId() + "=" + categoryAttribute.getId());
             if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
                 categories.add(eventCategory.getCategory());
         }

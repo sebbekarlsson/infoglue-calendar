@@ -33,6 +33,8 @@ import java.util.Set;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.BaseEntity;
 
@@ -46,6 +48,8 @@ import com.opensymphony.xwork.ActionContext;
  */
 public class SelectFieldTag extends AbstractCalendarTag 
 {
+    private static Log log = LogFactory.getLog(SelectFieldTag.class);
+
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String name;
@@ -161,7 +165,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
-	    	            System.out.println(id + "=" + selId);
+	    	            log.info(id + "=" + selId);
 		                if(id.equalsIgnoreCase(selId))
 		                    selected = " selected=\"1\"";
 		            }
@@ -209,8 +213,8 @@ public class SelectFieldTag extends AbstractCalendarTag
     {
         Object o = findOnValueStack(name);
         String evaluatedString = evaluateString("SelectFieldTag", "name", name);
-        System.out.println("o:" + o);
-        System.out.println("evaluatedString:" + evaluatedString);
+        log.info("o:" + o);
+        log.info("evaluatedString:" + evaluatedString);
         if(o != null && !(o instanceof String[]))
             this.name = (String)o;
         else if(evaluatedString != null && !evaluatedString.equals(name))
@@ -225,8 +229,8 @@ public class SelectFieldTag extends AbstractCalendarTag
     {
         Object o = findOnValueStack(rawLabel);
         String evaluatedString = evaluateString("SelectFieldTag", "label", rawLabel);
-        System.out.println("o:" + o);
-        System.out.println("evaluatedString:" + evaluatedString);
+        log.info("o:" + o);
+        log.info("evaluatedString:" + evaluatedString);
         if(o != null)
             this.label = (String)o;
         else if(evaluatedString != null && !evaluatedString.equals(rawLabel))
@@ -275,9 +279,9 @@ public class SelectFieldTag extends AbstractCalendarTag
 
     public void setSelectedValueList(String value) throws JspException
     {
-        System.out.println("setSelectedValueList VALUE:" + value);
+        log.info("setSelectedValueList VALUE:" + value);
         Object o = findOnValueStack(value);
-        System.out.println("o in setSelectedValueList: " + o);
+        log.info("o in setSelectedValueList: " + o);
         if(o != null) 
         {
             this.selectedValueList = (List)o;
@@ -292,7 +296,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 
     public void setSelectedValueSet(String value) throws JspException
     {
-        System.out.println("setSelectedValueSet VALUE:" + value);
+        log.info("setSelectedValueSet VALUE:" + value);
         Object o = findOnValueStack(value);
         if(o != null) 
         {

@@ -27,6 +27,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.entities.Category;
 
@@ -41,6 +43,8 @@ import com.opensymphony.xwork.Action;
 
 public class ViewCategoryAction extends CalendarAbstractAction
 {
+    private static Log log = LogFactory.getLog(ViewCategoryAction.class);
+
     private Long categoryId;
     private Category category;
     private List categories;
@@ -51,17 +55,17 @@ public class ViewCategoryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("*********************************");
-        System.out.println("*********************************");
-        System.out.println("*********************************");
+        log.info("*********************************");
+        log.info("*********************************");
+        log.info("*********************************");
         Enumeration e = ServletActionContext.getRequest().getParameterNames();
         while(e.hasMoreElements())
         {
             String name = (String)e.nextElement();
             String value = ServletActionContext.getRequest().getParameter(name);
-            System.out.println(name + "=" + value);
+            log.info(name + "=" + value);
         }
-        System.out.println("categoryId:" + categoryId);
+        log.info("categoryId:" + categoryId);
         if(categoryId == null)
         {
             String categoryIdString = ServletActionContext.getRequest().getParameter("categoryId");
@@ -72,13 +76,13 @@ public class ViewCategoryAction extends CalendarAbstractAction
         if(categoryId != null)
         {
             this.category = CategoryController.getController().getCategory(categoryId, getSession());
-            System.out.println("category:" + this.category);
+            log.info("category:" + this.category);
             return "successDetail";
         }
         else
         {
             this.categories = CategoryController.getController().getRootCategoryList(getSession());
-            System.out.println("categories:" + this.category);
+            log.info("categories:" + this.category);
             return Action.SUCCESS;
         }
         

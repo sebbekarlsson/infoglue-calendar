@@ -23,6 +23,9 @@
 
 package org.infoglue.calendar.actions;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeCategoryAttributeController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.EventType;
@@ -39,6 +42,7 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractAction
 {
+    private static Log log = LogFactory.getLog(UpdateEventTypeCategoryAttributeAction.class);
 
     private Long eventTypeCategoryAttributeId;
     private String name;
@@ -56,7 +60,7 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         {
             validateInput(this);
             this.eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().updateEventTypeCategoryAttribute(this.eventTypeCategoryAttributeId, this.name, this.categoryId, getSession());
-            System.out.println("eventTypeCategoryAttribute:" + eventTypeCategoryAttribute.getEventType().getId());
+            log.info("eventTypeCategoryAttribute:" + eventTypeCategoryAttribute.getEventType().getId());
         }
         catch(ValidationException e)
         {

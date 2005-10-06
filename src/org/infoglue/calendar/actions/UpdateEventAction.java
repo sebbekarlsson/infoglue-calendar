@@ -117,22 +117,22 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         {
             int i = 0;
             String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-            System.out.println("idKey:" + idKey);
+            log.info("idKey:" + idKey);
             while(idKey != null && idKey.length() > 0)
             {
                 String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
-                System.out.println("categoryIds:" + categoryIds);
+                log.info("categoryIds:" + categoryIds);
                 categoryAttributes.put(idKey, categoryIds);
                 
                 i++;
                 idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-                System.out.println("idKey:" + idKey);
+                log.info("idKey:" + idKey);
             }
 
             validateInput(this);
             
-            System.out.println("SystemUserName:" + this.participantUserName);
-            System.out.println("name:" + this.name);
+            log.info("SystemUserName:" + this.participantUserName);
+            log.info("name:" + this.name);
             
             EventController.getController().updateEvent(
                     eventId, 
@@ -289,7 +289,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public Long getEventId()
     {
-        System.out.println("EventId:" + eventId);
+        log.info("EventId:" + eventId);
         return eventId;
     }
     

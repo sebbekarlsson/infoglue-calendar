@@ -33,6 +33,8 @@ import java.util.ResourceBundle;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.common.util.ResourceBundleHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -44,6 +46,8 @@ import com.opensymphony.xwork.ActionContext;
  */
 public class TextFieldTag extends AbstractCalendarTag 
 {
+    private static Log log = LogFactory.getLog(TextFieldTag.class);
+
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String name = "";
@@ -125,8 +129,8 @@ public class TextFieldTag extends AbstractCalendarTag
     {
         Object o = findOnValueStack(rawLabel);
         String evaluatedString = evaluateString("TextFieldTag", "label", rawLabel);
-        System.out.println("o:" + o);
-        System.out.println("evaluatedString:" + evaluatedString);
+        log.info("o:" + o);
+        log.info("evaluatedString:" + evaluatedString);
         if(o != null)
             this.label = (String)o;
         else if(evaluatedString != null && !evaluatedString.equals(rawLabel))

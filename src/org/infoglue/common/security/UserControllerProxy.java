@@ -85,7 +85,8 @@ public class UserControllerProxy
 			
 			log.debug("authorizerClass:" + authorizerClass);
 			
-			cachedExtraProperties.list(System.out);
+			if(log.isDebugEnabled())
+				cachedExtraProperties.list(System.out);
 		}	
 		catch(Exception e)
 		{

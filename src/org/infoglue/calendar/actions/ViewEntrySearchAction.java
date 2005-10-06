@@ -26,6 +26,8 @@ package org.infoglue.calendar.actions;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
@@ -45,6 +47,8 @@ import com.opensymphony.xwork.Action;
 
 public class ViewEntrySearchAction extends CalendarAbstractAction
 {
+    private static Log log = LogFactory.getLog(ViewEntrySearchAction.class);
+
     private Long searchEventId;
     private String searchFirstName;
     private String searchLastName;
@@ -74,7 +78,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         initialize();
 
-        System.out.println("searchEventId:::::" + this.searchEventId);
+        log.info("searchEventId:::::" + this.searchEventId);
         this.entries = EntryController.getController().getEntryList(searchFirstName, 
                 													searchLastName, 
                 													searchEmail, 

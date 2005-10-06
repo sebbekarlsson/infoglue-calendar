@@ -403,7 +403,7 @@ public class EntryController extends BasicController
             arguments += (arguments.length() == 0 ? "" : "and ") + "entry.email = :email ";
         
         String sql = "from Entry entry " + (arguments.length() > 0 ? "WHERE " + arguments : "") + " order by entry.id";
-        System.out.println("SQL:" + sql);
+        log.info("SQL:" + sql);
         
         Query q = session.createQuery(sql);
 

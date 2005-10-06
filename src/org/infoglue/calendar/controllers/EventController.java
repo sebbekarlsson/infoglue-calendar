@@ -169,7 +169,7 @@ public class EventController extends BasicController
 			while(categoryAttributesIterator.hasNext())
 			{
 			    String categoryAttributeId = (String)categoryAttributesIterator.next(); 
-			    System.out.println("categoryAttributeId:" + categoryAttributeId);
+			    log.info("categoryAttributeId:" + categoryAttributeId);
 			    EventTypeCategoryAttribute eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttribute(new Long(categoryAttributeId), session);
 			     
 			    String[] categoriesArray = (String[])categoryAttributes.get(categoryAttributeId);
@@ -300,7 +300,7 @@ public class EventController extends BasicController
 			}
 		}
 		
-	    System.out.println("participantUserName: " + participantUserName);
+	    log.info("participantUserName: " + participantUserName);
 		Set participants = new HashSet();
 		if(participantUserName != null)
 		{
@@ -309,7 +309,7 @@ public class EventController extends BasicController
 			    Participant participant = new Participant();
 			    participant.setUserName(participantUserName[i]);
 			    participant.setEvent(event);
-			    System.out.println("Adding " + participantUserName[i]);
+			    log.info("Adding " + participantUserName[i]);
 
 			    session.save(participant);
 			    participants.add(participant);
@@ -408,7 +408,7 @@ public class EventController extends BasicController
 			while(categoryAttributesIterator.hasNext())
 			{
 			    String categoryAttributeId = (String)categoryAttributesIterator.next(); 
-			    System.out.println("categoryAttributeId:" + categoryAttributeId);
+			    log.info("categoryAttributeId:" + categoryAttributeId);
 			    EventTypeCategoryAttribute eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttribute(new Long(categoryAttributeId), session);
 			     
 			    String[] categoriesArray = (String[])categoryAttributes.get(categoryAttributeId);
@@ -589,7 +589,7 @@ public class EventController extends BasicController
                 argumentsSQL += " AND ";
             argumentsSQL += (String)argumentsIterator.next();
         }
-        System.out.println("argumentsSQL:" + argumentsSQL);
+        log.info("argumentsSQL:" + argumentsSQL);
         
         Query q = session.createQuery("from Event event " + (argumentsSQL.length() > 0 ? "WHERE " + argumentsSQL : "") + " order by event.id");
    
@@ -728,11 +728,14 @@ public class EventController extends BasicController
 	        categoriesSQL += ")";
         }
 */
-        Query q = session.createQuery("from Event event WHERE event.stateId = ? AND event.startDateTime >= ? " + (calendarSQL != null ? "AND event.calendar.id IN " + calendarSQL : "") + " ORDER BY event.startDateTime");
+        String sql = "from Event event WHERE event.stateId = ? AND event.startDateTime >= ? " + (calendarSQL != null ? "AND event.calendar.id IN " + calendarSQL : "") + " ORDER BY event.startDateTime";
+        log.info("SQL:" + sql);
+        Query q = session.createQuery(sql);
         q.setInteger(0, Event.STATE_PUBLISHED.intValue());
         q.setCalendar(1, java.util.Calendar.getInstance());
         
         result = q.list();
+        log.info("result:" + result.size());
         
         return result;
     }

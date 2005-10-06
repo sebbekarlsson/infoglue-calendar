@@ -1,5 +1,7 @@
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,6 +11,7 @@ import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.taglib.TextValueTag;
 
 import junit.framework.TestCase;
 /* ===============================================================================
@@ -39,6 +42,7 @@ import junit.framework.TestCase;
  */
 public class CalendarControllerTestCases extends TestCase
 {
+    private static Log log = LogFactory.getLog(CalendarControllerTestCases.class);
 
     private static SessionFactory sessionFactory = null;
     
@@ -95,7 +99,7 @@ public class CalendarControllerTestCases extends TestCase
   
 	        try
 	        {
-		        System.out.println("testCreateCalendar...");
+		        log.info("testCreateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
 		        
 		        Calendar calendar = calendarController.createCalendar("TestCalendar" + System.currentTimeMillis(), "This is the testcalendar...", "root", new Long(1), session);
@@ -133,7 +137,7 @@ public class CalendarControllerTestCases extends TestCase
   
 	        try
 	        {
-		        System.out.println("testCreateCalendar...");
+		        log.info("testCreateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
 		        
 		        List calendars = calendarController.getCalendarList(session);
@@ -173,10 +177,10 @@ public class CalendarControllerTestCases extends TestCase
   
 	        try
 	        {
-		        System.out.println("testCreateCalendar...");
+		        log.info("testCreateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
 		        List calendars = calendarController.getCalendarList(session);
-		        System.out.println("calendars:" + calendars);
+		        log.info("calendars:" + calendars);
 	        } 
 	        catch (Exception e)
 	        {
@@ -211,7 +215,7 @@ public class CalendarControllerTestCases extends TestCase
   
 	        try
 	        {
-		        System.out.println("testUpdateCalendar...");
+		        log.info("testUpdateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
 		        
 		        List calendars = calendarController.getCalendarList(session);

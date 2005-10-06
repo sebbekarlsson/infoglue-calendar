@@ -126,8 +126,8 @@
        	</p>
 		<p>  		
   			<span class="calendarLabel"><%= resourceBundle.getString("labels.public.event.participants") %></span><br>
-      		<ww:iterator value="infogluePrincipals">
-      			<ww:property value="top.firstName"/> <ww:property value="top.lastName"/>,
+      		<ww:iterator value="event.participants">
+      			<ww:property value="top.name"/>,
       		</ww:iterator>
  		</p>
 		<p>
