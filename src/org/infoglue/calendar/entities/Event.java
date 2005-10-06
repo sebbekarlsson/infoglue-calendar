@@ -68,6 +68,7 @@ public class Event implements BaseEntity
     private Set participants;
     private Set resources;
     private Set eventCategories;
+    private Set entries;
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -428,6 +429,16 @@ public class Event implements BaseEntity
         this.eventCategories = eventCategories;
     }
     
+    public Set getEntries()
+    {
+        return entries;
+    }
+    
+    public void setEntries(Set entries)
+    {
+        this.entries = entries;
+    }
+
     /**
      * @hibernate.property name="getStateId" column="stateId" type="integer" not-null="false" unique="false"
      * 

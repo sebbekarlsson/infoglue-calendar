@@ -156,7 +156,7 @@ public class CreateEntryAction extends CalendarAbstractAction
         }
         catch(ValidationException e)
         {
-            return Action.ERROR + "Public";            
+            return Action.ERROR + "PublicGU";            
         }
         
         return Action.SUCCESS + "PublicGU";

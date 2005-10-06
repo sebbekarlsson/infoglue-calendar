@@ -214,6 +214,19 @@ public class CalendarAbstractAction extends ActionSupport
         return calendar;
     }
 
+    /**
+     * Gets a calendar object which is now
+     * 
+     * @return
+     */
+    
+    public Calendar getNow()
+    {	
+        Calendar calendar = Calendar.getInstance();
+        
+        return calendar;
+    }
+
     
     public String getVCalendar(Long eventId) throws Exception
     {

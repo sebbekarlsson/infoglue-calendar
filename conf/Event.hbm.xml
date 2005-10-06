@@ -57,6 +57,11 @@
             <one-to-many class="org.infoglue.calendar.entities.EventCategory"/>
         </set>
 
+        <set name="entries" lazy="true" inverse="false" cascade="none" sort="unsorted">
+        	<key column="event_id"></key>
+            <one-to-many class="org.infoglue.calendar.entities.Entry"/>
+        </set>
+
         <many-to-one name="calendar" class="org.infoglue.calendar.entities.Calendar" cascade="none" outer-join="auto" update="true" insert="true" access="property" column="calendar_id"/>
 	</class>
 </hibernate-mapping>
