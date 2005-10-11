@@ -35,10 +35,15 @@ import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
+import org.infoglue.calendar.entities.Group;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
-import org.infoglue.common.security.InfoGluePrincipal;
-import org.infoglue.common.security.UserControllerProxy;
+import org.infoglue.calendar.entities.Role;
+import org.infoglue.cms.security.InfoGluePrincipal;
+import org.infoglue.cms.security.InfoGlueRole;
+import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
+import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
+import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.VelocityTemplateProcessor;
@@ -46,6 +51,7 @@ import org.infoglue.common.util.io.FileHelper;
 import org.infoglue.common.util.mail.MailServiceFactory;
 
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -616,6 +622,31 @@ public class EventController extends BasicController
     }
     
     
+    
+    /**
+     * Gets a list of all events available for a particular user.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public List getEventList(String userName, List roles, List groups, Integer stateId, Session session) throws Exception 
+    {
+        List result = null;
+        
+        String rolesSQL = getRoleSQL(roles);
+        System.out.println("groups:" + groups.size());
+        String groupsSQL = getGroupsSQL(groups);
+        System.out.println("groupsSQL:" + groupsSQL);
+        Query q = session.createQuery("select distinct event from Event event, Calendar c, Role cr, Group g where event.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id");
+        q.setInteger(0, stateId.intValue());
+        setRoleNames(1, q, roles);
+        setGroupNames(roles.size() + 1, q, groups);
+        
+        result = q.list();
+        
+        return result;
+    }
+
 
     /**
      * Gets a list of all events available for a particular user which are in working mode.
@@ -623,15 +654,23 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getMyWorkingEventList(String userName, Session session) throws Exception 
+    public List getMyWorkingEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        List result = null;
+        List result = getEventList(userName, roles, groups, Event.STATE_WORKING, session);
         
-        Query q = session.createQuery("from Event event where event.creator = ? AND event.stateId = ? order by event.id");
-        q.setString(0, userName);
-        q.setInteger(1, Event.STATE_WORKING.intValue());
-        
-        result = q.list();
+        return result;
+    }
+
+    
+    /**
+     * Gets a list of all events available for a particular user which are in working mode.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public List getWaitingEventList(String userName, List roles, List groups, Session session) throws Exception 
+    {
+        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISH, session);
         
         return result;
     }
@@ -642,34 +681,9 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getWaitingEventList(String userName, Session session) throws Exception 
+    public List getPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        List result = null;
-        
-        Query q = session.createQuery("from Event event where event.calendar.owner = ? AND event.stateId = ? order by event.id");
-        q.setString(0, userName);
-        q.setInteger(1, Event.STATE_PUBLISH.intValue());
-        
-        result = q.list();
-        
-        return result;
-    }
-
-    /**
-     * Gets a list of all events available for a particular user which are in working mode.
-     * @return List of Event
-     * @throws Exception
-     */
-    
-    public List getPublishedEventList(String userName, Session session) throws Exception 
-    {
-        List result = null;
-        
-        Query q = session.createQuery("from Event event where event.calendar.owner = ? AND event.stateId = ? order by event.id");
-        q.setString(0, userName);
-        q.setInteger(1, Event.STATE_PUBLISHED.intValue());
-        
-        result = q.list();
+        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, session);
         
         return result;
     }
@@ -806,9 +820,33 @@ public class EventController extends BasicController
 	    
 	    try
 	    {
-	        InfoGluePrincipal inforgluePrincipal = UserControllerProxy.getController().getUser(event.getCalendar().getOwner());
-	        
-	        String template;
+	        List allPrincipals = new ArrayList();
+	        Collection owningRoles = event.getCalendar().getOwningRoles();
+	        Iterator owningRolesIterator = owningRoles.iterator();
+	        while(owningRolesIterator.hasNext())
+	        {
+	            Role role = (Role)owningRolesIterator.next();
+	            List principals = RoleControllerProxy.getController().getInfoGluePrincipals(role.getName());
+	            
+	            Iterator userIterator = principals.iterator();
+	            while(userIterator.hasNext())
+	            {
+	                InfoGluePrincipal principal = (InfoGluePrincipal)userIterator.next();
+	                boolean hasGroup = hasUserGroup(principal, event);
+	                if(hasGroup)
+	                    allPrincipals.add(principal);
+	            }
+	        }
+
+	        String addresses = "";
+	        Iterator allPrincipalsIterator = allPrincipals.iterator();
+	        while(allPrincipalsIterator.hasNext())
+	        {
+		        InfoGluePrincipal inforgluePrincipal = (InfoGluePrincipal)allPrincipalsIterator.next();
+		        addresses += inforgluePrincipal.getEmail() + ";";
+	        }
+
+            String template;
 	        
 	        String contentType = PropertyHelper.getProperty("mail.contentType");
 	        if(contentType == null || contentType.length() == 0)
@@ -832,14 +870,39 @@ public class EventController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			MailServiceFactory.getService().send(systemEmailSender, inforgluePrincipal.getEmail(), null, "InfoGlue Calendar - new event waiting", email, contentType, "UTF-8");
-		}
+			System.out.println("Sending mail to:" + systemEmailSender + " and " + addresses);
+			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, addresses, "InfoGlue Calendar - new event waiting", email, contentType, "UTF-8");
+	    }
 		catch(Exception e)
 		{
-		    e.printStackTrace();
 			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
 		}
 		
+    }
+    
+    /**
+     * This method checks if a user has one of the roles defined in the event.
+     * @param principal
+     * @param event
+     * @return
+     * @throws Exception
+     */
+    public boolean hasUserGroup(InfoGluePrincipal principal, Event event) throws Exception
+    {
+        Collection owningGroups = event.getCalendar().getOwningGroups();
+        if(owningGroups == null || owningGroups.size() == 0)
+            return true;
+        
+        Iterator owningGroupsIterator = owningGroups.iterator();
+        while(owningGroupsIterator.hasNext())
+        {
+            Group group = (Group)owningGroupsIterator.next();
+            List principals = GroupControllerProxy.getController().getInfoGluePrincipals(group.getName());
+            if(principals.contains(principal))
+                return true;
+        }
+        
+        return false;
     }
     
     public List getAssetKeys()
@@ -860,5 +923,76 @@ public class EventController extends BasicController
     }
 
 
+    private String getRoleSQL(List roles)
+    {
+        String rolesSQL = null;
+        if(roles != null && roles.size() > 0)
+        {
+            rolesSQL = "(";
+	        int i = 0;
+	    	Iterator iterator = roles.iterator();
+	        while(iterator.hasNext())
+	        {
+	            String roleName = (String)iterator.next();
+	            
+	            if(i > 0)
+	                rolesSQL += ",";
+	            
+	            rolesSQL += "?";
+	            i++;
+	        }
+	        rolesSQL += ")";
+        }
+   
+        return rolesSQL;
+    }
+    
+    private void setRoleNames(int index, Query q, List roles)
+    {
+        Iterator iterator = roles.iterator();
+        while(iterator.hasNext())
+        {
+            String roleName = (String)iterator.next();
+            
+            q.setString(index, roleName);
+            index++;
+        }
+    }
+
+    private String getGroupsSQL(List groups)
+    {
+        String groupsSQL = null;
+        if(groups != null && groups.size() > 0)
+        {
+            groupsSQL = "(";
+	        int i = 0;
+	    	Iterator iterator = groups.iterator();
+	        while(iterator.hasNext())
+	        {
+	            String roleName = (String)iterator.next();
+	            
+	            if(i > 0)
+	                groupsSQL += ",";
+	            
+	            groupsSQL += "?";
+	            i++;
+	        }
+	        groupsSQL += ")";
+        }
+   
+        return groupsSQL;
+    }
+    
+    private void setGroupNames(int index, Query q, List groups)
+    {
+        Iterator iterator = groups.iterator();
+        while(iterator.hasNext())
+        {
+            String groupName = (String)iterator.next();
+            
+            q.setString(index, groupName);
+            index++;
+        }
+    }
 
 }

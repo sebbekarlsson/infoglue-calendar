@@ -23,31 +23,11 @@
 
 package org.infoglue.calendar.actions;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.PortletURL;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.controllers.CategoryController;
-import org.infoglue.calendar.controllers.EventController;
-import org.infoglue.calendar.controllers.LocationController;
-import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.calendar.entities.Event;
-import org.infoglue.common.security.UserControllerProxy;
-import org.infoglue.common.util.DBSessionWrapper;
-import org.infoglue.common.util.PropertyHelper;
 
-import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
-import com.opensymphony.xwork.validator.ValidationException;
+
 
 /**
  * This action represents a Calendar Administration screen.

@@ -87,7 +87,7 @@ public class TextFieldTag extends AbstractCalendarTag
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	          	errorMessage = "<span class=\"errorMessage\">- " + fieldError + "</span>";
+	          	errorMessage = "<span class=\"errorMessage\">" + fieldError + "</span>";
 	        }
 	    }	
 
@@ -96,12 +96,12 @@ public class TextFieldTag extends AbstractCalendarTag
 	    
         if(this.label != null)
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
 	    }
 	    else
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
 	    }
 		sb.append("</div>");

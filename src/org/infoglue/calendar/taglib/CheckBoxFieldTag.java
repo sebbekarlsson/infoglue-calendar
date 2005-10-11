@@ -22,25 +22,19 @@
 */
 package org.infoglue.calendar.taglib;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.BaseEntity;
 
-import org.infoglue.common.security.InfoGluePrincipal;
+import org.infoglue.cms.security.InfoGluePrincipal;
 
-import com.opensymphony.xwork.ActionContext;
-import com.plumtree.portlet.portlets.RssPortlet;
 
 
 /**
@@ -96,7 +90,7 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	            errorMessage = "<span class=\"errorMessage\">- " + fieldError + "</span>";
+	            errorMessage = "<span class=\"errorMessage\">" + fieldError + "</span>";
 	        }
 	    }	
 

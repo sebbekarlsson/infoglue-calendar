@@ -55,7 +55,7 @@ public class ViewPublishedEventListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.events = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), getSession());
+        this.events = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
 
         return Action.SUCCESS;
     } 

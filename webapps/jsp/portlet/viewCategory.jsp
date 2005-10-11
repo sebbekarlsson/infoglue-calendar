@@ -27,6 +27,7 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
+<span class="left"></span>	
 <span class="right">
 	<a href="<c:out value="${createCategoryUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.category.addCategory')"/></a>
 </span>	
@@ -92,14 +93,14 @@
     </ww:else>
 
        	<div class="columnLong">
-       		<p class="portletHeadline"><a href="<c:out value="${categoryUrl}"/>" title="Visa kategori"><ww:property value="name"/></a></p>
+       		<p class="portletHeadline"><a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
        	</div>
        	<div class="columnMedium">
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${confirmUrl}"/>" title="Radera kategori" class="delete"></a>
-       	   	<a href="<c:out value="${categoryUrl}"/>" title="Redigera kategori" class="edit"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>
+       	   	<a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>
        	</div>
        	<div class="clear"></div>
     </div>

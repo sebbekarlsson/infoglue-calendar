@@ -37,7 +37,7 @@
     </ww:else>
 
        	<div class="columnLong">
-       		<p class="portletHeadline"><a href="<c:out value="${createEventUrl}"/>" title="Visa Kalender"><ww:property value="name"/></a></p>
+       		<p class="portletHeadline"><a href="<c:out value="${createEventUrl}"/>" title="Välj '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
        	</div>
        	<div class="columnMedium">
        		<p><ww:property value="description"/></p>

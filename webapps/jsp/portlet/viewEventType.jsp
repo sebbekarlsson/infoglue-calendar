@@ -14,6 +14,7 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
+<span class="left"></span>	
 <span class="right">
 	<a href="<c:out value="${createAttributeCategoryUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.eventType.addAvailableCategory')"/></a>
 </span>	

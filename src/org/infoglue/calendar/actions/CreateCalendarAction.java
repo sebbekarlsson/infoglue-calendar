@@ -23,17 +23,13 @@
 
 package org.infoglue.calendar.actions;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventTypeController;
-import org.infoglue.calendar.entities.Calendar;
-import org.infoglue.common.security.UserControllerProxy;
+import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 
 import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.validator.ValidationException;
 
 /**
@@ -46,7 +42,8 @@ public class CreateCalendarAction extends CalendarAbstractAction
 {
     private String name;
     private String description;
-    private String owner;
+    private String[] roles;
+    private String[] groups;
     private Long eventTypeId;
     
     private List infogluePrincipals;
@@ -62,7 +59,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CalendarController.getController().createCalendar(name, description, owner, eventTypeId, getSession());
+            CalendarController.getController().createCalendar(name, description, roles, groups, eventTypeId, getSession());
         }
         catch(ValidationException e)
         {
@@ -100,14 +97,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
     {
         this.name = name;
     }
-    public String getOwner()
-    {
-        return owner;
-    }
-    public void setOwner(String owner)
-    {
-        this.owner = owner;
-    }
+
     public List getInfogluePrincipals()
     {
         return infogluePrincipals;
@@ -124,4 +114,35 @@ public class CreateCalendarAction extends CalendarAbstractAction
     {
         return eventTypes;
     }
+    
+    public String[] getGroups()
+    {
+        return groups;
+    }
+    
+    public void setGroups(String[] groups)
+    {
+        this.groups = groups;
+    }
+    
+    public String[] getRoles()
+    {
+        return roles;
+    }
+
+    public void setRoles(String[] roles)
+    {
+        this.roles = roles;
+    }
+    
+    public void setGroups(String groups)
+    {
+        this.groups = new String[] {groups};
+    }
+    
+    public void setRoles(String roles)
+    {
+        this.groups = new String[] {roles};
+    }
+
 }

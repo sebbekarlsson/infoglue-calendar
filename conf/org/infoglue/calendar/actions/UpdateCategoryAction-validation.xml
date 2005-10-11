@@ -5,9 +5,11 @@
             <message>You must enter a name.</message>
         </field-validator>
     </field>
+    <!--
     <field name="description">
         <field-validator type="igrequiredstring">
             <message>You must enter a description.</message>
         </field-validator>
     </field>
+    -->
 </validators>

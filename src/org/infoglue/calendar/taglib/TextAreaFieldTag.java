@@ -84,7 +84,7 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	          	errorMessage = "<span class=\"errorMessage\">- " + fieldError + "</span>";
+	          	errorMessage = "<span class=\"errorMessage\">" + fieldError + "</span>";
 	        }
 	    }	
 
@@ -92,14 +92,14 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	    if(this.label != null)
 	    {
 	        sb.append("<div class=\"fieldrow\">");
-	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
 	    	sb.append("</div>");
 	    }
 	    else
 	    {
 	        sb.append("<div class=\"fieldrow\">");
-	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
 	    	sb.append("</div>");
 	        

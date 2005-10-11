@@ -13,6 +13,7 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
+<span class="left"></span>	
 <span class="right">
 	<a href="<c:out value="${createLocationUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.location.addLocation')"/></a>
 </span>	
@@ -59,14 +60,14 @@
     </ww:else>
 
        	<div class="columnLong">
-       		<p class="portletHeadline"><a href="<c:out value="${locationUrl}"/>" title="Visa KalenderNamn"><ww:property value="name"/></a></p>
+       		<p class="portletHeadline"><a href="<c:out value="${locationUrl}"/>" title="Redigera '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
        	</div>
        	<div class="columnMedium">
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${confirmUrl}"/>" title="Radera KalenderNamn" class="delete"></a>
-       	   	<a href="<c:out value="${locationUrl}"/>" title="Redigera KalenderNamn" class="edit"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>
+       	   	<a href="<c:out value="${locationUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>
        	</div>
        	<div class="clear"></div>
     </div>

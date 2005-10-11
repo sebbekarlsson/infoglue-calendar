@@ -35,8 +35,9 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
-import org.infoglue.calendar.taglib.AbstractCalendarTag;
-import org.infoglue.common.security.UserControllerProxy;
+import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
+import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
+import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 
 import com.opensymphony.xwork.Action;
 
@@ -70,10 +71,12 @@ public class ViewCalendarAction extends CalendarAbstractAction
     private List dates;
     
     private List infogluePrincipals;
+    private List infoglueRoles;
+    private List infoglueGroups;
     private List eventTypes;
     
-    private boolean isPublisher = false;
-
+    private String[] roles;
+    private String[] groups;
 
     /**
      * This is the entry point for the main listing.
@@ -91,7 +94,6 @@ public class ViewCalendarAction extends CalendarAbstractAction
         log.debug("****************************");
         this.calendar = CalendarController.getController().getCalendar(calendarId, this.getSession());
         log.debug("calendar: " + calendar.getName());
-        log.debug("calendar: " + calendar.getOwner());
         
         this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
         this.endCalendar   = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23));
@@ -147,10 +149,6 @@ public class ViewCalendarAction extends CalendarAbstractAction
         if(useEventPublishing())
         {
             this.waitingEvents = EventController.getController().getEventList(calendarId, Event.STATE_WORKING, startCalendar, endCalendar, getSession());
-            log.debug("getRemoteUser:" + getInfoGlueRemoteUser());
-            String infoglueRemoteUser = getInfoGlueRemoteUser();
-            if(infoglueRemoteUser != null && this.calendar.getOwner() != null)
-                this.isPublisher = (this.calendar.getOwner().equalsIgnoreCase(infoglueRemoteUser)) ? true : false;
         }
         
         this.publishedEvents = EventController.getController().getEventList(calendarId, Event.STATE_PUBLISHED, startCalendar, endCalendar, getSession());
@@ -161,6 +159,11 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.dates = getDateList(calendar);
             
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+        this.infoglueRoles = RoleControllerProxy.getController().getAllRoles();
+        this.infoglueGroups = GroupControllerProxy.getController().getAllGroups();
+
+        System.out.println("infoglueRoles:" + infoglueRoles.size());
+        System.out.println("infoglueGroups:" + infoglueGroups.size());
         this.eventTypes = EventTypeController.getController().getEventTypeList(getSession());
 
         log.debug("startCalendar:" + startCalendar.getTime());
@@ -478,9 +481,43 @@ public class ViewCalendarAction extends CalendarAbstractAction
         return eventTypes;
     }
 
-    public boolean getIsPublisher()
+    public String[] getGroups()
     {
-        return isPublisher;
+        return groups;
     }
     
+    public void setGroups(String[] groups)
+    {
+        this.groups = groups;
+    }
+    
+    public String[] getRoles()
+    {
+        return roles;
+    }
+
+    public void setRoles(String[] roles)
+    {
+        this.roles = roles;
+    }
+    
+    public void setGroups(String groups)
+    {
+        this.groups = new String[] {groups};
+    }
+    
+    public void setRoles(String roles)
+    {
+        this.groups = new String[] {roles};
+    }
+
+    public List getInfoglueGroups()
+    {
+        return infoglueGroups;
+    }
+    
+    public List getInfoglueRoles()
+    {
+        return infoglueRoles;
+    }
 }

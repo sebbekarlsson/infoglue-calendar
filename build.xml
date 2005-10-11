@@ -382,6 +382,13 @@
 			</fileset>
 		</copy>
 
+		<echo message="Copying Template-files"/>
+		<copy todir="${deploy.dir.working}/templates">
+			<fileset dir="${webapp}/templates">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
+
 		<echo message="Copying CSS-files"/>
 		<copy todir="${deploy.dir.working}/css">
 			<fileset dir="${webapp}/css">
@@ -432,7 +439,7 @@
 		</copy>
 
 		<echo message="Copying confs to cms"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes" overwrite="false">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes" overwrite="true">
 			<fileset dir="${conf}">
 				<include name="*.properties"/>
 				<include name="*.xml"/>

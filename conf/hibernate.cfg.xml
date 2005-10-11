@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
+
 <!DOCTYPE hibernate-configuration
     PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
     "http://hibernate.sourceforge.net/hibernate-configuration-2.0.dtd">
@@ -47,6 +48,8 @@
         <mapping resource="Participant.hbm.xml"/>
         <mapping resource="Resource.hbm.xml"/>
         <mapping resource="Entry.hbm.xml"/>
+        <mapping resource="Role.hbm.xml"/>
+        <mapping resource="Group.hbm.xml"/>
 
     </session-factory>
 

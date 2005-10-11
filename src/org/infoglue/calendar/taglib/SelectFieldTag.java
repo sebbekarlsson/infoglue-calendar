@@ -22,25 +22,22 @@
 */
 package org.infoglue.calendar.taglib;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.BaseEntity;
+import org.infoglue.calendar.entities.Role;
+import org.infoglue.calendar.entities.Group;
 
-import org.infoglue.common.security.InfoGluePrincipal;
-
-import com.opensymphony.xwork.ActionContext;
+import org.infoglue.cms.security.InfoGluePrincipal;
+import org.infoglue.cms.security.InfoGlueRole;
+import org.infoglue.cms.security.InfoGlueGroup;
 
 
 /**
@@ -96,7 +93,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	          	errorMessage = "<span class=\"errorMessage\">- " + fieldError + "</span>";
+	          	errorMessage = "<span class=\"errorMessage\">" + fieldError + "</span>";
 	        }
 	    }	
 
@@ -105,9 +102,9 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    sb.append("<div class=\"fieldrow\">");
 
 	    if(this.label != null)
-	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 		else
-		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 			    
         sb.append("<select id=\"" + name + "\" name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
         
@@ -125,6 +122,18 @@ public class SelectFieldTag extends AbstractCalendarTag
 	                id = value.getName().toString();
 	                optionText = value.getFirstName() + " " + value.getLastName();
 	            } 
+	            else if(obj instanceof InfoGlueRole)
+	            {
+	                InfoGlueRole value = (InfoGlueRole)obj;
+	                id = value.getName().toString();
+	                optionText = value.getName();
+	            } 
+	            else if(obj instanceof InfoGlueGroup)
+	            {
+	                InfoGlueGroup value = (InfoGlueGroup)obj;
+	                id = value.getName().toString();
+	                optionText = value.getName();
+	            } 
 	            else if(obj instanceof BaseEntity)
 	            {
 	                BaseEntity value = (BaseEntity)obj;
@@ -138,17 +147,24 @@ public class SelectFieldTag extends AbstractCalendarTag
 	                optionText = value;
 	            }
 	            
+	            //System.out.println("Checking ID:" + id);
+	            
 	            String selected = "";
 	            if(selectedValues != null)
 	            {
+	                //System.out.println("Comparing with selectedValues");
 		            for(int i=0; i<selectedValues.length; i++)
 		            {
 		                if(id.equalsIgnoreCase(selectedValues[i]))
 		                    selected = " selected=\"1\"";
+		                else
+		                    selected = "";
 		            }
 	            }
 	            else if(selectedValueList != null)
 	            {
+	                //System.out.println("Comparing with selectedValueList");
+
 	                Iterator selectedValueListIterator = selectedValueList.iterator();
 	                while(selectedValueListIterator.hasNext())
 		            {
@@ -159,6 +175,26 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	                InfoGluePrincipal selValue = (InfoGluePrincipal)selObj;
 	    	                selId = selValue.getName().toString();
 	    	            } 
+	    	            else if(selObj instanceof InfoGlueRole)
+	    	            {
+	    	                InfoGlueRole value = (InfoGlueRole)selObj;
+	    	                selId = value.getName().toString();
+	    	            } 
+	    	            else if(selObj instanceof InfoGlueGroup)
+	    	            {
+	    	                InfoGlueGroup value = (InfoGlueGroup)selObj;
+	    	                selId = value.getName().toString();
+	    	            } 
+	    	            else if(selObj instanceof Role)
+	    	            {
+	    	                Role value = (Role)selObj;
+	    	                selId = value.getName().toString();
+	    	            } 
+	    	            else if(selObj instanceof Group)
+	    	            {
+	    	                Group value = (Group)selObj;
+	    	                selId = value.getName().toString();
+	    	            }
 	    	            else
 	    	            {
 	    	                BaseEntity selValue = (BaseEntity)selObj;
@@ -172,22 +208,45 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            }
 	            else if(selectedValueSet != null)
 	            {
+	                //System.out.println("Comparing with selectedValueSet:" + selectedValueSet);
+
 	                Iterator selectedValueSetIterator = selectedValueSet.iterator();
 	                while(selectedValueSetIterator.hasNext())
 		            {
 	                    String selId;
 	                	Object selObj = selectedValueSetIterator.next();
-	    	            if(selObj instanceof InfoGluePrincipal)
+	                	if(selObj instanceof InfoGluePrincipal)
 	    	            {
 	    	                InfoGluePrincipal selValue = (InfoGluePrincipal)selObj;
 	    	                selId = selValue.getName().toString();
 	    	            } 
+	    	            else if(selObj instanceof InfoGlueRole)
+	    	            {
+	    	                InfoGlueRole value = (InfoGlueRole)selObj;
+	    	                selId = value.getName().toString();
+	    	            } 
+	    	            else if(selObj instanceof InfoGlueGroup)
+	    	            {
+	    	                InfoGlueGroup value = (InfoGlueGroup)selObj;
+	    	                selId = value.getName().toString();
+	    	            } 
+	    	            else if(selObj instanceof Role)
+	    	            {
+	    	                Role value = (Role)selObj;
+		                	selId = value.getName().toString();
+	    	            } 
+	    	            else if(selObj instanceof Group)
+	    	            {
+	    	                Group value = (Group)selObj;
+	    	                selId = value.getName().toString();
+	    	            }
 	    	            else
 	    	            {
 	    	                BaseEntity selValue = (BaseEntity)selObj;
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
+	                	//System.out.println(id + "=" + selId);
 		                if(id.equalsIgnoreCase(selId))
 		                    selected = " selected=\"1\"";
 		            }

@@ -14,6 +14,7 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
+<span class="left"></span>	
 <span class="right">
 	<a href="<c:out value="${createCategoryUrl}"/>" <c:if test="${activeSubNavItem == 'NewCategory'}">class="current"</c:if> title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.category.addCategory')"/></a>
 </span>	

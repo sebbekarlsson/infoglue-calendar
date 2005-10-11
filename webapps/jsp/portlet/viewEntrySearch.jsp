@@ -125,6 +125,7 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
+<span class="left"></span>	
 <span class="right">
 	<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
 	<ww:if test="entries != null && entries.size() > 0"> | <a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
@@ -214,14 +215,14 @@
     </ww:else>
 
 	   	<div class="columnLong">
-	   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Visa Evenemang"><ww:property value="firstName"/> <ww:property value="lastName"/></a></p>
+	   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'"><ww:property value="firstName"/> <ww:property value="lastName"/></a></p>
 	   	</div>
 	   	<div class="columnMedium">
 	   		<p><ww:property value="top.event.name"/></p>
 	   	</div>
 	   	<div class="columnEnd">
-	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera anmälan" class="delete"></a>
-	   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera anmälan" class="edit"></a>
+	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="firstName"/>'" class="delete"></a>
+	   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'" class="edit"></a>
 	   	</div>
 	   	<div class="clear"></div>
 	</div>

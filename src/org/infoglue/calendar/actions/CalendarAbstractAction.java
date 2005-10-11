@@ -112,6 +112,21 @@ public class CalendarAbstractAction extends ActionSupport
         return (List)ServletActionContext.getRequest().getAttribute("infoglueRemoteUserRoles");
     }
 
+    public List getInfoGlueRemoteUserGroups()
+    {
+        return (List)ServletActionContext.getRequest().getAttribute("infoglueRemoteUserGroups");
+    }
+/*
+    public List getInfoGlueRoles()
+    {
+        return (List)ServletActionContext.getRequest().getAttribute("infoglueRoles");
+    }
+
+    public List getInfoGlueGroups()
+    {
+        return (List)ServletActionContext.getRequest().getAttribute("infoglueGroups");
+    }
+*/
     public String formatDate(Date date, String pattern, Locale locale)
     {	
     	if(date == null)

@@ -65,14 +65,14 @@
     </ww:else>
 
 	   	<div class="columnLong">
-	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa Evenemang"><ww:property value="name"/></a></p>
+	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
 	   	</div>
 	   	<div class="columnMedium">
 	   		<p><ww:property value="description"/></p>
 	   	</div>
 	   	<div class="columnEnd">
-	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera Evenemang" class="delete"></a>
-	   	   	<a href="<c:out value="${eventUrl}"/>" title="Redigera Evenemang" class="edit"></a>
+	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>
+	   	   	<a href="<c:out value="${eventUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>
 	   	</div>
 	   	<div class="clear"></div>
 	</div>

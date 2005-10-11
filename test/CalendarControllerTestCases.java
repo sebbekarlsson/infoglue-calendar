@@ -1,19 +1,3 @@
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.infoglue.calendar.controllers.BasicController;
-import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.controllers.EventTypeController;
-import org.infoglue.calendar.entities.Calendar;
-import org.infoglue.calendar.entities.EventType;
-import org.infoglue.calendar.taglib.TextValueTag;
-
-import junit.framework.TestCase;
 /* ===============================================================================
  *
  * Part of the InfoGlue Content Management Platform (www.infoglue.org)
@@ -36,6 +20,21 @@ import junit.framework.TestCase;
  *
  * ===============================================================================
  */
+
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.EventTypeController;
+import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.EventType;
+
+import junit.framework.TestCase;
 
 /**
  * @author Mattias Bogeblad
@@ -102,7 +101,7 @@ public class CalendarControllerTestCases extends TestCase
 		        log.info("testCreateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
 		        
-		        Calendar calendar = calendarController.createCalendar("TestCalendar" + System.currentTimeMillis(), "This is the testcalendar...", "root", new Long(1), session);
+		        Calendar calendar = calendarController.createCalendar("TestCalendar" + System.currentTimeMillis(), "This is the testcalendar...", null, null, new Long(1), session);
 	        } 
 	        catch (Exception e)
 	        {
@@ -224,7 +223,7 @@ public class CalendarControllerTestCases extends TestCase
 		            Calendar calendar = (Calendar)calendars.get(0);
 			        EventType eventType = (EventType)EventTypeController.getController().getEventTypeList(session).get(0);
 
-		            calendarController.updateCalendar(calendar, "UpdatedCalendar", "This action updated the calendar", "root", eventType, session);
+		            calendarController.updateCalendar(calendar, "UpdatedCalendar", "This action updated the calendar", null, null, eventType, session);
 		        }
 		    } 
 	        catch (Exception e)

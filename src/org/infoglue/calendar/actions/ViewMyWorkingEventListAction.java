@@ -55,7 +55,7 @@ public class ViewMyWorkingEventListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.events = EventController.getController().getMyWorkingEventList(this.getInfoGlueRemoteUser(), getSession());
+        this.events = EventController.getController().getMyWorkingEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
 
         return Action.SUCCESS;
     } 

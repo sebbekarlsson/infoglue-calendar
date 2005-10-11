@@ -9,54 +9,43 @@
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
 
-<div class="marginalizedDiv" id="inputForm">
+<div class="inputDiv">
 		
 	<span class="headline"><ww:property value="event.name"/></span>
 	<hr/>
-	<div id="contentList" style="display: block;">
+	<div id="portlet_margin">
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.organizerName')"/></span><br> 
-			<ww:property value="event.organizerName"/>
+			<calendar:textValue label="labels.public.event.organizerName" value="event.organizerName" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.lecturer')"/></span><br> 
-			<ww:property value="event.lecturer"/>
+			<calendar:textValue label="labels.public.event.lecturer" value="event.lecturer" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.customLocation')"/></span><br> 
-			<ww:property value="event.customLocation"/>
+			<calendar:textValue label="labels.public.event.customLocation" value="event.customLocation" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.shortDescription')"/></span><br> 
-			<ww:property value="event.shortDescription"/>
+			<calendar:textValue label="labels.public.event.shortDescription" value="event.shortDescription" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.longDescription')"/></span><br> 
-			<ww:property value="event.longDescription"/>
+			<calendar:textValue label="labels.public.event.longDescription" value="event.longDescription" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.eventUrl')"/></span><br> 
-			<ww:property value="event.eventUrl"/>
+			<calendar:textValue label="labels.public.event.eventUrl" value="event.eventUrl" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.contactEmail')"/></span><br> 
-			<ww:property value="event.contactEmail"/>
+			<calendar:textValue label="labels.public.event.contactEmail" value="event.contactEmail" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.contactPhone')"/></span><br> 
-			<ww:property value="event.contactPhone"/>
+			<calendar:textValue label="labels.public.event.contactPhone" value="event.contactPhone" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.contactName')"/></span><br> 
-			<ww:property value="event.contactName"/>
+			<calendar:textValue label="labels.public.event.contactName" value="event.contactName" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.price')"/></span><br> 
-			<ww:property value="event.price"/>
+			<calendar:textValue label="labels.public.event.price" value="event.price" labelCssClass="label"/>
 		</p>
 		<p>
-			<span class="label"><ww:property value="this.getLabel('labels.public.event.maximumParticipants')"/></span><br> 
-			<ww:property value="event.maximumParticipants"/>
+			<calendar:textValue label="labels.public.event.maximumParticipants" value="event.maximumParticipants" labelCssClass="label"/>
 		</p>
 		<p>
 			<span class="label"><ww:property value="this.getLabel('labels.public.event.lastRegistrationDate')"/></span><br> 

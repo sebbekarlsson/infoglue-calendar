@@ -14,6 +14,7 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
+<span class="left"></span>	
 <span class="right">
 	<a href="<c:out value="${createEventTypeUrl}"/>" <c:if test="${activeSubNavItem == 'NewEventType'}">class="current"</c:if> title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.eventType.addEventType')"/></a>
 </span>	

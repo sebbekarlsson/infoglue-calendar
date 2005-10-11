@@ -30,6 +30,8 @@ import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.entities.Group;
+import org.infoglue.calendar.entities.Role;
 
 import java.util.Iterator;
 import java.util.List;
@@ -97,19 +99,38 @@ public class CalendarController extends BasicController
      * This method is used to create a new Calendar object in the database inside a transaction.
      */
     
-    public Calendar createCalendar(String name, String description, String owner, Long eventTypeId, Session session) throws HibernateException, Exception 
+    public Calendar createCalendar(String name, String description, String[] roles, String[] groups, Long eventTypeId, Session session) throws HibernateException, Exception 
     {
         EventType eventType = EventTypeController.getController().getEventType(eventTypeId, session);
         
         Calendar calendar = new Calendar();
         calendar.setName(name);
         calendar.setDescription(description);
-        calendar.setOwner(owner);
         
         calendar.setEventType(eventType);
         
         session.save(calendar);
         
+        for(int i=0; i < roles.length; i++)
+        {
+            Role role = new Role();
+            String roleName = roles[i];
+            System.out.println("roleName:" + roleName);
+            role.setName(roleName);
+            session.save(role);
+            calendar.getOwningRoles().add(role);
+        }
+
+        for(int i=0; i < groups.length; i++)
+        {
+            Group group = new Group();
+            String groupName = groups[i];
+            System.out.println("groupName:" + groupName);
+            group.setName(groupName);
+            session.save(group);
+            calendar.getOwningRoles().add(group);
+        }
+
         return calendar;
     }
     
@@ -120,12 +141,12 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public void updateCalendar(Long id, String name, String description, String owner, Long eventTypeId, Session session) throws Exception 
+    public void updateCalendar(Long id, String name, String description, String[] roles, String[] groups, Long eventTypeId, Session session) throws Exception 
     {
 		Calendar calendar = getCalendar(id, session);
         EventType eventType = EventTypeController.getController().getEventType(eventTypeId, session);
 
-		updateCalendar(calendar, name, description, owner, eventType, session);
+		updateCalendar(calendar, name, description, roles, groups, eventType, session);
     }
     
     /**
@@ -134,12 +155,55 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public void updateCalendar(Calendar calendar, String name, String description, String owner, EventType eventType, Session session) throws Exception 
+    public void updateCalendar(Calendar calendar, String name, String description, String[] roles, String groups[], EventType eventType, Session session) throws Exception 
     {
         calendar.setName(name);
         calendar.setDescription(description);
-        calendar.setOwner(owner);
         calendar.setEventType(eventType);
+
+        Iterator oldRolesIterator = calendar.getOwningRoles().iterator();
+        while(oldRolesIterator.hasNext())
+        {
+            Role role = (Role)oldRolesIterator.next();
+            oldRolesIterator.remove();
+            session.delete(role);
+        }
+
+        Iterator oldGroupsIterator = calendar.getOwningGroups().iterator();
+        while(oldGroupsIterator.hasNext())
+        {
+            Group group = (Group)oldGroupsIterator.next();
+            oldGroupsIterator.remove();
+            session.delete(group);
+        }
+
+        if(roles != null)
+        {
+	        for(int i=0; i < roles.length; i++)
+	        {
+	            Role role = new Role();
+	            String roleName = roles[i];
+	            System.out.println("roleName:" + roleName);
+	            role.setCalendar(calendar);
+	            role.setName(roleName);
+	            session.save(role);
+	            calendar.getOwningRoles().add(role);
+	        }
+        }
+        
+        if(groups != null)
+        {
+	        for(int i=0; i < groups.length; i++)
+	        {
+	            Group group = new Group();
+	            String groupName = groups[i];
+	            System.out.println("groupName:" + groupName);
+	            group.setCalendar(calendar);
+	            group.setName(groupName);
+	            session.save(group);
+	            calendar.getOwningGroups().add(group);
+	        }
+        }
         
 		session.update(calendar);
 	}

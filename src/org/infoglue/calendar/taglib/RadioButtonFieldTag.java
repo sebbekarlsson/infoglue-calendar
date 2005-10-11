@@ -22,24 +22,14 @@
 */
 package org.infoglue.calendar.taglib;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.infoglue.calendar.actions.CalendarAbstractAction;
-import org.infoglue.calendar.entities.BaseEntity;
-
-import org.infoglue.common.security.InfoGluePrincipal;
-
-import com.opensymphony.xwork.ActionContext;
 
 
 /**
@@ -89,7 +79,7 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	          	errorMessage = "<span class=\"errorMessage\">- " + fieldError + "</span>";
+	          	errorMessage = "<span class=\"errorMessage\">" + fieldError + "</span>";
 	        }
 	    }	
 
@@ -98,10 +88,10 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	    sb.append("<div class=\"fieldrow\">");
 	    if(this.label != null)
 	    {
-			sb.append("<label>" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+			sb.append("<label>" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    }
 	    else
-	        sb.append("<label>" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + errorMessage + "<br>");
+	        sb.append("<label>" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 
         if(values != null)
         {

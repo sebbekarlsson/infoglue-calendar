@@ -32,20 +32,13 @@ import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
-import org.infoglue.calendar.controllers.ParticipantController;
-import org.infoglue.calendar.controllers.ResourceController;
-import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
-import org.infoglue.calendar.entities.Location;
-import org.infoglue.calendar.entities.Participant;
-import org.infoglue.common.security.InfoGluePrincipal;
-import org.infoglue.common.security.UserControllerProxy;
+import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Location Administration screen.

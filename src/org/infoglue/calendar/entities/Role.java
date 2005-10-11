@@ -20,62 +20,60 @@
 *
 * ===============================================================================
 */
-
-package org.infoglue.calendar.actions;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.infoglue.calendar.entities.Event;
-
-import com.opensymphony.xwork.Action;
+package org.infoglue.calendar.entities;
 
 /**
- * This action represents a Calendar Administration screen.
+ * This class represents a participant in some way. In the first case we will use principal name as the key.
+ * Then the surrounding systems can do what they like.
  * 
- * @author Mattias Bogeblad
+ * @author mattias
+ * 
+ * @hibernate.class table="Participant"
  */
 
-public class ViewMessageAction extends CalendarAbstractAction
+public class Role implements BaseEntity
 {
-	private static Log log = LogFactory.getLog(ViewMessageAction.class);
+    private Long id;
+    private String name;
+    private Calendar calendar;
     
-	private Long eventId;
-    private Event newEvent;
-        
     /**
-     * This is the entry point for the main listing.
-     */
-    
-    public String execute() throws Exception 
+     * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
+     * 
+     * @return long
+     */    
+    public Long getId()
     {
-        return Action.SUCCESS;
-    } 
-
-    /**
-     * This is the entry point for the main listing.
-     */
-    
-    public String submitted() throws Exception 
-    {
-        return "successSubmitForPublish";
-    } 
-
-    /**
-     * This is the entry point for the main listing.
-     */
-    
-    public String published() throws Exception 
-    {
-        return "successPublished";
-    } 
-
-    public Long getEventId()
-    {
-        return eventId;
+        return id;
     }
     
-    public void setEventId(Long eventId)
+    public void setId(Long id)
     {
-        this.eventId = eventId;
+        this.id = id;
+    }
+
+    /**
+     * @hibernate.property name="getName" column="roleName" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getName()
+    {
+        return name;
+    }
+    
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    
+    public Calendar getCalendar()
+    {
+        return calendar;
+    }
+    
+    public void setCalendar(Calendar calendar)
+    {
+        this.calendar = calendar;
     }
 }

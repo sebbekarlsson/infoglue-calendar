@@ -39,13 +39,16 @@ import java.util.Set;
 public class Calendar implements BaseEntity
 {
     private Long id;
-    private String owner;
+    //private String owner;
     private String name;
     private String description;
     private Set events = new HashSet();
     private Set publishedEvents = new HashSet();
     private Set waitingEvents = new HashSet();
     private Set workingEvents = new HashSet();
+    
+    private Set roles = new HashSet();
+    private Set groups = new HashSet();
     
     private EventType eventType;
 
@@ -70,6 +73,7 @@ public class Calendar implements BaseEntity
      * 
      * @return String
      */
+    /*
     public String getOwner()
     {
         return owner;
@@ -79,6 +83,7 @@ public class Calendar implements BaseEntity
     {
         this.owner = owner;
     }
+    */
 
     /**
      * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
@@ -182,8 +187,46 @@ public class Calendar implements BaseEntity
     {
         return workingEvents;
     }
+
     public void setWorkingEvents(Set workingEvents)
     {
         this.workingEvents = workingEvents;
     }
+    
+	/**
+     * @hibernate.set lazy="true"
+     * @hibernate.collection-key column="calendar_id"
+     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Role"
+   	 *
+	 * @return Set
+	 */ 
+    
+    public Set getOwningRoles()
+    {
+        return roles;
+    }
+    
+    public void setOwningRoles(Set roles)
+    {
+        this.roles = roles;
+    }
+
+	/**
+     * @hibernate.set lazy="true"
+     * @hibernate.collection-key column="calendar_id"
+     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Group"
+   	 *
+	 * @return Set
+	 */ 
+    
+    public Set getOwningGroups()
+    {
+        return groups;
+    }
+    
+    public void setOwningGroups(Set groups)
+    {
+        this.groups = groups;
+    }
+
 }

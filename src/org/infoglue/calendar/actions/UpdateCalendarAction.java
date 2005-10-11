@@ -48,7 +48,8 @@ public class UpdateCalendarAction extends CalendarAbstractAction
     private Long calendarId;
     private String name;
     private String description;
-    private String owner;
+    private String[] roles;
+    private String[] groups;
     private Long eventTypeId;
 
     /**
@@ -60,7 +61,7 @@ public class UpdateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CalendarController.getController().updateCalendar(calendarId, name, description, owner, eventTypeId, getSession());
+            CalendarController.getController().updateCalendar(calendarId, name, description, roles, groups, eventTypeId, getSession());
         }
         catch(ValidationException e)
         {
@@ -95,14 +96,6 @@ public class UpdateCalendarAction extends CalendarAbstractAction
     {
         this.name = name;
     }
-    public String getOwner()
-    {
-        return owner;
-    }
-    public void setOwner(String owner)
-    {
-        this.owner = owner;
-    }
     
     public Long getEventTypeId()
     {
@@ -113,4 +106,37 @@ public class UpdateCalendarAction extends CalendarAbstractAction
     {
         this.eventTypeId = eventTypeId;
     }
+    
+    public String[] getGroups()
+    {
+        return groups;
+    }
+    
+    public void setGroups(String[] groups)
+    {
+        this.groups = groups;
+    }
+    
+    public String[] getRoles()
+    {
+        return roles;
+    }
+
+    public void setRoles(String[] roles)
+    {
+        this.roles = roles;
+    }
+    
+    public void setGroups(String groups)
+    {
+        System.out.println("group:" + groups);
+        this.groups = new String[] {groups};
+    }
+    
+    public void setRoles(String roles)
+    {
+        System.out.println("role:" + roles);
+        this.groups = new String[] {roles};
+    }
+
 }

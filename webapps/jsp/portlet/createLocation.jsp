@@ -14,6 +14,7 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
+<span class="left"></span>	
 <span class="right">
 	<a href="<c:out value="${createLocationUrl}"/>" <c:if test="${activeSubNavItem == 'NewLocation'}">class="current"</c:if> title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.location.addLocation')"/></a>
 </span>	
