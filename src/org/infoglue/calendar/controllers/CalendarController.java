@@ -163,16 +163,16 @@ public class CalendarController extends BasicController
         while(oldRolesIterator.hasNext())
         {
             Role role = (Role)oldRolesIterator.next();
-            oldRolesIterator.remove();
             session.delete(role);
+            oldRolesIterator.remove();
         }
 
         Iterator oldGroupsIterator = calendar.getOwningGroups().iterator();
         while(oldGroupsIterator.hasNext())
         {
             Group group = (Group)oldGroupsIterator.next();
-            oldGroupsIterator.remove();
             session.delete(group);
+            oldGroupsIterator.remove();
         }
 
         if(roles != null)
