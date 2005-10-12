@@ -31,6 +31,7 @@
     </field>
   </class>
 
+
 <!--  Mapping for Role  -->
   <class name="org.infoglue.cms.entities.management.impl.simple.RoleImpl" identity="roleName">
     <description>Role</description>
@@ -47,7 +48,7 @@
     </field>
   </class>
 
-<!--  Mapping for Group  -->
+  <!--  Mapping for Group  -->
   <class name="org.infoglue.cms.entities.management.impl.simple.GroupImpl" identity="groupName">
     <description>Group</description>
     <cache-type type="unlimited" capacity="10000"/>
