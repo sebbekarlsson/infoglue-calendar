@@ -9,14 +9,14 @@ CREATE TABLE calendar (
 
 CREATE TABLE calendar_role (
   id int NOT NULL,
-  calendar_id int NOT NULL,
+  calendar_id int NULL,
   roleName varchar(255) NOT NULL,
   PRIMARY KEY  (id)
 );
 
 CREATE TABLE calendar_group (
   id int NOT NULL,
-  calendar_id int NOT NULL,
+  calendar_id int NULL,
   groupName varchar(255) NOT NULL,
   PRIMARY KEY  (id)
 );
@@ -74,14 +74,14 @@ CREATE TABLE event (
 
 CREATE TABLE event_category (
   id int NOT NULL,
-  event_id int default 0 NOT NULL,
+  event_id int default 0 NULL,
   category_id int default 0 NOT NULL,
   EVENTTYPE_CATEGORYATTRIBUTE_ID int default 0 NOT NULL,
   PRIMARY KEY  (id)
 );
 
 CREATE TABLE event_location (
-  event_id int default 0 NOT NULL,
+  event_id int default 0 NULL,
   location_id int default 0 NOT NULL,
   PRIMARY KEY  (event_id,location_id)
 );
