@@ -637,12 +637,15 @@ public class EventController extends BasicController
         System.out.println("groups:" + groups.size());
         String groupsSQL = getGroupsSQL(groups);
         System.out.println("groupsSQL:" + groupsSQL);
-        Query q = session.createQuery("select distinct event from Event event, Calendar c, Role cr, Group g where event.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id");
+        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
+        System.out.println("sql:" + sql);
+        Query q = session.createQuery(sql);
         q.setInteger(0, stateId.intValue());
         setRoleNames(1, q, roles);
         setGroupNames(roles.size() + 1, q, groups);
         
         result = q.list();
+        System.out.println("result:" + result.size());
         
         return result;
     }
@@ -805,6 +808,15 @@ public class EventController extends BasicController
     public void deleteEvent(Long id, Session session) throws Exception 
     {
         Event event = this.getEvent(id, session);
+        
+        Iterator eventCategoriesIterator = event.getEventCategories().iterator();
+        while(eventCategoriesIterator.hasNext())
+        {
+            EventCategory eventCategory = (EventCategory)eventCategoriesIterator.next();
+            session.delete(eventCategory);
+            eventCategoriesIterator.remove();
+        }
+        
         session.delete(event);
     }
     
@@ -953,7 +965,7 @@ public class EventController extends BasicController
         while(iterator.hasNext())
         {
             String roleName = (String)iterator.next();
-            
+            System.out.println("roleName:" + roleName);
             q.setString(index, roleName);
             index++;
         }
@@ -989,7 +1001,8 @@ public class EventController extends BasicController
         while(iterator.hasNext())
         {
             String groupName = (String)iterator.next();
-            
+            System.out.println("groupName:" + groupName);
+
             q.setString(index, groupName);
             index++;
         }
