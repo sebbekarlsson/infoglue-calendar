@@ -7,6 +7,20 @@ CREATE TABLE calendar (
   PRIMARY KEY  (id)
 );
 
+CREATE TABLE calendar_role (
+  id int NOT NULL,
+  calendar_id int NOT NULL,
+  roleName varchar(255) NOT NULL,
+  PRIMARY KEY  (id)
+);
+
+CREATE TABLE calendar_group (
+  id int NOT NULL,
+  calendar_id int NOT NULL,
+  groupName varchar(255) NOT NULL,
+  PRIMARY KEY  (id)
+);
+
 CREATE TABLE category (
   id int NOT NULL ,
   name varchar(255) default NULL,
