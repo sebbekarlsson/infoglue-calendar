@@ -730,6 +730,10 @@ public class EventController extends BasicController
 	        }
 	        calendarSQL += ")";
         }
+        else
+        {
+            return null;
+        }
 /*
         String categoriesSQL = null;
         if(categories != null && categories.length > 0)
