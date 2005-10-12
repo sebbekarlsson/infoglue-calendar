@@ -162,8 +162,6 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.infoglueRoles = RoleControllerProxy.getController().getAllRoles();
         this.infoglueGroups = GroupControllerProxy.getController().getAllGroups();
 
-        System.out.println("infoglueRoles:" + infoglueRoles.size());
-        System.out.println("infoglueGroups:" + infoglueGroups.size());
         this.eventTypes = EventTypeController.getController().getEventTypeList(getSession());
 
         log.debug("startCalendar:" + startCalendar.getTime());

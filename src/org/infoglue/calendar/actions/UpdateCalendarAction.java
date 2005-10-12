@@ -129,13 +129,11 @@ public class UpdateCalendarAction extends CalendarAbstractAction
     
     public void setGroups(String groups)
     {
-        System.out.println("group:" + groups);
         this.groups = new String[] {groups};
     }
     
     public void setRoles(String roles)
     {
-        System.out.println("role:" + roles);
         this.groups = new String[] {roles};
     }
 

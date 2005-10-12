@@ -115,7 +115,6 @@ public class CalendarController extends BasicController
         {
             Role role = new Role();
             String roleName = roles[i];
-            System.out.println("roleName:" + roleName);
             role.setName(roleName);
             session.save(role);
             calendar.getOwningRoles().add(role);
@@ -125,7 +124,6 @@ public class CalendarController extends BasicController
         {
             Group group = new Group();
             String groupName = groups[i];
-            System.out.println("groupName:" + groupName);
             group.setName(groupName);
             session.save(group);
             calendar.getOwningRoles().add(group);
@@ -183,7 +181,6 @@ public class CalendarController extends BasicController
 	        {
 	            Role role = new Role();
 	            String roleName = roles[i];
-	            System.out.println("roleName:" + roleName);
 	            role.setCalendar(calendar);
 	            role.setName(roleName);
 	            session.save(role);
@@ -197,7 +194,6 @@ public class CalendarController extends BasicController
 	        {
 	            Group group = new Group();
 	            String groupName = groups[i];
-	            System.out.println("groupName:" + groupName);
 	            group.setCalendar(calendar);
 	            group.setName(groupName);
 	            session.save(group);
