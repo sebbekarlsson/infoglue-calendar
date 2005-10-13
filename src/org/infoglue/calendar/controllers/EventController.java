@@ -720,13 +720,25 @@ public class EventController extends BasicController
         String calendarSQL = null;
         if(calendarIds != null && calendarIds.length > 0)
         {
-	        calendarSQL = "(";
+            calendarSQL = "(";
 	        for(int i=0; i<calendarIds.length; i++)
 	        {
+	            String calendarIdString = calendarIds[i];
+
+	            try
+	            {
+	                Integer calendarId = new Integer(calendarIdString);
+	            }
+	            catch(Exception e)
+	            {
+	                log.warn("An invalid calendarId was given:" + e.getMessage(), e);
+	                return null;
+	            }
+	            
 	            if(i > 0)
 	                calendarSQL += ",";
 	            
-	            calendarSQL += calendarIds[i];
+	            calendarSQL += calendarIdString;
 	        }
 	        calendarSQL += ")";
         }
