@@ -21,37 +21,41 @@
 * ===============================================================================
 */
 
-package org.infoglue.calendar.controllers;
+package org.infoglue.calendar.actions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.infoglue.common.util.PropertyHelper;
+import com.opensymphony.module.propertyset.PropertySet;
+import com.opensymphony.module.propertyset.PropertySetManager;
+
+import com.opensymphony.xwork.Action;
 
 /**
- * This class represents the basic controller which all other controllers inherits from.
+ * This action represents the settings screen for the calendar system. Not implemented yet.
  * 
  * @author Mattias Bogeblad
  */
 
-public abstract class BasicController
+public class ViewSettingsAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(ViewSettingsAction.class);
+
+    /**
+     * This is the entry point for the main listing.
+     */
     
-    public boolean useEventPublishing()
+    public String execute() throws Exception 
     {
-        String useEventPublishing = PropertyHelper.getProperty("useEventPublishing");
-        
-        return (useEventPublishing.equalsIgnoreCase("true") ? true : false);
-    }
-
-    public boolean useGlobalEventNotification()
+        return Action.SUCCESS;
+    } 
+/*
+    public String getEmailAddresses()
     {
-        String useGlobalEventNotification = PropertyHelper.getProperty("useGlobalEventNotification");
-        
-        return (useGlobalEventNotification.equalsIgnoreCase("true") ? true : false);
+        return Prop
     }
-
+   */
 }

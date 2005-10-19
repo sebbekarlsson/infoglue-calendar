@@ -25,13 +25,16 @@ package org.infoglue.calendar.actions;
 
 import java.util.List;
 
+import javax.portlet.PortletURL;
+
 import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.controllers.EventTypeController;
-import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
+import org.infoglue.calendar.controllers.LocationController;
+import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.validator.ValidationException;
 
 /**
@@ -40,20 +43,15 @@ import com.opensymphony.xwork.validator.ValidationException;
  * @author Mattias Bogeblad
  */
 
-public class CreateCalendarAction extends CalendarAbstractAction
+public class UpdateSettingsAction extends CalendarAbstractAction
 {
+    private Long calendarId;
     private String name;
     private String description;
     private String[] roles;
     private String[] groups;
     private Long eventTypeId;
-    
-    private List infogluePrincipals;
-    private List infoglueRoles;
-    private List infoglueGroups;
-    private List eventTypes;
 
-    
     /**
      * This is the entry point for the main listing.
      */
@@ -63,7 +61,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CalendarController.getController().createCalendar(name, description, roles, groups, eventTypeId, getSession());
+            CalendarController.getController().updateCalendar(calendarId, name, description, roles, groups, eventTypeId, getSession());
         }
         catch(ValidationException e)
         {
@@ -72,21 +70,16 @@ public class CreateCalendarAction extends CalendarAbstractAction
         
         return Action.SUCCESS;
     } 
-
-    /**
-     * This is the entry point creating a new calendar.
-     */
     
-    public String input() throws Exception 
+ 
+    public Long getCalendarId()
     {
-        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
-        this.infoglueRoles = RoleControllerProxy.getController().getAllRoles();
-        this.infoglueGroups = GroupControllerProxy.getController().getAllGroups();
-        this.eventTypes = EventTypeController.getController().getEventTypeList(getSession());
-
-        return Action.INPUT;
-    } 
-    
+        return calendarId;
+    }
+    public void setCalendarId(Long calendarId)
+    {
+        this.calendarId = calendarId;
+    }
     public String getDescription()
     {
         return description;
@@ -103,22 +96,15 @@ public class CreateCalendarAction extends CalendarAbstractAction
     {
         this.name = name;
     }
-
-    public List getInfogluePrincipals()
-    {
-        return infogluePrincipals;
-    }
+    
     public Long getEventTypeId()
     {
         return eventTypeId;
     }
+    
     public void setEventTypeId(Long eventTypeId)
     {
         this.eventTypeId = eventTypeId;
-    }
-    public List getEventTypes()
-    {
-        return eventTypes;
     }
     
     public String[] getGroups()
@@ -149,16 +135,6 @@ public class CreateCalendarAction extends CalendarAbstractAction
     public void setRoles(String roles)
     {
         this.groups = new String[] {roles};
-    }
-
-    public List getInfoglueGroups()
-    {
-        return infoglueGroups;
-    }
-    
-    public List getInfoglueRoles()
-    {
-        return infoglueRoles;
     }
 
 }

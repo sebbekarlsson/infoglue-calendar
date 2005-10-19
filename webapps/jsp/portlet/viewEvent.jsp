@@ -199,13 +199,17 @@
 		%>		
 		
 		<ww:if test="event.stateId == 2">
+			<portlet:renderURL var="publishedEventUrl">
+				<portlet:param name="action" value="ViewEvent"/>
+				<portlet:param name="eventId" value="{eventId}"/>
+			</portlet:renderURL>
 						
 			<portlet:actionURL var="publishEventActionUrl">
 				<calendar:evalParam name="action" value="UpdateEvent!publishEvent"/>
 				<calendar:evalParam name="eventId" value="${eventId}"/>
 				<calendar:evalParam name="calendarId" value="${calendarId}"/>
 				<calendar:evalParam name="mode" value="${mode}"/>
-				<calendar:evalParam name="publishEventUrl" value="http://${hostName}${publishEventUrl}"/>
+				<calendar:evalParam name="publishedEventUrl" value="http://${hostName}${publishedEventUrl}"/>
 			</portlet:actionURL>
 			<input onclick="document.location.href='<c:out value="${publishEventActionUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.publishEvent')"/>" class="button"/>
 		</ww:if>

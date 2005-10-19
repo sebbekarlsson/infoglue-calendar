@@ -1,6 +1,5 @@
-<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN" "http://castor.exolab.org/jdo-conf.dtd">
-
-<jdo-conf> 
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN" "http://castor.codehaus.org/jdo-conf.dtd">
+<jdo-conf>
 	<database name="INFOGLUE_CMS" engine="@database.driver.engine@">
 		<data-source class-name="org.apache.commons.dbcp.BasicDataSource">
 		  	<param name="driver-class-name" value="@database.driver.class@"/>
@@ -12,5 +11,5 @@
 		</data-source>
 		<mapping href="classes/@database.mapping@"/>
 	</database>
-    <transaction-demarcation mode="local" />
+	<transaction-demarcation mode="local"></transaction-demarcation>
 </jdo-conf>

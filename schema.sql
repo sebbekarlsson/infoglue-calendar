@@ -28,15 +28,14 @@ CREATE TABLE `calendar_group` (
   `calendar_id` bigint(20) unsigned NOT NULL default '0',
   `groupName` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8
+)
 
-CREATE TABLE `calendar`.`calendar_role` (
+CREATE TABLE `calendar_role` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `calendar_id` BIGINT UNSIGNED NOT NULL,
   `roleName` VARCHAR(255) NOT NULL,
   PRIMARY KEY(`id`)
 )
-ENGINE = MYISAM;
 
 #
 # Structure for table category : 

@@ -19,6 +19,21 @@
 				<param name="dispatchTo">/jsp/portlet/confirm.jsp</param>
 			</result>
 		</action>
+
+		<!-- Settings actions -->
+		<action name="ViewSettings" class="org.infoglue.calendar.actions.ViewSettingsAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewSettings.jsp</param>
+			</result>
+		</action>
+		<action name="UpdateSettings" class="org.infoglue.calendar.actions.UpdateSettingsAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewCalendarAdministration.action</param>
+			</result>
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">ViewSettings.action</param>
+			</result>
+		</action>
 		
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">

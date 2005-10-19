@@ -472,12 +472,25 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void publishEvent(Long id, Session session) throws Exception 
+    public void publishEvent(Long id, String publishedEventUrl, Session session) throws Exception 
     {
 		Event event = getEvent(id, session);
 		event.setStateId(Event.STATE_PUBLISHED);
 		
 		new RemoteCacheUpdater().updateRemoteCaches();
+		
+        if(useGlobalEventNotification())
+        {
+            try
+            {
+                EventController.getController().notifySubscribers(event, publishedEventUrl);
+            }
+            catch(Exception e)
+            {
+                log.warn("An error occcurred:" + e.getMessage(), e);
+            }
+        }
+
     }    
     
     /**
@@ -907,7 +920,53 @@ public class EventController extends BasicController
 		}
 		
     }
+
     
+    /**
+     * This method emails the owner of an event the new information and an address to visit.
+     * @throws Exception
+     */
+    
+    public void notifySubscribers(Event event, String publishedEventUrl) throws Exception
+    {
+	    String subscriberEmails = PropertyHelper.getProperty("subscriberEmails");
+	    
+	    try
+	    {
+            String template;
+	        
+	        String contentType = PropertyHelper.getProperty("mail.contentType");
+	        if(contentType == null || contentType.length() == 0)
+	            contentType = "text/html";
+	        
+	        if(contentType.equalsIgnoreCase("text/plain"))
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEventPublishedNotification_plain.vm"));
+		    else
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEventPublishedNotification_html.vm"));
+		    
+		    Map parameters = new HashMap();
+		    parameters.put("event", event);
+		    parameters.put("publishedEventUrl", publishedEventUrl.replaceAll("\\{eventId\\}", event.getId().toString()));
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
+			String email = tempString.toString();
+	    
+			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
+			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
+				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
+
+			System.out.println("Sending mail to:" + systemEmailSender + " and " + subscriberEmails);
+			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, subscriberEmails, "InfoGlue Calendar - new event published", email, contentType, "UTF-8");
+	    }
+		catch(Exception e)
+		{
+			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+		}
+		
+    }
+
     /**
      * This method checks if a user has one of the roles defined in the event.
      * @param principal
