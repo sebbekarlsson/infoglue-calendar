@@ -90,8 +90,8 @@
     </field>
     <field name="lastRegistrationTime">
        	<field-validator type="fieldexpression">
-            <param name="expression">lastRegistrationTime != null</param>
-            <message>You must enter a last registration time.</message>
+            <param name="expression">lastRegistrationCalendar != null and lastRegistrationCalendar.before(startCalendar)</param>
+            <message>You must enter a last registration time and it must be before the event.</message>
         </field-validator>
     </field>
     <!--
@@ -108,8 +108,8 @@
     -->
     <field name="startDateTime">
 		<field-validator type="fieldexpression">
-            <param name="expression">startCalendar.before(endCalendar)</param>
-            <message>Startdate must be before end date</message>
+            <param name="expression">startCalendar != null and startCalendar.before(endCalendar)</param>
+            <message>Startdate must be valid and before end date</message>
         </field-validator>
     </field>
 </validators>

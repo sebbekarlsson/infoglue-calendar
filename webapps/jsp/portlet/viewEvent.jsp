@@ -22,11 +22,6 @@
 		<calendar:evalParam name="eventId" value="${eventId}"/>
 	</portlet:actionURL>
 
-	<portlet:renderURL var="viewCalendarUrl">
-		<portlet:param name="action" value="ViewCalendar"/>
-		<portlet:param name="calendarId" value="{event.calendarId}"/>
-	</portlet:renderURL>
-
 	<portlet:renderURL var="viewListUrl">
 		<portlet:param name="action" value="ViewEvent"/>
 		<calendar:evalParam name="eventId" value="${eventId}"/>
@@ -121,7 +116,7 @@
   			<calendar:textValue label="labels.internal.event.location" value="event.locations" labelCssClass="label"/>
 		</p>
 
-		<ww:iterator value="event.calendar.eventType.categoryAttributes" status="rowstatus">
+		<ww:iterator value="event.owningCalendar.eventType.categoryAttributes" status="rowstatus">
 		<p>
 			<ww:set name="categoryAttribute" value="top" scope="page"/>
 			<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>

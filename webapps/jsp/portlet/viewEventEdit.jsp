@@ -27,7 +27,7 @@
 	
 	<form name="updateForm" method="POST" action="<c:out value="${updateEventActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
-		<input type="hidden" name="calendarId" value="<ww:property value="event.calendar.id"/>"/>
+		<input type="hidden" name="calendarId" value="<ww:property value="event.owningCalendar.id"/>"/>
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 		<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
 					
@@ -87,7 +87,7 @@
 
 		<hr>
 			
-		<ww:iterator value="event.calendar.eventType.categoryAttributes" status="rowstatus">
+		<ww:iterator value="event.owningCalendar.eventType.categoryAttributes" status="rowstatus">
 			<ww:set name="categoryAttribute" value="top" scope="page"/>
 			<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
 			<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>

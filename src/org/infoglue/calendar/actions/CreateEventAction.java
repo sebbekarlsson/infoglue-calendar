@@ -117,6 +117,9 @@ public class CreateEventAction extends CalendarAbstractAction
             while(idKey != null && idKey.length() > 0)
             {
                 String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
+                if(categoryIds == null || categoryIds.length == 0)
+                    this.addFieldError("categoryAttribute_" + idKey + "_categoryId", "You must select at least one item.");
+
                 log.info("categoryIds:" + categoryIds);
                 categoryAttributes.put(idKey, categoryIds);
                 

@@ -281,7 +281,7 @@ public class CalendarAbstractAction extends ActionSupport
             throw new ValidationException("An validation error occurred - more information is in the valuestack...");
         }
     }
-    
+
     public boolean useEventPublishing()
     {
         String useEventPublishing = PropertyHelper.getProperty("useEventPublishing");

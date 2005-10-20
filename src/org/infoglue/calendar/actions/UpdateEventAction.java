@@ -123,6 +123,10 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
             {
                 String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
                 log.info("categoryIds:" + categoryIds);
+                
+                if(categoryIds == null || categoryIds.length == 0)
+                    this.addFieldError("categoryAttribute_" + idKey + "_categoryId", "You must select at least one item.");
+
                 categoryAttributes.put(idKey, categoryIds);
                 
                 i++;
