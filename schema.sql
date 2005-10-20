@@ -28,13 +28,21 @@ CREATE TABLE `calendar_group` (
   `calendar_id` bigint(20) unsigned NOT NULL default '0',
   `groupName` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
 
-CREATE TABLE `calendar_role` (
+CREATE TABLE `calendar`.`calendar_role` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `calendar_id` BIGINT UNSIGNED NOT NULL,
   `roleName` VARCHAR(255) NOT NULL,
   PRIMARY KEY(`id`)
+)
+ENGINE = MYISAM;
+
+DROP TABLE IF EXISTS event_calendar;
+CREATE TABLE event_calendar (
+  event_id bigint(20) NOT NULL default '0',
+  calendar_id bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (event_id,calendar_id)
 )
 
 #
@@ -74,13 +82,13 @@ CREATE TABLE event (
   description varchar(255) default NULL,
   endDateTime date default NULL,
   startDateTime date default NULL,
-  lecturer varchar(255) default NULL,
+  lecturer varchar(1024) default NULL,
   isOrganizedByGU int default NULL,
   lastRegistrationDateTime date default NULL,
-  longDescription varchar(255) default NULL,
+  longDescription text NULL,
   maximumParticipants int default NULL,
   contactEmail varchar(255) default NULL,
-  shortDescription varchar(255) default NULL,
+  shortDescription text NULL,
   organizerName varchar(255) default NULL,
   contactPhone varchar(255) default NULL,
   price float default NULL,
