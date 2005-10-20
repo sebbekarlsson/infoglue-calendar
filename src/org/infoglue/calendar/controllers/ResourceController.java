@@ -342,7 +342,7 @@ public class ResourceController extends BasicController
     
     public List getEventList(Calendar calendar, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
-        Query q = session.createQuery("from Event as event inner join fetch event.calendar as calendar where event.calendar = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
+        Query q = session.createQuery("from Event as event inner join fetch event.owningCalendar as calendar where event.owningCalendar = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
         q.setEntity(0, calendar);
         q.setCalendar(1, startDate);
         q.setCalendar(2, endDate);

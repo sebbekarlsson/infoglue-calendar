@@ -110,9 +110,9 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String execute() throws Exception 
     {
-        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
-        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
+        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime, false); 
+        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime, false); 
+        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime, false); 
 
         try
         {

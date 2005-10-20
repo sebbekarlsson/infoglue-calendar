@@ -49,6 +49,12 @@
 			<result name="successChoose" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/chooseCalendar.jsp</param>
 			</result>
+			<result name="successChooseForCopy" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/chooseCalendarForCopy.jsp</param>
+			</result>
+			<result name="successChooseForLink" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/chooseCalendarForLink.jsp</param>
+			</result>
 		</action>
 		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
 			<result name="input" type="portletDispatch">
@@ -300,6 +306,10 @@
 				<param name="viewAction">ViewWaitingEventList.action</param>
 				<param name="parse">true</param>
 			</result>
+			<result name="successLinkedPublished" type="eventProcessed">
+				<param name="viewAction">ViewLinkedPublishedEventList.action</param>
+				<param name="parse">true</param>
+			</result>
 			<result name="successPublished" type="eventProcessed">
 				<param name="viewAction">ViewPublishedEventList.action</param>
 				<param name="parse">true</param>
@@ -344,6 +354,12 @@
 		<action name="ViewPublishedEventList" class="org.infoglue.calendar.actions.ViewPublishedEventListAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewPublishedEventList.jsp</param>
+			</result>
+		</action>
+
+		<action name="ViewLinkedPublishedEventList" class="org.infoglue.calendar.actions.ViewLinkedPublishedEventListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewLinkedPublishedEventList.jsp</param>
 			</result>
 		</action>
 

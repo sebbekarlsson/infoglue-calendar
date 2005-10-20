@@ -85,7 +85,7 @@ public class ViewEventAction extends CalendarAbstractAction
         //    this.calendarId = new Long(ServletActionContext.getRequest().getParameter("calendarId"));
 
         this.event = EventController.getController().getEvent(eventId, getSession());
-        this.calendarId = this.event.getCalendar().getId();
+        this.calendarId = this.event.getOwningCalendar().getId();
         //this.locations 	= LocationController.getController().getLocationList();
         //this.categories = CategoryController.getController().getCategoryList();
         

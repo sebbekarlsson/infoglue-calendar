@@ -154,7 +154,7 @@ public class CalendarAbstractAction extends ActionSupport
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            log.info("Could not parse date:" + e.getMessage() + " - defaulting to now...");
         }
         
         return date;
@@ -187,7 +187,7 @@ public class CalendarAbstractAction extends ActionSupport
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            log.info("Could not parse date:" + e.getMessage() + " - defaulting to now...");
         }
         
         return date;
@@ -202,7 +202,7 @@ public class CalendarAbstractAction extends ActionSupport
      * @return
      */
     
-    public Calendar getCalendar(String dateString, String pattern, Integer hour)
+    public Calendar getCalendar(String dateString, String pattern, Integer hour, boolean fallback)
     {	
         Calendar calendar = Calendar.getInstance();
         if(dateString == null)
@@ -223,7 +223,9 @@ public class CalendarAbstractAction extends ActionSupport
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            log.info("Could not parse date:" + e.getMessage() + " - defaulting to now...");
+            if(!fallback)
+                return null;
         }
         
         return calendar;

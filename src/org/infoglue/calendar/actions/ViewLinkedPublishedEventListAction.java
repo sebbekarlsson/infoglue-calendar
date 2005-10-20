@@ -24,13 +24,18 @@
 package org.infoglue.calendar.actions;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.portlet.PortletURL;
 
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.common.util.DBSessionWrapper;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 
@@ -40,10 +45,9 @@ import com.opensymphony.xwork.ActionContext;
  * @author Mattias Bogeblad
  */
 
-public class ViewCalendarListAction extends CalendarAbstractAction
+public class ViewLinkedPublishedEventListAction extends CalendarAbstractAction
 {
-    private List calendars;
-    private Long eventId;
+    private List events;
     
     /**
      * This is the entry point for the main listing.
@@ -51,56 +55,14 @@ public class ViewCalendarListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.calendars = CalendarController.getController().getCalendarList(this.getSession());
+        this.events = EventController.getController().getLinkedPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
 
         return Action.SUCCESS;
     } 
-
-    /**
-     * This is the entry point for the main listing.
-     */
     
-    public String choose() throws Exception 
+    public List getEvents()
     {
-        execute();
-
-        return "successChoose";
-    } 
-    
-    /**
-     * This is the entry point for the main listing.
-     */
-    
-    public String chooseCopyTarget() throws Exception 
-    {
-        execute();
-
-        return "successChooseForCopy";
-    } 
-
-    /**
-     * This is the entry point for the main listing.
-     */
-    
-    public String chooseLinkTarget() throws Exception 
-    {
-        execute();
-
-        return "successChooseForLink";
-    } 
-
-    public List getCalendars()
-    {
-        return calendars;
+        return events;
     }
     
-    public Long getEventId()
-    {
-        return eventId;
-    }
-    
-    public void setEventId(Long eventId)
-    {
-        this.eventId = eventId;
-    }
 }

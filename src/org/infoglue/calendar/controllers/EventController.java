@@ -60,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -67,6 +68,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
 
 public class EventController extends BasicController
 {    
@@ -85,6 +88,108 @@ public class EventController extends BasicController
         return new EventController();
     }
         
+    
+    /**
+     * This method is used to create a new Event object in the database.
+     */
+    
+    public Event createEvent(Long calendarId, 
+            				String name, 
+            				String description, 
+            				Boolean isInternal, 
+            	            Boolean isOrganizedByGU, 
+            	            String organizerName, 
+            	            String lecturer, 
+            	            String customLocation,
+            	            String shortDescription,
+            	            String longDescription,
+            	            String eventUrl,
+            	            String contactName,
+            	            String contactEmail,
+            	            String contactPhone,
+            	            Float price,
+            	            java.util.Calendar lastRegistrationCalendar,
+            	            Integer maximumParticipants,
+            	            java.util.Calendar startDateTime, 
+            	            java.util.Calendar endDateTime, 
+            	            Set oldLocations, 
+            	            Set oldEventCategories, 
+            	            Set oldParticipants,
+            	            Integer stateId,
+            	            String creator,
+            	            Session session) throws HibernateException, Exception 
+    {
+        Event event = null;
+ 
+		Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
+		
+		Set locations = new HashSet();
+		Iterator oldLocationsIterator = oldLocations.iterator();
+		while(oldLocationsIterator.hasNext())
+		{
+		    Location location = (Location)oldLocationsIterator.next();
+		    locations.add(location);
+		}
+		
+		Set participants = new HashSet();
+		Iterator oldParticipantsIterator = oldParticipants.iterator();
+		while(oldParticipantsIterator.hasNext())
+		{
+		    Participant oldParticipant = (Participant)oldParticipantsIterator.next();
+		    Participant participant = new Participant();
+		    participant.setUserName(oldParticipant.getUserName());
+		    participant.setEvent(event);
+		    session.save(participant);
+		    participants.add(participant);
+		}
+		
+		event = createEvent(calendar, 
+		        			name, 
+		        			description, 
+		        			isInternal, 
+		                    isOrganizedByGU, 
+		                    organizerName, 
+		                    lecturer, 
+		                    customLocation,
+		                    shortDescription,
+		                    longDescription,
+		                    eventUrl,
+		                    contactName,
+		                    contactEmail,
+		                    contactPhone,
+		                    price,
+		                    lastRegistrationCalendar,
+		                    maximumParticipants,
+		        			startDateTime, 
+		        			endDateTime, 
+		        			locations, 
+		        			participants,
+		        			stateId,
+		        			creator,
+		        			session);
+		
+		Set eventCategories = new HashSet();
+		Iterator oldEventCategoriesIterator = oldEventCategories.iterator();
+		while(oldEventCategoriesIterator.hasNext())
+		{
+		    EventCategory oldEventCategory = (EventCategory)oldEventCategoriesIterator.next();
+		    
+		    EventCategory eventCategory = new EventCategory();
+		    eventCategory.setEvent(event);
+		    eventCategory.setCategory(oldEventCategory.getCategory());
+		    eventCategory.setEventTypeCategoryAttribute(oldEventCategory.getEventTypeCategoryAttribute());
+		    session.save(eventCategory);
+		    
+	        eventCategories.add(eventCategory);
+	    
+		}
+
+		event.setEventCategories(eventCategories);
+		
+        return event;
+    }
+
+    
     
     /**
      * This method is used to create a new Event object in the database.
@@ -203,7 +308,7 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database inside a transaction.
      */
     
-    public Event createEvent(Calendar calendar, 
+    public Event createEvent(Calendar owningCalendar, 
             				String name, 
             				String description, 
             				Boolean isInternal, 
@@ -251,10 +356,11 @@ public class EventController extends BasicController
         event.setStateId(stateId);
         event.setCreator(creator);
         
-        event.setCalendar(calendar);
+        event.setOwningCalendar(owningCalendar);
+        event.getCalendars().add(owningCalendar);
         event.setLocations(locations);
         event.setParticipants(participants);
-        calendar.getEvents().add(event);
+        owningCalendar.getEvents().add(event);
         
         session.save(event);
         
@@ -439,6 +545,18 @@ public class EventController extends BasicController
 		session.update(event);
 	}
     
+
+    /**
+     * This method is used to create a new Event object in the database.
+     */
+    
+    public void linkEvent(Long calendarId, Long eventId, Session session) throws HibernateException, Exception 
+    {
+        Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
+        Event event = EventController.getController().getEvent(eventId, session);		
+
+        event.getCalendars().add(calendar);
+    }
 
     /**
      * Submits an event for publication.
@@ -642,22 +760,74 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(String userName, List roles, List groups, Integer stateId, Session session) throws Exception 
+    public List getEventList(String userName, List roles, List groups, Integer stateId, boolean includeLinked, Session session) throws Exception 
     {
         List result = null;
         
-        String rolesSQL = getRoleSQL(roles);
-        System.out.println("groups:" + groups.size());
-        String groupsSQL = getGroupsSQL(groups);
-        System.out.println("groupsSQL:" + groupsSQL);
-        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
-        System.out.println("sql:" + sql);
-        Query q = session.createQuery(sql);
-        q.setInteger(0, stateId.intValue());
-        setRoleNames(1, q, roles);
-        setGroupNames(roles.size() + 1, q, groups);
+        if(includeLinked == true)
+        {
+            /*
+            String rolesSQL = getRoleSQL(roles);
+	        System.out.println("groups:" + groups.size());
+	        String groupsSQL = getGroupsSQL(groups);
+	        System.out.println("groupsSQL:" + groupsSQL);
+	        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.calendars.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
+	        //String sql = "select distinct event from Event event, Calendar c, Event_Calendar ec, Role cr, Group g where event.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
+	        System.out.println("sql:" + sql);
+	        Query q = session.createQuery(sql);
+	        q.setInteger(0, stateId.intValue());
+	        setRoleNames(1, q, roles);
+	        setGroupNames(roles.size() + 1, q, groups);
+	        */
+
+            String rolesSQL = getRoleSQL(roles);
+	        System.out.println("groups:" + groups.size());
+	        String groupsSQL = getGroupsSQL(groups);
+	        System.out.println("groupsSQL:" + groupsSQL);
+	        String sql = "select distinct c from Calendar c, Role cr, Group g where cr.calendar = c AND g.calendar = c " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by c.id";
+	        //String sql = "select distinct event from Event event, Calendar c, Event_Calendar ec, Role cr, Group g where event.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
+	        System.out.println("sql:" + sql);
+	        Query q = session.createQuery(sql);
+	        setRoleNames(0, q, roles);
+	        setGroupNames(roles.size(), q, groups);
+	        List calendars = q.list();
+
+	        Object[] calendarIdArray = new Object[calendars.size()];
+
+	        int i = 0;
+	        Iterator calendarsIterator = calendars.iterator();
+	        while(calendarsIterator.hasNext())
+	        {
+	            Calendar calendar = (Calendar)calendarsIterator.next();
+	            System.out.println("calendar: " + calendar.getName());
+	            calendarIdArray[i] = calendar.getId();
+	            i++;                
+	        }
+	        //Object[] calendarArray = calendars.toArray();
+            
+            Criteria criteria = session.createCriteria(Event.class);
+            criteria.createCriteria("calendars")
+            .add(Expression.in("id", calendarIdArray));
+            //criteria.add(Expression.eq("country",country);
+            result = criteria.list();
+            	        
+        }
+        else
+        {
+	        String rolesSQL = getRoleSQL(roles);
+	        System.out.println("groups:" + groups.size());
+	        String groupsSQL = getGroupsSQL(groups);
+	        System.out.println("groupsSQL:" + groupsSQL);
+	        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.owningCalendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
+	        System.out.println("sql:" + sql);
+	        Query q = session.createQuery(sql);
+	        q.setInteger(0, stateId.intValue());
+	        setRoleNames(1, q, roles);
+	        setGroupNames(roles.size() + 1, q, groups);
+	        
+	        result = q.list();
+        }
         
-        result = q.list();
         System.out.println("result:" + result.size());
         
         return result;
@@ -672,7 +842,7 @@ public class EventController extends BasicController
     
     public List getMyWorkingEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        List result = getEventList(userName, roles, groups, Event.STATE_WORKING, session);
+        List result = getEventList(userName, roles, groups, Event.STATE_WORKING, false, session);
         
         return result;
     }
@@ -686,7 +856,7 @@ public class EventController extends BasicController
     
     public List getWaitingEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISH, session);
+        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISH, false, session);
         
         return result;
     }
@@ -699,7 +869,20 @@ public class EventController extends BasicController
     
     public List getPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, session);
+        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, false, session);
+        
+        return result;
+    }
+
+    /**
+     * Gets a list of all events available for a particular user which are in working mode.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public List getLinkedPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
+    {
+        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, true, session);
         
         return result;
     }
@@ -774,13 +957,30 @@ public class EventController extends BasicController
 	        categoriesSQL += ")";
         }
 */
-        String sql = "from Event event WHERE event.stateId = ? AND event.startDateTime >= ? " + (calendarSQL != null ? "AND event.calendar.id IN " + calendarSQL : "") + " ORDER BY event.startDateTime";
+        Object[] calendarIdArray = new Object[calendarIds.length];
+        for(int i=0; i<calendarIds.length; i++)
+            calendarIdArray[i] = new Long(calendarIds[i]);
+        
+        Criteria criteria = session.createCriteria(Event.class);
+        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
+        criteria.add(Expression.gt("startDateTime", java.util.Calendar.getInstance()));
+        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
+        criteria.addOrder(Order.asc("startDateTime"));
+        criteria.createCriteria("calendars")
+        .add(Expression.in("id", calendarIdArray));
+        
+        result = criteria.list();
+        
+/*        
+        String sql = "from Event event WHERE event.stateId = ? AND event.startDateTime >= ? " + (calendarSQL != null ? "AND event.owningCalendar.id IN " + calendarSQL : "") + " ORDER BY event.startDateTime";
         log.info("SQL:" + sql);
+        System.out.println("SQL:" + sql);
         Query q = session.createQuery(sql);
         q.setInteger(0, Event.STATE_PUBLISHED.intValue());
         q.setCalendar(1, java.util.Calendar.getInstance());
-        
+
         result = q.list();
+*/
         log.info("result:" + result.size());
         
         return result;
@@ -794,7 +994,7 @@ public class EventController extends BasicController
     
     public List getEventList(Calendar calendar, Integer stateId, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
-        Query q = session.createQuery("from Event as event inner join fetch event.calendar as calendar where event.calendar = ? AND event.stateId = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
+        Query q = session.createQuery("from Event as event inner join fetch event.owningCalendar as calendar where event.owningCalendar = ? AND event.stateId = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
         q.setEntity(0, calendar);
         q.setInteger(1, stateId.intValue());
         q.setCalendar(2, startDate);
@@ -862,7 +1062,7 @@ public class EventController extends BasicController
 	    try
 	    {
 	        List allPrincipals = new ArrayList();
-	        Collection owningRoles = event.getCalendar().getOwningRoles();
+	        Collection owningRoles = event.getOwningCalendar().getOwningRoles();
 	        Iterator owningRolesIterator = owningRoles.iterator();
 	        while(owningRolesIterator.hasNext())
 	        {
@@ -976,7 +1176,7 @@ public class EventController extends BasicController
      */
     public boolean hasUserGroup(InfoGluePrincipal principal, Event event) throws Exception
     {
-        Collection owningGroups = event.getCalendar().getOwningGroups();
+        Collection owningGroups = event.getOwningCalendar().getOwningGroups();
         if(owningGroups == null || owningGroups.size() == 0)
             return true;
         

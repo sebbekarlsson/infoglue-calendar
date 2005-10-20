@@ -22,6 +22,7 @@
 */
 package org.infoglue.calendar.entities;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -63,12 +64,13 @@ public class Event implements BaseEntity
     private Integer stateId = STATE_WORKING; //Default if not otherwise set
     private String creator;
     
-    private Calendar calendar;
-    private Set locations;
-    private Set participants;
-    private Set resources;
-    private Set eventCategories;
-    private Set entries;
+    private Calendar owningCalendar;
+    private Set calendars = new HashSet();
+    private Set locations = new HashSet();;
+    private Set participants = new HashSet();;
+    private Set resources = new HashSet();;
+    private Set eventCategories = new HashSet();;
+    private Set entries = new HashSet();;
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -199,14 +201,14 @@ public class Event implements BaseEntity
     /** 
      * @hibernate.many-to-one class="org.infoglue.calendar.entities.Calendar" column="calendar_id"
      */  
-    public Calendar getCalendar()
+    public Calendar getOwningCalendar()
     {
-        return calendar;
+        return owningCalendar;
     }
     
-    public void setCalendar(Calendar calendar)
+    public void setOwningCalendar(Calendar owningCalendar)
     {
-        this.calendar = calendar;
+        this.owningCalendar = owningCalendar;
     }
     
     /**
@@ -428,7 +430,17 @@ public class Event implements BaseEntity
     {
         this.eventCategories = eventCategories;
     }
+
+    public Set getCalendars()
+    {
+        return calendars;
+    }
     
+    public void setCalendars(Set calendars)
+    {
+        this.calendars = calendars;
+    }
+
     public Set getEntries()
     {
         return entries;

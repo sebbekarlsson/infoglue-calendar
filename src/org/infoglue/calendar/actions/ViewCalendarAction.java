@@ -95,8 +95,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.calendar = CalendarController.getController().getCalendar(calendarId, this.getSession());
         log.debug("calendar: " + calendar.getName());
         
-        this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0));
-        this.endCalendar   = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23));
+        this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0), true);
+        this.endCalendar   = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23), true);
         //log.debug("startDateTime:" + startDateTime);
         //log.debug("startCalendar:" + startCalendar.getTime());
         java.util.Calendar calendar = java.util.Calendar.getInstance();

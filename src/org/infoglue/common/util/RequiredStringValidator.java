@@ -33,21 +33,30 @@ public class RequiredStringValidator extends FieldValidatorSupport {
         String fieldName = getFieldName();
         Object value = this.getFieldValue(fieldName, object);
         
-        if (!(value instanceof String)) 
+        if (!(value instanceof String || value instanceof String[])) 
         {
             addFieldError(fieldName, object);
         } 
         else 
         {
-            String s = (String) value;
+            if(value instanceof String)
+            {
+                String s = (String) value;
+                if (doTrim) {
+                    s = s.trim();
+                }
 
-            if (doTrim) {
-                s = s.trim();
+                if (s.length() == 0) {
+                    addFieldError(fieldName, object);
+                }
             }
-
-            if (s.length() == 0) {
-                addFieldError(fieldName, object);
-                //this.getValidatorContext().addFieldError(fieldName, "AAAAAAAAA - error"); 
+            else if(value instanceof String[])
+            {
+                String[] s = (String[]) value;
+                
+                if (s.length == 0) {
+                    addFieldError(fieldName, object);
+                }                
             }
         }
     }

@@ -83,6 +83,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private String time;
     private String mode;
     private Long calendarId;
+    private Long eventId;
     
     private org.infoglue.calendar.entities.Calendar calendar;
     private List locations;
@@ -102,9 +103,9 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
-        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
+        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime, false); 
+        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime, false); 
+        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime, false); 
 
         log.info("isInternal:" + this.isInternal);
 
@@ -174,71 +175,53 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String copy() throws Exception 
     {
-        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime); 
-        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime); 
-        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime); 
-   
-        log.info("isInternal:" + this.isInternal);
-        try
-        {
-            int i = 0;
-            String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-            log.info("idKey:" + idKey);
-            while(idKey != null && idKey.length() > 0)
-            {
-                String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
-                log.info("categoryIds:" + categoryIds);
-                categoryAttributes.put(idKey, categoryIds);
-                
-                i++;
-                idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-                log.info("idKey:" + idKey);
-            }
-            
-            validateInput(this);
-            
-            Integer stateId = Event.STATE_PUBLISHED;
-            if(useEventPublishing())
-                stateId = Event.STATE_WORKING;
-            
-            newEvent = EventController.getController().createEvent(calendarId,
-									                    name, 
-									                    description,
-									                    isInternal, 
-									                    isOrganizedByGU, 
-									                    organizerName, 
-									                    lecturer, 
-									                    customLocation,
-									                    shortDescription,
-									                    longDescription,
-									                    eventUrl,
-									                    contactName,
-									                    contactEmail,
-									                    contactPhone,
-									                    price,
-									                    lastRegistrationCalendar,
-									                    maximumParticipants,
-									                    startCalendar, 
-									                    endCalendar, 
-									                    locationId, 
-									                    categoryAttributes, 
-									                    participantUserName,
-									                    stateId,
-									                    this.getInfoGlueRemoteUser(),
-									                    getSession());
-
-            
-        }
-        catch(ValidationException e)
-        {
-            log.error("An validation error occcurred:" + e.getMessage(), e);
-            return Action.ERROR;            
-
-        }
+        Event originalEvent = EventController.getController().getEvent(eventId, getSession());
         
+        Integer stateId = Event.STATE_PUBLISHED;
+        if(useEventPublishing())
+            stateId = Event.STATE_WORKING;
+
+        newEvent = EventController.getController().createEvent(calendarId,
+                originalEvent.getName(), 
+                originalEvent.getDescription(),
+                originalEvent.getIsInternal(), 
+                originalEvent.getIsOrganizedByGU(), 
+                originalEvent.getOrganizerName(), 
+                originalEvent.getLecturer(), 
+                originalEvent.getCustomLocation(),
+                originalEvent.getShortDescription(),
+                originalEvent.getLongDescription(),
+                originalEvent.getEventUrl(),
+                originalEvent.getContactName(),
+                originalEvent.getContactEmail(),
+                originalEvent.getContactPhone(),
+                originalEvent.getPrice(),
+                originalEvent.getLastRegistrationDateTime(),
+                originalEvent.getMaximumParticipants(),
+                originalEvent.getStartDateTime(), 
+                originalEvent.getEndDateTime(), 
+                originalEvent.getLocations(), 
+                originalEvent.getEventCategories(), 
+                originalEvent.getParticipants(),
+                stateId,
+                this.getInfoGlueRemoteUser(),
+                getSession());
+
         return Action.SUCCESS;
     } 
+
     
+    /**
+     * Links an event to a new calendar
+     */
+    
+    public String link() throws Exception 
+    {
+        EventController.getController().linkEvent(calendarId, eventId, getSession());
+
+        return Action.SUCCESS;
+    } 
+
     /**
      * This is the entry point creating a new calendar.
      */
@@ -548,5 +531,15 @@ public class CreateEventAction extends CalendarAbstractAction
     public Integer getLastRegistrationTime()
     {
         return lastRegistrationTime;
+    }
+    
+    public Long getEventId()
+    {
+        return eventId;
+    }
+    
+    public void setEventId(Long eventId)
+    {
+        this.eventId = eventId;
     }
 }
