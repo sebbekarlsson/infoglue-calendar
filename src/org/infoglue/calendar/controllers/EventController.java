@@ -556,6 +556,8 @@ public class EventController extends BasicController
         Event event = EventController.getController().getEvent(eventId, session);		
 
         event.getCalendars().add(calendar);
+        
+		new RemoteCacheUpdater().updateRemoteCaches();
     }
 
     /**
@@ -1049,6 +1051,20 @@ public class EventController extends BasicController
         session.delete(event);
     }
     
+    /**
+     * Deletes a link to a event object in the database.
+     * @throws Exception
+     */
+    
+    public void deleteLinkedEvent(Long id, Long calendarId, Session session) throws Exception 
+    {
+        Event event = this.getEvent(id, session);
+        Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
+        event.getCalendars().remove(calendar);
+        calendar.getEvents().remove(event);
+        
+		new RemoteCacheUpdater().updateRemoteCaches();
+    }
     
     /**
      * This method emails the owner of an event the new information and an address to visit.

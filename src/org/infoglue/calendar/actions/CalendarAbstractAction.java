@@ -39,6 +39,8 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.ICalendarController;
 import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
@@ -116,17 +118,31 @@ public class CalendarAbstractAction extends ActionSupport
     {
         return (List)ServletActionContext.getRequest().getAttribute("infoglueRemoteUserGroups");
     }
-/*
-    public List getInfoGlueRoles()
+
+    public boolean getIsEventOwner(Long eventId) throws Exception
     {
-        return (List)ServletActionContext.getRequest().getAttribute("infoglueRoles");
+        return getIsEventOwner(EventController.getController().getEvent(eventId, getSession()));
     }
 
-    public List getInfoGlueGroups()
+    public boolean getIsEventOwner(Event event)
     {
-        return (List)ServletActionContext.getRequest().getAttribute("infoglueGroups");
+        boolean isEventOwner = false;
+        
+        try
+        {
+            org.infoglue.calendar.entities.Calendar owningCalendar = event.getOwningCalendar();
+	        List calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+	        if(calendars.contains(owningCalendar))
+	            isEventOwner = true;
+        }
+        catch(Exception e)
+        {
+            log.warn("Error occurred:" + e.getMessage(), e);
+        }
+        
+        return isEventOwner;
     }
-*/
+
     public String formatDate(Date date, String pattern, Locale locale)
     {	
     	if(date == null)

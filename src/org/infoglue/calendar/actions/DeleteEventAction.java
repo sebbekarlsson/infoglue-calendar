@@ -60,6 +60,13 @@ public class DeleteEventAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
 
+    public String linkedPublished() throws Exception 
+    {
+        EventController.getController().deleteLinkedEvent(eventId, calendarId, getSession());
+        
+        return "successPublished";
+    } 
+
     public String published() throws Exception 
     {
         execute();

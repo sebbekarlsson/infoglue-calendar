@@ -26,23 +26,11 @@
 		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 	</portlet:renderURL>
 	
-	<portlet:actionURL var="deleteUrl">
-		<portlet:param name="action" value="DeleteEvent!published"/>
+	<portlet:renderURL var="deleteUrl">
+		<portlet:param name="action" value="ViewCalendarList!chooseDeleteLink"/>
 		<calendar:evalParam name="eventId" value="${eventId}"/>
-	</portlet:actionURL>
-	
-	<portlet:renderURL var="viewListUrl">
-		<portlet:param name="action" value="ViewPublishedEventList"/>
 	</portlet:renderURL>
-
-	<portlet:renderURL var="confirmUrl">
-		<portlet:param name="action" value="Confirm"/>
-		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
-		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
-		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
-		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
-	</portlet:renderURL>
-	
+		
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
     </ww:if>
@@ -51,14 +39,14 @@
     </ww:else>
 
 	   	<div class="columnLong">
-	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
+	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="name"/>'"><ww:property value="name"/> (Länkad från kalender "<ww:property value="owningCalendar.name"/>")</a></p>
 	   	</div>
 	   	<div class="columnMedium">
 	   		<p><ww:property value="description"/></p>
 	   	</div>
 	   	<div class="columnEnd">
-	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>
-	   	   	<a href="<c:out value="${eventUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>
+	   		<a href="<c:out value="${deleteUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>
+	   	   	<!--<a href="<c:out value="${eventUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>-->
 	   	</div>
 	   	<div class="clear"></div>
 	</div>

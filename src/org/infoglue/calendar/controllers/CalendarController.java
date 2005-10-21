@@ -36,6 +36,7 @@ import org.infoglue.calendar.entities.Role;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -43,6 +44,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
 
 public class CalendarController extends BasicController
 {    
@@ -304,7 +307,29 @@ public class CalendarController extends BasicController
         
         return result;
     }
+
+    /**
+     * Gets a list of all calendars available sorted by primary key.
+     * @return List of Calendar
+     * @throws Exception
+     */
     
+    public List getCalendarList(List roles, List groups, Session session) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Calendar calendar order by calendar.id");
+
+        Criteria criteria = session.createCriteria(Calendar.class);
+        criteria.createCriteria("owningRoles").add(Expression.in("name", roles.toArray()));
+        criteria.createCriteria("owningGroups").add(Expression.in("name", groups.toArray()));
+        criteria.addOrder(Order.asc("id"));
+
+        result = criteria.list();
+        
+        return result;
+    }
+
     /**
      * Gets a list of calendars fetched by name.
      * @return List of Calendar

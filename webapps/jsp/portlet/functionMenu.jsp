@@ -46,11 +46,10 @@
 	
   <span class="right">	
 	
-	<!--User: <ww:property value="infoGlueRemoteUserRoles"/>-->
+	<!--User: <ww:property value="infoGlueRemoteUserRoles"/> <ww:property value="infoGlueRemoteUserGroups"/>-->
 	
 	<calendar:hasRole id="calendarAdministrator" roleName="CalendarAdministrator"/>
 	<calendar:hasRole id="calendarOwner" roleName="CalendarOwner"/>
-	<calendar:hasRole id="administrators" roleName="administrators"/>
 	<calendar:hasRole id="eventPublisher" roleName="EventPublisher"/>
 	
 	<ww:if test="infoGlueRemoteUser != 'eventPublisher'">
@@ -61,17 +60,16 @@
 		<b><ww:property value="this.getLabel('labels.internal.applicationAdministrate')"/></b> 
 		-->
 		
-		<a href="<c:out value="${viewCalendarListUrl}"/>" <c:if test="${activeNavItem == 'Calendars'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerCalendars')"/></a> |
-
 		<c:if test="${calendarAdministrator == true}">
 			<a href="<c:out value="${viewCategoryUrl}"/>" <c:if test="${activeNavItem == 'Categories'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerCategories')"/></a> |
+			<a href="<c:out value="${viewCalendarListUrl}"/>" <c:if test="${activeNavItem == 'Calendars'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerCalendars')"/></a> |
 			<a href="<c:out value="${viewEventTypeListUrl}"/>" <c:if test="${activeNavItem == 'EventTypes'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerEventTypes')"/></a> |
 			<!--
 			<a href="<c:out value="${viewSettingsUrl}"/>" <c:if test="${activeNavItem == 'Settings'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerSettings')"/></a> |
 			-->
+			<a href="<c:out value="${viewLocationListUrl}"/>" <c:if test="${activeNavItem == 'Locations'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerLocations')"/></a>
 		</c:if>
 			
-		<a href="<c:out value="${viewLocationListUrl}"/>" <c:if test="${activeNavItem == 'Locations'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerLocations')"/></a>
 	</ww:if>
   </span>
   <div class="clear"></div>

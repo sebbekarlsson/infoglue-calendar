@@ -220,9 +220,11 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String link() throws Exception 
     {
+        System.out.println("LINKING::::::");
         EventController.getController().linkEvent(calendarId, eventId, getSession());
+        System.out.println("LINKED::::::");
 
-        return Action.SUCCESS;
+        return "successLinked";
     } 
 
     /**

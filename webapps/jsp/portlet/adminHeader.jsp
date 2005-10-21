@@ -27,6 +27,12 @@
 
 		<script type="text/javascript">
 		
+			function linkEvent(calendarId)
+			{
+				document.getElementById("calendarId").value = calendarId;
+				document.linkForm.submit();
+			}
+		
 			function createEventFromCopy(action)
 			{
 				document.updateForm.action = action;

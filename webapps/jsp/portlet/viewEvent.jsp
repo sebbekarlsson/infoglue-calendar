@@ -145,7 +145,10 @@
 				</portlet:actionURL>
 							
 				<span class=""><a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a></span>&nbsp;
-				<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a><br/>
+				<ww:if test="this.getIsEventOwner(event)">
+					<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a>
+      			</ww:if>
+      			<br/>
       		</ww:iterator>
       		
 			<ww:if test="event.resources == null || event.resources.size() == 0">
@@ -174,50 +177,55 @@
 			<calendar:evalParam name="action" value="UpdateEvent!uploadForm"/>
 			<calendar:evalParam name="eventId" value="${eventId}"/>
 		</portlet:renderURL>
-
-  		<input onclick="document.location.href='<c:out value="${uploadFormURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.attachFile')"/>" class="button">
-	
-		<input onclick="document.location.href='<c:out value="${editEventRenderURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.editButton')"/>" class="button">
 		
-		<input onclick="document.deleteLinkForm.submit();" type="button" value="<ww:property value="this.getLabel('labels.internal.event.deleteButton')"/>" class="button"></a>
-
-		<%
-		Object requestObject = request.getAttribute("javax.portlet.request");
-		javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
-		String hostName = (String)renderRequestIG.getProperty("host");
-		pageContext.setAttribute("hostName", hostName);
-		%>		
+		<calendar:hasRole id="calendarAdministrator" roleName="CalendarAdministrator"/>
 		
-		<ww:if test="event.stateId == 2">
-			<portlet:renderURL var="publishedEventUrl">
-				<portlet:param name="action" value="ViewEvent"/>
-				<portlet:param name="eventId" value="{eventId}"/>
-			</portlet:renderURL>
-						
-			<portlet:actionURL var="publishEventActionUrl">
-				<calendar:evalParam name="action" value="UpdateEvent!publishEvent"/>
-				<calendar:evalParam name="eventId" value="${eventId}"/>
-				<calendar:evalParam name="calendarId" value="${calendarId}"/>
-				<calendar:evalParam name="publishedEventUrl" value="http://${hostName}${publishedEventUrl}"/>
-			</portlet:actionURL>
-			<input onclick="document.location.href='<c:out value="${publishEventActionUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.publishEvent')"/>" class="button"/>
-		</ww:if>
+		<ww:if test="this.getIsEventOwner(event) || calendarAdministrator == true">
 
-		<ww:if test="event.stateId == 0">
-			<portlet:renderURL var="publishEventUrl">
-				<portlet:param name="action" value="ViewEvent"/>
-				<portlet:param name="eventId" value="{eventId}"/>
-			</portlet:renderURL>
+	  		<input onclick="document.location.href='<c:out value="${uploadFormURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.attachFile')"/>" class="button">
+			<input onclick="document.location.href='<c:out value="${editEventRenderURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.editButton')"/>" class="button">
+		
+			<input onclick="document.deleteLinkForm.submit();" type="button" value="<ww:property value="this.getLabel('labels.internal.event.deleteButton')"/>" class="button"></a>
+		
+			<%
+			Object requestObject = request.getAttribute("javax.portlet.request");
+			javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
+			String hostName = (String)renderRequestIG.getProperty("host");
+			pageContext.setAttribute("hostName", hostName);
+			%>		
 			
-			<portlet:actionURL var="submitForPublishEventActionUrl">
-				<calendar:evalParam name="action" value="UpdateEvent!submitForPublishEvent"/>
-				<calendar:evalParam name="eventId" value="${eventId}"/>
-				<calendar:evalParam name="calendarId" value="${calendarId}"/>
-				<calendar:evalParam name="publishEventUrl" value="http://${hostName}${publishEventUrl}"/>
-			</portlet:actionURL>
-			<input onclick="document.location.href='<c:out value="${submitForPublishEventActionUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.submitForPublishEvent')"/>" class="button"/>
+			<ww:if test="event.stateId == 2">
+				<portlet:renderURL var="publishedEventUrl">
+					<portlet:param name="action" value="ViewEvent"/>
+					<portlet:param name="eventId" value="{eventId}"/>
+				</portlet:renderURL>
+							
+				<portlet:actionURL var="publishEventActionUrl">
+					<calendar:evalParam name="action" value="UpdateEvent!publishEvent"/>
+					<calendar:evalParam name="eventId" value="${eventId}"/>
+					<calendar:evalParam name="calendarId" value="${calendarId}"/>
+					<calendar:evalParam name="publishedEventUrl" value="http://${hostName}${publishedEventUrl}"/>
+				</portlet:actionURL>
+				<input onclick="document.location.href='<c:out value="${publishEventActionUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.publishEvent')"/>" class="button"/>
+			</ww:if>
+	
+			<ww:if test="event.stateId == 0">
+				<portlet:renderURL var="publishEventUrl">
+					<portlet:param name="action" value="ViewEvent"/>
+					<portlet:param name="eventId" value="{eventId}"/>
+				</portlet:renderURL>
+				
+				<portlet:actionURL var="submitForPublishEventActionUrl">
+					<calendar:evalParam name="action" value="UpdateEvent!submitForPublishEvent"/>
+					<calendar:evalParam name="eventId" value="${eventId}"/>
+					<calendar:evalParam name="calendarId" value="${calendarId}"/>
+					<calendar:evalParam name="publishEventUrl" value="http://${hostName}${publishEventUrl}"/>
+				</portlet:actionURL>
+				<input onclick="document.location.href='<c:out value="${submitForPublishEventActionUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.submitForPublishEvent')"/>" class="button"/>
+			</ww:if>
+			
 		</ww:if>
-
+		
 		<ww:if test="event.stateId == 3">
 			<portlet:renderURL var="createEventAsCopyActionUrl">
 				<calendar:evalParam name="action" value="ViewCalendarList!chooseCopyTarget"/>
@@ -239,7 +247,9 @@
 				<calendar:evalParam name="searchEventId" value="${eventId}"/>
 			</portlet:renderURL>
 			
-			<input onclick="document.location.href='<c:out value="${searchEntryActionUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.entriesButton')"/>" class="button">
+			<ww:if test="this.getIsEventOwner(event)">
+				<input onclick="document.location.href='<c:out value="${searchEntryActionUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.entriesButton')"/>" class="button">
+			</ww:if>
 		</ww:if>
 	</div>
 	

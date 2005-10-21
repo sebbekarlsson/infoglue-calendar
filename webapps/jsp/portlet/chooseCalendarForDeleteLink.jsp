@@ -12,7 +12,7 @@
 <%@ include file="eventSubFunctionMenu.jsp" %>
 
 <div class="portlet_margin">
-	<p class="instruction"><ww:property value="this.getLabel('labels.internal.application.chooseCalendarForLinkIntro')"/></p>
+	<p class="instruction"><ww:property value="this.getLabel('labels.internal.application.chooseCalendarForLinkDeleteIntro')"/></p>
 </div>
 
 <div class="columnlabelarea">
@@ -22,26 +22,28 @@
 </div>
 
 <ww:set name="eventId" value="eventId" scope="page"/>
-<portlet:actionURL var="createEventUrl">
-	<portlet:param name="action" value="CreateEvent!link"/>
-</portlet:actionURL>
-
-
-<form name="linkForm" method="POST" action="<c:out value="${createEventUrl}"/>">
-	<input type="hidden" name="calendarId" id="calendarId" value="">
-	<input type="hidden" name="eventId" value="<c:out value="${eventId}"/>">
-</form>
 
 <ww:iterator value="calendars" status="rowstatus">
 	
 	<ww:set name="calendarId" value="id" scope="page"/>
-	<ww:set name="eventId" value="eventId" scope="page"/>
-	<portlet:actionURL var="createEventUrl">
-		<portlet:param name="action" value="CreateEvent!link"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+	<portlet:actionURL var="deleteUrl">
+		<portlet:param name="action" value="DeleteEvent!linkedPublished"/>
+		<calendar:evalParam name="eventId" value="${eventId}"/>
+		<calendar:evalParam name="calendarId" value="${calendarId}"/>
 	</portlet:actionURL>
 	
+	<portlet:renderURL var="viewListUrl">
+		<portlet:param name="action" value="ViewLinkedPublishedEventList"/>
+	</portlet:renderURL>
+
+	<portlet:renderURL var="confirmUrl">
+		<portlet:param name="action" value="Confirm"/>
+		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
+		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
+		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+	</portlet:renderURL>
+		
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
     </ww:if>
@@ -50,7 +52,7 @@
     </ww:else>
 
        	<div class="columnLong">
-       		<p class="portletHeadline"><a href="javascript:linkEvent('<ww:property value="id"/>');" title="Välj '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
+       		<p class="portletHeadline"><a href="<c:out value="${confirmUrl}"/>" title="Välj '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
        	</div>
        	<div class="columnMedium">
        		<p><ww:property value="description"/></p>
