@@ -56,6 +56,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -543,6 +544,9 @@ public class EventController extends BasicController
         event.setParticipants(participants);
         
 		session.update(event);
+		
+		if(event.getStateId().equals(Event.STATE_PUBLISHED))
+		    new RemoteCacheUpdater().updateRemoteCaches(event.getCalendars());
 	}
     
 
@@ -557,7 +561,7 @@ public class EventController extends BasicController
 
         event.getCalendars().add(calendar);
         
-		new RemoteCacheUpdater().updateRemoteCaches();
+		new RemoteCacheUpdater().updateRemoteCaches(calendarId);
     }
 
     /**
@@ -597,7 +601,7 @@ public class EventController extends BasicController
 		Event event = getEvent(id, session);
 		event.setStateId(Event.STATE_PUBLISHED);
 		
-		new RemoteCacheUpdater().updateRemoteCaches();
+		new RemoteCacheUpdater().updateRemoteCaches(event.getOwningCalendar().getId());
 		
         if(useGlobalEventNotification())
         {
@@ -645,6 +649,36 @@ public class EventController extends BasicController
         return result;
     }
     
+    
+    /**
+     * Gets a list of all events matching the arguments given.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public List getExpiredEventList(java.util.Calendar now/*, java.util.Calendar lastCheckedDate*/, Session session) throws Exception 
+    {
+        java.util.Calendar recentExpirations = java.util.Calendar.getInstance();
+        recentExpirations.setTime(now.getTime());
+        recentExpirations.add(java.util.Calendar.HOUR_OF_DAY, -1);
+        
+        List result = null;
+        System.out.println("Checking for any events which are published and which have expired just now..");
+        
+        Criteria criteria = session.createCriteria(Event.class);
+        criteria.add(Expression.lt("endDateTime", now));
+        criteria.add(Expression.gt("endDateTime", recentExpirations));
+
+        //criteria.add(Expression.gt("endDateTime", lastCheckedDate));
+
+        System.out.println("endDateTime:" + now.getTime());
+        //System.out.println("lastCheckedDate:" + lastCheckedDate.getTime());
+        
+        result = criteria.list();
+        
+        return result;
+    }
+
     
     /**
      * Gets a list of all events matching the arguments given.
@@ -762,7 +796,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(String userName, List roles, List groups, Integer stateId, boolean includeLinked, Session session) throws Exception 
+    public Set getEventList(String userName, List roles, List groups, Integer stateId, boolean includeLinked, Session session) throws Exception 
     {
         List result = null;
         
@@ -811,6 +845,7 @@ public class EventController extends BasicController
             criteria.createCriteria("calendars")
             .add(Expression.in("id", calendarIdArray));
             //criteria.add(Expression.eq("country",country);
+
             result = criteria.list();
             	        
         }
@@ -832,7 +867,10 @@ public class EventController extends BasicController
         
         System.out.println("result:" + result.size());
         
-        return result;
+        Set set = new LinkedHashSet();
+        set.addAll(result);	
+
+        return set;
     }
 
 
@@ -842,9 +880,9 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getMyWorkingEventList(String userName, List roles, List groups, Session session) throws Exception 
+    public Set getMyWorkingEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        List result = getEventList(userName, roles, groups, Event.STATE_WORKING, false, session);
+        Set result = getEventList(userName, roles, groups, Event.STATE_WORKING, false, session);
         
         return result;
     }
@@ -856,9 +894,9 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getWaitingEventList(String userName, List roles, List groups, Session session) throws Exception 
+    public Set getWaitingEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISH, false, session);
+        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISH, false, session);
         
         return result;
     }
@@ -869,9 +907,9 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
+    public Set getPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, false, session);
+        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, false, session);
         
         return result;
     }
@@ -882,9 +920,9 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getLinkedPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
+    public Set getLinkedPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        List result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, true, session);
+        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, true, session);
         
         return result;
     }
@@ -895,9 +933,9 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(Long id, Integer stateId, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
+    public Set getEventList(Long id, Integer stateId, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
-        List list = null;
+        Set list = null;
         
 		Calendar calendar = CalendarController.getController().getCalendar(id, session);
 		list = getEventList(calendar, stateId, startDate, endDate, session);
@@ -911,7 +949,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(String[] calendarIds, Session session) throws Exception 
+    public Set getEventList(String[] calendarIds, Session session) throws Exception 
     {
         List result = null;
         
@@ -985,7 +1023,10 @@ public class EventController extends BasicController
 */
         log.info("result:" + result.size());
         
-        return result;
+        Set set = new LinkedHashSet();
+        set.addAll(result);	
+
+        return set;
     }
     
     /**
@@ -994,7 +1035,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public List getEventList(Calendar calendar, Integer stateId, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
+    public Set getEventList(Calendar calendar, Integer stateId, java.util.Calendar startDate, java.util.Calendar endDate, Session session) throws Exception
     {
         Query q = session.createQuery("from Event as event inner join fetch event.owningCalendar as calendar where event.owningCalendar = ? AND event.stateId = ? AND event.startDateTime >= ? AND event.endDateTime <= ? order by event.startDateTime");
         q.setEntity(0, calendar);
@@ -1003,15 +1044,11 @@ public class EventController extends BasicController
         q.setCalendar(3, endDate);
         
         List list = q.list();
-        
-        Iterator iterator = list.iterator();
-        while(iterator.hasNext())
-        {
-            Object o = iterator.next();
-            Event event = (Event)o;
-        }
-        
-		return list;
+
+        Set set = new LinkedHashSet();
+        set.addAll(list);	
+
+		return set;
     }
 
 
@@ -1048,6 +1085,9 @@ public class EventController extends BasicController
             eventCategoriesIterator.remove();
         }
         
+        if(event.getStateId().equals(Event.STATE_PUBLISHED))
+            new RemoteCacheUpdater().updateRemoteCaches(event.getCalendars());
+
         session.delete(event);
     }
     
@@ -1063,7 +1103,7 @@ public class EventController extends BasicController
         event.getCalendars().remove(calendar);
         calendar.getEvents().remove(event);
         
-		new RemoteCacheUpdater().updateRemoteCaches();
+		new RemoteCacheUpdater().updateRemoteCaches(calendarId);
     }
     
     /**

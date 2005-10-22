@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,12 +63,12 @@ public class ViewCalendarAction extends CalendarAbstractAction
     private java.util.Calendar endCalendar = null;
     
     private Calendar calendar;
-    private List waitingEvents;
-    private List publishedEvents;
+    private Set waitingEvents;
+    private Set publishedEvents;
 
-    private List events;
-    private List weekEvents;
-    private List monthEvents;
+    private Set events;
+    private Set weekEvents;
+    private Set monthEvents;
     private List dates;
     
     private List infogluePrincipals;
@@ -95,8 +96,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.calendar = CalendarController.getController().getCalendar(calendarId, this.getSession());
         log.debug("calendar: " + calendar.getName());
         
-        this.startCalendar = super.getCalendar(startDateTime, "yyyy-MM-dd", new Integer(0), true);
-        this.endCalendar   = super.getCalendar(endDateTime, "yyyy-MM-dd", new Integer(23), true);
+        this.startCalendar = super.getCalendar(startDateTime + " 00:00", "yyyy-MM-dd HH:mm", true);
+        this.endCalendar   = super.getCalendar(endDateTime + " 23:59", "yyyy-MM-dd HH:mm", true);
         //log.debug("startDateTime:" + startDateTime);
         //log.debug("startCalendar:" + startCalendar.getTime());
         java.util.Calendar calendar = java.util.Calendar.getInstance();
@@ -424,22 +425,22 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.endDateTime = endDateTime;
     }
 
-    public List getWaitingEvents()
+    public Set getWaitingEvents()
     {
         return waitingEvents;
     }
 
-    public List getPublishedEvents()
+    public Set getPublishedEvents()
     {
         return publishedEvents;
     }
     
-    public List getEvents()
+    public Set getEvents()
     {
         return events;
     }
     
-    public void setEvents(List events)
+    public void setEvents(Set events)
     {
         this.events = events;
     }

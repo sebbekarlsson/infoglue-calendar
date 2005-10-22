@@ -38,7 +38,7 @@
 			<ww:if test="#fieldErrors.startDateTime != null"><span class="errorMessage"><ww:property value="#fieldErrors.startDateTime.get(0)"/></span></ww:if><br />
 			<input id="startDateTime" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>" class="datefield" type="textfield">
 			<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_startDateTime" style="border: 0px solid black; cursor: pointer;" title="Date selector">
-			<input name="startTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>" class="hourfield" type="textfield">					
+			<input name="startTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/>" class="hourfield" type="textfield">					
 		</div>
 
 		<div class="fieldrow">
@@ -46,7 +46,7 @@
 			<ww:if test="#fieldErrors.endDateTime != null"><span class="errorMessage"><ww:property value="#fieldErrors.endDateTime.get(0)"/></span></ww:if><br />
 			<input id="endDateTime" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>" class="datefield" type="textfield">
 			<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_endDateTime" style="border: 0px solid black; cursor: pointer;" title="Date selector">
-			<input name="endTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>" class="hourfield" type="textfield">					
+			<input name="endTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>" class="hourfield" type="textfield">					
 		</div>
 
 		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="smalltextarea" mandatory="true"/>
@@ -76,7 +76,7 @@
 			<ww:if test="#fieldErrors.lastRegistrationDateTime != null"><span class="errorMessage"><ww:property value="#fieldErrors.lastRegistrationDateTime.get(0)"/></span></ww:if><br />
 			<input id="lastRegistrationDateTime" name="lastRegistrationDateTime" value="<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/>" class="datefield" type="textfield">
 			<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_lastRegistrationDateTime" style="border: 0px solid black; cursor: pointer;" title="Date selector">
-			<input name="lastRegistrationTime" value="<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>" class="hourfield" type="textfield">
+			<input name="lastRegistrationTime" value="<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH:mm')"/>" class="hourfield" type="textfield">
 		</div>
 	
 		<calendar:textField label="labels.internal.event.contactName" name="contactName" value="event.contactName" cssClass="longtextfield"/>

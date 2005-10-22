@@ -28,6 +28,17 @@
 		<servlet-class>com.opensymphony.webwork.dispatcher.ServletDispatcher</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<servlet> 
+	  	<servlet-name>QuartzInitializer</servlet-name> 
+	  	<servlet-class>org.quartz.ee.servlet.QuartzInitializerServlet</servlet-class> 
+	  	<init-param>
+	    	<param-name>shutdown-on-unload</param-name>
+	    	<param-value>true</param-value>
+	  	</init-param>
+	  	<load-on-startup>2</load-on-startup>
+	</servlet>
+	
 	<servlet>
 		<servlet-name>velocity</servlet-name>
 		<servlet-class>com.opensymphony.webwork.views.velocity.WebWorkVelocityServlet</servlet-class>
@@ -54,29 +65,5 @@
 		<taglib-location>/WEB-INF/tld/calendar.tld</taglib-location>
 	</taglib>
 	
-	<!--
-	<taglib>
-		<taglib-uri>webwork</taglib-uri>
-		<taglib-location>/WEB-INF/lib/webwork-2.1.6.jar</taglib-location>
-	</taglib>
-	-->
-	<!--
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>CMS Application</web-resource-name>
-			<url-pattern>*.action</url-pattern>
-		</web-resource-collection> 
-		<auth-constraint>
-			<role-name>vmiUser</role-name>
-		</auth-constraint>
-	</security-constraint>
-
-	<login-config>
-		<auth-method>FORM</auth-method>
-		<form-login-config>
-			<form-login-page>/Login.action</form-login-page>
-			<form-error-page>/Login!invalidLogin.action</form-error-page>
-		</form-login-config>
-	</login-config>
-	-->
+	
 </web-app>

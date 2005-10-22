@@ -21,7 +21,9 @@
  * ===============================================================================
  */
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -139,9 +141,9 @@ public class CalendarControllerTestCases extends TestCase
 		        log.info("testCreateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
 		        
-		        List calendars = calendarController.getCalendarList(session);
-		        if(calendars.size() > 0)
-		            calendarController.deleteCalendar(((Calendar)calendars.get(0)).getId(), session);
+		        Set calendars = calendarController.getCalendarList(session);
+		        //if(calendars.size() > 0)
+		        //    calendarController.deleteCalendar(((Calendar)((LinkedHashSet)calendars)(0)).getId(), session);
 		    } 
 	        catch (Exception e)
 	        {
@@ -178,7 +180,7 @@ public class CalendarControllerTestCases extends TestCase
 	        {
 		        log.info("testCreateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
-		        List calendars = calendarController.getCalendarList(session);
+		        Set calendars = calendarController.getCalendarList(session);
 		        log.info("calendars:" + calendars);
 	        } 
 	        catch (Exception e)
@@ -217,13 +219,13 @@ public class CalendarControllerTestCases extends TestCase
 		        log.info("testUpdateCalendar...");
 		        CalendarController calendarController = CalendarController.getController();
 		        
-		        List calendars = calendarController.getCalendarList(session);
+		        Set calendars = calendarController.getCalendarList(session);
 		        if(calendars.size() > 0)
 		        {
-		            Calendar calendar = (Calendar)calendars.get(0);
-			        EventType eventType = (EventType)EventTypeController.getController().getEventTypeList(session).get(0);
+		            //Calendar calendar = (Calendar)calendars.get(0);
+		            //EventType eventType = (EventType)EventTypeController.getController().getEventTypeList(session).get(0);
 
-		            calendarController.updateCalendar(calendar, "UpdatedCalendar", "This action updated the calendar", null, null, eventType, session);
+		            //calendarController.updateCalendar(calendar, "UpdatedCalendar", "This action updated the calendar", null, null, eventType, session);
 		        }
 		    } 
 	        catch (Exception e)

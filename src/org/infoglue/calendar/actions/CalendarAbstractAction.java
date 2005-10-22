@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -94,6 +95,11 @@ public class CalendarAbstractAction extends ActionSupport
         return yesOrNo;
     }
 
+    public Integer getSiteNodeId()
+    {
+        return (Integer)ServletActionContext.getRequest().getAttribute("siteNodeId");
+    }
+
     public Integer getComponentId()
     {
         return (Integer)ServletActionContext.getRequest().getAttribute("componentId");
@@ -131,7 +137,7 @@ public class CalendarAbstractAction extends ActionSupport
         try
         {
             org.infoglue.calendar.entities.Calendar owningCalendar = event.getOwningCalendar();
-	        List calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+	        Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
 	        if(calendars.contains(owningCalendar))
 	            isEventOwner = true;
         }
@@ -218,12 +224,12 @@ public class CalendarAbstractAction extends ActionSupport
      * @return
      */
     
-    public Calendar getCalendar(String dateString, String pattern, Integer hour, boolean fallback)
+    public Calendar getCalendar(String dateString, String pattern, boolean fallback)
     {	
         Calendar calendar = Calendar.getInstance();
         if(dateString == null)
         {
-            calendar.set(Calendar.HOUR_OF_DAY, hour.intValue());
+            //calendar.set(Calendar.HOUR_OF_DAY, hour.intValue());
             return calendar;
         }
         
@@ -235,7 +241,7 @@ public class CalendarAbstractAction extends ActionSupport
 	        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
 	        date = formatter.parse(dateString);
 	        calendar.setTime(date);
-	        calendar.set(Calendar.HOUR_OF_DAY, hour.intValue());
+	        //calendar.set(Calendar.HOUR_OF_DAY, hour.intValue());
         }
         catch(Exception e)
         {

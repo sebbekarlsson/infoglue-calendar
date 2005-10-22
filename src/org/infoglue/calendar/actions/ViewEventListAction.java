@@ -34,6 +34,7 @@ import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.common.util.DBSessionWrapper;
+import org.infoglue.common.util.RemoteCacheUpdater;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -51,7 +52,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     private String categories;
     private Calendar calendar;
 
-    private List events;
+    private Set events;
     
     /**
      * This is the entry point for the main listing.
@@ -66,6 +67,9 @@ public class ViewEventListAction extends CalendarAbstractAction
         //this.events = calendar.getPublishedEvents();
         this.events = EventController.getController().getEventList(calendarIds, getSession());
 
+        System.out.println("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
+        RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
+        
         return Action.SUCCESS;
     } 
     
@@ -93,7 +97,7 @@ public class ViewEventListAction extends CalendarAbstractAction
         this.calendarId = calendarId;
     }
     
-    public List getEvents()
+    public Set getEvents()
     {
         return events;
     }

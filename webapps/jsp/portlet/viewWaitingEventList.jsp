@@ -16,8 +16,10 @@
 <%@ include file="eventSubFunctionMenu.jsp" %>
 
 <div class="columnlabelarea">
-	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.event.name')"/></p></div>
+	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.name')"/></p></div>
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.description')"/></p></div>
+	<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.event.owningCalendar')"/></p></div>
+	<div class="columnDate"><p><ww:property value="this.getLabel('labels.internal.event.startDate')"/></p></div>
 	<div class="clear"></div>
 </div>
 
@@ -55,11 +57,17 @@
 		<div class="evenrow">
     </ww:else>
 
-	   	<div class="columnLong">
+	   	<div class="columnMedium">
 	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
 	   	</div>
 	   	<div class="columnMedium">
-	   		<p><ww:property value="description"/></p>
+	   		<p><ww:property value="shortDescription"/></p>
+	   	</div>
+	   	<div class="columnShort">
+	   		<p><ww:property value="owningCalendar.name"/></p>
+	   	</div>
+	   	<div class="columnDate">
+	   		<p><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>
 	   	</div>
 	   	<div class="columnEnd">
 	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>

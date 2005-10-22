@@ -67,8 +67,10 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private String description;
     private String startDateTime;
     private String endDateTime;
-    private Integer startTime;
-    private Integer endTime;
+    private String startTime;
+    private String endTime;
+    private String lastRegistrationDateTime;
+    private String lastRegistrationTime;
 
     private Boolean isInternal;
     private Boolean isOrganizedByGU;
@@ -82,8 +84,6 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private String contactEmail;
     private String contactPhone;
     private Float price;
-    private String lastRegistrationDateTime;
-    private Integer lastRegistrationTime;
     private Integer maximumParticipants;
    
     private String[] locationId;
@@ -110,9 +110,9 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String execute() throws Exception 
     {
-        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime, false); 
-        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime, false); 
-        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime, false); 
+        startCalendar 	= getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", false); 
+        endCalendar 	= getCalendar(endDateTime + " " + endTime, "yyyy-MM-dd HH:mm", false); 
+        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime + " " + lastRegistrationTime, "yyyy-MM-dd HH:mm", false); 
 
         try
         {
@@ -282,14 +282,14 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         this.endDateTime = endDateTime;
     }
     
-    public Integer getEndTime()
+    public String getEndTime()
     {
         return endTime;
     }
     
-    public void setEndTime(Integer endTime)
+    public void setEndTime(String endTime)
     {
-        this.endTime = endTime;
+        this.endTime = (endTime.indexOf(":") == -1 ? (endTime + ":00") : endTime);
     }
     
     public Long getEventId()
@@ -323,14 +323,14 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         this.startDateTime = startDateTime;
     }
     
-    public Integer getStartTime()
+    public String getStartTime()
     {
         return startTime;
     }
     
-    public void setStartTime(Integer startTime)
+    public void setStartTime(String startTime)
     {
-        this.startTime = startTime;
+        this.startTime = (startTime.indexOf(":") == -1 ? (startTime + ":00") : startTime);
     }
     
     public void setLocationId(String[] locationId)
@@ -484,12 +484,14 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         return locationId;
     }
-    public Integer getLastRegistrationTime()
+    public String getLastRegistrationTime()
     {
         return lastRegistrationTime;
     }
-    public void setLastRegistrationTime(Integer lastRegistrationTime)
+    public void setLastRegistrationTime(String lastRegistrationTime)
     {
+        this.lastRegistrationTime = (lastRegistrationTime.indexOf(":") == -1 ? (lastRegistrationTime + ":00") : lastRegistrationTime);
+
         this.lastRegistrationTime = lastRegistrationTime;
     }
     

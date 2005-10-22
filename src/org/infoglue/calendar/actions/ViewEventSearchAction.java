@@ -81,10 +81,10 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     public String execute() throws Exception
     {
         if(startDateTime != null && startDateTime.length() > 0)
-            startCalendar = getCalendar(startDateTime, "yyyy-MM-dd", startTime, true); 
+            startCalendar = getCalendar(startDateTime, "yyyy-MM-dd", true); 
         
         if(endDateTime != null && endDateTime.length() > 0)
-            endCalendar = getCalendar(endDateTime, "yyyy-MM-dd", endTime, true); 
+            endCalendar = getCalendar(endDateTime, "yyyy-MM-dd", true); 
 
         log.info("price:" + price);
         

@@ -24,6 +24,7 @@
 package org.infoglue.calendar.actions;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.portlet.PortletURL;
 
@@ -49,7 +50,7 @@ public class ViewCalendarAdministrationAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        List calendars = CalendarController.getController().getCalendarList(getSession());
+        Set calendars = CalendarController.getController().getCalendarList(getSession());
         
         return Action.SUCCESS;
     } 

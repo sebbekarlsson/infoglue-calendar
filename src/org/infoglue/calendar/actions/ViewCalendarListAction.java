@@ -24,6 +24,7 @@
 package org.infoglue.calendar.actions;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.portlet.PortletURL;
 
@@ -42,7 +43,7 @@ import com.opensymphony.xwork.ActionContext;
 
 public class ViewCalendarListAction extends CalendarAbstractAction
 {
-    private List calendars;
+    private Set calendars;
     private Long eventId;
     
     /**
@@ -102,7 +103,7 @@ public class ViewCalendarListAction extends CalendarAbstractAction
         return "successChooseForDeleteLink";
     } 
 
-    public List getCalendars()
+    public Set getCalendars()
     {
         return calendars;
     }

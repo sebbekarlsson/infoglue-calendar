@@ -23,11 +23,21 @@
 
 package org.infoglue.common.util;
 
-import java.util.*;
 import java.io.*; 
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.cms.entities.structure.SiteNode;
+import org.infoglue.cms.entities.structure.impl.simple.SiteNodeImpl;
 
 
 /**
@@ -41,7 +51,32 @@ public class RemoteCacheUpdater
 {	
    private final static Logger logger = Logger.getLogger(RemoteCacheUpdater.class.getName());
 
-
+   private static Map usageMap = new HashMap();
+   
+   /**
+    * This method registers that a calendar has been used on a page.
+    * 
+    * @param siteNodeId
+    * @param calendarIdArray
+    */
+   
+   public static void setUsage(Integer siteNodeId, String[] calendarIdArray)
+   {
+       for(int i=0; i<calendarIdArray.length; i++)
+       {
+           String calendarId = calendarIdArray[i];
+           System.out.println("Registering use of calendar " + calendarId + " on siteNode " + siteNodeId);
+           List siteNodeIdList = (List)usageMap.get(calendarId);
+           if(siteNodeIdList == null)
+           {
+               siteNodeIdList = new ArrayList();
+               usageMap.put(calendarId, siteNodeIdList);
+           }
+           siteNodeIdList.add(siteNodeId);
+       }
+   }
+   
+   
 	/**
 	 * Default Constructor	
 	 */
@@ -50,24 +85,33 @@ public class RemoteCacheUpdater
 	{
 	}
 
-	/** 
-	 * This method sets the context/arguments the listener should operate with. Could be debuglevels and stuff 
-	 * like that.
-	 */
-	
-	public void setContextParameters(Map map)
-	{
-	}
-		
 
 	/**
 	 * This method serializes the notificationMessage and calls the remote actions.
 	 * As a content-tool can have several preview instances we iterate through the instances that have 
 	 * been indexed in the propertyfile starting with 0.
 	 */
-	public void updateRemoteCaches() throws Exception
+	public void updateRemoteCaches(Set calendars) throws Exception
 	{
-		Hashtable hashedMessage = new Hashtable();
+	    Iterator calendarsIterator = calendars.iterator();
+	    while(calendarsIterator.hasNext())
+	    {
+	        Calendar calendar = (Calendar)calendarsIterator.next();
+	        updateRemoteCaches(calendar.getId());
+	    }
+	}
+
+
+	/**
+	 * This method serializes the notificationMessage and calls the remote actions.
+	 * As a content-tool can have several preview instances we iterate through the instances that have 
+	 * been indexed in the propertyfile starting with 0.
+	 */
+	public void updateRemoteCaches(Long calendarId) throws Exception
+	{
+		List siteNodeIdList = (List)usageMap.get("" + calendarId);
+		if(siteNodeIdList == null)
+		    return;
 		
 		String appPrefix = "notificationUrl";
 		
@@ -77,7 +121,23 @@ public class RemoteCacheUpdater
 		{ 
 			String address = deliverUrl;
 			logger.info("Updating cache at " + address);
-			String response = postToUrl(address, hashedMessage);
+			
+			Iterator siteNodeIdListIterator = siteNodeIdList.iterator();
+			while(siteNodeIdListIterator.hasNext())
+			{
+			    Hashtable hashedMessage = new Hashtable();
+				
+			    Integer siteNodeId = (Integer)siteNodeIdListIterator.next();
+			    System.out.println("Updating siteNodeId:" + siteNodeId);
+			    hashedMessage.put("className", SiteNode.class.getName());
+			    hashedMessage.put("objectId", "" + siteNodeId);
+			    
+				String response = postToUrl(address, hashedMessage);
+
+				System.out.println("Removing usage as we now cleared that...");
+				siteNodeIdListIterator.remove();
+			}
+			
 			i++;
 		}
 	}	
@@ -152,66 +212,6 @@ public class RemoteCacheUpdater
 	}
 	
 	
-   /**
-    * As the name indicates, this method takes a URL-encoded string and 
-    * converts it to a normal javastring. That is, all Mime-encoding is 
-    * removed.
-    * 
-    * @param encoded The encoded string.
-    * @return An decoded string.
-    */
-		
-   public String decodeHTTPEncodedString(String encoded) 
-   {
-		StringBuffer decoded = new StringBuffer(encoded.length());
-		int i = 0;
-		int j = 0;
-
-		while (i < encoded.length()) {
-		    char tecken = encoded.charAt(i);
-			i++;
-
-			if (tecken == '+')
-			    tecken = ' ';
-			else if (tecken == '%') {
-			    tecken = (char)Integer.parseInt(encoded.substring(i,i+2), 16);
-			    i+=2;
-			    }
-			decoded.append(tecken);
-			j++;
-		    }
-		return new String(decoded);
-   }
-
-
-	/**
-	 * Converts a serialized hashtable in the url-encoded format to
-	 * a Hashtable that one can use within the program. 
-	 * A good technique when exchanging information between different
-	 * applications.
-	 * 
-	 * @param encodedstrang The url-encoded string.
-	 * @return A Hashtable.
-	 */
-
-	public Hashtable httpEncodedStringToHashtable(String encodedstrang) 
-	{
-	    Hashtable anropin = new Hashtable();
-	    StringTokenizer andsplitter = new StringTokenizer(encodedstrang,"&");
-	    while (andsplitter.hasMoreTokens()) 
-	    {
-	        String namevaluepair = andsplitter.nextToken();
-           StringTokenizer equalsplitter = new StringTokenizer(namevaluepair,"=");
-           if (equalsplitter.countTokens() == 2) 
-           {
-               String name = equalsplitter.nextToken();
-               String value = equalsplitter.nextToken();
-               anropin.put(decodeHTTPEncodedString(name),decodeHTTPEncodedString(value));
-           }
-       }
-       return anropin;
-   }
-
 	
 
 }

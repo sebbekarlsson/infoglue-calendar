@@ -56,8 +56,10 @@ public class CreateEventAction extends CalendarAbstractAction
     private String description;
     private String startDateTime;
     private String endDateTime;
-    private Integer startTime;
-    private Integer endTime;
+    private String startTime;
+    private String endTime;
+    private String lastRegistrationDateTime;
+    private String lastRegistrationTime;
 
     private Boolean isInternal = new Boolean(false);
     private Boolean isOrganizedByGU = new Boolean(false);
@@ -71,8 +73,6 @@ public class CreateEventAction extends CalendarAbstractAction
     private String contactEmail;
     private String contactPhone;
     private Float price;
-    private String lastRegistrationDateTime;
-    private Integer lastRegistrationTime;
     private Integer maximumParticipants;
     
     private String[] locationId;
@@ -103,9 +103,9 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        startCalendar 	= getCalendar(startDateTime, "yyyy-MM-dd", startTime, false); 
-        endCalendar 	= getCalendar(endDateTime, "yyyy-MM-dd", endTime, false); 
-        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime, "yyyy-MM-dd", lastRegistrationTime, false); 
+        startCalendar 	= getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", false); 
+        endCalendar 	= getCalendar(endDateTime + " " + endTime, "yyyy-MM-dd HH:mm", false); 
+        lastRegistrationCalendar = getCalendar(lastRegistrationDateTime + " " + lastRegistrationTime, "yyyy-MM-dd HH:mm", false); 
 
         log.info("isInternal:" + this.isInternal);
 
@@ -220,9 +220,7 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String link() throws Exception 
     {
-        System.out.println("LINKING::::::");
         EventController.getController().linkEvent(calendarId, eventId, getSession());
-        System.out.println("LINKED::::::");
 
         return "successLinked";
     } 
@@ -424,14 +422,14 @@ public class CreateEventAction extends CalendarAbstractAction
         this.startDateTime = startDateTime;
     }
     
-    public Integer getStartTime()
+    public String getStartTime()
     {
         return startTime;
     }
     
-    public void setStartTime(Integer startTime)
+    public void setStartTime(String startTime)
     {
-        this.startTime = startTime;
+        this.startTime = (startTime.indexOf(":") == -1 ? (startTime + ":00") : startTime);
     }
     
     public String getTime()
@@ -444,22 +442,26 @@ public class CreateEventAction extends CalendarAbstractAction
         this.time = time;
     }
     
-    public Integer getEndTime()
+    public String getEndTime()
     {
         return endTime;
     }
     
-    public void setEndTime(Integer endTime)
+    public void setEndTime(String endTime)
     {
-        this.endTime = endTime;
+        this.endTime = (endTime.indexOf(":") == -1 ? (endTime + ":00") : endTime);
     }
-    /*
-    public List getCategories()
-    {
-        return categories;
-    }
-    */
     
+    public void setLastRegistrationTime(String lastRegistrationTime)
+    {
+        this.lastRegistrationTime = (lastRegistrationTime.indexOf(":") == -1 ? (lastRegistrationTime + ":00") : lastRegistrationTime);
+    }
+    
+    public String getLastRegistrationTime()
+    {
+        return lastRegistrationTime;
+    }
+
     public List getLocations()
     {
         return locations;
@@ -527,17 +529,7 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         return calendar;
     }
-    
-    public void setLastRegistrationTime(Integer lastRegistrationTime)
-    {
-        this.lastRegistrationTime = lastRegistrationTime;
-    }
-    
-    public Integer getLastRegistrationTime()
-    {
-        return lastRegistrationTime;
-    }
-    
+        
     public Long getEventId()
     {
         return eventId;

@@ -47,7 +47,7 @@ import com.opensymphony.xwork.ActionContext;
 
 public class ViewPublishedEventListAction extends CalendarAbstractAction
 {
-    private List events;
+    private Set events;
     
     /**
      * This is the entry point for the main listing.
@@ -60,7 +60,7 @@ public class ViewPublishedEventListAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
     
-    public List getEvents()
+    public Set getEvents()
     {
         return events;
     }

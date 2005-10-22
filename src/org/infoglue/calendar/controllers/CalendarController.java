@@ -34,7 +34,9 @@ import org.infoglue.calendar.entities.Group;
 import org.infoglue.calendar.entities.Role;
 
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -297,7 +299,7 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public List getCalendarList(Session session) throws Exception 
+    public Set getCalendarList(Session session) throws Exception 
     {
         List result = null;
         
@@ -305,7 +307,10 @@ public class CalendarController extends BasicController
    
         result = q.list();
         
-        return result;
+        Set set = new LinkedHashSet();
+        set.addAll(result);
+        
+        return set;
     }
 
     /**
@@ -314,7 +319,7 @@ public class CalendarController extends BasicController
      * @throws Exception
      */
     
-    public List getCalendarList(List roles, List groups, Session session) throws Exception 
+    public Set getCalendarList(List roles, List groups, Session session) throws Exception 
     {
         List result = null;
         
@@ -325,9 +330,12 @@ public class CalendarController extends BasicController
         criteria.createCriteria("owningGroups").add(Expression.in("name", groups.toArray()));
         criteria.addOrder(Order.asc("id"));
 
-        result = criteria.list();
+        //result = criteria.list();
+        //return result;
+        Set set = new LinkedHashSet();
+        set.addAll(criteria.list());	
         
-        return result;
+        return set;
     }
 
     /**

@@ -56,12 +56,12 @@
 		</p>
 		<p>
 			<span class="label"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span><br />
-			<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.startDateTime.time, 'HH')"/>
+			<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/>
 		</p>
 
 		<p>
 			<span class="label"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span><br />
-			<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.endDateTime.time, 'HH')"/>
+			<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>
 		</p>
 		
 		<p>
@@ -107,7 +107,7 @@
 
 		<p>
 			<span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span><br />
-			<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>
+			<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH:mm')"/>
 		</p>
 
 		<!-- END NEW -->
