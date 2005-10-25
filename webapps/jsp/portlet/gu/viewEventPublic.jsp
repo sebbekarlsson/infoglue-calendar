@@ -11,7 +11,7 @@
 
 <div class="inputDiv">
 		
-	<span class="headline"><ww:property value="event.name"/></span>
+	<h1><ww:property value="event.name"/></h1>
 	<hr/>
 	<div id="portlet_margin">
 		<p>
@@ -112,10 +112,7 @@
 					<portlet:renderURL var="createEntryRenderURL">
 						<calendar:evalParam name="action" value="CreateEntry!inputPublicGU"/>
 						<calendar:evalParam name="eventId" value="${eventId}"/>
-						<calendar:evalParam name="calendarId" value="${calendarId}"/>
-						<calendar:evalParam name="mode" value="${mode}"/>
 					</portlet:renderURL>
-					
 					<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.public.event.signUp')"/></a></span>
 				</p>
 			</ww:if>
