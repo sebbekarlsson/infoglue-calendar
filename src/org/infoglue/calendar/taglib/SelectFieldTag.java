@@ -23,8 +23,10 @@
 package org.infoglue.calendar.taglib;
 
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.jsp.JspException;
@@ -38,6 +40,8 @@ import org.infoglue.calendar.entities.Group;
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.cms.security.InfoGlueRole;
 import org.infoglue.cms.security.InfoGlueGroup;
+
+import com.opensymphony.webwork.ServletActionContext;
 
 
 /**
@@ -84,7 +88,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            selectedValues = new String[]{(String)obj};
 	        else if(obj instanceof String[])
 	            selectedValues = (String[])obj;
-        }
+	    }
 
 	    String errorMessage = "";
 	    if(fieldErrors != null && fieldErrors.size() > 0)
@@ -339,9 +343,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 
     public void setSelectedValueList(String value) throws JspException
     {
-        log.info("setSelectedValueList VALUE:" + value);
         Object o = findOnValueStack(value);
-        log.info("o in setSelectedValueList: " + o);
         if(o != null) 
         {
             this.selectedValueList = (List)o;

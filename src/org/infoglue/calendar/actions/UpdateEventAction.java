@@ -128,7 +128,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
                     this.addFieldError("categoryAttribute_" + idKey + "_categoryId", "You must select at least one item.");
 
                 categoryAttributes.put(idKey, categoryIds);
-                
+
                 i++;
                 idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
                 log.info("idKey:" + idKey);
@@ -530,4 +530,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         this.publishedEventUrl = publishedEventUrl;
     }
 
+    public Map getCategoryAttributes()
+    {
+        return categoryAttributes;
+    }
 }

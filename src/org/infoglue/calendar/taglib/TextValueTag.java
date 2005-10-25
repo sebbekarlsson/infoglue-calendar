@@ -77,7 +77,13 @@ public class TextValueTag extends AbstractCalendarTag
         sb.append("<span class=\"" + cssClass + "\">");
         
         if(value instanceof Boolean)
+        {
+            String translatedLabel = this.getLabel("" + value);
+            if(translatedLabel != null && translatedLabel.length() > 0)
+                value = translatedLabel;
+
             sb.append(((value == null) ? "" : value));
+        }
         else if(value instanceof String)
             sb.append(((value == null) ? "" : value));
         else if(value instanceof Integer)

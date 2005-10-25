@@ -313,7 +313,8 @@ public class Event implements BaseEntity
     
     public void setIsOrganizedByGU(Boolean isOrganizedByGU)
     {
-        this.isOrganizedByGU = isOrganizedByGU;
+        if(isOrganizedByGU != null)	
+            this.isOrganizedByGU = isOrganizedByGU;
     }
 
     /**
