@@ -663,7 +663,7 @@ public class EventController extends BasicController
         recentExpirations.add(java.util.Calendar.HOUR_OF_DAY, -1);
         
         List result = null;
-        System.out.println("Checking for any events which are published and which have expired just now..");
+        log.info("Checking for any events which are published and which have expired just now..");
         
         Criteria criteria = session.createCriteria(Event.class);
         criteria.add(Expression.lt("endDateTime", now));
@@ -671,8 +671,7 @@ public class EventController extends BasicController
 
         //criteria.add(Expression.gt("endDateTime", lastCheckedDate));
 
-        System.out.println("endDateTime:" + now.getTime());
-        //System.out.println("lastCheckedDate:" + lastCheckedDate.getTime());
+        log.info("endDateTime:" + now.getTime());
         
         result = criteria.list();
         
@@ -802,27 +801,13 @@ public class EventController extends BasicController
         
         if(includeLinked == true)
         {
-            /*
             String rolesSQL = getRoleSQL(roles);
-	        System.out.println("groups:" + groups.size());
+            log.info("groups:" + groups.size());
 	        String groupsSQL = getGroupsSQL(groups);
-	        System.out.println("groupsSQL:" + groupsSQL);
-	        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.calendars.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
-	        //String sql = "select distinct event from Event event, Calendar c, Event_Calendar ec, Role cr, Group g where event.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
-	        System.out.println("sql:" + sql);
-	        Query q = session.createQuery(sql);
-	        q.setInteger(0, stateId.intValue());
-	        setRoleNames(1, q, roles);
-	        setGroupNames(roles.size() + 1, q, groups);
-	        */
-
-            String rolesSQL = getRoleSQL(roles);
-	        System.out.println("groups:" + groups.size());
-	        String groupsSQL = getGroupsSQL(groups);
-	        System.out.println("groupsSQL:" + groupsSQL);
+	        log.info("groupsSQL:" + groupsSQL);
 	        String sql = "select distinct c from Calendar c, Role cr, Group g where cr.calendar = c AND g.calendar = c " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by c.id";
 	        //String sql = "select distinct event from Event event, Calendar c, Event_Calendar ec, Role cr, Group g where event.calendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
-	        System.out.println("sql:" + sql);
+	        log.info("sql:" + sql);
 	        Query q = session.createQuery(sql);
 	        setRoleNames(0, q, roles);
 	        setGroupNames(roles.size(), q, groups);
@@ -835,28 +820,26 @@ public class EventController extends BasicController
 	        while(calendarsIterator.hasNext())
 	        {
 	            Calendar calendar = (Calendar)calendarsIterator.next();
-	            System.out.println("calendar: " + calendar.getName());
+	            log.info("calendar: " + calendar.getName());
 	            calendarIdArray[i] = calendar.getId();
 	            i++;                
 	        }
-	        //Object[] calendarArray = calendars.toArray();
-            
+	        
             Criteria criteria = session.createCriteria(Event.class);
             criteria.createCriteria("calendars")
             .add(Expression.in("id", calendarIdArray));
-            //criteria.add(Expression.eq("country",country);
-
+            
             result = criteria.list();
             	        
         }
         else
         {
 	        String rolesSQL = getRoleSQL(roles);
-	        System.out.println("groups:" + groups.size());
+	        log.info("groups:" + groups.size());
 	        String groupsSQL = getGroupsSQL(groups);
-	        System.out.println("groupsSQL:" + groupsSQL);
+	        log.info("groupsSQL:" + groupsSQL);
 	        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.owningCalendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
-	        System.out.println("sql:" + sql);
+	        log.info("sql:" + sql);
 	        Query q = session.createQuery(sql);
 	        q.setInteger(0, stateId.intValue());
 	        setRoleNames(1, q, roles);
@@ -865,7 +848,7 @@ public class EventController extends BasicController
 	        result = q.list();
         }
         
-        System.out.println("result:" + result.size());
+        log.info("result:" + result.size());
         
         Set set = new LinkedHashSet();
         set.addAll(result);	
@@ -1011,16 +994,6 @@ public class EventController extends BasicController
         
         result = criteria.list();
         
-/*        
-        String sql = "from Event event WHERE event.stateId = ? AND event.startDateTime >= ? " + (calendarSQL != null ? "AND event.owningCalendar.id IN " + calendarSQL : "") + " ORDER BY event.startDateTime";
-        log.info("SQL:" + sql);
-        System.out.println("SQL:" + sql);
-        Query q = session.createQuery(sql);
-        q.setInteger(0, Event.STATE_PUBLISHED.intValue());
-        q.setCalendar(1, java.util.Calendar.getInstance());
-
-        result = q.list();
-*/
         log.info("result:" + result.size());
         
         Set set = new LinkedHashSet();
@@ -1167,7 +1140,7 @@ public class EventController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			System.out.println("Sending mail to:" + systemEmailSender + " and " + addresses);
+			log.info("Sending mail to:" + systemEmailSender + " and " + addresses);
 			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, addresses, "InfoGlue Calendar - new event waiting", email, contentType, "UTF-8");
 	    }
 		catch(Exception e)
@@ -1213,7 +1186,7 @@ public class EventController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			System.out.println("Sending mail to:" + systemEmailSender + " and " + subscriberEmails);
+			log.info("Sending mail to:" + systemEmailSender + " and " + subscriberEmails);
 			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, subscriberEmails, "InfoGlue Calendar - new event published", email, contentType, "UTF-8");
 	    }
 		catch(Exception e)
@@ -1296,7 +1269,7 @@ public class EventController extends BasicController
         while(iterator.hasNext())
         {
             String roleName = (String)iterator.next();
-            System.out.println("roleName:" + roleName);
+            log.info("roleName:" + roleName);
             q.setString(index, roleName);
             index++;
         }
@@ -1332,7 +1305,7 @@ public class EventController extends BasicController
         while(iterator.hasNext())
         {
             String groupName = (String)iterator.next();
-            System.out.println("groupName:" + groupName);
+            log.info("groupName:" + groupName);
 
             q.setString(index, groupName);
             index++;

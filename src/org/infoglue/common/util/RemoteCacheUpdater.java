@@ -65,7 +65,7 @@ public class RemoteCacheUpdater
        for(int i=0; i<calendarIdArray.length; i++)
        {
            String calendarId = calendarIdArray[i];
-           System.out.println("Registering use of calendar " + calendarId + " on siteNode " + siteNodeId);
+           logger.info("Registering use of calendar " + calendarId + " on siteNode " + siteNodeId);
            List siteNodeIdList = (List)usageMap.get(calendarId);
            if(siteNodeIdList == null)
            {
@@ -128,13 +128,13 @@ public class RemoteCacheUpdater
 			    Hashtable hashedMessage = new Hashtable();
 				
 			    Integer siteNodeId = (Integer)siteNodeIdListIterator.next();
-			    System.out.println("Updating siteNodeId:" + siteNodeId);
+			    logger.info("Updating siteNodeId:" + siteNodeId);
 			    hashedMessage.put("className", SiteNode.class.getName());
 			    hashedMessage.put("objectId", "" + siteNodeId);
 			    
 				String response = postToUrl(address, hashedMessage);
 
-				System.out.println("Removing usage as we now cleared that...");
+				logger.info("Removing usage as we now cleared that...");
 				siteNodeIdListIterator.remove();
 			}
 			

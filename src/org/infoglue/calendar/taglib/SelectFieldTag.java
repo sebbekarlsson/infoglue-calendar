@@ -151,13 +151,10 @@ public class SelectFieldTag extends AbstractCalendarTag
 	                optionText = value;
 	            }
 	            
-	            //System.out.println("Checking ID:" + id);
-	            
 	            String selected = "";
 	            if(selectedValues != null)
 	            {
-	                //System.out.println("Comparing with selectedValues");
-		            for(int i=0; i<selectedValues.length; i++)
+	                for(int i=0; i<selectedValues.length; i++)
 		            {
 		                if(id.equalsIgnoreCase(selectedValues[i]))
 		                    selected = " selected=\"1\"";
@@ -167,8 +164,6 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            }
 	            else if(selectedValueList != null)
 	            {
-	                //System.out.println("Comparing with selectedValueList");
-
 	                Iterator selectedValueListIterator = selectedValueList.iterator();
 	                while(selectedValueListIterator.hasNext())
 		            {
@@ -212,8 +207,6 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            }
 	            else if(selectedValueSet != null)
 	            {
-	                //System.out.println("Comparing with selectedValueSet:" + selectedValueSet);
-
 	                Iterator selectedValueSetIterator = selectedValueSet.iterator();
 	                while(selectedValueSetIterator.hasNext())
 		            {
@@ -250,8 +243,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
-	                	//System.out.println(id + "=" + selId);
-		                if(id.equalsIgnoreCase(selId))
+	                    if(id.equalsIgnoreCase(selId))
 		                    selected = " selected=\"1\"";
 		            }
 	            }

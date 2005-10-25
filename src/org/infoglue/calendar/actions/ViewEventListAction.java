@@ -28,6 +28,8 @@ import java.util.Set;
 
 import javax.portlet.PortletURL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
@@ -48,6 +50,8 @@ import com.opensymphony.xwork.ActionContext;
 
 public class ViewEventListAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(ViewEventListAction.class);
+
     private String calendarId;
     private String categories;
     private Calendar calendar;
@@ -61,13 +65,10 @@ public class ViewEventListAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         String[] calendarIds = calendarId.split(",");
-        //String[] calendarIds = categories.split(",");
         
-        //this.calendar = CalendarController.getController().getCalendar(calendarId, this.getSession());
-        //this.events = calendar.getPublishedEvents();
         this.events = EventController.getController().getEventList(calendarIds, getSession());
 
-        System.out.println("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
+        log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
         return Action.SUCCESS;

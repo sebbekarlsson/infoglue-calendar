@@ -89,10 +89,10 @@ public class RemoteCacheUpdateJob implements Job
 	            while(expiredEventsIterator.hasNext())
 	            {
 	                Event event = (Event)expiredEventsIterator.next();
-	                System.out.println("Event to expire:" + event.getName() + ":" + calendar.getTime() + "=" + event.getEndDateTime().getTime() + "?" + (calendar.getTimeInMillis() <= event.getEndDateTime().getTimeInMillis()));
+	                log.info("Event to expire:" + event.getName() + ":" + calendar.getTime() + "=" + event.getEndDateTime().getTime() + "?" + (calendar.getTimeInMillis() <= event.getEndDateTime().getTimeInMillis()));
 	                if(calendar.getTimeInMillis() <= event.getEndDateTime().getTimeInMillis())
 	                {
-	                    System.out.println("It was not only recent - it was not expired before...");
+	                    log.info("It was not only recent - it was not expired before...");
 	                    new RemoteCacheUpdater().updateRemoteCaches(event.getOwningCalendar().getId());
 	                }
 	            }

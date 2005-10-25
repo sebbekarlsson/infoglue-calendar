@@ -96,8 +96,6 @@ public class ViewCalendarListAction extends CalendarAbstractAction
     
     public String chooseDeleteLink() throws Exception 
     {
-        System.out.println("getInfoGlueRemoteUserRoles():" + getInfoGlueRemoteUserRoles().size());
-        System.out.println("getInfoGlueRemoteUserGroups():" + getInfoGlueRemoteUserGroups().size());
         this.calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), this.getSession());
 
         return "successChooseForDeleteLink";
