@@ -70,7 +70,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.NotExpression;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 public class EventController extends BasicController
 {    
@@ -826,8 +828,13 @@ public class EventController extends BasicController
 	        }
 	        
             Criteria criteria = session.createCriteria(Event.class);
+            criteria.add(Restrictions.eq("stateId", stateId));
+            
+            criteria.createCriteria("owningCalendar")
+            .add(Restrictions.not(Restrictions.in("id", calendarIdArray)));
+
             criteria.createCriteria("calendars")
-            .add(Expression.in("id", calendarIdArray));
+            .add(Restrictions.in("id", calendarIdArray));
             
             result = criteria.list();
             	        

@@ -429,7 +429,10 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public void setStartTime(String startTime)
     {
-        this.startTime = (startTime.indexOf(":") == -1 ? (startTime + ":00") : startTime);
+        if(startTime.equalsIgnoreCase(""))
+            this.startTime = "12:00";
+        else
+            this.startTime = (startTime.indexOf(":") == -1 ? (startTime + ":00") : startTime);
     }
     
     public String getTime()
@@ -449,12 +452,18 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public void setEndTime(String endTime)
     {
-        this.endTime = (endTime.indexOf(":") == -1 ? (endTime + ":00") : endTime);
+        if(endTime.equalsIgnoreCase(""))
+            this.endTime = "13:00";
+        else
+            this.endTime = (endTime.indexOf(":") == -1 ? (endTime + ":00") : endTime);
     }
     
     public void setLastRegistrationTime(String lastRegistrationTime)
     {
-        this.lastRegistrationTime = (lastRegistrationTime.indexOf(":") == -1 ? (lastRegistrationTime + ":00") : lastRegistrationTime);
+        if(lastRegistrationTime.equalsIgnoreCase(""))
+            this.lastRegistrationTime = "13:00";
+        else
+            this.lastRegistrationTime = (lastRegistrationTime.indexOf(":") == -1 ? (lastRegistrationTime + ":00") : lastRegistrationTime);
     }
     
     public String getLastRegistrationTime()
