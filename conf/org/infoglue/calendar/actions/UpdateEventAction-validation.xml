@@ -88,7 +88,7 @@
             <message>You must enter a last registration date.</message>
         </field-validator>
     </field>
-    <field name="lastRegistrationTime">
+    <field name="lastRegistrationDateTime">
        	<field-validator type="fieldexpression">
             <param name="expression">lastRegistrationCalendar != null and lastRegistrationCalendar.before(startCalendar)</param>
             <message>You must enter a last registration time and it must be before the event.</message>

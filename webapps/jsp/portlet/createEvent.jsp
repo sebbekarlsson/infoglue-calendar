@@ -17,6 +17,8 @@
 		<portlet:param name="action" value="CreateEvent"/>
 	</portlet:actionURL>
 
+	<!--Errors: <ww:property value="#fieldErrors"/>-->
+
 	<form name="inputForm" method="POST" action="<c:out value="${createEventUrl}"/>">
 		<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>

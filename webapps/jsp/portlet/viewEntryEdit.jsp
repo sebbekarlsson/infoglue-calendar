@@ -19,6 +19,8 @@
 			<portlet:param name="action" value="UpdateEntry"/>
 		</portlet:actionURL>
 
+		<!--Errors: <ww:property value="#fieldErrors"/>-->
+
 		<form name="inputForm" method="POST" action="<c:out value="${updateEntryActionUrl}"/>">
 			<input type="hidden" name="entryId" value="<ww:property value="entryId"/>">
 			<input type="hidden" name="searchEventId" value="<ww:property value="searchEventId"/>">
