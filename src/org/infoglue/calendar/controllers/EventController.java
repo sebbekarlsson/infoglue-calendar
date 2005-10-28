@@ -799,7 +799,7 @@ public class EventController extends BasicController
     
     public Set getEventList(String userName, List roles, List groups, Integer stateId, boolean includeLinked, Session session) throws Exception 
     {
-        List result = null;
+        List result = new ArrayList();
         
         if(includeLinked == true)
         {
@@ -827,16 +827,19 @@ public class EventController extends BasicController
 	            i++;                
 	        }
 	        
-            Criteria criteria = session.createCriteria(Event.class);
-            criteria.add(Restrictions.eq("stateId", stateId));
+            if(calendarIdArray.length > 0)
+            {
+	            Criteria criteria = session.createCriteria(Event.class);
+	            criteria.add(Restrictions.eq("stateId", stateId));
             
-            criteria.createCriteria("owningCalendar")
-            .add(Restrictions.not(Restrictions.in("id", calendarIdArray)));
+	            criteria.createCriteria("owningCalendar")
+	            .add(Restrictions.not(Restrictions.in("id", calendarIdArray)));
+	
+	            criteria.createCriteria("calendars")
+	            .add(Restrictions.in("id", calendarIdArray));
 
-            criteria.createCriteria("calendars")
-            .add(Restrictions.in("id", calendarIdArray));
-            
-            result = criteria.list();
+	            result = criteria.list();
+            }
             	        
         }
         else
@@ -972,40 +975,31 @@ public class EventController extends BasicController
         {
             return null;
         }
-/*
-        String categoriesSQL = null;
-        if(categories != null && categories.length > 0)
-        {
-            categoriesSQL = "(";
-	        for(int i=0; i<calendarIds.length; i++)
-	        {
-	            if(i > 0)
-	                categoriesSQL += ",";
-	            
-	            categoriesSQL += calendarIds[i];
-	        }
-	        categoriesSQL += ")";
-        }
-*/
+
         Object[] calendarIdArray = new Object[calendarIds.length];
         for(int i=0; i<calendarIds.length; i++)
             calendarIdArray[i] = new Long(calendarIds[i]);
-        
-        Criteria criteria = session.createCriteria(Event.class);
-        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
-        criteria.add(Expression.gt("startDateTime", java.util.Calendar.getInstance()));
-        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
-        criteria.addOrder(Order.asc("startDateTime"));
-        criteria.createCriteria("calendars")
-        .add(Expression.in("id", calendarIdArray));
-        
-        result = criteria.list();
-        
-        log.info("result:" + result.size());
-        
-        Set set = new LinkedHashSet();
-        set.addAll(result);	
 
+        Set set = new LinkedHashSet();
+
+        if(calendarIdArray.length > 0)
+        {
+	        Criteria criteria = session.createCriteria(Event.class);
+	        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
+	        criteria.add(Expression.gt("startDateTime", java.util.Calendar.getInstance()));
+	        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
+	        criteria.addOrder(Order.asc("startDateTime"));
+	        criteria.createCriteria("calendars")
+	        .add(Expression.in("id", calendarIdArray));
+
+	        result = criteria.list();
+        
+	        log.info("result:" + result.size());
+	        
+	        set.addAll(result);	
+        }
+        
+        
         return set;
     }
     
