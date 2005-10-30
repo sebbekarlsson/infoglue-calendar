@@ -121,15 +121,12 @@ public class ViewEventAction extends CalendarAbstractAction
     
     public List getEventCategories(EventTypeCategoryAttribute categoryAttribute)
     {
-        log.info("AAAAAAAAAAAAAAAAAAAAAAAAAA getEventCategories:" + categoryAttribute);
         List categories = new ArrayList();
         
-        log.info("this.event.getEventCategories():" + this.event.getEventCategories().size());
         Iterator i = this.event.getEventCategories().iterator();
         while(i.hasNext())
         {
             EventCategory eventCategory = (EventCategory)i.next();
-            log.info("eventCategory:" + eventCategory.getId() + ":" + eventCategory.getEventTypeCategoryAttribute().getId() + "=" + categoryAttribute.getId());
             if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
                 categories.add(eventCategory.getCategory());
         }

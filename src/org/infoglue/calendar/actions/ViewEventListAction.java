@@ -23,6 +23,8 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +37,9 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventCategory;
+import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.common.util.DBSessionWrapper;
 import org.infoglue.common.util.RemoteCacheUpdater;
 
@@ -120,6 +125,24 @@ public class ViewEventListAction extends CalendarAbstractAction
             return new Integer((String)o);
         else
             return new Integer(10);
+    }
+
+    public List getEventCategories(String eventString, EventTypeCategoryAttribute categoryAttribute)
+    {
+        Object object = findOnValueStack(eventString);
+        Event event = (Event)object;
+        
+        List categories = new ArrayList();
+        
+        Iterator i = event.getEventCategories().iterator();
+        while(i.hasNext())
+        {
+            EventCategory eventCategory = (EventCategory)i.next();
+            if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
+                categories.add(eventCategory.getCategory());
+        }
+
+        return categories;
     }
 
     public void setCategoryAttribute(String categoryAttribute)
