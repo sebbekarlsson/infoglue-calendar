@@ -937,12 +937,12 @@ public class EventController extends BasicController
     }
     
     /**
-     * Gets a list of all events available for a particular day.
+     * Gets a list of all events available for a particular calendar with the optional categories.
      * @return List of Event
      * @throws Exception
      */
     
-    public Set getEventList(String[] calendarIds, Session session) throws Exception 
+    public Set getEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, Session session) throws Exception 
     {
         List result = null;
         
@@ -980,6 +980,11 @@ public class EventController extends BasicController
         for(int i=0; i<calendarIds.length; i++)
             calendarIdArray[i] = new Long(calendarIds[i]);
 
+        /*
+        Object[] categoryNameArray = new Object[categoryNames.length];
+        for(int i=0; i<categoryNames.length; i++)
+            categoryNameArray[i] = new Long(categoryNames[i]);
+            */
         Set set = new LinkedHashSet();
 
         if(calendarIdArray.length > 0)
@@ -992,6 +997,21 @@ public class EventController extends BasicController
 	        criteria.createCriteria("calendars")
 	        .add(Expression.in("id", calendarIdArray));
 
+	        log.info("categoryAttribute:" + categoryAttribute);
+	        if(categoryAttribute != null && !categoryAttribute.equalsIgnoreCase(""))
+	        {
+	            log.info("categoryAttribute:" + categoryAttribute);
+	            criteria.createCriteria("eventCategories").createCriteria("eventTypeCategoryAttribute")
+	            .add(Expression.eq("name", categoryAttribute));
+	        }
+
+	        if(categoryNames.length > 0 && !categoryNames[0].equalsIgnoreCase(""))
+	        {
+	            log.info("categoryNames[0]:" + categoryNames[0]);
+	            criteria.createCriteria("eventCategories").createCriteria("category")
+	            .add(Expression.in("name", categoryNames));
+	        }
+	        
 	        result = criteria.list();
         
 	        log.info("result:" + result.size());

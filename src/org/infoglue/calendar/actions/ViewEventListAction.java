@@ -52,8 +52,10 @@ public class ViewEventListAction extends CalendarAbstractAction
 {
 	private static Log log = LogFactory.getLog(ViewEventListAction.class);
 
-    private String calendarId;
-    private String categories;
+    private String calendarId = "";
+    private String categories = "";
+    private String categoryAttribute = "";
+    private String categoryNames = "";
     private Calendar calendar;
 
     private Set events;
@@ -65,8 +67,11 @@ public class ViewEventListAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         String[] calendarIds = calendarId.split(",");
-        
-        this.events = EventController.getController().getEventList(calendarIds, getSession());
+        System.out.println("categoryAttribute:" + categoryAttribute);
+        System.out.println("categoryNames:" + categoryNames);
+        String[] categoryNamesArray = categoryNames.split(",");
+
+        this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, getSession());
 
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
@@ -117,4 +122,13 @@ public class ViewEventListAction extends CalendarAbstractAction
             return new Integer(10);
     }
 
+    public void setCategoryAttribute(String categoryAttribute)
+    {
+        this.categoryAttribute = categoryAttribute;
+    }
+    
+    public void setCategoryNames(String categoryNames)
+    {
+        this.categoryNames = categoryNames;
+    }
 }
