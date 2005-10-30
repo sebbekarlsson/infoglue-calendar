@@ -67,16 +67,3 @@
 <a href="#" class="number">&raquo;</a>
 </div>
 -->
-	
-		
-		<a href="" class="Headline"></a><br />
-		<span class="newsdate">
-		<ww:if test="top.isInternal == true">
-			[intern föreläsning]
-		</ww:if>
-		<ww:if test="top.isInternal != true">
-			[öppen föreläsning]
-		</ww:if>
-		</span>
-	</div>
-
