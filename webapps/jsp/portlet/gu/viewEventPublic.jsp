@@ -48,7 +48,7 @@
 		
 		<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span>snarast, dock senast <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'dd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price"/>:- </p>
-
+		<%--
 		<p><span class="calFactLabel">Anmälan:</span>
 		<ww:if test="event.lastRegistrationDateTime.time.time > now.time.time">
 			<ww:if test="event.maximumParticipants > event.entries.size()">
@@ -67,6 +67,7 @@
 			<ww:property value="this.getLabel('labels.public.event.registrationExpired')"/>
 		</ww:else>
 		</p>
+		--%>
 	</div>
 <!-- </div> -->
 </div>
