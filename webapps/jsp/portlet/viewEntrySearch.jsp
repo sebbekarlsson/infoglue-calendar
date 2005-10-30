@@ -116,7 +116,7 @@
 <div id="hitlist" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
 
 <div class="portlet_margin">
-	<h1><ww:property value="this.getLabel('labels.internal.soba.hitList')"/></h1>
+	<h1><ww:property value="this.getLabel('labels.internal.soba.hitListStart')"/> <ww:property value="entries.size()"/> <ww:property value="this.getLabel('labels.internal.soba.hitListEnd')"/></h1>
 </div>
 
 <portlet:renderURL var="createEntryRenderURL">
@@ -125,16 +125,17 @@
 </portlet:renderURL>
 
 <div class="subfunctionarea">
-<span class="left"></span>	
-<span class="right">
+<span class="left">
 	<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
 	<ww:if test="entries != null && entries.size() > 0"> | <a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
 </span>	
+<span class="right"></span>	
 <div class="clear"></div>
 </div>
 
 <div class="columnlabelarea">
-	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.soba.nameColumnHeader')"/></p></div>
+	<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/></p></div>
+	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.soba.nameColumnHeader')"/></p></div>
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.soba.eventColumnHeader')"/></p></div>
 	<div class="clear"></div>
 </div>
@@ -214,7 +215,10 @@
 		<div class="evenrow">
     </ww:else>
 
-	   	<div class="columnLong">
+	   	<div class="columnShort">
+	   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'"><ww:property value="#rowstatus.count"/></a></p>
+	   	</div>
+	   	<div class="columnMedium">
 	   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'"><ww:property value="firstName"/> <ww:property value="lastName"/></a></p>
 	   	</div>
 	   	<div class="columnMedium">

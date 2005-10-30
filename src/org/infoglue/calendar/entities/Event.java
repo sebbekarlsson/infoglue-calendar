@@ -278,11 +278,17 @@ public class Event implements BaseEntity
      */
     public String getEventUrl()
     {
+        if(eventUrl != null && !eventUrl.equalsIgnoreCase("") && eventUrl.indexOf("http") == -1)
+            eventUrl = "http://" + eventUrl;
+        
         return eventUrl;
     }
     
     public void setEventUrl(String eventUrl)
     {
+        if(eventUrl != null && !eventUrl.equalsIgnoreCase("") && eventUrl.indexOf("http") == -1)
+            eventUrl = "http://" + eventUrl;
+        
         this.eventUrl = eventUrl;
     }
     

@@ -144,7 +144,7 @@
 					<portlet:param name="deleteResourceId" value="<%= pageContext.getAttribute("resourceId").toString() %>"/>
 				</portlet:actionURL>
 							
-				<span class=""><a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a></span>&nbsp;
+				<span class=""><a href="<c:out value="${url}"/>"><ww:property value='fileName'/> (<ww:property value='assetKey'/>)</a></span>&nbsp;
 				<ww:if test="this.getIsEventOwner(event)">
 					<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a>
       			</ww:if>

@@ -331,10 +331,16 @@ public class CalendarAbstractAction extends ActionSupport
 	    
 	    try
 	    {
-	    	Locale locale = new Locale(this.getLanguageCode());
+	        String derivedValue = (String)findOnValueStack(key);
+	        
+	        Locale locale = new Locale(this.getLanguageCode());
 	    	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
 	        
-	        label = resourceBundle.getString(key);
+	    	if(derivedValue != null)
+	    	    label = resourceBundle.getString(derivedValue);
+	        else
+	            label = resourceBundle.getString(key);
+
 	        if(label == null || label.equals(""))
 	            label = key;
 	    }
@@ -428,5 +434,13 @@ public class CalendarAbstractAction extends ActionSupport
     {
         this.rollBackOnly = rollBackOnly;
     }
+    
+    public static Object findOnValueStack(String expr) 
+    {
+		ActionContext a = ActionContext.getContext();
+		Object value = a.getValueStack().findValue(expr);
+		return value;
+	}
+
 }
 

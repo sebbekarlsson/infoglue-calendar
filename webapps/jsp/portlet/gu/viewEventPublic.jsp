@@ -5,10 +5,74 @@
 
 <portlet:defineObjects/>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/calendarPublic.css" />
 
-<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
+<!-- Calendar start -->
+<div class="calendar"> 	
+	<span class="categoryLabel">Öppen föreläsning</span> 	
+	
+	<H1><ww:property value="event.name"/></H1>
 
+<!-- Detta skall ev vara med beroende på hur articelkomponenten ser ut
+	<div class="record">
+	<span class="categoryLabelSmall">Öppen föreläsning</span> -->
+	
+	<h4><ww:property value="event.shortDescription"/></h4>
+	<br>
+	<p>
+	<ww:set name="puffImage" value="this.getResourceUrl(event, 'DetaljBild')"/>
+	<ww:if test="#puffImage != null">
+	<img src="<ww:property value="#puffImage"/>" class="img_left_letter"/>
+	</ww:if>
+	<ww:property value="event.longDescription"/>
+	</p>
+	
+	<div class="calFact">
+		<p><span class="calFactLabel">F&ouml;rel&auml;sare: </span><ww:property value="event.lecturer"/></p>
+
+		<p><span class="calFactLabel">Datum: </span><ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> - <ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/></p>                             		
+		<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> - <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></p>
+		<p><span class="calFactLabel">Kategori: </span>Ekonomi </p>
+		<p><span class="calFactLabel">Arrang&ouml;r: </span><ww:property value="event.organizerName"/></p>
+
+		<p><span class="calFactLabel">Plats: </span>Handelsh&ouml;gskolan, G&ouml;teborg, sal 211</p>
+		<p><span class="calFactLabel">Adress: </span>Handelsh&ouml;gskolan, Box 100, G&ouml;teborg </p>
+		<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="event.eventUrl"/>" title="Läs mer om <ww:property value="event.name"/>"><ww:property value="event.eventUrl"/></a></p>
+
+		<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
+		
+		<ww:iterator value="event.resources">
+			<ww:set name="resourceId" value="top.id" scope="page"/>
+			<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
+			<p><span class="calFactLabel">Ytterliggare information: </span><a href="<c:out value="${url}"/>" target="_blank" class="pdficon_calender"><ww:property value='fileName'/></a></p>
+  		</ww:iterator>
+		
+		<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span>snarast, dock senast <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'dd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
+		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price"/>:- </p>
+
+		<p><span class="calFactLabel">Anmälan:</span>
+		<ww:if test="event.lastRegistrationDateTime.time.time > now.time.time">
+			<ww:if test="event.maximumParticipants > event.entries.size()">
+				<ww:set name="eventId" value="eventId" scope="page"/>
+				<portlet:renderURL var="createEntryRenderURL">
+					<calendar:evalParam name="action" value="CreateEntry!inputPublicGU"/>
+					<calendar:evalParam name="eventId" value="${eventId}"/>
+				</portlet:renderURL>
+				<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.public.event.signUp')"/></a></span>
+			</ww:if>
+			<ww:else>
+					<ww:property value="this.getLabel('labels.public.maximumEntriesReached.title')"/>
+			</ww:else>
+		</ww:if>
+		<ww:else>
+			<ww:property value="this.getLabel('labels.public.event.registrationExpired')"/>
+		</ww:else>
+		</p>
+	</div>
+<!-- </div> -->
+</div>
+<!-- Calendar End -->
+
+<%--
 <div class="inputDiv">
 		
 	<h1><ww:property value="event.name"/></h1>
@@ -22,12 +86,6 @@
 		</p>
 		<p>
 			<calendar:textValue label="labels.public.event.customLocation" value="event.customLocation" labelCssClass="label"/>
-		</p>
-		<p>
-			<calendar:textValue label="labels.public.event.shortDescription" value="event.shortDescription" labelCssClass="label"/>
-		</p>
-		<p>
-			<calendar:textValue label="labels.public.event.longDescription" value="event.longDescription" labelCssClass="label"/>
 		</p>
 		<p>
 			<calendar:textValue label="labels.public.event.eventUrl" value="event.eventUrl" labelCssClass="label"/>
@@ -98,7 +156,7 @@
 				<ww:set name="resourceId" value="top.id" scope="page"/>
 				<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
 					
-				<a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a><br>     			
+				<a href="<c:out value="${url}"/>"><ww:property value='fileName'/> (<ww:property value='assetKey'/>)</a><br>     			
       		</ww:iterator>
 
 			<ww:if test="event.resources == null || event.resources.size() == 0">
@@ -127,10 +185,11 @@
 			<ww:property value="this.getLabel('labels.public.event.registrationExpired')"/>
 		</p>
 		</ww:else>
-		<%--
+
 		<calendar:vCalendarUrl id="vCalendarUrl" eventId="${eventId}"/>
 		<a href="<c:out value="${vCalendarUrl}"/>"><img src="<%=request.getContextPath()%>/images/calendarIcon.jpg" border="0"> Add to my calendar (vCal)</a>
-		--%>
-	</div>		
+
+	</div>	
 
 </div>
+--%>

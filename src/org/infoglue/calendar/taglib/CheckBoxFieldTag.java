@@ -90,7 +90,11 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	            errorMessage = "<span class=\"errorMessage\">" + fieldError + "</span>";
+	            String translatedError = this.getLabel(fieldError);
+	            if(translatedError != null && translatedError.length() > 0)
+	                fieldError = translatedError;
+
+	          	errorMessage = "<span class=\"errorMessage\">" + fieldError + "</span>";
 	        }
 	    }	
 

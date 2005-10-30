@@ -3,26 +3,23 @@
 .calendar {
   position: relative;
   display: none;
+  border: 1px solid;
   border-color: #fff #000 #000 #fff;
   font-size: 11px;
   cursor: default;
   background: Window;
   color: WindowText;
   font-family: tahoma,verdana,sans-serif;
-  width: 300px;
-  height: 250px;
 }
 
 .calendar table {
-  border-right: 1px solid black;
+  border: 1px solid;
   border-color: #fff #000 #000 #fff;
   font-size: 11px;
   cursor: default;
   background: Window;
   color: WindowText;
   font-family: tahoma,verdana,sans-serif;
-  width: 300px;
-  height: 250px;
 }
 
 /* Header part -- contains navigation buttons and day names. */
@@ -193,6 +190,7 @@
   color: MenuText;
   font-size: 90%;
   padding: 1px;
+  z-index: 100;
 }
 
 .calendar .combo .label,

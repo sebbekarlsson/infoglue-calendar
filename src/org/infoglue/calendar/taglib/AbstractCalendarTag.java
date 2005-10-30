@@ -109,11 +109,16 @@ public abstract class AbstractCalendarTag extends AbstractTag
 	    
 	    try
 	    {
+	        Object derivedValue = findOnValueStack(key);
 	    	Locale locale = new Locale(this.getLanguageCode());
 	    	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-	        
-	        label = resourceBundle.getString(key);
-	        if(label == null || label.equals(""))
+	    	System.out.println("derivedValue:" + derivedValue);
+	    	if(derivedValue != null)
+	    	    label = resourceBundle.getString("" + derivedValue.toString());
+	        else
+	            label = resourceBundle.getString(key);
+	            
+	    	if(label == null || label.equals(""))
 	            label = key;
 	    }
 	    catch(Exception e)

@@ -84,6 +84,10 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
+	            String translatedError = this.getLabel(fieldError);
+	            if(translatedError != null && translatedError.length() > 0)
+	                fieldError = translatedError;
+
 	          	errorMessage = "<span class=\"errorMessage\">" + fieldError + "</span>";
 	        }
 	    }	

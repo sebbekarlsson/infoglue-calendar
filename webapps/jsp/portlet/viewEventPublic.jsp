@@ -136,7 +136,7 @@
 				<ww:set name="resourceId" value="top.id" scope="page"/>
 				<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
 					
-				<a href="<c:out value="${url}"/>"><ww:property value='assetKey'/></a><br>     			
+				<a href="<c:out value="${url}"/>"><ww:property value='fileName'/> (<ww:property value='assetKey'/>)</a><br>     			
       		</ww:iterator>
 		</p>
 		<p>

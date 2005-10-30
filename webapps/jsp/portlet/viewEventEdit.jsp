@@ -102,7 +102,7 @@
 		
 		<div style="height:10px"></div>
 		
-		<input type="submit" value="Update" class="button">
+		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.updateButton')"/>" class="button">
 		
 		<portlet:renderURL var="viewEventUrl">
 			<portlet:param name="action" value="ViewEvent"/>
@@ -111,7 +111,7 @@
 			<calendar:evalParam name="mode" value="${mode}"/>
 		</portlet:renderURL>
 	
-	    <input onclick="document.location.href='<c:out value="${viewEventUrl}"/>';" type="submit" value="Cancel" class="button">
+	    <input onclick="document.location.href='<c:out value="${viewEventUrl}"/>';" type="submit" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 
 	</form>		
 
