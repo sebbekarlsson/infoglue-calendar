@@ -997,18 +997,23 @@ public class EventController extends BasicController
 	        criteria.createCriteria("calendars")
 	        .add(Expression.in("id", calendarIdArray));
 
+	        Criteria eventCategoriesCriteria = null;
 	        log.info("categoryAttribute:" + categoryAttribute);
 	        if(categoryAttribute != null && !categoryAttribute.equalsIgnoreCase(""))
 	        {
 	            log.info("categoryAttribute:" + categoryAttribute);
-	            criteria.createCriteria("eventCategories").createCriteria("eventTypeCategoryAttribute")
+	            eventCategoriesCriteria = criteria.createCriteria("eventCategories");
+	            eventCategoriesCriteria.createCriteria("eventTypeCategoryAttribute")
 	            .add(Expression.eq("name", categoryAttribute));
 	        }
 
 	        if(categoryNames.length > 0 && !categoryNames[0].equalsIgnoreCase(""))
 	        {
 	            log.info("categoryNames[0]:" + categoryNames[0]);
-	            criteria.createCriteria("eventCategories").createCriteria("category")
+	            if(eventCategoriesCriteria == null)
+		            eventCategoriesCriteria = criteria.createCriteria("eventCategories");
+
+	            eventCategoriesCriteria.createCriteria("category")
 	            .add(Expression.in("name", categoryNames));
 	        }
 	        
