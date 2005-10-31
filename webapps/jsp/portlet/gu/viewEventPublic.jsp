@@ -25,13 +25,13 @@
 	<div class="record">
 	<span class="categoryLabelSmall">Öppen föreläsning</span> -->
 	
-	<h4><ww:property value="event.shortDescription"/></h4>
+	<h4><ww:property value="event.decoratedShortDescription"/></h4>
 	<p>
 	<ww:set name="puffImage" value="this.getResourceUrl(event, 'DetaljBild')"/>
 	<ww:if test="#puffImage != null">
 	<img src="<ww:property value="#puffImage"/>" class="img_left_letter"/>
 	</ww:if>
-	<ww:property value="event.longDescription"/>
+	<ww:property value="event.decoratedLongDescription"/>
 	</p>
 	
 	<div class="calFact">
@@ -93,7 +93,7 @@
   		</ww:iterator>
   		</p>
 		
-		<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span>snarast, dock senast <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'dd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
+		<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span>snarast, dock senast <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price.intValue()"/>:- </p>
 		<%--
 		<p><span class="calFactLabel">Anmälan:</span>

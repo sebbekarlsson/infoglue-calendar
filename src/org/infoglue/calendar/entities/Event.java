@@ -405,6 +405,11 @@ public class Event implements BaseEntity
      */
     public String getShortDescription()
     {
+        return shortDescription;
+    }
+
+    public String getDecoratedShortDescription()
+    {
         if(shortDescription != null)
         {
             String lineSep = System.getProperty("line.separator");
@@ -413,6 +418,7 @@ public class Event implements BaseEntity
         
         return shortDescription;
     }
+
     
     public void setShortDescription(String shortDescription)
     {
@@ -426,6 +432,11 @@ public class Event implements BaseEntity
      */
     public String getLongDescription()
     {
+        return longDescription;
+    }
+
+    public String getDecoratedLongDescription()
+    {
         if(longDescription != null)
         {
             String lineSep = System.getProperty("line.separator");
@@ -434,7 +445,7 @@ public class Event implements BaseEntity
         
         return longDescription;
     }
-    
+
     public void setLongDescription(String longDescription)
     {
         this.longDescription = longDescription;
