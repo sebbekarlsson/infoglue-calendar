@@ -98,9 +98,10 @@ public class CategoryController extends BasicController
      * This method is used to create a new Category object in the database inside a transaction.
      */
     
-    public Category createCategory(String name, String description, Boolean active, Long parentCategoryId, Session session) throws HibernateException, Exception 
+    public Category createCategory(String internalName, String name, String description, Boolean active, Long parentCategoryId, Session session) throws HibernateException, Exception 
     {
         Category category = new Category();
+        category.setInternalName(internalName);
         category.setName(name);
         category.setDescription(description);
         category.setActive(active);
@@ -124,10 +125,10 @@ public class CategoryController extends BasicController
      * @throws Exception
      */
 
-    public Category updateCategory(Long id, String name, String description, Session session) throws Exception 
+    public Category updateCategory(Long id, String internalName, String name, String description, Session session) throws Exception 
     {
 		Category category = getCategory(id, session);
-		return updateCategory(category, name, description, session);
+		return updateCategory(category, internalName, name, description, session);
     }
     
     /**
@@ -136,8 +137,9 @@ public class CategoryController extends BasicController
      * @throws Exception
      */
     
-    public Category updateCategory(Category category, String name, String description, Session session) throws Exception 
+    public Category updateCategory(Category category, String internalName, String name, String description, Session session) throws Exception 
     {
+        category.setInternalName(internalName);
         category.setName(name);
         category.setDescription(description);
 	
@@ -147,39 +149,6 @@ public class CategoryController extends BasicController
 	}
     
  
-    /**
-     * This method returns a Category based on it's primary key
-     * @return Category
-     * @throws Exception
-     */
-    /*
-    public Category getCategory(Long id) throws Exception
-    {
-        Category category = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			category = getCategory(id, session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-		return category;
-    }
-    */
     
     /**
      * This method returns a Category based on it's primary key inside a transaction
@@ -195,39 +164,6 @@ public class CategoryController extends BasicController
     }
     
     
-    /**
-     * This method returns a list of Locations
-     * @return List
-     * @throws Exception
-     */
-    /*
-    public List getCategoryList() throws Exception
-    {
-        List list = null;
-        
-        Session session = getSession();
-        
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			list = getCategoryList(session);
-			tx.commit();
-		}
-		catch (Exception e) 
-		{
-		    if (tx!=null) 
-		        tx.rollback();
-		    throw e;
-		}
-		finally 
-		{
-		    session.close();
-		}
-		
-		return list;
-    }
-    */
     
     /**
      * Gets a list of all categorys available sorted by primary key.
@@ -246,42 +182,6 @@ public class CategoryController extends BasicController
         return result;
     }
     
-    /**
-     * Gets a list of categorys fetched by name.
-     * @return List of Category
-     * @throws Exception
-     */
-    /*
-    public List getCategory(String name) throws Exception 
-    {
-        List categorys = null;
-        
-        Session session = getSession();
-        
-        Transaction tx = null;
-        
-        try 
-        {
-            tx = session.beginTransaction();
-            
-            categorys = session.createQuery("from Category as category where category.name = ?").setString(0, name).list();
-                
-            tx.commit();
-        }
-        catch (Exception e) 
-        {
-            if (tx!=null) 
-                tx.rollback();
-            throw e;
-        }
-        finally 
-        {
-            session.close();
-        }
-        
-        return categorys;
-    }
-    */
     
     /**
      * Deletes a category object in the database. Also cascades all events associated to it.

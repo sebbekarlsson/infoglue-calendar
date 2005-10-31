@@ -19,6 +19,7 @@
             <generator class="native"></generator>
         </id>
 
+        <property name="internalName" type="string" update="true" insert="true" access="property" column="internalName" not-null="false" unique="true" />
         <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="true" />
         <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false" />
 		<property name="active" column="active" type="boolean"/>

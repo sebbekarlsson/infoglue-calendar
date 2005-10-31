@@ -59,9 +59,10 @@ public class EventTypeCategoryAttributeController extends BasicController
      * This method is used to create a new EventTypeCategoryAttribute object in the database inside a transaction.
      */
     
-    public EventTypeCategoryAttribute createEventTypeCategoryAttribute(Long eventTypeId, Long categoryId, String name, Session session) throws HibernateException, Exception 
+    public EventTypeCategoryAttribute createEventTypeCategoryAttribute(Long eventTypeId, Long categoryId, String internalName, String name, Session session) throws HibernateException, Exception 
     {
         EventTypeCategoryAttribute eventTypeCategoryAttribute = new EventTypeCategoryAttribute();
+        eventTypeCategoryAttribute.setInternalName(internalName);
         eventTypeCategoryAttribute.setName(name);
         
         Category category = CategoryController.getController().getCategory(categoryId, session);
@@ -82,11 +83,11 @@ public class EventTypeCategoryAttributeController extends BasicController
      * @throws Exception
      */
     
-    public EventTypeCategoryAttribute updateEventTypeCategoryAttribute(Long id, String name, Long categoryId, Session session) throws Exception 
+    public EventTypeCategoryAttribute updateEventTypeCategoryAttribute(Long id, String internalName, String name, Long categoryId, Session session) throws Exception 
     {
         EventTypeCategoryAttribute eventTypeCategoryAttribute = getEventTypeCategoryAttribute(id, session);
 		Category category = CategoryController.getController().getCategory(categoryId, session);
-        return updateEventTypeCategoryAttribute(eventTypeCategoryAttribute, name, category, session);
+        return updateEventTypeCategoryAttribute(eventTypeCategoryAttribute, internalName, name, category, session);
     }
     
     /**
@@ -95,8 +96,9 @@ public class EventTypeCategoryAttributeController extends BasicController
      * @throws Exception
      */
     
-    public EventTypeCategoryAttribute updateEventTypeCategoryAttribute(EventTypeCategoryAttribute eventTypeCategoryAttribute, String name, Category category, Session session) throws Exception 
+    public EventTypeCategoryAttribute updateEventTypeCategoryAttribute(EventTypeCategoryAttribute eventTypeCategoryAttribute, String internalName, String name, Category category, Session session) throws Exception 
     {
+        eventTypeCategoryAttribute.setInternalName(internalName);
         eventTypeCategoryAttribute.setName(name);
         eventTypeCategoryAttribute.setCategory(category);
         
@@ -145,11 +147,11 @@ public class EventTypeCategoryAttributeController extends BasicController
      * @throws Exception
      */
     
-    public List getEventTypeCategoryAttribute(String name, Session session) throws Exception 
+    public List getEventTypeCategoryAttribute(String internalName, Session session) throws Exception 
     {
         List eventTypeCategoryAttributes = null;
         
-        eventTypeCategoryAttributes = session.createQuery("from EventTypeCategoryAttribute as eventTypeCategoryAttribute where eventTypeCategoryAttribute.name = ?").setString(0, name).list();
+        eventTypeCategoryAttributes = session.createQuery("from EventTypeCategoryAttribute as eventTypeCategoryAttribute where eventTypeCategoryAttribute.internalName = ?").setString(0, internalName).list();
         
         return eventTypeCategoryAttributes;
     }

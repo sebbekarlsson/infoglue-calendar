@@ -31,6 +31,7 @@
 	<form name="inputForm" method="POST" action="<c:out value="${createEventTypeCategoryAttributeActionUrl}"/>">
 		<input type="hidden" name="eventTypeId" value="<ww:property value="eventTypeId"/>">
 
+		<calendar:textField label="labels.internal.eventTypeCategoryAttribute.internalName" name="internalName" value="eventTypeCategoryAttribute.internalName" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.eventTypeCategoryAttribute.name" name="name" value="eventTypeCategoryAttribute.name" cssClass="longtextfield"/>
 		<calendar:selectField label="labels.internal.eventTypeCategoryAttribute.BaseCategory" name="categoryId" multiple="false" value="categories" cssClass="listBox"/>
 		<div style="height:10px"></div>

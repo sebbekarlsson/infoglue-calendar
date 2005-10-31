@@ -48,6 +48,7 @@ public class UpdateCategoryAction extends ViewCategoryAction
 {
     private Long updateCategoryId;
     private Long categoryId;
+    private String internalName;
     private String name;
     private String description;
     
@@ -61,7 +62,7 @@ public class UpdateCategoryAction extends ViewCategoryAction
         {
             validateInput(this);
             
-            Category category = CategoryController.getController().updateCategory(this.updateCategoryId, this.name, this.description, getSession());
+            Category category = CategoryController.getController().updateCategory(this.updateCategoryId, this.internalName, this.name, this.description, getSession());
             
             if(category != null && category.getParent() != null)
             {
@@ -111,5 +112,15 @@ public class UpdateCategoryAction extends ViewCategoryAction
     public void setUpdateCategoryId(Long updateCategoryId)
     {
         this.updateCategoryId = updateCategoryId;
+    }
+    
+    public String getInternalName()
+    {
+        return internalName;
+    }
+    
+    public void setInternalName(String internalName)
+    {
+        this.internalName = internalName;
     }
 }

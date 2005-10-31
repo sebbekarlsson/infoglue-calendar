@@ -45,6 +45,7 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
     private static Log log = LogFactory.getLog(UpdateEventTypeCategoryAttributeAction.class);
 
     private Long eventTypeCategoryAttributeId;
+    private String internalName;
     private String name;
     private Long categoryId;
     
@@ -59,7 +60,7 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         try
         {
             validateInput(this);
-            this.eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().updateEventTypeCategoryAttribute(this.eventTypeCategoryAttributeId, this.name, this.categoryId, getSession());
+            this.eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().updateEventTypeCategoryAttribute(this.eventTypeCategoryAttributeId, this.internalName, this.name, this.categoryId, getSession());
             log.info("eventTypeCategoryAttribute:" + eventTypeCategoryAttribute.getEventType().getId());
         }
         catch(ValidationException e)
@@ -82,6 +83,16 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         this.eventTypeCategoryAttributeId = eventTypeCategoryAttributeId;
     }
     
+    public String getInternalName()
+    {
+        return internalName;
+    }
+    
+    public void setInternalName(String internalName)
+    {
+        this.internalName = internalName;
+    }
+
     public String getName()
     {
         return name;
@@ -106,4 +117,5 @@ public class UpdateEventTypeCategoryAttributeAction extends CalendarAbstractActi
     {
         this.categoryId = categoryId;
     }
+    
 }

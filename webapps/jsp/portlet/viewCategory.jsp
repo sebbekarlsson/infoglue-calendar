@@ -43,6 +43,7 @@
 	<form name="inputForm" method="POST" action="<c:out value="${updateCategoryActionUrl}"/>">
 		<input type="hidden" name="updateCategoryId" value="<ww:property value="category.id"/>">
 
+		<calendar:textField label="labels.internal.category.internalName" name="internalName" value="category.internalName" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.category.name" name="name" value="category.name" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.category.description" name="description" value="category.description" cssClass="longtextfield"/>
 		<div style="height:10px"></div>
@@ -93,7 +94,7 @@
     </ww:else>
 
        	<div class="columnLong">
-       		<p class="portletHeadline"><a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
+       		<p class="portletHeadline"><a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="name"/>'"><ww:property value="name"/> (<ww:property value="internalName"/>)</a></p>
        	</div>
        	<div class="columnMedium">
        		<p><ww:property value="description"/></p>

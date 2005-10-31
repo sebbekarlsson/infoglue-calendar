@@ -25,6 +25,8 @@ package org.infoglue.calendar.actions;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.EntryController;
 
 import com.opensymphony.xwork.Action;
@@ -37,6 +39,8 @@ import com.opensymphony.xwork.Action;
 
 public class EmailEntriesAction extends CalendarAbstractAction
 {
+    private static Log log = LogFactory.getLog(EmailEntriesAction.class);
+
     private String emailAddresses;
     private String subject;
     private String message;
@@ -52,6 +56,8 @@ public class EmailEntriesAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+        log.error("Mattias åäö ÅÄÖ");
+        log.error("" + message);
         EntryController.getController().mailEntries(this.emailAddresses, subject, message);
 
         return Action.SUCCESS;

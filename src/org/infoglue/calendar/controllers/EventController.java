@@ -1004,7 +1004,7 @@ public class EventController extends BasicController
 	            log.info("categoryAttribute:" + categoryAttribute);
 	            eventCategoriesCriteria = criteria.createCriteria("eventCategories");
 	            eventCategoriesCriteria.createCriteria("eventTypeCategoryAttribute")
-	            .add(Expression.eq("name", categoryAttribute));
+	            .add(Expression.eq("internalName", categoryAttribute));
 	        }
 
 	        if(categoryNames.length > 0 && !categoryNames[0].equalsIgnoreCase(""))
@@ -1014,7 +1014,7 @@ public class EventController extends BasicController
 		            eventCategoriesCriteria = criteria.createCriteria("eventCategories");
 
 	            eventCategoriesCriteria.createCriteria("category")
-	            .add(Expression.in("name", categoryNames));
+	            .add(Expression.in("internalName", categoryNames));
 	        }
 	        
 	        result = criteria.list();

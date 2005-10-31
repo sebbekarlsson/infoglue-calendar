@@ -13,6 +13,7 @@
         </id>
 
         <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="true"/>
+        <property name="internalName" type="string" update="true" insert="true" access="property" column="internalName" not-null="false" unique="true"/>
         
         <many-to-one name="eventType" class="org.infoglue.calendar.entities.EventType" cascade="none" outer-join="auto" update="true" insert="true" access="property" column="eventtype_id"/>
         <many-to-one name="category" class="org.infoglue.calendar.entities.Category" cascade="none" outer-join="auto" update="true" insert="true" access="property" column="category_id"/>

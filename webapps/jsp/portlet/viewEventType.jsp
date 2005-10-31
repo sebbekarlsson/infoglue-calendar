@@ -41,8 +41,8 @@
 </div>
 
 <div class="columnlabelarea">
-	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.eventType.AvailableCategories')"/></p></div>
-	<div class="columnMedium"><p></p></div>
+	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.eventType.AvailableCategories')"/></p></div>
+	<div class="columnLong"><p></p></div>
 	<div class="clear"></div>
 </div>
 
@@ -83,10 +83,10 @@
 		<div class="evenrow">
     </ww:else>
 
-       	<div class="columnLong">
-       		<p class="portletHeadline"><a href="<c:out value="${attributeCategoryUrl}"/>" title="Visa kategori"><ww:property value="name"/></a></p>
-       	</div>
        	<div class="columnMedium">
+       		<p class="portletHeadline"><a href="<c:out value="${attributeCategoryUrl}"/>" title="Visa kategori"><ww:property value="name"/> (<ww:property value="internalName"/>)</a></p>
+       	</div>
+       	<div class="columnLong">
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">

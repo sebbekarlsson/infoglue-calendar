@@ -51,6 +51,7 @@ public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractActi
 {
     private Long eventTypeId;
     private Long categoryId;
+    private String internalName;
     private String name;
     
     private List categories;
@@ -66,7 +67,7 @@ public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         try
         {
             validateInput(this);
-            this.newEventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().createEventTypeCategoryAttribute(this.eventTypeId, this.categoryId, this.name, getSession());
+            this.newEventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().createEventTypeCategoryAttribute(this.eventTypeId, this.categoryId, this.internalName, this.name, getSession());
         }
         catch(ValidationException e)
         {
@@ -108,6 +109,16 @@ public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractActi
         this.categoryId = categoryId;
     }
     
+    public String getInternalName()
+    {
+        return internalName;
+    }
+    
+    public void setInternalName(String internalName)
+    {
+        this.internalName = internalName;
+    }
+
     public String getName()
     {
         return name;
@@ -127,4 +138,5 @@ public class CreateEventTypeCategoryAttributeAction extends CalendarAbstractActi
     {
         return newEventTypeCategoryAttribute;
     }
+    
 }

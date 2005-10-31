@@ -38,7 +38,7 @@
 			<img src="<ww:property value="#puffImage"/>" class="img_calendar_event"/>
 			</ww:if>
 			<p><ww:property value="shortDescription"/></p>
-			<p><span class="calendarLabel">F&ouml;rel&auml;sare:</span> <ww:property value="lecturer"/></p>
+			<p><span class="calFactLabel">F&ouml;rel&auml;sare:</span> <ww:property value="lecturer"/></p>
 	
 		</div>
 		<!-- Record End -->

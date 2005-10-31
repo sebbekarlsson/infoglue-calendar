@@ -44,6 +44,7 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class CategoryAttributeAction extends CalendarAbstractAction
 {
+    private String internalName;
     private String name;
     private String description;
 
@@ -59,7 +60,7 @@ public class CategoryAttributeAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            CategoryController.getController().createCategory(this.name, description, active, parentCategoryId, getSession());
+            CategoryController.getController().createCategory(this.internalName, this.name, description, active, parentCategoryId, getSession());
         }
         catch(ValidationException e)
         {
@@ -88,6 +89,16 @@ public class CategoryAttributeAction extends CalendarAbstractAction
         this.description = description;
     }
     
+    public String getInternalName()
+    {
+        return internalName;
+    }
+    
+    public void setInternalName(String internalName)
+    {
+        this.internalName = internalName;
+    }
+
     public String getName()
     {
         return this.name;
@@ -117,4 +128,5 @@ public class CategoryAttributeAction extends CalendarAbstractAction
     {
         this.parentCategoryId = parentCategoryId;
     }
+    
 }

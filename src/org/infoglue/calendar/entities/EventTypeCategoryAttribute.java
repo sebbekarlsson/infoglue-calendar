@@ -33,6 +33,7 @@ package org.infoglue.calendar.entities;
 public class EventTypeCategoryAttribute implements BaseEntity
 {
     private Long id;
+    private String internalName;
     private String name;
     
     private EventType eventType;
@@ -53,6 +54,21 @@ public class EventTypeCategoryAttribute implements BaseEntity
         this.id = id;
     }
     
+    /**
+     * @hibernate.property name="getInternalName" column="internalName" type="string" not-null="false" unique="true"
+     * 
+     * @return String
+     */
+    public String getInternalName()
+    {
+        return internalName;
+    }
+
+    public void setInternalName(String internalName)
+    {
+        this.internalName = internalName;
+    }
+
     /**
      * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
      * 

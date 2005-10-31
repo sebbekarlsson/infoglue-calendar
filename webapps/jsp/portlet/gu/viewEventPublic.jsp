@@ -26,7 +26,6 @@
 	<span class="categoryLabelSmall">Öppen föreläsning</span> -->
 	
 	<h4><ww:property value="event.shortDescription"/></h4>
-	<br>
 	<p>
 	<ww:set name="puffImage" value="this.getResourceUrl(event, 'DetaljBild')"/>
 	<ww:if test="#puffImage != null">
@@ -43,7 +42,7 @@
 				<p><span class="calFactLabel">Datum & tid: </span><ww:property value="#startDate"/> kl <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> kl <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></p>                             		
 			</ww:if>
 			<ww:else>
-				<p><span class="calFactLabel">Datum: </span><ww:property value="#startDate"/> - <ww:property value="#endDate"/></p>                             		
+				<p><span class="calFactLabel">Datum: </span><ww:property value="#startDate"/></p>                             		
 				<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> - <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></p>
 			</ww:else>
 			<p><span class="calFactLabel">Kategori: </span>
@@ -58,13 +57,16 @@
    		</p>
 		<p><span class="calFactLabel">Arrang&ouml;r: </span><ww:property value="event.organizerName"/></p>
 
-		<p><span class="calFactLabel">Plats: </span>
+		<p><span class="calFactLabel">Plats: </span><br/>
 			<ww:iterator value="event.locations">
 	      		<ww:set name="location" value="top"/>
- 				<ww:property value='#location.name'/>
+ 				<ww:property value='#location.name'/><br/>		
       		</ww:iterator>
+			<ww:property value="event.customLocation"/>
 		</p>
+		<%--
 		<p><span class="calFactLabel">Adress: </span><ww:property value="event.customLocation"/></p>
+		--%>
 		<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="event.eventUrl"/>">Läs mer om <ww:property value="event.name"/></a></p>
 
 		<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
