@@ -9,6 +9,13 @@
 <!-- Calendar start -->
 <div class="calendar">   
 
+	<ww:if test="#attr.detailUrl.indexOf('?') > -1">
+		<c:set var="delim" value="&"/>
+	</ww:if>
+	<ww:else>
+		<c:set var="delim" value="?"/>
+	</ww:else>
+
 	<ww:iterator value="events" status="rowstatus">
 	
 		<ww:set name="event" value="top"/>
@@ -30,7 +37,8 @@
 					</ww:if>
 		   		</ww:iterator>
 			</span>
-		    <h3><a class="calendarDot" href="<c:out value="${eventDetailUrl}"/>"><ww:property value="name"/></a></h3>
+			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="name"/></a></h3>
+		    <%--<h3><a href="<c:out value="${eventDetailUrl}"/>"><ww:property value="name"/></a></h3>--%>
 	
 			<p><span class="calFactLabel">Tid:</span> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/> kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/><br /></p>
 	        <ww:set name="puffImage" value="this.getResourceUrl(event, 'PuffBild')"/>
