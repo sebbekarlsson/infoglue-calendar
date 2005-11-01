@@ -164,6 +164,10 @@
             <src refid="sourcepath"/>
         </javac>
 
+	<echo message="build.classes"/>
+	<echo message="${build.classes}"/>
+        <echo message="${build.dest.dir}"/>
+
         <!-- Copies non java files that need to be in the classes directory -->
         <copy todir="${build.dest.dir}">            
             <fileset dir="${src.dir}">
@@ -460,9 +464,13 @@
 	<!--****************************************************-->
 	<target name="deploy" depends="compile">
 		<echo message="Copying JAR-files"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/lib">
+                <echo message="Deploying to ${deploy.dir.working}"/>
+                <echo message="Classes fromld.classes}"/>
+
+		<copy todir="${deploy.dir.working}/WEB-INF/lib" verbose="true">
 			<fileset dir="${lib}">
 				<include name="**/*"/>
+                                <exclude name="servlet.jar"/>
 				<exclude name="pluto-1.0.1-rc1.jar"/>
 				<exclude name="pluto-1.0.1-rc2.jar"/>
 				<exclude name="pluto-1.0.1-rc4.jar"/>
@@ -471,21 +479,28 @@
 		</copy>
 
 		<echo message="Copying infoglueCalendar/WEB-INF/classes"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes">
-			<fileset dir="${build.classes}">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes" verbose="true">
+			<fileset dir="${webapp}/WEB-INF/classes">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 
-		<echo message="Copying JSP-files"/>
-		<copy todir="${deploy.dir.working}/jsp/portlet">
+		<echo message="Copying JSP-files ${webapp}"/>
+		<copy todir="${deploy.dir.working}/jsp/portlet" verbose="true">
 			<fileset dir="${webapp}/jsp/portlet">
 				<include name="**/*.jsp"/>
 			</fileset>
 		</copy>
 
+		<echo message="Copying Template-files ${webapp}"/>
+                <copy todir="${deploy.dir.working}/templates" verbose="true">
+                        <fileset dir="${webapp}/templates">
+                                <include name="**/*"/>
+                        </fileset>
+                </copy>
+
 		<echo message="Copying Other-files"/>
-		<copy todir="${deploy.dir.working}">
+		<copy todir="${deploy.dir.working}" verbose="true">
 			<fileset dir="${webapp}">
 				<include name="applications/**/*.*"/>
 				<include name="calendars/**/*.*"/>
@@ -499,21 +514,21 @@
 		</copy>
 
 		<echo message="Copying CSS-files"/>
-		<copy todir="${deploy.dir.working}/css">
+		<copy todir="${deploy.dir.working}/css" verbose="true">
 			<fileset dir="${webapp}/css">
 				<include name="**/*.css"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying CSS-files"/>
-		<copy todir="${deploy.dir.working}/images">
+		<copy todir="${deploy.dir.working}/images" verbose="true">
 			<fileset dir="${webapp}/images">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying Resourse bundle-files"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes" verbose="true">
 			<fileset dir="${build.classes}">
 				<include name="infoglueCalendar_en.properties"/>
 				<include name="infoglueCalendar_sv.properties"/>
@@ -521,14 +536,14 @@
 		</copy>
 
 		<echo message="Copying TagLib files"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/tld">
+		<copy todir="${deploy.dir.working}/WEB-INF/tld" verbose="true">
 			<fileset dir="${conf}/tld">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying TagLib files"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes" verbose="true">
 			<fileset dir="${conf}">
 				<include name="*"/>
 				<include name="**/*-validation.xml"/>
@@ -538,8 +553,8 @@
 			</fileset>
 		</copy>
 
-		<echo message="Copying confs to cms"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes" overwrite="true">
+		<echo message="Copying confs to cms ${conf}"/>
+		<copy todir="${deploy.dir.working}/WEB-INF/classes" verbose="true" overwrite="true" encoding="iso-8859-1">
 			<fileset dir="${conf}">
 				<include name="*.properties"/>
 				<include name="*.xml"/>
