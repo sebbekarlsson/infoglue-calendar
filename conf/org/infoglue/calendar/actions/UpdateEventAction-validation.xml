@@ -82,7 +82,6 @@
             <message>You must enter a maximum number of participants.</message>
         </field-validator>
     </field>
-	-->
     <field name="lastRegistrationDateTime">
         <field-validator type="igrequiredstring">
             <message>You must enter a last registration date.</message>
@@ -94,6 +93,7 @@
             <message>You must enter a last registration time and it must be before the event.</message>
         </field-validator>
     </field>
+	-->
     <!--
     <field name="locationId">
         <field-validator type="igrequiredoption">

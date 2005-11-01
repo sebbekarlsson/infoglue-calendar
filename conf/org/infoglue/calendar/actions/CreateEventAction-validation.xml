@@ -75,7 +75,6 @@
             <message>errors.reqiredField</message>
         </field-validator>
     </field>
-	-->
     <field name="lastRegistrationDateTime">
         <field-validator type="igrequiredstring">
             <message>errors.reqiredDateTimeField</message>
@@ -87,6 +86,7 @@
             <message>errors.beforeStartDateTime</message>
         </field-validator>
     </field>
+	-->
     <!--
     <field name="locationId">
         <field-validator type="igrequiredoption">
