@@ -72,8 +72,6 @@ public class ViewEventListAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         String[] calendarIds = calendarId.split(",");
-        System.out.println("categoryAttribute:" + categoryAttribute);
-        System.out.println("categoryNames:" + categoryNames);
         String[] categoryNamesArray = categoryNames.split(",");
 
         this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, getSession());

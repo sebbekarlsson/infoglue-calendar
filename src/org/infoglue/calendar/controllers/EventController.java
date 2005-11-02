@@ -1019,7 +1019,6 @@ public class EventController extends BasicController
 	        
 	        result = criteria.list();
         
-	        System.out.println("result:" + result.size());
 	        log.info("result:" + result.size());
 	        
 	        set.addAll(result);	
