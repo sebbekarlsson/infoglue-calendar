@@ -79,33 +79,41 @@
 
 		<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
 		
-		<p><span class="calFactLabel">Ytterliggare information: </span><br/>
-		<ww:iterator value="event.resources">
-  		  <ww:if test="top.assetKey == 'BifogadFil'">
-			<ww:set name="resourceId" value="top.id" scope="page"/>
-			<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
-			<ww:if test="fileName.indexOf('.pdf') > -1">
-				<ww:set name="resourceClass" value="'pdficon'"/>
-			</ww:if>
-			<ww:if test="fileName.indexOf('.doc') > -1">
-				<ww:set name="resourceClass" value="'wordicon'"/>
-			</ww:if>
-			<ww:if test="fileName.indexOf('.xls') > -1">
-				<ww:set name="resourceClass" value="'excelicon'"/>
-			</ww:if>
-			<ww:if test="fileName.indexOf('.ppt') > -1">
-				<ww:set name="resourceClass" value="'powerpointicon'"/>
-			</ww:if>
-			<a href="<c:out value="${url}"/>" target="_blank" class="<ww:property value="#resourceClass"/>"><ww:property value="fileName"/></a><br/>
-  		  </ww:if>
-  		</ww:iterator>
-  		</p>
+		<ww:if test="event.resources.size() > 0">
+  			<p><span class="calFactLabel">Ytterliggare information: </span><br/>
+			<ww:iterator value="event.resources">
+	  		  <ww:if test="top.assetKey == 'BifogadFil'">
+				<ww:set name="resourceId" value="top.id" scope="page"/>
+				<calendar:resourceUrl id="url" resourceId="${resourceId}"/>
+				<ww:if test="fileName.indexOf('.pdf') > -1">
+					<ww:set name="resourceClass" value="'pdficon'"/>
+				</ww:if>
+				<ww:if test="fileName.indexOf('.doc') > -1">
+					<ww:set name="resourceClass" value="'wordicon'"/>
+				</ww:if>
+				<ww:if test="fileName.indexOf('.xls') > -1">
+					<ww:set name="resourceClass" value="'excelicon'"/>
+				</ww:if>
+				<ww:if test="fileName.indexOf('.ppt') > -1">
+					<ww:set name="resourceClass" value="'powerpointicon'"/>
+				</ww:if>
+				<a href="<c:out value="${url}"/>" target="_blank" class="<ww:property value="#resourceClass"/>"><ww:property value="fileName"/></a><br/>
+	  		  </ww:if>
+	  		</ww:iterator>
+	  		</p>
+		</ww:if>
 		
 		<ww:if test="event.lastRegistrationDateTime != null">
    			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span>snarast, dock senast <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		</ww:if>
 		
-		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price.intValue()"/>:- </p>
+		<ww:if test="event.price > 0">
+	  		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price.intValue()"/>:- </p>
+		</ww:if>
+		<ww:else>
+  			<p><span class="calFactLabel">Avgift:</span> Ingen avgift </p>		
+		</ww:else>
+		
 		<%--
 		<p><span class="calFactLabel">Anmälan:</span>
 		<ww:if test="event.lastRegistrationDateTime.time.time > now.time.time">
