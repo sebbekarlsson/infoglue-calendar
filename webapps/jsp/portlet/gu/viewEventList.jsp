@@ -38,7 +38,6 @@
 		   		</ww:iterator>
 			</span>
 			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="name"/></a></h3>
-		    <%--<h3><a href="<c:out value="${eventDetailUrl}"/>"><ww:property value="name"/></a></h3>--%>
 	
 			<p><span class="calFactLabel">Tid:</span> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/> kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/><br /></p>
 	        <ww:set name="puffImage" value="this.getResourceUrl(event, 'PuffBild')"/>
@@ -46,8 +45,9 @@
 			<img src="<ww:property value="#puffImage"/>" class="img_calendar_event"/>
 			</ww:if>
 			<p><ww:property value="shortDescription"/></p>
+			<ww:if test="lecturer != null && lecturer != ''">
 			<p><span class="calFactLabel">F&ouml;rel&auml;sare:</span> <ww:property value="lecturer"/></p>
-	
+			</ww:if>
 		</div>
 		<!-- Record End -->
 	</ww:iterator>

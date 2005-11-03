@@ -43,13 +43,13 @@
 			<input name="endTime" value="<ww:property value="endTime"/>" class="hourfield" type="textfield">					
 		</div>
 					
-		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="smalltextarea" mandatory="true"/>
+		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="smalltextarea" mandatory="false"/>
 		
-		<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="largetextarea" mandatory="true"/>
+		<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="largetextarea" mandatory="false"/>
 		
 		<calendar:textAreaField label="labels.internal.event.lecturer" name="lecturer" value="event.lecturer" cssClass="smalltextarea"/>
 		
-		<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="event.organizerName" cssClass="longtextfield" mandatory="true"/>
+		<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="event.organizerName" cssClass="longtextfield" mandatory="false"/>
 		
 		<calendar:radioButtonField label="labels.internal.event.isInternal" name="isInternal" mandatory="true" valueMap="internalEventMap" selectedValue="isInternal"/>
 	

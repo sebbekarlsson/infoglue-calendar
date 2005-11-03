@@ -2,45 +2,56 @@
 <validators>
     <field name="name">
         <field-validator type="igrequiredstring">
-            <message>You must enter a name.</message>
+            <message>errors.reqiredField</message>
         </field-validator>
     </field>
-    <field name="shortDescription">
-        <field-validator type="igrequiredstring">
-            <message>You must enter a short description.</message>
-        </field-validator>
-    </field>
-    <field name="longDescription">
-        <field-validator type="igrequiredstring">
-            <message>You must enter a long description.</message>
-        </field-validator>
-    </field>
-    <!--
-    <field name="description">
-        <field-validator type="igrequiredstring">
-            <message>You must enter a description.</message>
-        </field-validator>
-    </field>
-	-->
     <field name="isInternal">
     	<field-validator type="fieldexpression">
             <param name="expression">isInternal != null</param>
             <message>You must state if it's an internal event or not.</message>
         </field-validator>
     </field>
+    <field name="startDateTime">
+		<field-validator type="fieldexpression">
+            <param name="expression">startCalendar != null and startCalendar.before(endCalendar)</param>
+            <message>errors.afterStartDateTime</message>
+        </field-validator>
+    </field>
+    <field name="lastRegistrationDateTime">
+       	<field-validator type="fieldexpression">
+            <param name="expression">lastRegistrationCalendar == null or lastRegistrationCalendar.before(startCalendar)</param>
+            <message>errors.beforeStartDateTime</message>
+        </field-validator>
+    </field>
+    
+    <!--
+    <field name="shortDescription">
+        <field-validator type="igrequiredstring">
+            <message>errors.reqiredField</message>
+        </field-validator>
+    </field>
+    <field name="longDescription">
+        <field-validator type="igrequiredstring">
+            <message>errors.reqiredField</message>
+        </field-validator>
+    </field>
+    <field name="description">
+        <field-validator type="igrequiredstring">
+            <message>errors.reqiredField</message>
+        </field-validator>
+    </field>
+	-->
     <!--
     <field name="isOrganizedByGU">
         <field-validator type="igrequiredstring">
             <message>You must enter if it's organized by you.</message>
         </field-validator>
     </field>
-	-->
     <field name="organizerName">
         <field-validator type="igrequiredstring">
             <message>You must enter the organizer's name.</message>
         </field-validator>
     </field>
-	<!--
     <field name="lecturer">
         <field-validator type="igrequiredstring">
             <message>You must enter the lecturer.</message>
@@ -87,14 +98,6 @@
             <message>You must enter a last registration date.</message>
         </field-validator>
     </field>
-    <field name="lastRegistrationDateTime">
-       	<field-validator type="fieldexpression">
-            <param name="expression">lastRegistrationCalendar != null and lastRegistrationCalendar.before(startCalendar)</param>
-            <message>You must enter a last registration time and it must be before the event.</message>
-        </field-validator>
-    </field>
-	-->
-    <!--
     <field name="locationId">
         <field-validator type="igrequiredoption">
             <message>You must choose at least one location.</message>
@@ -106,10 +109,4 @@
         </field-validator>
     </field>
     -->
-    <field name="startDateTime">
-		<field-validator type="fieldexpression">
-            <param name="expression">startCalendar != null and startCalendar.before(endCalendar)</param>
-            <message>Startdate must be valid and before end date</message>
-        </field-validator>
-    </field>
 </validators>

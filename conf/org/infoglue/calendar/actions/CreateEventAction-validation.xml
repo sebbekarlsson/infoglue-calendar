@@ -5,6 +5,26 @@
             <message>errors.reqiredField</message>
         </field-validator>
     </field>
+    <field name="isInternal">
+    	<field-validator type="fieldexpression">
+            <param name="expression">isInternal != null</param>
+            <message>You must state if it's an internal event or not.</message>
+        </field-validator>
+    </field>
+    <field name="startDateTime">
+		<field-validator type="fieldexpression">
+            <param name="expression">startCalendar != null and startCalendar.before(endCalendar)</param>
+            <message>errors.afterStartDateTime</message>
+        </field-validator>
+    </field>
+    <field name="lastRegistrationDateTime">
+       	<field-validator type="fieldexpression">
+            <param name="expression">lastRegistrationCalendar == null or lastRegistrationCalendar.before(startCalendar)</param>
+            <message>errors.beforeStartDateTime</message>
+        </field-validator>
+    </field>
+    
+<!--
     <field name="shortDescription">
         <field-validator type="igrequiredstring">
             <message>errors.reqiredField</message>
@@ -15,25 +35,21 @@
             <message>errors.reqiredField</message>
         </field-validator>
     </field>
-    <field name="isInternal">
-    	<field-validator type="fieldexpression">
-            <param name="expression">isInternal != null</param>
-            <message>You must state if it's an internal event or not.</message>
+    <field name="description">
+        <field-validator type="igrequiredstring">
+            <message>errors.reqiredField</message>
         </field-validator>
     </field>
-    <!--
     <field name="isOrganizedByGU">
         <field-validator type="igrequiredstring">
             <message>errors.reqiredField</message>
         </field-validator>
     </field>
-	-->
     <field name="organizerName">
         <field-validator type="igrequiredstring">
             <message>errors.reqiredField</message>
         </field-validator>
     </field>
-	<!--
     <field name="lecturer">
         <field-validator type="igrequiredstring">
             <message>errors.reqiredField</message>
@@ -80,14 +96,6 @@
             <message>errors.reqiredDateTimeField</message>
         </field-validator>
     </field>
-    <field name="lastRegistrationDateTime">
-       	<field-validator type="fieldexpression">
-            <param name="expression">lastRegistrationCalendar != null and lastRegistrationCalendar.before(startCalendar)</param>
-            <message>errors.beforeStartDateTime</message>
-        </field-validator>
-    </field>
-	-->
-    <!--
     <field name="locationId">
         <field-validator type="igrequiredoption">
             <message>You must choose at least one location.</message>
@@ -99,11 +107,5 @@
         </field-validator>
     </field>
     -->
-    <field name="startDateTime">
-		<field-validator type="fieldexpression">
-            <param name="expression">startCalendar != null and startCalendar.before(endCalendar)</param>
-            <message>errors.afterStartDateTime</message>
-        </field-validator>
-    </field>
      
 </validators>
