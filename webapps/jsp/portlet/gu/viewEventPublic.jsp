@@ -9,11 +9,11 @@
 <!-- Calendar start -->
 <div class="calendar"> 	
 	<span class="categoryLabel">
-		<ww:iterator value="event.owningCalendar.eventType.categoryAttributes" status="rowstatus">
+		<ww:iterator value="event.owningCalendar.eventType.categoryAttributes">
 			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 				<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
-				<ww:iterator value="#selectedCategories">
-					<ww:property value="top.name"/>
+				<ww:iterator value="#selectedCategories" status="rowstatus">
+					<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
 				</ww:iterator>
 			</ww:if>
    		</ww:iterator>
@@ -51,11 +51,11 @@
 				<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> - <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></p>
 			</ww:else>
 			<p><span class="calFactLabel">Kategori: </span>
-			<ww:iterator value="event.owningCalendar.eventType.categoryAttributes" status="rowstatus">
+			<ww:iterator value="event.owningCalendar.eventType.categoryAttributes">
 				<ww:if test="top.name == 'Ämnesområde' || top.name == 'Ämnesområden'">
 					<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
-					<ww:iterator value="#selectedCategories">
-						<ww:property value="top.name"/>
+					<ww:iterator value="#selectedCategories" status="rowstatus">
+						<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
 					</ww:iterator>
 				</ww:if>
 	   		</ww:iterator>
@@ -75,9 +75,13 @@
 		<%--
 		<p><span class="calFactLabel">Adress: </span><ww:property value="event.customLocation"/></p>
 		--%>
-		<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="event.eventUrl"/>">Läs mer om <ww:property value="event.name"/></a></p>
-
-		<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
+		<ww:if test="event.eventUrl != null && event.eventUrl != ''">
+			<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="event.eventUrl"/>">Läs mer om <ww:property value="event.name"/></a></p>
+		</ww:if>
+		
+		<ww:if test="event.contactEmail != null && event.contactEmail != ''">
+			<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
+		</ww:if>
 		
 		<ww:if test="event.resources.size() > 0">
   			<p><span class="calFactLabel">Ytterliggare information: </span><br/>
@@ -104,7 +108,7 @@
 		</ww:if>
 		
 		<ww:if test="event.lastRegistrationDateTime != null">
-   			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span>snarast, dock senast <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
+   			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		</ww:if>
 		
 		<ww:if test="event.price > 0">

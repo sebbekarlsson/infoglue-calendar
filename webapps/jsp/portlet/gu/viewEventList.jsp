@@ -28,11 +28,11 @@
 		<!-- Record Start -->
 		<div class="record">
 			<span class="categoryLabelSmall">
-				<ww:iterator value="top.owningCalendar.eventType.categoryAttributes" status="rowstatus">
+				<ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
 					<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 						<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
-						<ww:iterator value="#selectedCategories">
-							<ww:property value="top.name"/>
+						<ww:iterator value="#selectedCategories" status="rowstatus">
+							<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
 						</ww:iterator>
 					</ww:if>
 		   		</ww:iterator>

@@ -21,12 +21,12 @@
 
 		<a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>" class="Headline"><ww:property value="name"/></a><br />
 		<span class="newsdate"><ww:property value="this.formatDate(top.startDateTime.getTime(), 'd MMM')"/> kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
-		<ww:iterator value="top.owningCalendar.eventType.categoryAttributes" status="rowstatus">
+		<ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
 			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 				<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
-				<ww:iterator value="#selectedCategories">
-					[<ww:property value="top.name"/>]
-				</ww:iterator>
+				[<ww:iterator value="#selectedCategories" status="rowstatus">
+					<ww:property value="top.name"/><ww:if test="!#rowstatus.last">,</ww:if>
+				</ww:iterator>]
 			</ww:if>
    		</ww:iterator>
 		</span>
