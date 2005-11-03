@@ -78,32 +78,33 @@ public class ViewEventAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         log.info("this.eventId:" + eventId);
-        if(this.eventId == null)
-            this.eventId = new Long(ServletActionContext.getRequest().getParameter("eventId"));
+        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
+        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
+            this.eventId = new Long(requestEventId);
 
-        //if(this.calendarId == null)
-        //    this.calendarId = new Long(ServletActionContext.getRequest().getParameter("calendarId"));
+        if(this.eventId != null)
+        {
+            this.event = EventController.getController().getEvent(eventId, getSession());
+            this.calendarId = this.event.getOwningCalendar().getId();
+            //this.locations 	= LocationController.getController().getLocationList();
+            //this.categories = CategoryController.getController().getCategoryList();
+            
+            this.locations 	= LocationController.getController().getLocationList(getSession());
+            this.categories = CategoryController.getController().getRootCategoryList(getSession());
+            this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
 
-        this.event = EventController.getController().getEvent(eventId, getSession());
-        this.calendarId = this.event.getOwningCalendar().getId();
-        //this.locations 	= LocationController.getController().getLocationList();
-        //this.categories = CategoryController.getController().getCategoryList();
+            this.yesOrNo = new ArrayList();
+            this.yesOrNo.add("true");            
+
+            return Action.SUCCESS;
+        }
         
-        this.locations 	= LocationController.getController().getLocationList(getSession());
-        this.categories = CategoryController.getController().getRootCategoryList(getSession());
-        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
-
-        this.yesOrNo = new ArrayList();
-        this.yesOrNo.add("true");
-        
-        return Action.SUCCESS;
+        return Action.NONE;
     } 
 
     public String edit() throws Exception 
     {
-        log.info("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
         this.execute();
-        log.info("KALAAAA");
         return "successEdit";
     }
 
