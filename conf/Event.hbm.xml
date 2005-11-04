@@ -37,27 +37,27 @@
 		<property name="stateId" column="stateId" type="integer"/>
 		<property name="creator" column="creator" type="string"/>
 
-        <set name="calendars" table="Event_Calendar" lazy="false" inverse="false" cascade="none" sort="unsorted">
+        <set name="calendars" table="Event_Calendar" lazy="true" inverse="false" cascade="none" sort="unsorted">
 	    	<key column="event_id"></key>
         	<many-to-many class="org.infoglue.calendar.entities.Calendar" column="calendar_id" outer-join="auto" />
         </set>
 
-        <set name="locations" table="Event_Location" lazy="false" inverse="false" cascade="none" sort="unsorted">
+        <set name="locations" table="Event_Location" lazy="true" inverse="false" cascade="none" sort="unsorted">
 	    	<key column="event_id"></key>
         	<many-to-many class="org.infoglue.calendar.entities.Location" column="location_id" outer-join="auto" />
         </set>
 
-        <set name="participants" lazy="false" inverse="false" cascade="none" sort="unsorted">
+        <set name="participants" lazy="true" inverse="false" cascade="none" sort="unsorted">
             <key column="event_id"></key>
             <one-to-many class="org.infoglue.calendar.entities.Participant"/>
         </set>
 
-        <set name="resources" lazy="false" inverse="false" cascade="none" sort="unsorted">
+        <set name="resources" lazy="true" inverse="false" cascade="none" sort="unsorted">
         	<key column="event_id"></key>
             <one-to-many class="org.infoglue.calendar.entities.Resource"/>
         </set>
 
-        <set name="eventCategories" table="Event_Category" lazy="false" inverse="false" cascade="none" sort="unsorted">
+        <set name="eventCategories" table="Event_Category" lazy="true" inverse="false" cascade="none" sort="unsorted">
         	<key column="event_id"></key>
             <one-to-many class="org.infoglue.calendar.entities.EventCategory"/>
         </set>

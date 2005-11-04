@@ -235,14 +235,22 @@ public class ResourceController extends BasicController
 		
 		String digitalAssetPath = PropertyHelper.getProperty("digitalAssetPath");
 		String fileName = resource.getId() + "_" + resource.getAssetKey() + "_" + resource.getFileName();
-		FileOutputStream fos = new FileOutputStream(digitalAssetPath + fileName);
+		File file = new File(digitalAssetPath + fileName);
+		if(!file.exists())
+		{
+			FileOutputStream fos = new FileOutputStream(digitalAssetPath + fileName);
+			
+			Blob blob = resource.getResource();
+			byte[] bytes = blob.getBytes(1, (int) blob.length());
+			fos.write(bytes);
+			fos.flush();
+			fos.close(); 
+		}
+		else
+		{
+		    System.out.println("File allready existed:" + digitalAssetPath + fileName);
+		}
 		
-		Blob blob = resource.getResource();
-		byte[] bytes = blob.getBytes(1, (int) blob.length());
-		fos.write(bytes);
-		fos.flush();
-		fos.close(); 
-
 		String urlBase = PropertyHelper.getProperty("urlBase");
 		
 		url = urlBase + "digitalAssets/" + fileName;

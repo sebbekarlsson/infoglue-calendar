@@ -14,7 +14,7 @@
         <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="true" />
         <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false" />
 
-        <set name="events" table="Event_Location" lazy="true" inverse="false" cascade="none" sort="unsorted">
+        <set name="events" table="Event_Location" lazy="false" inverse="false" cascade="none" sort="unsorted">
 	    	<key column="location_id"></key>
         	<many-to-many class="org.infoglue.calendar.entities.Event" column="event_id" outer-join="auto" />
         </set>

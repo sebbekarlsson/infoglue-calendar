@@ -24,7 +24,7 @@
 
    		<many-to-one name="parent" class="org.infoglue.calendar.entities.Category" column="parent_id" not-null="false"/>
    
-   		<set name="children" table="Category" lazy="false" inverse="false" cascade="none" order-by="id desc">
+   		<set name="children" table="Category" lazy="true" inverse="false" cascade="none" order-by="id desc">
             <key column="parent_id"/>
             <one-to-many class="org.infoglue.calendar.entities.Category"/>
         </set>
