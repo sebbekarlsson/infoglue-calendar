@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.ObjectNotFoundException;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
@@ -36,6 +37,7 @@ import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
+import org.infoglue.deliver.util.Timer;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -77,47 +79,120 @@ public class ViewEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        log.info("this.eventId:" + eventId);
-        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
-        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
-            this.eventId = new Long(requestEventId);
-
-        if(this.eventId != null)
+        try
         {
-            this.event = EventController.getController().getEvent(eventId, getSession());
-            this.calendarId = this.event.getOwningCalendar().getId();
-            //this.locations 	= LocationController.getController().getLocationList();
-            //this.categories = CategoryController.getController().getCategoryList();
-            
-            this.locations 	= LocationController.getController().getLocationList(getSession());
-            this.categories = CategoryController.getController().getRootCategoryList(getSession());
-            this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
-
-            this.yesOrNo = new ArrayList();
-            this.yesOrNo.add("true");            
-
-            return Action.SUCCESS;
+	        log.info("this.eventId:" + eventId);
+	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
+	        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
+	            this.eventId = new Long(requestEventId);
+	
+	        if(this.eventId != null)
+	        {
+	            this.event = EventController.getController().getEvent(eventId, getSession());
+	            this.calendarId = this.event.getOwningCalendar().getId();
+	            
+	            this.locations 	= LocationController.getController().getLocationList(getSession());
+	            this.categories = CategoryController.getController().getRootCategoryList(getSession());
+	            this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+	
+	            this.yesOrNo = new ArrayList();
+	            this.yesOrNo.add("true");            
+	
+	            return Action.SUCCESS;
+	        }
+	        else
+	        {
+	            throw new ObjectNotFoundException("EventId was empty", "");
+	        }
+        }
+        catch(ObjectNotFoundException o)
+        {
+            log.warn("Det fanns inget evenemang med id " + this.eventId + ":" + o.getMessage());
+            setError("Det fanns inget evenemang med id " + this.eventId, o);
+        }
+        catch(Exception e)
+        {
+            log.error("Ett fel uppstod när evenemang med id " + this.eventId + " skulle visas:" + e.getMessage(), e);
+            setError("Ett fel uppstod när evenemang med id " + this.eventId + " skulle visas.", e);
         }
         
-        return Action.NONE;
+        return Action.ERROR;
     } 
 
     public String edit() throws Exception 
     {
-        this.execute();
-        return "successEdit";
+        if(this.execute().equals(Action.ERROR))
+            return Action.ERROR;
+        else
+            return "successEdit";
     }
 
     public String doPublic() throws Exception 
     {
-        this.execute();
-        return "successPublic";
+        try
+        {
+	        log.info("this.eventId:" + eventId);
+	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
+	        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
+	            this.eventId = new Long(requestEventId);
+	
+	        if(this.eventId != null)
+	        {
+	            this.event = EventController.getController().getEvent(eventId, getSession());
+	
+	            return "successPublic";
+	        }
+	        else
+	        {
+	            throw new ObjectNotFoundException("EventId was empty", "");
+	        }
+        }
+        catch(ObjectNotFoundException o)
+        {
+            log.warn("Det fanns inget evenemang med id " + this.eventId + ":" + o.getMessage());
+            setError("Det fanns inget evenemang med id " + this.eventId, o);
+        }
+        catch(Exception e)
+        {
+            log.error("Ett fel uppstod när evenemang med id " + this.eventId + " skulle visas:" + e.getMessage(), e);
+            setError("Ett fel uppstod när evenemang med id " + this.eventId + " skulle visas.", e);
+        }
+
+        return Action.ERROR;
     }
 
     public String doPublicGU() throws Exception 
     {
-        this.execute();
-        return "successPublicGU";
+        try
+        {
+	        log.info("this.eventId:" + eventId);
+	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
+	        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
+	            this.eventId = new Long(requestEventId);
+	
+	        if(this.eventId != null)
+	        {
+	            this.event = EventController.getController().getEvent(eventId, getSession());
+	
+	            return "successPublicGU";
+	        }
+	        else
+	        {
+	            throw new ObjectNotFoundException("EventId was empty", "");
+	        }
+        }
+        catch(ObjectNotFoundException o)
+        {
+            log.warn("Det fanns inget evenemang med id " + this.eventId + ":" + o.getMessage());
+            setError("Det fanns inget evenemang med id " + this.eventId, o);
+        }
+        catch(Exception e)
+        {
+            log.error("Ett fel uppstod när evenemang med id " + this.eventId + " skulle visas:" + e.getMessage(), e);
+            setError("Ett fel uppstod när evenemang med id " + this.eventId + " skulle visas.", e);
+        }
+        
+        return Action.ERROR;
     }
     
     public List getEventCategories(EventTypeCategoryAttribute categoryAttribute)

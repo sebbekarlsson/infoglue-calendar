@@ -18,12 +18,18 @@
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/confirm.jsp</param>
 			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 
 		<!-- Settings actions -->
 		<action name="ViewSettings" class="org.infoglue.calendar.actions.ViewSettingsAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewSettings.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		<action name="UpdateSettings" class="org.infoglue.calendar.actions.UpdateSettingsAction">
@@ -38,6 +44,9 @@
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarAdministration.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		
@@ -57,6 +66,9 @@
 			</result>
 			<result name="successChooseForDeleteLink" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/chooseCalendarForDeleteLink.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		<action name="CreateCalendar" class="org.infoglue.calendar.actions.CreateCalendarAction">
@@ -79,6 +91,9 @@
 			</result>
 			<result name="successPublic" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarPublic.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		<action name="UpdateCalendar" class="org.infoglue.calendar.actions.UpdateCalendarAction">
@@ -116,6 +131,9 @@
 			<result name="success" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewLocation.jsp</param>
             </result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 		<action name="UpdateLocation" class="org.infoglue.calendar.actions.UpdateLocationAction">
 			<result name="success" type="eventProcessed">
@@ -135,6 +153,9 @@
 		<action name="ViewCategoryList" class="org.infoglue.calendar.actions.ViewCategoryListAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCategoryList.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		<action name="CreateCategory" class="org.infoglue.calendar.actions.CreateCategoryAction">
@@ -158,6 +179,9 @@
 			<result name="successDetail" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewCategory.jsp</param>
             </result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 		<action name="UpdateCategory" class="org.infoglue.calendar.actions.UpdateCategoryAction">
 			<result name="success" type="eventProcessed">
@@ -177,12 +201,18 @@
 			<result name="successRootCategory" type="eventProcessed">
 				<param name="viewAction">ViewCategoryList.action</param>
 			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 
 		<!-- CATEGORY ACTIONS -->
 		<action name="ViewEventTypeList" class="org.infoglue.calendar.actions.ViewEventTypeListAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewEventTypeList.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		<action name="CreateEventType" class="org.infoglue.calendar.actions.CreateEventTypeAction">
@@ -200,6 +230,9 @@
 			<result name="success" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewEventType.jsp</param>
             </result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 		<action name="UpdateEventType" class="org.infoglue.calendar.actions.UpdateEventTypeAction">
 			<result name="success" type="eventProcessed">
@@ -212,6 +245,9 @@
 		<action name="DeleteEventType" class="org.infoglue.calendar.actions.DeleteEventTypeAction">
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewEventTypeList.action</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 
@@ -231,6 +267,9 @@
 			<result name="success" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewEventTypeCategoryAttribute.jsp</param>
             </result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 		<action name="UpdateEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.UpdateEventTypeCategoryAttributeAction">
 			<result name="success" type="eventProcessed">
@@ -243,6 +282,9 @@
 		<action name="DeleteEventTypeCategoryAttribute" class="org.infoglue.calendar.actions.DeleteEventTypeCategoryAttributeAction">
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewEventType.action?eventTypeId=${eventTypeId}</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		
@@ -281,6 +323,9 @@
 			</result>
 			<result name="successEdit" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewEventEdit.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		<action name="UpdateEvent" class="org.infoglue.calendar.actions.UpdateEventAction">
@@ -329,6 +374,9 @@
 				<param name="viewAction">ViewEventSearch.action</param>
 				<param name="parse">true</param>
 			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 		
 		<action name="ViewEventList" class="org.infoglue.calendar.actions.ViewEventListAction">
@@ -344,11 +392,17 @@
 			<result name="successShortGU" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/gu/viewEventShortList.jsp</param>
 			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 		
 		<action name="ViewMyWorkingEventList" class="org.infoglue.calendar.actions.ViewMyWorkingEventListAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewMyWorkingEventList.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		
@@ -356,17 +410,26 @@
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewWaitingEventList.jsp</param>
 			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 
 		<action name="ViewPublishedEventList" class="org.infoglue.calendar.actions.ViewPublishedEventListAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewPublishedEventList.jsp</param>
 			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 
 		<action name="ViewLinkedPublishedEventList" class="org.infoglue.calendar.actions.ViewLinkedPublishedEventListAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewLinkedPublishedEventList.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 
@@ -377,6 +440,9 @@
 			<result name="successPublished" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/eventPublished.jsp</param>
 			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 		
 		<action name="ViewEventSearch" class="org.infoglue.calendar.actions.ViewEventSearchAction">
@@ -386,6 +452,9 @@
             <result name="success" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewEventSearch.jsp</param>
             </result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 	
 		
@@ -404,6 +473,9 @@
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		
@@ -457,10 +529,16 @@
             <result name="success" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewEntrySearch.jsp</param>
             </result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 		<action name="ViewEntry" class="org.infoglue.calendar.actions.ViewEntryAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewEntry.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		<action name="UpdateEntry" class="org.infoglue.calendar.actions.UpdateEntryAction">
@@ -477,11 +555,17 @@
 				<param name="viewAction">ViewEntrySearch.action</param>
 				<param name="parse">true</param>
 			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
 		</action>
 		<action name="EmailEntries" class="org.infoglue.calendar.actions.EmailEntriesAction">
 			<result name="success" type="eventProcessed">
 				<param name="viewAction">ViewEntrySearch.action</param>
 				<param name="parse">true</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
 		

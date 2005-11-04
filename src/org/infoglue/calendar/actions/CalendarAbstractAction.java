@@ -304,6 +304,18 @@ public class CalendarAbstractAction extends ActionSupport
         }
     }
 
+    public void setError(String message, Exception e)
+    {
+        String context = ActionContext.getContext().getName();
+        ActionContext.getContext().getValueStack().getContext().put("message", message);
+        ActionContext.getContext().getValueStack().getContext().put("error", e);
+    }
+
+    public ActionContext getActionContext() throws ValidationException
+    {
+        return ActionContext.getContext();
+    }
+
     public boolean useEventPublishing()
     {
         String useEventPublishing = PropertyHelper.getProperty("useEventPublishing");
