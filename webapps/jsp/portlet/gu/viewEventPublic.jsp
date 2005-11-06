@@ -106,7 +106,7 @@
 	  		</ww:iterator>
 	  		</p>
 		</ww:if>
-		
+
 		<ww:if test="event.lastRegistrationDateTime != null">
    			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		</ww:if>

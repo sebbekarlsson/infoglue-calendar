@@ -11,7 +11,7 @@
 
 	<ww:set name="event" value="top"/>
 
-	<div class="newspadding">
+	<div class="record">
 		<ww:if test="#attr.detailUrl.indexOf('?') > -1">
 			<c:set var="delim" value="&"/>
 		</ww:if>
@@ -19,7 +19,7 @@
 			<c:set var="delim" value="?"/>
 		</ww:else>
 
-		<a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>" class="Headline"><ww:property value="name"/></a><br />
+		<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="name"/></a></h3><br />
 		<span class="newsdate"><ww:property value="this.formatDate(top.startDateTime.getTime(), 'd MMM')"/> kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
 		<ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
 			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
