@@ -79,15 +79,6 @@
 			<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="event.eventUrl"/>">Läs mer om <ww:property value="event.name"/></a></p>
 		</ww:if>
 			
-		<ww:if test="event.contactEmail != null && event.contactEmail != ''">
-			<ww:if test="event.contactName != null && event.contactName != ''">
-				<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactName"/></A></p>
-			</ww:if>
-			<ww:else>
-				<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
-			</ww:else>
-		</ww:if>
-
 		<ww:if test="event.resources.size() > 0">
   			<p><span class="calFactLabel">Ytterliggare information: </span><br/>
 			<ww:iterator value="event.resources">
@@ -122,6 +113,24 @@
 		<ww:else>
   			<p><span class="calFactLabel">Avgift:</span> Ingen avgift </p>		
 		</ww:else>
+		
+		<ww:if test="event.contactEmail != null && event.contactEmail != ''">
+			<ww:if test="event.contactName != null && event.contactName != ''">
+				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactName"/></A></p>
+			</ww:if>
+			<ww:else>
+				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
+			</ww:else>
+		</ww:if>
+		<ww:else>
+			<ww:if test="event.contactName != null && event.contactName != ''">
+				<p><span class="calFactLabel">Kontaktperson: </span><ww:property value="event.contactName"/></p>
+			</ww:if>
+		</ww:else>
+		
+		<ww:if test="event.contactPhone != null && event.contactPhone != ''">
+			<p><span class="calFactLabel">Telefon: </span><ww:property value="event.contactPhone"/></p>
+		</ww:if>
 		
 		<%--
 		<p><span class="calFactLabel">Anmälan:</span>
