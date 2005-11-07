@@ -80,6 +80,19 @@ public class Resource implements BaseEntity
     {
         return fileName;
     }
+
+    public String getShortendFileName()
+    {
+        String shortFileName = this.fileName;
+        if(shortFileName != null)
+        {
+			if(shortFileName.lastIndexOf("/") > -1)
+			    shortFileName = shortFileName.substring(shortFileName.lastIndexOf("/") + 1);
+			if(shortFileName.lastIndexOf("\\") > -1)
+			    shortFileName = shortFileName.substring(shortFileName.lastIndexOf("\\") + 1);
+        }
+		return shortFileName;
+    }
     
     public void setFileName(String fileName)
     {

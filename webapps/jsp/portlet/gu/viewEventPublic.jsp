@@ -97,7 +97,7 @@
 				<ww:if test="fileName.indexOf('.ppt') > -1">
 					<ww:set name="resourceClass" value="'powerpointicon'"/>
 				</ww:if>
-				<a href="<c:out value="${url}"/>" target="_blank" class="<ww:property value="#resourceClass"/>"><ww:property value="fileName"/></a><br/>
+				<a href="<c:out value="${url}"/>" target="_blank" class="<ww:property value="#resourceClass"/>"><ww:property value="shortendFileName"/></a><br/>
 	  		  </ww:if>
 	  		</ww:iterator>
 	  		</p>
