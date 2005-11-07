@@ -234,7 +234,13 @@ public class ResourceController extends BasicController
 		Resource resource = getResource(id, session);
 		
 		String digitalAssetPath = PropertyHelper.getProperty("digitalAssetPath");
-		String fileName = resource.getId() + "_" + resource.getAssetKey() + "_" + resource.getFileName();
+		String fileName = resource.getFileName();
+		if(fileName.lastIndexOf("/") > -1)
+		    fileName = fileName.substring(fileName.lastIndexOf("/"));
+		if(fileName.lastIndexOf("\\") > -1)
+		    fileName = fileName.substring(fileName.lastIndexOf("\\"));
+		
+		fileName = resource.getId() + "_" + resource.getAssetKey() + "_" + fileName;
 		File file = new File(digitalAssetPath + fileName);
 		if(!file.exists())
 		{
