@@ -413,7 +413,7 @@ public class Event implements BaseEntity
         if(shortDescription != null)
         {
             String lineSep = System.getProperty("line.separator");
-            return shortDescription.replaceAll(lineSep, "</p><p>");
+            return shortDescription.replaceAll(lineSep, "<br/>");
         }
         
         return shortDescription;
@@ -440,7 +440,7 @@ public class Event implements BaseEntity
         if(longDescription != null)
         {
             String lineSep = System.getProperty("line.separator");
-            return longDescription.replaceAll(lineSep, "</p><p>");
+            return longDescription.replaceAll(lineSep, "<br/>");
         }
         
         return longDescription;

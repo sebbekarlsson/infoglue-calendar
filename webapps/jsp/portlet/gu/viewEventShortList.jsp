@@ -11,7 +11,7 @@
 
 	<ww:set name="event" value="top"/>
 
-	<div class="record">
+	<div class="recordLine">
 		<ww:if test="#attr.detailUrl.indexOf('?') > -1">
 			<c:set var="delim" value="&"/>
 		</ww:if>

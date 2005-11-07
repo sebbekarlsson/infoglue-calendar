@@ -26,7 +26,7 @@
 		</portlet:renderURL>
 	                     
 		<!-- Record Start -->
-		<div class="record">
+		<div class="recordLine">
 			<span class="categoryLabelSmall">
 				<ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
 					<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">

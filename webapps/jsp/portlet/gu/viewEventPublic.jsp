@@ -22,7 +22,7 @@
 	<H1><ww:property value="event.name"/></H1>
 
 <!-- Detta skall ev vara med beroende på hur articelkomponenten ser ut
-	<div class="record">
+	<div class="recordLine">
 	<span class="categoryLabelSmall">Öppen föreläsning</span> -->
 	
 	<ww:if test="event.decoratedShortDescription != null && event.decoratedShortDescription != ''">
@@ -78,11 +78,16 @@
 		<ww:if test="event.eventUrl != null && event.eventUrl != ''">
 			<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="event.eventUrl"/>">Läs mer om <ww:property value="event.name"/></a></p>
 		</ww:if>
-		
+			
 		<ww:if test="event.contactEmail != null && event.contactEmail != ''">
-			<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
+			<ww:if test="event.contactName != null && event.contactName != ''">
+				<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactName"/></A></p>
+			</ww:if>
+			<ww:else>
+				<p><span class="calFactLabel">Ytterliggare information: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
+			</ww:else>
 		</ww:if>
-		
+
 		<ww:if test="event.resources.size() > 0">
   			<p><span class="calFactLabel">Ytterliggare information: </span><br/>
 			<ww:iterator value="event.resources">
