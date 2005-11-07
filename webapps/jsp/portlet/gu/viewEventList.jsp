@@ -24,7 +24,16 @@
 			<portlet:param name="action" value="ViewEvent!publicGU"/>
 			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 		</portlet:renderURL>
-	                     
+	        
+	    <ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
+			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
+				<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
+				<ww:iterator value="#selectedCategories" status="rowstatus">
+					<ww:set name="visibleCategoryName" value="top.name"/>
+				</ww:iterator>
+			</ww:if>
+   		</ww:iterator>
+   		                 
 		<!-- Record Start -->
 		<div class="recordLine">
 			<span class="categoryLabelSmall">
@@ -52,26 +61,10 @@
 		<!-- Record End -->
 	</ww:iterator>
 	
+	<ww:if test="events == null || events.size() == 0">
+		<p>För tillfället finns inga aktuella kalenderhändelser inlagda i  
+kategorin "<ww:property value="#visibleCategoryName"/>"</p>
+	</ww:if>
+	
 </div>
 <!-- Calendar End -->  
-
-<!--
-	<p><strong>Sida 2 av 2</strong>&nbsp;</p>                       
-<div class="prev_next">
-
-<a href="#" class="number">START</a>
-<a href="#" class="number">&laquo;</a>
-<a href="#" class="number">1</a>
-<span class="number">2</span>
-<a href="#" class="number">3</a>
-<a href="#" class="number">4</a>
-<a href="#" class="number">5</a>
-<a href="#" class="number">6</a>
-<a href="#" class="number">7</a>
-
-<a href="#" class="number">8</a>
-<a href="#" class="number">9</a>
-<a href="#" class="number">10</a>
-<a href="#" class="number">&raquo;</a>
-</div>
--->
