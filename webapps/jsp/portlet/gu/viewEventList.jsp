@@ -63,7 +63,7 @@
 	
 	<ww:if test="events == null || events.size() == 0">
 		<p>För tillfället finns inga aktuella kalenderhändelser inlagda i  
-kategorin "<ww:property value="#visibleCategoryName"/>"</p>
+kategorin <!--"<ww:property value="#visibleCategoryName"/>"--></p>
 	</ww:if>
 	
 </div>
