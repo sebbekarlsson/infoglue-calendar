@@ -327,7 +327,8 @@ public class CalendarController extends BasicController
 
         Criteria criteria = session.createCriteria(Calendar.class);
         criteria.createCriteria("owningRoles").add(Expression.in("name", roles.toArray()));
-        criteria.createCriteria("owningGroups").add(Expression.in("name", groups.toArray()));
+        if(groups.size() > 0)
+            criteria.createCriteria("owningGroups").add(Expression.in("name", groups.toArray()));
         criteria.addOrder(Order.asc("id"));
 
         //result = criteria.list();

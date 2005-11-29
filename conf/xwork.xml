@@ -13,6 +13,12 @@
 	<package name="mypackage" namespace="/WebworkDispatcherPortlet" extends="webwork-default">
 		    		
 		<default-interceptor-ref name="defaultStack"/>
+
+		<action name="ViewError" class="org.infoglue.calendar.actions.ViewErrorAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
 		
 		<action name="Confirm" class="org.infoglue.calendar.actions.ConfirmAction">
 			<result name="success" type="portletDispatch">
@@ -336,7 +342,17 @@
 				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>
+			<!--
 			<result name="error" type="eventProcessed">
+				<param name="viewAction">ViewEvent!edit.action?eventId=${eventId}</param>
+				<param name="parse">true</param>
+			</result>
+			-->
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">ViewError.action</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="evaluateError" type="eventProcessed">
 				<param name="viewAction">ViewEvent!edit.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>

@@ -797,7 +797,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public Set getEventList(String userName, List roles, List groups, Integer stateId, boolean includeLinked, Session session) throws Exception 
+    public Set getEventList(String userName, List roles, List groups, Integer stateId, boolean includeLinked, boolean includeEventsCreatedByUser, Session session) throws Exception 
     {
         List result = new ArrayList();
         
@@ -863,6 +863,15 @@ public class EventController extends BasicController
         Set set = new LinkedHashSet();
         set.addAll(result);	
 
+        if(includeEventsCreatedByUser)
+        {
+            Criteria criteria = session.createCriteria(Event.class);
+            criteria.add(Restrictions.eq("stateId", stateId));
+            criteria.add(Restrictions.eq("creator", userName));
+        
+            set.addAll(criteria.list());	
+        }
+        
         return set;
     }
 
@@ -875,7 +884,7 @@ public class EventController extends BasicController
     
     public Set getMyWorkingEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        Set result = getEventList(userName, roles, groups, Event.STATE_WORKING, false, session);
+        Set result = getEventList(userName, roles, groups, Event.STATE_WORKING, false, true, session);
         
         return result;
     }
@@ -889,7 +898,7 @@ public class EventController extends BasicController
     
     public Set getWaitingEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISH, false, session);
+        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISH, false, false, session);
         
         return result;
     }
@@ -902,7 +911,7 @@ public class EventController extends BasicController
     
     public Set getPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, false, session);
+        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, false, true, session);
         
         return result;
     }
@@ -915,7 +924,7 @@ public class EventController extends BasicController
     
     public Set getLinkedPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, true, session);
+        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, true, true, session);
         
         return result;
     }

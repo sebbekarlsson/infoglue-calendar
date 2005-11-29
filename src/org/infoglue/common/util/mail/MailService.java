@@ -88,7 +88,7 @@ public class MailService
 		} 
 		catch(MessagingException e) 
 		{
-		    e.printStackTrace();
+		    //e.printStackTrace();
 			throw new SystemException("Unable to send message.", e);
 		}
 	}
@@ -97,7 +97,7 @@ public class MailService
 	/**
 	 *
 	 */
-	private Message createMessage(String from, String to, String subject, String content) 
+	private Message createMessage(String from, String to, String subject, String content) throws SystemException
 	{
 		try 
 		{
@@ -114,14 +114,14 @@ public class MailService
 	    } 
 	    catch(MessagingException e) 
 	    {
-	        throw new Bug("Unable to create the message.", e);
+	        throw new SystemException("Unable to create the message.", e);
 	    }
 	}
 
 	/**
 	 *
 	 */
-	private Message createMessage(String from, String to, String bcc, String subject, String content, String contentType, String encoding) 
+	private Message createMessage(String from, String to, String bcc, String subject, String content, String contentType, String encoding) throws SystemException
 	{
 		try 
 		{
@@ -145,14 +145,14 @@ public class MailService
 		} 
 		catch(MessagingException e) 
 		{
-			throw new Bug("Unable to create the message.", e);
+			throw new SystemException("Unable to create the message.", e);
 		}
 	}
 	
 	/**
 	 *
 	 */
-	private Address createInternetAddress(String address) 
+	private Address createInternetAddress(String address) throws SystemException
 	{
 		try 
 		{
@@ -160,14 +160,14 @@ public class MailService
 	    } 
 	    catch(AddressException e) 
 	    {
-	        throw new Bug("Badly formatted email address [" + address + "].", e);
+	        throw new SystemException("Badly formatted email address [" + address + "].", e);
 	    }
 	}
 
 	/**
 	 *
 	 */
-	private Address[] createInternetAddresses(String emailAddressString) 
+	private Address[] createInternetAddresses(String emailAddressString) throws SystemException
 	{
 	    String[] emailAddresses = emailAddressString.split(";");
 	    
@@ -181,7 +181,7 @@ public class MailService
 	        } 
 		    catch(AddressException e) 
 		    {
-		        throw new Bug("Badly formatted email address [" + email + "].", e);
+		        throw new SystemException("Badly formatted email address [" + email + "].", e);
 		    }
 	    }
 	    

@@ -131,7 +131,7 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         try
         {
-	        log.info("this.eventId:" + eventId);
+            log.info("this.eventId:" + eventId);
 	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
 	        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
 	            this.eventId = new Long(requestEventId);
@@ -197,6 +197,8 @@ public class ViewEventAction extends CalendarAbstractAction
     
     public List getEventCategories(EventTypeCategoryAttribute categoryAttribute)
     {
+        Timer timer = new Timer();
+
         List categories = new ArrayList();
         
         Iterator i = this.event.getEventCategories().iterator();
@@ -206,6 +208,8 @@ public class ViewEventAction extends CalendarAbstractAction
             if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
                 categories.add(eventCategory.getCategory());
         }
+
+        timer.printElapsedTime("getEventCategories took");
 
         return categories;
     }

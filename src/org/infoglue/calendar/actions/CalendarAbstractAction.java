@@ -137,16 +137,42 @@ public class CalendarAbstractAction extends ActionSupport
         try
         {
             org.infoglue.calendar.entities.Calendar owningCalendar = event.getOwningCalendar();
-	        Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
-	        if(calendars.contains(owningCalendar))
-	            isEventOwner = true;
-        }
+
+	        if(owningCalendar.getOwningRoles().size() > 0 && this.getInfoGlueRemoteUserGroups().size() == 0)
+	        {
+	            isEventOwner = false;
+	        }
+	        else
+	        {
+	            Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+		        
+		        if(calendars.contains(owningCalendar))
+		            isEventOwner = true;
+	        }
+	    }
         catch(Exception e)
         {
             log.warn("Error occurred:" + e.getMessage(), e);
         }
         
         return isEventOwner;
+    }
+
+    public boolean getIsEventCreator(Event event)
+    {
+        boolean isEventCreator = false;
+        
+        try
+        {
+            if(event.getCreator().equalsIgnoreCase(this.getInfoGlueRemoteUser()))
+                isEventCreator = true;            
+	    }
+        catch(Exception e)
+        {
+            log.warn("Error occurred:" + e.getMessage(), e);
+        }
+        
+        return isEventCreator;
     }
 
     public String formatDate(Date date, String pattern, Locale locale)

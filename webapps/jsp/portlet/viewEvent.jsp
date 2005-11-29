@@ -145,7 +145,7 @@
 				</portlet:actionURL>
 							
 				<span class=""><a href="<c:out value="${url}"/>"><ww:property value='fileName'/> (<ww:property value='assetKey'/>)</a></span>&nbsp;
-				<ww:if test="this.getIsEventOwner(event)">
+				<ww:if test="this.getIsEventCreator(event) || this.getIsEventOwner(event)">
 					<a href="<c:out value="${deleteResourceUrl}"/>"><img src="<%=request.getContextPath()%>/images/delete.gif" border="0"></a>
       			</ww:if>
       			<br/>
@@ -180,7 +180,7 @@
 		
 		<calendar:hasRole id="calendarAdministrator" roleName="CalendarAdministrator"/>
 		
-		<ww:if test="this.getIsEventOwner(event) || calendarAdministrator == true">
+		<ww:if test="this.getIsEventCreator(event) || this.getIsEventOwner(event) || calendarAdministrator == true">
 
 	  		<input onclick="document.location.href='<c:out value="${uploadFormURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.attachFile')"/>" class="button">
 			<input onclick="document.location.href='<c:out value="${editEventRenderURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.editButton')"/>" class="button">

@@ -221,15 +221,18 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
             {
                 request.getPortletSession().setAttribute(ACTION_CONTEXT, proxy.getInvocation().getInvocationContext());
             }
-        } catch (ConfigurationException e)
+        } 
+        catch (ConfigurationException e)
         {
             log.error("Could not find action", e);
             //      sendError(request, response, HttpServletResponse.SC_NOT_FOUND,
             // e);
-        } catch (Exception e)
+        } 
+        catch (Exception e)
         {
             log.error("Could not execute action", e);
             //      sendError(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
+            
         }
     }
 

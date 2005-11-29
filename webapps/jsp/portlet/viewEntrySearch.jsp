@@ -113,125 +113,127 @@
 <!-- ********************* -->
 <!-- ******  HITS ******** -->
 <!-- ********************* -->
-<div id="hitlist" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
-
-<div class="portlet_margin">
-	<h1><ww:property value="this.getLabel('labels.internal.soba.hitListStart')"/> <ww:property value="entries.size()"/> <ww:property value="this.getLabel('labels.internal.soba.hitListEnd')"/></h1>
-</div>
-
-<portlet:renderURL var="createEntryRenderURL">
-	<portlet:param name="action" value="CreateEntry!input"/>
-	<portlet:param name="eventId" value="1"/>
-</portlet:renderURL>
-
-<div class="subfunctionarea">
-<span class="left">
-	<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
-	<ww:if test="entries != null && entries.size() > 0"> | <a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
-</span>	
-<span class="right"></span>	
-<div class="clear"></div>
-</div>
-
-<div class="columnlabelarea">
-	<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/></p></div>
-	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.soba.nameColumnHeader')"/></p></div>
-	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.soba.eventColumnHeader')"/></p></div>
-	<div class="clear"></div>
-</div>
-
-<ww:iterator value="entries" status="rowstatus">
-	<ww:set name="entryId" value="id" scope="page"/>
-	<ww:set name="name" value="name" scope="page"/>
-	<ww:if test="searchEventId != null">
-		<ww:set name="searchEventId" value="searchEventId" scope="page"/>
-	</ww:if>
-	<ww:if test="searchFirstName != null">
-		<ww:set name="searchFirstName" value="searchFirstName" scope="page"/>
-	</ww:if>
-	<ww:if test="searchLastName != null">
-		<ww:set name="searchLastName" value="searchLastName" scope="page"/>
-	</ww:if>
-	<ww:if test="searchEmail != null">
-		<ww:set name="searchEmail" value="searchEmail" scope="page"/>
-	</ww:if>
-	<portlet:renderURL var="viewEntryRenderURL">
-		<portlet:param name="action" value="ViewEntry"/>
-		<c:if test="${entryId != null}">
-			<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
-		</c:if>
-		<c:if test="${searchEventId != null}">
-			<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
-		</c:if>		
-	</portlet:renderURL>
-
-	<portlet:actionURL var="deleteUrl">
-		<portlet:param name="action" value="DeleteEntry"/>
-		<c:if test="${entryId != null}">
-			<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
-		</c:if>
-		<c:if test="${searchEventId != null}">
-			<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
-		</c:if>
-		<c:if test="${searchFirstName != null}">
-			<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
-		</c:if>
-		<c:if test="${searchLastName != null}">
-			<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
-		</c:if>
-		<c:if test="${searchEmail != null}">
-			<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
-		</c:if>
-	</portlet:actionURL>
-
-	<portlet:actionURL var="viewListUrl">
-		<portlet:param name="action" value="ViewEntrySearch"/>
-		<c:if test="${searchEventId != null}">
-			<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
-		</c:if>
-		<c:if test="${searchFirstName != null}">
-			<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
-		</c:if>
-		<c:if test="${searchLastName != null}">
-			<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
-		</c:if>
-		<c:if test="${searchEmail != null}">
-			<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
-		</c:if>
-	</portlet:actionURL>
-
-	<portlet:renderURL var="confirmUrl">
-		<portlet:param name="action" value="Confirm"/>
-		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
-		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
-		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
-		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
-	</portlet:renderURL>
-
-	<ww:if test="#rowstatus.odd == true">
-    	<div class="oddrow">
-    </ww:if>
-    <ww:else>
-		<div class="evenrow">
-    </ww:else>
-
-	   	<div class="columnShort">
-	   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'"><ww:property value="#rowstatus.count"/></a></p>
-	   	</div>
-	   	<div class="columnMedium">
-	   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'"><ww:property value="firstName"/> <ww:property value="lastName"/></a></p>
-	   	</div>
-	   	<div class="columnMedium">
-	   		<p><ww:property value="top.event.name"/></p>
-	   	</div>
-	   	<div class="columnEnd">
-	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="firstName"/>'" class="delete"></a>
-	   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'" class="edit"></a>
-	   	</div>
-	   	<div class="clear"></div>
+<ww:if test="entries != null">
+	<div id="hitlist" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
+	
+	<div class="portlet_margin">
+		<h1><ww:property value="this.getLabel('labels.internal.soba.hitListStart')"/> <ww:property value="entries.size()"/> <ww:property value="this.getLabel('labels.internal.soba.hitListEnd')"/></h1>
 	</div>
-
-</ww:iterator>
+	
+	<portlet:renderURL var="createEntryRenderURL">
+		<portlet:param name="action" value="CreateEntry!input"/>
+		<portlet:param name="eventId" value="1"/>
+	</portlet:renderURL>
+	
+	<div class="subfunctionarea">
+	<span class="left">
+		<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
+		<ww:if test="entries != null && entries.size() > 0"> | <a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
+	</span>	
+	<span class="right"></span>	
+	<div class="clear"></div>
+	</div>
+	
+	<div class="columnlabelarea">
+		<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/></p></div>
+		<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.soba.nameColumnHeader')"/></p></div>
+		<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.soba.eventColumnHeader')"/></p></div>
+		<div class="clear"></div>
+	</div>
+	
+	<ww:iterator value="entries" status="rowstatus">
+		<ww:set name="entryId" value="id" scope="page"/>
+		<ww:set name="name" value="name" scope="page"/>
+		<ww:if test="searchEventId != null">
+			<ww:set name="searchEventId" value="searchEventId" scope="page"/>
+		</ww:if>
+		<ww:if test="searchFirstName != null">
+			<ww:set name="searchFirstName" value="searchFirstName" scope="page"/>
+		</ww:if>
+		<ww:if test="searchLastName != null">
+			<ww:set name="searchLastName" value="searchLastName" scope="page"/>
+		</ww:if>
+		<ww:if test="searchEmail != null">
+			<ww:set name="searchEmail" value="searchEmail" scope="page"/>
+		</ww:if>
+		<portlet:renderURL var="viewEntryRenderURL">
+			<portlet:param name="action" value="ViewEntry"/>
+			<c:if test="${entryId != null}">
+				<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+			</c:if>
+			<c:if test="${searchEventId != null}">
+				<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
+			</c:if>		
+		</portlet:renderURL>
+	
+		<portlet:actionURL var="deleteUrl">
+			<portlet:param name="action" value="DeleteEntry"/>
+			<c:if test="${entryId != null}">
+				<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+			</c:if>
+			<c:if test="${searchEventId != null}">
+				<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
+			</c:if>
+			<c:if test="${searchFirstName != null}">
+				<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
+			</c:if>
+			<c:if test="${searchLastName != null}">
+				<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
+			</c:if>
+			<c:if test="${searchEmail != null}">
+				<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+			</c:if>
+		</portlet:actionURL>
+	
+		<portlet:actionURL var="viewListUrl">
+			<portlet:param name="action" value="ViewEntrySearch"/>
+			<c:if test="${searchEventId != null}">
+				<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
+			</c:if>
+			<c:if test="${searchFirstName != null}">
+				<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
+			</c:if>
+			<c:if test="${searchLastName != null}">
+				<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
+			</c:if>
+			<c:if test="${searchEmail != null}">
+				<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+			</c:if>
+		</portlet:actionURL>
+	
+		<portlet:renderURL var="confirmUrl">
+			<portlet:param name="action" value="Confirm"/>
+			<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
+			<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+			<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
+			<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+		</portlet:renderURL>
+	
+		<ww:if test="#rowstatus.odd == true">
+	    	<div class="oddrow">
+	    </ww:if>
+	    <ww:else>
+			<div class="evenrow">
+	    </ww:else>
+	
+		   	<div class="columnShort">
+		   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'"><ww:property value="#rowstatus.count"/></a></p>
+		   	</div>
+		   	<div class="columnMedium">
+		   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'"><ww:property value="firstName"/> <ww:property value="lastName"/></a></p>
+		   	</div>
+		   	<div class="columnMedium">
+		   		<p><ww:property value="top.event.name"/></p>
+		   	</div>
+		   	<div class="columnEnd">
+		   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="firstName"/>'" class="delete"></a>
+		   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'" class="edit"></a>
+		   	</div>
+		   	<div class="clear"></div>
+		</div>
+	
+	</ww:iterator>
+</ww:if>
 
 <%--
 

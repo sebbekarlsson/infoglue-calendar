@@ -167,7 +167,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         }
         catch(ValidationException e)
         {
-            return Action.ERROR;            
+            return "evaluateError";            
         }
 
         return Action.SUCCESS;
