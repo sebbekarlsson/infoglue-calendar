@@ -17,16 +17,17 @@
 <div class="subfunctionarea">
 	
 	<calendar:hasRole id="calendarAdministrator" roleName="CalendarAdministrator"/>
+	<calendar:hasRole id="calendarOwner" roleName="CalendarOwner"/>
 	
 	<a href="<c:out value="${createEventUrl}"/>" <c:if test="${activeEventSubNavItem == 'NewEvent'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.event.addEvent')"/></a> |
 
-	<c:if test="${calendarAdministrator == true}">
+	<c:if test="${calendarOwner == true}">
 		<a href="<c:out value="${viewLinkedPublishedEventsUrl}"/>" <c:if test="${activeEventSubNavItem == 'LinkedPublishedEvents'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationLinkedPublishedEvents')"/></a> |
 	   	<a href="<c:out value="${viewPublishedEventsUrl}"/>" <c:if test="${activeEventSubNavItem == 'PublishedEvents'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationPublishedEvents')"/></a> |
 	   	<a href="<c:out value="${viewWaitingEventsUrl}"/>" <c:if test="${activeEventSubNavItem == 'WaitingEvents'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationWaitingEvents')"/></a> |
 	</c:if>
 	<a href="<c:out value="${viewMyWorkingEventsUrl}"/>" <c:if test="${activeEventSubNavItem == 'MyWorkingEvents'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationMyWorkingEvents')"/></a> |
-	<c:if test="${calendarAdministrator == true}">
+	<c:if test="${calendarOwner == true}">
 		<a href="<c:out value="${viewEventSearchFormUrl}"/>" <c:if test="${activeEventSubNavItem == 'EventSearch'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationSearchEvents')"/></a>
 	</c:if>	
 	&nbsp;
