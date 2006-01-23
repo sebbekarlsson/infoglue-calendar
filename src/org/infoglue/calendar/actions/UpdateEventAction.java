@@ -77,13 +77,14 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private String organizerName;
     private String lecturer;
     private String customLocation;
+    private String alternativeLocation;
     private String shortDescription;
     private String longDescription;
     private String eventUrl;
     private String contactName;
     private String contactEmail;
     private String contactPhone;
-    private Float price;
+    private String price;
     private Integer maximumParticipants;
    
     private String[] locationId;
@@ -148,6 +149,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
                     organizerName, 
                     lecturer, 
                     customLocation,
+                    alternativeLocation,
                     shortDescription,
                     longDescription,
                     eventUrl,
@@ -469,11 +471,11 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         this.organizerName = organizerName;
     }
-    public Float getPrice()
+    public String getPrice()
     {
         return price;
     }
-    public void setPrice(Float price)
+    public void setPrice(String price)
     {
         this.price = price;
     }
@@ -539,5 +541,13 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     public Map getCategoryAttributes()
     {
         return categoryAttributes;
+    }
+    public String getAlternativeLocation()
+    {
+        return alternativeLocation;
+    }
+    public void setAlternativeLocation(String alternativeLocation)
+    {
+        this.alternativeLocation = alternativeLocation;
     }
 }

@@ -59,10 +59,11 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private Integer endTime;
     private String organizerName;
     private String customLocation;
+    private String alternativeLocation;
     private String contactName;
     private String contactEmail;
     private String contactPhone;
-    private Float price = null;
+    private String price = null;
     private Integer maximumParticipants = null;
     
     private Calendar startCalendar;
@@ -93,6 +94,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
                 													endCalendar,
                 													organizerName,
 															        customLocation,
+															        alternativeLocation,
 															        contactName,
 															        contactEmail,
 															        contactPhone,
@@ -211,12 +213,12 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         this.organizerName = organizerName;
     }
     
-    public Float getPrice()
+    public String getPrice()
     {
         return price;
     }
     
-    public void setPrice(Float price)
+    public void setPrice(String price)
     {
         log.info("price:" + price);
 
@@ -246,6 +248,16 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     public void setEvents(List events)
     {
         this.events = events;
+    }
+    
+    public String getAlternativeLocation()
+    {
+        return alternativeLocation;
+    }
+    
+    public void setAlternativeLocation(String alternativeLocation)
+    {
+        this.alternativeLocation = alternativeLocation;
     }
 }
 

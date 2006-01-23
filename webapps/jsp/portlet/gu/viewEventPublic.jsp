@@ -66,15 +66,18 @@
 		</ww:if>
 		
 		<p><span class="calFactLabel">Plats: </span><br/>
-			<ww:iterator value="event.locations">
-	      		<ww:set name="location" value="top"/>
- 				<ww:property value='#location.name'/><br/>		
-      		</ww:iterator>
+			<ww:if test="event.alternativeLocation != null && event.alternativeLocation != ''">
+				<ww:property value="event.alternativeLocation"/>		
+			</ww:if>
+			<ww:else>
+  				<ww:iterator value="event.locations">
+		      		<ww:set name="location" value="top"/>
+	 				<ww:property value='#location.name'/><br/>		
+	      		</ww:iterator>
+			</ww:else>
 			<ww:property value="event.customLocation"/>
 		</p>
-		<%--
-		<p><span class="calFactLabel">Adress: </span><ww:property value="event.customLocation"/></p>
-		--%>
+	
 		<ww:if test="event.eventUrl != null && event.eventUrl != ''">
 			<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="event.eventUrl"/>">Läs mer om <ww:property value="event.name"/></a></p>
 		</ww:if>
@@ -107,8 +110,8 @@
    			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		</ww:if>
 		
-		<ww:if test="event.price > 0">
-	  		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price.intValue()"/>:- </p>
+		<ww:if test="event.price != null && event.price != ''">
+	  		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price"/> </p>
 		</ww:if>
 		<ww:else>
   			<p><span class="calFactLabel">Avgift:</span> Ingen avgift </p>		

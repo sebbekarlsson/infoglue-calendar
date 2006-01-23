@@ -60,6 +60,8 @@
 		<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" cssClass="listBox"/>
 	
 		<calendar:textField label="labels.internal.event.customLocation" name="customLocation" value="event.customLocation" cssClass="longtextfield"/>
+
+		<calendar:textField label="labels.internal.event.alternativeLocation" name="alternativeLocation" value="event.alternativeLocation" cssClass="longtextfield"/>
 	
 		<calendar:textField label="labels.internal.event.price" name="price" value="event.price" cssClass="longtextfield"/>
 	

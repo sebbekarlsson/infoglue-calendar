@@ -86,6 +86,9 @@
 			<calendar:textValue label="labels.internal.event.customLocation" value="event.customLocation" labelCssClass="label"/>
 		</p>
 		<p>
+			<calendar:textValue label="labels.internal.event.alternativeLocation" value="event.alternativeLocation" labelCssClass="label"/>
+		</p>
+		<p>
 			<calendar:textValue label="labels.internal.event.eventUrl" value="event.eventUrl" labelCssClass="label"/>
 		</p>
 		<p>

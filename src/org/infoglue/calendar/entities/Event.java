@@ -51,6 +51,7 @@ public class Event implements BaseEntity
     private Boolean isOrganizedByGU = new Boolean(false);
     private String organizerName;
     private String lecturer;
+    private String alternativeLocation;
     private String customLocation;
     private String shortDescription;
     private String longDescription;
@@ -58,7 +59,7 @@ public class Event implements BaseEntity
     private String contactName;
     private String contactEmail;
     private String contactPhone;
-    private Float price;
+    private String price;
     private java.util.Calendar lastRegistrationDateTime;
     private Integer maximumParticipants;
     private Integer stateId = STATE_WORKING; //Default if not otherwise set
@@ -272,6 +273,21 @@ public class Event implements BaseEntity
     }
     
     /**
+     * @hibernate.property name="getAlternativeLocation" column="alternativeLocation" type="string" not-null="false" unique="false"
+     * 
+     * @return String
+     */
+    public String getAlternativeLocation()
+    {
+        return alternativeLocation;
+    }
+
+    public void setAlternativeLocation(String alternativeLocation)
+    {
+        this.alternativeLocation = alternativeLocation;
+    }
+
+    /**
      * @hibernate.property name="getEventUrl" column="eventUrl" type="string" not-null="false" unique="false"
      * 
      * @return String
@@ -385,15 +401,18 @@ public class Event implements BaseEntity
     }
     
     /**
-     * @hibernate.property name="getPrice" column="price" type="float" not-null="false" unique="false"
+     * @hibernate.property name="getPrice" column="price" type="string" not-null="false" unique="false"
      * 
-     * @return Float
+     * @return String
      */
-    public Float getPrice()
+    public String getPrice()
     {
+        if(price.equals("0") || price.equals("0.0"))
+            return "";
+        
         return price;
     }
-    public void setPrice(Float price)
+    public void setPrice(String price)
     {
         this.price = price;
     }
@@ -511,4 +530,5 @@ public class Event implements BaseEntity
     {
         this.creator = creator;
     }
+
 }

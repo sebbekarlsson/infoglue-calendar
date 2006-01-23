@@ -59,10 +59,10 @@
 	   		<p><ww:property value="shortDescription"/></p>
 	   	</div>
 	   	<div class="columnShort">
-	   		<p><ww:property value="owningCalendar.name"/></p>
+	   		<p><ww:property value="owningCalendar.name"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnDate">
-	   		<p><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>
+	   		<p style="white-space: nowrap;"><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>
 	   	</div>
 	   	<div class="columnEnd">
 	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>

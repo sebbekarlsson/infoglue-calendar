@@ -16,6 +16,7 @@
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.name')"/></p></div>
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.description')"/></p></div>
 	<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.event.owningCalendar')"/></p></div>
+	<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.event.state')"/></p></div>
 	<div class="columnDate"><p><ww:property value="this.getLabel('labels.internal.event.startDate')"/></p></div>
 	<div class="clear"></div>
 </div>
@@ -70,10 +71,13 @@
 	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
 	   	</div>
 	   	<div class="columnMedium">
-	   		<p><ww:property value="shortDescription"/></p>
+	   		<p><ww:property value="shortDescription"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnShort">
 	   		<p><ww:property value="owningCalendar.name"/></p>
+	   	</div>
+	   	<div class="columnShort">
+	   		<p><ww:property value="this.getState(stateId)"/></p>
 	   	</div>
 	   	<div class="columnDate">
 	   		<p><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>

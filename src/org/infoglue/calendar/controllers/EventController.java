@@ -104,13 +104,14 @@ public class EventController extends BasicController
             	            String organizerName, 
             	            String lecturer, 
             	            String customLocation,
+            	            String alternativeLocation,
             	            String shortDescription,
             	            String longDescription,
             	            String eventUrl,
             	            String contactName,
             	            String contactEmail,
             	            String contactPhone,
-            	            Float price,
+            	            String price,
             	            java.util.Calendar lastRegistrationCalendar,
             	            Integer maximumParticipants,
             	            java.util.Calendar startDateTime, 
@@ -154,6 +155,7 @@ public class EventController extends BasicController
 		                    organizerName, 
 		                    lecturer, 
 		                    customLocation,
+		                    alternativeLocation,
 		                    shortDescription,
 		                    longDescription,
 		                    eventUrl,
@@ -206,13 +208,14 @@ public class EventController extends BasicController
             	            String organizerName, 
             	            String lecturer, 
             	            String customLocation,
+            	            String alternativeLocation,
             	            String shortDescription,
             	            String longDescription,
             	            String eventUrl,
             	            String contactName,
             	            String contactEmail,
             	            String contactPhone,
-            	            Float price,
+            	            String price,
             	            java.util.Calendar lastRegistrationCalendar,
             	            Integer maximumParticipants,
             	            java.util.Calendar startDateTime, 
@@ -259,6 +262,7 @@ public class EventController extends BasicController
 		                    organizerName, 
 		                    lecturer, 
 		                    customLocation,
+		                    alternativeLocation,
 		                    shortDescription,
 		                    longDescription,
 		                    eventUrl,
@@ -319,13 +323,14 @@ public class EventController extends BasicController
             	            String organizerName, 
             	            String lecturer, 
             	            String customLocation,
+            	            String alternativeLocation,
             	            String shortDescription,
             	            String longDescription,
             	            String eventUrl,
             	            String contactName,
             	            String contactEmail,
             	            String contactPhone,
-            	            Float price,
+            	            String price,
             	            java.util.Calendar lastRegistrationCalendar,
             	            Integer maximumParticipants,
             	            java.util.Calendar startDateTime, 
@@ -345,6 +350,7 @@ public class EventController extends BasicController
         event.setOrganizerName(organizerName);
         event.setLecturer(lecturer);
         event.setCustomLocation(customLocation);
+        event.setAlternativeLocation(alternativeLocation);
         event.setShortDescription(shortDescription);
         event.setLongDescription(longDescription);
         event.setEventUrl(eventUrl);
@@ -386,13 +392,14 @@ public class EventController extends BasicController
             String organizerName, 
             String lecturer, 
             String customLocation,
+            String alternativeLocation,
             String shortDescription,
             String longDescription,
             String eventUrl,
             String contactName,
             String contactEmail,
             String contactPhone,
-            Float price,
+            String price,
             java.util.Calendar lastRegistrationCalendar,
             Integer maximumParticipants,
             java.util.Calendar startDateTime, 
@@ -440,6 +447,7 @@ public class EventController extends BasicController
 		        organizerName, 
 		        lecturer, 
 		        customLocation,
+		        alternativeLocation,
                 shortDescription,
                 longDescription,
                 eventUrl,
@@ -473,13 +481,14 @@ public class EventController extends BasicController
             String organizerName, 
             String lecturer, 
             String customLocation,
+            String alternativeLocation,
             String shortDescription,
             String longDescription,
             String eventUrl,
             String contactName,
             String contactEmail,
             String contactPhone,
-            Float price,
+            String price,
             java.util.Calendar lastRegistrationCalendar,
             Integer maximumParticipants,
             java.util.Calendar startDateTime, 
@@ -496,6 +505,7 @@ public class EventController extends BasicController
         event.setOrganizerName(organizerName);
         event.setLecturer(lecturer);
         event.setCustomLocation(customLocation);
+        event.setAlternativeLocation(alternativeLocation);
         event.setShortDescription(shortDescription);
         event.setLongDescription(longDescription);
         event.setEventUrl(eventUrl);
@@ -692,10 +702,11 @@ public class EventController extends BasicController
             java.util.Calendar endDateTime,
         	String organizerName,
             String customLocation,
+            String alternativeLocation,
             String contactName,
             String contactEmail,
             String contactPhone,
-            Float price,
+            String price,
             Integer maximumParticipants,
             Session session) throws Exception 
     {
@@ -719,6 +730,11 @@ public class EventController extends BasicController
             arguments.add("event.customLocation like ?");
             values.add("%" + customLocation + "%");
         }
+        if(alternativeLocation != null && alternativeLocation.length() > 0)
+        {
+            arguments.add("event.alternativeLocation like ?");
+            values.add("%" + alternativeLocation + "%");
+        }
         if(contactName != null && contactName.length() > 0)
         {
             arguments.add("event.contactName like ?");
@@ -734,7 +750,7 @@ public class EventController extends BasicController
             arguments.add("event.contactPhone like ?");
             values.add("%" + contactPhone + "%");
         }
-        if(price != null && price.floatValue() > 0.0)
+        if(price != null && price.length() > 0)
         {
             arguments.add("event.price = ?");
             values.add(price);
@@ -797,7 +813,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public Set getEventList(String userName, List roles, List groups, Integer stateId, boolean includeLinked, boolean includeEventsCreatedByUser, Session session) throws Exception 
+    public Set getEventList(java.util.Calendar startDate, java.util.Calendar endDate, String userName, List roles, List groups, Integer stateId, boolean includeLinked, boolean includeEventsCreatedByUser, Session session) throws Exception 
     {
         List result = new ArrayList();
         
@@ -831,7 +847,9 @@ public class EventController extends BasicController
             {
 	            Criteria criteria = session.createCriteria(Event.class);
 	            criteria.add(Restrictions.eq("stateId", stateId));
-            
+	            criteria.add(Expression.gt("endDateTime", endDate));
+	            criteria.add(Expression.lt("startDateTime", startDate));
+	            
 	            criteria.createCriteria("owningCalendar")
 	            .add(Restrictions.not(Restrictions.in("id", calendarIdArray)));
 	
@@ -848,12 +866,14 @@ public class EventController extends BasicController
 	        log.info("groups:" + groups.size());
 	        String groupsSQL = getGroupsSQL(groups);
 	        log.info("groupsSQL:" + groupsSQL);
-	        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.owningCalendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
+	        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.owningCalendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? AND event.startDateTime >= ? AND event.endDateTime <= ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
 	        log.info("sql:" + sql);
 	        Query q = session.createQuery(sql);
 	        q.setInteger(0, stateId.intValue());
-	        setRoleNames(1, q, roles);
-	        setGroupNames(roles.size() + 1, q, groups);
+	        q.setCalendar(1, startDate);
+	        q.setCalendar(2, endDate);
+	        setRoleNames(3, q, roles);
+	        setGroupNames(roles.size() + 3, q, groups);
 	        
 	        result = q.list();
         }
@@ -868,7 +888,9 @@ public class EventController extends BasicController
             Criteria criteria = session.createCriteria(Event.class);
             criteria.add(Restrictions.eq("stateId", stateId));
             criteria.add(Restrictions.eq("creator", userName));
-        
+            criteria.add(Expression.gt("endDateTime", endDate));
+            criteria.add(Expression.lt("startDateTime", startDate));
+
             set.addAll(criteria.list());	
         }
         
@@ -884,7 +906,11 @@ public class EventController extends BasicController
     
     public Set getMyWorkingEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        Set result = getEventList(userName, roles, groups, Event.STATE_WORKING, false, true, session);
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        java.util.Calendar endDate = java.util.Calendar.getInstance();
+        endDate.add(java.util.Calendar.YEAR, 5);
+        
+        Set result = getEventList(now, endDate, userName, roles, groups, Event.STATE_WORKING, false, true, session);
         
         return result;
     }
@@ -898,7 +924,11 @@ public class EventController extends BasicController
     
     public Set getWaitingEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISH, false, false, session);
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        java.util.Calendar endDate = java.util.Calendar.getInstance();
+        endDate.add(java.util.Calendar.YEAR, 5);
+        
+        Set result = getEventList(now, endDate, userName, roles, groups, Event.STATE_PUBLISH, false, false, session);
         
         return result;
     }
@@ -911,7 +941,11 @@ public class EventController extends BasicController
     
     public Set getPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, false, true, session);
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        java.util.Calendar endDate = java.util.Calendar.getInstance();
+        endDate.add(java.util.Calendar.YEAR, 5);
+        
+        Set result = getEventList(now, endDate, userName, roles, groups, Event.STATE_PUBLISHED, false, true, session);
         
         return result;
     }
@@ -924,7 +958,11 @@ public class EventController extends BasicController
     
     public Set getLinkedPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
     {
-        Set result = getEventList(userName, roles, groups, Event.STATE_PUBLISHED, true, true, session);
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        java.util.Calendar endDate = java.util.Calendar.getInstance();
+        endDate.add(java.util.Calendar.YEAR, 5);
+        
+        Set result = getEventList(now, endDate, userName, roles, groups, Event.STATE_PUBLISHED, true, true, session);
         
         return result;
     }

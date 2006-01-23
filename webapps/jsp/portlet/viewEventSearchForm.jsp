@@ -25,6 +25,7 @@
 		<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="organizerName" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.event.lecturer" name="lecturer" value="lecturer" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.event.customLocation" name="customLocation" value="customLocation" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.alternativeLocation" name="alternativeLocation" value="alternativeLocation" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.event.contactName" name="contactName" value="contactName" cssClass="longtextfield"/>
 	<!--
 		<calendar:textField label="labels.internal.event.contactEmail" name="contactEmail" value="contactEmail" cssClass="longtextfield"/>

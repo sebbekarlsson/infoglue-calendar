@@ -66,6 +66,10 @@
 		</p>
 		<p>
 			<span class="calendarLabel"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
+			<ww:property value="event.alternativeLocation"/>
+		</p>
+		<p>
+			<span class="calendarLabel"><%= resourceBundle.getString("labels.public.event.description") %></span><br> 
 			<ww:property value="event.shortDescription"/>
 		</p>
 		<p>

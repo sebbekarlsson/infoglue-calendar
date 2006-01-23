@@ -175,6 +175,21 @@ public class CalendarAbstractAction extends ActionSupport
         return isEventCreator;
     }
 
+    public String getState(Integer stateId)
+    {
+        if(stateId == null)
+            return "None";
+        
+        if(stateId.intValue() == 0)
+            return getLabel("labels.state.working");
+        if(stateId.intValue() == 2)
+            return getLabel("labels.state.publish");
+        if(stateId.intValue() == 3)
+            return getLabel("labels.state.published");
+        
+        return "";
+    }
+    
     public String formatDate(Date date, String pattern, Locale locale)
     {	
     	if(date == null)
@@ -214,7 +229,7 @@ public class CalendarAbstractAction extends ActionSupport
             return "";
      
         // Format the current time.
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, new Locale(getLanguageCode()));
         String dateString = formatter.format(date);
 
         return dateString;
@@ -230,7 +245,7 @@ public class CalendarAbstractAction extends ActionSupport
         try
         {
 	        // Format the current time.
-	        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+	        SimpleDateFormat formatter = new SimpleDateFormat(pattern, new Locale(getLanguageCode()));
 	        date = formatter.parse(dateString);
         }
         catch(Exception e)

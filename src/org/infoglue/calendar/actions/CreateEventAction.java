@@ -62,17 +62,18 @@ public class CreateEventAction extends CalendarAbstractAction
     private String lastRegistrationTime;
 
     private Boolean isInternal = new Boolean(false);
-    private Boolean isOrganizedByGU = new Boolean(false);
+    private Boolean isOrganizedByGU = new Boolean(true);
     private String organizerName;
     private String lecturer;
     private String customLocation;
+    private String alternativeLocation;
     private String shortDescription;
     private String longDescription;
     private String eventUrl;
     private String contactName;
     private String contactEmail;
     private String contactPhone;
-    private Float price;
+    private String price;
     private Integer maximumParticipants;
     
     private String[] locationId;
@@ -142,6 +143,7 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    organizerName, 
 									                    lecturer, 
 									                    customLocation,
+									                    alternativeLocation,
 									                    shortDescription,
 									                    longDescription,
 									                    eventUrl,
@@ -192,6 +194,7 @@ public class CreateEventAction extends CalendarAbstractAction
                 originalEvent.getOrganizerName(), 
                 originalEvent.getLecturer(), 
                 originalEvent.getCustomLocation(),
+                originalEvent.getAlternativeLocation(),
                 originalEvent.getShortDescription(),
                 originalEvent.getLongDescription(),
                 originalEvent.getEventUrl(),
@@ -365,11 +368,11 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         this.organizerName = organizerName;
     }
-    public Float getPrice()
+    public String getPrice()
     {
         return price;
     }
-    public void setPrice(Float price)
+    public void setPrice(String price)
     {
         this.price = price;
     }
@@ -547,5 +550,15 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setEventId(Long eventId)
     {
         this.eventId = eventId;
+    }
+    
+    public String getAlternativeLocation()
+    {
+        return alternativeLocation;
+    }
+    
+    public void setAlternativeLocation(String alternativeLocation)
+    {
+        this.alternativeLocation = alternativeLocation;
     }
 }

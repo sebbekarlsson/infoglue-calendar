@@ -27,9 +27,10 @@
 		<property name="shortDescription" column="shortDescription" type="string"/>
 		<property name="organizerName" column="organizerName" type="string"/>
 		<property name="contactPhone" column="contactPhone" type="string"/>
-		<property name="price" column="price" type="float"/>
+		<property name="price" column="price" type="string"/>
 		<property name="description" column="description" type="string"/>
 		<property name="customLocation" column="customLocation" type="string"/>
+		<property name="alternativeLocation" column="alternativeLocation" type="string"/>
 		<property name="isInternal" column="isInternal" type="boolean"/>
 		<property name="startDateTime" column="startDateTime" type="calendar"/>
 		<property name="eventUrl" column="eventUrl" type="string"/>
