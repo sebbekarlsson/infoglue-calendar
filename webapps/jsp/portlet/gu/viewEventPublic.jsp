@@ -132,7 +132,6 @@
 			<p><span class="calFactLabel">Telefon: </span><ww:property value="event.contactPhone"/></p>
 		</ww:if>
 		
-		<%--
 		<p><span class="calFactLabel">Anmälan:</span>
 		<ww:if test="event.lastRegistrationDateTime.time.time > now.time.time">
 			<ww:if test="event.maximumParticipants > event.entries.size()">
@@ -151,7 +150,6 @@
 			<ww:property value="this.getLabel('labels.public.event.registrationExpired')"/>
 		</ww:else>
 		</p>
-		--%>
 	</div>
 <!-- </div> -->
 </div>
