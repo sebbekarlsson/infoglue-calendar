@@ -20,7 +20,10 @@
 		</ww:else>
 
 		<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="name"/></a></h3>
-		<span class="newsdate"><ww:property value="this.formatDate(top.startDateTime.getTime(), 'd MMM')"/> kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
+		<span class="newsdate"><ww:property value="this.formatDate(top.startDateTime.getTime(), 'd MMMM')"/> 
+		<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
+		kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
+		</ww:if>
 		<ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
 			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 				<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>

@@ -240,7 +240,7 @@
 <tr>
 	<td align="left" colspan="2" style="border-bottom: 1px solid black; height: 20px;">
 		<div style="float: left;">
-			<span class="dayItem"><ww:property value="this.getFormattedDate(startDateTime, 'dd MMM yyyy')"/></span>
+			<span class="dayItem"><ww:property value="this.getFormattedDate(startDateTime, 'dd MMMM yyyy')"/></span>
 		</div>
 	</td>
 </tr>

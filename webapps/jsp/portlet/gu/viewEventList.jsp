@@ -48,7 +48,11 @@
 			</span>
 			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="name"/></a></h3>
 	
-			<p><span class="calFactLabel">Tid:</span> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/> kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/><br /></p>
+			<p><span class="calFactLabel">Tid:</span> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/> 
+			<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
+			kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
+			</ww:if>
+			<br /></p>
 	        <ww:set name="puffImage" value="this.getResourceUrl(event, 'PuffBild')"/>
 			<ww:if test="#puffImage != null">
 			<img src="<ww:property value="#puffImage"/>" class="img_calendar_event"/>

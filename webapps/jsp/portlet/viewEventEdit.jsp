@@ -38,7 +38,7 @@
 			<ww:if test="#fieldErrors.startDateTime != null"><span class="errorMessage"><ww:property value="this.getLabel('#fieldErrors.startDateTime.get(0)')"/></span></ww:if><br />
 			<input id="startDateTime" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>" class="datefield" type="textfield">
 			<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_startDateTime" style="border: 0px solid black; cursor: pointer;" title="Date selector">
-			<input name="startTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/>" class="hourfield" type="textfield">	
+			<input name="startTime" value="<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'"><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/></ww:if>" class="hourfield" type="textfield">	
 		</div>
 
 		<div class="fieldrow">
@@ -46,7 +46,7 @@
 			<ww:if test="#fieldErrors.endDateTime != null"><span class="errorMessage"><ww:property value="this.getLabel('#fieldErrors.endDateTime.get(0)')"/></span></ww:if><br />
 			<input id="endDateTime" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>" class="datefield" type="textfield">
 			<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_endDateTime" style="border: 0px solid black; cursor: pointer;" title="Date selector">
-			<input name="endTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>" class="hourfield" type="textfield">					
+			<input name="endTime" value="<ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '13:34'"><ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></ww:if>" class="hourfield" type="textfield">					
 		</div>
 
 		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="smalltextarea" mandatory="false"/>

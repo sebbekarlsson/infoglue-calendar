@@ -56,10 +56,10 @@
 	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
 	   	</div>
 	   	<div class="columnMedium">
-	   		<p><ww:property value="shortDescription"/></p>
+	   		<p><ww:property value="shortDescription"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnShort">
-	   		<p><ww:property value="owningCalendar.name"/>&nbsp;</p>
+	   		<p><ww:property value="owningCalendar.name"/></p>
 	   	</div>
 	   	<div class="columnDate">
 	   		<p style="white-space: nowrap;"><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>

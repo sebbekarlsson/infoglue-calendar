@@ -111,6 +111,9 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String execute() throws Exception 
     {
+        if(startDateTime != null && (endDateTime == null || endDateTime.equals("")))
+            endDateTime = startDateTime;
+
         startCalendar 	= getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", false); 
         endCalendar 	= getCalendar(endDateTime + " " + endTime, "yyyy-MM-dd HH:mm", false); 
         lastRegistrationCalendar = getCalendar(lastRegistrationDateTime + " " + lastRegistrationTime, "yyyy-MM-dd HH:mm", false); 
@@ -292,7 +295,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     public void setEndTime(String endTime)
     {
         if(endTime.equalsIgnoreCase(""))
-            this.endTime = "12:00";
+            this.endTime = "13:34";
         else
             this.endTime = (endTime.indexOf(":") == -1 ? (endTime + ":00") : endTime);
     }
@@ -335,7 +338,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     public void setStartTime(String startTime)
     {
         if(startTime.equalsIgnoreCase(""))
-            this.startTime = "12:00";
+            this.startTime = "12:34";
         else
             this.startTime = (startTime.indexOf(":") == -1 ? (startTime + ":00") : startTime);
     }

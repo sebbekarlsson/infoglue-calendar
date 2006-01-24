@@ -1,4 +1,7 @@
+<%@ taglib uri="webwork" prefix="ww" %>
+<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="calendar" prefix="calendar" %>
 
 <c:set var="activeNavItem" value="Home" scope="page"/>
 
@@ -8,9 +11,18 @@
 
 <%@ include file="functionMenu.jsp" %>
 
-<portlet:renderURL var="createEventUrl">
-	<portlet:param name="action" value="ViewCalendarList!choose"/>
-</portlet:renderURL>
+<ww:if test="calendarId == null || calendarId == ''">
+	<portlet:renderURL var="createEventUrl">
+		<portlet:param name="action" value="ViewCalendarList!choose"/>
+	</portlet:renderURL>
+</ww:if>
+<ww:else>
+	<ww:set name="calendarId" value="calendarId" scope="page"/>
+	<portlet:renderURL var="createEventUrl">
+		<portlet:param name="action" value="CreateEvent!input"/>
+		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+	</portlet:renderURL>
+</ww:else>
 
 <div class="portlet_margin">
 <h1><ww:property value="this.getLabel('labels.internal.applicationSubHeader')"/></h1>

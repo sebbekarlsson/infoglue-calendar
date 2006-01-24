@@ -44,11 +44,17 @@
 			<ww:set name="startDate" value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>
 			<ww:set name="endDate" value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
 			<ww:if test="#startDate != #endDate">
-				<p><span class="calFactLabel">Datum & tid: </span><ww:property value="#startDate"/> kl <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> kl <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></p>                             		
+				<p><span class="calFactLabel">Datum & tid: </span><ww:property value="#startDate"/>
+				<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
+			 	kl <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> kl <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>
+			 	</ww:if>
+				</p>                             		
 			</ww:if>
 			<ww:else>
 				<p><span class="calFactLabel">Datum: </span><ww:property value="#startDate"/></p>                             		
-				<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> - <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></p>
+				<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
+			 	<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> - <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></p>
+			 	</ww:if>
 			</ww:else>
 			<p><span class="calFactLabel">Kategori: </span>
 			<ww:iterator value="event.owningCalendar.eventType.categoryAttributes">
@@ -107,7 +113,7 @@
 		</ww:if>
 
 		<ww:if test="event.lastRegistrationDateTime != null">
-   			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'd MMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
+   			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'd MMMM')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		</ww:if>
 		
 		<ww:if test="event.price != null && event.price != ''">

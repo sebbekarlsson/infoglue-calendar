@@ -43,7 +43,8 @@ import com.opensymphony.xwork.ActionContext;
 
 public class ViewCalendarAdministrationAction extends CalendarAbstractAction
 {
-   
+    private String calendarId;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -55,5 +56,13 @@ public class ViewCalendarAdministrationAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
 
-
+    public String getCalendarId()
+    {
+        return calendarId;
+    }
+    
+    public void setCalendarId(String calendarId)
+    {
+        this.calendarId = calendarId;
+    }
 }

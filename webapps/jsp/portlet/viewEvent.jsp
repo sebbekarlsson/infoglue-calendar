@@ -56,12 +56,18 @@
 		</p>
 		<p>
 			<span class="label"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span><br />
-			<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/>
+			<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> 
+			<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
+			kl. <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/>
+			</ww:if>
 		</p>
 
 		<p>
 			<span class="label"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></span><br />
-			<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>
+			<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/> 
+			<ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '13:34'">
+			kl. <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>
+			</ww:if>
 		</p>
 		
 		<p>
