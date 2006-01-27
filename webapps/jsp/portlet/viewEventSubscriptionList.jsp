@@ -24,34 +24,29 @@
 </div>
 
 <div class="columnlabelarea">
-	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.calendar.name')"/></p></div>
+	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.subscribedCalendarNames')"/></p></div>
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.calendar.description')"/></p></div>
 	<div class="clear"></div>
 </div>
 
 <ww:iterator value="subscribers" status="rowstatus">
 
-	<ww:set name="calendarId" value="top.calendar.id" scope="page"/>
+	<ww:set name="subscriptionId" value="top.id" scope="page"/>
 	<ww:set name="name" value="top.calendar.name" scope="page"/>
 			
-	<portlet:renderURL var="calendarUrl">
-		<portlet:param name="action" value="ViewCalendar"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
-	</portlet:renderURL>
-
 	<portlet:actionURL var="deleteUrl">
-		<portlet:param name="action" value="DeleteCalendar"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="action" value="DeleteSubscription"/>
+		<portlet:param name="subscriptionId" value="<%= pageContext.getAttribute("subscriptionId").toString() %>"/>
 	</portlet:actionURL>
 	
 	<portlet:renderURL var="viewListUrl">
-		<portlet:param name="action" value="ViewCalendarList"/>
+		<portlet:param name="action" value="ViewEventSubscriptionList"/>
 	</portlet:renderURL>
 
 	<portlet:renderURL var="confirmUrl">
 		<portlet:param name="action" value="Confirm"/>
 		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
-		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
+		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${top.calendar.name}&quot;"/>
 		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
 		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
 	</portlet:renderURL>
@@ -64,14 +59,13 @@
     </ww:else>
 
        	<div class="columnLong">
-       		<p class="portletHeadline"><a href="<c:out value="${calendarUrl}"/>" title="Redigera '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
+       		<p class="portletHeadline"><ww:property value="top.calendar.name"/></p>
        	</div>
        	<div class="columnMedium">
-       		<p><ww:property value="description"/></p>
+       		<p><ww:property value="top.calendar.description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>
-       	   	<a href="<c:out value="${calendarUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="top.calendar.name"/>'" class="delete"></a>
        	</div>
        	<div class="clear"></div>
     </div>
