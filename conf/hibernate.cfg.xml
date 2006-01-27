@@ -36,7 +36,7 @@
         <property name="hibernate.dbcp.maxWait">@hibernate.dbcp.maxWait@</property>
         <property name="hibernate.dbcp.validationQuery">@hibernate.dbcp.validationQuery@</property>
 
- 		  
+ 		
         <!-- Mapping files -->
         <mapping resource="Calendar.hbm.xml"/>
         <mapping resource="Category.hbm.xml"/>
@@ -50,6 +50,7 @@
         <mapping resource="Entry.hbm.xml"/>
         <mapping resource="Role.hbm.xml"/>
         <mapping resource="Group.hbm.xml"/>
+        <mapping resource="Subscriber.hbm.xml"/>
 
     </session-factory>
 

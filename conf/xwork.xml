@@ -449,6 +449,15 @@
 			</result>
 		</action>
 
+		<action name="ViewEventSubscriptionList" class="org.infoglue.calendar.actions.ViewEventSubscriptionListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewEventSubscriptionList.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
+
 		<action name="ViewMessage" class="org.infoglue.calendar.actions.ViewMessageAction">
 			<result name="successSubmitForPublish" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/eventSubmitted.jsp</param>
