@@ -52,6 +52,11 @@
 			<one-to-many class="org.infoglue.calendar.entities.Group"/>
         </set>
         
+        <set name="subscriptions" lazy="true" inverse="false" cascade="delete" sort="unsorted">
+			<key column="calendar_id"></key>
+			<one-to-many class="org.infoglue.calendar.entities.Subscriber"/>
+        </set>
+        
     </class>
     
 </hibernate-mapping>

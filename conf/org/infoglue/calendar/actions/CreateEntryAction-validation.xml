@@ -2,19 +2,20 @@
 <validators>
     <field name="firstName">
         <field-validator type="igrequiredstring">
-            <message>You must enter a first name.</message>
+            <message>errors.reqiredField</message>
         </field-validator>
     </field>
     <field name="lastName">
         <field-validator type="igrequiredstring">
-            <message>You must enter a last name.</message>
+            <message>errors.reqiredField</message>
         </field-validator>
     </field>
     <field name="email">
 		<field-validator type="igemail">
-            <message>You must enter a valid email address.</message>
+            <message>errors.reqiredField</message>
         </field-validator>
     </field>
+<!--
     <field name="organisation">
         <field-validator type="igrequiredstring">
             <message>You must enter an organisation.</message>
@@ -45,7 +46,6 @@
             <message>You must enter a fax number.</message>
         </field-validator>
     </field>
-    <!--
     <field name="message">
         <field-validator type="igrequiredstring">
             <message>You must enter a message.</message>

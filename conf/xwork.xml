@@ -303,7 +303,7 @@
 				<param name="viewAction">CreateEvent!input.action</param>
 			</result>
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewEvent.action?eventId=${newEvent.id}</param>
+				<param name="viewAction">ViewEvent.action?eventId=${newEvent.id}&amp;forceRequestEventId=true</param>
 				<param name="parse">true</param>
 			</result>
 			<result name="successLinked" type="eventProcessed">
@@ -449,6 +449,8 @@
 			</result>
 		</action>
 
+
+
 		<action name="ViewEventSubscriptionList" class="org.infoglue.calendar.actions.ViewEventSubscriptionListAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewEventSubscriptionList.jsp</param>
@@ -457,6 +459,37 @@
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
+		<action name="CreateEventSubscription" class="org.infoglue.calendar.actions.CreateEventSubscriptionAction">
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/chooseCalendarForSubscription.jsp</param>
+            </result>
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">CreateEventSubscription!input.action</param>
+			</result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEventSubscriptionList.action</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		<action name="DeleteEventSubscription" class="org.infoglue.calendar.actions.DeleteEventSubscriptionAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEventSubscriptionList.action</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>		
+		<action name="ViewSubscriptionList" class="org.infoglue.calendar.actions.ViewSubscriptionListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewSubscriptionList.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
+
+
 
 		<action name="ViewMessage" class="org.infoglue.calendar.actions.ViewMessageAction">
 			<result name="successSubmitForPublish" type="portletDispatch">

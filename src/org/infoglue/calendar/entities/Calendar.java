@@ -46,6 +46,7 @@ public class Calendar implements BaseEntity
     private Set publishedEvents = new HashSet();
     private Set waitingEvents = new HashSet();
     private Set workingEvents = new HashSet();
+    private Set subscriptions = new HashSet();
     
     private Set roles = new HashSet();
     private Set groups = new HashSet();
@@ -229,4 +230,21 @@ public class Calendar implements BaseEntity
         this.groups = groups;
     }
 
+	/**
+     * @hibernate.set lazy="true"
+     * @hibernate.collection-key column="calendar_id"
+     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Subscriber"
+   	 *
+	 * @return Set
+	 */ 
+
+    public Set getSubscriptions()
+    {
+        return subscriptions;
+    }
+    
+    public void setSubscriptions(Set subscriptions)
+    {
+        this.subscriptions = subscriptions;
+    }
 }

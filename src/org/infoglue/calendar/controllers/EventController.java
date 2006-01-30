@@ -39,6 +39,7 @@ import org.infoglue.calendar.entities.Group;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.entities.Role;
+import org.infoglue.calendar.entities.Subscriber;
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.cms.security.InfoGlueRole;
 import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
@@ -1261,6 +1262,31 @@ public class EventController extends BasicController
 
 			log.info("Sending mail to:" + systemEmailSender + " and " + subscriberEmails);
 			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, subscriberEmails, "InfoGlue Calendar - new event published", email, contentType, "UTF-8");
+	    
+			String subscriberString = "";
+			Set subscribers = event.getOwningCalendar().getSubscriptions();
+			Iterator subscribersIterator = subscribers.iterator();
+			while(subscribersIterator.hasNext())
+			{
+			    Subscriber subscriber = (Subscriber)subscribersIterator.next();
+
+			    if(subscriberString.length() > 0)
+			        subscriberString += ";";
+		        
+			    subscriberString += subscriber.getEmail();
+			}
+
+		    try
+		    {
+		        
+				log.info("Sending mail to:" + systemEmailSender + " and " + subscriberString);
+				MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, subscriberString, "InfoGlue Calendar - new event published", email, contentType, "UTF-8");
+		    }
+			catch(Exception e)
+			{
+				log.error("The notification was not sent to persons. Reason:" + e.getMessage(), e);
+			}
+
 	    }
 		catch(Exception e)
 		{

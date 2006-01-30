@@ -407,7 +407,7 @@ public class Event implements BaseEntity
      */
     public String getPrice()
     {
-        if(price.equals("0") || price.equals("0.0"))
+        if(price == null || price.equals("0") || price.equals("0.0"))
             return "";
         
         return price;

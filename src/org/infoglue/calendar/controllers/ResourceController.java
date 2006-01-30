@@ -38,6 +38,7 @@ import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.entities.Resource;
 import org.infoglue.common.util.PropertyHelper;
+import org.infoglue.common.util.RemoteCacheUpdater;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -101,6 +102,9 @@ public class ResourceController extends BasicController
         event.getResources().add(resource);
         
         session.save(resource);
+        
+        if(event.getStateId().equals(Event.STATE_PUBLISHED))
+		    new RemoteCacheUpdater().updateRemoteCaches(event.getCalendars());
         
         return resource;
     }
@@ -397,7 +401,13 @@ public class ResourceController extends BasicController
     public void deleteResource(Long id, Session session) throws Exception 
     {
         Resource resource = this.getResource(id, session);
+        
+        Event event = resource.getEvent();
+        
         session.delete(resource);
+
+        if(event.getStateId().equals(Event.STATE_PUBLISHED))
+		    new RemoteCacheUpdater().updateRemoteCaches(event.getCalendars());
     }
     
 }

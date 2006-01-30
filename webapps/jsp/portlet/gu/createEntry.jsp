@@ -17,9 +17,9 @@
 
 		<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
-		<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" labelCssClass="label" cssClass="fieldfullwidth"/>
-		<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" labelCssClass="label" cssClass="fieldfullwidth"/>
-		<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" labelCssClass="label" cssClass="fieldfullwidth"/>
+		<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" mandatory="true" labelCssClass="label" cssClass="fieldfullwidth"/>
+		<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" mandatory="true" labelCssClass="label" cssClass="fieldfullwidth"/>
+		<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" mandatory="true" labelCssClass="label" cssClass="fieldfullwidth"/>
 		<calendar:textField label="labels.internal.entry.organisation" name="organisation" value="entry.organisation" labelCssClass="label" cssClass="fieldfullwidth"/>
 		<calendar:textField label="labels.internal.entry.address" name="address" value="entry.address" labelCssClass="label" cssClass="fieldfullwidth"/>
 		<calendar:textField label="labels.internal.entry.zipcode" name="zipcode" value="entry.zipcode" labelCssClass="label" cssClass="fieldfullwidth"/>

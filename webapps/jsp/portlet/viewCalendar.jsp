@@ -8,9 +8,22 @@
 
 <%@ include file="functionMenu.jsp" %>
 
-<div class="portlet_margin">
+<ww:set name="calendarId" value="calendar.id" scope="page"/>
 
-	<ww:set name="calendarId" value="calendar.id" scope="page"/>
+<portlet:renderURL var="viewSubscriptionsUrl">
+	<portlet:param name="action" value="ViewSubscriptionList"/>
+	<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+</portlet:renderURL>
+
+<div class="subfunctionarea">
+<span class="left"></span>	
+<span class="right">
+	<a href="<c:out value="${viewSubscriptionsUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.calendar.viewSubscriptions')"/></a>
+</span>	
+<div class="clear"></div>
+</div>
+
+<div class="portlet_margin">
 
 	<portlet:actionURL var="updateCalendarActionUrl">
 		<portlet:param name="action" value="UpdateCalendar"/>

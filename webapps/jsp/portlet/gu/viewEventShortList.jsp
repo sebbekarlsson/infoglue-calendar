@@ -20,7 +20,7 @@
 		</ww:else>
 
 		<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="name"/></a></h3>
-		<span class="newsdate"><ww:property value="this.formatDate(top.startDateTime.getTime(), 'd MMMM')"/> 
+		<span class="newsdate"><ww:property value="this.formatDate(top.startDateTime.getTime(), 'd MMM')"/> 
 		<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
 		kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
 		</ww:if>

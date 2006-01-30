@@ -73,6 +73,8 @@ public class ViewEventAction extends CalendarAbstractAction
     private List remainingInfogluePrincipals;
     private List participatingPrincipals = new ArrayList();
             
+    private Boolean forceRequestEventId = new Boolean(false);
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -82,8 +84,16 @@ public class ViewEventAction extends CalendarAbstractAction
         try
         {
 	        log.info("this.eventId:" + eventId);
+	        System.out.println("newEvent:" + eventId);
+	        
 	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
-	        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
+	        String forceRequestEventIdString = ServletActionContext.getRequest().getParameter("forceRequestEventId");
+	        System.out.println("requestEventId:" + requestEventId);
+	        System.out.println("forceRequestEventIdString:" + forceRequestEventIdString);
+	        if(forceRequestEventIdString != null && forceRequestEventIdString.length() > 0)
+	            this.forceRequestEventId = new Boolean(forceRequestEventIdString);
+	        
+	        if((this.eventId == null || this.forceRequestEventId.booleanValue()) && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
 	            this.eventId = new Long(requestEventId);
 	
 	        if(this.eventId != null)
@@ -292,5 +302,10 @@ public class ViewEventAction extends CalendarAbstractAction
     public List getYesOrNo()
     {
         return yesOrNo;
+    }
+    
+    public void setForceRequestEventId(Boolean forceRequestEventId)
+    {
+        this.forceRequestEventId = forceRequestEventId;
     }
 }

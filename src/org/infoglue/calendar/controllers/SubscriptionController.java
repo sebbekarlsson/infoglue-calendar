@@ -44,10 +44,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-public class SubscriberController extends BasicController
+public class SubscriptionController extends BasicController
 {    
     //Logger for this class
-    private static Log log = LogFactory.getLog(SubscriberController.class);
+    private static Log log = LogFactory.getLog(SubscriptionController.class);
         
     
     /**
@@ -56,9 +56,9 @@ public class SubscriberController extends BasicController
      * @return SubscriberController
      */
     
-    public static SubscriberController getController()
+    public static SubscriptionController getController()
     {
-        return new SubscriberController();
+        return new SubscriptionController();
     }
         
     

@@ -216,6 +216,8 @@ public class CreateEventAction extends CalendarAbstractAction
                 this.getInfoGlueRemoteUser(),
                 getSession());
 
+        System.out.println("newEvent:" + newEvent.getId());
+        
         return Action.SUCCESS;
     } 
 

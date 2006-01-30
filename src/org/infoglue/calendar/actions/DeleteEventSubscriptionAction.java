@@ -24,16 +24,17 @@
 package org.infoglue.calendar.actions;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.portlet.PortletURL;
 
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.controllers.SubscriptionController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
-import org.infoglue.cms.security.InfoGluePrincipal;
+import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.Category;
+import org.infoglue.calendar.entities.Resource;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
@@ -45,9 +46,9 @@ import com.opensymphony.xwork.ActionContext;
  * @author Mattias Bogeblad
  */
 
-public class ViewEventSubscriptionListAction extends CalendarAbstractAction
+public class DeleteEventSubscriptionAction extends CalendarAbstractAction
 {
-    private Set subscribers;
+    private Long subscriptionId;
     
     /**
      * This is the entry point for the main listing.
@@ -55,26 +56,18 @@ public class ViewEventSubscriptionListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        InfoGluePrincipal principal = UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
-        this.subscribers = SubscriptionController.getController().getSubscriberList(principal.getEmail(), this.getSession());
-
+        SubscriptionController.getController().deleteSubscriber(subscriptionId, getSession());
+        
         return Action.SUCCESS;
     } 
-
-    /**
-     * This is the entry point for the main listing.
-     */
     
-    public String choose() throws Exception 
+    public Long getSubscriptionId()
     {
-        execute();
-
-        return "successChoose";
-    } 
-    
-    public Set getSubscribers()
-    {
-        return subscribers;
+        return subscriptionId;
     }
     
+    public void setSubscriptionId(Long subscriptionId)
+    {
+        this.subscriptionId = subscriptionId;
+    }
 }

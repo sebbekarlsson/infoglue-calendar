@@ -1,7 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
-<c:set var="activeNavItem" value="Events" scope="page"/>
-<c:set var="activeEventSubNavItem" value="EventSubscriptions" scope="page"/>
+<c:set var="activeNavItem" value="Calendars" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
 
@@ -9,30 +8,23 @@
 
 <%@ include file="functionMenu.jsp" %>
 
-<%@ include file="eventSubFunctionMenu.jsp" %>
-
-<portlet:renderURL var="createSubscriptionUrl">
-	<portlet:param name="action" value="CreateEventSubscription!input"/>
-</portlet:renderURL>
-
 <div class="subfunctionarea">
 <span class="left"></span>	
 <span class="right">
-	<a href="<c:out value="${createSubscriptionUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.subscription.addSubscription')"/></a>
+	<a href="<c:out value="${viewSubscriptionsUrl}"/>" title="Skapa ny post"><ww:property value="this.getLabel('labels.internal.calendar.viewSubscriptions')"/></a>
 </span>	
 <div class="clear"></div>
 </div>
 
 <div class="columnlabelarea">
-	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.subscribedCalendarNames')"/></p></div>
-	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.calendar.description')"/></p></div>
+	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.subscribers')"/></p></div>
 	<div class="clear"></div>
 </div>
 
 <ww:iterator value="subscribers" status="rowstatus">
 
 	<ww:set name="subscriptionId" value="top.id" scope="page"/>
-	<ww:set name="name" value="top.calendar.name" scope="page"/>
+	<ww:set name="name" value="top.email" scope="page"/>
 	
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEventSubscription"/>
@@ -59,13 +51,10 @@
     </ww:else>
 
        	<div class="columnLong">
-       		<p class="portletHeadline"><ww:property value="top.calendar.name"/></p>
-       	</div>
-       	<div class="columnMedium">
-       		<p><ww:property value="top.calendar.description"/></p>
+       		<p class="portletHeadline"><ww:property value="top.email"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="top.calendar.name"/>'" class="delete"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="top.email"/>'" class="delete"></a>
        	</div>
        	<div class="clear"></div>
     </div>

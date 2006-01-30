@@ -45,8 +45,9 @@ import com.opensymphony.xwork.ActionContext;
  * @author Mattias Bogeblad
  */
 
-public class ViewEventSubscriptionListAction extends CalendarAbstractAction
+public class ViewSubscriptionListAction extends CalendarAbstractAction
 {
+    private Long calendarId;
     private Set subscribers;
     
     /**
@@ -55,8 +56,7 @@ public class ViewEventSubscriptionListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        InfoGluePrincipal principal = UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
-        this.subscribers = SubscriptionController.getController().getSubscriberList(principal.getEmail(), this.getSession());
+        this.subscribers = CalendarController.getController().getCalendar(calendarId, this.getSession()).getSubscriptions();
 
         return Action.SUCCESS;
     } 
@@ -77,4 +77,13 @@ public class ViewEventSubscriptionListAction extends CalendarAbstractAction
         return subscribers;
     }
     
+    public Long getCalendarId()
+    {
+        return calendarId;
+    }
+    
+    public void setCalendarId(Long calendarId)
+    {
+        this.calendarId = calendarId;
+    }
 }

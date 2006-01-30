@@ -25,6 +25,7 @@ package org.infoglue.calendar.actions;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,7 +57,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     private String[] categoryId;
     private String[] locationId;
     
-    private List eventList;
+    private Set eventList;
     private List categoryList;
     private List locationList;
     
@@ -65,7 +66,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     private void initialize() throws Exception
     {
-        this.eventList = EventController.getController().getEventList(getSession());
+        this.eventList = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
         this.categoryList = CategoryController.getController().getRootCategoryList(getSession());
         this.locationList = LocationController.getController().getLocationList(getSession());
     }
@@ -156,7 +157,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         this.locationId = locationId;
     }
     
-    public List getEventList()
+    public Set getEventList()
     {
         return eventList;
     }

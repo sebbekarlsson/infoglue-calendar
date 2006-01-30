@@ -32,6 +32,7 @@ import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.entities.Group;
 import org.infoglue.calendar.entities.Role;
+import org.infoglue.calendar.entities.Subscriber;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -46,8 +48,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Subqueries;
 
 public class CalendarController extends BasicController
 {    
@@ -309,6 +314,38 @@ public class CalendarController extends BasicController
         
         Set set = new LinkedHashSet();
         set.addAll(result);
+        
+        return set;
+    }
+
+    
+    /**
+     * Gets a list of all calendars not subscribed to sorted by primary key.
+     * @return List of Calendar
+     * @throws Exception
+     */
+    
+    public Set getUnsubscribedCalendarList(String email, Session session) throws Exception 
+    {
+        List result = null;
+   
+        Set subscriptions = SubscriptionController.getController().getSubscriberList(email, session);
+        List subscriptionsList = new ArrayList();
+        
+        Iterator i = subscriptions.iterator();
+        while(i.hasNext())
+        {
+            Subscriber subscriber = (Subscriber)i.next();
+            subscriptionsList.add(subscriber.getCalendar().getId());
+        }
+        
+        Criteria criteria = session.createCriteria(Calendar.class);
+        if(subscriptionsList.size() > 0)
+            criteria.add(Expression.not(Expression.in("id", subscriptionsList.toArray())));
+        criteria.addOrder(Order.asc("id"));
+
+        Set set = new LinkedHashSet();
+        set.addAll(criteria.list());
         
         return set;
     }

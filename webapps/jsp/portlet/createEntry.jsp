@@ -17,9 +17,9 @@
 	<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
 	
-		<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" mandatory="true" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" mandatory="true" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" mandatory="true" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.organisation" name="organisation" value="entry.organisation" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.address" name="address" value="entry.address" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.zipcode" name="zipcode" value="entry.zipcode" cssClass="longtextfield"/>
