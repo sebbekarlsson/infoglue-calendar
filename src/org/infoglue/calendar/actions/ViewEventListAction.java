@@ -33,6 +33,7 @@ import javax.portlet.PortletURL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
@@ -62,8 +63,9 @@ public class ViewEventListAction extends CalendarAbstractAction
     private String categoryAttribute = "";
     private String categoryNames = "";
     private Calendar calendar;
-
+    
     private Set events;
+    //private List categoriesList;
     
     /**
      * This is the entry point for the main listing.
@@ -75,6 +77,7 @@ public class ViewEventListAction extends CalendarAbstractAction
         String[] categoryNamesArray = categoryNames.split(",");
 
         this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, getSession());
+        //this.categoriesList = CategoryController.getController().getRootCategoryList(getSession());
 
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
@@ -127,8 +130,12 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public List getEventCategories(String eventString, EventTypeCategoryAttribute categoryAttribute)
     {
+        System.out.println("eventString:" + eventString);
+        
         Object object = findOnValueStack(eventString);
         Event event = (Event)object;
+        
+        System.out.println("EVENT:" + event);
         
         List categories = new ArrayList();
         
@@ -152,4 +159,10 @@ public class ViewEventListAction extends CalendarAbstractAction
     {
         this.categoryNames = categoryNames;
     }
+    /*
+    public List getCategoriesList()
+    {
+        return categoriesList;
+    }
+    */
 }

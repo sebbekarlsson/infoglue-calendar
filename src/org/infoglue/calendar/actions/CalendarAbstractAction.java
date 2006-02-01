@@ -26,9 +26,11 @@ package org.infoglue.calendar.actions;
 import java.io.File;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -46,6 +48,8 @@ import org.infoglue.calendar.controllers.ICalendarController;
 import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventCategory;
+import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.PropertyHelper;
@@ -110,6 +114,11 @@ public class CalendarAbstractAction extends ActionSupport
         return (String)ServletActionContext.getRequest().getAttribute("languageCode");
     }
 
+    public String getLogoutUrl()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("logoutUrl");
+    }
+
     public String getInfoGlueRemoteUser()
     {
         return (String)ServletActionContext.getRequest().getAttribute("infoglueRemoteUser");
@@ -138,6 +147,8 @@ public class CalendarAbstractAction extends ActionSupport
         {
             org.infoglue.calendar.entities.Calendar owningCalendar = event.getOwningCalendar();
 
+            System.out.println("owningCalendar.getOwningRoles():" + owningCalendar.getOwningRoles());
+            System.out.println("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
 	        if(owningCalendar.getOwningRoles().size() > 0 && this.getInfoGlueRemoteUserGroups().size() == 0)
 	        {
 	            isEventOwner = false;
@@ -175,6 +186,24 @@ public class CalendarAbstractAction extends ActionSupport
         return isEventCreator;
     }
 
+    public List getEventCategories(String eventString, EventTypeCategoryAttribute categoryAttribute)
+    {        
+        Object object = findOnValueStack(eventString);
+        Event event = (Event)object;
+        
+        List categories = new ArrayList();
+        
+        Iterator i = event.getEventCategories().iterator();
+        while(i.hasNext())
+        {
+            EventCategory eventCategory = (EventCategory)i.next();
+            if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
+                categories.add(eventCategory.getCategory());
+        }
+
+        return categories;
+    }
+    
     public String getState(Integer stateId)
     {
         if(stateId == null)

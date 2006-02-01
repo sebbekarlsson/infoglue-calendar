@@ -63,7 +63,7 @@
 		
 		<calendar:textField label="labels.internal.event.eventUrl" name="eventUrl" value="event.eventUrl" cssClass="longtextfield"/>
 
-		<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" selectedValueSet="event.locations" cssClass="listBox"/>
+		<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" selectedValueSet="event.locations" headerItem="Anger annan plats istället nedan" cssClass="listBox"/>
 
 		<calendar:textField label="labels.internal.event.alternativeLocation" name="alternativeLocation" value="event.alternativeLocation" cssClass="longtextfield"/>
 	

@@ -63,6 +63,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	private Set selectedValueSet;
 	private Collection values;
 	private String label;
+	private String headerItem;
 	private List fieldErrors;
 	private Object errorAction = null;
 	
@@ -116,6 +117,17 @@ public class SelectFieldTag extends AbstractCalendarTag
 			    
         sb.append("<select id=\"" + name + "\" name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
         
+        if(this.headerItem != null)
+        {
+            String selectedTop = "";
+        	
+            if((selectedValues == null || selectedValues.length == 0) && (selectedValueList == null || selectedValueList.size() == 0) && (selectedValueSet == null || selectedValueSet.size() == 0))
+                selectedTop = "selected=\"true\"";
+                    
+            sb.append("<option value=\"\" " + selectedTop + ">" + headerItem + "</option>");
+            sb.append("<option value=\"\">------------------</option>");
+        }
+
         if(values != null)
         {
 	        Iterator valuesIterator = values.iterator();
@@ -300,6 +312,11 @@ public class SelectFieldTag extends AbstractCalendarTag
             if(translatedLabel != null && translatedLabel.length() > 0)
                 this.label = translatedLabel;
         }
+    }
+
+    public void setHeaderItem(String headerItem)
+    {
+        this.headerItem = headerItem;
     }
 
     public void setMultiple(String multiple)

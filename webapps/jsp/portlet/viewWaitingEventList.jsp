@@ -25,8 +25,10 @@
 
 <ww:iterator value="events" status="rowstatus">
 
+	<ww:set name="event" value="top"/>
 	<ww:set name="eventId" value="id" scope="page"/>
 	<ww:set name="name" value="name" scope="page"/>
+	
 	<portlet:renderURL var="eventUrl">
 		<portlet:param name="action" value="ViewEvent"/>
 		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
@@ -58,7 +60,16 @@
     </ww:else>
 
 	   	<div class="columnMedium">
-	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
+	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="name"/>'"><ww:property value="name"/></a>
+	   			<ww:iterator value="owningCalendar.eventType.categoryAttributes">
+					<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
+						<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
+						<ww:iterator value="#selectedCategories" status="rowstatus">
+							<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
+						</ww:iterator>
+					</ww:if>
+		   		</ww:iterator>
+	   		</p>
 	   	</div>
 	   	<div class="columnMedium">
 	   		<p><ww:property value="shortDescription"/>&nbsp;</p>
@@ -67,7 +78,7 @@
 	   		<p><ww:property value="owningCalendar.name"/></p>
 	   	</div>
 	   	<div class="columnDate">
-	   		<p><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>
+	   		<p style="white-space: nowrap;"><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>
 	   	</div>
 	   	<div class="columnEnd">
 	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>

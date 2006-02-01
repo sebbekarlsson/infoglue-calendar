@@ -23,6 +23,8 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +35,9 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventCategory;
+import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -59,7 +64,7 @@ public class ViewLinkedPublishedEventListAction extends CalendarAbstractAction
 
         return Action.SUCCESS;
     } 
-    
+        
     public Set getEvents()
     {
         return events;

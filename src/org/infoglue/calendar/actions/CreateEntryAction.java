@@ -38,6 +38,7 @@ import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.common.util.DBSessionWrapper;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.validator.ValidationException;
@@ -63,6 +64,12 @@ public class CreateEntryAction extends CalendarAbstractAction
     private String message;
 
     private Long eventId;
+    private Long entryId;
+    private String returnAddress;
+    
+    private Event event;
+    private Entry newEntry;
+    private Entry entry;
     
     /**
      * This is the entry point for the main listing.
@@ -70,6 +77,8 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+        System.out.println("execute start...");
+
         if(useEntryLimitation())
         {
 		    Event event = EventController.getController().getEvent(eventId, getSession());
@@ -79,11 +88,13 @@ public class CreateEntryAction extends CalendarAbstractAction
 	            return "maximumReachedPublic";
         }
 
+        System.out.println("execute start2...");
+
         try
         {
             validateInput(this);
 
-	        Entry entry = EntryController.getController().createEntry(firstName, 
+	        newEntry = EntryController.getController().createEntry(firstName, 
 	                									lastName, 
 	                									email, 
 	                									organisation,
@@ -96,7 +107,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 	                									eventId,
 	                									getSession());
 	        
-	        EntryController.getController().mailVerification(entry);
+	        EntryController.getController().mailVerification(newEntry);
         
         }
         catch(ValidationException e)
@@ -105,6 +116,8 @@ public class CreateEntryAction extends CalendarAbstractAction
             return Action.ERROR;            
         }
         
+        System.out.println("execute end...");
+
         return Action.SUCCESS;
     } 
     
@@ -169,9 +182,9 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
+        event = EventController.getController().getEvent(eventId, getSession());
         if(useEntryLimitation())
         {
-	        Event event = EventController.getController().getEvent(eventId, getSession());
 	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
 	        
 	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
@@ -187,9 +200,9 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String inputPublic() throws Exception 
     {
+	    event = EventController.getController().getEvent(eventId, getSession());
         if(useEntryLimitation())
         {
-		    Event event = EventController.getController().getEvent(eventId, getSession());
 	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
 	        
 	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
@@ -205,10 +218,10 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String inputPublicGU() throws Exception 
     {
-        if(useEntryLimitation())
+        event = EventController.getController().getEvent(eventId, getSession());
+	    if(useEntryLimitation())
         {
-		    Event event = EventController.getController().getEvent(eventId, getSession());
-	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
+		    List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
 	        
 	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
@@ -217,6 +230,43 @@ public class CreateEntryAction extends CalendarAbstractAction
         return Action.INPUT + "PublicGU";
     } 
 
+    public String receipt() throws Exception 
+    {
+        String requestEntryId = ServletActionContext.getRequest().getParameter("entryId");
+        if(this.entryId == null && requestEntryId != null && !requestEntryId.equalsIgnoreCase(""))
+            entryId = new Long(requestEntryId);
+        
+        event = EventController.getController().getEvent(eventId, getSession());
+        entry = EntryController.getController().getEntry(entryId, this.getSession());
+        
+        return "receipt";
+    } 
+
+    public String receiptPublic() throws Exception 
+    {
+        String requestEntryId = ServletActionContext.getRequest().getParameter("entryId");
+        if(this.entryId == null && requestEntryId != null && !requestEntryId.equalsIgnoreCase(""))
+            entryId = new Long(requestEntryId);
+        
+        event = EventController.getController().getEvent(eventId, getSession());
+        entry = EntryController.getController().getEntry(entryId, this.getSession());
+
+        return "receiptPublic";
+    } 
+
+    public String receiptPublicGU() throws Exception 
+    {
+        String requestEntryId = ServletActionContext.getRequest().getParameter("entryId");
+        if(this.entryId == null && requestEntryId != null && !requestEntryId.equalsIgnoreCase(""))
+            entryId = new Long(requestEntryId);
+        
+        event = EventController.getController().getEvent(eventId, getSession());
+        entry = EntryController.getController().getEntry(entryId, this.getSession());
+        
+        return "receiptPublicGU";
+    } 
+    
+    
     public String getEmail()
     {
         return email;
@@ -313,5 +363,33 @@ public class CreateEntryAction extends CalendarAbstractAction
     public void setZipcode(String zipcode)
     {
         this.zipcode = zipcode;
+    }
+    public String getReturnAddress()
+    {
+        return returnAddress;
+    }
+    public void setReturnAddress(String returnAddress)
+    {
+        this.returnAddress = returnAddress;
+    }
+    public Event getEvent()
+    {
+        return event;
+    }
+    public Entry getNewEntry()
+    {
+        return newEntry;
+    }
+    public Long getEntryId()
+    {
+        return entryId;
+    }
+    public void setEntryId(Long entryId)
+    {
+        this.entryId = entryId;
+    }
+    public Entry getEntry()
+    {
+        return entry;
     }
 }

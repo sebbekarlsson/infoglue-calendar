@@ -6,6 +6,7 @@
 
 <div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!-- - <ww:property value="this.getLabel('labels.internal.eventType.updateEventType')"/> <ww:property value="eventType.name"/>--></div>
 
+
 <%@ include file="functionMenu.jsp" %>
 
 <portlet:renderURL var="createAttributeCategoryUrl">

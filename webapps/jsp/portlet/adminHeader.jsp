@@ -54,3 +54,4 @@
 <div class="calApp">
 
 <div class="portlet">
+<a href="<ww:property value="logoutUrl"/>">Logout</a>

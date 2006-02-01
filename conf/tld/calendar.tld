@@ -284,6 +284,11 @@
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
+		<attribute>
+		    <name>headerItem</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
 	</tag>
   	   	 
   	<tag>
