@@ -141,31 +141,37 @@
 			<p><span class="calFactLabel">Telefon: </span><ww:property value="event.contactPhone"/></p>
 		</ww:if>
 		
-		<p><span class="calFactLabel">Antal platser: </span><ww:property value="event.maximumParticipants"/> (Varav <ww:property value="event.entries.size()"/> är bokade)</p>
-			
-		<ww:if test="event.lastRegistrationDateTime.time.time > now.time.time">
-			<ww:if test="event.maximumParticipants > event.entries.size()">
-				<ww:set name="eventId" value="eventId" scope="page"/>
-				<portlet:renderURL var="createEntryRenderURL">
-					<calendar:evalParam name="action" value="CreateEntry!inputPublicGU"/>
-					<calendar:evalParam name="eventId" value="${eventId}"/>
-				</portlet:renderURL>
-				<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.public.event.signUp')"/></a></span>
+		<ww:if test="event.maximumParticipants != null && event.maximumParticipants != 0">
+			<p><span class="calFactLabel">Antal platser: </span><ww:property value="event.maximumParticipants"/> (Varav <ww:property value="event.entries.size()"/> är bokade)</p>
+		</ww:if>
+
+		<ww:if test="event.lastRegistrationDateTime != null">
+				
+			<ww:if test="event.lastRegistrationDateTime.time.time > now.time.time">
+				<ww:if test="event.maximumParticipants > event.entries.size()">
+					<ww:set name="eventId" value="eventId" scope="page"/>
+					<portlet:renderURL var="createEntryRenderURL">
+						<calendar:evalParam name="action" value="CreateEntry!inputPublicGU"/>
+						<calendar:evalParam name="eventId" value="${eventId}"/>
+					</portlet:renderURL>
+					<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.public.event.signUp')"/></a></span>
+				</ww:if>
+				<ww:else>
+					<ww:property value="this.getLabel('labels.internal.event.signUpForThisOverbookedEvent')"/><br/>
+					<ww:set name="eventId" value="eventId" scope="page"/>
+					<portlet:renderURL var="createEntryRenderURL">
+						<calendar:evalParam name="action" value="CreateEntry!inputPublicGU"/>
+						<calendar:evalParam name="eventId" value="${eventId}"/>
+					</portlet:renderURL>
+					<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.public.event.signUp')"/></a></span>
+				</ww:else>
 			</ww:if>
 			<ww:else>
-				<ww:property value="this.getLabel('labels.internal.event.signUpForThisOverbookedEvent')"/><br/>
-				<ww:set name="eventId" value="eventId" scope="page"/>
-				<portlet:renderURL var="createEntryRenderURL">
-					<calendar:evalParam name="action" value="CreateEntry!inputPublicGU"/>
-					<calendar:evalParam name="eventId" value="${eventId}"/>
-				</portlet:renderURL>
-				<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.public.event.signUp')"/></a></span>
+				<ww:property value="this.getLabel('labels.public.event.registrationExpired')"/>
 			</ww:else>
+
 		</ww:if>
-		<ww:else>
-			<ww:property value="this.getLabel('labels.public.event.registrationExpired')"/>
-		</ww:else>
-		
+				
 		<%--		
 		<p><span class="calFactLabel">Anmälan:</span>
 		<ww:if test="event.lastRegistrationDateTime.time.time > now.time.time">

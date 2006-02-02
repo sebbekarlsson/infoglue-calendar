@@ -256,13 +256,19 @@ public class CreateEntryAction extends CalendarAbstractAction
 
     public String receiptPublicGU() throws Exception 
     {
+        System.out.println("Receipt public GU start");
         String requestEntryId = ServletActionContext.getRequest().getParameter("entryId");
+        System.out.println("requestEntryId:" + requestEntryId);
         if(this.entryId == null && requestEntryId != null && !requestEntryId.equalsIgnoreCase(""))
             entryId = new Long(requestEntryId);
-        
+
+        System.out.println("entryId:" + entryId);
+
         event = EventController.getController().getEvent(eventId, getSession());
         entry = EntryController.getController().getEntry(entryId, this.getSession());
-        
+
+        System.out.println("Receipt public GU end");
+
         return "receiptPublicGU";
     } 
     
