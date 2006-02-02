@@ -78,7 +78,7 @@ public class CreateEntryAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         System.out.println("execute start...");
-
+        /*
         if(useEntryLimitation())
         {
 		    Event event = EventController.getController().getEvent(eventId, getSession());
@@ -87,9 +87,9 @@ public class CreateEntryAction extends CalendarAbstractAction
 	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
         }
-
+        
         System.out.println("execute start2...");
-
+        */
         try
         {
             validateInput(this);
@@ -127,6 +127,7 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String doPublic() throws Exception 
     {
+        /*
         if(useEntryLimitation())
         {
 		    Event event = EventController.getController().getEvent(eventId, getSession());
@@ -135,7 +136,8 @@ public class CreateEntryAction extends CalendarAbstractAction
 	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
         }
-
+        */
+        
         try
         {
             validateInput(this);
@@ -152,6 +154,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 
     public String doPublicGU() throws Exception 
     {
+        /*
         if(useEntryLimitation())
         {
 		    Event event = EventController.getController().getEvent(eventId, getSession());
@@ -160,7 +163,8 @@ public class CreateEntryAction extends CalendarAbstractAction
 	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
         }
-
+        */
+        
         try
         {
             validateInput(this);
@@ -183,6 +187,7 @@ public class CreateEntryAction extends CalendarAbstractAction
     public String input() throws Exception 
     {
         event = EventController.getController().getEvent(eventId, getSession());
+        /*
         if(useEntryLimitation())
         {
 	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
@@ -190,7 +195,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
 	            return "maximumReached";
         }
-        
+        */
         return Action.INPUT;
     } 
     
@@ -201,14 +206,15 @@ public class CreateEntryAction extends CalendarAbstractAction
     public String inputPublic() throws Exception 
     {
 	    event = EventController.getController().getEvent(eventId, getSession());
-        if(useEntryLimitation())
+        /*
+	    if(useEntryLimitation())
         {
 	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
 	        
 	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
         }
-        
+        */
         return Action.INPUT + "Public";
     } 
 
@@ -219,13 +225,15 @@ public class CreateEntryAction extends CalendarAbstractAction
     public String inputPublicGU() throws Exception 
     {
         event = EventController.getController().getEvent(eventId, getSession());
-	    if(useEntryLimitation())
+	    /*
+        if(useEntryLimitation())
         {
 		    List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
 	        
 	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
 	            return "maximumReachedPublic";
         }
+        */
         
         return Action.INPUT + "PublicGU";
     } 
