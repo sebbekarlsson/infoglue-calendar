@@ -3,9 +3,6 @@
 <c:set var="activeNavItem" value="Categories" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.category.subHeader')"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <portlet:renderURL var="createCategoryUrl">

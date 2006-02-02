@@ -51,6 +51,8 @@ import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.Participant;
+import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
+import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.ResourceBundleHelper;
@@ -134,6 +136,11 @@ public class CalendarAbstractAction extends ActionSupport
         return (List)ServletActionContext.getRequest().getAttribute("infoglueRemoteUserGroups");
     }
 
+    public InfoGluePrincipal getInfoGluePrincipal() throws Exception
+    {
+        return UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
+    }
+    
     public boolean getIsEventOwner(Long eventId) throws Exception
     {
         return getIsEventOwner(EventController.getController().getEvent(eventId, getSession()));

@@ -46,8 +46,6 @@
 	
 </script>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.soba.searchEntries')"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <div id="searchForm" class="portlet_margin" style="display: <ww:if test="entries == null">block</ww:if><ww:else>none</ww:else>;">

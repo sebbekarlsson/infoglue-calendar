@@ -3,9 +3,6 @@
 <c:set var="activeNavItem" value="EventTypes" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.eventTypeCategoryAttribute.updateEventTypeCategoryAttribute')"/> <ww:property value="eventType.name"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <div class="portlet_margin">

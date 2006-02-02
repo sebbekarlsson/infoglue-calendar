@@ -54,4 +54,13 @@
 <div class="calApp">
 
 <div class="portlet">
-<a href="<ww:property value="logoutUrl"/>">Logout</a>
+
+<div class="head">
+	<span class="left">
+		<ww:property value="this.getLabel('labels.internal.applicationTitle')"/>
+	</span>	
+	<span class="right">	
+		<ww:property value="this.getInfoGluePrincipal().firstName"/> <ww:property value="this.getInfoGluePrincipal().lastName"/> | <a href="<ww:property value="logoutUrl"/>">Logga ut</a>
+	</span>
+    <div class="clear"></div>
+</div>

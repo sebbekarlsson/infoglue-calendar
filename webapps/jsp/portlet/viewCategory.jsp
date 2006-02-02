@@ -17,8 +17,6 @@
 	</portlet:renderURL>
 </ww:else>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.category.updateCategory')"/> <ww:property value="category.name"/>--> - <a href="<c:out value="${viewBackUrl}"/>">Back</a></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <portlet:renderURL var="createCategoryUrl">

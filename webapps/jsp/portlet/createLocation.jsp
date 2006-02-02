@@ -4,9 +4,6 @@
 <c:set var="activeSubNavItem" value="NewLocation" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.location.createNewLocation')"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <portlet:renderURL var="createLocationUrl">

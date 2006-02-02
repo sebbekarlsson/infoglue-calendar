@@ -3,9 +3,6 @@
 <c:set var="activeNavItem" value="Entry" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.entry.updateEntry')"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <div class="portlet_margin">

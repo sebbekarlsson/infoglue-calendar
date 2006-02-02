@@ -4,9 +4,6 @@
 <c:set var="activeSubNavItem" value="NewEventType" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.eventType.createNewEventType')"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <portlet:renderURL var="createEventTypeUrl">

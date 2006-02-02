@@ -4,8 +4,6 @@
 
 <%@ include file="adminHeader.jsp" %>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.applicationConfirm')"/>--></div>
-
 <div class="portlet_margin">
 	<h1><%= java.net.URLDecoder.decode(request.getParameter("confirmTitle"), "utf-8") %></h1>
     <p><%= java.net.URLDecoder.decode(request.getParameter("confirmMessage"), "utf-8") %></p>

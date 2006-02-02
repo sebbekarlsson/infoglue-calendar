@@ -3,9 +3,6 @@
 <c:set var="activeNavItem" value="Event" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.event.updateEvent')"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <ww:set name="event" value="event" scope="page"/>

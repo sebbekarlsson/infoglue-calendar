@@ -3,9 +3,6 @@
 <c:set var="activeNavItem" value="Calendars" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.calendar.headline')"/> <ww:property value="category.name"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <ww:set name="calendarId" value="calendar.id" scope="page"/>

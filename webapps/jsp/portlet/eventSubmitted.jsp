@@ -3,9 +3,6 @@
 <c:set var="activeNavItem" value="Home" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.event.eventSubmitted')"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <portlet:renderURL var="homeActionUrl">

@@ -8,8 +8,6 @@
 <ww:set name="eventId" value="event.id" scope="page"/>
 <ww:set name="calendarId" value="calendarId" scope="page"/>
 
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="event.name"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <div id="inputDiv">

@@ -6,9 +6,6 @@
 <c:set var="activeNavItem" value="Home" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.applicationHeader')"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <ww:if test="calendarId == null || calendarId == ''">

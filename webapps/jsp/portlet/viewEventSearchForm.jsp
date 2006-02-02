@@ -4,9 +4,6 @@
 <c:set var="activeEventSubNavItem" value="EventSearch" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
-
-<div class="head"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/><!--  - <ww:property value="this.getLabel('labels.internal.event.searchEvents')"/>--></div>
-
 <%@ include file="functionMenu.jsp" %>
 
 <%@ include file="eventSubFunctionMenu.jsp" %>
