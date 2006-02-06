@@ -222,7 +222,7 @@ public class CreateEventAction extends CalendarAbstractAction
 
         //System.out.println("newEvent:" + newEvent.getId());
         
-        return Action.SUCCESS;
+        return Action.SUCCESS + "Copy";
     } 
 
     

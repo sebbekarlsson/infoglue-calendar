@@ -38,6 +38,7 @@
 	<ww:property value="event.decoratedLongDescription"/>
 	</p>
 	</ww:if>
+	<div style="clear:both"/>
 	
 	<div class="calFact">
 		<p><span class="calFactLabel">F&ouml;rel&auml;sare: </span><ww:property value="event.lecturer"/></p>

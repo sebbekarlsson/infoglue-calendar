@@ -306,6 +306,10 @@
 				<param name="viewAction">ViewEvent.action?eventId=${newEvent.id}&amp;forceRequestEventId=true</param>
 				<param name="parse">true</param>
 			</result>
+			<result name="successCopy" type="eventProcessed">
+				<param name="viewAction">ViewEvent!edit.action?eventId=${newEvent.id}&amp;forceRequestEventId=true</param>
+				<param name="parse">true</param>
+			</result>
 			<result name="successLinked" type="eventProcessed">
 				<param name="viewAction">ViewLinkedPublishedEventList.action</param>
 				<param name="parse">true</param>
