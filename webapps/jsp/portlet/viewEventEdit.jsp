@@ -39,7 +39,7 @@
 		</div>
 
 		<div class="fieldrow">
-			<label for="endDateTime"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></label><span class="redstar">*</span>
+			<label for="endDateTime"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></label><!--<span class="redstar">*</span>-->
 			<ww:if test="#fieldErrors.endDateTime != null"><span class="errorMessage"><ww:property value="this.getLabel('#fieldErrors.endDateTime.get(0)')"/></span></ww:if><br />
 			<input id="endDateTime" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>" class="datefield" type="textfield">
 			<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_endDateTime" style="border: 0px solid black; cursor: pointer;" title="Date selector">
@@ -92,7 +92,7 @@
 			<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
 			<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
 			<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
-			<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValueList="#selectedCategories" cssClass="listBox" mandatory="true"/>
+			<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValues="getCategoryAttributeValues(top.id)" selectedValueList="#selectedCategories" cssClass="listBox" mandatory="true"/>
    		</ww:iterator>
 
 		<!--

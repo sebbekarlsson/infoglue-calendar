@@ -72,7 +72,7 @@
 	   		<p><ww:property value="shortDescription"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnShort">
-	   		<p><ww:property value="owningCalendar.name"/></p>
+	   		<p><ww:property value="owningCalendar.name"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnDate">
 	   		<p style="white-space: nowrap;"><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>

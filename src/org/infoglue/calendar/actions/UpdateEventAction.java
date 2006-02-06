@@ -138,6 +138,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
                 log.info("idKey:" + idKey);
             }
 
+            ServletActionContext.getRequest().getSession().setAttribute("categoryAttributes", categoryAttributes);
+
             validateInput(this);
             
             log.info("SystemUserName:" + this.participantUserName);
@@ -174,6 +176,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         {
             return "evaluateError";            
         }
+
+        ServletActionContext.getRequest().getSession().removeAttribute("categoryAttributes");
 
         return Action.SUCCESS;
     } 
@@ -545,12 +549,15 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         return categoryAttributes;
     }
+
     public String getAlternativeLocation()
     {
         return alternativeLocation;
     }
+    
     public void setAlternativeLocation(String alternativeLocation)
     {
         this.alternativeLocation = alternativeLocation;
     }
+   
 }

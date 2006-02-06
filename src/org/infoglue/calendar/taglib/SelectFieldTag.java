@@ -121,7 +121,7 @@ public class SelectFieldTag extends AbstractCalendarTag
         {
             String selectedTop = "";
         	
-            if((selectedValues == null || selectedValues.length == 0) && (selectedValueList == null || selectedValueList.size() == 0) && (selectedValueSet == null || selectedValueSet.size() == 0))
+            if((selectedValues == null || selectedValues.length == 0 || selectedValues[0].length() == 0) && (selectedValueList == null || selectedValueList.size() == 0) && (selectedValueSet == null || selectedValueSet.size() == 0))
                 selectedTop = "selected=\"true\"";
                     
             sb.append("<option value=\"\" " + selectedTop + ">" + headerItem + "</option>");
@@ -172,8 +172,12 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            {
 	                for(int i=0; i<selectedValues.length; i++)
 		            {
+		                //System.out.println(id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selectedValues[i]))
+		                {
 		                    selected = " selected=\"1\"";
+		                	break;
+		                }
 		                else
 		                    selected = "";
 		            }
@@ -326,7 +330,22 @@ public class SelectFieldTag extends AbstractCalendarTag
 
     public void setSelectedValues(String selectedValues) throws JspException
     {
-        this.selectedValues = evaluateStringArray("SelectTag", "selectedValues", selectedValues);
+        Object o = findOnValueStack(selectedValues);
+        if(o != null) 
+            this.selectedValues = (String[])o;
+        else
+        {
+            try
+            {
+                this.selectedValues = evaluateStringArray("SelectTag", "selectedValues", selectedValues);
+            }
+            catch(Exception e)
+            {
+                this.selectedValues = null;
+            }
+        }
+        
+        //System.out.println("this.selectedValues:" + this.selectedValues);
     }
 
     public void setSelectedValue(String selectedValue) throws JspException

@@ -26,6 +26,7 @@ package org.infoglue.calendar.actions;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -308,4 +309,11 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         this.forceRequestEventId = forceRequestEventId;
     }
+    
+    public String[] getCategoryAttributeValues(Long key)
+    {
+        String[] value = (String[])((Map)ServletActionContext.getRequest().getSession().getAttribute("categoryAttributes")).get(key.toString());
+        return value;
+    }
+
 }

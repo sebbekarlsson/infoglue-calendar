@@ -33,7 +33,7 @@
 		</div>
 
 		<div class="fieldrow">
-			<label for="endDateTime"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></label><span class="redstar">*</span>
+			<label for="endDateTime"><ww:property value="this.getLabel('labels.internal.event.endDate')"/></label><!--<span class="redstar">*</span>-->
 			<ww:if test="#fieldErrors.endDateTime != null"><span class="errorMessage"><ww:property value="this.getLabel('#fieldErrors.endDateTime.get(0)')"/></span></ww:if><br />
 			<input id="endDateTime" name="endDateTime" value="<ww:property value="endDateTime"/>" class="datefield" type="textfield">
 			<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_endDateTime" style="border: 0px solid black; cursor: pointer;" title="Date selector">
@@ -86,7 +86,7 @@
 			<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
 			<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
 			<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
-			<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" cssClass="listBox" mandatory="true"/>
+			<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValues="getCategoryAttributeValues(top.id)" cssClass="listBox" mandatory="true"/>
 		</ww:iterator>
 
 		<!--
@@ -99,7 +99,6 @@
 		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 </div>
-
 
 <script type="text/javascript">
     Calendar.setup({

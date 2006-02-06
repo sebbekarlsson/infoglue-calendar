@@ -125,12 +125,15 @@ public class CreateEventAction extends CalendarAbstractAction
                     this.addFieldError("categoryAttribute_" + idKey + "_categoryId", "errors.atLeastOneItem");
 
                 log.info("categoryIds:" + categoryIds);
+                //System.out.println(idKey + "=" + categoryIds.length);
                 categoryAttributes.put(idKey, categoryIds);
                 
                 i++;
                 idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
                 log.info("idKey:" + idKey);
             }
+
+            ServletActionContext.getRequest().getSession().setAttribute("categoryAttributes", categoryAttributes);
 
             validateInput(this);
             
@@ -170,8 +173,9 @@ public class CreateEventAction extends CalendarAbstractAction
         {
             log.error("An validation error occcurred:" + e.getMessage(), e);
             return Action.ERROR;            
-
         }
+        
+        ServletActionContext.getRequest().getSession().removeAttribute("categoryAttributes");
 
         return Action.SUCCESS;
     } 
@@ -216,7 +220,7 @@ public class CreateEventAction extends CalendarAbstractAction
                 this.getInfoGlueRemoteUser(),
                 getSession());
 
-        System.out.println("newEvent:" + newEvent.getId());
+        //System.out.println("newEvent:" + newEvent.getId());
         
         return Action.SUCCESS;
     } 
@@ -565,5 +569,11 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setAlternativeLocation(String alternativeLocation)
     {
         this.alternativeLocation = alternativeLocation;
+    }
+    
+    public String[] getCategoryAttributeValues(Long key)
+    {
+        String[] value = (String[])((Map)ServletActionContext.getRequest().getSession().getAttribute("categoryAttributes")).get(key.toString());
+        return value;
     }
 }

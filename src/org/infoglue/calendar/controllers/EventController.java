@@ -237,8 +237,11 @@ public class EventController extends BasicController
 		{
 			for(int i=0; i<locationId.length; i++)
 			{
-			    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
-			    locations.add(location);
+			    if(!locationId[i].equals(""))
+			    {
+				    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
+				    locations.add(location);
+			    }
 			}
 		}
 		

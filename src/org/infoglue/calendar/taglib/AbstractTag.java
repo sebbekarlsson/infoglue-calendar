@@ -46,7 +46,8 @@ public abstract class AbstractTag extends TagSupport
 
 	protected String[] evaluateStringArray(String tagName, String attributeName, String expression) throws JspException
 	{
-		return (String[]) evaluate(tagName, attributeName, expression, String[].class);
+	    Object o = evaluate(tagName, attributeName, expression, String[].class);
+	    return (String[]) evaluate(tagName, attributeName, expression, String[].class);
 	}
 
 	protected Collection evaluateCollection(String tagName, String attributeName, String expression) throws JspException

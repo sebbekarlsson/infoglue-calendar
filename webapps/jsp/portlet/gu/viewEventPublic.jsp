@@ -89,7 +89,7 @@
 		</ww:if>
 			
 		<ww:if test="event.resources.size() > 0">
-  			<p><span class="calFactLabel">Ytterliggare information: </span><br/>
+  			<p><span class="calFactLabel">Ytterligare information: </span><br/>
 			<ww:iterator value="event.resources">
 	  		  <ww:if test="top.assetKey == 'BifogadFil'">
 				<ww:set name="resourceId" value="top.id" scope="page"/>
