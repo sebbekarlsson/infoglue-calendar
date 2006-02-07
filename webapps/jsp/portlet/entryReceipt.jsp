@@ -5,21 +5,25 @@
 
 <portlet:defineObjects/>
 
-<div class="inputDiv">
-		
-	<h1><ww:property value="this.getLabel('labels.internal.entry.createNewEntryThankYou')"/></h1>
-	<hr/>
-	<div id="portlet_margin">
-	
-		<ww:set name="eventId" value="eventId" scope="page"/>
-		<portlet:renderURL var="eventUrl">
-			<portlet:param name="action" value="ViewEvent"/>
-			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
-		</portlet:renderURL>
-		
-		<span class="label"><ww:property value="this.getLabel('labels.internal.entry.createNewEntryThankYouText')"/></span> 
-		<br/><br/>
-		<a href="<c:out value="${eventUrl}"/>">Back to event</a>
-	</div>
+<c:set var="activeNavItem" value="Home" scope="page"/>
 
+<%@ include file="adminHeader.jsp" %>
+<%@ include file="functionMenu.jsp" %>
+
+<ww:set name="eventId" value="eventId" scope="page"/>
+<portlet:renderURL var="eventUrl">
+	<portlet:param name="action" value="ViewEvent"/>
+	<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+</portlet:renderURL>
+
+<div class="portlet_margin">
+	<p>
+		<ww:property value="this.getLabel('labels.internal.entry.createNewEntryThankYou')"/><br/>
+		<br/>
+		<ww:property value="this.getLabel('labels.internal.entry.createNewEntryThankYouText')"/><br/>
+		<br/>
+		<a href="<c:out value="${eventUrl}"/>"><ww:property value="this.getLabel('labels.internal.event.eventSubmittedHome')"/></a>	
+	</p>
 </div>
+
+<%@ include file="adminFooter.jsp" %>
