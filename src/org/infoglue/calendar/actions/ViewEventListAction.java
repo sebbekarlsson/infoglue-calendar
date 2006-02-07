@@ -130,12 +130,8 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public List getEventCategories(String eventString, EventTypeCategoryAttribute categoryAttribute)
     {
-        System.out.println("eventString:" + eventString);
-        
         Object object = findOnValueStack(eventString);
         Event event = (Event)object;
-        
-        System.out.println("EVENT:" + event);
         
         List categories = new ArrayList();
         
