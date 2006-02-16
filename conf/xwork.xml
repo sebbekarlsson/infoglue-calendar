@@ -307,7 +307,7 @@
 				<param name="parse">true</param>
 			</result>
 			<result name="successCopy" type="eventProcessed">
-				<param name="viewAction">ViewEvent!edit.action?eventId=${newEvent.id}&amp;forceRequestEventId=true</param>
+				<param name="viewAction">ViewEvent!edit.action?eventId=${newEvent.id}&amp;forceRequestEventId=true&amp;eventCopy=true</param>
 				<param name="parse">true</param>
 			</result>
 			<result name="successLinked" type="eventProcessed">

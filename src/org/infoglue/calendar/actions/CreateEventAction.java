@@ -105,10 +105,13 @@ public class CreateEventAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         if(startDateTime != null && (endDateTime == null || endDateTime.equals("")))
+        {
             endDateTime = startDateTime;
+        }
         
         startCalendar 	= getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", false); 
         endCalendar 	= getCalendar(endDateTime + " " + endTime, "yyyy-MM-dd HH:mm", false); 
+            
         lastRegistrationCalendar = getCalendar(lastRegistrationDateTime + " " + lastRegistrationTime, "yyyy-MM-dd HH:mm", false); 
 
         log.info("isInternal:" + this.isInternal);
@@ -465,7 +468,7 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setEndTime(String endTime)
     {
         if(endTime.equalsIgnoreCase(""))
-            this.endTime = "13:34";
+            this.endTime = "23:59";
         else
             this.endTime = (endTime.indexOf(":") == -1 ? (endTime + ":00") : endTime);
     }

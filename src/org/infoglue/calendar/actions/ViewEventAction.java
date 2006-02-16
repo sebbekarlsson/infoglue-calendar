@@ -75,6 +75,7 @@ public class ViewEventAction extends CalendarAbstractAction
     private List participatingPrincipals = new ArrayList();
             
     private Boolean forceRequestEventId = new Boolean(false);
+    private Boolean eventCopy			= new Boolean(false);
     
     /**
      * This is the entry point for the main listing.
@@ -316,4 +317,13 @@ public class ViewEventAction extends CalendarAbstractAction
         return value;
     }
 
+    public Boolean getEventCopy()
+    {
+        return eventCopy;
+    }
+    
+    public void setEventCopy(Boolean eventCopy)
+    {
+        this.eventCopy = eventCopy;
+    }
 }

@@ -299,7 +299,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     public void setEndTime(String endTime)
     {
         if(endTime.equalsIgnoreCase(""))
-            this.endTime = "13:34";
+            this.endTime = "23.59";
         else
             this.endTime = (endTime.indexOf(":") == -1 ? (endTime + ":00") : endTime);
     }

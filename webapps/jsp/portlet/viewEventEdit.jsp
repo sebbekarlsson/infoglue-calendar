@@ -22,6 +22,10 @@
 		<portlet:param name="action" value="UpdateEvent"/>
 	</portlet:actionURL>
 	
+	<ww:if test="eventCopy == true">
+		<span style="color: red"><ww:property value="this.getLabel('labels.internal.event.createEventCopyMessage')"/></span>
+	</ww:if>	
+	
 	<form name="updateForm" method="POST" action="<c:out value="${updateEventActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
 		<input type="hidden" name="calendarId" value="<ww:property value="event.owningCalendar.id"/>"/>
