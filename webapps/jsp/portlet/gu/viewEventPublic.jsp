@@ -54,7 +54,7 @@
 			<ww:else>
 				<p><span class="calFactLabel">Datum: </span><ww:property value="#startDate"/></p>                             		
 				<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
-			 	<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> - <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></p>
+			 	<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></ww:if></p>
 			 	</ww:if>
 			</ww:else>
 			<p><span class="calFactLabel">Kategori: </span>

@@ -40,8 +40,10 @@ import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.entities.Role;
 import org.infoglue.calendar.entities.Subscriber;
+import org.infoglue.calendar.util.EventComparator;
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.cms.security.InfoGlueRole;
+import org.infoglue.cms.util.sorters.SiteNodeComparator;
 import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
 import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
@@ -53,6 +55,7 @@ import org.infoglue.common.util.mail.MailServiceFactory;
 
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -855,6 +858,7 @@ public class EventController extends BasicController
 	            Criteria criteria = session.createCriteria(Event.class);
 	            criteria.add(Restrictions.eq("stateId", stateId));
 	            criteria.add(Expression.gt("endDateTime", startDate));
+	            criteria.addOrder(Order.asc("startDateTime"));
 	            
 	            /*
 	            criteria.add(Expression.gt("endDateTime", endDate));
@@ -877,7 +881,7 @@ public class EventController extends BasicController
 	        String groupsSQL = getGroupsSQL(groups);
 	        log.info("groupsSQL:" + groupsSQL);
 	        //String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.owningCalendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? AND event.startDateTime >= ? AND event.endDateTime <= ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
-	        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.owningCalendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? AND event.endDateTime >= ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.id";
+	        String sql = "select distinct event from Event event, Calendar c, Role cr, Group g where event.owningCalendar = c AND cr.calendar = c AND g.calendar = c AND event.stateId = ? AND event.endDateTime >= ? " + (rolesSQL != null ? " AND cr.name IN " + rolesSQL : "") + (groupsSQL != null ? " AND g.name IN " + groupsSQL : "") + " order by event.startDateTime";
 	        log.info("sql:" + sql);
 	        Query q = session.createQuery(sql);
 	        q.setInteger(0, stateId.intValue());
@@ -905,12 +909,22 @@ public class EventController extends BasicController
             criteria.add(Restrictions.eq("stateId", stateId));
             criteria.add(Restrictions.eq("creator", userName));
             criteria.add(Expression.gt("endDateTime", startDate));
+            criteria.addOrder(Order.asc("startDateTime"));
+
             /*
             criteria.add(Expression.gt("endDateTime", endDate));
             criteria.add(Expression.lt("startDateTime", startDate));
             */
+            
             set.addAll(criteria.list());	
         }
+        List sortedList = new ArrayList();
+        sortedList.addAll(set);
+        
+        Collections.sort(sortedList, new EventComparator());
+        set.clear();
+        
+        set.addAll(sortedList);
         
         return set;
     }
