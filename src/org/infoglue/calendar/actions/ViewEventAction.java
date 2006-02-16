@@ -86,14 +86,15 @@ public class ViewEventAction extends CalendarAbstractAction
         try
         {
 	        log.info("this.eventId:" + eventId);
-	        System.out.println("newEvent:" + eventId);
 	        
 	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
 	        String forceRequestEventIdString = ServletActionContext.getRequest().getParameter("forceRequestEventId");
-	        System.out.println("requestEventId:" + requestEventId);
-	        System.out.println("forceRequestEventIdString:" + forceRequestEventIdString);
 	        if(forceRequestEventIdString != null && forceRequestEventIdString.length() > 0)
 	            this.forceRequestEventId = new Boolean(forceRequestEventIdString);
+	        
+	        String requestEventCopy = ServletActionContext.getRequest().getParameter("eventCopy");
+	        if(forceRequestEventIdString != null && forceRequestEventIdString.length() > 0)
+	            this.eventCopy = new Boolean(requestEventCopy);
 	        
 	        if((this.eventId == null || this.forceRequestEventId.booleanValue()) && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
 	            this.eventId = new Long(requestEventId);
