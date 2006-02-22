@@ -44,8 +44,8 @@
 		<portlet:param name="action" value="Confirm"/>
 		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
 		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill ta bort prenumerationen på kalendern &quot;${name}&quot;"/>
-		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
-		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "iso-8859-1") %>"/>
+		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "iso-8859-1") %>"/>
 	</portlet:renderURL>
 	
 	<ww:if test="#rowstatus.odd == true">
