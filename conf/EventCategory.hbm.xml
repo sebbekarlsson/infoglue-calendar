@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
 
-    <class name="org.infoglue.calendar.entities.EventCategory" table="event_category" dynamic-update="false" dynamic-insert="false" select-before-update="false" optimistic-lock="version">
+    <class name="org.infoglue.calendar.entities.EventCategory" table="Event_Category" dynamic-update="false" dynamic-insert="false" select-before-update="false" optimistic-lock="version">
 
 	    <id name="id" column="id" type="long" unsaved-value="null">
         	<generator class="native"></generator>

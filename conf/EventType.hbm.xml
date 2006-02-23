@@ -5,7 +5,7 @@
 <hibernate-mapping
 >
     <class name="org.infoglue.calendar.entities.EventType"
-            table="eventtype" 
+            table="EventType" 
             dynamic-update="false" 
             dynamic-insert="false" 
             select-before-update="false" 
