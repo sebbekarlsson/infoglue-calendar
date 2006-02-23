@@ -21,7 +21,7 @@
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.dbcp.initialSize">10</property>
         <property name="hibernate.dbcp.maxWait">3000</property>
-        <property name="hibernate.dbcp.validationQuery">select count(*) from calendar</property>
+        <property name="hibernate.dbcp.validationQuery">select count(*) from Calendar</property>
 		-->
 		
 		<property name="hibernate.provider_class">@hibernate.provider_class@</property>
