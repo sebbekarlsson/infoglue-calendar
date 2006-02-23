@@ -210,7 +210,7 @@ public class ViewEventAction extends CalendarAbstractAction
     
     public List getEventCategories(EventTypeCategoryAttribute categoryAttribute)
     {
-        Timer timer = new Timer();
+        //Timer timer = new Timer();
 
         List categories = new ArrayList();
         
@@ -222,7 +222,7 @@ public class ViewEventAction extends CalendarAbstractAction
                 categories.add(eventCategory.getCategory());
         }
 
-        timer.printElapsedTime("getEventCategories took");
+        //timer.printElapsedTime("getEventCategories took");
 
         return categories;
     }
