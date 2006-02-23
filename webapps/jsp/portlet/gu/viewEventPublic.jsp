@@ -38,9 +38,8 @@
 	<ww:property value="event.decoratedLongDescription"/>
 	</p>
 	</ww:if>
-	<div style="clear:both"/>
 	
-	<div class="calFact">
+	<div class="calFact" style="clear:both">
 		<p><span class="calFactLabel">F&ouml;rel&auml;sare: </span><ww:property value="event.lecturer"/></p>
 			<ww:set name="startDate" value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>
 			<ww:set name="endDate" value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
@@ -147,7 +146,7 @@
 		</ww:if>
 
 		<ww:if test="event.lastRegistrationDateTime != null">
-				
+			<p>	
 			<ww:if test="event.lastRegistrationDateTime.time.time > now.time.time">
 				<ww:if test="event.maximumParticipants > event.entries.size()">
 					<ww:set name="eventId" value="eventId" scope="page"/>
@@ -170,7 +169,7 @@
 			<ww:else>
 				<ww:property value="this.getLabel('labels.public.event.registrationExpired')"/>
 			</ww:else>
-
+			</p>
 		</ww:if>
 				
 		<%--		
