@@ -64,6 +64,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private String contactEmail;
     private String contactPhone;
     private String price = null;
+    private Boolean sortAscending = new Boolean(false);
     private Integer maximumParticipants = null;
     
     private Calendar startCalendar;
@@ -100,6 +101,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 															        contactPhone,
 															        price,
 															        maximumParticipants,
+															        sortAscending,
 															        getSession());
         
         
@@ -258,6 +260,16 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     public void setAlternativeLocation(String alternativeLocation)
     {
         this.alternativeLocation = alternativeLocation;
+    }
+    
+    public Boolean getSortAscending()
+    {
+        return sortAscending;
+    }
+    
+    public void setSortAscending(Boolean sortAscending)
+    {
+        this.sortAscending = sortAscending;
     }
 }
 

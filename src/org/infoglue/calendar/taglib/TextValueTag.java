@@ -57,6 +57,8 @@ public class TextValueTag extends AbstractCalendarTag
 	private String cssClass = "";
 	private Object value = "";
 	private String label = "";
+	private Map values;
+
 	
 	/**
 	 * 
@@ -78,14 +80,16 @@ public class TextValueTag extends AbstractCalendarTag
         
         if(value instanceof Boolean)
         {
-            String translatedLabel = this.getLabel("" + value);
+            String translatedLabel = this.getLabel("" + value, this.values);
             if(translatedLabel != null && translatedLabel.length() > 0)
                 value = translatedLabel;
 
             sb.append(((value == null) ? "" : value));
         }
         else if(value instanceof String)
+        {
             sb.append(((value == null) ? "" : value));
+        }
         else if(value instanceof Integer)
             sb.append(((value == null) ? "" : value.toString()));
         else if(value instanceof Float)
@@ -148,4 +152,17 @@ public class TextValueTag extends AbstractCalendarTag
             this.value = null;
     }
     
+    public void setValueMap(String valueMap) throws JspException
+    {
+        Object o = findOnValueStack(valueMap);
+        if(o != null) 
+        {
+            this.values = (Map)o;
+        }
+        else
+        {
+            this.values = null;
+        }
+    }
+
 }

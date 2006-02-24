@@ -23,7 +23,9 @@
 package org.infoglue.calendar.taglib;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspTagException;
@@ -118,6 +120,61 @@ public abstract class AbstractCalendarTag extends AbstractTag
 	            label = resourceBundle.getString(key);
 	            
 	    	if(label == null || label.equals(""))
+	            label = key;
+	    }
+	    catch(Exception e)
+	    {
+	        log.warn("An label was not found:" + e.getMessage(), e);
+	    }
+	    
+        return label;
+    }
+
+	
+	public String getLabel(String key, Map values)
+    {
+	    String label = key;
+	    
+	    try
+	    {
+	        Object derivedValue = findOnValueStack(key);
+	    	Locale locale = new Locale(this.getLanguageCode());
+	    	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+	    	
+	        if(values != null)
+	        {
+	            Iterator valuesIterator = values.keySet().iterator();
+	            while(valuesIterator.hasNext())
+	    	    {
+	                String id = (String)valuesIterator.next();
+	                System.out.println("Id:" + id);
+	                String optionText 	= (String)values.get(id);
+	                System.out.println("optionText:" + optionText);
+
+	                System.out.println("derivedValue:" + derivedValue);
+	                String checked = "";
+	                if(key != null)
+	                {
+	                    if(id.equalsIgnoreCase(key.toString()))
+	                        derivedValue = optionText;
+	                }
+	            }
+	            
+		    	if(derivedValue != null)
+		    	    label = resourceBundle.getString("" + derivedValue.toString());
+		        else
+		            label = resourceBundle.getString(key);
+
+	        }
+	        else
+	        {
+		    	if(derivedValue != null)
+		    	    label = resourceBundle.getString("" + derivedValue.toString());
+		        else
+		            label = resourceBundle.getString(key);
+	        }
+
+	        if(label == null || label.equals(""))
 	            label = key;
 	    }
 	    catch(Exception e)

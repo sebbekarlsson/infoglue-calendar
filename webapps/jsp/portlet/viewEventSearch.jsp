@@ -71,13 +71,13 @@
 	   		<p><ww:property value="shortDescription"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnShort">
-	   		<p><ww:property value="owningCalendar.name"/></p>
+	   		<p><ww:property value="owningCalendar.name"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnShort">
-	   		<p><ww:property value="this.getState(stateId)"/></p>
+	   		<p><ww:property value="this.getState(stateId)"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnDate">
-	   		<p><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>
+	   		<p><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnEnd">
 		   	<ww:if test="this.getIsEventOwner(top)">

@@ -75,7 +75,7 @@
 			<calendar:textValue label="labels.internal.event.longDescription" value="event.longDescription" labelCssClass="label"/>
 		</p>
 		<p>
-			<calendar:textValue label="labels.internal.event.isInternal" value="event.isInternal" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.isInternal" value="event.isInternal" valueMap="internalEventMap" labelCssClass="label"/>
 		</p>
 		<p>
 			<calendar:textValue label="labels.internal.event.isOrganizedByGU" value="event.isOrganizedByGU" labelCssClass="label"/>
@@ -111,10 +111,14 @@
 			<calendar:textValue label="labels.internal.event.maximumParticipants" value="event.maximumParticipants" labelCssClass="label"/>
 		</p>
 
-
 		<p>
 			<span class="label"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></span><br />
-			<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH:mm')"/>
+			<ww:if test="event.lastRegistrationDateTime == null">
+				<ww:property value="this.getLabel('labels.internal.event.noLastRegistrationDateTime')"/>
+			</ww:if>
+			<ww:else>
+				<ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH:mm')"/>
+			</ww:else>
 		</p>
 
 		<!-- END NEW -->

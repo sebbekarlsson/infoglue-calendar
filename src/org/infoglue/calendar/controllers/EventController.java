@@ -718,6 +718,7 @@ public class EventController extends BasicController
             String contactPhone,
             String price,
             Integer maximumParticipants,
+            Boolean sortAscending,
             Session session) throws Exception 
     {
         List result = null;
@@ -791,7 +792,11 @@ public class EventController extends BasicController
         }
         log.info("argumentsSQL:" + argumentsSQL);
         
-        Query q = session.createQuery("from Event event " + (argumentsSQL.length() > 0 ? "WHERE " + argumentsSQL : "") + " order by event.id");
+        String order = "desc";
+        if(sortAscending.booleanValue())
+            order = "asc";
+        
+        Query q = session.createQuery("from Event event " + (argumentsSQL.length() > 0 ? "WHERE " + argumentsSQL : "") + " order by event.startDateTime " + order);
    
         int i = 0;
         Iterator valuesIterator = values.iterator();
