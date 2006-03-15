@@ -548,40 +548,19 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void notifyPublisher(Entry entry) throws Exception
+    public void notifyEventOwner(Entry entry) throws Exception
     {
     	Event event = entry.getEvent();
+    	
+    	if(event.getContactEmail() == null || event.getContactEmail().length() == 0)
+    		return;
     	
 	    String email = "";
 	    
 	    try
 	    {
-	        List allPrincipals = new ArrayList();
-	        Collection owningRoles = event.getOwningCalendar().getOwningRoles();
-	        Iterator owningRolesIterator = owningRoles.iterator();
-	        while(owningRolesIterator.hasNext())
-	        {
-	            Role role = (Role)owningRolesIterator.next();
-	            List principals = RoleControllerProxy.getController().getInfoGluePrincipals(role.getName());
-	            
-	            Iterator userIterator = principals.iterator();
-	            while(userIterator.hasNext())
-	            {
-	                InfoGluePrincipal principal = (InfoGluePrincipal)userIterator.next();
-	                boolean hasGroup = hasUserGroup(principal, event);
-	                if(hasGroup)
-	                    allPrincipals.add(principal);
-	            }
-	        }
-
-	        String addresses = "";
-	        Iterator allPrincipalsIterator = allPrincipals.iterator();
-	        while(allPrincipalsIterator.hasNext())
-	        {
-		        InfoGluePrincipal inforgluePrincipal = (InfoGluePrincipal)allPrincipalsIterator.next();
-		        addresses += inforgluePrincipal.getEmail() + ";";
-	        }
-
+	    	String addresses = event.getContactEmail();
+	    	
             String template;
 	        
 	        String contentType = PropertyHelper.getProperty("mail.contentType");
