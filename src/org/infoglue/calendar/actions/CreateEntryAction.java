@@ -77,7 +77,6 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        System.out.println("execute start...");
         /*
         if(useEntryLimitation())
         {
@@ -109,14 +108,15 @@ public class CreateEntryAction extends CalendarAbstractAction
 	        
 	        EntryController.getController().mailVerification(newEntry);
         
+	        
+            EntryController.getController().notifyPublisher(newEntry);
+
         }
         catch(ValidationException e)
         {
             e.printStackTrace();
             return Action.ERROR;            
         }
-        
-        System.out.println("execute end...");
 
         return Action.SUCCESS;
     } 
