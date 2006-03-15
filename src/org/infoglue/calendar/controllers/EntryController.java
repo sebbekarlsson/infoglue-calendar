@@ -34,12 +34,16 @@ import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
+import org.infoglue.calendar.entities.Role;
+import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
+import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.io.FileHelper;
 import org.infoglue.common.util.mail.MailServiceFactory;
 
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -538,4 +542,78 @@ public class EntryController extends BasicController
 		
     }
  
+    
+    /**
+     * This method emails the owner of an event the new information and an address to visit.
+     * @throws Exception
+     */
+    
+    public void notifyPublisher(Entry entry) throws Exception
+    {
+    	Event event = entry.getEvent();
+    	
+	    String email = "";
+	    
+	    try
+	    {
+	        List allPrincipals = new ArrayList();
+	        Collection owningRoles = event.getOwningCalendar().getOwningRoles();
+	        Iterator owningRolesIterator = owningRoles.iterator();
+	        while(owningRolesIterator.hasNext())
+	        {
+	            Role role = (Role)owningRolesIterator.next();
+	            List principals = RoleControllerProxy.getController().getInfoGluePrincipals(role.getName());
+	            
+	            Iterator userIterator = principals.iterator();
+	            while(userIterator.hasNext())
+	            {
+	                InfoGluePrincipal principal = (InfoGluePrincipal)userIterator.next();
+	                boolean hasGroup = hasUserGroup(principal, event);
+	                if(hasGroup)
+	                    allPrincipals.add(principal);
+	            }
+	        }
+
+	        String addresses = "";
+	        Iterator allPrincipalsIterator = allPrincipals.iterator();
+	        while(allPrincipalsIterator.hasNext())
+	        {
+		        InfoGluePrincipal inforgluePrincipal = (InfoGluePrincipal)allPrincipalsIterator.next();
+		        addresses += inforgluePrincipal.getEmail() + ";";
+	        }
+
+            String template;
+	        
+	        String contentType = PropertyHelper.getProperty("mail.contentType");
+	        if(contentType == null || contentType.length() == 0)
+	            contentType = "text/html";
+	        
+	        if(contentType.equalsIgnoreCase("text/plain"))
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEntryNotification_plain.vm"));
+		    else
+	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEntryNotification_html.vm"));
+		    
+		    Map parameters = new HashMap();
+		    parameters.put("entry", entry);
+		    parameters.put("event", event);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
+			email = tempString.toString();
+	    
+			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
+			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
+				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
+
+			log.info("Sending mail to:" + systemEmailSender + " and " + addresses);
+			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, addresses, "InfoGlue Calendar - new entry made to " + event.getName(), email, contentType, "UTF-8");
+	    }
+		catch(Exception e)
+		{
+			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+		}
+		
+    }
+
 }

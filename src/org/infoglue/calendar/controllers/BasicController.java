@@ -23,12 +23,20 @@
 
 package org.infoglue.calendar.controllers;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.Group;
+import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
+import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.common.util.PropertyHelper;
 
 /**
@@ -52,6 +60,31 @@ public abstract class BasicController
         String useGlobalEventNotification = PropertyHelper.getProperty("useGlobalEventNotification");
         
         return (useGlobalEventNotification.equalsIgnoreCase("true") ? true : false);
+    }
+
+    /**
+     * This method checks if a user has one of the roles defined in the event.
+     * @param principal
+     * @param event
+     * @return
+     * @throws Exception
+     */
+    public boolean hasUserGroup(InfoGluePrincipal principal, Event event) throws Exception
+    {
+        Collection owningGroups = event.getOwningCalendar().getOwningGroups();
+        if(owningGroups == null || owningGroups.size() == 0)
+            return true;
+        
+        Iterator owningGroupsIterator = owningGroups.iterator();
+        while(owningGroupsIterator.hasNext())
+        {
+            Group group = (Group)owningGroupsIterator.next();
+            List principals = GroupControllerProxy.getController().getInfoGluePrincipals(group.getName());
+            if(principals.contains(principal))
+                return true;
+        }
+        
+        return false;
     }
 
 }
