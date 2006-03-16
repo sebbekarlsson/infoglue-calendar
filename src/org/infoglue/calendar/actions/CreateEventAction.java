@@ -128,7 +128,6 @@ public class CreateEventAction extends CalendarAbstractAction
                     this.addFieldError("categoryAttribute_" + idKey + "_categoryId", "errors.atLeastOneItem");
 
                 log.info("categoryIds:" + categoryIds);
-                //System.out.println(idKey + "=" + categoryIds.length);
                 categoryAttributes.put(idKey, categoryIds);
                 
                 i++;
@@ -223,8 +222,6 @@ public class CreateEventAction extends CalendarAbstractAction
                 this.getInfoGlueRemoteUser(),
                 getSession());
 
-        //System.out.println("newEvent:" + newEvent.getId());
-        
         return Action.SUCCESS + "Copy";
     } 
 

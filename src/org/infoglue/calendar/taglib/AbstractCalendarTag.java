@@ -147,11 +147,11 @@ public abstract class AbstractCalendarTag extends AbstractTag
 	            while(valuesIterator.hasNext())
 	    	    {
 	                String id = (String)valuesIterator.next();
-	                System.out.println("Id:" + id);
+	                log.info("Id:" + id);
 	                String optionText 	= (String)values.get(id);
-	                System.out.println("optionText:" + optionText);
+	                log.info("optionText:" + optionText);
 
-	                System.out.println("derivedValue:" + derivedValue);
+	                log.info("derivedValue:" + derivedValue);
 	                String checked = "";
 	                if(key != null)
 	                {

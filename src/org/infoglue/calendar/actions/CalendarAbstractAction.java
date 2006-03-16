@@ -154,8 +154,8 @@ public class CalendarAbstractAction extends ActionSupport
         {
             org.infoglue.calendar.entities.Calendar owningCalendar = event.getOwningCalendar();
 
-            System.out.println("owningCalendar.getOwningRoles():" + owningCalendar.getOwningRoles());
-            System.out.println("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
+            log.info("owningCalendar.getOwningRoles():" + owningCalendar.getOwningRoles());
+            log.info("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
 	        if(owningCalendar.getOwningRoles().size() > 0 && this.getInfoGlueRemoteUserGroups().size() == 0)
 	        {
 	            isEventOwner = false;

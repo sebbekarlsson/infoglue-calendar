@@ -891,7 +891,7 @@ public class EventController extends BasicController
 	        Query q = session.createQuery(sql);
 	        q.setInteger(0, stateId.intValue());
 	        q.setCalendar(1, startDate);
-	        System.out.println("startDate:" + startDate.getTime());
+	        log.info("startDate:" + startDate.getTime());
 	        setRoleNames(2, q, roles);
 	        /*
 	        q.setCalendar(1, startDate);

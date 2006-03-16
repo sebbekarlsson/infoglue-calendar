@@ -1,7 +1,16 @@
 <div><h2>New entry created</h2></div>
 <div>
-	InfoGlue Calendar Notification: A new entry to "$event.getName()" was made by "$entry.firstName $entry.lastName . <br/>
-	<br/>
+	InfoGlue Calendar Notification: A new entry to "$event.getName()" was made.<br/>
+	<hr/>
+	Name: $entry.firstName $entry.lastName<br/>
+	Email: <a href="mailto:$entry.email">$entry.email</a><br/>
+	Organisation: $entry.organisation<br/>
+	Address: $entry.address<br/>
+	ZipCode: $entry.zipcode<br/>
+	City: $entry.city<br/>
+	Phone: $entry.phone<br/>
+	Fax: $entry.fax<br/>
+	Message: $entry.message<br/>
 	<hr/>
 	This email was automatically generated and the sender is the Calendar-system.<br/>
 	Do not reply to this email. <br/>

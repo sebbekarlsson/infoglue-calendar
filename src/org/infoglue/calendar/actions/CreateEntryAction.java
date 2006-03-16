@@ -29,6 +29,8 @@ import java.util.List;
 
 import javax.portlet.PortletURL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
@@ -51,6 +53,8 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class CreateEntryAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(CreateEntryAction.class);
+
     private String firstName;
     private String lastName;
     private String email;
@@ -87,7 +91,6 @@ public class CreateEntryAction extends CalendarAbstractAction
 	            return "maximumReachedPublic";
         }
         
-        System.out.println("execute start2...");
         */
         try
         {
@@ -263,18 +266,18 @@ public class CreateEntryAction extends CalendarAbstractAction
 
     public String receiptPublicGU() throws Exception 
     {
-        System.out.println("Receipt public GU start");
+    	log.info("Receipt public GU start");
         String requestEntryId = ServletActionContext.getRequest().getParameter("entryId");
-        System.out.println("requestEntryId:" + requestEntryId);
+        log.info("requestEntryId:" + requestEntryId);
         if(this.entryId == null && requestEntryId != null && !requestEntryId.equalsIgnoreCase(""))
             entryId = new Long(requestEntryId);
 
-        System.out.println("entryId:" + entryId);
+        log.info("entryId:" + entryId);
 
         event = EventController.getController().getEvent(eventId, getSession());
         entry = EntryController.getController().getEntry(entryId, this.getSession());
 
-        System.out.println("Receipt public GU end");
+        log.info("Receipt public GU end");
 
         return "receiptPublicGU";
     } 

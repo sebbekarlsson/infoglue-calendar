@@ -258,7 +258,7 @@ public class ResourceController extends BasicController
 		}
 		else
 		{
-		    System.out.println("File allready existed:" + digitalAssetPath + fileName);
+			log.info("File allready existed:" + digitalAssetPath + fileName);
 		}
 		
 		String urlBase = PropertyHelper.getProperty("urlBase");
