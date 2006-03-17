@@ -148,7 +148,7 @@
 		<ww:if test="event.lastRegistrationDateTime != null">
 			<p>	
 			<ww:if test="event.lastRegistrationDateTime.time.time > now.time.time">
-				<ww:if test="event.maximumParticipants > event.entries.size()">
+				<ww:if test="event.maximumParticipants == null || event.maximumParticipants > event.entries.size()">
 					<ww:set name="eventId" value="eventId" scope="page"/>
 					<portlet:renderURL var="createEntryRenderURL">
 						<calendar:evalParam name="action" value="CreateEntry!inputPublicGU"/>
