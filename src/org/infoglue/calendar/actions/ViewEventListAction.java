@@ -92,6 +92,13 @@ public class ViewEventListAction extends CalendarAbstractAction
         return Action.SUCCESS + "GU";
     }
 
+    public String listSlottedGU() throws Exception
+    {
+        execute();
+        
+        return Action.SUCCESS + "SlotGU";
+    }
+
     public String shortListGU() throws Exception
     {
         execute();

@@ -409,6 +409,9 @@
 			<result name="successGU" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/gu/viewEventList.jsp</param>
 			</result>
+			<result name="successSlotGU" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/gu/viewEventSlottedList.jsp</param>
+			</result>
 			<result name="successShortGU" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/gu/viewEventShortList.jsp</param>
 			</result>

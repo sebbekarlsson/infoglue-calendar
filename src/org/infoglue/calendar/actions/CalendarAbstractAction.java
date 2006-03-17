@@ -121,6 +121,11 @@ public class CalendarAbstractAction extends ActionSupport
         return (String)ServletActionContext.getRequest().getAttribute("logoutUrl");
     }
 
+    public Integer getNumberOfItemsPerPage()
+    {
+        return (Integer)ServletActionContext.getRequest().getAttribute("numberOfItems");
+    }
+
     public String getInfoGlueRemoteUser()
     {
         return (String)ServletActionContext.getRequest().getAttribute("infoglueRemoteUser");

@@ -2,6 +2,7 @@ package org.infoglue.calendar.taglib;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -59,4 +60,10 @@ public abstract class AbstractTag extends TagSupport
 	{
 		return (List) evaluate(tagName, attributeName, expression, List.class);
 	}
+
+	protected Set evaluateSet(String tagName, String attributeName, String expression) throws JspException
+	{
+		return (Set) evaluate(tagName, attributeName, expression, Set.class);
+	}
+
 }
