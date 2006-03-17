@@ -8,17 +8,18 @@
 <ww:set name="events" value="events" scope="page"/>
 <calendar:setToList id="eventList" set="${events}"/>
 
-Num: <ww:property value="numberOfItems"/>
-<ww:set name="numberOfItems" value="numberOfItems" scope="page"/>
-<c:if test="${numberOfItems == null}">
-	<c:set var="numberOfItems" value="2"/>
-</c:if>
-
-<c:set var="currentSlot" value="${param.currentSlot}"/>
-<c:if test="${currentSlot == null}">
-	<c:set var="currentSlot" value="1"/>
-</c:if>
-<calendar:slots visibleElementsId="eventsItems" visibleSlotsId="indices" lastSlotId="lastSlot" elements="${eventList}" currentSlot="${currentSlot}" slotSize="${numberOfItems}" slotCount="10"/>
+<c:set var="eventsItems" value="${eventList}"/>
+<ww:if test="events != null && events.size() > 0">
+	<ww:set name="numberOfItems" value="numberOfItems" scope="page"/>
+	<c:if test="${numberOfItems == null || numberOfItems == ''}">
+		<c:set var="numberOfItems" value="10"/>
+	</c:if>
+	<c:set var="currentSlot" value="${param.currentSlot}"/>
+	<c:if test="${currentSlot == null}">
+		<c:set var="currentSlot" value="1"/>
+	</c:if>
+	<calendar:slots visibleElementsId="eventsItems" visibleSlotsId="indices" lastSlotId="lastSlot" elements="${eventList}" currentSlot="${currentSlot}" slotSize="${numberOfItems}" slotCount="10"/>
+</ww:if>
 
 <H1>Kalendarium</H1>
 <!-- Calendar start -->
@@ -80,6 +81,7 @@ Num: <ww:property value="numberOfItems"/>
 		<!-- Record End -->
 	</ww:iterator>
 
+<ww:if test="events != null && events.size() > 0">
 	<br/>
 	<p><strong>Sida <c:out value="${currentSlot}"/> av <c:out value="${lastSlot}"/></strong>&nbsp;</p>                       
 	
@@ -91,10 +93,12 @@ Num: <ww:property value="numberOfItems"/>
 				<portlet:renderURL var="firstUrl">
 					<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
 					<portlet:param name="currentSlot" value="1"/>
+					<portlet:param name="refresh" value="true"/>
 				</portlet:renderURL>
 				<portlet:renderURL var="previousSlot">
 					<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("previousSlotId").toString() %>"/>
+					<portlet:param name="refresh" value="true"/>
 				</portlet:renderURL>
 				
 				<a href="<c:out value='${firstUrl}'/>" class="number" title="F&ouml;rsta sidan">F&Ouml;RSTA</a>
@@ -109,6 +113,7 @@ Num: <ww:property value="numberOfItems"/>
 					<portlet:renderURL var="url">
 						<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
 						<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("slotId").toString() %>"/>
+						<portlet:param name="refresh" value="true"/>
 					</portlet:renderURL>
 
 					<a href="<c:out value='${url}'/>" title="Sida <c:out value='${slot}'/>" class="number"><c:out value="${slot}"/></a>
@@ -119,6 +124,7 @@ Num: <ww:property value="numberOfItems"/>
 				<portlet:renderURL var="nextSlotUrl">
 					<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("nextSlotId").toString() %>"/>
+					<portlet:param name="refresh" value="true"/>
 				</portlet:renderURL>
 						
 				<a href="<c:out value='${nextSlotUrl}'/>" title="N&auml;sta sida" class="number">&raquo;</a>
@@ -126,11 +132,15 @@ Num: <ww:property value="numberOfItems"/>
 		</div>
 	</c:if>
 
+</ww:if>
+<ww:else>
 	
 	<ww:if test="events == null || events.size() == 0">
 		<p>För tillfället finns inga aktuella kalenderhändelser inlagda i  
 kategorin <!--"<ww:property value="#visibleCategoryName"/>"--></p>
 	</ww:if>
+
+</ww:else>
 	
 </div>
 <!-- Calendar End -->  
