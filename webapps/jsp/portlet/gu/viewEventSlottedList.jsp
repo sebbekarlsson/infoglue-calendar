@@ -93,12 +93,10 @@
 				<portlet:renderURL var="firstUrl">
 					<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
 					<portlet:param name="currentSlot" value="1"/>
-					<portlet:param name="refresh" value="true"/>
 				</portlet:renderURL>
 				<portlet:renderURL var="previousSlot">
 					<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("previousSlotId").toString() %>"/>
-					<portlet:param name="refresh" value="true"/>
 				</portlet:renderURL>
 				
 				<a href="<c:out value='${firstUrl}'/>" class="number" title="F&ouml;rsta sidan">F&Ouml;RSTA</a>
@@ -113,7 +111,6 @@
 					<portlet:renderURL var="url">
 						<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
 						<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("slotId").toString() %>"/>
-						<portlet:param name="refresh" value="true"/>
 					</portlet:renderURL>
 
 					<a href="<c:out value='${url}'/>" title="Sida <c:out value='${slot}'/>" class="number"><c:out value="${slot}"/></a>
@@ -124,7 +121,6 @@
 				<portlet:renderURL var="nextSlotUrl">
 					<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("nextSlotId").toString() %>"/>
-					<portlet:param name="refresh" value="true"/>
 				</portlet:renderURL>
 						
 				<a href="<c:out value='${nextSlotUrl}'/>" title="N&auml;sta sida" class="number">&raquo;</a>
