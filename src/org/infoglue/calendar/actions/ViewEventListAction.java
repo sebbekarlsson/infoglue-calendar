@@ -77,8 +77,7 @@ public class ViewEventListAction extends CalendarAbstractAction
         String[] categoryNamesArray = categoryNames.split(",");
 
         this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, getSession());
-        //this.categoriesList = CategoryController.getController().getRootCategoryList(getSession());
-
+        
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
@@ -168,4 +167,5 @@ public class ViewEventListAction extends CalendarAbstractAction
         return categoriesList;
     }
     */
+
 }

@@ -112,11 +112,11 @@
 			<c:if test="${currentSlot gt 1}">
 				<c:set var="previousSlotId" value="${currentSlot - 1}"/>
 				<portlet:renderURL var="firstUrl">
-					<portlet:param name="action" value="ViewPublishedEventList"/>
+					<portlet:param name="action" value="ViewWaitingEventList"/>
 					<portlet:param name="currentSlot" value="1"/>
 				</portlet:renderURL>
 				<portlet:renderURL var="previousSlot">
-					<portlet:param name="action" value="ViewPublishedEventList"/>
+					<portlet:param name="action" value="ViewWaitingEventList"/>
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("previousSlotId").toString() %>"/>
 				</portlet:renderURL>
 				
@@ -130,7 +130,7 @@
 				<c:if test="${slot != currentSlot}">
 					<c:set var="slotId" value="${slot}"/>
 					<portlet:renderURL var="url">
-						<portlet:param name="action" value="ViewPublishedEventList"/>
+						<portlet:param name="action" value="ViewWaitingEventList"/>
 						<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("slotId").toString() %>"/>
 					</portlet:renderURL>
 	
@@ -140,7 +140,7 @@
 			<c:if test="${currentSlot lt lastSlot}">
 				<c:set var="nextSlotId" value="${currentSlot + 1}"/>
 				<portlet:renderURL var="nextSlotUrl">
-					<portlet:param name="action" value="ViewPublishedEventList"/>
+					<portlet:param name="action" value="ViewWaitingEventList"/>
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("nextSlotId").toString() %>"/>
 				</portlet:renderURL>
 						

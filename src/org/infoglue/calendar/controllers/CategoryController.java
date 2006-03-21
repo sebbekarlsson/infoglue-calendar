@@ -182,7 +182,64 @@ public class CategoryController extends BasicController
         return result;
     }
     
+
+    /**
+     * Gets a list of all categorys available sorted by primary key.
+     * @return List of Category
+     * @throws Exception
+     */
     
+    public Category getCategoryByPath(Session session, String path) throws Exception 
+    {
+    	Category category = null;
+    	
+    	if(path.startsWith("/"))
+    		path = path.substring(1);
+    	
+    	String[] categories = path.split("/");
+    	int position = 0;
+    	
+    	List rootCategories = getRootCategoryList(session);
+        
+    	Iterator rootCategoryIterator = rootCategories.iterator();
+    	while(rootCategoryIterator.hasNext())
+    	{
+    		Category currentCategory = (Category)rootCategoryIterator.next();
+    		if(currentCategory.getInternalName().equals(categories[position]))
+    		{
+    			category = currentCategory;
+    		}
+    	}
+
+		position++;
+		while(category != null && categories.length > position)
+		{
+			category = getMatchingChildCategory(categories[position], category);
+			position++;
+		}
+
+        return category;
+    }
+    
+    private Category getMatchingChildCategory(String name, Category parent)
+    {
+    	Category category = null;
+    	
+    	Iterator categoryIterator = parent.getChildren().iterator();
+    	while(categoryIterator.hasNext())
+    	{
+    		Category currentCategory = (Category)categoryIterator.next();
+
+    		if(currentCategory.getInternalName().equalsIgnoreCase(name))
+    		{
+    			category = currentCategory;
+    			break;
+    		}
+    	}
+    	
+        return category;
+    }
+
     /**
      * Deletes a category object in the database. Also cascades all events associated to it.
      * @throws Exception

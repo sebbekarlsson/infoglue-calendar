@@ -8,12 +8,46 @@
 
 <%@ include file="eventSubFunctionMenu.jsp" %>
 
+<script type="text/javascript">
+<!--
+	function toggleDiv(id)
+	{
+		element = document.getElementById(id);
+		if(element.style.display == "none")
+			element.style.display = "block";
+		else
+			element.style.display = "none";
+	}
+-->
+</script>
+
 <div class="columnlabelarea">
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.name')"/></p></div>
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.description')"/></p></div>
 	<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.event.owningCalendar')"/></p></div>
 	<div class="columnDate"><p><ww:property value="this.getLabel('labels.internal.event.startDate')"/></p></div>
+	<div class="columnEnd"><p><a href="javascript:toggleDiv('columnFilterArea');">Filtrera</a></p></div>
 	<div class="clear"></div>
+</div>
+
+<portlet:renderURL var="filterUrl">
+	<portlet:param name="action" value="ViewPublishedEventList"/>
+</portlet:renderURL>
+
+<ww:if test="categoryId == null">
+<div id="columnFilterArea" class="columnlabelarea" style="display:none;">
+</ww:if>
+<ww:else>
+<div id="columnFilterArea" class="columnlabelarea" style="display:block;">
+</ww:else>
+<form action="<c:out value="${filterUrl}"/>" method="POST">
+	<div class="columnMedium"><p><calendar:selectField label="labels.internal.calendar.eventType" name="'categoryId'" headerItem="Filtrera på evenemangstyp" multiple="false" value="categoriesList" selectedValue="categoryId" cssClass="listBox"/></p></div>
+	<div class="columnMedium"><p>&nbsp;</p></div>
+	<div class="columnShort"><p>&nbsp;</p></div>
+	<div class="columnDate"><p>&nbsp;</p></div>
+	<div class="columnEnd"><p>&nbsp;</p><input type="submit" value="Filtrera"/></div>
+	<div class="clear"></div>
+</form>
 </div>
 
 <ww:set name="events" value="events" scope="page"/>

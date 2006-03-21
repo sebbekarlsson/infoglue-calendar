@@ -28,12 +28,16 @@ import java.util.Set;
 
 import javax.portlet.PortletURL;
 
+import org.hibernate.Session;
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.Category;
 import org.infoglue.common.util.DBSessionWrapper;
+import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -48,15 +52,20 @@ import com.opensymphony.xwork.ActionContext;
 public class ViewPublishedEventListAction extends CalendarAbstractAction
 {
     private Set events;
+    private Set categoriesList;
+    private Long categoryId;
     
     /**
      * This is the entry point for the main listing.
      */
     
     public String execute() throws Exception 
-    {
-        this.events = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
-
+    {    	
+        this.events = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), categoryId, getSession());
+        Category category = CategoryController.getController().getCategoryByPath(getSession(), PropertyHelper.getProperty("filterCategoryPath"));
+        if(category != null)
+        	categoriesList = category.getChildren();
+        
         return Action.SUCCESS;
     } 
     
@@ -65,4 +74,20 @@ public class ViewPublishedEventListAction extends CalendarAbstractAction
         return events;
     }
     
+	public Set getCategoriesList() 
+	{
+		return categoriesList;
+	}
+
+	public Long getCategoryId() 
+	{
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) 
+	{
+		this.categoryId = categoryId;
+	}
+
+
 }

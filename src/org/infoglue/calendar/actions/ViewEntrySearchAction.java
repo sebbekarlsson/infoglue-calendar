@@ -66,7 +66,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     private void initialize() throws Exception
     {
-        this.eventList = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+        this.eventList = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), null, getSession());
         this.categoryList = CategoryController.getController().getRootCategoryList(getSession());
         this.locationList = LocationController.getController().getLocationList(getSession());
     }

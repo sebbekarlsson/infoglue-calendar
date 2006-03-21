@@ -8,12 +8,46 @@
 
 <%@ include file="eventSubFunctionMenu.jsp" %>
 
+<script type="text/javascript">
+<!--
+	function toggleDiv(id)
+	{
+		element = document.getElementById(id);
+		if(element.style.display == "none")
+			element.style.display = "block";
+		else
+			element.style.display = "none";
+	}
+-->
+</script>
+
 <div class="columnlabelarea">
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.name')"/></p></div>
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.description')"/></p></div>
 	<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.event.owningCalendar')"/></p></div>
 	<div class="columnDate"><p><ww:property value="this.getLabel('labels.internal.event.startDate')"/></p></div>
+	<div class="columnEnd"><p><a href="javascript:toggleDiv('columnFilterArea');">Filtrera</a></p></div>
 	<div class="clear"></div>
+</div>
+
+<portlet:renderURL var="filterUrl">
+	<portlet:param name="action" value="ViewLinkedPublishedEventList"/>
+</portlet:renderURL>
+
+<ww:if test="categoryId == null">
+<div id="columnFilterArea" class="columnlabelarea" style="display:none;">
+</ww:if>
+<ww:else>
+<div id="columnFilterArea" class="columnlabelarea" style="display:block;">
+</ww:else>
+<form action="<c:out value="${filterUrl}"/>" method="POST">
+	<div class="columnMedium"><p><calendar:selectField label="labels.internal.calendar.eventType" name="'categoryId'" headerItem="Filtrera på evenemangstyp" multiple="false" value="categoriesList" selectedValue="categoryId" cssClass="listBox"/></p></div>
+	<div class="columnMedium"><p>&nbsp;</p></div>
+	<div class="columnShort"><p>&nbsp;</p></div>
+	<div class="columnDate"><p>&nbsp;</p></div>
+	<div class="columnEnd"><p>&nbsp;</p><input type="submit" value="Filtrera"/></div>
+	<div class="clear"></div>
+</form>
 </div>
 
 <ww:set name="events" value="events" scope="page"/>
@@ -99,11 +133,11 @@
 			<c:if test="${currentSlot gt 1}">
 				<c:set var="previousSlotId" value="${currentSlot - 1}"/>
 				<portlet:renderURL var="firstUrl">
-					<portlet:param name="action" value="ViewPublishedEventList"/>
+					<portlet:param name="action" value="ViewLinkedPublishedEventList"/>
 					<portlet:param name="currentSlot" value="1"/>
 				</portlet:renderURL>
 				<portlet:renderURL var="previousSlot">
-					<portlet:param name="action" value="ViewPublishedEventList"/>
+					<portlet:param name="action" value="ViewLinkedPublishedEventList"/>
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("previousSlotId").toString() %>"/>
 				</portlet:renderURL>
 				
@@ -117,7 +151,7 @@
 				<c:if test="${slot != currentSlot}">
 					<c:set var="slotId" value="${slot}"/>
 					<portlet:renderURL var="url">
-						<portlet:param name="action" value="ViewPublishedEventList"/>
+						<portlet:param name="action" value="ViewLinkedPublishedEventList"/>
 						<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("slotId").toString() %>"/>
 					</portlet:renderURL>
 	
@@ -127,7 +161,7 @@
 			<c:if test="${currentSlot lt lastSlot}">
 				<c:set var="nextSlotId" value="${currentSlot + 1}"/>
 				<portlet:renderURL var="nextSlotUrl">
-					<portlet:param name="action" value="ViewPublishedEventList"/>
+					<portlet:param name="action" value="ViewLinkedPublishedEventList"/>
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("nextSlotId").toString() %>"/>
 				</portlet:renderURL>
 						

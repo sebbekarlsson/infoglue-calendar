@@ -31,14 +31,17 @@ import java.util.Set;
 import javax.portlet.PortletURL;
 
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
+import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.common.util.DBSessionWrapper;
+import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -53,6 +56,9 @@ import com.opensymphony.xwork.ActionContext;
 public class ViewLinkedPublishedEventListAction extends CalendarAbstractAction
 {
     private Set events;
+    private Set categoriesList;
+    private Long categoryId;
+
     
     /**
      * This is the entry point for the main listing.
@@ -60,7 +66,10 @@ public class ViewLinkedPublishedEventListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.events = EventController.getController().getLinkedPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+        this.events = EventController.getController().getLinkedPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), this.categoryId, getSession());
+        Category category = CategoryController.getController().getCategoryByPath(getSession(), PropertyHelper.getProperty("filterCategoryPath"));
+        if(category != null)
+        	categoriesList = category.getChildren();
 
         return Action.SUCCESS;
     } 
@@ -70,4 +79,19 @@ public class ViewLinkedPublishedEventListAction extends CalendarAbstractAction
         return events;
     }
     
+	public Set getCategoriesList() 
+	{
+		return categoriesList;
+	}
+
+	public Long getCategoryId() 
+	{
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) 
+	{
+		this.categoryId = categoryId;
+	}
+
 }

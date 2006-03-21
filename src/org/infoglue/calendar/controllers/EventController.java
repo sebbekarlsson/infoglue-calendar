@@ -976,7 +976,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public Set getPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
+    public Set getPublishedEventList(String userName, List roles, List groups, Long categoryId, Session session) throws Exception 
     {
         java.util.Calendar now = java.util.Calendar.getInstance();
         java.util.Calendar endDate = java.util.Calendar.getInstance();
@@ -984,7 +984,31 @@ public class EventController extends BasicController
         
         Set result = getEventList(now, endDate, userName, roles, groups, Event.STATE_PUBLISHED, false, true, session);
         
+        if(categoryId != null)
+        {
+	        Iterator resultIterator = result.iterator();
+	        while(resultIterator.hasNext())
+	        {
+	        	Event event = (Event)resultIterator.next();
+	        	if(!getHasCategory(event, categoryId))
+	        		resultIterator.remove();
+	        }
+        }
+        
         return result;
+    }
+
+    public boolean getHasCategory(Event event, Long categoryId)
+    {        
+        Iterator i = event.getEventCategories().iterator();
+        while(i.hasNext())
+        {
+            EventCategory eventCategory = (EventCategory)i.next();
+            if(eventCategory.getCategory().getId().equals(categoryId))
+                return true;
+        }
+
+        return false;
     }
 
     /**
@@ -993,7 +1017,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public Set getLinkedPublishedEventList(String userName, List roles, List groups, Session session) throws Exception 
+    public Set getLinkedPublishedEventList(String userName, List roles, List groups, Long categoryId, Session session) throws Exception 
     {
         java.util.Calendar now = java.util.Calendar.getInstance();
         java.util.Calendar endDate = java.util.Calendar.getInstance();
@@ -1001,6 +1025,17 @@ public class EventController extends BasicController
         
         Set result = getEventList(now, endDate, userName, roles, groups, Event.STATE_PUBLISHED, true, true, session);
         
+        if(categoryId != null)
+        {
+	        Iterator resultIterator = result.iterator();
+	        while(resultIterator.hasNext())
+	        {
+	        	Event event = (Event)resultIterator.next();
+	        	if(!getHasCategory(event, categoryId))
+	        		resultIterator.remove();
+	        }
+        }
+
         return result;
     }
 
