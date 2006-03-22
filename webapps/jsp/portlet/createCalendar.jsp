@@ -37,6 +37,7 @@
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.calendar.createButton')"/>" class="button">
 		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
+	
 </div>
 
 <%@ include file="adminFooter.jsp" %>

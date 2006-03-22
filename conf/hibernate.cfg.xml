@@ -51,6 +51,11 @@
         <mapping resource="Role.hbm.xml"/>
         <mapping resource="Group.hbm.xml"/>
         <mapping resource="Subscriber.hbm.xml"/>
+        <mapping resource="InterceptionPoint.hbm.xml"/>
+        <mapping resource="AccessRight.hbm.xml"/>
+        <mapping resource="AccessRightRole.hbm.xml"/>
+        <mapping resource="AccessRightGroup.hbm.xml"/>
+        <mapping resource="AccessRightUser.hbm.xml"/>
 
     </session-factory>
 

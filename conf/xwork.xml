@@ -643,5 +643,14 @@
 			</result>
 		</action>
 		
+		<action name="ViewAccessRights" class="org.infoglue.calendar.actions.ViewAccessRightsAction">
+			<result name="success" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewAccessRights.jsp</param>
+            </result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
+		
 	</package>
 </xwork>
