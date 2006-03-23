@@ -151,6 +151,16 @@ public class CalendarAbstractAction extends ActionSupport
         return getIsEventOwner(EventController.getController().getEvent(eventId, getSession()));
     }
 
+    public List getAnonymousCalendars() throws Exception
+    {
+    	String anonymousCalendar = PropertyHelper.getProperty("anonymousCalendar");
+    	System.out.println("anonymousCalendar:" + anonymousCalendar);
+    	if(anonymousCalendar == null)
+    		anonymousCalendar = "";
+    	
+    	return CalendarController.getController().getCalendar(anonymousCalendar, getSession());
+    }
+    
     public boolean getIsEventOwner(Event event)
     {
         boolean isEventOwner = false;
@@ -179,6 +189,35 @@ public class CalendarAbstractAction extends ActionSupport
         }
         
         return isEventOwner;
+    }
+
+    
+    public boolean getIsCalendarAdministrator(org.infoglue.calendar.entities.Calendar calendar)
+    {
+        boolean isCalendarOwner = false;
+        
+        try
+        {
+            log.info("calendar.getOwningRoles():" + calendar.getOwningRoles());
+            log.info("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
+	        if(calendar.getOwningRoles().size() > 0 && this.getInfoGlueRemoteUserGroups().size() == 0)
+	        {
+	        	isCalendarOwner = false;
+	        }
+	        else
+	        {
+	            Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+		        
+		        if(calendars.contains(calendar))
+		        	isCalendarOwner = true;
+	        }
+	    }
+        catch(Exception e)
+        {
+            log.warn("Error occurred:" + e.getMessage(), e);
+        }
+        
+        return isCalendarOwner;
     }
 
     public boolean getIsEventCreator(Event event)

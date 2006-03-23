@@ -53,7 +53,8 @@
 		<input onclick="document.location.href='<c:out value="${viewCalendarUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.calendar.viewGUICalendarButton')"/>" class="button">
 		-->
 	</form>
-	
+
+<%--	
 	<portlet:renderURL var="accessRightsActionUrl">
 		<portlet:param name="action" value="ViewAccessRights"/>
 		<portlet:param name="interceptionPointCategory" value="Calendar"/>
@@ -61,6 +62,7 @@
 	</portlet:renderURL>
 	
 	<a href="<c:out value="${accessRightsActionUrl}"/>">Access rights</a>
+--%>
 	
 </div>
 

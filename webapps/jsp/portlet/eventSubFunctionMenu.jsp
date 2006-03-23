@@ -31,8 +31,8 @@
 	   	<a href="<c:out value="${viewWaitingEventsUrl}"/>" <c:if test="${activeEventSubNavItem == 'WaitingEvents'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationWaitingEvents')"/></a> |
 	</c:if>
 	<a href="<c:out value="${viewMyWorkingEventsUrl}"/>" <c:if test="${activeEventSubNavItem == 'MyWorkingEvents'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationMyWorkingEvents')"/></a> |
-	<a href="<c:out value="${viewEventSubscriptionListUrl}"/>" <c:if test="${activeEventSubNavItem == 'EventSubscriptions'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationEventSubscriptions')"/></a> |
 	<c:if test="${calendarOwner == true}">
+		<a href="<c:out value="${viewEventSubscriptionListUrl}"/>" <c:if test="${activeEventSubNavItem == 'EventSubscriptions'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationEventSubscriptions')"/></a> |
 		<a href="<c:out value="${viewEventSearchFormUrl}"/>" <c:if test="${activeEventSubNavItem == 'EventSearch'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationSearchEvents')"/></a>
 	</c:if>	
 	&nbsp;
