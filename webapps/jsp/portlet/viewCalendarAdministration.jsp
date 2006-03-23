@@ -8,13 +8,12 @@
 <%@ include file="adminHeader.jsp" %>
 <%@ include file="functionMenu.jsp" %>
 
-<calendar:hasRole id="eventPublisher" roleName="EventPublisher"/>
-<c:if test="${eventPublisher}">
+<ww:if test="infoGlueRemoteUser == 'eventPublisher'">
 	<ww:set name="anonymousCalendars" value="this.getAnonymousCalendars()"/>
 	<ww:if test="#anonymousCalendars.size > 0">
 	    <ww:set name="calendarId" value="#anonymousCalendars.get(0).id"/>
 	</ww:if>
-</c:if>
+</ww:if>
 
 <ww:if test="#calendarId == null || #calendarId == ''">
 	<portlet:renderURL var="createEventUrl">
