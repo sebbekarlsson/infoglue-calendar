@@ -45,26 +45,6 @@
 						<a href="javascript:showDiv('groups<ww:property value="accessRightId"/>');" title="Not limited by groups at the moment"><img src="images/groupsInactive.gif" border="0"/></a>
 					</ww:else>
 				
-<%--
-			#if(($interceptionPointVO.getUsesExtraDataForAccessControl() && $extraParameters && $extraParameters != "") || (!$interceptionPointVO.getUsesExtraDataForAccessControl() && (!$extraParameters || $extraParameters == "")))
-				#set($accessRightId = -1)
-				#set($accessRightId = $this.getAccessRightId($interceptionPointVO.id, $extraParameters))
-				#set($dotIndex = $interceptionPointVO.name.indexOf(".") + 1)
-				<td align="center" class="smalllabel">$interceptionPointVO.name.substring($dotIndex)
-				#if($accessRightId > -1)
-					#set($accessRightGroups = $this.getAccessRightGroups($accessRightId))
-					#if($accessRightGroups.size() > 0)
-						<script type="text/javascript">hasGroupLimitation = true;</script>
-						<a href="javascript:showDiv('groups$accessRightId');" title="Limited by groups also - click to view."><img src="images/groups.gif" border="0"/></a>
-					#else
-						<a href="javascript:showDiv('groups$accessRightId');" title="Not limited by groups at the moment"><img src="images/groupsInactive.gif" border="0"/></a>
-					#end
-				#end
-				</td>
-				<td><img src="images/trans.gif" width="20" height="1"></td>
-				#set($colspan = $colspan + 3)
-			#end
---%>
 				</td>
 				<td><img src="images/trans.gif" width="20" height="1"></td>
 				<ww:set name="colspan" value="#colspan + 3"/>
@@ -74,21 +54,48 @@
 	</tr>
 	
 	<tr>
-		<td bgcolor="#EEF7DC" colspan="$colspan" height="1"><img src="images/trans.gif" width="1" height="1"></td>
+		<td bgcolor="#EEF7DC" colspan="<ww:property value="#colspan"/>" height="1"><img src="images/trans.gif" width="1" height="1"></td>
 	</tr>
 	<tr>
-		<td bgcolor="#C7D1B3" colspan="$colspan" height="1"><img src="images/trans.gif" width="1" height="1"></td>
+		<td bgcolor="#C7D1B3" colspan="<ww:property value="#colspan"/>" height="1"><img src="images/trans.gif" width="1" height="1"></td>
 	</tr>
 	
-	#set($roleIndex = 0)
+	<ww:set name="roleIndex" value="0"/>
 	<ww:iterator value="roleList" status="rowstatus">
+		<ww:set name="role" value="top"/>
+				
 		<tr>
 			<td>
 				<ww:property value="name"/>
-				<input type="hidden" name="${roleIndex}_roleName" value="$role.name">
+				<input type="hidden" name="<ww:property value="roleIndex"/>_roleName" value="<ww:property value="name"/>">
 			</td>
+			<td></td>
+			<ww:set name="interceptionPointIndex" value="0"/>
+			<ww:iterator value="interceptionPointList" status="rowstatus">
+				<ww:if test="top.usesExtraDataForAccessControl">
+					<td align="center" nowrap>
+						<%--
+						#set($checked = "")
+						#if($this.getHasAccessRight($interceptionPointVO.id, $extraParameters, $role.name))
+							#set($checked = "checked")
+							#set($accessRightId = $this.getAccessRightId($interceptionPointVO.id, $extraParameters))
+						#end 
+						--%>
+																							
+						<input type="hidden" name="<ww:property value="interceptionPointIndex"/>_InterceptionPointId" value="<ww:property value="id"/>">
+						<input type="hidden" name="<ww:property value="id"/>_<ww:property value="roleIndex"/>_roleName" value="<ww:property value="#role.name"/>">
+						<input type="checkbox" id="<ww:property value="id"/>_<ww:property value="#role.name"/>_hasAccess" name="${interceptionPointVO.id}_<ww:property value="#role.name"/>_hasAccess" value="true" $checked>
+						
+					</td>
+					<td></td>
+					<ww:set name="interceptionPointIndex" value="#interceptionPointIndex + 1"/>
+				</ww:if>	
+			</ww:iterator>	
 		</tr>
+		<ww:set name="roleIndex" value="#roleIndex + 1"/>
 	</ww:iterator>	
+
+
 <%--	
 	#foreach ($role in $roleList)
 		<tr>
@@ -138,7 +145,7 @@
 		<td>&nbsp;</td>
 	</tr>
 	<tr>	
-		<td colspan="$interceptionPointIndex">
+		<td colspan="<ww:property value="interceptionPointIndex"/>">
 			<a href="javascript:confirmSave();"><img src="$ui.getString("images.managementtool.buttons.save")" width="50" height="25" border="0"></a>
 			<!--<a href="javascript:saveAndExit(document.editForm, 'UpdateAccessRights!saveAndExit.action');"><img src="$ui.getString("images.managementtool.buttons.saveAndExit")" width="80" height="25" border="0"></a>-->
 			<a href="$returnAddress"><img border="0" src="$ui.getString("images.managementtool.buttons.cancel")" width="50" height="25"></a>

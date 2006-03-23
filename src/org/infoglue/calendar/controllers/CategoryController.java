@@ -205,7 +205,8 @@ public class CategoryController extends BasicController
     	while(rootCategoryIterator.hasNext())
     	{
     		Category currentCategory = (Category)rootCategoryIterator.next();
-    		if(currentCategory.getInternalName().equals(categories[position]))
+    		
+    		if(currentCategory.getInternalName() != null && currentCategory.getInternalName().equals(categories[position]))
     		{
     			category = currentCategory;
     		}
@@ -230,7 +231,7 @@ public class CategoryController extends BasicController
     	{
     		Category currentCategory = (Category)categoryIterator.next();
 
-    		if(currentCategory.getInternalName().equalsIgnoreCase(name))
+    		if(currentCategory.getInternalName() != null && currentCategory.getInternalName().equalsIgnoreCase(name))
     		{
     			category = currentCategory;
     			break;
