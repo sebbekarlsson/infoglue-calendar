@@ -11,12 +11,10 @@
 <calendar:hasRole id="eventPublisher" roleName="EventPublisher"/>
 <c:if test="${eventPublisher}">
 	<ww:set name="anonymousCalendars" value="this.getAnonymousCalendars()"/>
-	Calendars: <ww:property value="#anonymousCalendars"/>
 	<ww:if test="#anonymousCalendars.size > 0">
 	    <ww:set name="calendarId" value="#anonymousCalendars.get(0).id"/>
 	</ww:if>
 </c:if>
-CalendarID: <c:out value="#calendarId"/>
 
 <ww:if test="#calendarId == null || #calendarId == ''">
 	<portlet:renderURL var="createEventUrl">
