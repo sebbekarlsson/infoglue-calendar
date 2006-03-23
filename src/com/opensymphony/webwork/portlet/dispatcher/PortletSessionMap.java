@@ -36,7 +36,8 @@ public class PortletSessionMap extends AbstractMap implements Serializable {
      *
      * @param request the http servlet request object.
      */
-    public PortletSessionMap(PortletRequest request) {
+    public PortletSessionMap(PortletRequest request) 
+    {
         this.session = request.getPortletSession();
     }
 
@@ -57,20 +58,29 @@ public class PortletSessionMap extends AbstractMap implements Serializable {
      *
      * @return a Set of attributes from the http session.
      */
-    public Set entrySet() {
-        synchronized (session) {
-            if (entries == null) {
+    public Set entrySet() 
+    {
+        synchronized (session) 
+        {
+        	System.out.println("Session:" + session);
+        	System.out.println("Session:" + session.getAttribute("infogluePrincipal"));
+        	System.out.println("Session entries:" + entries);
+            if (entries == null) 
+            {
                 entries = new HashSet();
 
+                System.out.println("Session:" + session.getAttribute("infogluePrincipal"));
                 Enumeration enumeration = session.getAttributeNames();
-
-                while (enumeration.hasMoreElements()) {
+                System.out.println("enumeration:" + enumeration.hasMoreElements());
+                
+                while (enumeration.hasMoreElements()) 
+                {
                     final String key = enumeration.nextElement().toString();
+                    System.out.println("key:" + key);
                     final Object value = session.getAttribute(key);
                     entries.add(new Entry() {
                             public boolean equals(Object obj) {
                                 Entry entry = (Entry) obj;
-
                                 return ((key == null) ? (entry.getKey() == null) : key.equals(entry.getKey())) && ((value == null) ? (entry.getValue() == null) : value.equals(entry.getValue()));
                             }
 

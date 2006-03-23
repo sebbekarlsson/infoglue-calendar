@@ -128,7 +128,7 @@ public class CalendarAbstractAction extends ActionSupport
 
     public String getInfoGlueRemoteUser()
     {
-        return (String)ServletActionContext.getRequest().getAttribute("infoglueRemoteUser");
+    	return (String)ServletActionContext.getRequest().getAttribute("infoglueRemoteUser");
     }
 
     public List getInfoGlueRemoteUserRoles()

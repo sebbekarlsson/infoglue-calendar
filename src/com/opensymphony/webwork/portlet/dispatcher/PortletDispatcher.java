@@ -157,7 +157,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 
     public void service(PortletRequest request, PortletResponse response) throws PortletException
     {
-        log.debug("Getting to serviceAction");
+    	log.debug("Getting to serviceAction");
         
         serviceAction(request, response, getPortletName(),
                 getActionName(request),
@@ -182,6 +182,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 
         }
         
+        log.debug(sessionMap);
         log.debug(parameterMap);
         extraContext.put(PORTLET_DISPATCHER, this);
         log.debug("Getting to beginning of serviceAction");
@@ -304,8 +305,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         return new PortletSessionMap(request);
     }
 
-    protected void sendError(PortletRequest request, PortletResponse response,
-            int code, Exception e)
+    protected void sendError(PortletRequest request, PortletResponse response, int code, Exception e)
     {
         request.setAttribute("javax.servlet.error.exception", e);
 
