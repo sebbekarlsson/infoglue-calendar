@@ -1319,7 +1319,10 @@ public class EventController extends BasicController
 		    else
 	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEventPublishedNotification_html.vm"));
 		    
-		    Map parameters = new HashMap();
+	        publishedEventUrl = publishedEventUrl.replaceAll("\\{j_username\\}", "fold1");
+	        publishedEventUrl = publishedEventUrl.replaceAll("\\{j_password\\}", "fold2");
+	        
+	        Map parameters = new HashMap();
 		    parameters.put("event", event);
 		    parameters.put("publishedEventUrl", publishedEventUrl.replaceAll("\\{eventId\\}", event.getId().toString()));
 		    
