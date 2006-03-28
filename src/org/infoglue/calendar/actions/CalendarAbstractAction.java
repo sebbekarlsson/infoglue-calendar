@@ -168,20 +168,22 @@ public class CalendarAbstractAction extends ActionSupport
         try
         {
             org.infoglue.calendar.entities.Calendar owningCalendar = event.getOwningCalendar();
-
-            log.info("owningCalendar.getOwningRoles():" + owningCalendar.getOwningRoles());
-            log.info("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
-	        if(owningCalendar.getOwningRoles().size() > 0 && this.getInfoGlueRemoteUserGroups().size() == 0)
-	        {
-	            isEventOwner = false;
-	        }
-	        else
-	        {
-	            Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
-		        
-		        if(calendars.contains(owningCalendar))
-		            isEventOwner = true;
-	        }
+            if(owningCalendar != null)
+            {
+	            log.info("owningCalendar.getOwningRoles():" + owningCalendar.getOwningRoles());
+	            log.info("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
+		        if(owningCalendar.getOwningRoles().size() > 0 && this.getInfoGlueRemoteUserGroups().size() == 0)
+		        {
+		            isEventOwner = false;
+		        }
+		        else
+		        {
+		            Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+			        
+			        if(calendars.contains(owningCalendar))
+			            isEventOwner = true;
+		        }
+            }
 	    }
         catch(Exception e)
         {
@@ -226,8 +228,13 @@ public class CalendarAbstractAction extends ActionSupport
         
         try
         {
-            if(event.getCreator().equalsIgnoreCase(this.getInfoGlueRemoteUser()))
-                isEventCreator = true;            
+        	if(this.getInfoGlueRemoteUser() == null)
+        		log.warn("InfoGlue remote user is null - should not happen..");
+        	else
+        	{
+        		if(event.getCreator().equalsIgnoreCase(this.getInfoGlueRemoteUser()))
+        			isEventCreator = true;           
+        	}
 	    }
         catch(Exception e)
         {
