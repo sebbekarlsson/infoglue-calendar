@@ -54,6 +54,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     private String searchFirstName;
     private String searchLastName;
     private String searchEmail;
+    private boolean onlyFutureEvents = true;
     private String[] categoryId;
     private String[] locationId;
     
@@ -61,7 +62,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     private List categoryList;
     private List locationList;
     
-    private List entries;
+    private Set entries;
     private String emailAddresses = "";
     
     private void initialize() throws Exception
@@ -80,13 +81,27 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         initialize();
 
         log.info("searchEventId:::::" + this.searchEventId);
-        this.entries = EntryController.getController().getEntryList(searchFirstName, 
+        this.entries = EntryController.getController().getEntryList(this.getInfoGlueRemoteUser(), 
+        															this.getInfoGlueRemoteUserRoles(), 
+        															this.getInfoGlueRemoteUserGroups(),
+        															searchFirstName, 
                 													searchLastName, 
-                													searchEmail, 
+                													searchEmail,
+                													onlyFutureEvents,
                 													searchEventId, 
                 													categoryId, 
                 													locationId,
                 													getSession());
+
+        /*
+        this.entries = EntryController.getController().getEntryList(searchFirstName, 
+				searchLastName, 
+				searchEmail, 
+				searchEventId, 
+				categoryId, 
+				locationId,
+				getSession());
+		*/
         
         Iterator entriesIterator = entries.iterator();
         while(entriesIterator.hasNext())
@@ -112,7 +127,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         return Action.INPUT;
     } 
         
-    public List getEntries()
+    public Set getEntries()
     {
         return entries;
     }
@@ -200,4 +215,15 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         return emailAddresses;
     }
+
+	public void setOnlyFutureEvents(boolean onlyFutureEvents)
+	{
+		this.onlyFutureEvents = onlyFutureEvents;
+	}
+
+	public boolean getOnlyFutureEvents()
+	{
+		return this.onlyFutureEvents;
+	}
+
 }

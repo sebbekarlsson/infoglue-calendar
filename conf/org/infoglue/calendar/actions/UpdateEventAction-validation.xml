@@ -23,6 +23,12 @@
             <message>errors.beforeStartDateTime</message>
         </field-validator>
     </field>
+    <field name="lastRegistrationDateTime">
+       	<field-validator type="fieldexpression">
+            <param name="expression">maximumParticipants == null or lastRegistrationCalendar != null</param>
+            <message>errors.maximumParticipantsDemandsLastRegistrationDateTime</message>
+        </field-validator>
+    </field>
     
     <!--
     <field name="shortDescription">

@@ -154,6 +154,9 @@
 		<ww:if test="searchEmail != null">
 			<ww:set name="searchEmail" value="searchEmail" scope="page"/>
 		</ww:if>
+		<ww:if test="onlyFutureEvents != null">
+			<ww:set name="onlyFutureEvents" value="onlyFutureEvents" scope="page"/>
+		</ww:if>
 		<portlet:renderURL var="viewEntryRenderURL">
 			<portlet:param name="action" value="ViewEntry"/>
 			<c:if test="${entryId != null}">
@@ -181,6 +184,9 @@
 			<c:if test="${searchEmail != null}">
 				<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
 			</c:if>
+			<c:if test="${onlyFutureEvents != null}">
+				<portlet:param name="onlyFutureEvents" value="<%= pageContext.getAttribute("onlyFutureEvents").toString() %>"/>
+			</c:if>			
 		</portlet:actionURL>
 	
 		<portlet:actionURL var="viewListUrl">
@@ -196,6 +202,9 @@
 			</c:if>
 			<c:if test="${searchEmail != null}">
 				<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+			</c:if>
+			<c:if test="${onlyFutureEvents != null}">
+				<portlet:param name="onlyFutureEvents" value="<%= pageContext.getAttribute("onlyFutureEvents").toString() %>"/>
 			</c:if>
 		</portlet:actionURL>
 	

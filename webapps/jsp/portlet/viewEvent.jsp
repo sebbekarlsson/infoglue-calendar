@@ -168,16 +168,18 @@
 		</p>
 
 		<ww:set name="eventId" value="eventId" scope="page"/>
-		<ww:if test="event.stateId == 3">
-			<portlet:renderURL var="createEntryRenderURL">
-				<calendar:evalParam name="action" value="CreateEntry!input"/>
-				<calendar:evalParam name="eventId" value="${eventId}"/>
-				<calendar:evalParam name="calendarId" value="${calendarId}"/>
-			</portlet:renderURL>
-
-      		<a href="<c:out value="${createEntryRenderURL}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/>" class="button"></a>
+		<ww:if test="event.lastRegistrationDateTime != null">
+			<ww:if test="event.stateId == 3 && event.lastRegistrationDateTime.time.time > now.time.time">
+				<portlet:renderURL var="createEntryRenderURL">
+					<calendar:evalParam name="action" value="CreateEntry!input"/>
+					<calendar:evalParam name="eventId" value="${eventId}"/>
+					<calendar:evalParam name="calendarId" value="${calendarId}"/>
+				</portlet:renderURL>
+	
+	      		<a href="<c:out value="${createEntryRenderURL}"/>"><input type="button" value="<ww:property value="this.getLabel('labels.internal.event.signUpForThisEvent')"/>" class="button"></a>
+			</ww:if>
 		</ww:if>
-
+		
 		<portlet:renderURL var="editEventRenderURL">
 			<calendar:evalParam name="action" value="ViewEvent!edit"/>
 			<calendar:evalParam name="eventId" value="${eventId}"/>
@@ -254,8 +256,9 @@
 				
 		<ww:if test="event.stateId == 3">
 			<portlet:renderURL var="searchEntryActionUrl">
-				<portlet:param name="action" value="ViewEntrySearch"/>
+				<portlet:param name="action" value="ViewEntrySearch"/>				
 				<calendar:evalParam name="searchEventId" value="${eventId}"/>
+				<calendar:evalParam name="onlyFutureEvents" value="false"/>
 			</portlet:renderURL>
 			
 			<ww:if test="this.getIsEventOwner(event)">

@@ -30,11 +30,13 @@ import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Role;
+import org.infoglue.calendar.entities.Subscriber;
 import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.common.util.PropertyHelper;
@@ -46,9 +48,12 @@ import org.infoglue.common.util.mail.MailServiceFactory;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -56,6 +61,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 public class EntryController extends BasicController
 {    
@@ -383,7 +391,70 @@ public class EntryController extends BasicController
 		return list;
     }
     
- 
+    /**
+     * This method returns a list of Entries which matches a certain search
+     * @return List
+     * @throws Exception
+     */
+    
+    public Set getEntryList(String userName, List roles, List groups, String firstName, String lastName, String email, boolean onlyFutureEvents, Long eventId, String[] categories, String[] locations, Session session) throws Exception
+    {
+		Set set = getEntryList(userName, roles, groups, eventId, firstName, lastName, email, onlyFutureEvents, session);
+		
+		Iterator entryListIterator = set.iterator();
+		while(entryListIterator.hasNext())
+		{
+		    Entry entry = (Entry)entryListIterator.next();
+		    
+		    boolean isValid = true;
+
+		    if(categories != null)
+		    {
+			    Map categoryHash = new HashMap();
+			    Iterator categoryIterator = entry.getEvent().getEventCategories().iterator();
+			    while(categoryIterator.hasNext())
+			    {
+			        Category category = (Category)categoryIterator.next();
+			        categoryHash.put(category.getId().toString(), category.getId().toString());
+			    }
+		    
+			    for(int i=0; i<categories.length; i++)
+		        {
+		            if(!categoryHash.containsKey(categories[i]))
+			        {
+			            isValid = false;
+			            break;
+			        }    
+		        }
+		    }
+		    
+		    if(locations != null)
+		    {
+			    Map locationHash = new HashMap();
+			    Iterator locationIterator = entry.getEvent().getLocations().iterator();
+			    while(locationIterator.hasNext())
+			    {
+			        Location location = (Location)locationIterator.next();
+			        locationHash.put(location.getId().toString(), location.getId().toString());
+			    }
+			    
+			    for(int i=0; i<locations.length; i++)
+		        {
+		            if(!locationHash.containsKey(locations[i]))
+			        {
+			            isValid = false;
+			            break;
+			        }    
+		        }
+		    }
+		    
+		    if(!isValid)
+		        entryListIterator.remove();
+		}
+		
+		return set;
+    }
+
     
     /**
      * Gets a list of all entrys available sorted by primary key.
@@ -423,6 +494,76 @@ public class EntryController extends BasicController
         result = q.list();
         
         return result;
+    }
+
+    /**
+     * Gets a list of all entrys available sorted by primary key.
+     * @return List of Entry
+     * @throws Exception
+     */
+    
+    public Set getEntryList(String userName, List roles, List groups, Long eventId, String firstName, String lastName, String email, boolean onlyFutureEvents, Session session) throws Exception 
+    {
+        List result = null;
+
+        Criteria criteria = session.createCriteria(Entry.class);
+
+        Criteria eventCriteria = criteria.createCriteria("event");
+        Criteria calendarCriteria = eventCriteria.createCriteria("owningCalendar");
+
+        calendarCriteria.createCriteria("owningRoles").add(Expression.in("name", roles.toArray()));
+        if(groups.size() > 0)
+        	calendarCriteria.createCriteria("owningGroups").add(Expression.in("name", groups.toArray()));
+
+        if(onlyFutureEvents)
+        	eventCriteria.add(Expression.gt("endDateTime", java.util.Calendar.getInstance()));
+        
+        if(eventId != null)
+        	eventCriteria.add(Restrictions.idEq(eventId));
+        if(firstName != null && firstName.length() != 0)
+        	criteria.add(Restrictions.like("firstName", firstName));
+        if(lastName != null && lastName.length() != 0)
+        	criteria.add(Restrictions.like("lastName", lastName));
+        if(email != null && email.length() != 0)
+        	criteria.add(Restrictions.like("email", email));
+
+        criteria.addOrder(Order.asc("id"));
+
+        Set set = new LinkedHashSet();
+        set.addAll(criteria.list());
+        
+        return set;	
+    	
+/*
+        String arguments = "";
+        
+        if(eventId != null)
+            arguments += "entry.event.id = :eventId ";
+        if(firstName != null && firstName.length() != 0)
+            arguments += (arguments.length() == 0 ? "" : "and ") + "entry.firstName = :firstName ";
+        if(lastName != null && lastName.length() != 0)
+            arguments += (arguments.length() == 0 ? "" : "and ") + "entry.lastName = :lastName ";
+        if(email != null && email.length() != 0)
+            arguments += (arguments.length() == 0 ? "" : "and ") + "entry.email = :email ";
+        
+        String sql = "from Entry entry " + (arguments.length() > 0 ? "WHERE " + arguments : "") + " order by entry.id";
+        log.info("SQL:" + sql);
+        
+        Query q = session.createQuery(sql);
+
+        if(eventId != null)
+            q.setParameter("eventId", eventId, Hibernate.LONG);
+        if(firstName != null && firstName.length() != 0)
+            q.setParameter("firstName", firstName, Hibernate.STRING);
+        if(lastName != null && lastName.length() != 0)
+            q.setParameter("lastName", lastName, Hibernate.STRING);
+        if(email != null && email.length() != 0)
+            q.setParameter("email", email, Hibernate.STRING);
+        
+        result = q.list();
+        
+        return result;
+        */
     }
 
     /**
