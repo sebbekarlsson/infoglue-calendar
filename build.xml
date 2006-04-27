@@ -555,7 +555,7 @@
 
 		<echo message="Copying web.xml and portlet.xml from ${webapp}/WEB-INF to ${webapp}/WEB-INF"/>
 		<copy todir="${deploy.dir.working}/WEB-INF" verbose="true" overwrite="true" encoding="iso-8859-1">
-			<fileset dir="${webapp}/WEB-INF">
+			<fileset dir="${conf}">
 				<include name="web.xml"/>
 				<include name="portlet.xml"/>
 			</fileset>
