@@ -79,6 +79,8 @@ public class SelectFieldTag extends AbstractCalendarTag
 	
 	public int doEndTag() throws JspException
     {
+		log.info("doEndTag in SelectFieldTag....");
+		
 	    fieldErrors = (List)findOnValueStack("#fieldErrors." + name);
 	    
 	    errorAction = findOnValueStack("#errorAction");
@@ -166,13 +168,14 @@ public class SelectFieldTag extends AbstractCalendarTag
 	                id = value;
 	                optionText = value;
 	            }
-	            
+            	log.info("ID:" + id + ": optionText:" + optionText);
+
 	            String selected = "";
 	            if(selectedValues != null)
 	            {
 	                for(int i=0; i<selectedValues.length; i++)
 		            {
-	                	log.info(id + "=" + selectedValues[i]);
+	                	log.info("1:" + id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selectedValues[i]))
 		                {
 		                    selected = " selected=\"1\"";
@@ -220,7 +223,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
-	    	            log.info(id + "=" + selId);
+	    	            log.info("2:" + id + "=" + selId);
 		                if(id.equalsIgnoreCase(selId))
 		                    selected = " selected=\"1\"";
 		            }
@@ -263,6 +266,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	                selId = selValue.getId().toString();
 	    	            }
 	    	            
+	    	            log.info("3:" + id + "=" + selId);
 	                    if(id.equalsIgnoreCase(selId))
 		                    selected = " selected=\"1\"";
 		            }
@@ -276,6 +280,8 @@ public class SelectFieldTag extends AbstractCalendarTag
         
         write(sb.toString());
 	    
+        log.info("sb:" + sb.toString());
+        
         return EVAL_PAGE;
     }
 

@@ -45,7 +45,7 @@
 			<result name="error" type="eventProcessed">
 				<param name="viewAction">ViewSettings.action</param>
 			</result>
-		</action>
+		</action>		
 		
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">
@@ -526,11 +526,11 @@
 		<!-- RESOURCE ACTIONS -->
 		<action name="CreateResource" class="org.infoglue.calendar.actions.CreateResourceAction">
 			<result name="error" type="eventProcessed">
-				<param name="viewAction">ViewEvent.action?eventId=${eventId}&amp;calendarId=${calendarId}&amp;mode=${mode}</param>
+				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>
 			<result name="success" type="eventProcessed">
-				<param name="viewAction">ViewEvent.action?eventId=${eventId}&amp;calendarId=${calendarId}&amp;mode=${mode}</param>
+				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>
 		</action>
@@ -647,6 +647,28 @@
 			<result name="success" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewAccessRights.jsp</param>
             </result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
+		
+		<action name="ViewApplicationState" class="org.infoglue.calendar.actions.ViewApplicationStateAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewApplicationState.jsp</param>
+			</result>
+			<result name="cleared" type="eventProcessed">
+				<param name="viewAction">ViewApplicationState.action</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
+		<action name="UpdateApplicationState" class="org.infoglue.calendar.actions.UpdateApplicationStateAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewApplicationState.action</param>
+				<param name="parse">true</param>
+			</result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
