@@ -34,7 +34,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.cms.entities.structure.SiteNode;
 import org.infoglue.cms.entities.structure.impl.simple.SiteNodeImpl;
@@ -49,7 +51,7 @@ import org.infoglue.cms.entities.structure.impl.simple.SiteNodeImpl;
 
 public class RemoteCacheUpdater
 {	
-   private final static Logger logger = Logger.getLogger(RemoteCacheUpdater.class.getName());
+   private static Log log = LogFactory.getLog(RemoteCacheUpdater.class);
 
    private static Map usageMap = new HashMap();
    
@@ -65,7 +67,7 @@ public class RemoteCacheUpdater
        for(int i=0; i<calendarIdArray.length; i++)
        {
            String calendarId = calendarIdArray[i];
-           logger.info("Registering use of calendar " + calendarId + " on siteNode " + siteNodeId);
+           log.info("Registering use of calendar " + calendarId + " on siteNode " + siteNodeId);
            List siteNodeIdList = (List)usageMap.get(calendarId);
            if(siteNodeIdList == null)
            {
@@ -115,31 +117,39 @@ public class RemoteCacheUpdater
 		
 		String appPrefix = "notificationUrl";
 		
-		int i = 0;
-		String deliverUrl = null;
-		while((deliverUrl = PropertyHelper.getProperty(appPrefix + "." + i)) != null)
-		{ 
-			String address = deliverUrl;
-			logger.info("Updating cache at " + address);
+		Iterator siteNodeIdListIterator = siteNodeIdList.iterator();
+		while(siteNodeIdListIterator.hasNext())
+		{
+		    Hashtable hashedMessage = new Hashtable();
 			
-			Iterator siteNodeIdListIterator = siteNodeIdList.iterator();
-			while(siteNodeIdListIterator.hasNext())
-			{
-			    Hashtable hashedMessage = new Hashtable();
-				
-			    Integer siteNodeId = (Integer)siteNodeIdListIterator.next();
-			    logger.info("Updating siteNodeId:" + siteNodeId);
-			    hashedMessage.put("className", SiteNode.class.getName());
-			    hashedMessage.put("objectId", "" + siteNodeId);
-			    
-				String response = postToUrl(address, hashedMessage);
+		    Integer siteNodeId = (Integer)siteNodeIdListIterator.next();
+		    log.info("Updating siteNodeId:" + siteNodeId);
+		    hashedMessage.put("className", SiteNode.class.getName());
+		    hashedMessage.put("objectId", "" + siteNodeId);
 
-				logger.info("Removing usage as we now cleared that...");
-				siteNodeIdListIterator.remove();
+		    int i = 0;
+			String deliverUrl = null;
+			while((deliverUrl = PropertyHelper.getProperty(appPrefix + "." + i)) != null)
+			{ 
+				String address = deliverUrl;
+				log.info("Updating cache at " + address);
+			
+			    try
+			    {
+			    	String response = postToUrl(address, hashedMessage);
+				}
+			    catch(Exception e)
+			    {
+				    log.warn("Error calling " + address + ":" + e.getMessage(), e);			    	
+			    }
+			    
+				i++;
 			}
 			
-			i++;
+			log.info("Removing usage as we now cleared that...");
+			siteNodeIdListIterator.remove();
 		}
+			
 	}	
 
    /**
