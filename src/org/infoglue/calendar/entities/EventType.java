@@ -24,6 +24,8 @@ package org.infoglue.calendar.entities;
 
 import java.util.Set;
 
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
+
 /**
  * This class represents a eventType where events can take place.
  * 
@@ -32,14 +34,20 @@ import java.util.Set;
  * @hibernate.class table="EventType"
  */
 
-public class EventType implements BaseEntity
+public class EventType implements BaseEntity, ContentTypeDefinition
 {
+	public static final Integer EVENT_DEFINITION = new Integer(0);
+	public static final Integer ENTRY_DEFINITION = new Integer(1);
+
     private Long id;
     private String name;
     private String description;
+    private String schemaValue = null;
     
     private Set categoryAttributes;
     
+    private Integer type = EVENT_DEFINITION;
+
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -95,4 +103,25 @@ public class EventType implements BaseEntity
     {
         this.categoryAttributes = categoryAttributes;
     }
+    
+    public java.lang.String getSchemaValue()
+    {
+        return this.schemaValue;
+    }
+                
+    public void setSchemaValue(java.lang.String schemaValue)
+    {
+        this.schemaValue = schemaValue;
+    }
+    
+	public java.lang.Integer getType()
+	{
+		return type;
+	}
+
+	public void setType(java.lang.Integer type)
+	{
+		this.type = type;
+	}
+
 }

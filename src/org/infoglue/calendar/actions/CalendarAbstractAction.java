@@ -52,6 +52,7 @@ import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
+import org.infoglue.cms.entities.management.ContentTypeDefinitionVO;
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.PropertyHelper;
@@ -119,6 +120,11 @@ public class CalendarAbstractAction extends ActionSupport
     public String getLogoutUrl()
     {
         return (String)ServletActionContext.getRequest().getAttribute("logoutUrl");
+    }
+
+    public String getCSSUrl()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("cssUrl");
     }
 
     public Integer getNumberOfItemsPerPage()

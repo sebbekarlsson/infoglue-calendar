@@ -37,6 +37,8 @@
 	</form>
 </div>
 
+<%@ include file="viewContentTypeDefinitionEditor.jsp" %>
+
 <div class="columnlabelarea">
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.eventType.AvailableCategories')"/></p></div>
 	<div class="columnLong"><p></p></div>
@@ -103,6 +105,5 @@
        	<div class="clear"></div>
     </div>
 </ww:if>
-	
 
 <%@ include file="adminFooter.jsp" %>

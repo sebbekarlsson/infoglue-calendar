@@ -2,8 +2,8 @@
 
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping
->
+<hibernate-mapping>
+
     <class name="org.infoglue.calendar.entities.EventType"
             table="EventType" 
             dynamic-update="false" 
@@ -18,7 +18,8 @@
 
         <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="true" />
         <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false" />
-
+		<property name="schemaValue" type="string" column="schemaValue" not-null="false" unique="false"/>
+		
         <set name="categoryAttributes" lazy="true" inverse="false" cascade="none" order-by="id asc">
 			<key column="eventtype_id"></key>
 			<one-to-many class="org.infoglue.calendar.entities.EventTypeCategoryAttribute"/>

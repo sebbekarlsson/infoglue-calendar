@@ -11,8 +11,13 @@
 	<head>
 		<title><ww:property value="this.getLabel('labels.internal.applicationTitle')"/></title>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
-		<style type="text/css" media="screen">@import url(http://cms.it.gu.se/infoglueDeliverWorking/ViewPage.action?siteNodeId=101891&amp;languageId=100000&amp;contentId=-1);</style>
-
+		<ww:if test="CSSUrl != null">
+			<style type="text/css" media="screen">@import url(<ww:property value="CSSUrl"/>);</style>
+		</ww:if>
+		<ww:else>
+			<style type="text/css" media="screen">@import url(http://cms.it.gu.se/infoglueDeliverWorking/ViewPage.action?siteNodeId=101891&amp;languageId=100000&amp;contentId=-1);</style>
+		</ww:else>
+		
 		<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
 		
 		<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>

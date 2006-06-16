@@ -81,10 +81,10 @@ public class EventTypeController extends BasicController
      * @throws Exception
      */
     
-    public void updateEventType(Long id, String name, String description, Session session) throws Exception 
+    public void updateEventType(Long id, String name, String description, String schemaValue, Session session) throws Exception 
     {
 		EventType eventType = getEventType(id, session);
-		updateEventType(eventType, name, description, session);
+		updateEventType(eventType, name, description, schemaValue, session);
     }
     
     /**
@@ -93,11 +93,14 @@ public class EventTypeController extends BasicController
      * @throws Exception
      */
     
-    public void updateEventType(EventType eventType, String name, String description, Session session) throws Exception 
+    public void updateEventType(EventType eventType, String name, String description, String schemaValue, Session session) throws Exception 
     {
         eventType.setName(name);
         eventType.setDescription(description);
-	
+        System.out.println("schemaValue:" + schemaValue.length());
+        if(schemaValue != null)
+        	eventType.setSchemaValue(schemaValue);
+        
 		session.update(eventType);
 	}
     
@@ -112,7 +115,12 @@ public class EventTypeController extends BasicController
     public EventType getEventType(Long id, Session session) throws Exception
     {
         EventType eventType = (EventType)session.load(EventType.class, id);
-		
+		if(eventType.getSchemaValue() == null || eventType.getSchemaValue().equals(""))
+		{
+			eventType.setSchemaValue("<xs:schema attributeFormDefault=\"unqualified\" elementFormDefault=\"qualified\" version=\"2.2\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"><xs:simpleType name=\"textarea\"> <xs:restriction base=\"xs:string\"><xs:maxLength value=\"100\"></xs:maxLength></xs:restriction> </xs:simpleType><xs:simpleType name=\"radiobutton\"> <xs:restriction base=\"xs:string\"> <xs:maxLength value=\"100\"></xs:maxLength> </xs:restriction> </xs:simpleType> <xs:simpleType name=\"checkbox\"> <xs:restriction base=\"xs:string\"> <xs:maxLength value=\"100\"></xs:maxLength> </xs:restriction> </xs:simpleType> <xs:simpleType name=\"select\"> <xs:restriction base=\"xs:string\"> <xs:maxLength value=\"100\"></xs:maxLength>	</xs:restriction> </xs:simpleType> <xs:simpleType name=\"textfield\"> <xs:restriction base=\"xs:string\"> <xs:maxLength value=\"100\"></xs:maxLength> </xs:restriction> </xs:simpleType> <xs:complexType name=\"Content\"> 	<xs:all> <xs:element name=\"Attributes\"> <xs:complexType> <xs:all><xs:element name=\"Hepp\" type=\"textfield\"><xs:annotation><xs:appinfo><params><param id=\"title\" inputTypeId=\"0\"><values><value id=\"undefined93\" label=\"Hepp\"></value></values></param><param id=\"description\" inputTypeId=\"0\"><values><value id=\"undefined74\" label=\"Hepp\"></value></values></param><param id=\"initialData\" inputTypeId=\"0\"><values><value id=\"undefined26\" label=\"Hepp\"></value></values></param><param id=\"class\" inputTypeId=\"0\"><values><value id=\"undefined73\" label=\"longtextfield\"></value></values></param></params></xs:appinfo></xs:annotation></xs:element> </xs:all> </xs:complexType> </xs:element> </xs:all> </xs:complexType> <xs:complexType name=\"Validation\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"><xs:annotation><xs:appinfo><form-validation><global><validator classname=\"org.infoglue.cms.util.validators.CommonsValidator\" method=\"validateRequired\" methodParams=\"java.lang.Object,org.apache.commons.validator.Field\" msg=\"300\" name=\"required\"></validator><validator classname=\"org.infoglue.cms.util.validators.CommonsValidator\" method=\"validateRequiredIf\" methodParams=\"java.lang.Object,org.apache.commons.validator.Field,org.apache.commons.validator.Validator\" msg=\"315\" name=\"requiredif\"></validator><validator classname=\"org.infoglue.cms.util.validators.CommonsValidator\" method=\"validateRegexp\" methodParams=\"java.lang.Object,org.apache.commons.validator.Field\" msg=\"300\" name=\"matchRegexp\"></validator></global><formset><form name=\"requiredForm\"></form></formset></form-validation></xs:appinfo></xs:annotation></xs:complexType></xs:schema>");
+			session.update(eventType);
+		}
+        
 		return eventType;
     }
     

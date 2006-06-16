@@ -49,7 +49,7 @@ public class UpdateEventTypeAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            EventTypeController.getController().updateEventType(dataBean.getId(), dataBean.getName(), dataBean.getDescription(), getSession());
+            EventTypeController.getController().updateEventType(dataBean.getId(), dataBean.getName(), dataBean.getDescription(), dataBean.getSchemaValue(), getSession());
         }
         catch(ValidationException e)
         {
@@ -88,6 +88,16 @@ public class UpdateEventTypeAction extends CalendarAbstractAction
     {
         this.dataBean.setName(name);
     }
+
+    public String getSchemaValue()
+    {
+        return this.dataBean.getSchemaValue();
+    }
     
+    public void setSchemaValue(String schemaValue)
+    {
+        this.dataBean.setSchemaValue(schemaValue);
+    }
+
 
 }
