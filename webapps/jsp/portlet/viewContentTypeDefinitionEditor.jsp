@@ -498,11 +498,10 @@
 <div id="menu">
 
 <div class="columnlabelarea">
-	<div class="columnShort"><p>A</p></div>
-	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.eventType.attributes')"/></p></div>
-	<div class="columnMedium"><p>
-		<a href="ViewEventType!useSimple.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title"><ww:property value="this.getLabel('labels.internal.eventType.simple')"/></a>
-			<select size="1" name="inputTypeId" class="sitedropbox">
+	<div class="columnShort"><p>&nbsp;</p></div>
+	<div class="columnLong">
+		<ww:property value="this.getLabel('labels.internal.eventType.attributes')"/>
+				<select size="1" name="inputTypeId" class="sitedropbox">
 			    <option value="" selected>Choose element type</option>
 			    <!--<option value="label">Label</option>-->
 			    <option value="textfield">TextField</option>
@@ -518,74 +517,124 @@
 			</select>
 
 			<a href="javascript:submitNewAttribute();"><input type="button" value="Add attribute" style=""/></a>
+	</div>
+	<div class="columnEnd">
+		<a href="ViewEventType!useSimple.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title"><ww:property value="this.getLabel('labels.internal.eventType.simple')"/></a>
 
-			<select onChange="javascript:changeViewLanguage();" size="1" name="languageCode" class="sitedropbox">
-			    <option value="">default</option>
-				#foreach ($languageVO in $availableLanguages)
-					#if($languageVO.languageCode == $!currentContentTypeEditorViewLanguageCode)
-					<option value="$languageVO.getLanguageCode()" selected>$languageVO.getName()</option>
-					#else
-					<option value="$languageVO.getLanguageCode()">$languageVO.getName()</option>
-					#end
+		<select onChange="javascript:changeViewLanguage();" size="1" name="languageCode" class="sitedropbox">
+		    <option value="">default</option>
+			#foreach ($languageVO in $availableLanguages)
+				#if($languageVO.languageCode == $!currentContentTypeEditorViewLanguageCode)
+				<option value="$languageVO.getLanguageCode()" selected>$languageVO.getName()</option>
+				#else
+				<option value="$languageVO.getLanguageCode()">$languageVO.getName()</option>
 				#end
-			</select>
-		
-		</p></div>
+			#end
+		</select>
+	
+	</div>
 	<div class="clear"></div>
 </div>
 
-		<div id="attributes">
-			<c:set var="count" value="0"/>
-			<ww:iterator value="contentTypeAttributes" status="rowstatus">
-				<ww:set name="attribute" value="top" scope="page"/>
-				<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
-				
-				<ww:if test="#rowstatus.odd == true">
-			    	<div class="oddrow">
-			    </ww:if>
-			    <ww:else>
-					<div class="evenrow">
-			    </ww:else>
+<div id="attributes">
+	<c:set var="count" value="0"/>
+	<ww:iterator value="contentTypeAttributes" status="rowstatus">
+		<ww:set name="attribute" value="top" scope="page"/>
+		<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
+		
+		<ww:if test="#rowstatus.odd == true">
+	    	<div class="oddrow">
+	    </ww:if>
+	    <ww:else>
+			<div class="evenrow">
+	    </ww:else>
 
-				   	<div class="columnShort">
-						<a href="ViewEventType!moveAttributeUp.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="moveup"></a>
-						<a href="ViewEventType!moveAttributeDown.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="moveDown"></a>
-						<a href="#" title="<c:out value="${attribute.inputType}"/>" class="<c:out value="${attribute.inputType}"/>Icon"></a>
-					</div
-					<div class="columnLong">
-						<a name="<c:out value="${attribute.name}"/>" href="javascript:showPropertyDiv('<c:out value="${attribute.name}"/>PropertyLayer');">
-						<c:out value="${attribute.name}"/> (<c:out value="${title}"/>) of type <c:out value="${attribute.inputType}"/></a>
-					</div>
-					<div class="columnEnd">
-						<a href="ViewEventType!deleteAttribute.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="delete"></a>
-						<a href="javascript:showPropertyDiv('<c:out value="${attribute.name}"/>PropertyLayer');" class="edit"></a>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<ww:set name="count" value="${count + 1)"/>
-			</ww:iterator>
+		   	<div class="columnShort">
+				<a href="ViewEventType!moveAttributeUp.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="moveup"></a>
+				<a href="ViewEventType!moveAttributeDown.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="moveDown"></a>
+				<a href="#" title="<c:out value="${attribute.inputType}"/>" class="<c:out value="${attribute.inputType}"/>Icon"></a>
+			</div
+			<div class="columnLong">
+				<a name="<c:out value="${attribute.name}"/>" href="javascript:showPropertyDiv('<c:out value="${attribute.name}"/>PropertyLayer');">
+				<c:out value="${attribute.name}"/> (<c:out value="${title}"/>) of type <c:out value="${attribute.inputType}"/></a>
+			</div>
+			<div class="columnEnd">
+				<a href="ViewEventType!deleteAttribute.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="delete"></a>
+				<a href="javascript:showPropertyDiv('<c:out value="${attribute.name}"/>PropertyLayer');" class="edit"></a>
+			</div>
+			<div class="clear"></div>
 		</div>
-		<div id="menu">
-			<ww:if test="count > 15">
+		<ww:set name="count" value="${count + 1)"/>
+	</ww:iterator>
+</div>
+<div id="menu">
+	<ww:if test="count > 15">
 
-				<select size="1" name="inputTypeId2" onChange="syncDropboxes();" class="sitedropbox">
-				    <option value="" selected>Choose element type</option>
-				    <!--<option value="label">Label</option>-->
-				    <option value="textfield">TextField</option>
-				    <option value="textarea">TextArea</option>
-				    <option value="checkbox">CheckBox</option>
-				    <option value="radiobutton">RadioButton</option>
-				    <option value="select">SelectBox</option>
-				    <option value="hidden">Hidden</option>
-				    <!--<option value="password">Password</option>-->
-				    <!--<option value="image">SubmitImage</option>-->
-				    <!--<option value="submit">SubmitButton</option>-->
-				    <!--<option value="clear">ClearButton</option>-->
-				</select>
+		<select size="1" name="inputTypeId2" onChange="syncDropboxes();" class="sitedropbox">
+		    <option value="" selected>Choose element type</option>
+		    <!--<option value="label">Label</option>-->
+		    <option value="textfield">TextField</option>
+		    <option value="textarea">TextArea</option>
+		    <option value="checkbox">CheckBox</option>
+		    <option value="radiobutton">RadioButton</option>
+		    <option value="select">SelectBox</option>
+		    <option value="hidden">Hidden</option>
+		    <!--<option value="password">Password</option>-->
+		    <!--<option value="image">SubmitImage</option>-->
+		    <!--<option value="submit">SubmitButton</option>-->
+		    <!--<option value="clear">ClearButton</option>-->
+		</select>
 
-				<a href="javascript:submitNewAttribute();"><input type="button" value="Add attribute" style=""/></a>
+		<a href="javascript:submitNewAttribute();"><input type="button" value="Add attribute" style=""/></a>
 
-			</ww:if>
+	</ww:if>
+</div>
+
+<%--
+<div class="columnlabelarea">
+	<div class="columnLong">Defined Categories</div>
+	<div class="columnEnd">&nbsp;</div>
+	<div class="clear"></div>
+</div>
+
+<div class="columnlabelarea">
+	<div class="columnMedium">Attribute (key)</div>
+	<div class="columnMedium">Base Category</div>
+	<div class="columnEnd">&nbsp;</div>
+	<div class="clear"></div>
+</div>
+
+<div id="categories">
+
+	<c:set var="count" value="0"/>
+	<ww:iterator value="categoryKeys" status="rowstatus">
+		<ww:set name="category" value="top" scope="page"/>
+		<ww:set name="categoryKey" value="top.value" scope="page"/>
+		
+		<ww:if test="#rowstatus.odd == true">
+	    	<div class="oddrow">
+	    </ww:if>
+	    <ww:else>
+			<div class="evenrow">
+	    </ww:else>
+
+		   	<div class="columnShort">
+				<a href="ViewEventType!moveAttributeUp.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="moveup"></a>
+				<a href="ViewEventType!moveAttributeDown.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="moveDown"></a>
+				<a href="#" title="<c:out value="${attribute.inputType}"/>" class="<c:out value="${attribute.inputType}"/>Icon"></a>
+			</div
+			<div class="columnLong">
+				<a name="<c:out value="${attribute.name}"/>" href="javascript:showPropertyDiv('<c:out value="${attribute.name}"/>PropertyLayer');">
+				<c:out value="${attribute.name}"/> (<c:out value="${title}"/>) of type <c:out value="${attribute.inputType}"/></a>
+			</div>
+			<div class="columnEnd">
+				<a href="ViewEventType!deleteAttribute.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="delete"></a>
+				<a href="javascript:showPropertyDiv('<c:out value="${attribute.name}"/>PropertyLayer');" class="edit"></a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<ww:set name="count" value="${count + 1)"/>
+	</ww:iterator>
 </div>
 
 <table class="managementtooledit" cellpadding="2" cellspacing="2" border="0" width="100%">
@@ -662,6 +711,8 @@
 </tr>
 </table>
 </form>
+--%>
+
 </div>
 <script type="text/javascript">
 	#if($activatedName.size() > 0)
