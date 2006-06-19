@@ -73,6 +73,16 @@
 	<calendar:textField label="labels.internal.soba.lastName" name="searchLastName" value="lastName" cssClass="longtextfield"/>
 	<calendar:textField label="labels.internal.soba.email" name="searchEmail" value="email" cssClass="longtextfield"/>
 
+	<ww:iterator value="categoryAttributes" status="rowstatus">
+		<ww:set name="categoryAttribute" value="top" scope="page"/>
+		<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
+		<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
+		<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
+		<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValues="getCategoryAttributeValues(top.id)" cssClass="listBox" mandatory="false"/>
+	</ww:iterator>
+
+	<calendar:checkboxField label="labels.internal.soba.searchANDOR" name="andSearch" valueMap="andSearch" selectedValues="false"/>
+
 	<div style="height:10px"></div>
 	
 	<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.searchButton')"/>" class="button"/>

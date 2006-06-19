@@ -61,9 +61,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 
 public class EntryController extends BasicController
 {    
@@ -332,7 +336,7 @@ public class EntryController extends BasicController
      * @return List
      * @throws Exception
      */
-    
+    /*
     public List getEntryList(String firstName, String lastName, String email, Long eventId, String[] categories, String[] locations, Session session) throws Exception
     {
 		List list = getEntryList(eventId, firstName, lastName, email, session);
@@ -390,6 +394,7 @@ public class EntryController extends BasicController
 		
 		return list;
     }
+    */
     
     /**
      * This method returns a list of Entries which matches a certain search
@@ -397,9 +402,9 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public Set getEntryList(String userName, List roles, List groups, String firstName, String lastName, String email, boolean onlyFutureEvents, Long eventId, String[] categories, String[] locations, Session session) throws Exception
+    public Set getEntryList(String userName, List roles, List groups, String firstName, String lastName, String email, boolean onlyFutureEvents, Long eventId, Map categoryAttributesMap, boolean andSearch, String[] locations, Session session) throws Exception
     {
-		Set set = getEntryList(userName, roles, groups, eventId, firstName, lastName, email, onlyFutureEvents, session);
+		Set set = getEntryList(userName, roles, groups, eventId, firstName, lastName, email, onlyFutureEvents, categoryAttributesMap, andSearch, session);
 		
 		Iterator entryListIterator = set.iterator();
 		while(entryListIterator.hasNext())
@@ -407,26 +412,33 @@ public class EntryController extends BasicController
 		    Entry entry = (Entry)entryListIterator.next();
 		    
 		    boolean isValid = true;
-
-		    if(categories != null)
+		    /*
+		    Iterator categoryAttributeMapIterator = categoryAttributesMap.entrySet().iterator();
+		    while(categoryAttributeMapIterator.hasNext())
 		    {
-			    Map categoryHash = new HashMap();
-			    Iterator categoryIterator = entry.getEvent().getEventCategories().iterator();
-			    while(categoryIterator.hasNext())
+		    	String[] categories = (String[])categoryAttributeMapIterator.next();
+			    if(categories != null)
 			    {
-			        Category category = (Category)categoryIterator.next();
-			        categoryHash.put(category.getId().toString(), category.getId().toString());
-			    }
-		    
-			    for(int i=0; i<categories.length; i++)
-		        {
-		            if(!categoryHash.containsKey(categories[i]))
+				    Map categoryHash = new HashMap();
+				    Iterator categoryIterator = entry.getEvent().getEventCategories().iterator();
+				    while(categoryIterator.hasNext())
+				    {
+				        Category category = (Category)categoryIterator.next();
+				        
+				        categoryHash.put(category.getId().toString(), category.getId().toString());
+				    }
+			    
+				    for(int i=0; i<categories.length; i++)
 			        {
-			            isValid = false;
-			            break;
-			        }    
-		        }
+			            if(!categoryHash.containsKey(categories[i]))
+				        {
+				            isValid = false;
+				            break;
+				        }    
+			        }
+			    }
 		    }
+		    */
 		    
 		    if(locations != null)
 		    {
@@ -502,7 +514,7 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public Set getEntryList(String userName, List roles, List groups, Long eventId, String firstName, String lastName, String email, boolean onlyFutureEvents, Session session) throws Exception 
+    public Set getEntryList(String userName, List roles, List groups, Long eventId, String firstName, String lastName, String email, boolean onlyFutureEvents, Map selectedCategoryAttributes, boolean andSearch, Session session) throws Exception 
     {
         List result = null;
 
@@ -517,6 +529,38 @@ public class EntryController extends BasicController
 
         if(onlyFutureEvents)
         	eventCriteria.add(Expression.gt("endDateTime", java.util.Calendar.getInstance()));
+
+        log.info("selectedCategoryAttributes:" + selectedCategoryAttributes);
+        if(selectedCategoryAttributes != null)
+        {
+    		Criteria eventCategoriesCriteria = eventCriteria.createCriteria("eventCategories");
+    		Criteria categoryAttributesCriteria = eventCategoriesCriteria.createCriteria("eventTypeCategoryAttribute");
+    		Criteria categoryCriteria = eventCategoriesCriteria.createCriteria("category");
+
+    		Junction junction = Restrictions.disjunction();
+    		if(andSearch)
+    			junction = Restrictions.conjunction();
+    		
+    		eventCategoriesCriteria.add(junction);
+    		
+        	Iterator selectedCategoryAttributesIterator = selectedCategoryAttributes.keySet().iterator();
+        	while(selectedCategoryAttributesIterator.hasNext())
+		    {
+		    	String id = (String)selectedCategoryAttributesIterator.next();
+		    	Long[] categories = (Long[])selectedCategoryAttributes.get(id);
+		    	log.info("id:" + id);
+		    	log.info("categories:" + categories);
+		    	if(categories != null)
+		    	{
+		    		Criterion e1 = Restrictions.eq("eventTypeCategoryAttribute.id", new Long(id));
+		    		Criterion e2 = Restrictions.in("category.id", categories);
+		    		Criterion criterion = Restrictions.and(e1, e2);
+		    			
+		    		junction.add(criterion);
+		    	}
+		    }
+        	log.info("junction:" + junction.toString());
+        }
         
         if(eventId != null)
         	eventCriteria.add(Restrictions.idEq(eventId));
@@ -528,7 +572,7 @@ public class EntryController extends BasicController
         	criteria.add(Restrictions.like("email", email));
 
         criteria.addOrder(Order.asc("id"));
-
+        
         Set set = new LinkedHashSet();
         set.addAll(criteria.list());
         

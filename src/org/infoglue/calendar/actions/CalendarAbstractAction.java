@@ -102,6 +102,14 @@ public class CalendarAbstractAction extends ActionSupport
         return yesOrNo;
     }
 
+    public Map getAndSearch()
+    {
+        Map yesOrNo = new HashMap();
+        yesOrNo.put("true", "labels.internal.soba.andSearchTrue");
+        
+        return yesOrNo;
+    }
+
     public Integer getSiteNodeId()
     {
         return (Integer)ServletActionContext.getRequest().getAttribute("siteNodeId");

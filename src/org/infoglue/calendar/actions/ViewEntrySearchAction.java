@@ -23,21 +23,26 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.EventTypeCategoryAttributeController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 
 /**
@@ -61,15 +66,22 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     private Set eventList;
     private List categoryList;
     private List locationList;
+    private List categoryAttributes;
+    
+    private String andSearch = "false";
     
     private Set entries;
     private String emailAddresses = "";
     
+    private Map categoryAttributesMap = new HashMap();
+
     private void initialize() throws Exception
     {
         this.eventList = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), null, getSession());
         this.categoryList = CategoryController.getController().getRootCategoryList(getSession());
         this.locationList = LocationController.getController().getLocationList(getSession());
+        this.categoryAttributes = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttributeList(getSession());
+        System.out.println("calendars:" + categoryAttributes.size());
     }
     
     /**
@@ -80,7 +92,35 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         initialize();
 
+        int i = 0;
+        String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+        log.info("idKey:" + idKey);
+        while(idKey != null && idKey.length() > 0)
+        {
+            String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
+            log.info("categoryIds:" + categoryIds);
+            if(categoryIds != null)
+            {
+	            Long[] categoryIdsLong = new Long[categoryIds.length];
+	            for(int j=0; j<categoryIds.length; j++)
+	            	categoryIdsLong[j] = new Long(categoryIds[j]);
+	            
+	            categoryAttributesMap.put(idKey, categoryIdsLong);
+            }
+            
+            i++;
+            idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+            log.info("idKey:" + idKey);
+        }
+        
+
         log.info("searchEventId:::::" + this.searchEventId);
+        log.warn("andSearch:" + this.andSearch);
+        
+        this.andSearch = ServletActionContext.getRequest().getParameter("andSearch");
+        log.warn("andSearch:" + andSearch);
+
+        
         this.entries = EntryController.getController().getEntryList(this.getInfoGlueRemoteUser(), 
         															this.getInfoGlueRemoteUserRoles(), 
         															this.getInfoGlueRemoteUserGroups(),
@@ -89,7 +129,8 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 													searchEmail,
                 													onlyFutureEvents,
                 													searchEventId, 
-                													categoryId, 
+                													categoryAttributesMap,
+                													Boolean.parseBoolean(andSearch),
                 													locationId,
                 													getSession());
 
@@ -224,6 +265,16 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
 	public boolean getOnlyFutureEvents()
 	{
 		return this.onlyFutureEvents;
+	}
+
+	public List getCategoryAttributes()
+	{
+		return categoryAttributes;
+	}
+
+	public void setAndSearch(String andSearch)
+	{
+		this.andSearch = andSearch;
 	}
 
 }

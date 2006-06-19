@@ -101,13 +101,14 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	    StringBuffer sb = new StringBuffer();
 	    
 	    sb.append("<div class=\"fieldrow\">");
-	    //if(this.label != null)
-	    //{
-	    //	sb.append("<label>" + this.label + "</label><span class=\"redstar\">*</span><br>");
-	    //}
-	    //else
-	    //    sb.append("<label>" + this.name + "</label><span class=\"redstar\">*</span><br>");
 		            
+	    if(this.label != null)
+	    {
+			sb.append("<label>" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+	    }
+	    else
+	        sb.append("<label>" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+
         if(values != null)
         {
 	        Iterator valuesIterator = values.keySet().iterator();
@@ -176,7 +177,7 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 		            }
 	            }
 	            
-	    		sb.append("<input name=\"" + name + "\" value=\"" + id + "\" class=\"\" type=\"checkbox\" id=\"" + name + "\"" + checked + "><label for=\"" + name + "\"> " + this.getLabel(optionText) + "</label><br />");
+	    		sb.append("<input name=\"" + name + "\" value=\"" + id + "\" class=\"\" type=\"checkbox\" id=\"" + name + "\"" + checked + "><label for=\"" + name + "\"/> " + this.getLabel(optionText) + "</label><br />");
 
 	            //sb.append("<input type=\"checkbox\" name=\"" + name + "\" value=\"" + id + "\" class=\"" + cssClass + "\"" + checked + "><span class=\"" + cssClass + "\">" + optionText + "</span>");
 	        }
