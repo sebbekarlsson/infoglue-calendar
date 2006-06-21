@@ -1074,3 +1074,71 @@ font.PortletHeading2,
 div.portlet {
 	border-color:#9BBDDE #DFEAF6 #DFEAF6 #DFEAF6;
 	}
+
+
+/*Content type definition editor */
+
+.propertiesDiv {
+	position:absolute;
+	width:700px;
+        background-color:#F4F4F4;
+	border:1px solid #333333;
+	z-index:201;
+	left:10px;
+	top:100px;
+	height:500px;
+	}
+
+.propertiesDivHandle {
+	padding:2px;
+        margin: 2px;
+        margin-bottom: 8px;
+        width:690px;
+	color:white;
+	background-color:navy;
+	font-family:verdana, sans-serif;
+	font-size:10px;
+	}
+
+.propertiesDivLeftHandle {
+	width: 150px; 
+	float: left;
+	color:white;
+	text-align: left;
+	line-height:10px;
+	}
+
+.propertiesDivRightHandle {
+	color:white;
+	text-align: right;
+	line-height:10px;	
+	}
+
+.propertiesDivBody {
+        padding: 4px;
+	}
+
+label {
+        display: block;
+	float: left;
+	margin-bottom: 10px;
+        padding-right: 5px;
+        text-align: right;
+	width: 50px;
+}
+
+br {
+	clear: left;
+}
+
+a.white {
+        text-decoration:none;
+        color: white;
+	font-size:10px;
+    }
+a.white:hover {
+	text-decoration:underline;
+	}
+a.white:active {
+	font-weight: bold;
+	}

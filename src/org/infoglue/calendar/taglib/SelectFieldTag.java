@@ -118,9 +118,9 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	sb.append("<div class=\"fieldrow\">");
 
 	    if(this.label != null)
-	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (!skipLineBreak ? "" : "<br>"));
+	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br>"));
 		else
-		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (!skipLineBreak ? "" : "<br>"));
+		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br>"));
 			    
         sb.append("<select id=\"" + name + "\" name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
         
