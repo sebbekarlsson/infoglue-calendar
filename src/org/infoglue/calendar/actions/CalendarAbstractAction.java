@@ -47,13 +47,17 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.ICalendarController;
 import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
+import org.infoglue.calendar.entities.BaseEntity;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.Participant;
+import org.infoglue.calendar.util.AttributeType;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
+import org.infoglue.cms.entities.kernel.BaseEntityVO;
 import org.infoglue.cms.entities.management.ContentTypeDefinitionVO;
 import org.infoglue.cms.security.InfoGluePrincipal;
+import org.infoglue.cms.util.ConstraintExceptionBuffer;
 import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.ResourceBundleHelper;
@@ -62,6 +66,7 @@ import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.ActionSupport;
 import com.opensymphony.xwork.validator.ValidationException;
+
 
 /**
 * @author Mattias Bogeblad
@@ -102,6 +107,25 @@ public class CalendarAbstractAction extends ActionSupport
         return yesOrNo;
     }
 
+    public List getAttributeTypes()
+    {    	
+    	List list = new ArrayList();
+        
+        //list.add("label", "Label");
+        list.add(new AttributeType("textfield", "TextField"));
+        list.add(new AttributeType("textarea", "TextArea"));
+        list.add(new AttributeType("checkbox", "Checkbox"));
+        list.add(new AttributeType("radiobutton", "RadioButton"));
+        list.add(new AttributeType("select", "SelectBox"));
+        list.add(new AttributeType("hidden", "Hidden"));
+        //list.add("password", "Label");
+        //list.add("image", "Label");
+        //list.add("submit", "Label");
+        //list.add("clear", "Label");
+        
+        return list;
+    }
+    
     public Map getAndSearch()
     {
         Map yesOrNo = new HashMap();

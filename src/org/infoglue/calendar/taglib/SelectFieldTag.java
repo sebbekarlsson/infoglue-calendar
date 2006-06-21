@@ -36,6 +36,7 @@ import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.BaseEntity;
 import org.infoglue.calendar.entities.Role;
 import org.infoglue.calendar.entities.Group;
+import org.infoglue.calendar.util.AttributeType;
 
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.cms.security.InfoGlueRole;
@@ -64,6 +65,9 @@ public class SelectFieldTag extends AbstractCalendarTag
 	private Collection values;
 	private String label;
 	private String headerItem;
+	private boolean skipContainer = false;
+	private boolean skipLineBreak = false;
+	
 	private List fieldErrors;
 	private Object errorAction = null;
 	
@@ -110,12 +114,13 @@ public class SelectFieldTag extends AbstractCalendarTag
 
 	    StringBuffer sb = new StringBuffer();
 
-	    sb.append("<div class=\"fieldrow\">");
+	    if(!skipContainer)
+	    	sb.append("<div class=\"fieldrow\">");
 
 	    if(this.label != null)
-	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (!skipLineBreak ? "" : "<br>"));
 		else
-		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (!skipLineBreak ? "" : "<br>"));
 			    
         sb.append("<select id=\"" + name + "\" name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
         
@@ -160,6 +165,12 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            {
 	                BaseEntity value = (BaseEntity)obj;
 	                id = value.getId().toString();
+	                optionText = value.getName();
+	            }
+	            else if(obj instanceof AttributeType)
+	            {
+	            	AttributeType value = (AttributeType)obj;
+	                id = value.getId();
 	                optionText = value.getName();
 	            }
 	            else
@@ -276,7 +287,9 @@ public class SelectFieldTag extends AbstractCalendarTag
 	        }
         }
         sb.append("</select>");
-        sb.append("</div>");
+        
+	    if(!skipContainer)
+	    	sb.append("</div>");
         
         write(sb.toString());
 	    
@@ -422,4 +435,14 @@ public class SelectFieldTag extends AbstractCalendarTag
     {
         this.mandatory = mandatory;
     }
+
+	public void setSkipContainer(boolean skipContainer)
+	{
+		this.skipContainer = skipContainer;
+	}
+
+	public void setSkipLineBreak(boolean skipLineBreak)
+	{
+		this.skipLineBreak = skipLineBreak;
+	}
 }

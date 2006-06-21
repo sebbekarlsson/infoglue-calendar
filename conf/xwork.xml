@@ -236,7 +236,10 @@
 			<result name="success" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewEventType.jsp</param>
             </result>
-			<result name="error" type="portletDispatch">
+            <result name="updated" type="eventProcessed">
+				<param name="viewAction">ViewEventType.action</param>
+			</result>
+            <result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
@@ -679,10 +682,16 @@
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewContentTypeDefinitionEditor.jsp</param>
 			</result>
+			<!--
 			<result name="updated" type="eventProcessed">
 				<param name="viewAction">ViewContentTypeDefinition.action</param>
 				<param name="parse">true</param>
 			</result>
+			<result name="updated" type="eventProcessed">
+				<param name="viewAction">ViewEventType.action</param>
+				<param name="parse">true</param>
+			</result>
+			-->			
 			<result name="plain" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewContentTypeDefinitionEditorPlain.jsp</param>
 			</result>

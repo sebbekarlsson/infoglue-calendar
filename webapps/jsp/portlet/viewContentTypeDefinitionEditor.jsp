@@ -13,10 +13,10 @@
 	<portlet:param name="action" value="ViewEventType!insertAttribute"/>
 </portlet:actionURL>
 
-<div class="listmarginalized">
-<c:set var="lvColor" value="blue"/>
+<ww:set name="contentTypeDefinitionId" value="eventTypeId" scope="page"/>
+<ww:set name="eventTypeId" value="eventTypeId" scope="page"/>
 
-<script Language=JavaScript1.2>
+<script type="text/javascript">
 <!--
 	function submitNewAttribute()
 	{
@@ -147,6 +147,7 @@
 
 <ww:iterator value="contentTypeAttributes" status="rowstatus">
 	<ww:set name="attribute" value="top" scope="page"/>
+	<ww:set name="inputType" value="attribute.inputType"/>
 	<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
 
 <%--
@@ -267,34 +268,27 @@
 #end
 --%>
 
+<portlet:actionURL var="updateAttributePropertyUrl">
+	<portlet:param name="action" value="ViewEventType!updateAttribute"/>
+</portlet:actionURL>
+
 <div id="<c:out value="${attribute.name}"/>PropertyLayer" class="propertiesDiv" style="border: 1px solid black; background-color: white; position:absolute; left:20px; top:20px; display:<c:out value="${display}"/>; visibility:<c:out value="${visibility}"/>; z-index:0">
-<div id="<c:out value="${attribute.name}"/>PropertyHandle" class="propertiesDivHandle"><div id="propertiesDivLeftHandle" class="propertiesDivLeftHandle">Properties for attribute</div><div id="propertiesDivRightHandle" class="propertiesDivRightHandle"><a href="javascript:hidePropertyDiv('<c:out value="${attribute.name}"/>PropertyLayer');" class="white">close</a></div></div>
-<div id="propertiesDivBody" class="propertiesDivBody">
-	<form name="<c:out value="${attribute.name}"/>PropertiesForm" action="ViewEventType!updateAttribute.action" method="POST">
-	<table border="0" cellpadding="2" cellspacing="0">
-	<tr>
-		<td><b>Name</b></td>
-		<td><input type="textfield" name="newAttributeName" value="$attribute.name" class="normaltextfield"></td>
-	</tr>
-	<tr>
-		<td><b>Type</b></td>
-		<td>
-			<select size="1" name="inputTypeId" class="sitedropbox">
-			    <option value="">Choose element type</option>
-			    <!--<option value="label" #checkSelected("label" "$attribute.inputType")>Label</option>-->
-			    <option value="textfield" #checkSelected("textfield" "$attribute.inputType")>TextField</option>
-			    <option value="textarea" #checkSelected("textarea" "$attribute.inputType")>TextArea</option>
-			    <option value="checkbox" #checkSelected("checkbox" "$attribute.inputType")>CheckBox</option>
-			    <option value="radiobutton" #checkSelected("radiobutton" "$attribute.inputType")>RadioButton</option>
-			    <option value="select" #checkSelected("select" "$attribute.inputType")>SelectBox</option>
-			    <option value="hidden" #checkSelected("hidden" "$attribute.inputType")>Hidden</option>
-			    <!--<option value="password" #checkSelected("password" "$attribute.inputType")>Password</option>-->
-			    <!--<option value="image" #checkSelected("image" "$attribute.inputType")>SubmitImage</option>-->
-			    <!--<option value="submit" #checkSelected("submit" "$attribute.inputType")>SubmitButton</option>-->
-			    <!--<option value="clear" #checkSelected("clear" "$attribute.inputType")>ClearButton</option>-->
-			</select>
-		</td>
-	</tr>
+	<div id="<c:out value="${attribute.name}"/>PropertyHandle" class="propertiesDivHandle"><div id="propertiesDivLeftHandle" class="propertiesDivLeftHandle">Properties for attribute</div><div id="propertiesDivRightHandle" class="propertiesDivRightHandle"><a href="javascript:hidePropertyDiv('<c:out value="${attribute.name}"/>PropertyLayer');" class="white">close</a></div></div>
+	<div id="<c:out value="${attribute.name}"/>PropertyBody" class="propertiesDivBody">
+	<form name="<c:out value="${attribute.name}"/>PropertiesForm" action="<c:out value="${updateAttributePropertyUrl}"/>" method="POST">
+		<input type="hidden" name="eventTypeId" value="<c:out value="${eventTypeId}"/>">
+		<input type="hidden" name="contentTypeDefinitionId" value="<c:out value="${contentTypeDefinitionId}"/>">
+		<input type="hidden" name="currentContentTypeEditorViewLanguageCode" value="<ww:property value="currentContentTypeEditorViewLanguageCode"/>">
+		<input type="hidden" name="attributeName" value="<c:out value="${attribute.name}"/>">
+		<input type="hidden" name="attributeToExpand" value="<c:out value="${attribute.name}"/>">
+		
+		<label for="newAttributeName">Name</label>
+		<input type="textfield" name="newAttributeName" value="<c:out value="${attribute.name}"/>" class="longtextfield"><br/>
+
+		<calendar:selectField label="'Type'" name="inputTypeId" multiple="false" value="attributeTypes" selectedValue="inputType" headerItem="Choose element type" cssClass="listBox" skipContainer="true" skipLineBreak="true"/>
+		<br/>
+	
+	<%--
 	<tr>
 		<td colspan="2"><b>Validation</b></td>
 	</tr>
@@ -320,7 +314,6 @@
 			<a href="javascript:showAddValidatorFormDiv('$attribute.name');">Add new validation rule</a>
 		</td>
 	</tr>
-
 	<tr>
 		<td colspan="2"><b>Extra parameters</b></td>
 	</tr>
@@ -368,18 +361,16 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td>
-			<input type="image" src="$ui.getString("images.managementtool.buttons.saveAndExit")" width="80" height="25" border="0"></a>
-			<a href="javascript:hideDiv('<c:out value="${attribute.name}"/>PropertyLayer');"><img src="$ui.getString("images.managementtool.buttons.cancel")" width="50" height="25" border="0"></a>
 		</td>
 	</tr>
 	</table>
-	<input type="hidden" name="contentTypeDefinitionId" value="$contentTypeDefinitionId">
-	<input type="hidden" name="currentContentTypeEditorViewLanguageCode" value="$!currentContentTypeEditorViewLanguageCode">
-	<input type="hidden" name="attributeName" value="$attribute.name">
-	<input type="hidden" name="attributeToExpand" value="<c:out value="${attribute.name}"/>">
+	--%>
+		<input type="submit" value="Save"/>
+		<a href="javascript:hideDiv('<c:out value="${attribute.name}"/>PropertyLayer');"><input type="button" value="Cancel"/></a>
 	</form>
+	</div>
 </div>
-</div>
+
 <script type="text/javascript">		
 	var theHandle = document.getElementById("<c:out value="${attribute.name}"/>PropertyHandle");		
 	var theRoot   = document.getElementById("<c:out value="${attribute.name}"/>PropertyLayer");		
@@ -492,6 +483,7 @@
 
 <form name="editForm" method="POST" action="<c:out value="${updateContentTypeDefinitionUrl}"/>">
 <%--<table class="managementtooledit" cellpadding="2" cellspacing="2" border="1" width="100%">--%>
+<input type="hidden" name="eventTypeId" value="<ww:property value="contentTypeDefinitionId"/>">
 <input type="hidden" name="contentTypeDefinitionId" value="<ww:property value="contentTypeDefinitionId"/>">
 <input type="hidden" name="currentContentTypeEditorViewLanguageCode" value="<ww:property value="${currentContentTypeEditorViewLanguageCode}"/>">
 <input type="hidden" name="schemaValue" value="$formatter.escapeHTML($!schemaValue)">
@@ -542,6 +534,13 @@
 		<ww:set name="attribute" value="top" scope="page"/>
 		<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
 		
+		<portlet:renderURL var="deleteAttributeUrl">
+			<portlet:param name="action" value="ViewEventType!deleteAttribute"/>
+			<calendar:evalParam name="eventTypeId" value="${contentTypeDefinitionId}"/>
+			<calendar:evalParam name="title" value="${title}"/>
+			<calendar:evalParam name="attributeName" value="${attribute.name}"/>
+		</portlet:renderURL>
+		
 		<ww:if test="#rowstatus.odd == true">
 	    	<div class="oddrow">
 	    </ww:if>
@@ -559,7 +558,7 @@
 				<c:out value="${attribute.name}"/> (<c:out value="${title}"/>) of type <c:out value="${attribute.inputType}"/></a>
 			</div>
 			<div class="columnEnd">
-				<a href="ViewEventType!deleteAttribute.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="delete"></a>
+				<a href="<c:out value="${deleteAttributeUrl}"/>" class="delete"></a>
 				<a href="javascript:showPropertyDiv('<c:out value="${attribute.name}"/>PropertyLayer');" class="edit"></a>
 			</div>
 			<div class="clear"></div>

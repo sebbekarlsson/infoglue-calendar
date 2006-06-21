@@ -39,6 +39,7 @@ import org.infoglue.cms.util.XMLHelper;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.exceptions.SystemException;
+import org.infoglue.common.util.ConstraintExceptionBuffer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -59,7 +60,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 	private static final long serialVersionUID = 1L;
 
 	public static final String PLAIN_EDITOR = "plain";
-
+	public static final String UPDATED		= "updated";
+	
 	//private static CategoryController categoryController = CategoryController.getController();
 
 	protected Long contentTypeDefinitionId;
@@ -150,7 +152,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 
 		System.out.println("Inserting attribute..." + this.contentTypeDefinition.getSchemaValue().length());
 		
-		return "updated";
+		return UPDATED;
 	}
 
 
@@ -186,7 +188,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+	
+		return UPDATED;
 	}
 
 	/**
@@ -224,7 +227,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+		
+		return UPDATED;
 	}
 
 
@@ -282,7 +286,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+		
+		return UPDATED;
 	}
 
 	
@@ -321,7 +326,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 
 		this.initialize(getContentTypeDefinitionId());
 		
-		return SUCCESS;
+		return UPDATED;
 	}
 
 
@@ -359,7 +364,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+		
+		return UPDATED;
 	}
 
 
@@ -387,7 +393,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+		
+		return UPDATED;
 	}
 
 	public String doInsertAttributeParameterValue() throws Exception
@@ -417,13 +424,14 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+		
+		return UPDATED;
 	}
 
 	/**
 	 * We validate that ' ', '.', ''', '"' is not used in the attribute name as that will break the javascripts later.
 	 */
-/*
+
 	public String doUpdateAttribute() throws Exception
 	{
 		ConstraintExceptionBuffer ceb = new ConstraintExceptionBuffer();
@@ -442,13 +450,13 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 			Document document = createDocumentFromDefinition();
 
 			//Updating the content attribute
-			String[] extraParameterNames = getRequest().getParameterValues("parameterNames");
+			String[] extraParameterNames = ServletActionContext.getRequest().getParameterValues("parameterNames");
 			if(extraParameterNames != null)
 			{
 				for(int i=0; i < extraParameterNames.length; i++)
 				{
 					String extraParameterName = extraParameterNames[i];
-					String value = getRequest().getParameter(extraParameterName);
+					String value = ServletActionContext.getRequest().getParameter(extraParameterName);
 
 					String extraParametersXPath = "/xs:schema/xs:complexType/xs:all/xs:element/xs:complexType/xs:all/xs:element[@name='" + this.attributeName + "']/xs:annotation/xs:appinfo/params/param[@id='" + extraParameterName +"']/values/value";
 					NodeList extraParamsNodeList = org.apache.xpath.XPathAPI.selectNodeList(document.getDocumentElement(), extraParametersXPath);
@@ -528,10 +536,10 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 
 		this.initialize(getContentTypeDefinitionId());
 
-		return SUCCESS;
+		return UPDATED;
 	}
 
-
+/*
 	public String doUpdateAttributeParameterValue() throws Exception
 	{
 		this.initialize(getContentTypeDefinitionId());
