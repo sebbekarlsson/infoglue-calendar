@@ -63,11 +63,12 @@ public class EventTypeController extends BasicController
      * This method is used to create a new EventType object in the database inside a transaction.
      */
     
-    public EventType createEventType(String name, String description, Session session) throws HibernateException, Exception 
+    public EventType createEventType(String name, String description, Integer type, Session session) throws HibernateException, Exception 
     {
         EventType eventType = new EventType();
         eventType.setName(name);
         eventType.setDescription(description);
+        eventType.setType(type);
         
         session.save(eventType);
         
@@ -81,10 +82,10 @@ public class EventTypeController extends BasicController
      * @throws Exception
      */
     
-    public void updateEventType(Long id, String name, String description, String schemaValue, Session session) throws Exception 
+    public void updateEventType(Long id, String name, String description, String schemaValue, Integer type, Session session) throws Exception 
     {
 		EventType eventType = getEventType(id, session);
-		updateEventType(eventType, name, description, schemaValue, session);
+		updateEventType(eventType, name, description, schemaValue, type, session);
     }
     
     /**
@@ -93,13 +94,15 @@ public class EventTypeController extends BasicController
      * @throws Exception
      */
     
-    public void updateEventType(EventType eventType, String name, String description, String schemaValue, Session session) throws Exception 
+    public void updateEventType(EventType eventType, String name, String description, String schemaValue, Integer type, Session session) throws Exception 
     {
         eventType.setName(name);
         eventType.setDescription(description);
-        System.out.println("schemaValue:" + schemaValue.length());
         if(schemaValue != null)
         	eventType.setSchemaValue(schemaValue);
+        
+        System.out.println("type:" + type);
+        eventType.setType(type);
         
 		session.update(eventType);
 	}
@@ -142,7 +145,24 @@ public class EventTypeController extends BasicController
         
         return result;
     }
+
+    /**
+     * Gets a list of all eventTypes of type entryform available sorted by primary key.
+     * @return List of EventType
+     * @throws Exception
+     */
     
+    public List getEventTypeList(Integer type, Session session) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from EventType eventType where type = ? order by eventType.id").setInteger(0, type.intValue());
+   
+        result = q.list();
+        
+        return result;
+    }
+
     /**
      * Gets a list of eventTypes fetched by name.
      * @return List of EventType

@@ -187,7 +187,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	                for(int i=0; i<selectedValues.length; i++)
 		            {
 	                	log.info("1:" + id + "=" + selectedValues[i]);
-		                if(id.equalsIgnoreCase(selectedValues[i]))
+		                if(id.equalsIgnoreCase(selectedValues[i].toString()))
 		                {
 		                    selected = " selected=\"1\"";
 		                	break;

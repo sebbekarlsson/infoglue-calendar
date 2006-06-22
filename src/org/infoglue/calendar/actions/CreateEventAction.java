@@ -32,8 +32,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventType;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -91,7 +93,9 @@ public class CreateEventAction extends CalendarAbstractAction
     //private List categories;
     private Map categoryAttributes = new HashMap();
     private List infogluePrincipals;
-        
+    private List entryFormEventTypes;
+    private Long entryFormId;
+    
     private Calendar startCalendar;
     private Calendar endCalendar;
     private Calendar lastRegistrationCalendar;
@@ -168,6 +172,7 @@ public class CreateEventAction extends CalendarAbstractAction
 									                    participantUserName,
 									                    stateId,
 									                    this.getInfoGlueRemoteUser(),
+									                    this.entryFormId,
 									                    getSession());
 
         }
@@ -220,6 +225,7 @@ public class CreateEventAction extends CalendarAbstractAction
                 originalEvent.getParticipants(),
                 stateId,
                 this.getInfoGlueRemoteUser(),
+                originalEvent.getEntryFormId(),
                 getSession());
 
         return Action.SUCCESS + "Copy";
@@ -247,7 +253,8 @@ public class CreateEventAction extends CalendarAbstractAction
         this.locations 	= LocationController.getController().getLocationList(getSession());
         //this.categories = CategoryController.getController().getRootCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
-            
+        this.entryFormEventTypes = EventTypeController.getController().getEventTypeList(EventType.ENTRY_DEFINITION, getSession());
+        	
         return Action.INPUT;
     } 
     
@@ -576,4 +583,22 @@ public class CreateEventAction extends CalendarAbstractAction
         String[] value = (String[])((Map)ServletActionContext.getRequest().getSession().getAttribute("categoryAttributes")).get(key.toString());
         return value;
     }
+
+
+	public List getEntryFormEventTypes()
+	{
+		return entryFormEventTypes;
+	}
+
+
+	public Long getEntryFormId()
+	{
+		return entryFormId;
+	}
+
+
+	public void setEntryFormId(Long entryFormId)
+	{
+		this.entryFormId = entryFormId;
+	}
 }

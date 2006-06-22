@@ -51,6 +51,7 @@ public class Entry implements BaseEntity
     private String phone;
     private String fax;
     private String message;
+    private String metainfo;
     
     private Event event;
 
@@ -201,4 +202,14 @@ public class Entry implements BaseEntity
     {
         this.zipcode = zipcode;
     }
+
+	public String getMetainfo()
+	{
+		return metainfo;
+	}
+
+	public void setMetainfo(String metainfo)
+	{
+		this.metainfo = metainfo;
+	}
 }

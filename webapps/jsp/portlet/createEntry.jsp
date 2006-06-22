@@ -24,6 +24,19 @@
 		<calendar:textField label="labels.internal.entry.phone" name="phone" value="entry.phone" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="longtextfield"/>
 		<calendar:textAreaField label="labels.internal.entry.message" name="message" value="entry.message" cssClass="smalltextarea"/>
+
+		<c:set var="count" value="0"/>
+		<ww:iterator value="attributes" status="rowstatus">
+			<ww:set name="attribute" value="top" scope="page"/>
+			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
+			
+			<input type="hidden" name="attributeName_<c:out value="${count}"/>" value="attribute_<ww:property value="top.name"/>"/>
+			<calendar:textField label="${title}" name="this.concat('attribute_', top.name)" value="" cssClass="longtextfield"/>
+		
+			<ww:set name="count" value="${count + 1)"/>
+		</ww:iterator>
+		
+
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>" class="button">
 		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">

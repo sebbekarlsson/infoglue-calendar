@@ -24,20 +24,26 @@
 package org.infoglue.calendar.actions;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.PortletURL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventType;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -75,6 +81,8 @@ public class CreateEntryAction extends CalendarAbstractAction
     private Entry newEntry;
     private Entry entry;
     
+    private List attributes;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -94,6 +102,28 @@ public class CreateEntryAction extends CalendarAbstractAction
         */
         try
         {
+        	Map attributeValues = new HashMap();
+        	
+            int i = 0;
+            String idKey = ServletActionContext.getRequest().getParameter("attributeName_" + i);
+            log.info("idKey:" + idKey);
+            while(idKey != null && idKey.length() > 0)
+            {
+                String[] value = ServletActionContext.getRequest().getParameterValues("attribute_" + idKey);
+                if(value == null || value.length == 0)
+                    this.addFieldError("attribute_" + idKey, "errors.atLeastOneItem");
+
+                log.info("value:" + value);
+                attributeValues.put(idKey, value);
+                
+                i++;
+                idKey = ServletActionContext.getRequest().getParameter("attributeName_" + i);
+                log.info("idKey:" + idKey);
+            }
+
+            ServletActionContext.getRequest().getSession().setAttribute("attributes", attributes);
+
+        	
             validateInput(this);
 
 	        newEntry = EntryController.getController().createEntry(firstName, 
@@ -189,6 +219,10 @@ public class CreateEntryAction extends CalendarAbstractAction
     public String input() throws Exception 
     {
         event = EventController.getController().getEvent(eventId, getSession());
+
+        EventType eventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
+        
+		this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
         /*
         if(useEntryLimitation())
         {
@@ -408,4 +442,9 @@ public class CreateEntryAction extends CalendarAbstractAction
     {
         return entry;
     }
+
+	public List getAttributes()
+	{
+		return attributes;
+	}
 }

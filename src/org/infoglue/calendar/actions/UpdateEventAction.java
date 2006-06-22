@@ -90,6 +90,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private String[] locationId;
     private String[] participantUserName;
 
+    private Long entryFormId;
+
     private Long calendarId;
     private String mode;
         
@@ -169,6 +171,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
                     locationId, 
                     categoryAttributes, 
                     participantUserName,
+                    entryFormId,
                     getSession());
             
         }
@@ -559,5 +562,17 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     {
         this.alternativeLocation = alternativeLocation;
     }
+
+
+	public Long getEntryFormId()
+	{
+		return entryFormId;
+	}
+
+
+	public void setEntryFormId(Long entryFormId)
+	{
+		this.entryFormId = entryFormId;
+	}
    
 }

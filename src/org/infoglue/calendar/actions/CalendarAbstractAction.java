@@ -125,7 +125,17 @@ public class CalendarAbstractAction extends ActionSupport
         
         return list;
     }
-    
+
+    public List getEventTypes()
+    {    	
+    	List list = new ArrayList();
+        
+        list.add(new AttributeType("0", "Evenemangsdefinition"));
+        list.add(new AttributeType("1", "Anmälningsformulär"));
+        
+        return list;
+    }
+
     public Map getAndSearch()
     {
         Map yesOrNo = new HashMap();
@@ -134,6 +144,11 @@ public class CalendarAbstractAction extends ActionSupport
         return yesOrNo;
     }
 
+    public String concat(String start, String end)
+    {
+    	return start + end;
+    }
+    
     public Integer getSiteNodeId()
     {
         return (Integer)ServletActionContext.getRequest().getAttribute("siteNodeId");

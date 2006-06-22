@@ -33,9 +33,11 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.ObjectNotFoundException;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
+import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 import org.infoglue.deliver.util.Timer;
@@ -77,6 +79,9 @@ public class ViewEventAction extends CalendarAbstractAction
     private Boolean forceRequestEventId = new Boolean(false);
     private Boolean eventCopy			= new Boolean(false);
     
+    private List entryFormEventTypes;
+    private EventType entryFormEventType;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -107,7 +112,9 @@ public class ViewEventAction extends CalendarAbstractAction
 	            this.locations 	= LocationController.getController().getLocationList(getSession());
 	            this.categories = CategoryController.getController().getRootCategoryList(getSession());
 	            this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
-	
+	            this.entryFormEventTypes = EventTypeController.getController().getEventTypeList(EventType.ENTRY_DEFINITION, getSession());
+	            this.entryFormEventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
+	            	
 	            this.yesOrNo = new ArrayList();
 	            this.yesOrNo.add("true");            
 	
@@ -327,4 +334,14 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         this.eventCopy = eventCopy;
     }
+
+	public List getEntryFormEventTypes()
+	{
+		return entryFormEventTypes;
+	}
+
+	public EventType getEntryFormEventType()
+	{
+		return entryFormEventType;
+	}
 }

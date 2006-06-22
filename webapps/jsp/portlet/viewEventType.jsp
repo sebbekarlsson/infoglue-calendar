@@ -27,8 +27,9 @@
 	<form name="inputForm" method="POST" action="<c:out value="${updateEventTypeActionUrl}"/>">
 		<input type="hidden" name="eventTypeId" value="<ww:property value="eventType.id"/>">
 		
-		<calendar:textField label="labels.internal.category.name" name="name" value="eventType.name" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.category.description" name="description" value="eventType.description" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.eventType.name" name="name" value="eventType.name" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.eventType.description" name="description" value="eventType.description" cssClass="longtextfield"/>
+		<calendar:selectField label="labels.internal.eventType.type" name="'type'" multiple="false" value="eventTypes" selectedValue="eventType.type" headerItem="Choose type" cssClass="listBox"/>
 
 		<div style="height:10px"></div>
 	

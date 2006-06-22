@@ -65,6 +65,8 @@ public class Event implements BaseEntity
     private Integer stateId = STATE_WORKING; //Default if not otherwise set
     private String creator;
     
+    private Long entryFormId;
+    
     private Calendar owningCalendar;
     private Set calendars = new HashSet();
     private Set locations = new HashSet();;
@@ -530,5 +532,21 @@ public class Event implements BaseEntity
     {
         this.creator = creator;
     }
+
+    /**
+     * @hibernate.property name="getEntryFormId" column="entryFormId" type="integer" not-null="false" unique="false"
+     * 
+     * @return Long
+     */
+
+    public Long getEntryFormId()
+	{
+		return entryFormId;
+	}
+
+	public void setEntryFormId(Long entryFormId)
+	{
+		this.entryFormId = entryFormId;
+	}
 
 }

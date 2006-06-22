@@ -23,6 +23,7 @@
 		<input type="hidden" name="time" value="<ww:property value="time"/>"/>
 		
 		<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="longtextfield" mandatory="true"/>
+		<calendar:selectField label="labels.internal.event.entryForm" name="'entryFormId'" multiple="false" value="entryFormEventTypes" selectedValue="event.entryFormId" headerItem="Choose entry form" cssClass="listBox"/>
 		
 		<div class="fieldrow">
 			<label for="startDateTime"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></label><span class="redstar">*</span>

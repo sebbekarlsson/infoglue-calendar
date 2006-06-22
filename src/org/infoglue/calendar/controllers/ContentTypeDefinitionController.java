@@ -139,7 +139,7 @@ public class ContentTypeDefinitionController
     {
     	EventType eventType = (EventType)contentTypeDefinition;
     	
-    	EventTypeController.getController().updateEventType(id, eventType.getName(), eventType.getDescription(), eventType.getSchemaValue(), session);
+    	EventTypeController.getController().updateEventType(id, eventType.getName(), eventType.getDescription(), eventType.getSchemaValue(), eventType.getType(), session);
     }
 
     /**

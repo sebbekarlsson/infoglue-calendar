@@ -43,11 +43,9 @@ public class EventType implements BaseEntity, ContentTypeDefinition
     private String name;
     private String description;
     private String schemaValue = null;
-    
-    private Set categoryAttributes;
-    
     private Integer type = EVENT_DEFINITION;
 
+    private Set categoryAttributes;
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
