@@ -49,6 +49,7 @@ public class UpdateEventTypeAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
+            System.out.println("dataBean:" + dataBean.getType());
             EventTypeController.getController().updateEventType(dataBean.getId(), dataBean.getName(), dataBean.getDescription(), dataBean.getSchemaValue(), dataBean.getType(), getSession());
         }
         catch(ValidationException e)

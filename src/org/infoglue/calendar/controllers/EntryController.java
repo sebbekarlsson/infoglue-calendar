@@ -101,6 +101,7 @@ public class EntryController extends BasicController
 				            String phone,
 				            String fax,
 				            String message,
+				            String xml,
 							Long eventId,
 							Session session) throws HibernateException, Exception 
     {
@@ -116,7 +117,8 @@ public class EntryController extends BasicController
 							city,
 							phone,
 							fax,
-							message, 
+							message,
+							xml,
 							event, 
 							session);
 			
@@ -137,6 +139,7 @@ public class EntryController extends BasicController
  				             String phone,
  				             String fax,
  				             String message,
+ 				             String xml,
  				             Event event, 
  				             Session session) throws HibernateException, Exception 
     {
@@ -152,6 +155,7 @@ public class EntryController extends BasicController
         entry.setPhone(phone);
         entry.setFax(fax);
         entry.setMessage(message);
+        entry.setAttributes(xml);
         
         entry.setEvent(event);
         

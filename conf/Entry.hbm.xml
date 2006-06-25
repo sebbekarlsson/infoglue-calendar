@@ -33,6 +33,7 @@
         <property name="phone" type="string" update="true" insert="true" access="property" column="phone" not-null="false" unique="false"/>
         <property name="fax" type="string" update="true" insert="true" access="property" column="fax" not-null="false" unique="false"/>
         <property name="message" type="string" update="true" insert="true" access="property" column="message" not-null="false" unique="false"/>
+        <property name="attributes" type="string" update="true" insert="true" access="property" column="attributes" not-null="false" unique="false"/>
 
         <many-to-one
             name="event"

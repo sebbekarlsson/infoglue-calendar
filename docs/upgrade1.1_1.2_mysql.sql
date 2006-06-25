@@ -44,3 +44,11 @@ CREATE TABLE accessRightUser (
   userName varchar(150) NOT NULL default '',
   PRIMARY KEY  (accessRightUserId)
 ) TYPE=InnoDB;
+
+
+ALTER TABLE eventtype ADD COLUMN type INTEGER UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE eventtype ADD COLUMN schemaValue TEXT DEFAULT '';
+ 
+update event set entryFormId = (select id from eventtype et where et.type = 1);
+
+ALTER TABLE `calendar`.`entry` ADD COLUMN `attributes` TEXT DEFAULT '' AFTER `message`;

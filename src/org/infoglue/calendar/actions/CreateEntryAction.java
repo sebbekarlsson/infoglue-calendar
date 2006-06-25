@@ -33,6 +33,8 @@ import javax.portlet.PortletURL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
+import org.dom4j.Element;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
@@ -45,6 +47,7 @@ import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.common.util.DBSessionWrapper;
+import org.infoglue.common.util.dom.DOMBuilder;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -104,16 +107,37 @@ public class CreateEntryAction extends CalendarAbstractAction
         {
         	Map attributeValues = new HashMap();
         	
+        	DOMBuilder domBuilder = new DOMBuilder();
+        	Document document = domBuilder.createDocument();
+        	Element articleElement = domBuilder.addElement(document, "entry");
+        	//domBuilder.addAttribute(articleElement, "xmlns", "x-schema:ArticleSchema.xml");
+        	Element attributesElement = domBuilder.addElement(articleElement, "attributes");
+        	        	
             int i = 0;
             String idKey = ServletActionContext.getRequest().getParameter("attributeName_" + i);
+            System.out.println("idKey:" + idKey);
             log.info("idKey:" + idKey);
             while(idKey != null && idKey.length() > 0)
             {
-                String[] value = ServletActionContext.getRequest().getParameterValues("attribute_" + idKey);
+                String[] value = ServletActionContext.getRequest().getParameterValues(idKey);
                 if(value == null || value.length == 0)
-                    this.addFieldError("attribute_" + idKey, "errors.atLeastOneItem");
+                    this.addFieldError(idKey, "errors.atLeastOneItem");
 
+                System.out.println(idKey + "=" + value);
                 log.info("value:" + value);
+                
+                String valueString = "";
+                for(int j=0; j<value.length; j++)
+                {
+                	if(j>0)
+                		valueString += ",";
+                	
+                	valueString += value[j];
+                }
+                
+                Element element = domBuilder.addElement(attributesElement, idKey);
+                domBuilder.addCDATAElement(element, valueString);
+            	
                 attributeValues.put(idKey, value);
                 
                 i++;
@@ -121,8 +145,11 @@ public class CreateEntryAction extends CalendarAbstractAction
                 log.info("idKey:" + idKey);
             }
 
+            domBuilder.writePretty(document, "c:/temp/apa.xml");
+            String xml = domBuilder.getFormattedDocument(document, "UTF-8");
+            System.out.println("xml:" + xml);
+            
             ServletActionContext.getRequest().getSession().setAttribute("attributes", attributes);
-
         	
             validateInput(this);
 
@@ -135,7 +162,8 @@ public class CreateEntryAction extends CalendarAbstractAction
 	                									city,
 	                									phone,
 	                									fax,
-	                									message, 
+	                									message,
+	                									xml,
 	                									eventId,
 	                									getSession());
 	        
@@ -329,11 +357,13 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String getFirstName()
     {
+    	System.out.println("firstName:" + firstName);
         return firstName;
     }
     
     public void setFirstName(String firstName)
     {
+    	System.out.println("set firstName:" + firstName);
         this.firstName = firstName;
     }
     

@@ -29,9 +29,10 @@
 		<ww:iterator value="attributes" status="rowstatus">
 			<ww:set name="attribute" value="top" scope="page"/>
 			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
-			
+			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
+
 			<input type="hidden" name="attributeName_<c:out value="${count}"/>" value="attribute_<ww:property value="top.name"/>"/>
-			<calendar:textField label="${title}" name="this.concat('attribute_', top.name)" value="" cssClass="longtextfield"/>
+			<calendar:textField label="${title}" name="#attributeName" value="" cssClass="longtextfield"/>
 		
 			<ww:set name="count" value="${count + 1)"/>
 		</ww:iterator>
