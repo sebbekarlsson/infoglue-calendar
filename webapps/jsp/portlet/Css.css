@@ -1118,13 +1118,13 @@ div.portlet {
         padding: 4px;
 	}
 
-label {
+#propertyBody label {
         display: block;
 	float: left;
 	margin-bottom: 10px;
         padding-right: 5px;
-        text-align: right;
-	width: 50px;
+        atext-align: right;
+	width: 200px;
 }
 
 br {

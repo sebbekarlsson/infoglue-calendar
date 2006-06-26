@@ -112,20 +112,20 @@
 
 <div id="newValidatorFormLayer" style="border: 1px solid black; background-color: white; LEFT:250px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
 	<form name="newValidatorForm" action="<c:out value="${insertAttributeValidatorUrl}"/>" method="POST">
-	<h4>Create new validator</h4>
-	<b>Validation Type</b>
-	<select size="1" name="validatorName" class="sitedropbox">
-	    <option value="required">Required</option>
-	    <option value="requiredif">Required If</option>
-	    <option value="matchRegexp">Match Regexp</option>
-	</select>
-	<br/>
-	<input type="submit" value="Save">
-	<a href="javascript:hideDiv('newValidatorFormLayer');"><input type="button" value="cancel"/></a>
+		<input type="ahidden" name="contentTypeDefinitionId" value="<ww:property value="contentTypeDefinitionId"/>">
+		<input type="ahidden" name="attributeName" value="<ww:property value="#attribute.name"/>">
+		<input type="ahidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
 
-	<input type="hidden" name="contentTypeDefinitionId" value="$contentTypeDefinitionId">
-	<input type="hidden" name="attributeName" value="$attribute.name">
-	<input type="hidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
+		<h4>Create new validator</h4>
+		<b>Validation Type</b>
+		<select size="1" name="validatorName" class="sitedropbox">
+		    <option value="required">Required</option>
+		    <option value="requiredif">Required If</option>
+		    <option value="matchRegexp">Match Regexp</option>
+		</select>
+		<br/>
+		<input type="submit" value="Save">
+		<a href="javascript:hideDiv('newValidatorFormLayer');"><input type="button" value="cancel"/></a>
 	</form>
 </div>
 
@@ -290,7 +290,7 @@
 		</div>
 	</ww:iterator>
 
-	<a href="javascript:showAddValidatorFormDiv('$attribute.name');">Add new validation rule</a>
+	<a href="javascript:showAddValidatorFormDiv('<ww:property value="#attribute.name"/>');">Add new validation rule</a>
 
 	<h4>Extra parameters</h4>
 	<ww:iterator value="#attribute.contentTypeAttributeParameters" status="rowstatus">
