@@ -662,6 +662,7 @@ public class ContentTypeDefinitionController
 				}
 				// End extra parameters
 
+				System.out.println("attribute added:" + contentTypeAttribute.getName());				
 				attributes.add(contentTypeAttribute);
 			}
 
@@ -818,8 +819,8 @@ public class ContentTypeDefinitionController
 	/**
 	 * This method validates the current content type and updates it to be valid in the future.
 	 */
-	/*
-	public ContentTypeDefinition validateAndUpdateContentType(ContentTypeDefinition contentTypeDefinition)
+
+	public ContentTypeDefinition validateAndUpdateContentType(Long id, ContentTypeDefinition contentTypeDefinition, Session session)
 	{
 		try
 		{
@@ -1207,7 +1208,7 @@ public class ContentTypeDefinitionController
 				org.infoglue.cms.util.XMLHelper.serializeDom(document.getDocumentElement(), sb);
 				contentTypeDefinition.setSchemaValue(sb.toString());
 
-				update(contentTypeDefinition);
+				update(id, contentTypeDefinition, session);
 			}
 		}
 		catch(Exception e)
@@ -1217,7 +1218,6 @@ public class ContentTypeDefinitionController
 
 		return contentTypeDefinition;
 	}
-	*/
 
 	/**
 	 * This method adds a parameter node with some default values if not allready existing.

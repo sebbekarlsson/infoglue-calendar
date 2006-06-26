@@ -53,6 +53,7 @@ import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.util.AttributeType;
+import org.infoglue.cms.applications.common.VisualFormatter;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 import org.infoglue.cms.entities.kernel.BaseEntityVO;
 import org.infoglue.cms.entities.management.ContentTypeDefinitionVO;
@@ -330,6 +331,46 @@ public class CalendarAbstractAction extends ActionSupport
         return "";
     }
     
+
+	/**
+	 * This method fetches a value from the xml that is the contentVersions Value. If the 
+	 * contentVersioVO is null the contentVersion has not been created yet and no values are present.
+	 */
+	 
+	public String getAttributeValue(String xml, String key)
+	{
+		String value = "";
+		
+		System.out.println("xml:" + xml);
+
+		if(xml != null)
+		{
+			try
+	        {
+		        System.out.println("key:" + key);
+				
+				int startTagIndex = xml.indexOf("<" + key + ">");
+				int endTagIndex   = xml.indexOf("]]></" + key + ">");
+
+				if(startTagIndex > 0 && startTagIndex < xml.length() && endTagIndex > startTagIndex && endTagIndex <  xml.length())
+				{
+					value = xml.substring(startTagIndex + key.length() + 11, endTagIndex);
+					value = new VisualFormatter().escapeHTML(value);
+				}					
+	        }
+	        catch(Exception e)
+	        {
+	        	e.printStackTrace();
+	        }
+		}
+		
+		System.out.println("value:" + value);
+		log.info("value:" + value);	
+		
+		return value;
+	}
+	
+	
     public String formatDate(Date date, String pattern, Locale locale)
     {	
     	if(date == null)

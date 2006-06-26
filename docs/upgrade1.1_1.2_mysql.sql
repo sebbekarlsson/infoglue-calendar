@@ -46,9 +46,15 @@ CREATE TABLE accessRightUser (
 ) TYPE=InnoDB;
 
 
+-- NYTT
+
+ALTER TABLE eventtype ADD COLUMN schemaValue TEXT;
+ALTER TABLE eventtype ADD COLUMN type INTEGER UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE event ADD COLUMN entryFormId INTEGER UNSIGNED;
+
 ALTER TABLE eventtype ADD COLUMN type INTEGER UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE eventtype ADD COLUMN schemaValue TEXT DEFAULT '';
  
 update event set entryFormId = (select id from eventtype et where et.type = 1);
 
-ALTER TABLE `calendar`.`entry` ADD COLUMN `attributes` TEXT DEFAULT '' AFTER `message`;
+ALTER TABLE entry ADD COLUMN attributes TEXT DEFAULT '';

@@ -28,6 +28,20 @@
 		<calendar:textField label="labels.internal.entry.phone" name="phone" value="entry.phone" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.message" name="message" value="entry.message" cssClass="smalltextarea"/>
+		
+		<c:set var="count" value="0"/>
+		<ww:iterator value="attributes" status="rowstatus">
+			<ww:set name="attribute" value="top" scope="page"/>
+			<ww:set name="value" value="this.getAttributeValue(entry.attributes, top.name)"/>
+			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
+			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
+
+			<input type="hidden" name="attributeName_<c:out value="${count}"/>" value="attribute_<ww:property value="top.name"/>"/>
+			<calendar:textField label="${title}" name="#attributeName" value="#value" cssClass="longtextfield"/>
+		
+			<ww:set name="count" value="${count + 1)"/>
+		</ww:iterator>
+		
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.updateButton')"/>" class="button">
 		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">

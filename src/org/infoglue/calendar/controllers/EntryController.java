@@ -182,6 +182,7 @@ public class EntryController extends BasicController
 				            String phone,
 				            String fax,
 				            String message,
+				            String xml,
 				            Session session) throws Exception 
     {
 		Entry entry = getEntry(id, session);
@@ -197,6 +198,7 @@ public class EntryController extends BasicController
 					phone,
 					fax,
 					message,
+					xml,
 					session);
     }
 
@@ -218,6 +220,7 @@ public class EntryController extends BasicController
 				            String phone,
 				            String fax,
 				            String message,
+				            String xml,
             				Session session) throws Exception 
     {
         entry.setFirstName(firstName);
@@ -230,6 +233,7 @@ public class EntryController extends BasicController
         entry.setPhone(phone);
         entry.setFax(fax);
         entry.setMessage(message);
+        entry.setAttributes(xml);
         
 		session.update(entry);
 	}

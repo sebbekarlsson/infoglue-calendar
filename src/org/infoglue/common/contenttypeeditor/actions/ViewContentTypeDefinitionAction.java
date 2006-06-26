@@ -26,6 +26,7 @@ package org.infoglue.common.contenttypeeditor.actions;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
@@ -98,8 +99,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
     	System.out.println("contentTypeDefinitionId:" + contentTypeDefinitionId);
         this.contentTypeDefinition = ContentTypeDefinitionController.getController().getContentTypeDefinition(contentTypeDefinitionId, this.getSession());
     	
-		//this.contentTypeDefinition = ContentTypeDefinitionController.getController().validateAndUpdateContentType(this.contentTypeDefinition);
-        //this.contentTypeDefinition = ContentTypeDefinitionController.getController().getContentTypeDefinitionWithId(contentTypeDefinitionId);
+		this.contentTypeDefinition = ContentTypeDefinitionController.getController().validateAndUpdateContentType(contentTypeDefinitionId, this.contentTypeDefinition, this.getSession());
+        this.contentTypeDefinition = ContentTypeDefinitionController.getController().getContentTypeDefinition(contentTypeDefinitionId, this.getSession());
 		this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(this.contentTypeDefinition.getSchemaValue());
 		//this.availableLanguages = LanguageController.getController().getLanguageVOList();
     }
@@ -442,7 +443,17 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 
 		ceb.throwIfNotEmpty();
 
-
+		System.out.println("inputTypeId:" + this.inputTypeId);
+		if(this.inputTypeId == null)
+		{
+			Enumeration enumeration = ServletActionContext.getRequest().getParameterNames();
+			while(enumeration.hasMoreElements())
+			{
+				String key2 = (String)enumeration.nextElement();
+				System.out.println("enumeration:" + key2 + "=" + ServletActionContext.getRequest().getParameter(key2));
+			}
+		}
+			
 		this.initialize(getContentTypeDefinitionId());
 
 		try
@@ -571,7 +582,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		this.initialize(getContentTypeDefinitionId());
 		return SUCCESS;
 	}
-
+*/
 
 	public String doInsertAttributeValidator() throws Exception
 	{
@@ -581,7 +592,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		{
 			Document document = createDocumentFromDefinition();
 
-			String validatorName = this.getRequest().getParameter("validatorName");
+			String validatorName = ServletActionContext.getRequest().getParameter("validatorName");
 			
 			if(validatorName != null && !validatorName.equalsIgnoreCase(""))
 			{
@@ -653,12 +664,12 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 			Document document = createDocumentFromDefinition();
 
 			int i = 0;
-			String attributeValidatorName = this.getRequest().getParameter("attributeValidatorName");
-			String argumentName = this.getRequest().getParameter(i + "_argumentName");
+			String attributeValidatorName = ServletActionContext.getRequest().getParameter("attributeValidatorName");
+			String argumentName = ServletActionContext.getRequest().getParameter(i + "_argumentName");
 			
 			while(argumentName != null && !argumentName.equalsIgnoreCase(""))
 			{
-			    String argumentValue = this.getRequest().getParameter(i + "_argumentValue");
+			    String argumentValue = ServletActionContext.getRequest().getParameter(i + "_argumentValue");
 			    
 			    String validatorsXPath = "/xs:schema/xs:complexType[@name = 'Validation']/xs:annotation/xs:appinfo/form-validation/formset/form/field[@property = '" + attributeName + "'][@depends = '" + attributeValidatorName + "']";
 				Node fieldNode = org.apache.xpath.XPathAPI.selectSingleNode(document.getDocumentElement(), validatorsXPath);
@@ -683,7 +694,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 				}
 				
 				i++;
-				argumentName = this.getRequest().getParameter(i + "_argumentName");
+				argumentName = ServletActionContext.getRequest().getParameter(i + "_argumentName");
 			}
 			
 			saveUpdatedDefinition(document);
@@ -706,7 +717,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 			Document document = createDocumentFromDefinition();
 
 			int i = 0;
-			String attributeValidatorName = this.getRequest().getParameter("attributeValidatorName");
+			String attributeValidatorName = ServletActionContext.getRequest().getParameter("attributeValidatorName");
 			if(attributeValidatorName != null && !attributeValidatorName.equalsIgnoreCase(""))
 			{
 			    String validatorsXPath = "/xs:schema/xs:complexType[@name = 'Validation']/xs:annotation/xs:appinfo/form-validation/formset/form/field[@property = '" + attributeName + "'][@depends = '" + attributeValidatorName + "']";
@@ -728,7 +739,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		this.initialize(getContentTypeDefinitionId());
 		return SUCCESS;
 	}
-
+/*
 	
 	public List getDefinedAssetKeys()
 	{
@@ -1312,5 +1323,10 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 	public void setContentTypeDefinitionId(Long contentTypeDefinitionId)
 	{
 		this.contentTypeDefinitionId = contentTypeDefinitionId;
+	}
+
+	public ContentTypeDefinition getContentTypeDefinition()
+	{
+		return contentTypeDefinition;
 	}
 }

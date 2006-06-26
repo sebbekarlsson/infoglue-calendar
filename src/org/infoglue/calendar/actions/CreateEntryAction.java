@@ -135,7 +135,13 @@ public class CreateEntryAction extends CalendarAbstractAction
                 	valueString += value[j];
                 }
                 
-                Element element = domBuilder.addElement(attributesElement, idKey);
+                int index = idKey.indexOf("attribute_");
+                if(index == -1)
+                	index = 0;
+                else
+                	index = index + 10;
+                
+                Element element = domBuilder.addElement(attributesElement, idKey.substring(index));
                 domBuilder.addCDATAElement(element, valueString);
             	
                 attributeValues.put(idKey, value);
@@ -145,7 +151,6 @@ public class CreateEntryAction extends CalendarAbstractAction
                 log.info("idKey:" + idKey);
             }
 
-            domBuilder.writePretty(document, "c:/temp/apa.xml");
             String xml = domBuilder.getFormattedDocument(document, "UTF-8");
             System.out.println("xml:" + xml);
             
