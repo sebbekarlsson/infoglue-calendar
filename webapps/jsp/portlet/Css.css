@@ -1,13 +1,3 @@
-#contentTypeEditorContainer {
-	width: 100%;
-	margin: 0px 0px 0px 0px;
-	padding: 10px 10px 10px 10px;
-	border: 1px solid green;
-}
-#attributes {
-	border: 1px solid red;	
-}
-
 #set($cl = $templateLogic.componentLogic)
 #set($browser = $templateLogic.browserBean)
 
@@ -763,6 +753,10 @@ dl {
 
 .columnlabelarea {
 	padding:0.125em 0.75em 0.125em 0.75em;
+	border: 1px solid red;
+	font-weight:bold;
+	border-top:1px solid;
+	border-bottom:1px solid;
 	}
 
 .oddrow,
@@ -782,12 +776,6 @@ dl {
 
 .calApp form {
 	margin:0;
-	}
-
-.columnlabelarea { 
-	font-weight:bold;
-	border-top:1px solid;
-	border-bottom:1px solid;
 	}
 
 .columnShort {
@@ -1078,6 +1066,16 @@ div.portlet {
 
 /*Content type definition editor */
 
+#contentTypeEditorContainer {
+	width: 100%;
+	margin: 0px 0px 0px 0px;
+	padding: 10px 10px 10px 10px;
+	border: 1px solid green;
+}
+#attributes {
+	border: 1px solid red;	
+}
+
 .propertiesDiv {
 	position:absolute;
 	width:700px;
@@ -1142,3 +1140,7 @@ a.white:hover {
 a.white:active {
 	font-weight: bold;
 	}
+
+.validationRow {
+  width: 25%;
+}

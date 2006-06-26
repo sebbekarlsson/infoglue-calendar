@@ -652,7 +652,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+
+		return UPDATED;
 	}
 
 	public String doUpdateAttributeValidatorArguments() throws Exception
@@ -705,7 +706,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+
+		return UPDATED;
 	}
 
 	public String doDeleteAttributeValidator() throws Exception
@@ -737,7 +739,8 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+
+		return UPDATED;
 	}
 /*
 	
