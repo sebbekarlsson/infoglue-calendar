@@ -561,14 +561,12 @@ public class CalendarAbstractAction extends ActionSupport
 	
 		        errs.add(errorCode);
 		        
-		        System.out.println("this.getFieldErrors() 1:" + fieldErrors.size());
 		        fieldErrors.put(fieldName, errs);
-		        System.out.println("this.getFieldErrors() 2:" + fieldErrors.size());
-		        
+		    
+	        	throwError = true;
+
 		        ce = ce.getChainedException();
-        	}
-        	
-        	throwError = true;
+        	}        	
         }
 
         Iterator keyIterator = fieldErrors.keySet().iterator();

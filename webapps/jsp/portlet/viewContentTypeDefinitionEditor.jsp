@@ -138,11 +138,17 @@
 
 	<ww:iterator value="#attribute.validators" status="rowstatus">
 		<ww:set name="validator" value="top"/>
+		
+		<portlet:actionURL var="updateAttributeValidatorArgumentsUrl">
+			<portlet:param name="action" value="ViewEventType!updateAttributeValidatorArguments"/>
+		</portlet:actionURL>
+		
 		<div id="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer" style="border: 1px solid black; background-color: white; LEFT:250px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
-			<form name="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>ArgumentsForm" action="ViewEventType!updateAttributeValidatorArguments.action" method="POST">
-				<input type="hidden" name="contentTypeDefinitionId" value="$contentTypeDefinitionId">
-				<input type="hidden" name="attributeName" value="$attribute.name">
-				<input type="hidden" name="attributeValidatorName" value="$validator.name">
+			<form name="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>ArgumentsForm" action="<c:out value="${updateAttributeValidatorArgumentsUrl}"/>" method="POST">
+				<input type="hidden" name="contentTypeDefinitionId" value="<ww:property value="eventTypeId"/>">
+				<input type="hidden" name="eventTypeId" value="<ww:property value="eventTypeId"/>">
+				<input type="hidden" name="attributeName" value="<ww:property value="#attribute.name"/>">
+				<input type="hidden" name="attributeValidatorName" value="<ww:property value="#validator.name"/>">
 				<!--
 				<input type="hidden" name="attributeParameterValueLocale" value="$!currentContentTypeEditorViewLanguageCode">
 				<input type="hidden" name="currentContentTypeEditorViewLanguageCode" value="$!currentContentTypeEditorViewLanguageCode">

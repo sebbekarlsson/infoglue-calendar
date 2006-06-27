@@ -193,6 +193,11 @@ public class CreateEntryAction extends CalendarAbstractAction
             e.printStackTrace();
             return Action.ERROR;            
         }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
 
         return Action.SUCCESS;
     } 
