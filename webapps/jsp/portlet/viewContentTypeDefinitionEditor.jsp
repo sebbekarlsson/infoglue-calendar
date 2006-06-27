@@ -160,8 +160,8 @@
 					<ww:set name="index" value="#index + 1"/>
 				</ww:iterator>
 				<br/>
-				<input type="image" src="$ui.getString("images.managementtool.buttons.saveAndExit")" width="80" height="25" border="0"></a>
-				<a href="javascript:hideDiv('<ww:property value="#attribute.name"/>_${validator.name}_layer');"><img src="$ui.getString("images.managementtool.buttons.cancel")" width="50" height="25" border="0"></a>
+				<input type="submit" value="Save">
+				<a href="javascript:hideDiv('<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer');"><input type="button" value="Cancel"/></a>
 
 			</form>
 		</div>
@@ -265,10 +265,24 @@
 	
 	<ww:iterator value="#attribute.validators" status="rowstatus">
 		<ww:set name="validator" value="top"/>
+		<ww:set name="contentTypeDefinitionId" value="eventTypeId" scope="page"/>
+		<ww:set name="eventTypeId" value="eventTypeId" scope="page"/>
+		<ww:set name="attributeName" value="#attribute.name" scope="page"/>
+		<ww:set name="validatorName" value="#validator.name" scope="page"/>
+		
+		<portlet:actionURL var="deleteAttributeValidatorUrl">
+			<portlet:param name="action" value="ViewEventType!deleteAttributeValidator"/>
+			<calendar:evalParam name="contentTypeDefinitionId" value="${contentTypeDefinitionId}"/>
+			<calendar:evalParam name="eventTypeId" value="${contentTypeDefinitionId}"/>
+			<calendar:evalParam name="attributeName" value="${attributeName}"/>
+			<calendar:evalParam name="attributeValidatorName" value="${validatorName}"/>
+			<calendar:evalParam name="attributeToExpand" value="${attributeName}"/>
+		</portlet:actionURL>
+				
 		<div class="validationRow">
 		   	<div class="columnShort"><p><ww:property value="#validator.name"/></p></div>
 		   	<div class="columnEnd">
-				<a href="ViewEventType!deleteAttributeValidator.action?contentTypeDefinitionId=$contentTypeDefinitionId&attributeName=<ww:property value="#attribute.name"/>&attributeValidatorName=<ww:property value="#validator.name"/>&attributeToExpand=<ww:property value="#attribute.name"/>" class="delete"></a>
+				<a href="<c:out value="${deleteAttributeValidatorUrl}"/>" class="delete"></a>
 				<a href="javascript:showDiv('<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer');" class="edit"></a>
 			</div>
 			<div class="clear"></div>

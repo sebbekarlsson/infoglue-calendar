@@ -48,13 +48,13 @@ CREATE TABLE accessRightUser (
 
 -- NYTT
 
-ALTER TABLE eventtype ADD COLUMN schemaValue TEXT;
-ALTER TABLE eventtype ADD COLUMN type INTEGER UNSIGNED NOT NULL DEFAULT 0;
-ALTER TABLE event ADD COLUMN entryFormId INTEGER UNSIGNED;
+ALTER TABLE EventType ADD COLUMN schemaValue TEXT;
+ALTER TABLE EventType ADD COLUMN type INTEGER UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE Event ADD COLUMN entryFormId INTEGER UNSIGNED;
 
-ALTER TABLE eventtype ADD COLUMN type INTEGER UNSIGNED NOT NULL DEFAULT 0;
-ALTER TABLE eventtype ADD COLUMN schemaValue TEXT DEFAULT '';
+ALTER TABLE EventType ADD COLUMN type INTEGER UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE EventType ADD COLUMN schemaValue TEXT DEFAULT '';
  
-update event set entryFormId = (select id from eventtype et where et.type = 1);
+update Event set entryFormId = (select id from EventType et where et.type = 1);
 
-ALTER TABLE entry ADD COLUMN attributes TEXT DEFAULT '';
+ALTER TABLE Entry ADD COLUMN attributes TEXT DEFAULT '';

@@ -46,6 +46,7 @@ import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
+import org.infoglue.common.util.ConstraintExceptionBuffer;
 import org.infoglue.common.util.DBSessionWrapper;
 import org.infoglue.common.util.dom.DOMBuilder;
 
@@ -119,6 +120,8 @@ public class CreateEntryAction extends CalendarAbstractAction
             log.info("idKey:" + idKey);
             while(idKey != null && idKey.length() > 0)
             {
+            	System.out.println("idKey in loop: " + idKey);
+            	
                 String[] value = ServletActionContext.getRequest().getParameterValues(idKey);
                 if(value == null || value.length == 0)
                     this.addFieldError(idKey, "errors.atLeastOneItem");
@@ -156,7 +159,15 @@ public class CreateEntryAction extends CalendarAbstractAction
             
             ServletActionContext.getRequest().getSession().setAttribute("attributes", attributes);
         	
-            validateInput(this);
+            Event event = EventController.getController().getEvent(eventId, getSession());
+            EventType eventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
+            
+            Entry entry = new Entry();
+            entry.setAttributes(xml);
+            ConstraintExceptionBuffer ceb = entry.validate(eventType);
+            ActionContext.getContext().getValueStack().getContext().put("errorEntry", entry);
+            
+            validateInput(this, ceb);
 
 	        newEntry = EntryController.getController().createEntry(firstName, 
 	                									lastName, 

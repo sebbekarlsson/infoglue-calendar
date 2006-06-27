@@ -28,7 +28,9 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,8 +61,9 @@ import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 import org.infoglue.cms.entities.kernel.BaseEntityVO;
 import org.infoglue.cms.entities.management.ContentTypeDefinitionVO;
 import org.infoglue.cms.security.InfoGluePrincipal;
-import org.infoglue.cms.util.ConstraintExceptionBuffer;
+import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.util.ActionValidatorManager;
+import org.infoglue.common.util.ConstraintExceptionBuffer;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.ResourceBundleHelper;
 
@@ -508,22 +512,129 @@ public class CalendarAbstractAction extends ActionSupport
     {
         return ParticipantController.getController().getParticipant(participantId, getSession());
     }
-    
+
     public void validateInput(CalendarAbstractAction action) throws ValidationException
     {
+    	validateInput(action, null);
+    }
+
+    public void validateInput(CalendarAbstractAction action, ConstraintExceptionBuffer ceb) throws ValidationException
+    {
+    	boolean throwError = false;
+    	
+    	Map fieldErrors = new HashMap();
+        System.out.println("this.getFieldErrors() 0:" + this.getFieldErrors().size());
+
         String context = ActionContext.getContext().getName();
         ActionValidatorManager.validate(this, context);
         if(this.getFieldErrors() != null && this.getFieldErrors().size() > 0)
         {
-            ActionContext.getContext().getValueStack().getContext().put("actionErrors", this.getActionErrors());
-            ActionContext.getContext().getValueStack().getContext().put("fieldErrors", this.getFieldErrors());
-            ActionContext.getContext().getValueStack().getContext().put("errorAction", this);
-            
-            log.warn("actionErrors:" + this.getActionErrors());
-            log.warn("fieldErrors:" + this.getFieldErrors());
-            log.warn("errorAction:" + this);
-            throw new ValidationException("An validation error occurred - more information is in the valuestack...");
+        	fieldErrors.putAll(this.getFieldErrors());
+        	System.out.println("fieldErrors:" + fieldErrors.size());
+
+            throwError = true;
         }
+        
+    	ActionContext.getContext().getValueStack().getContext().put("actionErrors", this.getActionErrors());
+        ActionContext.getContext().getValueStack().getContext().put("fieldErrors", fieldErrors);
+        ActionContext.getContext().getValueStack().getContext().put("errorAction", this);
+        
+        log.warn("actionErrors:" + this.getActionErrors());
+        log.warn("fieldErrors:" + this.getFieldErrors());
+        log.warn("errorAction:" + this);
+
+        System.out.println("ceb:" + ceb);
+        if(ceb != null)
+        {
+        	List errs = new ArrayList();
+	        
+        	ConstraintException ce = ceb.toConstraintException();
+        	while(ce != null)
+        	{
+		        String fieldName 	= ce.getFieldName();
+		        String errorCode 	= ce.getErrorCode();
+		        String message 		= ce.getMessage();
+		        
+		        System.out.println("fieldName:" + fieldName);
+		        System.out.println("errorCode:" + errorCode);
+		        System.out.println("message:" + message);
+	
+		        errs.add(errorCode);
+		        
+		        System.out.println("this.getFieldErrors() 1:" + fieldErrors.size());
+		        fieldErrors.put(fieldName, errs);
+		        System.out.println("this.getFieldErrors() 2:" + fieldErrors.size());
+		        
+		        ce = ce.getChainedException();
+        	}
+        	
+        	throwError = true;
+        }
+
+        Iterator keyIterator = fieldErrors.keySet().iterator();
+        while(keyIterator.hasNext())
+        {
+        	String key = (String)keyIterator.next();
+        	System.out.println("FieldError: " + key + "=" + fieldErrors.get(key));
+        }        	
+
+        if(throwError)
+            throw new ValidationException("An validation error occurred - more information is in the valuestack...");
+        
+	        /*
+	        if (fValidator != null) 
+	        {
+	            if (validatorContext.hasFieldErrors()) 
+	            {
+	                Collection fieldErrors = (Collection) validatorContext.getFieldErrors().get(fullFieldName);
+	
+	                if (fieldErrors != null) 
+	                {
+	                    errs = new ArrayList(fieldErrors);
+	                }
+	            }
+	        } 
+	        */
+	        
+	        /*
+	        else if (validatorContext.hasActionErrors()) {
+	            Collection actionErrors = validatorContext.getActionErrors();
+	
+	            if (actionErrors != null) {
+	                errs = new ArrayList(actionErrors);
+	            }
+	        }
+	        */
+	/*
+	        if (fValidator != null) {
+	            if (validatorContext.hasFieldErrors()) {
+	                Collection errCol = (Collection) validatorContext.getFieldErrors().get(fullFieldName);
+	
+	                if ((errCol != null) && !errCol.equals(errs)) {
+	                    if (LOG.isDebugEnabled()) {
+	                        LOG.debug("Short-circuiting on field validation");
+	                    }
+	
+	                    if (shortcircuitedFields == null) {
+	                        shortcircuitedFields = new TreeSet();
+	                    }
+	
+	                    shortcircuitedFields.add(fullFieldName);
+	                }
+	            }
+	        } else if (validatorContext.hasActionErrors()) {
+	            Collection errCol = validatorContext.getActionErrors();
+	
+	            if ((errCol != null) && !errCol.equals(errs)) {
+	                if (LOG.isDebugEnabled()) {
+	                    LOG.debug("Short-circuiting");
+	                }
+	
+	                break;
+	            }
+	        }
+        }
+        */
     }
 
     public void setError(String message, Exception e)

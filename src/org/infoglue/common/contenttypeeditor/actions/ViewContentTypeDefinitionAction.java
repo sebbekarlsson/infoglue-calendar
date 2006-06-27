@@ -442,17 +442,6 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		ceb.throwIfNotEmpty();
-
-		System.out.println("inputTypeId:" + this.inputTypeId);
-		if(this.inputTypeId == null)
-		{
-			Enumeration enumeration = ServletActionContext.getRequest().getParameterNames();
-			while(enumeration.hasMoreElements())
-			{
-				String key2 = (String)enumeration.nextElement();
-				System.out.println("enumeration:" + key2 + "=" + ServletActionContext.getRequest().getParameter(key2));
-			}
-		}
 			
 		this.initialize(getContentTypeDefinitionId());
 

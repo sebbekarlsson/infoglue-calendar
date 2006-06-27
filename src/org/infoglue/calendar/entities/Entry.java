@@ -28,6 +28,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.infoglue.calendar.util.validators.EntryValidator;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
+import org.infoglue.common.util.ConstraintExceptionBuffer;
+
 /**
  * This class represents a persons entry to be present at the event.
  * It differs from participants in that it is volountary and that is is open for anyone to register while
@@ -211,5 +215,13 @@ public class Entry implements BaseEntity
 	public void setAttributes(String attributes)
 	{
 		this.attributes = attributes;
+	}
+
+	public ConstraintExceptionBuffer validate(ContentTypeDefinition contentTypeDefinition)
+	{
+		ConstraintExceptionBuffer ceb = new ConstraintExceptionBuffer();
+		ceb.add(new EntryValidator().validate(contentTypeDefinition, this));
+		
+		return ceb;
 	}
 }

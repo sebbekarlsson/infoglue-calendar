@@ -70,7 +70,12 @@ public class TextFieldTag extends AbstractCalendarTag
 		  
 	public int doEndTag() throws JspException
     {
-	    fieldErrors = (List)findOnValueStack("#fieldErrors." + name);
+		String errorName = name;
+		if(errorName.indexOf("attribute_") > -1)
+			errorName = errorName.substring(errorName.indexOf("attribute_") + 10);
+		
+	    fieldErrors = (List)findOnValueStack("#fieldErrors." + errorName);
+	    Map fieldErrorsList = (Map)findOnValueStack("#fieldErrors");
 	    
 	    errorAction = findOnValueStack("#errorAction");
 	    if(errorAction != null)
@@ -79,6 +84,11 @@ public class TextFieldTag extends AbstractCalendarTag
 	        if(o != null)
 	            value = o.toString();
         }
+	    System.out.println("name:" + name);
+	    System.out.println("errorName:" + errorName);
+	    System.out.println("fieldErrorsList:" + fieldErrorsList);
+        System.out.println("fieldErrors: " + fieldErrors);
+        System.out.println("value: " + value);
 	    
 	    String errorMessage = "";
 	    if(fieldErrors != null && fieldErrors.size() > 0)
@@ -87,6 +97,7 @@ public class TextFieldTag extends AbstractCalendarTag
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
+	            System.out.println("fieldError: " + fieldError);
 	            String translatedError = this.getLabel(fieldError);
 	            if(translatedError != null && translatedError.length() > 0)
 	                fieldError = translatedError;
@@ -115,6 +126,8 @@ public class TextFieldTag extends AbstractCalendarTag
 
         write(sb.toString());
 	    
+        this.name = null;
+        
         return EVAL_PAGE;
     }
 
@@ -131,8 +144,6 @@ public class TextFieldTag extends AbstractCalendarTag
             this.name = o.toString();
         else
             this.name = name;
-        
-        //this.name = name;
     }
 
     public void setLabel(String rawLabel) throws JspException

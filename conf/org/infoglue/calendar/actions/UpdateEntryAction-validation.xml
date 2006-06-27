@@ -15,6 +15,7 @@
             <message>You must enter a valid email address.</message>
         </field-validator>
     </field>
+    <!--
     <field name="organisation">
         <field-validator type="igrequiredstring">
             <message>You must enter an organisation.</message>
@@ -45,7 +46,6 @@
             <message>You must enter a fax number.</message>
         </field-validator>
     </field>
-    <!--
     <field name="message">
         <field-validator type="igrequiredstring">
             <message>You must enter a message.</message>

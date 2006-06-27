@@ -37,7 +37,9 @@ import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Role;
 import org.infoglue.calendar.entities.Subscriber;
+import org.infoglue.cms.applications.common.VisualFormatter;
 import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
+import org.infoglue.cms.entities.content.ContentVersionVO;
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.VelocityTemplateProcessor;
@@ -645,6 +647,33 @@ public class EntryController extends BasicController
         session.delete(entry);
     }
     
+    
+	/**
+	 * Returns an attribute value from the Entry
+	 *
+	 * @param entry The entry on which to find the value
+	 * @param attributeName THe name of the attribute whose value is wanted
+	 * @param escapeHTML A boolean indicating if the result should be escaped
+	 * @return The String vlaue of the attribute, or blank if it doe snot exist.
+	 */
+	public String getAttributeValue(Entry entry, String attributeName, boolean escapeHTML)
+	{
+		String value = "";
+		String xml = entry.getAttributes();
+
+		int startTagIndex = xml.indexOf("<" + attributeName + ">");
+		int endTagIndex   = xml.indexOf("]]></" + attributeName + ">");
+
+		if(startTagIndex > 0 && startTagIndex < xml.length() && endTagIndex > startTagIndex && endTagIndex <  xml.length())
+		{
+			value = xml.substring(startTagIndex + attributeName.length() + 11, endTagIndex);
+			if(escapeHTML)
+				value = new VisualFormatter().escapeHTML(value);
+		}		
+
+		return value;
+	}
+
     
     /**
      * This method emails all persons in an email-address string a message.
