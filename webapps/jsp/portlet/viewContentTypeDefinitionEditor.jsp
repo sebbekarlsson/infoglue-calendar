@@ -143,33 +143,36 @@
 			<portlet:param name="action" value="ViewEventType!updateAttributeValidatorArguments"/>
 		</portlet:actionURL>
 		
-		<div id="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer" style="border: 1px solid black; background-color: white; LEFT:250px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
-			<form name="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>ArgumentsForm" action="<c:out value="${updateAttributeValidatorArgumentsUrl}"/>" method="POST">
-				<input type="hidden" name="contentTypeDefinitionId" value="<ww:property value="eventTypeId"/>">
-				<input type="hidden" name="eventTypeId" value="<ww:property value="eventTypeId"/>">
-				<input type="hidden" name="attributeName" value="<ww:property value="#attribute.name"/>">
-				<input type="hidden" name="attributeValidatorName" value="<ww:property value="#validator.name"/>">
-				<!--
-				<input type="hidden" name="attributeParameterValueLocale" value="$!currentContentTypeEditorViewLanguageCode">
-				<input type="hidden" name="currentContentTypeEditorViewLanguageCode" value="$!currentContentTypeEditorViewLanguageCode">
-				-->
-				<input type="hidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
-
-				Validator arguments
-				<ww:set name="index" value="0"/>
-				<ww:iterator value="#validator.arguments.keySet()" status="rowstatus">
-					<ww:set name="key" value="top"/>
-					<input type="hidden" name="<ww:property value="#index"/>_argumentName" value="<ww:property value="#key"/>">
-					<ww:property value="#key"/>:
-					<input type="textfield" name="<ww:property value="#index"/>_argumentValue" value="<ww:property value="#validator.arguments.get(key)"/>" class="normaltextfield">
-			
-					<ww:set name="index" value="#index + 1"/>
-				</ww:iterator>
-				<br/>
-				<input type="submit" value="Save">
-				<a href="javascript:hideDiv('<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer');"><input type="button" value="Cancel"/></a>
-
-			</form>
+		<div id="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer" style="border: 1px solid black; background-color: white; LEFT:100px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
+			<div id="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>PropertyHandle" class="propertiesDivHandle"><div id="propertiesDivLeftHandle" class="propertiesDivLeftHandle">Validator</div><div id="propertiesDivRightHandle" class="propertiesDivRightHandle"><a href="javascript:hidePropertyDiv('<ww:property value="#attribute.name"/>PropertyLayer');" class="white">close</a></div></div>
+			<div id="PropertyBody" class="propertiesDivBody">
+				<form name="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>ArgumentsForm" action="<c:out value="${updateAttributeValidatorArgumentsUrl}"/>" method="POST">
+					<input type="hidden" name="contentTypeDefinitionId" value="<ww:property value="eventTypeId"/>">
+					<input type="hidden" name="eventTypeId" value="<ww:property value="eventTypeId"/>">
+					<input type="hidden" name="attributeName" value="<ww:property value="#attribute.name"/>">
+					<input type="hidden" name="attributeValidatorName" value="<ww:property value="#validator.name"/>">
+					<!--
+					<input type="hidden" name="attributeParameterValueLocale" value="$!currentContentTypeEditorViewLanguageCode">
+					<input type="hidden" name="currentContentTypeEditorViewLanguageCode" value="$!currentContentTypeEditorViewLanguageCode">
+					-->
+					<input type="hidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
+	
+					<ww:set name="index" value="0"/>
+					<ww:iterator value="#validator.arguments.keySet()" status="rowstatus">
+						<ww:set name="key" value="top"/>
+						<input type="hidden" name="<ww:property value="#index"/>_argumentName" value="<ww:property value="#key"/>">
+						
+						<label for="<ww:property value="#index"/>_argumentValue"><ww:property value="#key"/>:</label>
+						<input type="textfield" name="<ww:property value="#index"/>_argumentValue" value="<ww:property value="#validator.arguments.get(#key)"/>" class="normaltextfield">
+				
+						<ww:set name="index" value="#index + 1"/>
+					</ww:iterator>
+					<br/>
+					<input type="submit" value="Save">
+					<a href="javascript:hideDiv('<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer');"><input type="button" value="Cancel"/></a>
+	
+				</form>
+			</div>
 		</div>
 	</ww:iterator>
 

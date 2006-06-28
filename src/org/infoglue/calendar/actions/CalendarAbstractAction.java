@@ -228,8 +228,8 @@ public class CalendarAbstractAction extends ActionSupport
             org.infoglue.calendar.entities.Calendar owningCalendar = event.getOwningCalendar();
             if(owningCalendar != null)
             {
-	            log.info("owningCalendar.getOwningRoles():" + owningCalendar.getOwningRoles());
-	            log.info("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
+	            log.warn("owningCalendar.getOwningRoles():" + owningCalendar.getOwningRoles());
+	            log.warn("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
 		        if(owningCalendar.getOwningRoles().size() > 0 && this.getInfoGlueRemoteUserGroups().size() == 0)
 		        {
 		            isEventOwner = false;
@@ -237,7 +237,7 @@ public class CalendarAbstractAction extends ActionSupport
 		        else
 		        {
 		            Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
-			        
+			        System.out.println("calendars: " + calendars);
 			        if(calendars.contains(owningCalendar))
 			            isEventOwner = true;
 		        }

@@ -61,6 +61,7 @@ public class UpdateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
+            System.out.println("calendarId: " + calendarId);
             CalendarController.getController().updateCalendar(calendarId, name, description, roles, groups, eventTypeId, getSession());
         }
         catch(ValidationException e)
@@ -78,7 +79,7 @@ public class UpdateCalendarAction extends CalendarAbstractAction
     }
     public void setCalendarId(Long calendarId)
     {
-        this.calendarId = calendarId;
+    	this.calendarId = calendarId;
     }
     public String getDescription()
     {
