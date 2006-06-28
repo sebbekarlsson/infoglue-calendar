@@ -32,6 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.ObjectNotFoundException;
 import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.controllers.LocationController;
@@ -82,6 +83,8 @@ public class ViewEventAction extends CalendarAbstractAction
     private List entryFormEventTypes;
     private EventType entryFormEventType;
     
+    private List attributes;
+
     /**
      * This is the entry point for the main listing.
      */
@@ -114,7 +117,11 @@ public class ViewEventAction extends CalendarAbstractAction
 	            this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
 	            this.entryFormEventTypes = EventTypeController.getController().getEventTypeList(EventType.ENTRY_DEFINITION, getSession());
 	            this.entryFormEventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
-	            	
+	            
+	            EventType eventType = this.event.getOwningCalendar().getEventType();
+	    		if(eventType != null)
+	    			this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
+
 	            this.yesOrNo = new ArrayList();
 	            this.yesOrNo.add("true");            
 	
@@ -343,5 +350,10 @@ public class ViewEventAction extends CalendarAbstractAction
 	public EventType getEntryFormEventType()
 	{
 		return entryFormEventType;
+	}
+
+	public List getAttributes()
+	{
+		return attributes;
 	}
 }
