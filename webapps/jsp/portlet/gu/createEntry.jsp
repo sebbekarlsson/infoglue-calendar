@@ -17,17 +17,31 @@
 			
 		<h1><ww:property value="this.getLabel('labels.internal.entry.createNewEntry')"/></h1>
 		<h3>"<ww:property value="event.name"/>"</h3>
-	
-		<calendar:textField label="labels.internal.entry.firstName" name="firstName" value="entry.firstName" mandatory="true" labelCssClass="label" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.lastName" name="lastName" value="entry.lastName" mandatory="true" labelCssClass="label" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.email" name="email" value="entry.email" mandatory="true" labelCssClass="label" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.organisation" name="organisation" value="entry.organisation" labelCssClass="label" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.address" name="address" value="entry.address" labelCssClass="label" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.zipcode" name="zipcode" value="entry.zipcode" labelCssClass="label" cssClass="shorttextfield"/>
-		<calendar:textField label="labels.internal.entry.city" name="city" value="entry.city" labelCssClass="label" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.phone" name="phone" value="entry.phone" labelCssClass="label" cssClass="shorttextfield"/>
-		<calendar:textField label="labels.internal.entry.fax" name="fax" value="entry.fax" labelCssClass="label" cssClass="shorttextfield"/>
+		
+		<calendar:textField label="labels.internal.entry.firstName" name="'firstName'" value="entry.firstName" mandatory="true" labelCssClass="label" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.lastName" name="'lastName'" value="entry.lastName" mandatory="true" labelCssClass="label" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.email" name="'email'" value="entry.email" mandatory="true" labelCssClass="label" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.organisation" name="'organisation'" value="entry.organisation" labelCssClass="label" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.address" name="'address'" value="entry.address" labelCssClass="label" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.zipcode" name="'zipcode'" value="entry.zipcode" labelCssClass="label" cssClass="shorttextfield"/>
+		<calendar:textField label="labels.internal.entry.city" name="'city'" value="entry.city" labelCssClass="label" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.entry.phone" name="'phone'" value="entry.phone" labelCssClass="label" cssClass="shorttextfield"/>
+		<calendar:textField label="labels.internal.entry.fax" name="'fax'" value="entry.fax" labelCssClass="label" cssClass="shorttextfield"/>
 		<calendar:textAreaField label="labels.internal.entry.message" name="message" value="entry.message" labelCssClass="label" cssClass="fieldfullwidth"/>
+				
+		<ww:set name="count" value="0"/>
+		<ww:iterator value="attributes" status="rowstatus">
+			<ww:set name="attribute" value="top" scope="page"/>
+			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
+			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
+			<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, top.name)"/>
+
+			<input type="hidden" name="attributeName_<ww:property value="#count"/>" value="attribute_<ww:property value="top.name"/>"/>
+			<calendar:textField label="${title}" name="#attributeName" value="#attributeValue" cssClass="longtextfield"/>
+		
+			<ww:set name="count" value="#count + 1"/>
+		</ww:iterator>
+				
 		<br /><span class="fieldrow"><span class="redstar">*</span><label>obligatoriska f&auml;lt</label></span>  
 		<br />
 		<input id="submit" type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>" title="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>">

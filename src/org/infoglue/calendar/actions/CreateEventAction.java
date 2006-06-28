@@ -31,6 +31,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.controllers.LocationController;
@@ -102,6 +103,8 @@ public class CreateEventAction extends CalendarAbstractAction
     
     private Event newEvent = null;
         
+    private List attributes;
+
     /**
      * This is the entry point for the main listing.
      */
@@ -254,7 +257,11 @@ public class CreateEventAction extends CalendarAbstractAction
         //this.categories = CategoryController.getController().getRootCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.entryFormEventTypes = EventTypeController.getController().getEventTypeList(EventType.ENTRY_DEFINITION, getSession());
-        	
+
+        EventType eventType = this.calendar.getEventType();
+        if(eventType != null)
+        	this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
+
         return Action.INPUT;
     } 
     
@@ -600,5 +607,11 @@ public class CreateEventAction extends CalendarAbstractAction
 	public void setEntryFormId(Long entryFormId)
 	{
 		this.entryFormId = entryFormId;
+	}
+
+
+	public List getAttributes()
+	{
+		return attributes;
 	}
 }

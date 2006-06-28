@@ -760,12 +760,14 @@ dl {
 	}
 
 .oddrow,
-.evenrow {
+.evenrow,
+.actionrow {
 	padding:0.25em 0.75em 0.25em 0.75em
 	}
 
 .oddrow p,
-.evenrow p {
+.evenrow p,
+.actionrow p {
 	margin:0;
 	padding:0 
 	}
@@ -840,7 +842,7 @@ dl {
 .evenrow:hover {
 	background-color:#DFEAF6;
 	}
-
+	
 .columnlabelarea {
 	background:#ECF3FA;
 	border-color:#9BBDDE;
@@ -1118,11 +1120,11 @@ div.portlet {
 
 #propertyBody label {
         display: block;
-	float: left;
-	margin-bottom: 10px;
+		float: left;
+		margin-bottom: 10px;
         padding-right: 5px;
         atext-align: right;
-	width: 200px;
+		width: 200px;
 }
 
 br {
@@ -1132,7 +1134,7 @@ br {
 a.white {
         text-decoration:none;
         color: white;
-	font-size:10px;
+		font-size:10px;
     }
 a.white:hover {
 	text-decoration:underline;
@@ -1142,5 +1144,6 @@ a.white:active {
 	}
 
 .validationRow {
-  width: 25%;
+  	width: 25%;
+  	padding:0.125em 0.75em 0.125em 0.75em;  
 }

@@ -69,9 +69,9 @@
 		</select>
 	</div>
 	
-	<calendar:textField label="labels.internal.soba.firstName" name="searchFirstName" value="firstName" cssClass="longtextfield"/>
-	<calendar:textField label="labels.internal.soba.lastName" name="searchLastName" value="lastName" cssClass="longtextfield"/>
-	<calendar:textField label="labels.internal.soba.email" name="searchEmail" value="email" cssClass="longtextfield"/>
+	<calendar:textField label="labels.internal.soba.firstName" name="'searchFirstName'" value="firstName" cssClass="longtextfield"/>
+	<calendar:textField label="labels.internal.soba.lastName" name="'searchLastName'" value="lastName" cssClass="longtextfield"/>
+	<calendar:textField label="labels.internal.soba.email" name="'searchEmail'" value="email" cssClass="longtextfield"/>
 
 	<ww:iterator value="categoryAttributes" status="rowstatus">
 		<ww:set name="categoryAttribute" value="top" scope="page"/>
@@ -106,8 +106,8 @@
 
 	<ww:property value="this.getLabel('labels.internal.soba.emailIntro')"/>
 	
-	<calendar:textField label="labels.internal.soba.addresses" name="emailAddresses" value="emailAddresses" cssClass="longtextfield" mandatory="true"/>
-	<calendar:textField label="labels.internal.soba.subject" name="subject" value="subject" cssClass="longtextfield" mandatory="true"/>
+	<calendar:textField label="labels.internal.soba.addresses" name="'emailAddresses'" value="emailAddresses" cssClass="longtextfield" mandatory="true"/>
+	<calendar:textField label="labels.internal.soba.subject" name="'subject'" value="subject" cssClass="longtextfield" mandatory="true"/>
 	<calendar:textAreaField label="labels.internal.soba.message" name="message" value="message" cssClass="smalltextarea" mandatory="true"/>
 
 	<div style="height:10px"></div>

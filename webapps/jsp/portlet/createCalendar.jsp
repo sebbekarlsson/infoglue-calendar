@@ -26,8 +26,8 @@
 	
 	<form name="inputForm" method="POST" action="<c:out value="${createCalendarActionUrl}"/>">
 
-		<calendar:textField label="labels.internal.calendar.name" name="name" value="calendar.name" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.calendar.description" name="description" value="calendar.description" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.calendar.name" name="'name'" value="calendar.name" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.calendar.description" name="'description'" value="calendar.description" cssClass="longtextfield"/>
 	    
 	    <calendar:selectField label="labels.internal.calendar.roles" name="roles" multiple="true" value="infoglueRoles" cssClass="listBox"/>
 	    <calendar:selectField label="labels.internal.calendar.groups" name="groups" multiple="true" value="infoglueGroups" cssClass="listBox"/>

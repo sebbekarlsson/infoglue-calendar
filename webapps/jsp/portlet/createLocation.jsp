@@ -25,8 +25,8 @@
 	
 	<form name="inputForm" method="POST" action="<c:out value="${createLocationActionUrl}"/>">
 
-		<calendar:textField label="labels.internal.location.name" name="name" value="location.name" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.location.description" name="description" value="location.description" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.location.name" name="'name'" value="location.name" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.location.description" name="'description'" value="location.description" cssClass="longtextfield"/>
 	
 		<div style="height:10px"></div>
 	

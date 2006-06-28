@@ -111,23 +111,25 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/script/dom-drag.js"></script>
 
 <div id="newValidatorFormLayer" style="border: 1px solid black; background-color: white; LEFT:250px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
-	<form name="newValidatorForm" action="<c:out value="${insertAttributeValidatorUrl}"/>" method="POST">
-		<input type="hidden" name="eventTypeId" value="<ww:property value="contentTypeDefinitionId"/>">
-		<input type="hidden" name="contentTypeDefinitionId" value="<ww:property value="contentTypeDefinitionId"/>">
-		<input type="hidden" name="attributeName" value="<ww:property value="#attribute.name"/>">
-		<input type="hidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
-
-		<h4>Create new validator</h4>
-		<b>Validation Type</b>
-		<select size="1" name="validatorName" class="sitedropbox">
-		    <option value="required">Required</option>
-		    <option value="requiredif">Required If</option>
-		    <option value="matchRegexp">Match Regexp</option>
-		</select>
-		<br/>
-		<input type="submit" value="Save">
-		<a href="javascript:hideDiv('newValidatorFormLayer');"><input type="button" value="cancel"/></a>
-	</form>
+	<div id="newValidatorFormLayerPropertyHandle" class="propertiesDivHandle"><div id="propertiesDivLeftHandle" class="propertiesDivLeftHandle">Add validation rule</div><div id="propertiesDivRightHandle" class="propertiesDivRightHandle"><a href="javascript:hidePropertyDiv('newValidatorFormLayer');" class="white">close</a></div></div>
+	<div id="PropertyBody" class="propertiesDivBody">
+		<form name="newValidatorForm" action="<c:out value="${insertAttributeValidatorUrl}"/>" method="POST">
+			<input type="hidden" name="eventTypeId" value="<ww:property value="contentTypeDefinitionId"/>">
+			<input type="hidden" name="contentTypeDefinitionId" value="<ww:property value="contentTypeDefinitionId"/>">
+			<input type="hidden" name="attributeName" value="<ww:property value="#attribute.name"/>">
+			<input type="hidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
+	
+			<label for="validatorName">Type:</label>
+			<select size="1" name="validatorName" class="sitedropbox">
+			    <option value="required">Required</option>
+			    <option value="requiredif">Required If</option>
+			    <option value="matchRegexp">Match Regexp</option>
+			</select>
+			<br/>
+			<input type="submit" value="Save">
+			<a href="javascript:hideDiv('newValidatorFormLayer');"><input type="button" value="Cancel"/></a>
+		</form>
+	</div>
 </div>
 
 
@@ -144,7 +146,7 @@
 		</portlet:actionURL>
 		
 		<div id="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer" style="border: 1px solid black; background-color: white; LEFT:100px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
-			<div id="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>PropertyHandle" class="propertiesDivHandle"><div id="propertiesDivLeftHandle" class="propertiesDivLeftHandle">Validator</div><div id="propertiesDivRightHandle" class="propertiesDivRightHandle"><a href="javascript:hidePropertyDiv('<ww:property value="#attribute.name"/>PropertyLayer');" class="white">close</a></div></div>
+			<div id="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>PropertyHandle" class="propertiesDivHandle"><div id="propertiesDivLeftHandle" class="propertiesDivLeftHandle">Validator</div><div id="propertiesDivRightHandle" class="propertiesDivRightHandle"><a href="javascript:hidePropertyDiv('<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer');" class="white">close</a></div></div>
 			<div id="PropertyBody" class="propertiesDivBody">
 				<form name="<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>ArgumentsForm" action="<c:out value="${updateAttributeValidatorArgumentsUrl}"/>" method="POST">
 					<input type="hidden" name="contentTypeDefinitionId" value="<ww:property value="eventTypeId"/>">
@@ -167,6 +169,10 @@
 				
 						<ww:set name="index" value="#index + 1"/>
 					</ww:iterator>
+					<ww:if test="#index == 0">
+						<label for="no_argumentValue">No properties for validation rule</label>
+						<input type="hidden" name="no_argumentValue">
+					</ww:if>
 					<br/>
 					<input type="submit" value="Save">
 					<a href="javascript:hideDiv('<ww:property value="#attribute.name"/>_<ww:property value="#validator.name"/>_layer');"><input type="button" value="Cancel"/></a>
@@ -259,11 +265,13 @@
 		<input type="hidden" name="attributeName" value="<ww:property value="#attribute.name"/>">
 		<input type="hidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
 		
-		<label for="newAttributeName">Name</label>
-		<input type="textfield" name="newAttributeName" value="<ww:property value="#attribute.name"/>" class="longtextfield"><br/>
-
-		<calendar:selectField label="'Type'" name="'inputTypeId'" multiple="false" value="attributeTypes" selectedValue="inputType" headerItem="Choose element type" cssClass="listBox" skipContainer="true" skipLineBreak="true"/>
-		<br/>
+	    <div class="actionrow">
+			<label for="newAttributeName">Name</label>
+			<input type="textfield" name="newAttributeName" value="<ww:property value="#attribute.name"/>" class="longtextfield"><br/>
+	
+			<calendar:selectField label="'Type'" name="'inputTypeId'" multiple="false" value="attributeTypes" selectedValue="inputType" headerItem="Choose element type" cssClass="listBox" skipContainer="true" skipLineBreak="true"/>
+		</div>	
+	<br/>
 	
 	<div class="columnlabelarea">
 		<div class="columnShort"><p>Validation</p></div>
@@ -288,7 +296,12 @@
 			<calendar:evalParam name="attributeToExpand" value="${attributeName}"/>
 		</portlet:actionURL>
 				
-		<div class="validationRow">
+		<ww:if test="#rowstatus.odd == true">
+	    	<div class="oddrow">
+	    </ww:if>
+	    <ww:else>
+			<div class="evenrow">
+	    </ww:else>
 		   	<div class="columnShort"><p><ww:property value="#validator.name"/></p></div>
 		   	<div class="columnEnd">
 				<a href="<c:out value="${deleteAttributeValidatorUrl}"/>" class="delete"></a>
@@ -297,45 +310,59 @@
 			<div class="clear"></div>
 		</div
 	</ww:iterator>
+	<div class="actionrow">
+		<div class="columnLong"><p><a href="javascript:showAddValidatorFormDiv('<ww:property value="#attribute.name"/>');">Add new validation rule</a></p></div>
+		<div class="clear"></div>
+	</div>
+	
 	<br/>
-	<a href="javascript:showAddValidatorFormDiv('<ww:property value="#attribute.name"/>');">Add new validation rule</a>
-
-	<h4>Extra parameters</h4>
+	
+	<div class="columnlabelarea">
+		<div class="columnShort"><p>Extra parameters</p></div>
+		<div class="columnLong"><p>&nbsp;</p></div>
+		<div class="columnEnd"><p>&nbsp;</p></div>
+		<div class="clear"></div>
+	</div>
+	
 	<ww:iterator value="#attribute.contentTypeAttributeParameters" status="rowstatus">
 		<ww:set name="parameter" value="top"/>
-		<input type="hidden" name="parameterNames" value="<ww:property value="#parameter.key"/>">
-		<label for="<ww:property value="#parameter.key"/>"><ww:property value="#parameter.key"/>:</label>
-		<%--
-		#set($values = $parameter.value.getContentTypeAttributeParameterValues())
-		--%>
-		<ww:if test="#parameter.value.type == 0">
-			<input type="textfield" name="<ww:property value="#parameter.key"/>" value="<ww:property value="#parameter.value.getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')"/>" class="longtextfield">
-		</ww:if>
-		<ww:else>
-			Label
-			Internal name
-			<%--
-			#foreach($value in $values)
-			<tr>
-				<td>$value.getLocalizedValue("label", "$!currentContentTypeEditorViewLanguageCode")</td>
-				<td>$value.getLocalizedValue("id", "$!currentContentTypeEditorViewLanguageCode")</td>
-				<td>
-					<nobr>
-					<a href="javascript:showDiv('<ww:property value="#attribute.name"/>${parameter.key}${value.id}PropertyLayer');"><img src="images/properties.gif" border="0"></a>
-					<a href="ViewEventType!deleteAttributeParameterValue.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name&attributeParameterId=$parameter.key&attributeParameterValueId=$value.id&attributeToExpand=$attribute.name"><img src="images/delete.gif" border="0"></a>
-					</nobr>
-				</td>
-			</tr>
-			#end
-			--%>
-			<a href="ViewEventType!insertAttributeParameterValue.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name&attributeParameterId=$parameter.key&attributeToExpand=$attribute.name">Add value</a></td>
-		</ww:else>
-		<br/>
+		
+	    <div class="actionrow">
+	       		<input type="hidden" name="parameterNames" value="<ww:property value="#parameter.key"/>">
+				<label for="<ww:property value="#parameter.key"/>"><ww:property value="#parameter.key"/>:</label>
+				<%--
+				#set($values = $parameter.value.getContentTypeAttributeParameterValues())
+				--%>
+				<ww:if test="#parameter.value.type == 0">
+					<input type="textfield" name="<ww:property value="#parameter.key"/>" value="<ww:property value="#parameter.value.getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')"/>" class="longtextfield">
+				</ww:if>
+				<ww:else>
+					Label
+					Internal name
+					<%--
+					#foreach($value in $values)
+					<tr>
+						<td>$value.getLocalizedValue("label", "$!currentContentTypeEditorViewLanguageCode")</td>
+						<td>$value.getLocalizedValue("id", "$!currentContentTypeEditorViewLanguageCode")</td>
+						<td>
+							<nobr>
+							<a href="javascript:showDiv('<ww:property value="#attribute.name"/>${parameter.key}${value.id}PropertyLayer');"><img src="images/properties.gif" border="0"></a>
+							<a href="ViewEventType!deleteAttributeParameterValue.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name&attributeParameterId=$parameter.key&attributeParameterValueId=$value.id&attributeToExpand=$attribute.name"><img src="images/delete.gif" border="0"></a>
+							</nobr>
+						</td>
+					</tr>
+					#end
+					--%>
+					<a href="ViewEventType!insertAttributeParameterValue.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name&attributeParameterId=$parameter.key&attributeToExpand=$attribute.name">Add value</a></td>
+				</ww:else>
+		</div
 	</ww:iterator>
 
-	<input type="submit" value="Save"/>
-
-	<a href="javascript:hideDiv('<ww:property value="#attribute.name"/>PropertyLayer');"><input type="button" value="Cancel"/></a>
+	<br/>
+	<div class="actionrow">
+		<input type="submit" value="Save"/>
+		<a href="javascript:hideDiv('<ww:property value="#attribute.name"/>PropertyLayer');"><input type="button" value="Cancel"/></a>
+	</div>
 	</form>
 	</div>
 </div>

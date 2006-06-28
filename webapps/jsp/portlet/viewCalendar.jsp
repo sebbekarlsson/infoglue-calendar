@@ -35,8 +35,8 @@
 	<form name="inputForm" method="POST" action="<c:out value="${updateCalendarActionUrl}"/>">
 		<input type="hidden" name="calendarId" value="<ww:property value="calendar.id"/>">
 		
-		<calendar:textField label="labels.internal.calendar.name" name="name" value="calendar.name" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.calendar.description" name="description" value="calendar.description" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.calendar.name" name="'name'" value="calendar.name" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.calendar.description" name="'description'" value="calendar.description" cssClass="longtextfield"/>
 	    <%--<calendar:selectField label="labels.internal.calendar.owner" name="owner" multiple="false" value="infogluePrincipals" selectedValue="calendar.owner" cssClass="listBox"/>--%>
 	    
 	  	<ww:set name="owningRoles" value="calendar.owningRoles"/>

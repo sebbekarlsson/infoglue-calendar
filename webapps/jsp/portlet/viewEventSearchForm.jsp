@@ -18,17 +18,17 @@
 		
 	<form name="register" method="post" action="<c:out value="${searchEntryActionUrl}"/>">
 	
-		<calendar:textField label="labels.internal.event.name" name="name" value="name" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="organizerName" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.lecturer" name="lecturer" value="lecturer" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.customLocation" name="customLocation" value="customLocation" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.alternativeLocation" name="alternativeLocation" value="alternativeLocation" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.contactName" name="contactName" value="contactName" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.name" name="'name'" value="name" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="organizerName" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.lecturer" name="'lecturer'" value="lecturer" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="customLocation" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="alternativeLocation" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="contactName" cssClass="longtextfield"/>
 	<!--
-		<calendar:textField label="labels.internal.event.contactEmail" name="contactEmail" value="contactEmail" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.contactPhone" name="contactPhone" value="contactPhone" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.price" name="price" value="price" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="maximumParticipants" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="contactEmail" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="contactPhone" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.price" name="'price'" value="price" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.maximumParticipants" name="'maximumParticipants'" value="maximumParticipants" cssClass="longtextfield"/>
 	-->
 		<span class="errorMessage"><ww:property value="#fieldErrors.startDateTime"/></span>
 		<div class="fieldrow">

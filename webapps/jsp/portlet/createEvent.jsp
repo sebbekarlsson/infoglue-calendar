@@ -22,7 +22,7 @@
 		<input type="hidden" name="date" value="<ww:property value="date"/>"/>
 		<input type="hidden" name="time" value="<ww:property value="time"/>"/>
 		
-		<calendar:textField label="labels.internal.event.name" name="name" value="event.name" cssClass="longtextfield" mandatory="true"/>
+		<calendar:textField label="labels.internal.event.name" name="'name'" value="event.name" cssClass="longtextfield" mandatory="true"/>
 		<calendar:selectField label="labels.internal.event.entryForm" name="'entryFormId'" multiple="false" value="entryFormEventTypes" selectedValue="event.entryFormId" headerItem="Choose entry form" cssClass="listBox"/>
 		
 		<div class="fieldrow">
@@ -41,29 +41,29 @@
 			<input name="endTime" value="<ww:if test="endTime != '13:34'"><ww:property value="endTime"/></ww:if>" class="hourfield" type="textfield">					
 		</div>
 					
-		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="smalltextarea" mandatory="false"/>
+		<calendar:textAreaField label="labels.internal.event.shortDescription" name="'shortDescription'" value="event.shortDescription" cssClass="smalltextarea" mandatory="false"/>
 		
-		<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="largetextarea" mandatory="false"/>
+		<calendar:textAreaField label="labels.internal.event.longDescription" name="'longDescription'" value="event.longDescription" cssClass="largetextarea" mandatory="false"/>
 		
-		<calendar:textAreaField label="labels.internal.event.lecturer" name="lecturer" value="event.lecturer" cssClass="smalltextarea"/>
+		<calendar:textAreaField label="labels.internal.event.lecturer" name="'lecturer'" value="event.lecturer" cssClass="smalltextarea"/>
 		
-		<calendar:textField label="labels.internal.event.organizerName" name="organizerName" value="event.organizerName" cssClass="longtextfield" mandatory="false"/>
+		<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="event.organizerName" cssClass="longtextfield" mandatory="false"/>
 		
-		<calendar:radioButtonField label="labels.internal.event.isInternal" name="isInternal" mandatory="true" valueMap="internalEventMap" selectedValue="isInternal"/>
+		<calendar:radioButtonField label="labels.internal.event.isInternal" name="'isInternal'" mandatory="true" valueMap="internalEventMap" selectedValue="isInternal"/>
 	
-		<calendar:checkboxField label="labels.internal.event.isOrganizedByGU" name="isOrganizedByGU" valueMap="isOrganizedByGUMap" selectedValues="isOrganizedByGU"/>
+		<calendar:checkboxField label="labels.internal.event.isOrganizedByGU" name="'isOrganizedByGU'" valueMap="isOrganizedByGUMap" selectedValues="isOrganizedByGU"/>
 		
-		<calendar:textField label="labels.internal.event.eventUrl" name="eventUrl" value="event.eventUrl" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.eventUrl" name="'eventUrl'" value="event.eventUrl" cssClass="longtextfield"/>
 
-		<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" headerItem="Anger annan plats istället nedan" cssClass="listBox"/>
+		<calendar:selectField label="labels.internal.event.location" name="'locationId'" multiple="true" value="locations" headerItem="Anger annan plats istället nedan" cssClass="listBox"/>
 	
-		<calendar:textField label="labels.internal.event.customLocation" name="customLocation" value="event.customLocation" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="event.customLocation" cssClass="longtextfield"/>
 
-		<calendar:textField label="labels.internal.event.alternativeLocation" name="alternativeLocation" value="event.alternativeLocation" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="event.alternativeLocation" cssClass="longtextfield"/>
 	
-		<calendar:textField label="labels.internal.event.price" name="price" value="event.price" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.price" name="price" value="'event.price'" cssClass="longtextfield"/>
 	
-		<calendar:textField label="labels.internal.event.maximumParticipants" name="maximumParticipants" value="event.maximumParticipants" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.maximumParticipants" name="'maximumParticipants'" value="event.maximumParticipants" cssClass="longtextfield"/>
 	
 
 		<div class="fieldrow">
@@ -74,11 +74,24 @@
 			<input name="lastRegistrationTime" value="<ww:property value="lastRegistrationTime"/>" class="hourfield" type="textfield">
 		</div>
 	
-		<calendar:textField label="labels.internal.event.contactName" name="contactName" value="event.contactName" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="event.contactName" cssClass="longtextfield"/>
 
-		<calendar:textField label="labels.internal.event.contactEmail" name="contactEmail" value="event.contactEmail" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="event.contactEmail" cssClass="longtextfield"/>
 
-		<calendar:textField label="labels.internal.event.contactPhone" name="contactPhone" value="event.contactPhone" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="event.contactPhone" cssClass="longtextfield"/>
+
+		<ww:set name="count" value="0"/>
+		<ww:iterator value="attributes" status="rowstatus">
+			<ww:set name="attribute" value="top" scope="page"/>
+			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
+			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
+			<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, top.name)"/>
+
+			<input type="hidden" name="attributeName_<ww:property value="#count"/>" value="attribute_<ww:property value="top.name"/>"/>
+			<calendar:textField label="${title}" name="#attributeName" value="#attributeValue" cssClass="longtextfield"/>
+		
+			<ww:set name="count" value="#count + 1"/>
+		</ww:iterator>
 
 		<hr>
 			
