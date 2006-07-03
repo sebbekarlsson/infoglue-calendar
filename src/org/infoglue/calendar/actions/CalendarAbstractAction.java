@@ -46,11 +46,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.CalendarLabelsController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.ICalendarController;
 import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
-import org.infoglue.calendar.entities.BaseEntity;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
@@ -58,8 +58,6 @@ import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.util.AttributeType;
 import org.infoglue.cms.applications.common.VisualFormatter;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
-import org.infoglue.cms.entities.kernel.BaseEntityVO;
-import org.infoglue.cms.entities.management.ContentTypeDefinitionVO;
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.util.ActionValidatorManager;
@@ -670,32 +668,95 @@ public class CalendarAbstractAction extends ActionSupport
     
     public String getLabel(String key)
     {
-        String label = key;
+        Locale locale = new Locale(this.getLanguageCode());
 	    
-	    try
-	    {
-	        String derivedValue = (String)findOnValueStack(key);
-	        
-	        Locale locale = new Locale(this.getLanguageCode());
-	    	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-	        
-	    	if(derivedValue != null)
-	    	    label = resourceBundle.getString(derivedValue);
-	        else
-	            label = resourceBundle.getString(key);
+	    return getLabel(key, locale, false, true, true);
+    }
+    
 
-	        if(label == null || label.equals(""))
-	            label = key;
-	    }
-	    catch(Exception e)
-	    {
-	        log.warn("An label was not found:" + e.getMessage(), e);
-	    }
+    public String getLabel(String key, String languageCode)
+    {
+    	Locale locale = Locale.ENGLISH;
+    	if(languageCode != null && !languageCode.equals(""))
+           	locale = new Locale(languageCode);
+	    
+	    return getLabel(key, locale, false, true, true);
+    }
+
+    public String getLabel(String key, String languageCode, boolean skipProperty)
+    {
+    	Locale locale = Locale.ENGLISH;
+    	if(languageCode != null && !languageCode.equals(""))
+           	locale = new Locale(languageCode);
+	    
+	    return getLabel(key, locale, skipProperty, true, true);
+    }
+
+    public String getLabel(String key, String languageCode, boolean skipProperty, boolean fallbackToDefault)
+    {
+    	Locale locale = Locale.ENGLISH;
+    	if(languageCode != null && !languageCode.equals(""))
+           	locale = new Locale(languageCode);
+	    
+	    return getLabel(key, locale, skipProperty, fallbackToDefault, true);
+    }
+
+    public String getLabel(String key, String languageCode, boolean skipProperty, boolean fallbackToDefault, boolean fallbackToKey)
+    {
+	    Locale locale = Locale.ENGLISH;
+    	if(languageCode != null && !languageCode.equals(""))
+        	locale = new Locale(languageCode);
+	    
+	    String label = getLabel(key, locale, skipProperty, fallbackToDefault, fallbackToKey);
 	    
 	    return label;
     }
     
-    	
+    public String getLabel(String key, Locale locale, boolean skipProperty, boolean fallbackToDefault, boolean fallbackToKey)
+    {
+    	if(locale == null)
+    		locale = Locale.ENGLISH;
+    		
+    	String label = "";
+    	if(fallbackToKey)
+    		label = key;
+	    
+	    try
+	    {
+	    	Object derivedObject = findOnValueStack(key);
+	        String derivedValue = null;
+	        if(derivedObject != null)
+	        	derivedValue = derivedObject.toString();
+	        
+	        if(!skipProperty)
+	        {
+		        if(derivedValue != null)
+		    	    label = CalendarLabelsController.getCalendarLabelsController().getLabel("infoglueCalendar", derivedValue, locale, getSession());
+		        else
+		    	    label = CalendarLabelsController.getCalendarLabelsController().getLabel("infoglueCalendar", key, locale, getSession());
+	        }
+	        
+	        if(skipProperty || ((label == null || label.equals("")) && fallbackToDefault))
+	        {
+		        ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+		        
+		    	if(derivedValue != null)
+		    	    label = resourceBundle.getString(derivedValue);
+		        else
+		            label = resourceBundle.getString(key);
+	        }
+	        
+	        if((label == null || label.equals("")) && fallbackToKey)
+	            label = key;
+	    }
+	    catch(Exception e)
+	    {
+	        log.warn("An label was not found for key: " + key + ": " + e.getMessage(), e);
+	    }
+	    
+	    return label;
+    }
+
 	public Session getSession() throws HibernateException {
 	    return (Session)ServletActionContext.getRequest().getAttribute("HIBERNATE_SESSION");
 	}

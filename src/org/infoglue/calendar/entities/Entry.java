@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.infoglue.calendar.util.validators.EntryValidator;
+import org.infoglue.calendar.util.validators.BaseValidator;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
 
@@ -137,7 +137,7 @@ public class Entry implements BaseEntity
     {
         return this.getFirstName() + " " + this.getLastName();
     }
-    
+
     public String getAddress()
     {
         return address;
@@ -220,7 +220,7 @@ public class Entry implements BaseEntity
 	public ConstraintExceptionBuffer validate(ContentTypeDefinition contentTypeDefinition)
 	{
 		ConstraintExceptionBuffer ceb = new ConstraintExceptionBuffer();
-		ceb.add(new EntryValidator().validate(contentTypeDefinition, this));
+		ceb.add(new BaseValidator().validate(contentTypeDefinition, this.getAttributes()));
 		
 		return ceb;
 	}

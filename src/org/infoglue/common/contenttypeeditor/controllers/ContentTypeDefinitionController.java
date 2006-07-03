@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.transform.TransformerException;
 
@@ -40,17 +41,13 @@ import org.apache.xpath.XPathAPI;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.infoglue.cms.applications.common.VisualFormatter;
 import org.infoglue.cms.applications.databeans.AssetKeyDefinition;
 import org.infoglue.cms.entities.kernel.BaseEntityVO;
-import org.infoglue.cms.entities.management.CategoryAttribute;
-import org.infoglue.cms.entities.management.ContentTypeAttribute;
-import org.infoglue.cms.entities.management.ContentTypeAttributeParameter;
-import org.infoglue.cms.entities.management.ContentTypeAttributeParameterValue;
-import org.infoglue.cms.entities.management.ContentTypeAttributeValidator;
-import org.infoglue.cms.exception.Bug;
-import org.infoglue.cms.exception.ConstraintException;
-import org.infoglue.cms.exception.SystemException;
-import org.infoglue.cms.security.InfoGluePrincipal;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameter;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameterValue;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeValidator;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.deliver.util.CacheController;
 import org.w3c.dom.Document;
@@ -61,7 +58,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 /**
- * @author ss
+ * @author Mattias Bogeblad
  *
  * To change this generated comment edit the template variable "typecomment":
  * Window>Preferences>Java>Templates.
@@ -513,6 +510,7 @@ public class ContentTypeDefinitionController
 	/**
 	 * Returns a List of CategoryInfos for the category atributes of the NodeList
 	 */
+	/*
 	protected List getCategoryInfo(NodeList nodes)
 	{
 		String attributesXPath = "xs:annotation/xs:appinfo/params";
@@ -542,7 +540,8 @@ public class ContentTypeDefinitionController
 		}
 		return keys;
 	}
-
+	*/
+	
 	/**
 	 * Returns a list of xs:enumeration nodes base on the provided key.
 	 * @param keyType The key to find enumerations for
@@ -1286,6 +1285,32 @@ public class ContentTypeDefinitionController
 		}
 
 		return isModified;
+	}
+
+	/**
+	 * Returns an attribute value from the Entry
+	 *
+	 * @param entry The entry on which to find the value
+	 * @param attributeName THe name of the attribute whose value is wanted
+	 * @param escapeHTML A boolean indicating if the result should be escaped
+	 * @return The String vlaue of the attribute, or blank if it doe snot exist.
+	 */
+	public String getAttributeValue(String attributes, String attributeName, boolean escapeHTML)
+	{
+		String value = "";
+		String xml = attributes;
+
+		int startTagIndex = xml.indexOf("<" + attributeName + ">");
+		int endTagIndex   = xml.indexOf("]]></" + attributeName + ">");
+
+		if(startTagIndex > 0 && startTagIndex < xml.length() && endTagIndex > startTagIndex && endTagIndex <  xml.length())
+		{
+			value = xml.substring(startTagIndex + attributeName.length() + 11, endTagIndex);
+			if(escapeHTML)
+				value = new VisualFormatter().escapeHTML(value);
+		}		
+
+		return value;
 	}
 
 }

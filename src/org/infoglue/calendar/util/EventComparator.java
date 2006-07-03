@@ -3,7 +3,6 @@ package org.infoglue.calendar.util;
 import java.util.Comparator;
 
 import org.infoglue.calendar.entities.Event;
-import org.infoglue.cms.entities.management.InterceptionPointVO;
 
 
 /**

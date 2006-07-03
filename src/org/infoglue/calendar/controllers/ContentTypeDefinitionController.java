@@ -44,14 +44,10 @@ import org.infoglue.calendar.entities.EventType;
 import org.infoglue.cms.applications.databeans.AssetKeyDefinition;
 import org.infoglue.cms.entities.kernel.BaseEntityVO;
 import org.infoglue.cms.entities.management.CategoryAttribute;
-import org.infoglue.cms.entities.management.ContentTypeAttribute;
-import org.infoglue.cms.entities.management.ContentTypeAttributeParameter;
-import org.infoglue.cms.entities.management.ContentTypeAttributeParameterValue;
-import org.infoglue.cms.entities.management.ContentTypeAttributeValidator;
-import org.infoglue.cms.exception.Bug;
-import org.infoglue.cms.exception.ConstraintException;
-import org.infoglue.cms.exception.SystemException;
-import org.infoglue.cms.security.InfoGluePrincipal;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameter;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameterValue;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeValidator;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.deliver.util.CacheController;
 import org.w3c.dom.Document;
@@ -473,6 +469,7 @@ public class ContentTypeDefinitionController
 	/**
 	 * Returns a List of CategoryInfos for the category atributes of the NodeList
 	 */
+	/*
 	protected List getCategoryInfo(NodeList nodes)
 	{
 		String attributesXPath = "xs:annotation/xs:appinfo/params";
@@ -502,7 +499,7 @@ public class ContentTypeDefinitionController
 		}
 		return keys;
 	}
-
+*/
 	/**
 	 * Returns a list of xs:enumeration nodes base on the provided key.
 	 * @param keyType The key to find enumerations for

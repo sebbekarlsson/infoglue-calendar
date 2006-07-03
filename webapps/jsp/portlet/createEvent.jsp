@@ -23,7 +23,7 @@
 		<input type="hidden" name="time" value="<ww:property value="time"/>"/>
 		
 		<calendar:textField label="labels.internal.event.name" name="'name'" value="event.name" cssClass="longtextfield" mandatory="true"/>
-		<calendar:selectField label="labels.internal.event.entryForm" name="'entryFormId'" multiple="false" value="entryFormEventTypes" selectedValue="event.entryFormId" headerItem="Choose entry form" cssClass="listBox"/>
+		<calendar:selectField label="labels.internal.event.entryForm" name="'entryFormId'" multiple="false" value="entryFormEventTypes" selectedValue="event.entryFormId" cssClass="listBox"/>
 		
 		<div class="fieldrow">
 			<label for="startDateTime"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></label><span class="redstar">*</span>
@@ -41,11 +41,11 @@
 			<input name="endTime" value="<ww:if test="endTime != '13:34'"><ww:property value="endTime"/></ww:if>" class="hourfield" type="textfield">					
 		</div>
 					
-		<calendar:textAreaField label="labels.internal.event.shortDescription" name="'shortDescription'" value="event.shortDescription" cssClass="smalltextarea" mandatory="false"/>
+		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="smalltextarea" mandatory="false"/>
 		
-		<calendar:textAreaField label="labels.internal.event.longDescription" name="'longDescription'" value="event.longDescription" cssClass="largetextarea" mandatory="false"/>
+		<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="largetextarea" mandatory="false"/>
 		
-		<calendar:textAreaField label="labels.internal.event.lecturer" name="'lecturer'" value="event.lecturer" cssClass="smalltextarea"/>
+		<calendar:textAreaField label="labels.internal.event.lecturer" name="lecturer" value="event.lecturer" cssClass="smalltextarea"/>
 		
 		<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="event.organizerName" cssClass="longtextfield" mandatory="false"/>
 		
@@ -61,7 +61,7 @@
 
 		<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="event.alternativeLocation" cssClass="longtextfield"/>
 	
-		<calendar:textField label="labels.internal.event.price" name="price" value="'event.price'" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.price" name="'price'" value="event.price" cssClass="longtextfield"/>
 	
 		<calendar:textField label="labels.internal.event.maximumParticipants" name="'maximumParticipants'" value="event.maximumParticipants" cssClass="longtextfield"/>
 	
@@ -80,6 +80,8 @@
 
 		<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="event.contactPhone" cssClass="longtextfield"/>
 
+		<hr/>
+		
 		<ww:set name="count" value="0"/>
 		<ww:iterator value="attributes" status="rowstatus">
 			<ww:set name="attribute" value="top" scope="page"/>

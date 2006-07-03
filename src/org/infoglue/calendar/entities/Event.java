@@ -26,6 +26,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.infoglue.calendar.util.validators.BaseValidator;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
+import org.infoglue.common.util.ConstraintExceptionBuffer;
+
 /**
  * This class represents an event. An event is something that takes place between a startdate and an enddate
  * at one or several locations.
@@ -64,6 +68,7 @@ public class Event implements BaseEntity
     private Integer maximumParticipants;
     private Integer stateId = STATE_WORKING; //Default if not otherwise set
     private String creator;
+    private String attributes;
     
     private Long entryFormId;
     
@@ -547,6 +552,24 @@ public class Event implements BaseEntity
 	public void setEntryFormId(Long entryFormId)
 	{
 		this.entryFormId = entryFormId;
+	}
+
+	public String getAttributes()
+	{
+		return attributes;
+	}
+
+	public void setAttributes(String attributes)
+	{
+		this.attributes = attributes;
+	}
+
+	public ConstraintExceptionBuffer validate(ContentTypeDefinition contentTypeDefinition)
+	{
+		ConstraintExceptionBuffer ceb = new ConstraintExceptionBuffer();
+		ceb.add(new BaseValidator().validate(contentTypeDefinition, this.getAttributes()));
+		
+		return ceb;
 	}
 
 }

@@ -132,11 +132,10 @@
 			<ww:set name="attribute" value="top" scope="page"/>
 			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
 			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
-			<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, top.name)"/>
-
-			<input type="hidden" name="attributeName_<ww:property value="#count"/>" value="attribute_<ww:property value="top.name"/>"/>
-			<calendar:textField label="${title}" name="#attributeName" value="#attributeValue" cssClass="longtextfield"/>
-		
+			<ww:set name="attributeValue" value="this.getAttributeValue(event.attributes, top.name)"/>
+			<p>
+				<calendar:textValue label="${title}" value="#attributeValue" labelCssClass="label"/>
+			</p>
 			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>
 

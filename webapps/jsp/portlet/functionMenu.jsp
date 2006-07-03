@@ -29,9 +29,11 @@
 <portlet:renderURL var="viewEntrySearchUrl">
 	<portlet:param name="action" value="ViewEntrySearch!input"/>
 </portlet:renderURL>
-
 <portlet:renderURL var="viewSettingsUrl">
 	<portlet:param name="action" value="ViewSettings"/>
+</portlet:renderURL>
+<portlet:renderURL var="viewLabelsUrl">
+	<portlet:param name="action" value="ViewLabels"/>
 </portlet:renderURL>
 
 <calendar:hasRole id="calendarAdministrator" roleName="CalendarAdministrator"/>
@@ -62,9 +64,10 @@
 		<a href="<c:out value="${viewCategoryUrl}"/>" <c:if test="${activeNavItem == 'Categories'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerCategories')"/></a> |
 		<a href="<c:out value="${viewCalendarListUrl}"/>" <c:if test="${activeNavItem == 'Calendars'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerCalendars')"/></a> |
 		<a href="<c:out value="${viewEventTypeListUrl}"/>" <c:if test="${activeNavItem == 'EventTypes'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerEventTypes')"/></a> |
-		<!--
+		<%--
 		<a href="<c:out value="${viewSettingsUrl}"/>" <c:if test="${activeNavItem == 'Settings'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerSettings')"/></a> |
-		-->
+		--%>
+		<a href="<c:out value="${viewLabelsUrl}"/>" <c:if test="${activeNavItem == 'Labels'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerLabels')"/></a> |
 		<a href="<c:out value="${viewLocationListUrl}"/>" <c:if test="${activeNavItem == 'Locations'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerLocations')"/></a>
 	</c:if>
 			

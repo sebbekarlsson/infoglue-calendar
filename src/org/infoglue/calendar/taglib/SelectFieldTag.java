@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -143,6 +144,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            String id;
 	            String optionText;
 	            Object obj = valuesIterator.next();
+	            System.out.println("Obj: " + obj.getClass().getName());
 	            if(obj instanceof InfoGluePrincipal)
 	            {
 	                InfoGluePrincipal value = (InfoGluePrincipal)obj;
@@ -173,20 +175,26 @@ public class SelectFieldTag extends AbstractCalendarTag
 	                id = value.getId();
 	                optionText = value.getName();
 	            }
+	            else if(obj instanceof Locale)
+	            {
+	            	Locale value = (Locale)obj;
+	                id = value.getLanguage();
+	                optionText = value.getDisplayLanguage();
+	            }
 	            else
 	            {
 	                String value = obj.toString();
 	                id = value;
 	                optionText = value;
 	            }
-            	log.info("ID:" + id + ": optionText:" + optionText);
+            	log.warn("ID:" + id + ": optionText:" + optionText);
 
 	            String selected = "";
 	            if(selectedValues != null)
 	            {
-	                for(int i=0; i<selectedValues.length; i++)
+	            	for(int i=0; i<selectedValues.length; i++)
 		            {
-	                	log.info("1:" + id + "=" + selectedValues[i]);
+	                	log.warn("1:" + id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selectedValues[i].toString()))
 		                {
 		                    selected = " selected=\"1\"";
@@ -370,6 +378,7 @@ public class SelectFieldTag extends AbstractCalendarTag
     public void setSelectedValue(String selectedValue) throws JspException
     {
         Object o = findOnValueStack(selectedValue);
+        System.out.println("o:" + o);
         if(o != null) 
             this.selectedValues = new String[] {o.toString()};
         else

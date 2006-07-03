@@ -126,6 +126,7 @@ public class EventController extends BasicController
             	            Integer stateId,
             	            String creator,
             	            Long entryFormId,
+            	            String xml,
             	            Session session) throws HibernateException, Exception 
     {
         Event event = null;
@@ -177,6 +178,7 @@ public class EventController extends BasicController
 		        			stateId,
 		        			creator,
 		        			entryFormId,
+		        			xml,
 		        			session);
 		
 		Set eventCategories = new HashSet();
@@ -232,6 +234,7 @@ public class EventController extends BasicController
             	            Integer stateId,
             	            String creator,
             	            Long entryFormId,
+            	            String xml,
             	            Session session) throws HibernateException, Exception 
     {
         Event event = null;
@@ -289,6 +292,7 @@ public class EventController extends BasicController
 		        			stateId,
 		        			creator,
 		        			entryFormId,
+		        			xml,
 		        			session);
 		
 		Set eventCategories = new HashSet();
@@ -351,6 +355,7 @@ public class EventController extends BasicController
             				Integer stateId,
             				String creator,
             				Long entryFormId,
+            				String xml,
             				Session session) throws HibernateException, Exception 
     {
         
@@ -377,6 +382,7 @@ public class EventController extends BasicController
         event.setStateId(stateId);
         event.setCreator(creator);
         event.setEntryFormId(entryFormId);
+        event.setAttributes(xml);
         
         event.setOwningCalendar(owningCalendar);
         event.getCalendars().add(owningCalendar);
@@ -421,6 +427,7 @@ public class EventController extends BasicController
             Map categoryAttributes, 
             String[] participantUserName,
             Long entryFormId,
+            String xml,
             Session session) throws Exception 
     {
 
@@ -480,6 +487,7 @@ public class EventController extends BasicController
 		        categoryAttributes, 
 		        participants, 
 		        entryFormId,
+		        xml,
 		        session);
 		
     }
@@ -515,6 +523,7 @@ public class EventController extends BasicController
             Map categoryAttributes, 
             Set participants, 
             Long entryFormId,
+            String xml,
             Session session) throws Exception 
     {
         event.setName(name);
@@ -538,6 +547,7 @@ public class EventController extends BasicController
         event.setEndDateTime(endDateTime);
         event.setLocations(locations);
         event.setEntryFormId(entryFormId);
+        event.setAttributes(xml);
         
         Iterator eventCategoryIterator = event.getEventCategories().iterator();
 		while(eventCategoryIterator.hasNext())

@@ -84,11 +84,11 @@ public class TextFieldTag extends AbstractCalendarTag
 	        if(o != null)
 	            value = o.toString();
         }
-	    System.out.println("name:" + name);
-	    System.out.println("errorName:" + errorName);
-	    System.out.println("fieldErrorsList:" + fieldErrorsList);
-        System.out.println("fieldErrors: " + fieldErrors);
-        System.out.println("value: " + value);
+	    //System.out.println("name:" + name);
+	    //System.out.println("errorName:" + errorName);
+	    //System.out.println("fieldErrorsList:" + fieldErrorsList);
+	    //System.out.println("fieldErrors: " + fieldErrors);
+	    //System.out.println("value: " + value);
 	    
 	    String errorMessage = "";
 	    if(fieldErrors != null && fieldErrors.size() > 0)
@@ -97,7 +97,7 @@ public class TextFieldTag extends AbstractCalendarTag
 	        while(i.hasNext())
 		    {
 	            String fieldError = (String)i.next();
-	            System.out.println("fieldError: " + fieldError);
+	            //System.out.println("fieldError: " + fieldError);
 	            String translatedError = this.getLabel(fieldError);
 	            if(translatedError != null && translatedError.length() > 0)
 	                fieldError = translatedError;

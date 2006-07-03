@@ -280,6 +280,7 @@
 		<div class="clear"></div>
 	</div>
 	
+	<ww:set name="index" value="0"/>
 	<ww:iterator value="#attribute.validators" status="rowstatus">
 		<ww:set name="validator" value="top"/>
 		<ww:set name="contentTypeDefinitionId" value="eventTypeId" scope="page"/>
@@ -309,7 +310,16 @@
 			</div>
 			<div class="clear"></div>
 		</div
+		<ww:set name="index" value="#index + 1"/>
 	</ww:iterator>
+
+	<ww:if test="#index == 0">
+		<div class="actionrow">
+			<div class="columnLong"><p>No validation rules assigned</p></div>
+			<div class="clear"></div>
+		</div>
+	</ww:if>
+
 	<div class="actionrow">
 		<div class="columnLong"><p><a href="javascript:showAddValidatorFormDiv('<ww:property value="#attribute.name"/>');">Add new validation rule</a></p></div>
 		<div class="clear"></div>

@@ -33,6 +33,8 @@ import java.util.ResourceBundle;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.common.util.ResourceBundleHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -44,6 +46,8 @@ import com.opensymphony.xwork.ActionContext;
  */
 public class TextAreaFieldTag extends AbstractCalendarTag 
 {
+    private static Log log = LogFactory.getLog(TextAreaFieldTag.class);
+
 	private static final long serialVersionUID = 3617579309963752240L;
 	
 	private String name = "";
@@ -126,15 +130,25 @@ public class TextAreaFieldTag extends AbstractCalendarTag
     {
         this.name = name;
     }
-
+    
     public void setLabel(String rawLabel) throws JspException
     {
-        String translatedLabel = this.getLabel(rawLabel);
-        if(translatedLabel != null && translatedLabel.length() > 0)
-            this.label = translatedLabel;
+        Object o = findOnValueStack(rawLabel);
+        String evaluatedString = evaluateString("TextAreaFieldTag", "label", rawLabel);
+        log.info("o:" + o);
+        log.info("evaluatedString:" + evaluatedString);
+        if(o != null)
+            this.label = (String)o;
+        else if(evaluatedString != null && !evaluatedString.equals(rawLabel))
+            this.label = evaluatedString;
         else
-            this.label = evaluateString("TextFieldTag", "label", rawLabel);
+        {
+            String translatedLabel = this.getLabel(rawLabel);
+            if(translatedLabel != null && translatedLabel.length() > 0)
+                this.label = translatedLabel;
+        }
     }
+
     
     public void setValue(String value)
     {

@@ -73,18 +73,10 @@ public class DOMBuilder
 		if(xml == null)
 			return null;
 					
- 		try
- 		{
-			InputSource xmlSource = new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-			DOMParser parser = new DOMParser();
-			parser.parse(xmlSource);
-			return buildDocment(parser.getDocument());
- 		}
- 		catch(Exception e)
- 		{
- 			e.printStackTrace();
-			throw new SystemException(e);
- 		}
+		InputSource xmlSource = new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+		DOMParser parser = new DOMParser();
+		parser.parse(xmlSource);
+		return buildDocment(parser.getDocument());
  	}
  	
  	

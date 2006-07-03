@@ -11,29 +11,26 @@ import org.apache.commons.validator.Validator;
 import org.apache.commons.validator.ValidatorResources;
 import org.apache.commons.validator.ValidatorResult;
 import org.apache.commons.validator.ValidatorResults;
-import org.infoglue.calendar.entities.Entry;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
 
-import com.opensymphony.xwork.ActionContext;
-import com.opensymphony.xwork.validator.ValidationException;
-
-public class EntryValidator {
+public class BaseValidator 
+{
 	
 	/**
 	 * 
 	 */
-	public EntryValidator() {}
+	public BaseValidator() {}
 
 	/**
 	 * 
 	 */
-	public ConstraintExceptionBuffer validate(ContentTypeDefinition contentTypeDefinition, Entry entry) 
+	public ConstraintExceptionBuffer validate(ContentTypeDefinition contentTypeDefinition, String xmlAttributes) 
 	{
 		try 
 		{
-			EntryBean bean = new EntryBean(contentTypeDefinition, entry);
+			BaseBean bean = new BaseBean(contentTypeDefinition, xmlAttributes);
 			ValidatorResources resources = loadResources(contentTypeDefinition);
 			Validator validator = new Validator(resources, "requiredForm");
 			validator.setOnlyReturnErrors(true);
@@ -55,19 +52,6 @@ public class EntryValidator {
 	 */
 	private static ConstraintExceptionBuffer populateConstraintExceptionBuffer(ValidatorResults results) 
 	{
-		/*
-        if(this.getFieldErrors() != null && this.getFieldErrors().size() > 0)
-        {
-            ActionContext.getContext().getValueStack().getContext().put("actionErrors", this.getActionErrors());
-            ActionContext.getContext().getValueStack().getContext().put("fieldErrors", this.getFieldErrors());
-            ActionContext.getContext().getValueStack().getContext().put("errorAction", this);
-            
-            log.warn("actionErrors:" + this.getActionErrors());
-            log.warn("fieldErrors:" + this.getFieldErrors());
-            log.warn("errorAction:" + this);
-            throw new ValidationException("An validation error occurred - more information is in the valuestack...");
-        }
-        */
 		ConstraintExceptionBuffer ceb = new ConstraintExceptionBuffer();
 		Set s = results.getPropertyNames();
 		

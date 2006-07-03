@@ -27,14 +27,22 @@
 
 		<ww:set name="count" value="0"/>
 		<ww:iterator value="attributes" status="rowstatus">
-			<ww:set name="attribute" value="top" scope="page"/>
+			<ww:set name="attribute" value="top"/>
 			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
 			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
 			<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, top.name)"/>
 
+			<ww:property value="#attribute.inputType"/>
 			<input type="hidden" name="attributeName_<ww:property value="#count"/>" value="attribute_<ww:property value="top.name"/>"/>
-			<calendar:textField label="${title}" name="#attributeName" value="#attributeValue" cssClass="longtextfield"/>
-		
+
+			<ww:if test="#attribute.inputType == 'textfield'">
+				<calendar:textField label="${title}" name="#attributeName" value="#attributeValue" cssClass="longtextfield"/>
+			</ww:if>		
+
+			<ww:if test="#attribute.inputType == 'textarea'">
+				<calendar:textAreaField label="${title}" name="#attributeName" value="#attributeValue" cssClass="smalltextarea"/>
+			</ww:if>		
+
 			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>
 		

@@ -9,7 +9,7 @@
     <session-factory>
 
         <!--<property name="connection.datasource">java:jdbc/calendar</property>-->
-          
+         
         <!--
 		<property name="hibernate.provider_class">org.infoglue.common.dbcp.DBCPConnectionProvider</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
@@ -51,7 +51,10 @@
         <mapping resource="Role.hbm.xml"/>
         <mapping resource="Group.hbm.xml"/>
         <mapping resource="Subscriber.hbm.xml"/>
+
+        <mapping resource="Property.hbm.xml"/>
         <!--
+        <mapping resource="ContentTypeDefinition.hbm.xml"/>
         <mapping resource="InterceptionPoint.hbm.xml"/>
         <mapping resource="AccessRight.hbm.xml"/>
         <mapping resource="AccessRightRole.hbm.xml"/>

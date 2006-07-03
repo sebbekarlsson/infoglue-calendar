@@ -58,3 +58,13 @@ ALTER TABLE EventType ADD COLUMN schemaValue TEXT DEFAULT '';
 update Event set entryFormId = (select id from EventType et where et.type = 1);
 
 ALTER TABLE Entry ADD COLUMN attributes TEXT DEFAULT '';
+
+ALTER TABLE Event ADD COLUMN attributes TEXT DEFAULT '';
+
+CREATE TABLE Property (
+  id bigint(20) NOT NULL auto_increment,
+  nameSpace varchar(100) NOT NULL,
+  name varchar(155) NOT NULL,
+  value TEXT NOT NULL,
+  PRIMARY KEY  (id)
+) TYPE=InnoDB;

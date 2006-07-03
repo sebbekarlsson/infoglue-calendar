@@ -6,27 +6,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.common.contenttypeeditor.controllers.ContentTypeDefinitionController;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
-import org.infoglue.cms.entities.management.ContentTypeAttribute;
 
 
-public class EntryBean implements java.util.Map 
+public class BaseBean implements java.util.Map 
 {
 	private java.util.Map delegate = new HashMap();
 	
-	public EntryBean(ContentTypeDefinition contentTypeDefinition, org.infoglue.calendar.entities.Entry entry) 
+	public BaseBean(ContentTypeDefinition contentTypeDefinition, String xmlAttributes) 
 	{
 		List contentTypeAttributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(contentTypeDefinition.getSchemaValue());
 		for(Iterator i=contentTypeAttributes.iterator(); i.hasNext();) 
 		{
 			ContentTypeAttribute attribute = (ContentTypeAttribute) i.next();
 			String name  = attribute.getName();
-			String value = EntryController.getController().getAttributeValue(entry, name, false);
+			String value = ContentTypeDefinitionController.getController().getAttributeValue(xmlAttributes, name, false);
 			delegate.put(name, value);
 		}
 	}
+	
 	  
 	  // -- MAP ---
 	public Object get(Object key) { return delegate.get(key); }

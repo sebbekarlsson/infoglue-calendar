@@ -678,23 +678,20 @@
 		</action>
 
 		<!-- HERE COMES THE CONTENT TYPE EDITOR -->
-		<action name="ViewContentTypeDefinition" class="org.infoglue.common.contenttypeeditor.actions.ViewContentTypeDefinitionAction">
+		<action name="ViewLabels" class="org.infoglue.calendar.labels.actions.ViewLabelsAction">
 			<result name="success" type="portletDispatch">
-				<param name="dispatchTo">/jsp/portlet/viewContentTypeDefinitionEditor.jsp</param>
+				<param name="dispatchTo">/jsp/portlet/viewLabels.jsp</param>
 			</result>
-			<!--
 			<result name="updated" type="eventProcessed">
-				<param name="viewAction">ViewContentTypeDefinition.action</param>
+				<param name="viewAction">ViewLabels.action</param>
 				<param name="parse">true</param>
 			</result>
+			<!--
 			<result name="updated" type="eventProcessed">
 				<param name="viewAction">ViewEventType.action</param>
 				<param name="parse">true</param>
 			</result>
 			-->			
-			<result name="plain" type="portletDispatch">
-				<param name="dispatchTo">/jsp/portlet/viewContentTypeDefinitionEditorPlain.jsp</param>
-			</result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
