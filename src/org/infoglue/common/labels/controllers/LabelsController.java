@@ -126,13 +126,13 @@ public class LabelsController
 				String xml = property.getValue();
 				if(xml != null && xml.length() > 0)
 				{
-					System.out.println("xml:" + xml);
+					//System.out.println("xml:" + xml);
 					FileHelper.writeToFile(new File("c:/temp/apa.xml"), xml, false);
 					try
 					{
 						document = domBuilder.getDocument(xml);
-						String xml2 = domBuilder.getFormattedDocument(document, false, false, "UTF-8");
-						System.out.println("xml2:" + xml2);
+						//String xml2 = domBuilder.getFormattedDocument(document, false, false, "UTF-8");
+						//System.out.println("xml2:" + xml2);
 					}
 					catch(Exception e)
 					{
@@ -174,7 +174,7 @@ public class LabelsController
 		domBuilder.addAttribute(languageElement, "languageCode", languageCode); 
 		Element labelsElement = domBuilder.addElement(languageElement, "labels");
         String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-        System.out.println("xml:" + xml);
+        //System.out.println("xml:" + xml);
 
         labelsPersister.updateProperty(nameSpace, "systemLabels", xml, session);
 

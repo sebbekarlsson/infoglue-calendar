@@ -38,7 +38,7 @@
 		<property name="stateId" column="stateId" type="integer"/>
 		<property name="creator" column="creator" type="string"/>
 		<property name="entryFormId" column="entryFormId" type="long"/>
-        <property name="attributes" type="string" update="true" insert="true" access="property" column="attributes" not-null="false" unique="false"/>
+        <property name="attributes" column="attributes" type="text"/>
 
         <set name="calendars" table="Event_Calendar" lazy="true" inverse="false" cascade="none" sort="unsorted">
 	    	<key column="event_id"></key>

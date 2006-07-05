@@ -201,11 +201,20 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 
     public void setLabel(String rawLabel) throws JspException
     {
-        String translatedLabel = this.getLabel(rawLabel);
-        if(translatedLabel != null && translatedLabel.length() > 0)
-            this.label = translatedLabel;
+        Object o = findOnValueStack(rawLabel);
+        String evaluatedString = evaluateString("SelectFieldTag", "label", rawLabel);
+        log.info("o:" + o);
+        log.info("evaluatedString:" + evaluatedString);
+        if(o != null)
+            this.label = (String)o;
+        else if(evaluatedString != null && !evaluatedString.equals(rawLabel))
+            this.label = evaluatedString;
         else
-            this.label = evaluateString("SelectFieldTag", "label", rawLabel);
+        {
+            String translatedLabel = this.getLabel(rawLabel);
+            if(translatedLabel != null && translatedLabel.length() > 0)
+                this.label = translatedLabel;
+        }
     }
 
     public void setMultiple(String multiple)

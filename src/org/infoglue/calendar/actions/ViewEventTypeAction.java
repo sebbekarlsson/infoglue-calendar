@@ -23,6 +23,8 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.Locale;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.EventTypeController;

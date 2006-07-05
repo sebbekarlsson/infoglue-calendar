@@ -24,10 +24,14 @@
 package org.infoglue.common.contenttypeeditor.entities;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This is a pure javabean carrying the information about one content type attribute.
@@ -108,6 +112,41 @@ public class ContentTypeAttribute
 		}
 				
 		return extraParameters;
+	}
+
+	public List getContentTypeAttributeParameterValues()
+	{
+		List extraParameters = new ArrayList();
+		
+		ContentTypeAttributeParameter contentTypeAttributeParameter = (ContentTypeAttributeParameter)contentTypeAttributeParameters.get("values");
+		
+		for (Iterator i = contentTypeAttributeParameter.getContentTypeAttributeParameterValues().values().iterator(); i.hasNext();) 
+		{
+			ContentTypeAttributeParameterValue contentTypeAttributeParameterValue = (ContentTypeAttributeParameterValue)i.next();
+			extraParameters.add(contentTypeAttributeParameterValue);
+		}
+
+		return extraParameters;
+	}
+
+	public Map getContentTypeAttributeParameterValuesAsMap()
+	{
+		Map map = new HashMap();
+				
+		ContentTypeAttributeParameter contentTypeAttributeParameter = (ContentTypeAttributeParameter)contentTypeAttributeParameters.get("values");
+		
+		for (Iterator i = contentTypeAttributeParameter.getContentTypeAttributeParameterValues().values().iterator(); i.hasNext();) 
+		{
+			ContentTypeAttributeParameterValue contentTypeAttributeParameterValue = (ContentTypeAttributeParameterValue)i.next();
+			map.put(contentTypeAttributeParameterValue.getId(), contentTypeAttributeParameterValue.getValue("label"));
+		}
+
+		return map;
+	}
+
+	public Collection getContentTypeAttributeParametersList()
+	{
+		return this.contentTypeAttributeParameters.values();
 	}
 
     public List getValidators()

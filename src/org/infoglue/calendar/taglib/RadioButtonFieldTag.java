@@ -22,6 +22,7 @@
 */
 package org.infoglue.calendar.taglib;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -137,11 +138,20 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 
     public void setLabel(String rawLabel) throws JspException
     {
-        String translatedLabel = this.getLabel(rawLabel);
-        if(translatedLabel != null && translatedLabel.length() > 0)
-            this.label = translatedLabel;
+        Object o = findOnValueStack(rawLabel);
+        String evaluatedString = evaluateString("SelectFieldTag", "label", rawLabel);
+        log.info("o:" + o);
+        log.info("evaluatedString:" + evaluatedString);
+        if(o != null)
+            this.label = (String)o;
+        else if(evaluatedString != null && !evaluatedString.equals(rawLabel))
+            this.label = evaluatedString;
         else
-            this.label = evaluateString("SelectFieldTag", "label", rawLabel);
+        {
+            String translatedLabel = this.getLabel(rawLabel);
+            if(translatedLabel != null && translatedLabel.length() > 0)
+                this.label = translatedLabel;
+        }
     }
 
     public void setSelectedValue(String selectedValue) throws JspException

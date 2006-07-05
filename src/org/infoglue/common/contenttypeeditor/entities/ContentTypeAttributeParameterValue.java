@@ -24,6 +24,7 @@
 package org.infoglue.common.contenttypeeditor.entities;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -76,13 +77,14 @@ public class ContentTypeAttributeParameterValue
 		
 	public String getLocalizedValue(String key, Locale locale)
 	{
+		//System.out.println("Called getLocalizedValue with " + key + " and " + locale);
 		String localizedKey = key + "_" + locale.getLanguage();
 		if(this.attributes.containsKey(localizedKey))
 			return (String)this.attributes.get(localizedKey);
 		else
 			return (String)this.attributes.get(key);
 	}
-	
+
 	public String getLocalizedValue(String key, String langugeCode)
 	{
 		String localizedKey = key + "_" + langugeCode;
@@ -92,10 +94,36 @@ public class ContentTypeAttributeParameterValue
 			return (String)this.attributes.get(key);
 	}
 
+	public String getLocalizedValue(String key, String langugeCode, boolean debug)
+	{
+		System.out.println("AAAAAAAAAAAAAAAAA Called getLocalizedValue with " + key + " and " + langugeCode);
+
+		String localizedKey = key + "_" + langugeCode;
+		
+		Iterator attributesIterator = this.attributes.keySet().iterator();
+		while(attributesIterator.hasNext())
+		{
+			String key2 = (String)attributesIterator.next();
+			System.out.println(key2 + "=" + this.attributes.get(key2));
+		}
+		
+		if(this.attributes.containsKey(localizedKey))
+			return (String)this.attributes.get(localizedKey);
+		else
+			return (String)this.attributes.get(key);
+	}
+
+	public String debug(String key)
+	{
+		System.out.println("AAAAAAAAAAAAAAAAA Called getLocalizedValue with " + key);
+		return "AAA";
+	}
+
 	public int getLocalizedValueAsInt(String key, Locale locale)
 	{
 		try
 		{
+			//System.out.println("Called getLocalizedValue with " + key + " and " + locale);
 			String localizedKey = key + "_" + locale.getLanguage();
 			if(this.attributes.containsKey(localizedKey))
 				return Integer.parseInt((String)this.attributes.get(localizedKey));
@@ -112,6 +140,7 @@ public class ContentTypeAttributeParameterValue
 	{
 		try
 		{
+			//System.out.println("Called getLocalizedValue with " + key + " and " + langugeCode);
 			String localizedKey = key + "_" + langugeCode;
 			if(this.attributes.containsKey(localizedKey))
 				return Integer.parseInt((String)this.attributes.get(localizedKey));

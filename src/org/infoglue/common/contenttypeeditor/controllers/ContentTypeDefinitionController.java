@@ -82,25 +82,7 @@ public class ContentTypeDefinitionController
     {
         return new ContentTypeDefinitionController();
     }
-        
-    
-    /**
-     * This method is used to create a new ContentTypeDefinition object in the database inside a transaction.
-     */
-    /*
-    public ContentTypeDefinition createContentTypeDefinition(String name, String schemaValue, Integer type, Session session) throws HibernateException, Exception 
-    {
-    	ContentTypeDefinition contentTypeDefinition = new ContentTypeDefinition();
-    	contentTypeDefinition.setName(name);
-    	contentTypeDefinition.setSchemaValue(schemaValue);
-    	contentTypeDefinition.setType(type);
-        
-        session.save(contentTypeDefinition);
-        
-        return contentTypeDefinition;
-    }
-    */
-    
+            
     
     /**
      * Updates a ContentTypeDefinition.
@@ -210,216 +192,6 @@ public class ContentTypeDefinitionController
 	};
 
 /*
-    public List getContentTypeDefinitionList() throws SystemException, Bug
-    {
-		String key = "contentTypeDefinitionList";
-		getLogger().info("key:" + key);
-		List cachedContentTypeDefinitionList = (List)CacheController.getCachedObject("contentTypeDefinitionCache", key);
-		if(cachedContentTypeDefinitionList != null)
-		{
-			getLogger().info("There was an cached contentTypeDefinitionList:" + cachedContentTypeDefinitionList.size());
-			return cachedContentTypeDefinitionList;
-		}
-
-		List contentTypeDefinitionList = getAllVOObjects(ContentTypeDefinitionImpl.class, "contentTypeDefinitionId");
-
-		CacheController.cacheObject("contentTypeDefinitionCache", key, contentTypeDefinitionList);
-
-		return contentTypeDefinitionList;
-    }
-
-	
-	public List getAuthorizedContentTypeDefinitionList(InfoGluePrincipal infoGluePrincipal) throws ConstraintException, SystemException, Bug
-	{    	
-		List accessableContentTypeDefinitionList = new ArrayList();
-    	
-		List allContentTypeDefinitionList = this.getContentTypeDefinitionList(); 
-		Iterator i = allContentTypeDefinitionList.iterator();
-		while(i.hasNext())
-		{
-		    ContentTypeDefinition contentTypeDefinition = (ContentTypeDefinition)i.next();
-			if(getIsAccessApproved(contentTypeDefinition.getId(), infoGluePrincipal))
-			    accessableContentTypeDefinitionList.add(contentTypeDefinition);
-		}
-    	
-		return accessableContentTypeDefinitionList;
-	}
-	
-    
-	public boolean getIsAccessApproved(Integer contentTypeDefinitionId, InfoGluePrincipal infoGluePrincipal) throws SystemException
-	{
-		getLogger().info("getIsAccessApproved for " + contentTypeDefinitionId + " AND " + infoGluePrincipal);
-		boolean hasAccess = false;
-    	
-		Database db = CastorDatabaseService.getDatabase();
-       
-		beginTransaction(db);
-
-		try
-		{ 
-			hasAccess = AccessRightController.getController().getIsPrincipalAuthorized(db, infoGluePrincipal, "ContentTypeDefinition.Read", contentTypeDefinitionId.toString());
-		
-			commitTransaction(db);
-		}
-		catch(Exception e)
-		{
-			getLogger().error("An error occurred so we should not complete the transaction:" + e, e);
-			rollbackTransaction(db);
-			throw new SystemException(e.getMessage());
-		}
-    
-		return hasAccess;
-	}
-	
-	public ContentTypeDefinition getContentTypeDefinitionWithName(String name) throws SystemException, Bug
-	{
-		ContentTypeDefinition contentTypeDefinition = null;
-
-		Database db = CastorDatabaseService.getDatabase();
-
-		try
-		{
-			beginTransaction(db);
-
-			ContentTypeDefinition contentTypeDefinition = getContentTypeDefinitionWithName(name, db);
-			if(contentTypeDefinition != null)
-				contentTypeDefinition = contentTypeDefinition.getValueObject();
-
-			commitTransaction(db);
-		}
-		catch (Exception e)
-		{
-			getLogger().info("An error occurred so we should not complete the transaction:" + e);
-			rollbackTransaction(db);
-			throw new SystemException(e.getMessage());
-		}
-
-		return contentTypeDefinition;
-	}
-
-	public ContentTypeDefinition getContentTypeDefinitionWithName(String name, Database db) throws SystemException, Bug
-	{
-		ContentTypeDefinition contentTypeDefinition = null;
-
-		try
-		{
-			OQLQuery oql = db.getOQLQuery("SELECT f FROM org.infoglue.cms.entities.management.impl.simple.ContentTypeDefinitionImpl f WHERE f.name = $1");
-			oql.bind(name);
-
-	    	this.getLogger().info("Fetching entity in read/write mode" + name);
-			QueryResults results = oql.execute();
-			if (results.hasMore())
-			{
-				contentTypeDefinition = (ContentTypeDefinition)results.next();
-			}
-		}
-		catch(Exception e)
-		{
-			throw new SystemException("An error occurred when we tried to fetch a named ContentTypeDefinition. Reason:" + e.getMessage(), e);
-		}
-
-		return contentTypeDefinition;
-	}
-
-	public ContentTypeDefinition getContentTypeDefinitionWithName(String name, Database db) throws SystemException, Bug
-	{
-		String key = "" + name;
-		getLogger().info("key:" + key);
-		ContentTypeDefinition contentTypeDefinition = (ContentTypeDefinition)CacheController.getCachedObject("contentTypeDefinitionCache", key);
-		if(contentTypeDefinition != null)
-		{
-			getLogger().info("There was an cached contentTypeDefinition:" + contentTypeDefinition);
-		}
-		else
-		{
-
-			try
-			{
-				OQLQuery oql = db.getOQLQuery("SELECT f FROM org.infoglue.cms.entities.management.impl.simple.ContentTypeDefinitionImpl f WHERE f.name = $1");
-				oql.bind(name);
-	
-				QueryResults results = oql.execute(Database.ReadOnly);
-				if (results.hasMore())
-				{
-				    ContentTypeDefinition contentTypeDefinition = (ContentTypeDefinition)results.next();
-				    contentTypeDefinition = contentTypeDefinition.getValueObject();
-
-				    CacheController.cacheObject("contentTypeDefinitionCache", key, contentTypeDefinition);
-				}
-			}
-			catch(Exception e)
-			{
-				throw new SystemException("An error occurred when we tried to fetch a named ContentTypeDefinition. Reason:" + e.getMessage(), e);
-			}
-		}
-		
-		return contentTypeDefinition;
-	}
-
-	
-	public List getContentTypeDefinitionList(Integer type) throws SystemException, Bug
-	{
-		List contentTypeDefinitionList = null;
-		Database db = CastorDatabaseService.getDatabase();
-
-		try
-		{
-			beginTransaction(db);
-
-			contentTypeDefinitionList = getContentTypeDefinitionList(type, db);
-
-			commitTransaction(db);
-		}
-		catch (Exception e)
-		{
-			getLogger().info("An error occurred so we should not complete the transaction:" + e);
-			rollbackTransaction(db);
-			throw new SystemException(e.getMessage());
-		}
-		return contentTypeDefinitionList;
-	}
-
-	public List getContentTypeDefinitionList(Integer type, Database db)  throws SystemException, Bug
-	{
-		ArrayList contentTypeDefinitionList = new ArrayList();
-		try
-		{
-			OQLQuery oql = db.getOQLQuery("SELECT f FROM org.infoglue.cms.entities.management.impl.simple.ContentTypeDefinitionImpl f WHERE f.type = $1");
-			oql.bind(type);
-
-			QueryResults results = oql.execute(Database.ReadOnly);
-			while (results.hasMore())
-			{
-				ContentTypeDefinition contentTypeDefinition = (ContentTypeDefinition)results.next();
-				contentTypeDefinitionList.add(contentTypeDefinition.getValueObject());
-			}
-		}
-		catch(Exception e)
-		{
-			throw new SystemException("An error occurred when we tried to fetch a list of Function. Reason:" + e.getMessage(), e);
-		}
-
-		return contentTypeDefinitionList;
-	}
-
-    public ContentTypeDefinition create(ContentTypeDefinition contentTypeDefinition) throws ConstraintException, SystemException
-    {
-        ContentTypeDefinition contentTypeDefinition = new ContentTypeDefinitionImpl();
-        contentTypeDefinition.setValueObject(contentTypeDefinition);
-        contentTypeDefinition = (ContentTypeDefinition) createEntity(contentTypeDefinition);
-        return contentTypeDefinition.getValueObject();
-    }
-
-    public void delete(ContentTypeDefinition contentTypeDefinition) throws ConstraintException, SystemException
-    {
-    	deleteEntity(ContentTypeDefinitionImpl.class, contentTypeDefinition.getContentTypeDefinitionId());
-    }
-
-    public ContentTypeDefinition update(ContentTypeDefinition contentTypeDefinition) throws ConstraintException, SystemException
-    {
-    	return (ContentTypeDefinition) updateEntity(ContentTypeDefinitionImpl.class, contentTypeDefinition);
-    }
-
 	public AssetKeyDefinition getDefinedAssetKey(String contentTypeDefinitionString, String assetKey)
 	{
 	    AssetKeyDefinition assetKeyDefinition = null;
@@ -681,7 +453,9 @@ public class ContentTypeDefinitionController
 							{
 								Element value = (Element)valueNodeList.item(vnli);
 								String valueId = value.getAttribute("id");
-
+								
+								System.out.println("valueId:" + valueId);
+								
 								ContentTypeAttributeParameterValue contentTypeAttributeParameterValue = new ContentTypeAttributeParameterValue();
 								contentTypeAttributeParameterValue.setId(valueId);
 
@@ -691,6 +465,8 @@ public class ContentTypeDefinitionController
 									Node attribute = (Node)nodeMap.item(nmi);
 									String valueAttributeName = attribute.getNodeName();
 									String valueAttributeValue = attribute.getNodeValue();
+									System.out.println(valueAttributeName + "=" + valueAttributeValue);
+									
 									contentTypeAttributeParameterValue.addAttribute(valueAttributeName, valueAttributeValue);
 								}
 

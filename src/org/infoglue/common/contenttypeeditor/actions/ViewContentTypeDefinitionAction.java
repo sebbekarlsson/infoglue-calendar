@@ -405,7 +405,13 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 			Document document = createDocumentFromDefinition();
 
 			String attributesXPath = "/xs:schema/xs:complexType/xs:all/xs:element/xs:complexType/xs:all/xs:element[@name='" + this.attributeName + "']/xs:annotation/xs:appinfo/params/param[@id='" + this.attributeParameterId +"']/values";
+			System.out.println("attributesXPath:" + attributesXPath);
 			NodeList anl = org.apache.xpath.XPathAPI.selectNodeList(document.getDocumentElement(), attributesXPath);
+
+			System.out.println("anl:" + anl);
+			if(anl != null)
+				System.out.println("anl:" + anl.getLength());
+
 			if(anl != null && anl.getLength() > 0)
 			{
 				Element element = (Element)anl.item(0);
@@ -416,6 +422,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 			}
 
 			saveUpdatedDefinition(document);
+
 		}
 		catch(Exception e)
 		{
@@ -537,7 +544,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		return UPDATED;
 	}
 
-/*
+
 	public String doUpdateAttributeParameterValue() throws Exception
 	{
 		this.initialize(getContentTypeDefinitionId());
@@ -567,9 +574,10 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 		}
 
 		this.initialize(getContentTypeDefinitionId());
-		return SUCCESS;
+
+		return UPDATED;
 	}
-*/
+
 
 	public String doInsertAttributeValidator() throws Exception
 	{

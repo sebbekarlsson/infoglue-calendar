@@ -135,8 +135,9 @@
 
 <ww:iterator value="contentTypeAttributes" status="rowstatus">
 	<ww:set name="attribute" value="top"/>
+	<ww:set name="attributeName" value="#attribute.name" scope="page"/>
 	<ww:set name="inputType" value="attribute.inputType"/>
-	<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
+	<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 
 	<ww:iterator value="#attribute.validators" status="rowstatus">
 		<ww:set name="validator" value="top"/>
@@ -182,58 +183,54 @@
 		</div>
 	</ww:iterator>
 
-	<%--
-	#foreach($parameter in $attribute.getContentTypeAttributeParameters())
-		#set($values = $parameter.value.getContentTypeAttributeParameterValues())
-		#foreach($value in $values)
-			#if($parameter.value.type == 1)
+	<ww:iterator value="#attribute.contentTypeAttributeParameters" status="rowstatus">
+		<ww:set name="parameter" value="top"/>
+		<ww:set name="values" value="#parameter.value.contentTypeAttributeParameterValues"/>
 
-			<div id="<ww:property value="#attribute.name"/>${parameter.key}${value.id}PropertyLayer" style="border: 1px solid black; background-color: white; LEFT:250px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
-				<form name="<ww:property value="#attribute.name"/>${parameter.key}${value.id}PropertiesForm" action="ViewEventType!updateAttributeParameterValue.action" method="POST">
-				<table border="0" cellpadding="4" cellspacing="0">
-				<tr>
-					<td colspan="2" class="propertiesheader">Edit values</td>
-				</tr>
-				<tr>
-					<td colspan="2"><img src="images/trans.gif" height="5" width="1"></td>
-				</tr>
-				<tr>
-					<td><b>Label</b></td>
-					<td><input type="textfield" name="attributeParameterValueLabel" value="$value.getLocalizedValue("label", "$!currentContentTypeEditorViewLanguageCode")" class="normaltextfield"></td>
-				</tr>
-				<tr>
-					<td><b>Internal Name</b></td>
-					<td><input type="textfield" name="newAttributeParameterValueId" value="$value.getLocalizedValue("id", "$!currentContentTypeEditorViewLanguageCode")" class="normaltextfield"></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<img src="images/trans.gif" width="80" height="25" border="0">
-					</td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td>
-						<input type="image" src="$ui.getString("images.managementtool.buttons.saveAndExit")" width="80" height="25" border="0"></a>
-						<a href="javascript:hideDiv('<ww:property value="#attribute.name"/>${parameter.key}${value.id}PropertyLayer');"><img src="$ui.getString("images.managementtool.buttons.cancel")" width="50" height="25" border="0"></a>
-					</td>
-				</tr>
-				</table>
-				<input type="hidden" name="contentTypeDefinitionId" value="$contentTypeDefinitionId">
-				<input type="hidden" name="attributeName" value="$attribute.name">
-				<input type="hidden" name="attributeParameterId" value="$parameter.key">
-				<input type="hidden" name="attributeParameterValueId" value="$value.id">
-				<input type="hidden" name="attributeParameterValueLocale" value="$!currentContentTypeEditorViewLanguageCode">
-				<input type="hidden" name="currentContentTypeEditorViewLanguageCode" value="$!currentContentTypeEditorViewLanguageCode">
-				<input type="hidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
-				</form>
-			</div>
+		<ww:iterator value="#values" status="rowstatus">
+			<ww:set name="value" value="top"/>
 
-			#end
-		#end
-	#end
+			<ww:if test="#parameter.value.type == 1">
 
+				<portlet:actionURL var="updateAttributeParameterValueUrl">
+					<portlet:param name="action" value="ViewEventType!updateAttributeParameterValue"/>
+				</portlet:actionURL>
+			
+				<div id="<ww:property value="#attribute.name"/><ww:property value="#parameter.key"/><ww:property value="#value.key"/>PropertyLayer" style="border: 1px solid black; background-color: white; LEFT:250px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
 
---%>
+					<div id="<ww:property value="#attribute.name"/>_<ww:property value="#parameter.key"/>_<ww:property value="#value.key"/>PropertyHandle" class="propertiesDivHandle"><div id="propertiesDivLeftHandle" class="propertiesDivLeftHandle">Values</div><div id="propertiesDivRightHandle" class="propertiesDivRightHandle"><a href="javascript:hidePropertyDiv('<ww:property value="#attribute.name"/><ww:property value="#parameter.key"/><ww:property value="#value.key"/>PropertyLayer');" class="white">close</a></div></div>
+					<div id="PropertyBody" class="propertiesDivBody">
+						<form name="<ww:property value="#attribute.name"/>_<ww:property value="#parameter.key"/>ArgumentsForm" action="<c:out value="${updateAttributeParameterValueUrl}"/>" method="POST">
+							<input type="hidden" name="contentTypeDefinitionId" value="<ww:property value="eventTypeId"/>">
+							<input type="hidden" name="eventTypeId" value="<ww:property value="eventTypeId"/>">
+							<input type="hidden" name="attributeName" value="<ww:property value="#attribute.name"/>">
+							<input type="hidden" name="attributeParameterId" value="<ww:property value="#parameter.key"/>">
+							<input type="hidden" name="attributeParameterValueId" value="<ww:property value="#value.key"/>">
+							<input type="hidden" name="attributeParameterValueLocale" value="<ww:property value="currentContentTypeEditorViewLanguageCode"/>">
+							<!--
+							<input type="hidden" name="attributeParameterValueLocale" value="$!currentContentTypeEditorViewLanguageCode">
+							<input type="hidden" name="currentContentTypeEditorViewLanguageCode" value="$!currentContentTypeEditorViewLanguageCode">
+							-->
+							<input type="hidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
+			
+							<label for="attributeParameterValueLabel">Label:</label>
+							<input type="textfield" name="attributeParameterValueLabel" value="<ww:property value="#value.value.getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)"/>" class="normaltextfield">
+							<br/>
+		
+							<label for="newAttributeParameterValueId">Internal value:</label>
+							<input type="textfield" name="newAttributeParameterValueId" value="<ww:property value="#value.value.getLocalizedValue('id', currentContentTypeEditorViewLanguageCode)"/>" class="normaltextfield">
+							<br/>
+							<input type="submit" value="Save">
+							<a href="javascript:hideDiv('<ww:property value="#attribute.name"/><ww:property value="#parameter.key"/><ww:property value="#value.key"/>PropertyLayer');"><input type="button" value="Cancel"/></a>
+			
+						</form>
+					</div>
+				</div>
+
+			</ww:if>
+		</ww:iterator>
+	</ww:iterator>
+
 
 <%--
 <c:if test="${activatedName == ''">
@@ -255,8 +252,8 @@
 <portlet:actionURL var="updateAttributePropertyUrl">
 	<portlet:param name="action" value="ViewEventType!updateAttribute"/>
 </portlet:actionURL>
-<div id="<ww:property value="#attribute.name"/>PropertyLayer" class="propertiesDiv" style="border: 1px solid black; background-color: white; position:absolute; left:20px; top:20px; display:<c:out value="${display}"/>; visibility:<c:out value="${visibility}"/>; z-index:0">
-	<div id="<ww:property value="#attribute.name"/>PropertyHandle" class="propertiesDivHandle"><div id="propertiesDivLeftHandle" class="propertiesDivLeftHandle">Properties for attribute</div><div id="propertiesDivRightHandle" class="propertiesDivRightHandle"><a href="javascript:hidePropertyDiv('<ww:property value="#attribute.name"/>PropertyLayer');" class="white">close</a></div></div>
+<div id="<ww:property value="#attribute.name"/>PropertyLayer" class="propertiesDiv" style="border: 1px solid black; background-color: white; position:absolute; left:20px; top:20px; display:<c:out value="${display}"/>; visibility:<c:out value="${visibility}"/>; z-index:0; overflow: auto;">
+	<div id="<ww:property value="#attribute.name"/>PropertyHandle" class="propertiesDivHandle"><div id="propertiesDivLeftHandle" class="propertiesDivLeftHandle">Properties for attribute <ww:property value="#attribute.name"/></div><div id="propertiesDivRightHandle" class="propertiesDivRightHandle"><a href="javascript:hidePropertyDiv('<ww:property value="#attribute.name"/>PropertyLayer');" class="white">close</a></div></div>
 	<div id="PropertyBody" class="propertiesDivBody">
 	<form id="<ww:property value="#attribute.name"/>PropertiesForm" name="<ww:property value="#attribute.name"/>PropertiesForm" action="<c:out value="${updateAttributePropertyUrl}"/>" method="POST">
 		<input type="hidden" name="eventTypeId" value="<c:out value="${eventTypeId}"/>">
@@ -336,36 +333,75 @@
 	
 	<ww:iterator value="#attribute.contentTypeAttributeParameters" status="rowstatus">
 		<ww:set name="parameter" value="top"/>
+		<ww:set name="parameterKey" value="#parameter.key" scope="page"/>
 		
 	    <div class="actionrow">
 	       		<input type="hidden" name="parameterNames" value="<ww:property value="#parameter.key"/>">
-				<label for="<ww:property value="#parameter.key"/>"><ww:property value="#parameter.key"/>:</label>
-				<%--
-				#set($values = $parameter.value.getContentTypeAttributeParameterValues())
-				--%>
+				
+				<ww:set name="values" value="#parameter.value.contentTypeAttributeParameterValues"/>
+
 				<ww:if test="#parameter.value.type == 0">
-					<input type="textfield" name="<ww:property value="#parameter.key"/>" value="<ww:property value="#parameter.value.getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')"/>" class="longtextfield">
+					<label for="<ww:property value="#parameter.key"/>"><ww:property value="#parameter.key"/>:</label>
+					<input type="textfield" name="<ww:property value="#parameter.key"/>" value="<ww:property value="#parameter.value.getContentTypeAttributeParameterValue().getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)"/>" class="longtextfield">
 				</ww:if>
 				<ww:else>
-					Label
-					Internal name
-					<%--
-					#foreach($value in $values)
-					<tr>
-						<td>$value.getLocalizedValue("label", "$!currentContentTypeEditorViewLanguageCode")</td>
-						<td>$value.getLocalizedValue("id", "$!currentContentTypeEditorViewLanguageCode")</td>
-						<td>
-							<nobr>
-							<a href="javascript:showDiv('<ww:property value="#attribute.name"/>${parameter.key}${value.id}PropertyLayer');"><img src="images/properties.gif" border="0"></a>
-							<a href="ViewEventType!deleteAttributeParameterValue.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name&attributeParameterId=$parameter.key&attributeParameterValueId=$value.id&attributeToExpand=$attribute.name"><img src="images/delete.gif" border="0"></a>
-							</nobr>
-						</td>
-					</tr>
-					#end
-					--%>
-					<a href="ViewEventType!insertAttributeParameterValue.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name&attributeParameterId=$parameter.key&attributeToExpand=$attribute.name">Add value</a></td>
+					
+					<div class="columnlabelarea">
+						<div class="columnShort"><p><ww:property value="#parameter.key"/></p></div>
+						<div class="columnShort"><p>Label</p></div>
+						<div class="columnLong"><p>Internal name</p></div>
+						<div class="columnEnd"><p>&nbsp;</p></div>
+						<div class="clear"></div>
+					</div>
+					
+					<ww:iterator value="#values" status="rowstatus">
+						<ww:set name="value" value="top"/>
+						<ww:set name="valueId" value="#value.key" scope="page"/>
+	
+						<portlet:actionURL var="deleteAttributeParameterValueUrl">
+							<portlet:param name="action" value="ViewEventType!deleteAttributeParameterValue"/>
+							<calendar:evalParam name="contentTypeDefinitionId" value="${contentTypeDefinitionId}"/>
+							<calendar:evalParam name="eventTypeId" value="${contentTypeDefinitionId}"/>
+							<calendar:evalParam name="title" value="${title}"/>
+							<calendar:evalParam name="attributeName" value="${attributeName}"/>
+							<calendar:evalParam name="attributeParameterId" value="${parameterKey}"/>
+							<calendar:evalParam name="attributeParameterValueId" value="${valueId}"/>
+							<calendar:evalParam name="attributeToExpand" value="${attributeName}"/>
+						</portlet:actionURL>
+							
+						<ww:if test="#rowstatus.odd == true">
+					    	<div class="oddrow">
+					    </ww:if>
+					    <ww:else>
+							<div class="evenrow">
+					    </ww:else>
+						   	<div class="columnShort"><p>&nbsp;</p></div>
+						   	<div class="columnShort"><p><ww:property value="#value.value.getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)"/></p></div>
+						   	<div class="columnLong"><p><ww:property value="#value.value.getLocalizedValue('id', currentContentTypeEditorViewLanguageCode)"/></p></div>
+						   	<div class="columnEnd">
+								<a href="<c:out value="${deleteAttributeParameterValueUrl}"/>" class="delete"></a>
+								<a href="javascript:showDiv('<ww:property value="#attribute.name"/><ww:property value="#parameter.key"/><ww:property value="#value.key"/>PropertyLayer');" class="edit"></a>
+							</div>
+							<div class="clear"></div>
+						</div
+					</ww:iterator>
+					
+					<portlet:actionURL var="insertAttributeParameterValueUrl">
+						<portlet:param name="action" value="ViewEventType!insertAttributeParameterValue"/>
+						<calendar:evalParam name="contentTypeDefinitionId" value="${contentTypeDefinitionId}"/>
+						<calendar:evalParam name="eventTypeId" value="${contentTypeDefinitionId}"/>
+						<calendar:evalParam name="title" value="${title}"/>
+						<calendar:evalParam name="attributeName" value="${attributeName}"/>
+						<calendar:evalParam name="attributeParameterId" value="${parameterKey}"/>
+						<calendar:evalParam name="attributeToExpand" value="${attributeName}"/>
+					</portlet:actionURL>
+					
+					<div class="actionrow">
+						<div class="columnLong"><p><a href="<c:out value="${insertAttributeParameterValueUrl}"/>">Add value</a></p></div>
+						<div class="clear"></div>
+					</div>
 				</ww:else>
-		</div
+		</div>
 	</ww:iterator>
 
 	<br/>
@@ -380,14 +416,8 @@
 <script type="text/javascript">		
 	var theHandle = document.getElementById("<ww:property value="#attribute.name"/>PropertyHandle");		
 	var theRoot   = document.getElementById("<ww:property value="#attribute.name"/>PropertyLayer");		
-	//alert("theHandle:" + theHandle);
-	//alert("theRoot:" + theRoot);
-	//Drag.init(theHandle, theRoot);   
 	Drag.init(theHandle, theRoot, 50, 50, 0, 1000);    
-	//theRoot.style.left = 160;     
-	//theRoot.style.top = 150;	
 	floatDiv("<ww:property value="#attribute.name"/>PropertyLayer", 50, 50).flt();
-	
 </script>
 
 </ww:iterator>

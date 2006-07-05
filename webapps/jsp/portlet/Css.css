@@ -361,9 +361,10 @@ form .PortletText1 {
 .radiobuttonIcon,
 .selectIcon,
 .textfieldIcon,
-.textareaIcon {
-	height:16px;
-	width:16px;
+.textareaIcon,
+.hiddenIcon {
+	height:20px;
+	width:20px;
 	margin:0.125em 10px 0 0;
 	padding:0 0 0 0;
 	background-repeat: no-repeat;
@@ -1022,6 +1023,7 @@ font.PortletHeading2,
 .selectIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "selectIcon")"); }
 .textfieldIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "textfieldIcon")"); }
 .textareaIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "textareaIcon")"); }
+.hiddenIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "hiddenIcon")"); }
 
 .LeftCurve {				background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "related_corner")"); }
 
@@ -1075,18 +1077,18 @@ div.portlet {
 	border: 1px solid green;
 }
 #attributes {
-	border: 1px solid red;	
+	aborder: 1px solid red;	
 }
 
 .propertiesDiv {
 	position:absolute;
 	width:700px;
-        background-color:#F4F4F4;
+    background-color:#F4F4F4;
 	border:1px solid #333333;
 	z-index:201;
 	left:10px;
 	top:100px;
-	height:500px;
+	height:650px;
 	}
 
 .propertiesDivHandle {

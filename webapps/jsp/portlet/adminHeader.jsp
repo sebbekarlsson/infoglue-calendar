@@ -23,6 +23,8 @@
 		<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/script/dom-drag.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/script/infoglueCalendar.js"></script>
 		<style type="text/css">
 			.errorMessage {
 			    color: red;

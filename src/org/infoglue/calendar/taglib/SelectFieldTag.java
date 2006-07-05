@@ -42,6 +42,8 @@ import org.infoglue.calendar.util.AttributeType;
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.cms.security.InfoGlueRole;
 import org.infoglue.cms.security.InfoGlueGroup;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameter;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameterValue;
 
 import com.opensymphony.webwork.ServletActionContext;
 
@@ -136,6 +138,7 @@ public class SelectFieldTag extends AbstractCalendarTag
             sb.append("<option value=\"\">------------------</option>");
         }
 
+        System.out.println("values: " + values);
         if(values != null)
         {
 	        Iterator valuesIterator = values.iterator();
@@ -181,20 +184,26 @@ public class SelectFieldTag extends AbstractCalendarTag
 	                id = value.getLanguage();
 	                optionText = value.getDisplayLanguage();
 	            }
+	            else if(obj instanceof ContentTypeAttributeParameterValue)
+	            {
+	            	ContentTypeAttributeParameterValue value = (ContentTypeAttributeParameterValue)obj;
+	            	id = value.getId();
+	                optionText = value.getValue("label");
+	            }
 	            else
 	            {
 	                String value = obj.toString();
 	                id = value;
 	                optionText = value;
 	            }
-            	log.warn("ID:" + id + ": optionText:" + optionText);
+            	log.info("ID:" + id + ": optionText:" + optionText);
 
 	            String selected = "";
 	            if(selectedValues != null)
 	            {
 	            	for(int i=0; i<selectedValues.length; i++)
 		            {
-	                	log.warn("1:" + id + "=" + selectedValues[i]);
+	                	log.info("1:" + id + "=" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selectedValues[i].toString()))
 		                {
 		                    selected = " selected=\"1\"";

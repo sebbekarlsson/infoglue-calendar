@@ -23,6 +23,14 @@
 		document.languageForm.submit();
 	}
 	
+	function defaultValue()
+	{
+		<ww:iterator value="labels" status="rowstatus">
+			<ww:set name="labelKey" value="top"/>
+			<ww:set name="defaultEnglishValue" value="this.getLabel(#labelKey, 'en', true, false)"/>
+			document.getElementById("<ww:property value="#labelKey"/>").value = "<ww:property value="#defaultEnglishValue"/>";
+		</ww:iterator>				
+	}
 -->
 </script>
 
@@ -64,8 +72,11 @@
 		<input type="hidden" name="propertyId" value="<ww:property value="propertyId"/>">
 		
 		<calendar:selectField label="'Languages'" name="'selectedLanguageCode'" multiple="false" value="locales" selectedValue="selectedLanguageCode" cssClass="listBox"/>
+		<p>
 		<a href="javascript:changeLanguage();">Change Language</a>
 		<a href="javascript:showDiv('newLanguageFormLayer');">Add Language</a>
+		<a href="javascript:defaultValue();">English values</a>
+		</p>
 		
 		<ww:set name="count" value="0"/>
 		<ww:iterator value="labels" status="rowstatus">
@@ -75,7 +86,7 @@
 			<ww:set name="label" value="#labelKey"/>
 			<ww:set name="attributeValue" value="this.getLabel(#labelKey, selectedLanguageCode, false, false, false)"/>
 
-			<calendar:textField label="#label" name="#labelKey" value="#attributeValue" cssClass="longtextfield"/>
+ 			<calendar:textField label="#label" name="#labelKey" value="#attributeValue" cssClass="longtextfield"/>
 			<p><span style="color: green; font-weight: bold;">In English:</span> <ww:property value="#defaultEnglishValue"/></p>
 		
 			<ww:set name="count" value="#count + 1"/>
