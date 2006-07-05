@@ -573,12 +573,12 @@
 		<ww:set name="attribute" value="top"/>
 		<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
 		
-		<portlet:renderURL var="deleteAttributeUrl">
+		<portlet:actionURL var="deleteAttributeUrl">
 			<portlet:param name="action" value="ViewEventType!deleteAttribute"/>
 			<calendar:evalParam name="eventTypeId" value="${contentTypeDefinitionId}"/>
 			<calendar:evalParam name="title" value="${title}"/>
 			<calendar:evalParam name="attributeName" value="${attribute.name}"/>
-		</portlet:renderURL>
+		</portlet:actionURL>
 		
 		<ww:if test="#rowstatus.odd == true">
 	    	<div class="oddrow">

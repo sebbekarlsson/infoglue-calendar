@@ -28,6 +28,7 @@
 		<ww:set name="count" value="0"/>
 		<ww:iterator value="attributes" status="rowstatus">
 			<ww:set name="attribute" value="top"/>
+			<ww:property value="#attributeName"/>
 			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
 			<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, top.name)"/>
@@ -51,11 +52,11 @@
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'checkbox'">
-				<calendar:checkboxField label="${title}" name="'#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap"/>
+				<calendar:checkboxField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap"/>
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'hidden'">
-				<calendar:hiddenField name="'#attributeName" value="#attributeValue"/>
+				<calendar:hiddenField name="#attributeName" value="#attributeValue"/>
 			</ww:if>		
 
 			<ww:set name="count" value="#count + 1"/>

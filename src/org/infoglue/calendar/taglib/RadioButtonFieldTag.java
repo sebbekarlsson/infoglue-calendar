@@ -104,11 +104,11 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	        while(valuesIterator.hasNext())
 		    {
 	            String id 			= (String)valuesIterator.next();
-	            log.info("Id:" + id);
+	            log.warn("Id:" + id);
 	            String optionText 	= (String)values.get(id);
-	            log.info("optionText:" + optionText);
+	            log.warn("optionText:" + optionText);
 
-                log.info("selectedValue:" + selectedValue);
+                log.warn("selectedValue:" + selectedValue);
 	            String checked = "";
 	            if(selectedValue != null)
 	            {
@@ -131,9 +131,13 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
         this.cssClass = cssClass;
     }
     
-    public void setName(String name) throws JspException
+    public void setName(String name)
     {
-        this.name = name;
+        Object o = findOnValueStack(name);
+        if(o != null) 
+            this.name = o.toString();
+        else
+            this.name = name;
     }
 
     public void setLabel(String rawLabel) throws JspException
@@ -156,6 +160,7 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 
     public void setSelectedValue(String selectedValue) throws JspException
     {
+    	System.out.println("Setting selectedValue:" + selectedValue);
         log.info("Setting selectedValue:" + selectedValue);
         Object o = findOnValueStack(selectedValue);
         if(o != null) 
@@ -163,7 +168,7 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
         else
             this.selectedValue = null;        
         log.info("Setting selectedValue:" + this.selectedValue);
-        
+    	System.out.println("Setting selectedValue:" + this.selectedValue);        
     }
     
     public void setLabelCssClass(String labelCssClass)

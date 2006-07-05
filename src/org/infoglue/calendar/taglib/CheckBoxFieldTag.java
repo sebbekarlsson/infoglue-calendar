@@ -194,9 +194,13 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
         this.cssClass = cssClass;
     }
     
-    public void setName(String name) throws JspException
+    public void setName(String name)
     {
-        this.name = name;
+        Object o = findOnValueStack(name);
+        if(o != null) 
+            this.name = o.toString();
+        else
+            this.name = name;
     }
 
     public void setLabel(String rawLabel) throws JspException

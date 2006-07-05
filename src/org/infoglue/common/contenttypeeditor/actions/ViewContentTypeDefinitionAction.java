@@ -157,6 +157,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 
 	public String doDeleteAttribute() throws Exception
 	{
+		System.out.println("Deleting attribute....");
 		this.initialize(getContentTypeDefinitionId());
 
 		try
