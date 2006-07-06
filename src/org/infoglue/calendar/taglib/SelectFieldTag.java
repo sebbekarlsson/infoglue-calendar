@@ -450,11 +450,6 @@ public class SelectFieldTag extends AbstractCalendarTag
         this.labelCssClass = labelCssClass;
     }
     
-    public void setMandatory(boolean mandatory)
-    {
-        this.mandatory = mandatory;
-    }
-
 	public void setSkipContainer(boolean skipContainer)
 	{
 		this.skipContainer = skipContainer;
@@ -464,4 +459,29 @@ public class SelectFieldTag extends AbstractCalendarTag
 	{
 		this.skipLineBreak = skipLineBreak;
 	}
+
+    public void setRequired(String required) throws JspException
+    {
+    	System.out.println("BEA1:" + required);
+        String evaluatedString = evaluateString("AbstractInputCalendarTag", "required", required);
+        if(evaluatedString != null && !evaluatedString.equals(required))
+        	required = evaluatedString;
+        
+    	if(required.equalsIgnoreCase("true"))
+            this.mandatory = true;
+        else
+            this.mandatory = false;   
+    }
+
+    
+    public void setMandatory(String mandatory)
+    {
+    	System.out.println("APA1:" + mandatory);
+    }
+
+    public boolean getMandatory()
+    {
+    	return this.mandatory;
+    }
+
 }

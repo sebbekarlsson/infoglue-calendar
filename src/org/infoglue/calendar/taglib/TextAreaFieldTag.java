@@ -50,6 +50,8 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 
 	private static final long serialVersionUID = 3617579309963752240L;
 	
+	private boolean mandatory = false;
+
 	private String name = "";
 	private String labelCssClass = "";
 	private String cssClass = "";
@@ -57,8 +59,6 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	private String label = "";
 	private List fieldErrors = null;
 	private Object errorAction = null;
-
-    private boolean mandatory;
 	
 	/**
 	 * 
@@ -104,14 +104,14 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	    if(this.label != null)
 	    {
 	        sb.append("<div class=\"fieldrow\">");
-	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
 	    	sb.append("</div>");
 	    }
 	    else
 	    {
 	        sb.append("<div class=\"fieldrow\">");
-	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
 	    	sb.append("</div>");
 	        
@@ -173,13 +173,29 @@ public class TextAreaFieldTag extends AbstractCalendarTag
     {
         this.labelCssClass = labelCssClass;
     }
+
+    public void setRequired(String required) throws JspException
+    {
+    	System.out.println("BEA1:" + required);
+        String evaluatedString = evaluateString("AbstractInputCalendarTag", "required", required);
+        if(evaluatedString != null && !evaluatedString.equals(required))
+        	required = evaluatedString;
+        
+    	if(required.equalsIgnoreCase("true"))
+            this.mandatory = true;
+        else
+            this.mandatory = false;   
+    }
+
     
     public void setMandatory(String mandatory)
     {
-        if(mandatory.equalsIgnoreCase("true"))
-            this.mandatory = true;
-        else
-            this.mandatory = false;    
+    	System.out.println("APA1:" + mandatory);
+    }
+
+    public boolean getMandatory()
+    {
+    	return this.mandatory;
     }
 
 }

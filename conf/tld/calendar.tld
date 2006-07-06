@@ -172,7 +172,7 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
-		    <name>mandatory</name>
+		    <name>required</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
@@ -214,7 +214,7 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
-		    <name>mandatory</name>
+		    <name>required</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
@@ -286,7 +286,7 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
-		    <name>mandatory</name>
+		    <name>required</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
@@ -363,7 +363,7 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
-		    <name>mandatory</name>
+		    <name>required</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
@@ -415,7 +415,7 @@
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
-		    <name>mandatory</name>
+		    <name>required</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>

@@ -44,7 +44,7 @@ import com.opensymphony.xwork.ActionContext;
 /**
  * 
  */
-public class HiddenFieldTag extends AbstractCalendarTag 
+public class HiddenFieldTag extends AbstractInputCalendarTag 
 {
     private static Log log = LogFactory.getLog(HiddenFieldTag.class);
 

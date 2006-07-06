@@ -78,7 +78,7 @@
 		<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
 		<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
 		<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
-		<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValues="getCategoryAttributeValues(top.id)" cssClass="listBox" mandatory="false"/>
+		<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValues="getCategoryAttributeValues(top.id)" cssClass="listBox" required="false"/>
 	</ww:iterator>
 
 	<calendar:checkboxField label="labels.internal.soba.searchANDOR" name="andSearch" valueMap="andSearch" selectedValues="false"/>
@@ -106,9 +106,9 @@
 
 	<ww:property value="this.getLabel('labels.internal.soba.emailIntro')"/>
 	
-	<calendar:textField label="labels.internal.soba.addresses" name="'emailAddresses'" value="emailAddresses" cssClass="longtextfield" mandatory="true"/>
-	<calendar:textField label="labels.internal.soba.subject" name="'subject'" value="subject" cssClass="longtextfield" mandatory="true"/>
-	<calendar:textAreaField label="labels.internal.soba.message" name="message" value="message" cssClass="smalltextarea" mandatory="true"/>
+	<calendar:textField label="labels.internal.soba.addresses" name="'emailAddresses'" value="emailAddresses" cssClass="longtextfield" required="true"/>
+	<calendar:textField label="labels.internal.soba.subject" name="'subject'" value="subject" cssClass="longtextfield" required="true"/>
+	<calendar:textAreaField label="labels.internal.soba.message" name="message" value="message" cssClass="smalltextarea" required="true"/>
 
 	<div style="height:10px"></div>
 

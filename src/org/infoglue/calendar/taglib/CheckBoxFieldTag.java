@@ -59,8 +59,8 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	private List fieldErrors;
 	private Object errorAction = null;
 
-    private boolean mandatory;
-	
+	private boolean mandatory = false;
+
 	/**
 	 * 
 	 */
@@ -108,10 +108,10 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 		            
 	    if(this.label != null)
 	    {
-			sb.append("<label>" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+			sb.append("<label>" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    }
 	    else
-	        sb.append("<label>" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+	        sb.append("<label>" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 
         if(values != null)
         {
@@ -310,13 +310,30 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
     {
         this.labelCssClass = labelCssClass;
     }
+
+    public void setRequired(String required) throws JspException
+    {
+    	System.out.println("BEA1:" + required);
+        String evaluatedString = evaluateString("AbstractInputCalendarTag", "required", required);
+        if(evaluatedString != null && !evaluatedString.equals(required))
+        	required = evaluatedString;
+        
+    	if(required.equalsIgnoreCase("true"))
+            this.mandatory = true;
+        else
+            this.mandatory = false;   
+    }
+
     
     public void setMandatory(String mandatory)
     {
-        if(mandatory.equalsIgnoreCase("true"))
-            this.mandatory = true;
-        else
-            this.mandatory = false;    
+    	System.out.println("APA1:" + mandatory);
     }
+
+    public boolean getMandatory()
+    {
+    	return this.mandatory;
+    }
+
 
 }

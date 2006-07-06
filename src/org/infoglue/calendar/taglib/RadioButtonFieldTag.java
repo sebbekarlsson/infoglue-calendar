@@ -42,6 +42,8 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 
 	private static final long serialVersionUID = 3617579309963752240L;
 	
+	private boolean mandatory = false;
+
 	private String name;
 	private String labelCssClass = "";
 	private String cssClass = "";
@@ -50,8 +52,6 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	private String label;
 	private List fieldErrors;
 	private Object errorAction = null;
-
-    private boolean mandatory;
 	
 	/**
 	 * 
@@ -97,10 +97,10 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	    sb.append("<div class=\"fieldrow\">");
 	    if(this.label != null)
 	    {
-			sb.append("<label>" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+			sb.append("<label>" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    }
 	    else
-	        sb.append("<label>" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+	        sb.append("<label>" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 
         if(values != null)
         {
@@ -117,7 +117,7 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	            if(selectedValue != null)
 	            {
 	                if(id.equalsIgnoreCase(selectedValue))
-	                    checked = " checked=\"1\"";
+	                    checked = " checked=\"checked\"";
 	            }
 	            
 	    		sb.append("<input name=\"" + name + "\" value=\"" + id + "\" class=\"\" type=\"radio\" id=\"" + name + "\"" + checked + "><label for=\"" + name + "\"> " + this.getLabel(optionText) + "</label><br />");
@@ -180,14 +180,6 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
         this.labelCssClass = labelCssClass;
     }
     
-    public void setMandatory(String mandatory)
-    {
-        if(mandatory.equalsIgnoreCase("true"))
-            this.mandatory = true;
-        else
-            this.mandatory = false;    
-    }
-
     public void setValueMap(String valueMap) throws JspException
     {
         Object o = findOnValueStack(valueMap);
@@ -201,4 +193,28 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
         }
     }
     
+    public void setRequired(String required) throws JspException
+    {
+    	System.out.println("BEA1:" + required);
+        String evaluatedString = evaluateString("AbstractInputCalendarTag", "required", required);
+        if(evaluatedString != null && !evaluatedString.equals(required))
+        	required = evaluatedString;
+        
+    	if(required.equalsIgnoreCase("true"))
+            this.mandatory = true;
+        else
+            this.mandatory = false;   
+    }
+
+    
+    public void setMandatory(String mandatory)
+    {
+    	System.out.println("APA1:" + mandatory);
+    }
+
+    public boolean getMandatory()
+    {
+    	return this.mandatory;
+    }
+
  }

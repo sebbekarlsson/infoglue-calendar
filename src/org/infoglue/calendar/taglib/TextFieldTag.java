@@ -22,40 +22,32 @@
 */
 package org.infoglue.calendar.taglib;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspTagException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.infoglue.common.util.ResourceBundleHelper;
-
-import com.opensymphony.webwork.ServletActionContext;
-import com.opensymphony.xwork.ActionContext;
 
 
 /**
  * 
  */
-public class TextFieldTag extends AbstractCalendarTag 
+public class TextFieldTag extends AbstractCalendarTag
 {
     private static Log log = LogFactory.getLog(TextFieldTag.class);
 
 	private static final long serialVersionUID = 3617579309963752240L;
 	
+	private boolean mandatory = false;
+
 	private String name = "";
 	private String labelCssClass = "";
 	private String cssClass = "";
 	private String value = "";
 	private String label = "";
-	private boolean mandatory;
 	private List fieldErrors = null;
 	private Object errorAction = null;
 	
@@ -111,12 +103,12 @@ public class TextFieldTag extends AbstractCalendarTag
 	    
         if(this.label != null)
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
 	    }
 	    else
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
 	    }
 		sb.append("</div>");
@@ -180,11 +172,39 @@ public class TextFieldTag extends AbstractCalendarTag
         this.labelCssClass = labelCssClass;
     }
     
-    public void setMandatory(String mandatory)
+    public void setRequired(String required) throws JspException
     {
-        if(mandatory.equalsIgnoreCase("true"))
+    	System.out.println("BEA1:" + required);
+        String evaluatedString = evaluateString("AbstractInputCalendarTag", "required", required);
+        if(evaluatedString != null && !evaluatedString.equals(required))
+        	required = evaluatedString;
+        
+    	if(required.equalsIgnoreCase("true"))
             this.mandatory = true;
         else
-            this.mandatory = false;    
+            this.mandatory = false;   
     }
+
+    
+    public void setMandatory(String mandatory)
+    {
+    	System.out.println("APA1:" + mandatory);
+    }
+
+    public void setMandatory(Object mandatory)
+    {
+    	System.out.println("APA2:" + mandatory);
+    }
+
+    public void setMandatory(boolean mandatory)
+    {
+    	System.out.println("APA3:" + mandatory);
+    }
+
+    public boolean getMandatory()
+    {
+    	return this.mandatory;
+    }
+
+    
 }
