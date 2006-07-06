@@ -183,7 +183,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 	                									eventId,
 	                									getSession());
 	        
-	        EntryController.getController().mailVerification(newEntry);
+	        EntryController.getController().mailVerification(newEntry, this.getLocale(), getSession());
         
 	        EntryController.getController().notifyEventOwner(newEntry);
 

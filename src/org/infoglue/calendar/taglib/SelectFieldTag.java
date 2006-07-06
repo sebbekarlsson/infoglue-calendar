@@ -138,7 +138,6 @@ public class SelectFieldTag extends AbstractCalendarTag
             sb.append("<option value=\"\">------------------</option>");
         }
 
-        System.out.println("values: " + values);
         if(values != null)
         {
 	        Iterator valuesIterator = values.iterator();
@@ -147,7 +146,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            String id;
 	            String optionText;
 	            Object obj = valuesIterator.next();
-	            System.out.println("Obj: " + obj.getClass().getName());
+	            //System.out.println("Obj: " + obj.getClass().getName());
 	            if(obj instanceof InfoGluePrincipal)
 	            {
 	                InfoGluePrincipal value = (InfoGluePrincipal)obj;
@@ -387,7 +386,7 @@ public class SelectFieldTag extends AbstractCalendarTag
     public void setSelectedValue(String selectedValue) throws JspException
     {
         Object o = findOnValueStack(selectedValue);
-        System.out.println("o:" + o);
+        //System.out.println("o:" + o);
         if(o != null) 
             this.selectedValues = new String[] {o.toString()};
         else

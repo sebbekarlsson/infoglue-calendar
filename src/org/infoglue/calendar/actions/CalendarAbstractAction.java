@@ -167,6 +167,15 @@ public class CalendarAbstractAction extends ActionSupport
         return (String)ServletActionContext.getRequest().getAttribute("languageCode");
     }
 
+    public Locale getLocale()
+    {
+    	String languageCode = getLanguageCode();
+    	if(languageCode == null || languageCode.equals(""))
+    		languageCode = "en";
+    	
+    	return new Locale(languageCode);
+    }
+
     public String getLogoutUrl()
     {
         return (String)ServletActionContext.getRequest().getAttribute("logoutUrl");
@@ -349,7 +358,7 @@ public class CalendarAbstractAction extends ActionSupport
 		{
 			try
 	        {
-		        System.out.println("key:" + key);
+		        //System.out.println("key:" + key);
 				
 				int startTagIndex = xml.indexOf("<" + key + ">");
 				int endTagIndex   = xml.indexOf("]]></" + key + ">");
@@ -366,7 +375,6 @@ public class CalendarAbstractAction extends ActionSupport
 	        }
 		}
 		
-		System.out.println("value:" + value);
 		log.info("value:" + value);	
 		
 		return value;

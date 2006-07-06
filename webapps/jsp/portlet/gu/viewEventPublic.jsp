@@ -141,6 +141,19 @@
 			<p><span class="calFactLabel">Telefon: </span><ww:property value="event.contactPhone"/></p>
 		</ww:if>
 		
+		<ww:set name="count" value="0"/>
+		<ww:iterator value="attributes" status="rowstatus">
+			<ww:set name="attribute" value="top" scope="page"/>
+			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
+			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
+			<ww:set name="attributeValue" value="this.getAttributeValue(event.attributes, top.name)"/>
+			<p>
+				<calendar:textValue label="${title}" value="#attributeValue" labelCssClass="label"/>
+			</p>
+			<ww:set name="count" value="#count + 1"/>
+		</ww:iterator>
+		
+		
 		<ww:if test="event.maximumParticipants != null && event.maximumParticipants != 0">
 			<p><span class="calFactLabel">Antal platser: </span><ww:property value="event.maximumParticipants"/> (Varav <ww:property value="event.entries.size()"/> är bokade)</p>
 		</ww:if>

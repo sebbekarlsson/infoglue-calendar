@@ -104,11 +104,11 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	        while(valuesIterator.hasNext())
 		    {
 	            String id 			= (String)valuesIterator.next();
-	            log.warn("Id:" + id);
+	            log.info("Id:" + id);
 	            String optionText 	= (String)values.get(id);
-	            log.warn("optionText:" + optionText);
+	            log.info("optionText:" + optionText);
 
-                log.warn("selectedValue:" + selectedValue);
+                log.info("selectedValue:" + selectedValue);
 	            String checked = "";
 	            if(selectedValue != null)
 	            {

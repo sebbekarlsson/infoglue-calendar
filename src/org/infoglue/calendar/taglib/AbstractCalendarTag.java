@@ -124,7 +124,7 @@ public abstract class AbstractCalendarTag extends AbstractTag
 	    }
 	    catch(Exception e)
 	    {
-	        log.warn("An label was not found:" + e.getMessage(), e);
+	        log.info("An label was not found:" + e.getMessage(), e);
 	    }
 	    
         return label;

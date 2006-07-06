@@ -32,12 +32,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.CalendarProperty;
 import org.infoglue.common.labels.controllers.LabelsController;
@@ -46,8 +49,12 @@ import org.infoglue.common.labels.entities.Property;
 import org.infoglue.common.util.ResourceBundleHelper;
 import org.infoglue.common.util.dom.DOMBuilder;
 
+import com.opensymphony.xwork.ActionContext;
+
 public class CalendarLabelsController implements LabelsPersister
 {
+	private static Log log = LogFactory.getLog(CalendarLabelsController.class);
+
 	private DOMBuilder domBuilder = new DOMBuilder();
 	private LabelsController labelsController = null;
 	
@@ -177,5 +184,57 @@ public class CalendarLabelsController implements LabelsPersister
 		session.update(property);
 	}
 
+
+    public String getLabel(String key, Locale locale, boolean skipProperty, boolean fallbackToDefault, boolean fallbackToKey, Session session)
+    {
+    	if(locale == null)
+    		locale = Locale.ENGLISH;
+    		
+    	String label = "";
+    	if(fallbackToKey)
+    		label = key;
+	    
+	    try
+	    {
+	    	Object derivedObject = findOnValueStack(key);
+	        String derivedValue = null;
+	        if(derivedObject != null)
+	        	derivedValue = derivedObject.toString();
+	        
+	        if(!skipProperty)
+	        {
+		        if(derivedValue != null)
+		    	    label = CalendarLabelsController.getCalendarLabelsController().getLabel("infoglueCalendar", derivedValue, locale, session);
+		        else
+		    	    label = CalendarLabelsController.getCalendarLabelsController().getLabel("infoglueCalendar", key, locale, session);
+	        }
+	        
+	        if(skipProperty || ((label == null || label.equals("")) && fallbackToDefault))
+	        {
+		        ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
+		        
+		    	if(derivedValue != null)
+		    	    label = resourceBundle.getString(derivedValue);
+		        else
+		            label = resourceBundle.getString(key);
+	        }
+	        
+	        if((label == null || label.equals("")) && fallbackToKey)
+	            label = key;
+	    }
+	    catch(Exception e)
+	    {
+	        log.warn("An label was not found for key: " + key + ": " + e.getMessage(), e);
+	    }
+	    
+	    return label;
+    }
+
+    public static Object findOnValueStack(String expr) 
+    {
+		ActionContext a = ActionContext.getContext();
+		Object value = a.getValueStack().findValue(expr);
+		return value;
+	}
 
 }

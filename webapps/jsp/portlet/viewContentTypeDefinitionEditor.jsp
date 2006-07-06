@@ -525,29 +525,27 @@
 <div id="menu">
 
 <div class="columnlabelarea">
+	<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.eventType.attributes')"/></p></div>
+	<div class="columnLong">
+		<select size="1" name="inputTypeId" class="sitedropbox">
+		    <option value="" selected>Choose element type</option>
+		    <!--<option value="label">Label</option>-->
+		    <option value="textfield">TextField</option>
+		    <option value="textarea">TextArea</option>
+		    <option value="checkbox">CheckBox</option>
+		    <option value="radiobutton">RadioButton</option>
+		    <option value="select">SelectBox</option>
+		    <option value="hidden">Hidden</option>
+		    <!--<option value="password">Password</option>-->
+		    <!--<option value="image">SubmitImage</option>-->
+		    <!--<option value="submit">SubmitButton</option>-->
+		    <!--<option value="clear">ClearButton</option>-->
+		</select>
+		<a href="javascript:submitNewAttribute();"><input type="button" value="Add attribute" style=""/></a>
+	</div>
 	<div class="columnShort">
 		<p>
-		<ww:property value="this.getLabel('labels.internal.eventType.attributes')"/>
-				<select size="1" name="inputTypeId" class="sitedropbox">
-			    <option value="" selected>Choose element type</option>
-			    <!--<option value="label">Label</option>-->
-			    <option value="textfield">TextField</option>
-			    <option value="textarea">TextArea</option>
-			    <option value="checkbox">CheckBox</option>
-			    <option value="radiobutton">RadioButton</option>
-			    <option value="select">SelectBox</option>
-			    <option value="hidden">Hidden</option>
-			    <!--<option value="password">Password</option>-->
-			    <!--<option value="image">SubmitImage</option>-->
-			    <!--<option value="submit">SubmitButton</option>-->
-			    <!--<option value="clear">ClearButton</option>-->
-			</select>
-			<a href="javascript:submitNewAttribute();"><input type="button" value="Add attribute" style=""/></a>
-		</p>
-	</div>
-	<div class="columnLong">
-		<p>
-		<a href="javascript:showDiv('simpleEditor');"><ww:property value="this.getLabel('labels.internal.eventType.simple')"/></a>	
+			<a href="javascript:showDiv('simpleEditor');"><ww:property value="this.getLabel('labels.internal.eventType.simple')"/></a>
 		</p>
 	</div>
 	<div class="columnEnd">

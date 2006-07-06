@@ -139,7 +139,6 @@
 			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>
 
-
 		<ww:iterator value="event.owningCalendar.eventType.categoryAttributes" status="rowstatus">
 		<p>
 			<ww:set name="categoryAttribute" value="top" scope="page"/>

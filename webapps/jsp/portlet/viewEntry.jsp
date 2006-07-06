@@ -66,8 +66,7 @@
 			<ww:if test="#attribute.inputType == 'hidden'">
 				<calendar:hiddenField name="#attributeName" value="#attributeValue"/>
 			</ww:if>		
-			
-		
+					
 			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>
 		

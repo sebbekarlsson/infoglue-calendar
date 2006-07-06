@@ -86,7 +86,12 @@
 			<ww:set name="label" value="#labelKey"/>
 			<ww:set name="attributeValue" value="this.getLabel(#labelKey, selectedLanguageCode, false, false, false)"/>
 
- 			<calendar:textField label="#label" name="#labelKey" value="#attributeValue" cssClass="longtextfield"/>
+			<ww:if test="#attributeValue.length() > 80">
+	 			<calendar:textAreaField label="#label" name="#labelKey" value="#attributeValue" cssClass="smalltextarea"/>
+			</ww:if>
+			<ww:else>
+ 				<calendar:textField label="#label" name="#labelKey" value="#attributeValue" cssClass="longtextfield"/>
+			</ww:else>
 			<p><span style="color: green; font-weight: bold;">In English:</span> <ww:property value="#defaultEnglishValue"/></p>
 		
 			<ww:set name="count" value="#count + 1"/>

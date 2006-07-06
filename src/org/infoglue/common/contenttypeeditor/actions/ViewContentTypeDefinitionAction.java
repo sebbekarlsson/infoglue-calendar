@@ -94,7 +94,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 
     protected void initialize(Long contentTypeDefinitionId) throws Exception
     {
-    	System.out.println("contentTypeDefinitionId:" + contentTypeDefinitionId);
+    	//System.out.println("contentTypeDefinitionId:" + contentTypeDefinitionId);
         this.contentTypeDefinition = ContentTypeDefinitionController.getController().getContentTypeDefinition(contentTypeDefinitionId, this.getSession());
     	
 		this.contentTypeDefinition = ContentTypeDefinitionController.getController().validateAndUpdateContentType(contentTypeDefinitionId, this.contentTypeDefinition, this.getSession());

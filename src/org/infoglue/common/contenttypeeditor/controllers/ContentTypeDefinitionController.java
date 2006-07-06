@@ -454,8 +454,6 @@ public class ContentTypeDefinitionController
 								Element value = (Element)valueNodeList.item(vnli);
 								String valueId = value.getAttribute("id");
 								
-								System.out.println("valueId:" + valueId);
-								
 								ContentTypeAttributeParameterValue contentTypeAttributeParameterValue = new ContentTypeAttributeParameterValue();
 								contentTypeAttributeParameterValue.setId(valueId);
 
@@ -465,7 +463,6 @@ public class ContentTypeDefinitionController
 									Node attribute = (Node)nodeMap.item(nmi);
 									String valueAttributeName = attribute.getNodeName();
 									String valueAttributeValue = attribute.getNodeValue();
-									System.out.println(valueAttributeName + "=" + valueAttributeValue);
 									
 									contentTypeAttributeParameterValue.addAttribute(valueAttributeName, valueAttributeValue);
 								}

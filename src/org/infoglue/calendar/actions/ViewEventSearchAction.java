@@ -57,6 +57,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private String endDateTime;
     private Integer startTime;
     private Integer endTime;
+    private String lecturer;
     private String organizerName;
     private String customLocation;
     private String alternativeLocation;
@@ -94,6 +95,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
                 													startCalendar,
                 													endCalendar,
                 													organizerName,
+                													lecturer,
 															        customLocation,
 															        alternativeLocation,
 															        contactName,
@@ -271,5 +273,15 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     {
         this.sortAscending = sortAscending;
     }
+
+	public String getLecturer()
+	{
+		return lecturer;
+	}
+
+	public void setLecturer(String lecturer)
+	{
+		this.lecturer = lecturer;
+	}
 }
 

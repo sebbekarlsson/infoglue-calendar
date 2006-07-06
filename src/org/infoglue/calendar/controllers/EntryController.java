@@ -26,6 +26,8 @@ package org.infoglue.calendar.controllers;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
@@ -41,6 +43,7 @@ import org.infoglue.cms.applications.common.VisualFormatter;
 import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
 import org.infoglue.cms.entities.content.ContentVersionVO;
 import org.infoglue.cms.security.InfoGluePrincipal;
+import org.infoglue.cms.util.CmsPropertyHandler;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.io.FileHelper;
@@ -52,6 +55,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -680,31 +684,35 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void mailEntries(String emailAddresses, String subject, String message) throws Exception
+    public void mailEntries(String emailAddresses, String subject, String message, Locale locale, Session session) throws Exception
     {
-	    String email = "";
-	    
 	    try
 	    {
-	        String template;
+		    String email = "";
 	        
 	        String contentType = PropertyHelper.getProperty("mail.contentType");
 	        if(contentType == null || contentType.length() == 0)
 	            contentType = "text/html";
 	        
-	        if(contentType.equalsIgnoreCase("text/plain"))
-	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryMessage_plain.vm"));
-		    else
-	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryMessage_html.vm"));
-		    
+	        String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.notification.message", locale, false, true, false, session);
+	        System.out.println("\n\ntemplate:" + template);
+	        if(template == null || template.equals(""))
+	        {
+		        if(contentType.equalsIgnoreCase("text/plain"))
+		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryMessage_plain.vm"));
+			    else
+		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryMessage_html.vm"));
+	        }
+	        
 		    Map parameters = new HashMap();
 		    parameters.put("message", message);
-		    
+		    parameters.put("formatter", new VisualFormatter());
+	        
 			StringWriter tempString = new StringWriter();
 			PrintWriter pw = new PrintWriter(tempString);
 			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
 			email = tempString.toString();
-	    
+	        
 			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
@@ -725,31 +733,35 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void mailVerification(Entry entry) throws Exception
+    public void mailVerification(Entry entry, Locale locale, Session session) throws Exception
     {
 	    String email = "";
 	    
 	    try
 	    {
-	        String template;
-	        
 	        String contentType = PropertyHelper.getProperty("mail.contentType");
 	        if(contentType == null || contentType.length() == 0)
 	            contentType = "text/html";
 	        
-	        if(contentType.equalsIgnoreCase("text/plain"))
-	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_plain.vm"));
-		    else
-	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_html.vm"));
-		    
+	        String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.message", locale, false, true, false, session);
+	        System.out.println("\n\ntemplate:" + template);
+	        if(template == null || template.equals(""))
+	        {
+		        if(contentType.equalsIgnoreCase("text/plain"))
+		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_plain.vm"));
+			    else
+		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_html.vm"));
+	        }
+	        
 		    Map parameters = new HashMap();
 		    parameters.put("entry", entry);
-		    
+		    parameters.put("formatter", new VisualFormatter());
+
 			StringWriter tempString = new StringWriter();
 			PrintWriter pw = new PrintWriter(tempString);
 			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
 			email = tempString.toString();
-	    
+            
 			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");

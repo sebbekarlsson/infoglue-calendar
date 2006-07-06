@@ -731,6 +731,7 @@ public class EventController extends BasicController
             java.util.Calendar startDateTime,
             java.util.Calendar endDateTime,
         	String organizerName,
+        	String lecturer,
             String customLocation,
             String alternativeLocation,
             String contactName,
@@ -755,6 +756,11 @@ public class EventController extends BasicController
         {
             arguments.add("event.organizerName like ?");
             values.add("%" + organizerName + "%");
+        }
+        if(lecturer != null && lecturer.length() > 0)
+        {
+            arguments.add("event.lecturer like ?");
+            values.add("%" + lecturer + "%");
         }
         if(customLocation != null && customLocation.length() > 0)
         {

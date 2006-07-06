@@ -126,8 +126,10 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 
 	            if(selectedValues != null)
 	            {
+	            	log.info("selectedValues.length:" + selectedValues.length);
 		            for(int i=0; i<selectedValues.length; i++)
 		            {
+		            	log.info("selectedValues[i]:" + selectedValues[i]);
 		                if(id.equalsIgnoreCase(selectedValues[i]))
 		                    checked = " checked=\"1\"";
 		            }

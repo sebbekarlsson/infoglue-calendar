@@ -84,14 +84,38 @@
 		
 		<ww:set name="count" value="0"/>
 		<ww:iterator value="attributes" status="rowstatus">
-			<ww:set name="attribute" value="top" scope="page"/>
-			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
+			<ww:set name="attribute" value="top"/>
+			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
 			<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, top.name)"/>
 
 			<input type="hidden" name="attributeName_<ww:property value="#count"/>" value="attribute_<ww:property value="top.name"/>"/>
-			<calendar:textField label="${title}" name="#attributeName" value="#attributeValue" cssClass="longtextfield"/>
-		
+			
+			<ww:if test="#attribute.inputType == 'textfield'">
+				<calendar:textField label="${title}" name="#attributeName" value="#attributeValue" cssClass="longtextfield"/>
+			</ww:if>		
+
+			<ww:if test="#attribute.inputType == 'textarea'">
+				<calendar:textAreaField label="${title}" name="#attributeName" value="#attributeValue" cssClass="smalltextarea"/>
+			</ww:if>		
+
+			<ww:if test="#attribute.inputType == 'select'">
+				<calendar:selectField label="${title}" name="#attributeName" multiple="true" value="#attribute.contentTypeAttributeParameterValues" cssClass="listBox"/>
+			</ww:if>		
+
+			<ww:if test="#attribute.inputType == 'radiobutton'">
+				<calendar:radioButtonField label="${title}" name="#attributeName" mandatory="false" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap"/>
+			</ww:if>		
+
+			<ww:if test="#attribute.inputType == 'checkbox'">
+				<ww:set name="attributeValues" value="#attributeValue.split(',')"/>
+				<calendar:checkboxField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap"/>
+			</ww:if>		
+
+			<ww:if test="#attribute.inputType == 'hidden'">
+				<calendar:hiddenField name="#attributeName" value="#attributeValue"/>
+			</ww:if>		
+			
 			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>
 
