@@ -80,7 +80,7 @@ public class TextFieldTag extends AbstractCalendarTag
 	    errorAction = findOnValueStack("#errorAction");
 	    if(errorAction != null)
 	    {
-	        Object o = findOnValueStack("#errorAction." + name);
+	        Object o = findOnValueStack("#errorAction." + errorName);
 	        if(o != null)
 	            value = o.toString();
         }

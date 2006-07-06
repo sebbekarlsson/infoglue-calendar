@@ -63,12 +63,16 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	
 	public int doEndTag() throws JspException
     {
-	    fieldErrors = (List)findOnValueStack("#fieldErrors." + name);
+		String errorName = name;
+		if(errorName.indexOf("attribute_") > -1)
+			errorName = errorName.substring(errorName.indexOf("attribute_") + 10);
+
+		fieldErrors = (List)findOnValueStack("#fieldErrors." + errorName);
 	    
 	    errorAction = findOnValueStack("#errorAction");
 	    if(errorAction != null)
 	    {
-	        Object obj = findOnValueStack("#errorAction." + name);
+	        Object obj = findOnValueStack("#errorAction." + errorName);
 	        if(obj instanceof String)
 	            selectedValue = (String)obj;
         }
