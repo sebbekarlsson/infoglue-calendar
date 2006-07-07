@@ -94,16 +94,19 @@ public class LabelsController
 		List locales = new ArrayList();
 		
 		Document document = getPropertyDocument(nameSpace, session);
-		List languageNodes = document.selectNodes("/languages/language");
-		Iterator languageNodesIterator = languageNodes.iterator();
-		while(languageNodesIterator.hasNext())
+		if(document != null)
 		{
-			Node node = (Node)languageNodesIterator.next();
-			Element element = (Element)node;
-			String languageCode = element.attributeValue("languageCode");
-			
-			Locale locale = new Locale(languageCode);
-			locales.add(locale);
+			List languageNodes = document.selectNodes("/languages/language");
+			Iterator languageNodesIterator = languageNodes.iterator();
+			while(languageNodesIterator.hasNext())
+			{
+				Node node = (Node)languageNodesIterator.next();
+				Element element = (Element)node;
+				String languageCode = element.attributeValue("languageCode");
+				
+				Locale locale = new Locale(languageCode);
+				locales.add(locale);
+			}
 		}
 		
 		return locales;
@@ -249,16 +252,18 @@ public class LabelsController
 		Document document = getPropertyDocument(nameSpace, session);
 		//System.out.println("key:" + key);
 		//System.out.println("locale.getLanguage():" + locale.getLanguage());
+        if(document != null)
+        {
+			String xpath = "/languages/language[@languageCode='" + locale.getLanguage() +"']/labels/" + key;
+	        //System.out.println("xpath:" + xpath);
+	        
+			Element labelElement = (Element)document.selectSingleNode(xpath);
+			//System.out.println("labelElement:" + labelElement);
+			
+			if(labelElement != null)
+				label = labelElement.getText();
+        }
         
-		String xpath = "/languages/language[@languageCode='" + locale.getLanguage() +"']/labels/" + key;
-        //System.out.println("xpath:" + xpath);
-        
-		Element labelElement = (Element)document.selectSingleNode(xpath);
-		//System.out.println("labelElement:" + labelElement);
-		
-		if(labelElement != null)
-			label = labelElement.getText();
-
 		return label;
 	}
 
