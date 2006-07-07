@@ -176,7 +176,6 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 
     public void setRequired(String required) throws JspException
     {
-    	System.out.println("BEA1:" + required);
         String evaluatedString = evaluateString("AbstractInputCalendarTag", "required", required);
         if(evaluatedString != null && !evaluatedString.equals(required))
         	required = evaluatedString;

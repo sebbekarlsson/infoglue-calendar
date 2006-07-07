@@ -164,8 +164,7 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 
     public void setSelectedValue(String selectedValue) throws JspException
     {
-    	System.out.println("Setting selectedValue:" + selectedValue);
-        log.info("Setting selectedValue:" + selectedValue);
+    	log.info("Setting selectedValue:" + selectedValue);
         Object o = findOnValueStack(selectedValue);
         if(o != null) 
             this.selectedValue = o.toString();
@@ -195,7 +194,6 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
     
     public void setRequired(String required) throws JspException
     {
-    	System.out.println("BEA1:" + required);
         String evaluatedString = evaluateString("AbstractInputCalendarTag", "required", required);
         if(evaluatedString != null && !evaluatedString.equals(required))
         	required = evaluatedString;

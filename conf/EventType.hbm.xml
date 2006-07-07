@@ -18,7 +18,7 @@
 
         <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="true" />
         <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false" />
-		<property name="schemaValue" type="string" column="schemaValue" not-null="false" unique="false"/>
+		<property name="schemaValue" type="text" column="schemaValue" not-null="false" unique="false"/>
 		<property name="type" column="type" type="integer"/>
 				
         <set name="categoryAttributes" lazy="true" inverse="false" cascade="none" order-by="id asc">

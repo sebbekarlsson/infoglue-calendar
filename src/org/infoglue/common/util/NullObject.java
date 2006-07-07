@@ -20,44 +20,16 @@
 *
 * ===============================================================================
 */
-package org.infoglue.calendar.taglib;
 
-import javax.servlet.jsp.JspException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+package org.infoglue.common.util;
 
 /**
- * Base class for all Calendar Input tags.
+ * @author Mattias Bogeblad
  */
 
-public class AbstractInputCalendarTag extends AbstractCalendarTag 
+public class NullObject
 {
-	private static Log log = LogFactory.getLog(AbstractInputCalendarTag.class);
-
-	public boolean required = false;
-	
-	protected AbstractInputCalendarTag()
-	{
-		super();
-	}
-
-    public void setRequired(String required) throws JspException
+    public NullObject()
     {
-        String evaluatedString = evaluateString("AbstractInputCalendarTag", "required", required);
-        if(evaluatedString != null && !evaluatedString.equals(required))
-        	required = evaluatedString;
-        
-    	if(required.equalsIgnoreCase("true"))
-            this.required = true;
-        else
-            this.required = false;   
     }
-
-    public boolean getRequired()
-    {
-    	return this.required;
-    }
-
 }

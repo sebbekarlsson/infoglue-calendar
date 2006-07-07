@@ -86,7 +86,7 @@
 			<ww:set name="label" value="#labelKey"/>
 			<ww:set name="attributeValue" value="this.getLabel(#labelKey, selectedLanguageCode, false, false, false)"/>
 
-			<ww:if test="#attributeValue.length() > 80">
+			<ww:if test="#attributeValue != null && #attributeValue.length() > 80">
 	 			<calendar:textAreaField label="#label" name="#labelKey" value="#attributeValue" cssClass="smalltextarea"/>
 			</ww:if>
 			<ww:else>

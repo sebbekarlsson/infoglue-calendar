@@ -39,6 +39,7 @@ import org.dom4j.Node;
 import org.hibernate.Session;
 import org.infoglue.common.labels.entities.Property;
 import org.infoglue.common.util.CacheController;
+import org.infoglue.common.util.NullObject;
 import org.infoglue.common.util.ResourceBundleHelper;
 import org.infoglue.common.util.dom.DOMBuilder;
 import org.infoglue.common.util.io.FileHelper;
@@ -119,7 +120,12 @@ public class LabelsController
 		String cacheName = PROPERTIESCACHENAME;
 		String key = "propertyDocument_" + nameSpace;
 		
-		Document document = (Document)CacheController.getCachedObject(cacheName, key);
+		Object object = CacheController.getCachedObject(cacheName, key);
+		//System.out.println("Cached object:" + object);
+		if(object instanceof NullObject)
+			return null;
+		
+		Document document = (Document)object;
 		
 		if(document == null)
 		{
@@ -162,8 +168,16 @@ public class LabelsController
 				document = domBuilder.getDocument(xml);
 			}
 		
+			//System.out.println("document before cache:" + document);
 			if(document != null)
+			{
+				//System.out.println("caching document:" + cacheName + ":" + key + ":" + document);
 				CacheController.cacheObject(cacheName, key, document);
+			}
+			else
+			{
+				CacheController.cacheObject(cacheName, key, new NullObject());
+			}
 		}
 		
 		return document;
