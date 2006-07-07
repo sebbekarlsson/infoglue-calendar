@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventTypeController;
+import org.infoglue.calendar.entities.EventType;
 import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
 import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
@@ -84,7 +85,7 @@ public class CreateCalendarAction extends CalendarAbstractAction
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.infoglueRoles = RoleControllerProxy.getController().getAllRoles();
         this.infoglueGroups = GroupControllerProxy.getController().getAllGroups();
-        this.eventTypes = EventTypeController.getController().getEventTypeList(getSession());
+        this.eventTypes = EventTypeController.getController().getEventTypeList(EventType.EVENT_DEFINITION, getSession());
 
         return Action.INPUT;
     } 

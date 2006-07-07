@@ -61,7 +61,7 @@ public class UpdateCalendarAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            System.out.println("calendarId: " + calendarId);
+            //System.out.println("calendarId: " + calendarId);
             CalendarController.getController().updateCalendar(calendarId, name, description, roles, groups, eventTypeId, getSession());
         }
         catch(ValidationException e)

@@ -57,6 +57,7 @@ public class CreateEventTypeAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
+            System.out.println("Type:" + dataBean.getType());
             EventTypeController.getController().createEventType(dataBean.getName(), dataBean.getDescription(), dataBean.getType(), getSession());
         }
         catch(ValidationException e)
@@ -101,9 +102,9 @@ public class CreateEventTypeAction extends CalendarAbstractAction
         return this.dataBean.getType();
     }
     
-    public void setType(String type)
+    public void setType(Integer type)
     {
-        this.dataBean.setName(type);
+        this.dataBean.setType(type);
     }
 
 }
