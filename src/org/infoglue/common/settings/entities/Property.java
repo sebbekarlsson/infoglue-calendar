@@ -21,7 +21,7 @@
 * ===============================================================================
 */
 
-package org.infoglue.common.labels.entities;
+package org.infoglue.common.settings.entities;
 
 import java.util.ArrayList;
 import java.util.HashSet;

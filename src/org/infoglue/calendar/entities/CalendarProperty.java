@@ -23,7 +23,7 @@
 
 package org.infoglue.calendar.entities;
 
-import org.infoglue.common.labels.entities.Property;
+import org.infoglue.common.settings.entities.Property;
 
 /**
  * This class represents an implementation of a property.

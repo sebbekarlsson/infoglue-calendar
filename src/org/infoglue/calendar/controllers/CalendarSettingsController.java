@@ -43,71 +43,73 @@ import org.hibernate.Session;
 import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.CalendarProperty;
-import org.infoglue.common.labels.controllers.LabelsController;
-import org.infoglue.common.labels.controllers.LabelsPersister;
+import org.infoglue.common.settings.controllers.SettingsController;
+import org.infoglue.common.settings.controllers.SettingsPersister;
 import org.infoglue.common.settings.entities.Property;
+import org.infoglue.common.settings.controllers.SettingsPersister;
+import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.ResourceBundleHelper;
 import org.infoglue.common.util.dom.DOMBuilder;
 
 import com.opensymphony.xwork.ActionContext;
 
-public class CalendarLabelsController implements LabelsPersister
+public class CalendarSettingsController implements SettingsPersister
 {
-	private static Log log = LogFactory.getLog(CalendarLabelsController.class);
+	private static Log log = LogFactory.getLog(CalendarSettingsController.class);
 
 	private DOMBuilder domBuilder = new DOMBuilder();
-	private LabelsController labelsController = null;
+	private SettingsController settingsController = null;
 	
 	/**
 	 * A simple factory method
 	 */
 	
-	public static CalendarLabelsController getCalendarLabelsController()
+	public static CalendarSettingsController getCalendarSettingsController()
 	{
-		return new CalendarLabelsController();
+		return new CalendarSettingsController();
 	}
 	
-	private CalendarLabelsController()
+	private CalendarSettingsController()
 	{
-		this.labelsController = LabelsController.getController(this);
+		this.settingsController = SettingsController.getController(this);
 	}
 
 	/**
 	 * This method returns a list (of strings) of all label-keys the system uses.
 	 */
 	
-	public List getSystemLabels(String bundleName)
+	public List getSystemSettings(String bundleName)
 	{
-		return labelsController.getSystemLabels(bundleName);
+		return settingsController.getSystemSettings(bundleName);
 	}
 
 	/**
 	 * This method returns a list (of locales) of all defined label-languages.
 	 */
 	
-	public List getLabelLocales(String nameSpace, Session session) throws Exception
+	public List getSettingsVariations(String nameSpace, Session session) throws Exception
 	{
-		return labelsController.getLabelLocales(nameSpace, session);
+		return settingsController.getSettingsVariations(nameSpace, session);
 	}
 
 	private Document getPropertyDocument(String nameSpace, Session session) throws Exception
 	{
-		return labelsController.getPropertyDocument(nameSpace, session);
+		return settingsController.getPropertyDocument(nameSpace, session);
 	}
 	
-	public void addLabelLocale(String nameSpace, String languageCode, Session session) throws Exception
+	public void addVariation(String nameSpace, String languageCode, Session session) throws Exception
 	{
-		labelsController.addLabelLocale(nameSpace, languageCode, session);
+		settingsController.addVariation(nameSpace, languageCode, session);
 	}
 
-	public void updateLabels(String nameSpace, String languageCode, Map properties, Session session) throws Exception
+	public void updateSettings(String nameSpace, String variationId, Map properties, Session session) throws Exception
 	{
-		labelsController.updateLabels(nameSpace, languageCode, properties, session);
+		settingsController.updateSettings(nameSpace, variationId, properties, session);
 	}
 
-	public String getLabel(String nameSpace, String derivedValue, Locale locale, Session session) throws Exception
+	public String getSetting(String nameSpace, String derivedValue, String variationId, Session session) throws Exception
 	{
-		return labelsController.getLabel(nameSpace, derivedValue, locale, session);
+		return settingsController.getSetting(nameSpace, derivedValue, variationId, session);
 	}
 
     /**
@@ -185,11 +187,8 @@ public class CalendarLabelsController implements LabelsPersister
 	}
 
 
-    public String getLabel(String key, Locale locale, boolean skipProperty, boolean fallbackToDefault, boolean fallbackToKey, Session session)
+    public String getLabel(String key, String variationId, boolean skipProperty, boolean fallbackToDefault, boolean fallbackToKey, Session session)
     {
-    	if(locale == null)
-    		locale = Locale.ENGLISH;
-    		
     	String label = "";
     	if(fallbackToKey)
     		label = key;
@@ -204,19 +203,17 @@ public class CalendarLabelsController implements LabelsPersister
 	        if(!skipProperty)
 	        {
 		        if(derivedValue != null)
-		    	    label = CalendarLabelsController.getCalendarLabelsController().getLabel("infoglueCalendar", derivedValue, locale, session);
+		    	    label = CalendarSettingsController.getCalendarSettingsController().getSetting("infoglueCalendar", derivedValue, variationId, session);
 		        else
-		    	    label = CalendarLabelsController.getCalendarLabelsController().getLabel("infoglueCalendar", key, locale, session);
+		    	    label = CalendarSettingsController.getCalendarSettingsController().getSetting("infoglueCalendar", key, variationId, session);
 	        }
 	        
 	        if(skipProperty || ((label == null || label.equals("")) && fallbackToDefault))
 	        {
-		        ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
-		        
 		    	if(derivedValue != null)
-		    	    label = resourceBundle.getString(derivedValue);
+		        	label = PropertyHelper.getProperty(derivedValue);
 		        else
-		            label = resourceBundle.getString(key);
+		        	label = PropertyHelper.getProperty(key);
 	        }
 	        
 	        if((label == null || label.equals("")) && fallbackToKey)

@@ -21,7 +21,7 @@
 * ===============================================================================
 */
 
-package org.infoglue.common.labels.controllers;
+package org.infoglue.common.settings.controllers;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,22 +44,22 @@ import org.infoglue.common.util.ResourceBundleHelper;
 import org.infoglue.common.util.dom.DOMBuilder;
 import org.infoglue.common.util.io.FileHelper;
 
-public class LabelsController
+public class SettingsController
 {
 	private DOMBuilder domBuilder = new DOMBuilder();
-	private LabelsPersister labelsPersister = null;
+	private SettingsPersister labelsPersister = null;
 	
 	private static final String PROPERTIESCACHENAME = "propertiesCache";
 	/**
 	 * A simple factory method
 	 */
 	
-	public static LabelsController getController(LabelsPersister labelsPersister)
+	public static SettingsController getController(SettingsPersister labelsPersister)
 	{
-		return new LabelsController(labelsPersister);
+		return new SettingsController(labelsPersister);
 	}
 	
-	private LabelsController(LabelsPersister labelsPersister)
+	private SettingsController(SettingsPersister labelsPersister)
 	{
 		this.labelsPersister = labelsPersister;
 	}
@@ -68,7 +68,7 @@ public class LabelsController
 	 * This method returns a list (of strings) of all label-keys the system uses.
 	 */
 	
-	public List getSystemLabels(String bundleName)
+	public List getSystemSettings(String bundleName)
 	{
 		List labels = new ArrayList();
 		
@@ -90,23 +90,22 @@ public class LabelsController
 	 * This method returns a list (of locales) of all defined label-languages.
 	 */
 	
-	public List getLabelLocales(String nameSpace, Session session) throws Exception
+	public List getSettingsVariations(String nameSpace, Session session) throws Exception
 	{
 		List locales = new ArrayList();
 		
 		Document document = getPropertyDocument(nameSpace, session);
 		if(document != null)
 		{
-			List languageNodes = document.selectNodes("/languages/language");
+			List languageNodes = document.selectNodes("/variations/variation");
 			Iterator languageNodesIterator = languageNodes.iterator();
 			while(languageNodesIterator.hasNext())
 			{
 				Node node = (Node)languageNodesIterator.next();
 				Element element = (Element)node;
-				String languageCode = element.attributeValue("languageCode");
+				String id = element.attributeValue("id");
 				
-				Locale locale = new Locale(languageCode);
-				locales.add(locale);
+				locales.add(id);
 			}
 		}
 		
@@ -129,14 +128,13 @@ public class LabelsController
 		
 		if(document == null)
 		{
-			Property property = labelsPersister.getProperty(nameSpace, "systemLabels", session);
+			Property property = labelsPersister.getProperty(nameSpace, "systemSettings", session);
 			if(property != null)
 			{
 				String xml = property.getValue();
 				if(xml != null && xml.length() > 0)
 				{
 					//System.out.println("xml:" + xml);
-					FileHelper.writeToFile(new File("c:/temp/apa.xml"), xml, false);
 					try
 					{
 						document = domBuilder.getDocument(xml);
@@ -146,24 +144,24 @@ public class LabelsController
 					catch(Exception e)
 					{
 						document = domBuilder.createDocument();
-						Element languagesElement = domBuilder.addElement(document, "languages");
-						Element languageElement = domBuilder.addElement(languagesElement, "language");
-						domBuilder.addAttribute(languageElement, "languageCode", "en"); 
-						Element labelsElement = domBuilder.addElement(languageElement, "labels");						
+						Element languagesElement = domBuilder.addElement(document, "variations");
+						Element languageElement = domBuilder.addElement(languagesElement, "variation");
+						domBuilder.addAttribute(languageElement, "id", "default"); 
+						Element labelsElement = domBuilder.addElement(languageElement, "setting");						
 					}
 				}
 			}
 			else
 			{
 				document = domBuilder.createDocument();
-				Element languagesElement = domBuilder.addElement(document, "languages");
-				Element languageElement = domBuilder.addElement(languagesElement, "language");
-				domBuilder.addAttribute(languageElement, "languageCode", "en"); 
-				Element labelsElement = domBuilder.addElement(languageElement, "labels");
+				Element languagesElement = domBuilder.addElement(document, "variations");
+				Element languageElement = domBuilder.addElement(languagesElement, "variation");
+				domBuilder.addAttribute(languageElement, "id", "default"); 
+				Element labelsElement = domBuilder.addElement(languageElement, "setting");
 				String xml = domBuilder.getFormattedDocument(document, "UTF-8");
 				//System.out.println("xml:" + xml);
 	
-	            labelsPersister.createProperty(nameSpace, "systemLabels", xml, session);
+	            labelsPersister.createProperty(nameSpace, "systemSettings", xml, session);
 			
 				document = domBuilder.getDocument(xml);
 			}
@@ -183,27 +181,27 @@ public class LabelsController
 		return document;
 	}
 
-	public void addLabelLocale(String nameSpace, String languageCode, Session session) throws Exception
+	public void addVariation(String nameSpace, String id, Session session) throws Exception
 	{
 		Document document = getPropertyDocument(nameSpace, session);
-		Element languagesElement = (Element)document.selectSingleNode("/languages");
-		Element languageElement = domBuilder.addElement(languagesElement, "language");
-		domBuilder.addAttribute(languageElement, "languageCode", languageCode); 
-		Element labelsElement = domBuilder.addElement(languageElement, "labels");
+		Element languagesElement = (Element)document.selectSingleNode("/variations");
+		Element languageElement = domBuilder.addElement(languagesElement, "variation");
+		domBuilder.addAttribute(languageElement, "id", id); 
+		Element labelsElement = domBuilder.addElement(languageElement, "setting");
         String xml = domBuilder.getFormattedDocument(document, "UTF-8");
         //System.out.println("xml:" + xml);
 
-        labelsPersister.updateProperty(nameSpace, "systemLabels", xml, session);
+        labelsPersister.updateProperty(nameSpace, "systemSettings", xml, session);
 
         CacheController.clearCache(PROPERTIESCACHENAME);
 	}
 
-	public void updateLabels(String nameSpace, String languageCode, Map properties, Session session) throws Exception
+	public void updateSettings(String nameSpace, String id, Map properties, Session session) throws Exception
 	{
 		Document document = getPropertyDocument(nameSpace, session);
         String xml1 = domBuilder.getFormattedDocument(document, "UTF-8");
         System.out.println("xml1:" + xml1);
-        String xpath = "/languages/language[@languageCode='" + languageCode +"']/labels";
+        String xpath = "/variatons/variation[@id='" + id +"']/setting";
         //String xpath = "/languages/language[@languageCode='" + languageCode +"']/labels";
         System.out.println("xpath:" + xpath);
         
@@ -242,7 +240,7 @@ public class LabelsController
         String xml = domBuilder.getFormattedDocument(document, "UTF-8");
         //System.out.println("xml:" + xml);
 
-        labelsPersister.updateProperty(nameSpace, "systemLabels", xml, session);
+        labelsPersister.updateProperty(nameSpace, "systemSettings", xml, session);
 
         CacheController.clearCache(PROPERTIESCACHENAME);
 	}
@@ -256,7 +254,7 @@ public class LabelsController
 	 * @return
 	 * @throws Exception
 	 */
-	public String getLabel(String nameSpace, String key, Locale locale, Session session) throws Exception
+	public String getSetting(String nameSpace, String key, String id, Session session) throws Exception
 	{
 		String label = null;
 		
@@ -268,7 +266,7 @@ public class LabelsController
 		//System.out.println("locale.getLanguage():" + locale.getLanguage());
         if(document != null)
         {
-			String xpath = "/languages/language[@languageCode='" + locale.getLanguage() +"']/labels/" + key;
+			String xpath = "/variations/variation[@id='" + id +"']/setting/" + key;
 	        //System.out.println("xpath:" + xpath);
 	        
 			Element labelElement = (Element)document.selectSingleNode(xpath);
