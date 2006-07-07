@@ -239,7 +239,6 @@
 --%>
 
 <c:set var="visibility" value="hidden"/>
-Att to expand: <ww:property value="attributeToExpand"/>
 <ww:if test="attributeToExpand == #attribute.name">
 	<c:set var="visibility" value="visible"/>
 </ww:if>

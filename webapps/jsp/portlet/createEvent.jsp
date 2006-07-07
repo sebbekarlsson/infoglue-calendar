@@ -102,7 +102,7 @@
 			
 			<ww:if test="#attribute.inputType == 'textfield'">
 				<calendar:textField label="${title}" name="#attributeName" value="#attributeValue" required="${required}" cssClass="longtextfield"/>
-			</ww:if>		
+			</ww:if>
 
 			<ww:if test="#attribute.inputType == 'textarea'">
 				<calendar:textAreaField label="${title}" name="#attributeName" value="#attributeValue" required="${required}" cssClass="smalltextarea"/>
@@ -117,7 +117,10 @@
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'checkbox'">
-				<ww:set name="attributeValues" value="#attributeValue.split(',')"/>
+				<ww:set name="attributeValues" value="#attributeValue"/>
+				<ww:if test="#attributeValue != null">
+					<ww:set name="attributeValues" value="#attributeValue.split(',')"/>
+				</ww:if>
 				<calendar:checkboxField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap" required="${required}"/>
 			</ww:if>		
 

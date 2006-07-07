@@ -176,12 +176,15 @@ public class CreateEventAction extends CalendarAbstractAction
                 log.info("value:" + value);
                 
                 String valueString = "";
-                for(int j=0; j<value.length; j++)
+                if(value != null)
                 {
-                	if(j>0)
-                		valueString += ",";
-                	
-                	valueString += value[j];
+	                for(int j=0; j<value.length; j++)
+	                {
+	                	if(j>0)
+	                		valueString += ",";
+	                	
+	                	valueString += value[j];
+	                }
                 }
                 
                 int index = attributeIdKey.indexOf("attribute_");

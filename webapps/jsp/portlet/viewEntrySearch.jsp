@@ -81,7 +81,7 @@
 		<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValues="getCategoryAttributeValues(top.id)" cssClass="listBox" required="false"/>
 	</ww:iterator>
 
-	<calendar:checkboxField label="labels.internal.soba.searchANDOR" name="andSearch" valueMap="andSearch" selectedValues="false"/>
+	<calendar:checkboxField label="labels.internal.soba.searchANDOR" name="'andSearch'" valueMap="this.getAndSearch()" selectedValues="false"/>
 
 	<div style="height:10px"></div>
 	

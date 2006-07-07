@@ -95,12 +95,15 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
 	            System.out.println(idKey + "=" + value);
 	            
 	            String valueString = "";
-	            for(int j=0; j<value.length; j++)
+	            if(value != null)
 	            {
-	            	if(j>0)
-	            		valueString += ",";
-	            	
-	            	valueString += value[j];
+		            for(int j=0; j<value.length; j++)
+		            {
+		            	if(j>0)
+		            		valueString += ",";
+		            	
+		            	valueString += value[j];
+		            }
 	            }
 	            
 	            int index = idKey.indexOf("attribute_");
