@@ -85,7 +85,7 @@ public class ContentTypeAttributeParameterValue
 			return (String)this.attributes.get(key);
 	}
 
-	public String getLocalizedValue(String key, String langugeCode)
+	public String getLocalizedValueByLanguageCode(String key, String langugeCode)
 	{
 		String localizedKey = key + "_" + langugeCode;
 		if(this.attributes.containsKey(localizedKey))

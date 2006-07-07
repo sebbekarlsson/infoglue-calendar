@@ -137,7 +137,7 @@
 	<ww:set name="attribute" value="top"/>
 	<ww:set name="attributeName" value="#attribute.name" scope="page"/>
 	<ww:set name="inputType" value="attribute.inputType"/>
-	<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
+	<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 
 	<ww:iterator value="#attribute.validators" status="rowstatus">
 		<ww:set name="validator" value="top"/>
@@ -214,11 +214,11 @@
 							<input type="hidden" name="attributeToExpand" value="<ww:property value="#attribute.name"/>">
 			
 							<label for="attributeParameterValueLabel">Label:</label>
-							<input type="textfield" name="attributeParameterValueLabel" value="<ww:property value="#value.value.getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)"/>" class="normaltextfield">
+							<input type="textfield" name="attributeParameterValueLabel" value="<ww:property value="#value.value.getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)"/>" class="normaltextfield">
 							<br/>
 		
 							<label for="newAttributeParameterValueId">Internal value:</label>
-							<input type="textfield" name="newAttributeParameterValueId" value="<ww:property value="#value.value.getLocalizedValue('id', currentContentTypeEditorViewLanguageCode)"/>" class="normaltextfield">
+							<input type="textfield" name="newAttributeParameterValueId" value="<ww:property value="#value.value.getLocalizedValueByLanguageCode('id', currentContentTypeEditorViewLanguageCode)"/>" class="normaltextfield">
 							<br/>
 							<input type="submit" value="Save">
 							<a href="javascript:hideDiv('<ww:property value="#attribute.name"/><ww:property value="#parameter.key"/><ww:property value="#value.key"/>PropertyLayer');"><input type="button" value="Cancel"/></a>
@@ -239,15 +239,14 @@
 --%>
 
 <c:set var="visibility" value="hidden"/>
-<%--
-#if($attributeToExpand == $attribute.name)
-	#set($visibility = "visible")
-#end
-#set($display = "none")
-#if($attributeToExpand == $attribute.name)
-	#set($display = "block")
-#end
---%>
+Att to expand: <ww:property value="attributeToExpand"/>
+<ww:if test="attributeToExpand == #attribute.name">
+	<c:set var="visibility" value="visible"/>
+</ww:if>
+<c:set var="display" value="none"/>
+<ww:if test="attributeToExpand == #attribute.name">
+	<c:set var="display" value="block"/>
+</ww:if>
 
 <portlet:actionURL var="updateAttributePropertyUrl">
 	<portlet:param name="action" value="ViewEventType!updateAttribute"/>
@@ -342,7 +341,7 @@
 
 				<ww:if test="#parameter.value.type == 0">
 					<label for="<ww:property value="#parameter.key"/>"><ww:property value="#parameter.key"/>:</label>
-					<input type="textfield" name="<ww:property value="#parameter.key"/>" value="<ww:property value="#parameter.value.getContentTypeAttributeParameterValue().getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)"/>" class="longtextfield">
+					<input type="textfield" name="<ww:property value="#parameter.key"/>" value="<ww:property value="#parameter.value.getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)"/>" class="longtextfield">
 				</ww:if>
 				<ww:else>
 					
@@ -376,8 +375,8 @@
 							<div class="evenrow">
 					    </ww:else>
 						   	<div class="columnShort"><p>&nbsp;</p></div>
-						   	<div class="columnShort"><p><ww:property value="#value.value.getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)"/></p></div>
-						   	<div class="columnLong"><p><ww:property value="#value.value.getLocalizedValue('id', currentContentTypeEditorViewLanguageCode)"/></p></div>
+						   	<div class="columnShort"><p><ww:property value="#value.value.getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)"/></p></div>
+						   	<div class="columnLong"><p><ww:property value="#value.value.getLocalizedValueByLanguageCode('id', currentContentTypeEditorViewLanguageCode)"/></p></div>
 						   	<div class="columnEnd">
 								<a href="<c:out value="${deleteAttributeParameterValueUrl}"/>" class="delete"></a>
 								<a href="javascript:showDiv('<ww:property value="#attribute.name"/><ww:property value="#parameter.key"/><ww:property value="#value.key"/>PropertyLayer');" class="edit"></a>
@@ -569,7 +568,7 @@
 	<ww:iterator value="contentTypeAttributes" status="rowstatus">
 		<ww:set name="attribute" value="top" scope="page"/>
 		<ww:set name="attribute" value="top"/>
-		<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', '$!currentContentTypeEditorViewLanguageCode')" scope="page"/>
+		<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 		
 		<portlet:actionURL var="deleteAttributeUrl">
 			<portlet:param name="action" value="ViewEventType!deleteAttribute"/>

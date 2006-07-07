@@ -85,7 +85,7 @@
 		<ww:set name="count" value="0"/>
 		<ww:iterator value="attributes" status="rowstatus">
 			<ww:set name="attribute" value="top"/>
-			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValue('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
+			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
 			<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, top.name)"/>
 
