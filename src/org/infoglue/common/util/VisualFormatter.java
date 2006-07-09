@@ -375,6 +375,7 @@ public class VisualFormatter
 			{
 				case '\'': sb.append("\\'"); break;
 				case '"': sb.append("&quot;"); break;
+				case '\\': sb.append("\\\\"); break;
 				default:  sb.append(c); break;
 			}
 		}

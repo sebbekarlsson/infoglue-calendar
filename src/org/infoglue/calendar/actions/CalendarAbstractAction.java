@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
@@ -47,6 +48,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CalendarLabelsController;
+import org.infoglue.calendar.controllers.CalendarSettingsController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.ICalendarController;
 import org.infoglue.calendar.controllers.ParticipantController;
@@ -56,7 +58,7 @@ import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.util.AttributeType;
-import org.infoglue.cms.applications.common.VisualFormatter;
+import org.infoglue.common.util.VisualFormatter;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.common.exceptions.ConstraintException;
@@ -765,6 +767,87 @@ public class CalendarAbstractAction extends ActionSupport
 	    return label;
     }
 
+    public VisualFormatter getVisualFormatter()
+    {
+    	return new VisualFormatter();
+    }
+    
+    public String getSetting(String key)
+    {
+	    return getSetting(key, "default", false, true, true);
+    }
+
+    public String getSetting(String key, String variationId)
+    {
+	    return getSetting(key, variationId, false, true, true);
+    }
+
+    public String getSetting(String key, String variationId, boolean skipProperty)
+    {
+	    return getSetting(key, variationId, skipProperty, true, true);
+    }
+
+    public String getSetting(String key, boolean skipProperty, boolean fallbackToDefault)
+    {
+	    return getSetting(key, null, skipProperty, true, true);
+    }
+
+    public String getSetting(String key, String variationId, boolean skipProperty, boolean fallbackToDefault)
+    {
+	    return getSetting(key, variationId, skipProperty, fallbackToDefault, true);
+    }
+
+    public String getSetting(String key, String variationId, boolean skipProperty, boolean fallbackToDefault, boolean fallbackToKey)
+    {
+    	if(variationId == null)
+    		variationId = "default";
+    		
+    	String label = "";
+    	if(fallbackToKey)
+    		label = key;
+	    
+	    try
+	    {
+	    	Object derivedObject = findOnValueStack(key);
+	        String derivedValue = null;
+	        if(derivedObject != null)
+	        	derivedValue = derivedObject.toString();
+	        
+	        if(!skipProperty)
+	        {
+		        if(derivedValue != null)
+		    	    label = CalendarSettingsController.getCalendarSettingsController().getSetting("infoglueCalendar", derivedValue, variationId, getSession());
+		        else
+		    	    label = CalendarSettingsController.getCalendarSettingsController().getSetting("infoglueCalendar", key, variationId, getSession());
+	        }
+	        
+	        if(skipProperty || ((label == null || label.equals("")) && fallbackToDefault))
+	        {
+	        	Properties properties = PropertyHelper.getProperties();
+		        
+		    	if(derivedValue != null)
+		    	    label = properties.getProperty(derivedValue);
+		        else
+		            label = properties.getProperty(key);
+	        }
+	        
+	        if((label == null || label.equals("")) && fallbackToKey)
+	            label = key;
+	    }
+	    catch(Exception e)
+	    {
+	        log.warn("An label was not found for key: " + key + ": " + e.getMessage(), e);
+	    }
+	    
+	    return label;
+    }
+
+    //END TODO
+    
+    
+    
+    
+    
 	public Session getSession() throws HibernateException {
 	    return (Session)ServletActionContext.getRequest().getAttribute("HIBERNATE_SESSION");
 	}

@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.dom4j.Document;
@@ -40,6 +41,7 @@ import org.hibernate.Session;
 import org.infoglue.common.settings.entities.Property;
 import org.infoglue.common.util.CacheController;
 import org.infoglue.common.util.NullObject;
+import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.ResourceBundleHelper;
 import org.infoglue.common.util.dom.DOMBuilder;
 import org.infoglue.common.util.io.FileHelper;
@@ -72,9 +74,9 @@ public class SettingsController
 	{
 		List labels = new ArrayList();
 		
-		ResourceBundle bundle = ResourceBundleHelper.getResourceBundle(bundleName, Locale.ENGLISH);
+		Properties properties = PropertyHelper.getProperties();
 		
-		Enumeration enumeration = bundle.getKeys();
+		Enumeration enumeration = properties.keys();
 		while(enumeration.hasMoreElements())
 		{
 			String key = (String)enumeration.nextElement();
