@@ -353,7 +353,7 @@ public class VisualFormatter
 				default:  sb.append(c); break;
 			}
 		}
-
+		
 		return sb.toString();
 	}
 
