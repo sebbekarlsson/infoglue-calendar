@@ -744,6 +744,8 @@ public class EntryController extends BasicController
 	            contentType = "text/html";
 	        
 	        String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.message", locale, false, true, false, session);
+	        String subject = entry.getEvent().getName() + " - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.subject", locale, false, true, false, session);
+
 	        System.out.println("\n\ntemplate:" + template);
 	        if(template == null || template.equals(""))
 	        {
@@ -766,7 +768,7 @@ public class EntryController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), null, entry.getEvent().getName() + " - Verification", email, contentType, "UTF-8");
+			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), null, subject, email, contentType, "UTF-8");
 		}
 		catch(Exception e)
 		{

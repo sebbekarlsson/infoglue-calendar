@@ -310,7 +310,7 @@ public class CalendarController extends BasicController
     {
         List result = null;
         
-        Query q = session.createQuery("from Calendar calendar order by calendar.id");
+        Query q = session.createQuery("from Calendar calendar order by calendar.name");
    
         result = q.list();
         
@@ -344,7 +344,7 @@ public class CalendarController extends BasicController
         Criteria criteria = session.createCriteria(Calendar.class);
         if(subscriptionsList.size() > 0)
             criteria.add(Expression.not(Expression.in("id", subscriptionsList.toArray())));
-        criteria.addOrder(Order.asc("id"));
+        criteria.addOrder(Order.asc("name"));
 
         Set set = new LinkedHashSet();
         set.addAll(criteria.list());
@@ -368,7 +368,7 @@ public class CalendarController extends BasicController
         criteria.createCriteria("owningRoles").add(Expression.in("name", roles.toArray()));
         if(groups.size() > 0)
             criteria.createCriteria("owningGroups").add(Expression.in("name", groups.toArray()));
-        criteria.addOrder(Order.asc("id"));
+        criteria.addOrder(Order.asc("name"));
 
         //result = criteria.list();
         //return result;

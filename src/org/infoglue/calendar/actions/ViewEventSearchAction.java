@@ -55,8 +55,8 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private String name;
     private String startDateTime;
     private String endDateTime;
-    private Integer startTime;
-    private Integer endTime;
+    private String startTime;
+    private String endTime;
     private String lecturer;
     private String organizerName;
     private String customLocation;
@@ -65,7 +65,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private String contactEmail;
     private String contactPhone;
     private String price = null;
-    private Boolean sortAscending = new Boolean(false);
+    private Boolean sortAscending = new Boolean(true);
     private Integer maximumParticipants = null;
     
     private Calendar startCalendar;
@@ -83,11 +83,12 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     
     public String execute() throws Exception
     {
+    	
         if(startDateTime != null && startDateTime.length() > 0)
-            startCalendar = getCalendar(startDateTime, "yyyy-MM-dd", true); 
+            startCalendar 	= getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", true); 
         
         if(endDateTime != null && endDateTime.length() > 0)
-            endCalendar = getCalendar(endDateTime, "yyyy-MM-dd", true); 
+        	endCalendar 	= getCalendar(endDateTime + " " + endTime, "yyyy-MM-dd HH:mm", true); 
 
         log.info("price:" + price);
         
@@ -177,14 +178,17 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         this.endDateTime = endDateTime;
     }
     
-    public Integer getEndTime()
+    public String getEndTime()
     {
         return endTime;
     }
     
-    public void setEndTime(Integer endTime)
+    public void setEndTime(String endTime)
     {
-        this.endTime = endTime;
+        if(endTime == null || endTime.equalsIgnoreCase(""))
+        	this.endTime = "23:59";
+        else
+            this.endTime = (endTime.indexOf(":") == -1 ? (endTime + ":00") : endTime);
     }
     
     public Integer getMaximumParticipants()
@@ -239,14 +243,17 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         this.startDateTime = startDateTime;
     }
     
-    public Integer getStartTime()
+    public String getStartTime()
     {
         return startTime;
     }
     
-    public void setStartTime(Integer startTime)
+    public void setStartTime(String startTime)
     {
-        this.startTime = startTime;
+        if(startTime == null || startTime.equalsIgnoreCase(""))
+            this.startTime = "04:00";
+        else
+            this.startTime = (startTime.indexOf(":") == -1 ? (startTime + ":00") : startTime);
     }
     
     public void setEvents(List events)

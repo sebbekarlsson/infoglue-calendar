@@ -18,6 +18,8 @@
 <div class="contaktform_receipt">
 	<h2>F&ouml;ljande person är nu anmäld till:</h2>
 	<h3>"<ww:property value="event.name"/>"</h3>
+	<h3>Boknings ID:</h3>
+	<p><ww:property value="entry.id"/></p>
 	<h3>Namn:</h3>
 	<p><ww:property value="entry.firstName"/> <ww:property value="entry.lastName"/></p>
 	<h3>E-post:</h3>

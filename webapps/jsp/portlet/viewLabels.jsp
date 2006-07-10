@@ -28,8 +28,8 @@
 		<ww:iterator value="labels" status="rowstatus">
 			<ww:set name="labelKey" value="top"/>
 			<ww:set name="defaultEnglishValue" value="this.getLabel(#labelKey, 'en', true, false)"/>
-			document.getElementById("<ww:property value="#labelKey"/>").value = "<ww:property value="#defaultEnglishValue"/>";
-		</ww:iterator>				
+			document.getElementById("<ww:property value="#labelKey"/>").value = "<ww:property value="#defaultEnglishValue" escape="false"/>";
+		</ww:iterator>
 	}
 -->
 </script>
@@ -77,7 +77,7 @@
 		<a href="javascript:showDiv('newLanguageFormLayer');">Add Language</a>
 		<a href="javascript:defaultValue();">English values</a>
 		</p>
-		
+
 		<ww:set name="count" value="0"/>
 		<ww:iterator value="labels" status="rowstatus">
 			<ww:set name="labelKey" value="top"/>
@@ -92,7 +92,7 @@
 			<ww:else>
  				<calendar:textField label="#label" name="#labelKey" value="#attributeValue" cssClass="longtextfield"/>
 			</ww:else>
-			<p><span style="color: green; font-weight: bold;">In English:</span> <ww:property value="#defaultEnglishValue"/></p>
+			<p><span style="color: green; font-weight: bold;">In English:</span> <ww:property value="#defaultEnglishValue" escape="false"/></p>
 		
 			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>		

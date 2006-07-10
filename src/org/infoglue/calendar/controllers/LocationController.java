@@ -128,7 +128,7 @@ public class LocationController extends BasicController
     {
         List result = null;
         
-        Query q = session.createQuery("from Location location order by location.id");
+        Query q = session.createQuery("from Location location order by location.name asc");
    
         result = q.list();
         

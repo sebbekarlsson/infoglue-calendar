@@ -175,7 +175,7 @@ public class CategoryController extends BasicController
     {
         List result = null;
         
-        Query q = session.createQuery("from Category category order by category.id where category.parent is null");
+        Query q = session.createQuery("from Category category order by category.name where category.parent is null");
    
         result = q.list();
         
