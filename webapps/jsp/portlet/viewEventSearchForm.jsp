@@ -19,17 +19,23 @@
 	<form name="register" method="post" action="<c:out value="${searchEntryActionUrl}"/>">
 	
 		<calendar:textField label="labels.internal.event.name" name="'name'" value="name" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="organizerName" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.lecturer" name="'lecturer'" value="lecturer" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="customLocation" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="alternativeLocation" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="contactName" cssClass="longtextfield"/>
-	<!--
-		<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="contactEmail" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="contactPhone" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.price" name="'price'" value="price" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.event.maximumParticipants" name="'maximumParticipants'" value="maximumParticipants" cssClass="longtextfield"/>
-	-->
+
+		<ww:if test="this.isActiveEventField('organizerName')">
+			<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="organizerName" cssClass="longtextfield"/>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('lecturer')">
+			<calendar:textField label="labels.internal.event.lecturer" name="'lecturer'" value="lecturer" cssClass="longtextfield"/>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('customLocation')">
+			<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="customLocation" cssClass="longtextfield"/>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('alternativeLocation')">
+			<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="alternativeLocation" cssClass="longtextfield"/>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('contactName')">
+			<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="contactName" cssClass="longtextfield"/>
+		</ww:if>
+
 		<span class="errorMessage"><ww:property value="#fieldErrors.startDateTime"/></span>
 		<div class="fieldrow">
 			<label for="startDateTime"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></label><span class="redstar">*</span><br />

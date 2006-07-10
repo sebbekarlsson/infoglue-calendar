@@ -74,39 +74,61 @@
 		<p>
 			<calendar:textValue label="labels.internal.event.longDescription" value="event.longDescription" labelCssClass="label"/>
 		</p>
+		<ww:if test="this.isActiveEventField('isInternal')">
 		<p>
 			<calendar:textValue label="labels.internal.event.isInternal" value="event.isInternal" valueMap="internalEventMap" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('isOrganizedByGU')">
 		<p>
 			<calendar:textValue label="labels.internal.event.isOrganizedByGU" value="event.isOrganizedByGU" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('organizerName')">
 		<p>
 			<calendar:textValue label="labels.internal.event.organizerName" value="event.organizerName" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('lecturer')">
 		<p>
 			<calendar:textValue label="labels.internal.event.lecturer" value="event.lecturer" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('customLocation')">
 		<p>
 			<calendar:textValue label="labels.internal.event.customLocation" value="event.customLocation" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('alternativeLocation')">
 		<p>
 			<calendar:textValue label="labels.internal.event.alternativeLocation" value="event.alternativeLocation" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('eventUrl')">
 		<p>
 			<calendar:textValue label="labels.internal.event.eventUrl" value="event.eventUrl" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('contactName')">
 		<p>
 			<calendar:textValue label="labels.internal.event.contactName" value="event.contactName" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('contactEmail')">
 		<p>
 			<calendar:textValue label="labels.internal.event.contactEmail" value="event.contactEmail" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('contactPhone')">
 		<p>
 			<calendar:textValue label="labels.internal.event.contactPhone" value="event.contactPhone" labelCssClass="label"/>
 		</p>
+		</ww:if>
+		<ww:if test="this.isActiveEventField('price')">
 		<p>
 			<calendar:textValue label="labels.internal.event.price" value="event.price" labelCssClass="label"/>
 		</p>
+		</ww:if>
 		<p>
 			<calendar:textValue label="labels.internal.event.maximumParticipants" value="event.maximumParticipants" labelCssClass="label"/>
 		</p>

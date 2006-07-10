@@ -41,30 +41,39 @@
 			<input name="endTime" value="<ww:if test="endTime != '13:34'"><ww:property value="endTime"/></ww:if>" class="hourfield" type="textfield">					
 		</div>
 					
-		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="smalltextarea" required="false"/>
+		<calendar:textAreaField label="labels.internal.event.shortDescription" name="'shortDescription'" value="event.shortDescription" cssClass="smalltextarea" required="false"/>
 		
-		<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="largetextarea" required="false"/>
+		<calendar:textAreaField label="labels.internal.event.longDescription" name="'longDescription'" value="event.longDescription" cssClass="largetextarea" required="false"/>
 		
-		<calendar:textAreaField label="labels.internal.event.lecturer" name="lecturer" value="event.lecturer" cssClass="smalltextarea"/>
-		
-		<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="event.organizerName" cssClass="longtextfield" required="false"/>
-		
-		<calendar:radioButtonField label="labels.internal.event.isInternal" name="'isInternal'" required="true" valueMap="internalEventMap" selectedValue="isInternal"/>
-	
-		<calendar:checkboxField label="labels.internal.event.isOrganizedByGU" name="'isOrganizedByGU'" valueMap="isOrganizedByGUMap" selectedValues="isOrganizedByGU"/>
-		
-		<calendar:textField label="labels.internal.event.eventUrl" name="'eventUrl'" value="event.eventUrl" cssClass="longtextfield"/>
-
-		<calendar:selectField label="labels.internal.event.location" name="'locationId'" multiple="true" value="locations" headerItem="Anger annan plats istället nedan" cssClass="listBox"/>
-	
-		<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="event.customLocation" cssClass="longtextfield"/>
-
-		<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="event.alternativeLocation" cssClass="longtextfield"/>
-	
-		<calendar:textField label="labels.internal.event.price" name="'price'" value="event.price" cssClass="longtextfield"/>
+		<ww:if test="this.isActiveEventField('lecturer')">
+			<calendar:textAreaField label="labels.internal.event.lecturer" name="'lecturer'" value="event.lecturer" cssClass="smalltextarea"/>
+		</ww:if>		
+		<ww:if test="this.isActiveEventField('organizerName')">
+			<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="event.organizerName" cssClass="longtextfield" required="false"/>
+		</ww:if>		
+		<ww:if test="this.isActiveEventField('isInternal')">		
+			<calendar:radioButtonField label="labels.internal.event.isInternal" name="'isInternal'" required="true" valueMap="internalEventMap" selectedValue="isInternal"/>
+		</ww:if>		
+		<ww:if test="this.isActiveEventField('isOrganizedByGU')">
+			<calendar:checkboxField label="labels.internal.event.isOrganizedByGU" name="'isOrganizedByGU'" valueMap="isOrganizedByGUMap" selectedValues="isOrganizedByGU"/>
+		</ww:if>		
+		<ww:if test="this.isActiveEventField('eventUrl')">		
+			<calendar:textField label="labels.internal.event.eventUrl" name="'eventUrl'" value="event.eventUrl" cssClass="longtextfield"/>
+		</ww:if>		
+		<ww:if test="this.isActiveEventField('locationId')">
+			<calendar:selectField label="labels.internal.event.location" name="'locationId'" multiple="true" value="locations" headerItem="Anger annan plats istället nedan" cssClass="listBox"/>
+		</ww:if>		
+		<ww:if test="this.isActiveEventField('customLocation')">	
+			<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="event.customLocation" cssClass="longtextfield"/>
+		</ww:if>		
+		<ww:if test="this.isActiveEventField('alternativeLocation')">
+			<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="event.alternativeLocation" cssClass="longtextfield"/>
+		</ww:if>		
+		<ww:if test="this.isActiveEventField('price')">
+			<calendar:textField label="labels.internal.event.price" name="'price'" value="event.price" cssClass="longtextfield"/>
+		</ww:if>		
 	
 		<calendar:textField label="labels.internal.event.maximumParticipants" name="'maximumParticipants'" value="event.maximumParticipants" cssClass="longtextfield"/>
-	
 
 		<div class="fieldrow">
 			<label for="lastRegistrationDateTime"><ww:property value="this.getLabel('labels.internal.event.lastRegistrationDate')"/></label><!--<span class="redstar">*</span>-->
@@ -74,21 +83,31 @@
 			<input name="lastRegistrationTime" value="<ww:property value="lastRegistrationTime"/>" class="hourfield" type="textfield">
 		</div>
 	
-		<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="event.contactName" cssClass="longtextfield"/>
+		<ww:if test="this.isActiveEventField('contactName')">
+			<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="event.contactName" cssClass="longtextfield"/>
+		</ww:if>		
+	
+		<ww:if test="this.isActiveEventField('contactEmail')">
+			<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="event.contactEmail" cssClass="longtextfield"/>
+		</ww:if>		
 
-		<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="event.contactEmail" cssClass="longtextfield"/>
-
-		<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="event.contactPhone" cssClass="longtextfield"/>
+		<ww:if test="this.isActiveEventField('contactPhone')">
+			<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="event.contactPhone" cssClass="longtextfield"/>
+		</ww:if>		
 
 		<hr/>
-		
+
+		Entry: <ww:property value="#errorEvent.attributes"/>				
+
 		<ww:set name="count" value="0"/>
 		<ww:iterator value="attributes" status="rowstatus">
 			<ww:set name="attribute" value="top"/>
 			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
-			<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, top.name)"/>
-
+			<ww:set name="attributeValue" value="this.getAttributeValue(#errorEvent.attributes, top.name)"/>
+			
+			<ww:property value="#attributeValue"/>
+			
 			<c:set var="required" value="false"/>
 			<ww:iterator value="#attribute.validators" status="rowstatus">
 				<ww:set name="validator" value="top"/>
@@ -109,11 +128,15 @@
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'select'">
-				<calendar:selectField label="${title}" name="#attributeName" multiple="true" value="#attribute.contentTypeAttributeParameterValues" required="${required}" cssClass="listBox"/>
+				<ww:set name="attributeValues" value="#attributeValue"/>
+				<ww:if test="#attributeValue != null">
+					<ww:set name="attributeValues" value="#attributeValue.split(',')"/>
+				</ww:if>
+				<calendar:selectField label="${title}" name="#attributeName" multiple="true" value="#attribute.contentTypeAttributeParameterValues" selectedValues="#attributeValues" required="${required}" cssClass="listBox"/>
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'radiobutton'">
-				<calendar:radioButtonField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap" required="${required}"/>
+				<calendar:radioButtonField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap" selectedValue="#attributeValue" required="${required}"/>
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'checkbox'">
@@ -121,7 +144,7 @@
 				<ww:if test="#attributeValue != null">
 					<ww:set name="attributeValues" value="#attributeValue.split(',')"/>
 				</ww:if>
-				<calendar:checkboxField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap" required="${required}"/>
+				<calendar:checkboxField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap" selectedValues="#attributeValues" required="${required}"/>
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'hidden'">

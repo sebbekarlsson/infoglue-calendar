@@ -49,7 +49,7 @@ public class LabelsController
 	private DOMBuilder domBuilder = new DOMBuilder();
 	private LabelsPersister labelsPersister = null;
 	
-	private static final String PROPERTIESCACHENAME = "propertiesCache";
+	private static final String LABELSPROPERTIESCACHENAME = "labelsPropertiesCache";
 	/**
 	 * A simple factory method
 	 */
@@ -117,10 +117,9 @@ public class LabelsController
 	
 	public Document getPropertyDocument(String nameSpace, Session session) throws Exception
 	{
-		String cacheName = PROPERTIESCACHENAME;
 		String key = "propertyDocument_" + nameSpace;
 		
-		Object object = CacheController.getCachedObject(cacheName, key);
+		Object object = CacheController.getCachedObject(LABELSPROPERTIESCACHENAME, key);
 		//System.out.println("Cached object:" + object);
 		if(object instanceof NullObject)
 			return null;
@@ -172,11 +171,11 @@ public class LabelsController
 			if(document != null)
 			{
 				//System.out.println("caching document:" + cacheName + ":" + key + ":" + document);
-				CacheController.cacheObject(cacheName, key, document);
+				CacheController.cacheObject(LABELSPROPERTIESCACHENAME, key, document);
 			}
 			else
 			{
-				CacheController.cacheObject(cacheName, key, new NullObject());
+				CacheController.cacheObject(LABELSPROPERTIESCACHENAME, key, new NullObject());
 			}
 		}
 		
@@ -195,7 +194,7 @@ public class LabelsController
 
         labelsPersister.updateProperty(nameSpace, "systemLabels", xml, session);
 
-        CacheController.clearCache(PROPERTIESCACHENAME);
+        CacheController.clearCache(LABELSPROPERTIESCACHENAME);
 	}
 
 	public void updateLabels(String nameSpace, String languageCode, Map properties, Session session) throws Exception
@@ -244,7 +243,7 @@ public class LabelsController
 
         labelsPersister.updateProperty(nameSpace, "systemLabels", xml, session);
 
-        CacheController.clearCache(PROPERTIESCACHENAME);
+        CacheController.clearCache(LABELSPROPERTIESCACHENAME);
 	}
 
 	/**

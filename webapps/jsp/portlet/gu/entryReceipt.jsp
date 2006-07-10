@@ -27,26 +27,3 @@
 	<p><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="eventId"/>" title="L&auml;nk till info om evenemanget">&laquo; Tillbaka till evenemangets informationssida</a></p>	
 </div>
 <!-- Anm&auml;lan - kvitto Slut --> 
-
-
-<%--
-<div class="inputDiv">
-		
-	<h1><ww:property value="this.getLabel('labels.internal.entry.createNewEntryThankYou')"/></h1>
-	<hr/>
-	<div id="portlet_margin">
-	
-		<ww:if test="#attr.detailUrl.indexOf('?') > -1">
-			<c:set var="delim" value="&"/>
-		</ww:if>
-		<ww:else>
-			<c:set var="delim" value="?"/>
-		</ww:else>
-		
-		<span class="label"><ww:property value="this.getLabel('labels.internal.entry.createNewEntryThankYouText')"/></span> 
-		<br/><br/>
-		<a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="eventId"/>">Back to event</a>
-	</div>
-
-</div>
---%>

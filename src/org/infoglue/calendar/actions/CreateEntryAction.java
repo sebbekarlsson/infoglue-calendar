@@ -169,6 +169,7 @@ public class CreateEntryAction extends CalendarAbstractAction
             entry.setAttributes(xml);
             ConstraintExceptionBuffer ceb = entry.validate(eventType);
             ActionContext.getContext().getValueStack().getContext().put("errorEntry", entry);
+            System.out.println("Added error entry to stack:" + entry.getAttributes());
             
             validateInput(this, ceb);
 

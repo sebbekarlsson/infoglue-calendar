@@ -420,6 +420,7 @@ public class CreateEventAction extends CalendarAbstractAction
     }
     public Boolean getIsInternal()
     {
+    	System.out.println("isInternal in getter:" + isInternal);
         return isInternal;
     }
     public void setIsInternal(Boolean isInternal)

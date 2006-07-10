@@ -772,46 +772,59 @@ public class CalendarAbstractAction extends ActionSupport
     	return new VisualFormatter();
     }
     
+    public boolean isActiveEventField(String fieldName)
+    {
+    	String hiddenEventFields = getSetting("hiddenEventFields");
+    	System.out.println("hiddenEventFields:" + hiddenEventFields);
+
+    	return !(hiddenEventFields.indexOf(fieldName) > -1);	 
+    }
+
+    public boolean isActiveEntryField(String fieldName)
+    {
+    	String hiddenEntryFields = getSetting("hiddenEntryFields");
+    	System.out.println("hiddenEntryFields:" + hiddenEntryFields);
+
+    	return !(hiddenEntryFields.indexOf(fieldName) > -1);	 
+    }
+
     public String getSetting(String key)
     {
-	    return getSetting(key, "default", false, true, true);
+	    return getSetting(key, "default", false, true);
     }
 
     public String getSetting(String key, String variationId)
     {
-	    return getSetting(key, variationId, false, true, true);
+	    return getSetting(key, variationId, false, true);
     }
 
     public String getSetting(String key, String variationId, boolean skipProperty)
     {
-	    return getSetting(key, variationId, skipProperty, true, true);
+	    return getSetting(key, variationId, skipProperty, true);
     }
 
     public String getSetting(String key, boolean skipProperty, boolean fallbackToDefault)
     {
-	    return getSetting(key, null, skipProperty, true, true);
+	    return getSetting(key, null, skipProperty, true);
     }
 
     public String getSetting(String key, String variationId, boolean skipProperty, boolean fallbackToDefault)
     {
-	    return getSetting(key, variationId, skipProperty, fallbackToDefault, true);
-    }
-
-    public String getSetting(String key, String variationId, boolean skipProperty, boolean fallbackToDefault, boolean fallbackToKey)
-    {
+    	//System.out.println("Getting setting for " + key + ":" + variationId + ":" + skipProperty + ":" + fallbackToDefault);
+    	
     	if(variationId == null)
     		variationId = "default";
     		
     	String label = "";
-    	if(fallbackToKey)
-    		label = key;
-	    
+    	
 	    try
 	    {
 	    	Object derivedObject = findOnValueStack(key);
 	        String derivedValue = null;
 	        if(derivedObject != null)
 	        	derivedValue = derivedObject.toString();
+	        
+	        //System.out.println("derivedValue:" + derivedValue);
 	        
 	        if(!skipProperty)
 	        {
@@ -831,22 +844,19 @@ public class CalendarAbstractAction extends ActionSupport
 		            label = properties.getProperty(key);
 	        }
 	        
-	        if((label == null || label.equals("")) && fallbackToKey)
-	            label = key;
+	        if(label == null)
+	            label = "";
 	    }
 	    catch(Exception e)
 	    {
 	        log.warn("An label was not found for key: " + key + ": " + e.getMessage(), e);
 	    }
 	    
+	    //System.out.println("label:" + label);
+	    
 	    return label;
     }
 
-    //END TODO
-    
-    
-    
-    
     
 	public Session getSession() throws HibernateException {
 	    return (Session)ServletActionContext.getRequest().getAttribute("HIBERNATE_SESSION");

@@ -17,14 +17,35 @@
 		<calendar:textField label="labels.internal.entry.firstName" name="'firstName'" value="entry.firstName" required="true" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.lastName" name="'lastName'" value="entry.lastName" required="true" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.email" name="'email'" value="entry.email" required="true" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.organisation" name="'organisation'" value="entry.organisation" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.address" name="'address'" value="entry.address" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.zipcode" name="'zipcode'" value="entry.zipcode" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.city" name="'city'" value="entry.city" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.phone" name="'phone'" value="entry.phone" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.entry.fax" name="'fax'" value="entry.fax" cssClass="longtextfield"/>
-		<calendar:textAreaField label="labels.internal.entry.message" name="'message'" value="entry.message" cssClass="smalltextarea"/>
-
+		
+		<ww:if test="this.isActiveEntryField('organisation')">
+			<calendar:textField label="labels.internal.entry.organisation" name="'organisation'" value="entry.organisation" cssClass="longtextfield"/>
+		</ww:if>
+		
+		<ww:if test="this.isActiveEntryField('address')">
+			<calendar:textField label="labels.internal.entry.address" name="'address'" value="entry.address" cssClass="longtextfield"/>
+		</ww:if>
+		
+		<ww:if test="this.isActiveEntryField('zipcode')">
+			<calendar:textField label="labels.internal.entry.zipcode" name="'zipcode'" value="entry.zipcode" cssClass="longtextfield"/>
+		</ww:if>
+		
+		<ww:if test="this.isActiveEntryField('city')">
+			<calendar:textField label="labels.internal.entry.city" name="'city'" value="entry.city" cssClass="longtextfield"/>
+		</ww:if>
+		
+		<ww:if test="this.isActiveEntryField('phone')">
+			<calendar:textField label="labels.internal.entry.phone" name="'phone'" value="entry.phone" cssClass="longtextfield"/>
+		</ww:if>
+		
+		<ww:if test="this.isActiveEntryField('fax')">
+			<calendar:textField label="labels.internal.entry.fax" name="'fax'" value="entry.fax" cssClass="longtextfield"/>
+		</ww:if>
+		
+		<ww:if test="this.isActiveEntryField('message')">
+			<calendar:textAreaField label="labels.internal.entry.message" name="'message'" value="entry.message" cssClass="smalltextarea"/>
+		</ww:if>
+		
 		<ww:set name="count" value="0"/>
 		<ww:iterator value="attributes" status="rowstatus">
 			<ww:set name="attribute" value="top"/>
@@ -52,15 +73,23 @@
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'select'">
-				<calendar:selectField label="${title}" name="#attributeName" multiple="true" value="#attribute.contentTypeAttributeParameterValues" required="${required}" cssClass="listBox"/>
+				<ww:set name="attributeValues" value="#attributeValue"/>
+				<ww:if test="#attributeValue != null">
+					<ww:set name="attributeValues" value="#attributeValue.split(',')"/>
+				</ww:if>
+				<calendar:selectField label="${title}" name="#attributeName" multiple="true" value="#attribute.contentTypeAttributeParameterValues" selectedValues="#attributeValues" required="${required}" cssClass="listBox"/>
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'radiobutton'">
-				<calendar:radioButtonField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap" required="${required}"/>
+				<calendar:radioButtonField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap" selectedValue="#attributeValue" required="${required}"/>
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'checkbox'">
-				<calendar:checkboxField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap" required="${required}"/>
+				<ww:set name="attributeValues" value="#attributeValue"/>
+				<ww:if test="#attributeValue != null">
+					<ww:set name="attributeValues" value="#attributeValue.split(',')"/>
+				</ww:if>
+				<calendar:checkboxField label="${title}" name="#attributeName" valueMap="#attribute.contentTypeAttributeParameterValuesAsMap" selectedValues="#attributeValues" required="${required}"/>
 			</ww:if>		
 
 			<ww:if test="#attribute.inputType == 'hidden'">

@@ -150,6 +150,7 @@ public class CalendarSettingsController implements SettingsPersister
     
     public Property createProperty(String nameSpace, String name, String value, Session session) throws Exception 
     {
+    	System.out.println("Creating property with:" + nameSpace + ":" + name);
         Property property = new CalendarProperty();
         property.setNameSpace(nameSpace);
         property.setName(name);

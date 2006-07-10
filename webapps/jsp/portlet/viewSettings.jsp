@@ -83,7 +83,7 @@
 			<ww:set name="labelKey" value="top"/>
 			<ww:set name="defaultValue" value="this.getSetting(#labelKey, true, false)"/>
 			<ww:set name="label" value="#labelKey"/>
-			<ww:set name="attributeValue" value="this.getSetting(#labelKey, selectedVariationId, false, false, false)"/>
+			<ww:set name="attributeValue" value="this.getSetting(#labelKey, selectedVariationId, false, false)"/>
 
 			<ww:if test="#attributeValue != null && #attributeValue.length() > 80">
 	 			<calendar:textAreaField label="#label" name="#labelKey" value="#attributeValue" cssClass="smalltextarea"/>

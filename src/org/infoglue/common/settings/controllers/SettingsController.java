@@ -51,7 +51,7 @@ public class SettingsController
 	private DOMBuilder domBuilder = new DOMBuilder();
 	private SettingsPersister labelsPersister = null;
 	
-	private static final String PROPERTIESCACHENAME = "propertiesCache";
+	private static final String SETTINGSPROPERTIESCACHENAME = "settingsPropertiesCache";
 	/**
 	 * A simple factory method
 	 */
@@ -118,10 +118,9 @@ public class SettingsController
 	
 	public Document getPropertyDocument(String nameSpace, Session session) throws Exception
 	{
-		String cacheName = PROPERTIESCACHENAME;
 		String key = "propertyDocument_" + nameSpace;
 		
-		Object object = CacheController.getCachedObject(cacheName, key);
+		Object object = CacheController.getCachedObject(SETTINGSPROPERTIESCACHENAME, key);
 		//System.out.println("Cached object:" + object);
 		if(object instanceof NullObject)
 			return null;
@@ -155,16 +154,19 @@ public class SettingsController
 			}
 			else
 			{
+				//System.out.println("Property was null...");
 				document = domBuilder.createDocument();
 				Element languagesElement = domBuilder.addElement(document, "variations");
 				Element languageElement = domBuilder.addElement(languagesElement, "variation");
 				domBuilder.addAttribute(languageElement, "id", "default"); 
 				Element labelsElement = domBuilder.addElement(languageElement, "setting");
 				String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-				//System.out.println("xml:" + xml);
+				System.out.println("xml:" + xml);
 	
 	            labelsPersister.createProperty(nameSpace, "systemSettings", xml, session);
 			
+	            System.out.println("Creating property:" + xml);
+	        	
 				document = domBuilder.getDocument(xml);
 			}
 		
@@ -172,11 +174,11 @@ public class SettingsController
 			if(document != null)
 			{
 				//System.out.println("caching document:" + cacheName + ":" + key + ":" + document);
-				CacheController.cacheObject(cacheName, key, document);
+				CacheController.cacheObject(SETTINGSPROPERTIESCACHENAME, key, document);
 			}
 			else
 			{
-				CacheController.cacheObject(cacheName, key, new NullObject());
+				CacheController.cacheObject(SETTINGSPROPERTIESCACHENAME, key, new NullObject());
 			}
 		}
 		
@@ -195,7 +197,7 @@ public class SettingsController
 
         labelsPersister.updateProperty(nameSpace, "systemSettings", xml, session);
 
-        CacheController.clearCache(PROPERTIESCACHENAME);
+        CacheController.clearCache(SETTINGSPROPERTIESCACHENAME);
 	}
 
 	public void updateSettings(String nameSpace, String id, Map properties, Session session) throws Exception
@@ -203,7 +205,7 @@ public class SettingsController
 		Document document = getPropertyDocument(nameSpace, session);
         String xml1 = domBuilder.getFormattedDocument(document, "UTF-8");
         System.out.println("xml1:" + xml1);
-        String xpath = "/variatons/variation[@id='" + id +"']/setting";
+        String xpath = "/variations/variation[@id='" + id +"']/setting";
         //String xpath = "/languages/language[@languageCode='" + languageCode +"']/labels";
         System.out.println("xpath:" + xpath);
         
@@ -218,7 +220,7 @@ public class SettingsController
 			if(!Character.isLetter(key.charAt(0)))
 				key = "NP" + key;
 			
-			if(key != null && value != null)
+			if(key != null && value != null && labelsElement != null)
 			{
 				Element labelElement = labelsElement.element(key);
 				if(labelElement == null)
@@ -244,7 +246,7 @@ public class SettingsController
 
         labelsPersister.updateProperty(nameSpace, "systemSettings", xml, session);
 
-        CacheController.clearCache(PROPERTIESCACHENAME);
+        CacheController.clearCache(SETTINGSPROPERTIESCACHENAME);
 	}
 
 	/**
