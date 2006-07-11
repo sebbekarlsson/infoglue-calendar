@@ -25,6 +25,8 @@ package org.infoglue.calendar.actions;
 
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
+
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventTypeController;
@@ -32,7 +34,9 @@ import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Location Administration screen.
@@ -50,7 +54,9 @@ public class ViewEntryAction extends CalendarAbstractAction
     private String searchLastName;
     private String searchEmail;
     private List attributes;
-        
+
+    private String view = null;
+
     /**
      * This is the entry point for the main listing.
      */
@@ -61,7 +67,15 @@ public class ViewEntryAction extends CalendarAbstractAction
         EventType eventType = EventTypeController.getController().getEventType(entry.getEvent().getEntryFormId(), getSession());
 		this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
 
-        return Action.SUCCESS;
+		System.out.println("view:" + view);
+		if(view != null && view.length() > 0)
+		{			
+		    return "successEntryReceiptGU";
+		}
+		else
+		{
+	        return Action.SUCCESS;			
+		}
     } 
 
     public Entry getEntry()
@@ -120,5 +134,9 @@ public class ViewEntryAction extends CalendarAbstractAction
 	public List getAttributes()
 	{
 		return attributes;
+	}
+
+	public void setView(String view) {
+		this.view = view;
 	}
 }

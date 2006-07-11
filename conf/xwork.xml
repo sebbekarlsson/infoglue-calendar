@@ -614,6 +614,9 @@
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewEntry.jsp</param>
 			</result>
+			<result name="successEntryReceiptGU" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/gu/viewEntryReceipt.jsp</param>
+			</result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
