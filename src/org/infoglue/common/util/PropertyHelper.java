@@ -118,6 +118,26 @@ public class PropertyHelper
 		cachedProperties.setProperty(key, value);
 	}	
 
-		
+	public static boolean getBooleanProperty( String key, boolean def ) {
+		if( cachedProperties == null ) {
+			initializeProperties();		
+		}
+		String value = cachedProperties.getProperty( key );
+		Boolean bool = new Boolean( value );
+		return bool.booleanValue();
+	}
+	
+	public static boolean getBooleanProperty( String key  ) {
+		return getBooleanProperty( key, false );
+	}
+
+	public static long getLongProperty( String key, long def ) {
+		try {
+			String value = cachedProperties.getProperty( key );
+			Long propertyAsLong = new Long( value );
+			return propertyAsLong.longValue();
+		} catch( Exception e ) {}
+		return def;
+	}		
 
 }

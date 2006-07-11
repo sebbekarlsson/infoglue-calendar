@@ -684,7 +684,7 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void mailEntries(String emailAddresses, String subject, String message, Locale locale, Session session) throws Exception
+    public void mailEntries(String emailAddresses, String subject, String message, List attachments, Locale locale, Session session) throws Exception
     {
 	    try
 	    {
@@ -717,7 +717,7 @@ public class EntryController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, emailAddresses, subject, email, contentType, "UTF-8");
+			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, emailAddresses, subject, email, contentType, "UTF-8", attachments);
 		}
 		catch(Exception e)
 		{
@@ -768,7 +768,7 @@ public class EntryController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), null, subject, email, contentType, "UTF-8");
+			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), null, subject, email, contentType, "UTF-8", null);
 		}
 		catch(Exception e)
 		{
@@ -822,7 +822,7 @@ public class EntryController extends BasicController
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
 			log.info("Sending mail to:" + systemEmailSender + " and " + addresses);
-			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, addresses, "InfoGlue Calendar - new entry made to " + event.getName(), email, contentType, "UTF-8");
+			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, addresses, "InfoGlue Calendar - new entry made to " + event.getName(), email, contentType, "UTF-8", null);
 	    }
 		catch(Exception e)
 		{

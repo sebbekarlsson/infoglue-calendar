@@ -58,7 +58,7 @@ public class EmailEntriesAction extends CalendarAbstractAction
     {
         log.error("Mattias åäö ÅÄÖ");
         log.error("" + message);
-        EntryController.getController().mailEntries(this.emailAddresses, subject, message, this.getLocale(), getSession());
+        EntryController.getController().mailEntries(this.emailAddresses, subject, message, null, this.getLocale(), getSession());
 
         return Action.SUCCESS;
     } 

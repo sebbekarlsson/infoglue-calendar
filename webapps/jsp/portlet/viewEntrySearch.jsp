@@ -1,4 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
+<%@ page import="org.displaytag.sample.*" %> 
 
 <c:set var="activeNavItem" value="EntrySearch" scope="page"/>
 
@@ -9,39 +11,23 @@
 	function toggleSearchForm()
 	{
 		searchFormElement = document.getElementById("searchForm");
-		emailFormElement = document.getElementById("emailForm");
 		hitListElement = document.getElementById("hitlist");
 		if(searchFormElement.style.display == "none")
 		{
 			searchFormElement.style.display = "block";
 			hitListElement.style.display = "none";
-			emailFormElement.style.display = "none";
 		}
 		else
 		{
 			searchFormElement.style.display = "none";
 			hitListElement.style.display = "block";
-			emailFormElement.style.display = "none";
 		}
 	}
-
-	function toggleEmailForm()
-	{
-		emailFormElement = document.getElementById("emailForm");
-		hitListElement = document.getElementById("hitlist");
-		searchFormElement = document.getElementById("searchForm");
-		if(emailFormElement.style.display == "none")
-		{
-			emailFormElement.style.display = "block";
-			searchFormElement.style.display = "none";
-			hitListElement.style.display = "none";
-		}
-		else
-		{
-			emailFormElement.style.display = "none";
-			searchFormElement.style.display = "none";
-			hitListElement.style.display = "block";
-		}
+	
+	function openSelectedResultFile() {
+		var selectBox = document.getElementById( 'exportList' );
+		var dest = selectBox.options[ selectBox.selectedIndex ].value;
+		window.open( dest, 'documentOpener', '' );
 	}
 	
 </script>
@@ -90,43 +76,50 @@
 	</form>
 </div>
 
-<div id="emailForm" class="portlet_margin" style="display: none;">
-
-<h1><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></h1>
-
-<portlet:actionURL var="emailActionUrl">
-	<portlet:param name="action" value="EmailEntries"/>
-</portlet:actionURL>
-		
-<form name="email" method="post" action="<c:out value="${emailActionUrl}"/>">
-	<input type="hidden" name="searchEventId" value="<ww:property value="searchEventId"/>">
-	<input type="hidden" name="searchFirstName" value="<ww:property value="searchFirstName"/>">
-	<input type="hidden" name="searchLastName" value="<ww:property value="searchLastName"/>">
-	<input type="hidden" name="searchEmail" value="<ww:property value="searchEmail"/>">
-
-	<ww:property value="this.getLabel('labels.internal.soba.emailIntro')"/>
-	
-	<calendar:textField label="labels.internal.soba.addresses" name="'emailAddresses'" value="emailAddresses" cssClass="longtextfield" required="true"/>
-	<calendar:textField label="labels.internal.soba.subject" name="'subject'" value="subject" cssClass="longtextfield" required="true"/>
-	<calendar:textAreaField label="labels.internal.soba.message" name="message" value="message" cssClass="smalltextarea" required="true"/>
-
-	<div style="height:10px"></div>
-
-	<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.sendMessage')"/>" class="button"/>
-	<input type="button" class="button" onclick="toggleEmailForm();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>"></a>
-
-</form>
-</div>
 
 <!-- ********************* -->
 <!-- ******  HITS ******** -->
 <!-- ********************* -->
 <ww:if test="entries != null">
+
+	<ww:set name="entriesAsList" value="entriesAsList" scope="page"/>
+	
+	<portlet:renderURL var="searchEntryActionUrl">
+		<portlet:param name="action" value="ViewEntrySearch!input"/>
+	</portlet:renderURL>
+	
+<%--
+<%
+	request.setAttribute( "test", new org.displaytag.sample.TestList(10, false) );
+	request.setAttribute( "test2", pageContext.getAttribute("entriesAsList") );
+	request.setAttribute( "test3", pageContext.getAttribute("searchEntryActionUrl") );
+	out.print("test3:"+ request.getAttribute( "test3"));
+%>
+
+	<display:table name="test2" export="true" pagesize="10" requestURI="<%=pageContext.getAttribute("searchEntryActionUrl").toString()%>">
+	    <display:column property="id" title="ID" />
+	    <display:column property="firstName" title="FirstName" />
+	    <display:column property="lastName" title="lastName" />
+	    <display:column property="event.name" title="Event" />
+	    <display:column property="email" title="Email" />
+	    <display:column property="organisation" title="Organisation" />
+	    <display:column property="address" title="Adress" />
+	    <display:column property="zipcode" title="Zipcode" />
+	    <display:column property="city" title="City" />
+	</display:table>
+--%>
+  
 	<div id="hitlist" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
 	
 	<div class="portlet_margin">
 		<h1><ww:property value="this.getLabel('labels.internal.soba.hitListStart')"/> <ww:property value="entries.size()"/> <ww:property value="this.getLabel('labels.internal.soba.hitListEnd')"/></h1>
 	</div>
+	
+ 	<ww:set name="emailAddresses" value="emailAddresses" scope="page"/>
+	<portlet:renderURL var="composeEmailUrl">
+		<calendar:evalParam name="action" value="ComposeEmail"/>
+		<portlet:param name="emailAddresses" value="<%= pageContext.getAttribute("emailAddresses").toString().replaceAll(";", "," ) %>"/>
+	</portlet:renderURL>
 	
 	<portlet:renderURL var="createEntryRenderURL">
 		<portlet:param name="action" value="CreateEntry!input"/>
@@ -136,20 +129,70 @@
 	<div class="subfunctionarea">
 	<span class="left">
 		<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
-		<ww:if test="entries != null && entries.size() > 0"> | <a href="javascript:toggleEmailForm();"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a></ww:if>
-	</span>	
+		<ww:if test="entries != null && entries.size() > 0">
+			| <a href="<c:out value="${composeEmailUrl}"/>"><ww:property value="this.getLabel('labels.internal.soba.emailPersons')"/></a>
+			<ww:if test="searchResultFiles != null && searchResultFiles.size() > 0">
+			| <ww:property value="this.getLabel('labels.internal.soba.exportHitList')"/></label>
+				<%--
+				<select id="exportList" name="exportList" class="sitedropbox">
+				<ww:iterator value="searchResultFiles">
+				   <option value="<ww:property value="value"/>"><ww:property value="key"/></option>
+				</ww:iterator>
+				</select><input type="button" onClick="javascript:openSelectedResultFile();" value="Export"/>
+				--%>
+				<ww:iterator value="searchResultFiles">
+				   <a href="<ww:property value="value"/>"><ww:property value="key"/></a>
+				</ww:iterator>
+				
+			</ww:if>
+ 		</ww:if>		
+	</span>
 	<span class="right"></span>	
 	<div class="clear"></div>
 	</div>
-	
+
 	<div class="columnlabelarea">
-		<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/></p></div>
-		<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.soba.nameColumnHeader')"/></p></div>
-		<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.soba.eventColumnHeader')"/></p></div>
+		<ww:iterator value="resultValues">
+			<%--
+		 	<ww:if test="top == 'Id'">
+		 		<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/></p></div>
+		 	</ww:if>
+		 	--%>
+ 	    	<ww:if test="top == 'Name'">
+ 				<div class="columnMediumShort"><p>#<ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/> - <ww:property value="this.getLabel('labels.internal.soba.nameColumnHeader')"/></p></div>
+	    	</ww:if>
+	    	<ww:if test="top == 'Event'">
+ 				<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.eventColumnHeader')"/></p></div>
+	    	</ww:if>
+	    	<ww:if test="top == 'Email'">
+				<div class="columnMediumShort"><p><ww:property value="this.getLabel('labels.internal.soba.emailColumnHeader')"/></p></div>
+	    	</ww:if>
+	    	<ww:if test="top == 'Organisation'">
+				<div class="columnMediumShort"><p><ww:property value="this.getLabel('labels.internal.soba.organisationColumnHeader')"/></p></div>	
+	    	</ww:if>
+	    	<ww:if test="top == 'Address'">
+				<div class="columnMediumShort"><p><ww:property value="this.getLabel('labels.internal.soba.addressColumnHeader')"/></p></div>
+	    	</ww:if>
+	    	<ww:if test="top == 'Zipcode'">
+				<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.zipcodeColumnHeader')"/></p></div>
+	    	</ww:if>
+	    	<ww:if test="top == 'City'">
+				<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.cityColumnHeader')"/></p></div>
+	    	</ww:if>
+		</ww:iterator>
 		<div class="clear"></div>
 	</div>
 	
 	<ww:iterator value="entries" status="rowstatus">
+	    <ww:set name="firstName" value="firstName" scope="page"/>
+	    <ww:set name="lastName" value="lastName" scope="page"/>
+		<ww:set name="email" value="email" scope="page"/>
+		<ww:set name="event" value="event" scope="page"/>
+		<ww:set name="organisation" value="organisation" scope="page"/>
+		<ww:set name="address" value="address" scope="page"/>
+		<ww:set name="zipcode" value="zipcode" scope="page"/>
+		<ww:set name="city" value="city" scope="page"/>
+		<ww:set name="rowcount" value="rowstatus.count"/>
 		<ww:set name="entryId" value="id" scope="page"/>
 		<ww:set name="name" value="name" scope="page"/>
 		<ww:if test="searchEventId != null">
@@ -233,18 +276,54 @@
 			<div class="evenrow">
 	    </ww:else>
 	
-		   	<div class="columnShort">
-		   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'"><ww:property value="#rowstatus.count"/></a></p>
-		   	</div>
-		   	<div class="columnMedium">
-		   		<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'"><ww:property value="firstName"/> <ww:property value="lastName"/></a></p>
-		   	</div>
-		   	<div class="columnMedium">
-		   		<p><ww:property value="top.event.name"/></p>
-		   	</div>
+		<ww:iterator value="resultValues">
+			<%--
+		 	<ww:if test="top == 'Id'">
+		   		<div class="columnShort">
+		   			<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<c:out value="${firstName}"/>'"><ww:property value="#rowstatus.count"/></a></p>
+			   	</div>
+			</ww:if>
+			--%>
+			<ww:if test="top == 'Name'">
+		   		<div class="columnMediumShort">
+		   			<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<c:out value="${firstName}"/>'"><c:out value="${entryId}"/> - <c:out value="${firstName}"/> <c:out value="${lastName}"/></a></p>
+			   	</div>
+			</ww:if>
+			<ww:if test="top == 'Event'">
+			   	<div class="columnShort">
+			   		<p><c:out value="${event.name}"/></p>
+			   	</div>
+			</ww:if>
+		   	<ww:if test="top == 'Email'">
+			   	<div class="columnMediumShort">
+			   		<p><c:out value="${email}"/></p>
+			   	</div>
+			</ww:if>
+		   	<ww:if test="top == 'Organisation'">
+			   	<div class="columnMediumShort">
+			   		<p><c:out value="${organisation}"/></p>
+			   	</div>
+			</ww:if>
+		   	<ww:if test="top == 'Address'">
+			   	<div class="columnMediumShort">
+			   		<p><c:out value="${address}"/></p>
+			   	</div>
+			</ww:if>
+		   	<ww:if test="top == 'Zipcode'">
+			   	<div class="columnShort">
+			   		<p><c:out value="${zipcode}"/></p>
+			   	</div>
+			</ww:if>
+		   	<ww:if test="top == 'City'">
+			   	<div class="columnShort">
+			   		<p><c:out value="${city}"/></p>			   		
+			   	</div>
+			</ww:if>
+
+		</ww:iterator>
 		   	<div class="columnEnd">
-		   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="firstName"/>'" class="delete"></a>
-		   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="firstName"/>'" class="edit"></a>
+		   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="entry.firstName"/>'" class="delete"></a>
+		   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="entry.firstName"/>'" class="edit"></a>
 		   	</div>
 		   	<div class="clear"></div>
 		</div>

@@ -29,7 +29,10 @@
 			.errorMessage {
 			    color: red;
 			}
-			
+			.columnMediumShort {
+				width:18%;
+				float:left; 
+			}
 		</style>
 
 		<script type="text/javascript">

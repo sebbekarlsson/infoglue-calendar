@@ -645,7 +645,18 @@
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
-		
+		<action name="ComposeEmail" class="org.infoglue.calendar.actions.ComposeEmailAction">
+	 		<result name="success" type="portletDispatch">
+	 			<param name="dispatchTo">/jsp/portlet/createEmail.jsp</param>
+	 		</result>
+		 	<result name="finished" type="eventProcessed">
+		 		<param name="viewAction">ViewEntrySearch.action</param>
+		 		<param name="parse">true</param>
+	 		</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
 		<action name="ViewAccessRights" class="org.infoglue.calendar.actions.ViewAccessRightsAction">
 			<result name="success" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewAccessRights.jsp</param>

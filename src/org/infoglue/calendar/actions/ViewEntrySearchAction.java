@@ -23,11 +23,16 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,6 +46,8 @@ import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
+import org.infoglue.calendar.util.EntrySearchResultfilesConstructor;
+import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -72,6 +79,9 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     private Set entries;
     private String emailAddresses = "";
+
+	private Map searchResultFiles;
+	private List resultValues = new LinkedList(); 
     
     private Map categoryAttributesMap = new HashMap();
 
@@ -82,6 +92,13 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         this.locationList = LocationController.getController().getLocationList(getSession());
         this.categoryAttributes = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttributeList(getSession());
         System.out.println("calendars:" + categoryAttributes.size());
+		String entryResultValues = PropertyHelper.getProperty("entryResultsValues");
+        StringTokenizer st = new StringTokenizer( entryResultValues, ",", false );
+        while( st.hasMoreTokens() ) 
+        {
+        	String resultValue = st.nextToken();
+        	resultValues.add( resultValue );
+        }
     }
     
     /**
@@ -154,6 +171,15 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 emailAddresses += entry.getEmail();
         }
         
+        // should we create result files?
+        boolean exportEntryResults = PropertyHelper.getBooleanProperty("exportEntryResults");
+        if( entries.size() > 0 && exportEntryResults ) 
+        {
+        	HttpServletRequest request = ServletActionContext.getRequest();
+        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor( entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this );
+        	searchResultFiles = results.getResults();
+        }
+        
         return Action.SUCCESS;
     } 
 
@@ -172,7 +198,15 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         return entries;
     }
-    
+
+    public List getEntriesAsList()
+    {
+    	List result = new ArrayList();
+    	result.addAll(entries);
+    	System.out.println("result:" + result.size());
+        return result;
+    }
+
     public List getCategoryList()
     {
         return categoryList;
@@ -277,4 +311,31 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
 		this.andSearch = andSearch;
 	}
 
+	/**
+	 * @return Returns the searchResultFiles.
+	 */
+	public Map getSearchResultFiles() {
+		return searchResultFiles;
+	}
+
+	/**
+	 * @param searchResultFiles The searchResultFiles to set.
+	 */
+	public void setSearchResultFiles(Map searchResultFiles) {
+		this.searchResultFiles = searchResultFiles;
+	}
+
+	/**
+	 * @return Returns the resultValues.
+	 */
+	public List getResultValues() {
+		return resultValues;
+	}
+
+	/**
+	 * @param resultValues The resultValues to set.
+	 */
+	public void setResultValues(List resultValues) {
+		this.resultValues = resultValues;
+	}
 }

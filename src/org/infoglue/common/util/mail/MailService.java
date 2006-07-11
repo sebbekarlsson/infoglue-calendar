@@ -24,6 +24,10 @@
 package org.infoglue.common.util.mail;
 
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.mail.*;
 import javax.activation.*;
 import javax.mail.internet.*;
@@ -78,9 +82,9 @@ public class MailService
 	 * @param content the body of the email.
 	 * @throws SystemException if the email couldn't be sent due to some mail server exception.
 	 */
-	public void send(String from, String to, String bcc, String subject, String content, String contentType, String encoding) throws SystemException 
+	public void send(String from, String to, String bcc, String subject, String content, String contentType, String encoding, List attachments ) throws SystemException 
 	{
-		final Message message = createMessage(from, to, bcc, subject, content, contentType, encoding);
+		final Message message = createMessage(from, to, bcc, subject, content, contentType, encoding, attachments );
 	 
 		try 
 		{
@@ -119,27 +123,49 @@ public class MailService
 	}
 
 	/**
+	 * @param attachments 
 	 *
 	 */
-	private Message createMessage(String from, String to, String bcc, String subject, String content, String contentType, String encoding) throws SystemException
+	private Message createMessage(String from, String to, String bcc, String subject, String content, String contentType, String encoding, List attachments) throws SystemException
 	{
 		try 
 		{
 			final Message message = new MimeMessage(this.session);
-	    	String	contentTypeWithEncoding = contentType+";charset="+encoding;
+			String contentTypeWithEncoding = contentType + ";charset="
+					+ encoding;
 
-			//message.setContent(content, contentType);
+			// message.setContent(content, contentType);
 			message.setFrom(createInternetAddress(from));
-			message.setRecipient(Message.RecipientType.TO, createInternetAddress(to));
-			if(bcc != null)
-			    message.setRecipients(Message.RecipientType.BCC, createInternetAddresses(bcc));
-			//message.setSubject(subject);
-	
-	        ((MimeMessage)message).setSubject(subject, encoding);
-	        //message.setText(content);
-	        message.setDataHandler(new DataHandler(new StringDataSource(content, contentTypeWithEncoding, encoding)));
-	        //message.setText(content);
-	        //message.setDataHandler(new DataHandler(new StringDataSource(content, "text/html"))); 
+			message.setRecipient(Message.RecipientType.TO,
+					createInternetAddress(to));
+			if (bcc != null)
+				message.setRecipients(Message.RecipientType.BCC,
+						createInternetAddresses(bcc));
+			// message.setSubject(subject);
+
+			((MimeMessage) message).setSubject(subject, encoding);
+			MimeMultipart mp = new MimeMultipart();
+			MimeBodyPart mbp1 = new MimeBodyPart();
+			mbp1.setDataHandler(new DataHandler(new StringDataSource(content,
+					contentTypeWithEncoding, encoding)));
+			mp.addBodyPart(mbp1);
+			if ( attachments != null ) {
+				for( Iterator it = attachments.iterator(); it.hasNext(); ) {
+					File attachmentFile = ( File ) it.next();
+					System.err.println( "Filename: " + attachmentFile.getName() );
+					MimeBodyPart attachment = new MimeBodyPart();
+					attachment.setFileName( attachmentFile.getName() );
+					attachment.setDataHandler(new DataHandler(new FileDataSource(attachmentFile)));
+					mp.addBodyPart(attachment);
+				}
+			}
+			message.setContent(mp);
+			// message.setText(content);
+			// message.setDataHandler(new DataHandler(new
+			// StringDataSource(content, contentTypeWithEncoding, encoding)));
+			// message.setText(content);
+			// message.setDataHandler(new DataHandler(new
+			// StringDataSource(content, "text/html")));
 
 			return message;
 		} 
