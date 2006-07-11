@@ -49,8 +49,8 @@
 
 	<ww:property value="this.getLabel('labels.internal.soba.emailIntro')"/>
 	
-	<calendar:textField label="labels.internal.soba.addresses" name="emailAddresses" value="emailAddresses" cssClass="longtextfield" mandatory="true"/>
-	<calendar:textField label="labels.internal.soba.subject" name="subject" value="subject" cssClass="longtextfield" mandatory="true"/>
+	<calendar:textField label="labels.internal.soba.addresses" name="'emailAddresses'" value="emailAddresses" cssClass="longtextfield" required="true"/>
+	<calendar:textField label="labels.internal.soba.subject" name="'subject'" value="subject" cssClass="longtextfield" required="true"/>
 	<ww:if test="attachments != null && attachments.size > 0">
 		<div class="fieldrow">
 			<label for="attachmentSelect"><ww:property value="this.getLabel('labels.internal.soba.attachments')"/></label><br/>
@@ -62,7 +62,7 @@
 		</div>
 	</ww:if>
 
-	<calendar:textAreaField label="labels.internal.soba.message" name="message" value="message" cssClass="smalltextarea" mandatory="true"/>
+	<calendar:textAreaField label="labels.internal.soba.message" name="message" value="message" cssClass="smalltextarea" required="true"/>
 
 	<div style="height:10px"></div>
      
