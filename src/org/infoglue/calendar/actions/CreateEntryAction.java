@@ -295,7 +295,11 @@ public class CreateEntryAction extends CalendarAbstractAction
     public String inputPublic() throws Exception 
     {
 	    event = EventController.getController().getEvent(eventId, getSession());
-        /*
+
+        EventType eventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
+        
+		this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
+		/*
 	    if(useEntryLimitation())
         {
 	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
@@ -314,6 +318,10 @@ public class CreateEntryAction extends CalendarAbstractAction
     public String inputPublicGU() throws Exception 
     {
         event = EventController.getController().getEvent(eventId, getSession());
+
+        EventType eventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
+        
+		this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
 	    /*
         if(useEntryLimitation())
         {
