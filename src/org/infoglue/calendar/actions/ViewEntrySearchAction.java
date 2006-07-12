@@ -24,6 +24,7 @@
 package org.infoglue.calendar.actions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -175,8 +176,11 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         boolean exportEntryResults = PropertyHelper.getBooleanProperty("exportEntryResults");
         if( entries.size() > 0 && exportEntryResults ) 
         {
+        	Map parameters = new HashMap();
+        	parameters.put("headLine", "Entries found");
+
         	HttpServletRequest request = ServletActionContext.getRequest();
-        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor( entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this );
+        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(parameters, entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this );
         	searchResultFiles = results.getResults();
         }
         

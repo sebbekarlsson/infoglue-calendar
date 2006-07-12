@@ -2,6 +2,7 @@ package org.infoglue.calendar.actions;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -125,7 +126,10 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 		        		String entryResultValues = "PDF";
 		                
 			        	HttpServletRequest request = ServletActionContext.getRequest();
-			        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor( entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this );
+			        	Map parameters = new HashMap();
+			        	parameters.put("headLine", "Entries for event " + event.getName() + "(" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd") + ")");
+			        	
+			        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(parameters, entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this );
 			        	Map searchResultFiles = results.getFileResults();
 			        	
 			        	String fileName = (String)searchResultFiles.get("PDF");

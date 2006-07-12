@@ -14,7 +14,7 @@
   <reportheader height="50" fontname="SansSerif" fontstyle="plain" fontsize="10">
 
     <rectangle x="0" y="0" width="100%" height="30" color="black" weight="1" draw="true" fill="false"/>
-    <label fontstyle="bold" fontsize="18" x="0" y="7" width="100%" height="18" alignment="center">Entries found</label>
+    <message-field fontstyle="bold" fontsize="14" x="0" y="7" width="100%" height="16" alignment="left">$("headLine")</message-field>
     <line x1="0" y1="54" x2="100%" y2="54" color="#CCCCCC" weight="0.5"/>
 
   </reportheader>

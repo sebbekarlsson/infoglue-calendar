@@ -2,6 +2,7 @@ package org.infoglue.calendar.util;
 
 import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +19,12 @@ import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 
-public class EntrySearchResultfilesConstructor {
+public class EntrySearchResultfilesConstructor 
+{
 
-	private static Log log = LogFactory
-			.getLog(EntrySearchResultfilesConstructor.class);
+	private static Log log = LogFactory.getLog(EntrySearchResultfilesConstructor.class);
 
+	private Map parameters = new HashMap();
 	private Set entries;
 	private Map searchResultFiles;
 	private Map searchResultFilePaths;
@@ -34,8 +36,9 @@ public class EntrySearchResultfilesConstructor {
 	private List resultValues;
 	private CalendarAbstractAction action;
 	
-	public EntrySearchResultfilesConstructor(Set entries, String tempFilePath,
-			String scheme, String serverName, int port, List resultValues, CalendarAbstractAction action) {
+	public EntrySearchResultfilesConstructor(Map parameters, Set entries, String tempFilePath, String scheme, String serverName, int port, List resultValues, CalendarAbstractAction action) 
+	{
+		this.parameters = parameters;
 		this.entries = entries;
 		this.tempFilePath = tempFilePath;
 		this.scheme = scheme;
@@ -87,7 +90,7 @@ public class EntrySearchResultfilesConstructor {
 					searchResultFiles.put("CSV", fileURL);
 					searchResultFilePaths.put("CSV", fileName);
 					
-					new JFreeReportHelper().getEntriesReport(entries, fileName, "csv");
+					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "csv");
 				}
 				if (resultType.indexOf("XLS") > -1)
 				{
@@ -97,7 +100,7 @@ public class EntrySearchResultfilesConstructor {
 					searchResultFiles.put("Excel", fileURL);
 					searchResultFilePaths.put("Excel", fileName);
 
-					new JFreeReportHelper().getEntriesReport(entries, fileName, "xls");
+					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "xls");
 				}
 				if (resultType.indexOf("PDF") > -1)
 				{
@@ -107,7 +110,7 @@ public class EntrySearchResultfilesConstructor {
 					searchResultFiles.put("PDF", fileURL);
 					searchResultFilePaths.put("PDF", fileName);
 
-					new JFreeReportHelper().getEntriesReport(entries, fileName, "pdf");
+					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "pdf");
 				}
 				if (resultType.indexOf("HTML") > -1)
 				{ 
@@ -117,7 +120,7 @@ public class EntrySearchResultfilesConstructor {
 					searchResultFiles.put("HTML", fileURL);
 					searchResultFilePaths.put("HTML", fileName);
 
-					new JFreeReportHelper().getEntriesReport(entries, fileName, "html");
+					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "html");
 				}
 			}
 		}

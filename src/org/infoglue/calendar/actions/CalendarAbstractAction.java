@@ -174,7 +174,11 @@ public class CalendarAbstractAction extends ActionSupport
 
     public String getLanguageCode()
     {
-        return (String)ServletActionContext.getRequest().getAttribute("languageCode");
+    	String languageCode = (String)ServletActionContext.getRequest().getAttribute("languageCode");
+    	if(languageCode == null || languageCode.equals(""))
+    		languageCode = "en";
+    	
+        return languageCode;
     }
 
     public Locale getLocale()
@@ -430,7 +434,7 @@ public class CalendarAbstractAction extends ActionSupport
             return "";
      
         // Format the current time.
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern, new Locale(getLanguageCode()));
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, getLocale());
         String dateString = formatter.format(date);
 
         return dateString;
@@ -539,14 +543,14 @@ public class CalendarAbstractAction extends ActionSupport
     	boolean throwError = false;
     	
     	Map fieldErrors = new HashMap();
-        log.info("this.getFieldErrors() 0:" + this.getFieldErrors().size());
+        System.out.println("this.getFieldErrors() 0:" + this.getFieldErrors().size());
 
         String context = ActionContext.getContext().getName();
         ActionValidatorManager.validate(this, context);
         if(this.getFieldErrors() != null && this.getFieldErrors().size() > 0)
         {
         	fieldErrors.putAll(this.getFieldErrors());
-        	log.info("fieldErrors:" + fieldErrors.size());
+        	System.out.println("fieldErrors:" + fieldErrors.size());
 
             throwError = true;
         }
@@ -555,11 +559,11 @@ public class CalendarAbstractAction extends ActionSupport
         ActionContext.getContext().getValueStack().getContext().put("fieldErrors", fieldErrors);
         ActionContext.getContext().getValueStack().getContext().put("errorAction", this);
         
-        log.warn("actionErrors:" + this.getActionErrors());
-        log.warn("fieldErrors:" + this.getFieldErrors());
-        log.warn("errorAction:" + this);
+        System.out.println("actionErrors:" + this.getActionErrors());
+        System.out.println("fieldErrors:" + this.getFieldErrors());
+        System.out.println("errorAction:" + this);
 
-        log.info("ceb:" + ceb);
+        System.out.println("ceb:" + ceb);
         if(ceb != null)
         {
         	List errs = new ArrayList();
@@ -571,9 +575,9 @@ public class CalendarAbstractAction extends ActionSupport
 		        String errorCode 	= ce.getErrorCode();
 		        String message 		= ce.getMessage();
 		        
-		        log.info("fieldName:" + fieldName);
-		        log.info("errorCode:" + errorCode);
-		        log.info("message:" + message);
+		        System.out.println("fieldName:" + fieldName);
+		        System.out.println("errorCode:" + errorCode);
+		        System.out.println("message:" + message);
 	
 		        errs.add(errorCode);
 		        

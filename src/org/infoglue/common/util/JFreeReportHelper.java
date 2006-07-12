@@ -8,7 +8,9 @@ import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.table.TableModel;
@@ -44,7 +46,7 @@ public class JFreeReportHelper
 	
 	private static JFreeReport report = null;
 	
-  public void getEntriesReport(Set entries, final String filename, final String format)
+  public void getEntriesReport(Map map, Set entries, final String filename, final String format)
   {
 	  try
 	  {
@@ -61,6 +63,17 @@ public class JFreeReportHelper
 		  
 	    final TableModel data = new EntriesTableModel(entries);
 	    report.setData(data);
+
+	    Iterator keyIterator = map.keySet().iterator();
+	    while(keyIterator.hasNext())
+	    {
+	    	String key = (String)keyIterator.next();
+	    	Object value = map.get(key);
+
+		    report.setProperty (key, value);
+		    report.setPropertyMarked (key, true);
+	    }
+	    	    
 	    try
 	    {
 	    	if(format.contains("pdf"))
