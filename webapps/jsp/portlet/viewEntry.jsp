@@ -14,7 +14,9 @@
 	<form name="inputForm" method="POST" action="<c:out value="${updateEntryActionUrl}"/>">
 		<input type="hidden" name="entryId" value="<ww:property value="entryId"/>">
 		<ww:iterator value="searchEventId">
-			<input type="hidden" name="searchEventId" value="<ww:property value="top"/>">
+			<ww:if test="top != null">
+				<input type="hidden" name="searchEventId" value="<ww:property value="top"/>">
+			</ww:if>
 		</ww:iterator>
 		<input type="hidden" name="searchFirstName" value="<ww:property value="searchFirstName"/>">
 		<input type="hidden" name="searchLastName" value="<ww:property value="searchLastName"/>">

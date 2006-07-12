@@ -44,9 +44,14 @@
 </portlet:actionURL>
 		
 <form name="email" method="post" action="<c:out value="${sendEmailUrl}"/>">
-	<ww:iterator value="searchEventId">
-	<input type="hidden" name="searchEventId" value="<ww:property value="top"/>">
-	</ww:iterator>
+	<ww:if test="searchEventId != null">
+		<ww:iterator value="searchEventId">
+			<ww:if test="top != null">
+				<input type="hidden" name="searchEventId" value="<ww:property value="top"/>">
+			</ww:if>
+		</ww:iterator>
+	</ww:if>
+
 	<input type="hidden" name="searchFirstName" value="<ww:property value="searchFirstName"/>">
 	<input type="hidden" name="searchLastName" value="<ww:property value="searchLastName"/>">
 	<input type="hidden" name="searchEmail" value="<ww:property value="searchEmail"/>">
@@ -96,10 +101,10 @@
   <form name="attachment" method="post" action="<c:out value="${addAttachmentUrl}"/>" enctype="multipart/form-data">
 	<input type="hidden" name="attachments" value="<ww:property value="attachments"/>">
 	<input type="hidden" name="emailAddresses" value="<ww:property value="emailAddresses"/>">
-	<input atype="hidden" name="subject" value="<ww:property value="subject"/>">
-	<input atype="hidden" name="message" value="<ww:property value="message"/>">
-	<input atype="hidden" name="attachParticipants" value="<ww:property value="attachParticipants"/>">
-	<input atype="hidden" name="eventId" value="<ww:property value="eventId"/>">
+	<input type="hidden" name="subject" value="<ww:property value="subject"/>">
+	<input type="hidden" name="message" value="<ww:property value="message"/>">
+	<input type="hidden" name="attachParticipants" value="<ww:property value="attachParticipants"/>">
+	<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
 	
 	<ww:property value="this.getLabel('labels.internal.soba.attachmentIntro')"/>
 
