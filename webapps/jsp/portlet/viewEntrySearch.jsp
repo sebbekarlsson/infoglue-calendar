@@ -1,6 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
-<%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
-<%@ page import="org.displaytag.sample.*" %> 
 
 <c:set var="activeNavItem" value="EntrySearch" scope="page"/>
 
@@ -87,28 +85,7 @@
 	<portlet:renderURL var="searchEntryActionUrl">
 		<portlet:param name="action" value="ViewEntrySearch!input"/>
 	</portlet:renderURL>
-	
-<%--
-<%
-	request.setAttribute( "test", new org.displaytag.sample.TestList(10, false) );
-	request.setAttribute( "test2", pageContext.getAttribute("entriesAsList") );
-	request.setAttribute( "test3", pageContext.getAttribute("searchEntryActionUrl") );
-	out.print("test3:"+ request.getAttribute( "test3"));
-%>
-
-	<display:table name="test2" export="true" pagesize="10" requestURI="<%=pageContext.getAttribute("searchEntryActionUrl").toString()%>">
-	    <display:column property="id" title="ID" />
-	    <display:column property="firstName" title="FirstName" />
-	    <display:column property="lastName" title="lastName" />
-	    <display:column property="event.name" title="Event" />
-	    <display:column property="email" title="Email" />
-	    <display:column property="organisation" title="Organisation" />
-	    <display:column property="address" title="Adress" />
-	    <display:column property="zipcode" title="Zipcode" />
-	    <display:column property="city" title="City" />
-	</display:table>
---%>
-  
+	  
 	<div id="hitlist" style="display: <ww:if test="entries == null">none</ww:if><ww:else>block</ww:else>;">
 	
 	<div class="portlet_margin">
