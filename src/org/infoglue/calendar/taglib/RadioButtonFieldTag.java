@@ -171,7 +171,7 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
         else
             this.selectedValue = null;        
         log.info("Setting selectedValue:" + this.selectedValue);
-    	System.out.println("Setting selectedValue:" + this.selectedValue);        
+    	log.debug("Setting selectedValue:" + this.selectedValue);        
     }
     
     public void setLabelCssClass(String labelCssClass)
@@ -207,7 +207,7 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
     
     public void setMandatory(String mandatory)
     {
-    	System.out.println("APA1:" + mandatory);
+    	log.debug("APA1:" + mandatory);
     }
 
     public boolean getMandatory()

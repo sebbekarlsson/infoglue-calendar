@@ -30,9 +30,12 @@ import java.util.List;
 
 import javax.xml.transform.TransformerException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xerces.parsers.DOMParser;
 import org.apache.xpath.XPathAPI;
 import org.infoglue.calendar.actions.CalendarAbstractAction;
+import org.infoglue.calendar.actions.ComposeEmailAction;
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.cms.util.XMLHelper;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
@@ -56,6 +59,8 @@ import com.opensymphony.webwork.ServletActionContext;
 
 public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(ViewContentTypeDefinitionAction.class);
+
 	private static final long serialVersionUID = 1L;
 
 	public static final String PLAIN_EDITOR = "plain";
@@ -94,7 +99,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 
     protected void initialize(Long contentTypeDefinitionId) throws Exception
     {
-    	//System.out.println("contentTypeDefinitionId:" + contentTypeDefinitionId);
+    	//log.debug("contentTypeDefinitionId:" + contentTypeDefinitionId);
         this.contentTypeDefinition = ContentTypeDefinitionController.getController().getContentTypeDefinition(contentTypeDefinitionId, this.getSession());
     	
 		this.contentTypeDefinition = ContentTypeDefinitionController.getController().validateAndUpdateContentType(contentTypeDefinitionId, this.contentTypeDefinition, this.getSession());
@@ -139,17 +144,17 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 	public String doInsertAttribute() throws Exception
 	{
 		this.initialize(getContentTypeDefinitionId());
-		System.out.println("Inserting attribute..." + this.contentTypeDefinition.getSchemaValue().length());
+		log.debug("Inserting attribute..." + this.contentTypeDefinition.getSchemaValue().length());
 		
 		String newSchemaValue = ContentTypeDefinitionController.getController().insertContentTypeAttribute(this.contentTypeDefinition.getSchemaValue(), this.inputTypeId, this.activatedName);
 		this.contentTypeDefinition.setSchemaValue(newSchemaValue);
-		System.out.println("Inserting attribute..." + this.contentTypeDefinition.getSchemaValue().length());
+		log.debug("Inserting attribute..." + this.contentTypeDefinition.getSchemaValue().length());
 
 		ContentTypeDefinitionController.getController().update(getContentTypeDefinitionId(), this.contentTypeDefinition, getSession());
 
 		this.initialize(getContentTypeDefinitionId());
 
-		System.out.println("Inserting attribute..." + this.contentTypeDefinition.getSchemaValue().length());
+		log.debug("Inserting attribute..." + this.contentTypeDefinition.getSchemaValue().length());
 		
 		return UPDATED;
 	}
@@ -157,7 +162,7 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 
 	public String doDeleteAttribute() throws Exception
 	{
-		System.out.println("Deleting attribute....");
+		log.debug("Deleting attribute....");
 		this.initialize(getContentTypeDefinitionId());
 
 		try
@@ -406,12 +411,12 @@ public class ViewContentTypeDefinitionAction extends CalendarAbstractAction
 			Document document = createDocumentFromDefinition();
 
 			String attributesXPath = "/xs:schema/xs:complexType/xs:all/xs:element/xs:complexType/xs:all/xs:element[@name='" + this.attributeName + "']/xs:annotation/xs:appinfo/params/param[@id='" + this.attributeParameterId +"']/values";
-			System.out.println("attributesXPath:" + attributesXPath);
+			log.debug("attributesXPath:" + attributesXPath);
 			NodeList anl = org.apache.xpath.XPathAPI.selectNodeList(document.getDocumentElement(), attributesXPath);
 
-			System.out.println("anl:" + anl);
+			log.debug("anl:" + anl);
 			if(anl != null)
-				System.out.println("anl:" + anl.getLength());
+				log.debug("anl:" + anl.getLength());
 
 			if(anl != null && anl.getLength() > 0)
 			{

@@ -39,7 +39,7 @@ public class DeleteEntryAction extends CalendarAbstractAction
 {
     private Long entryId;
     
-    private Long searchEventId;
+    private Long[] searchEventId;
     private String searchFirstName;
     private String searchLastName;
     private String searchEmail;
@@ -73,11 +73,11 @@ public class DeleteEntryAction extends CalendarAbstractAction
     {
         this.searchEmail = searchEmail;
     }
-    public Long getSearchEventId()
+    public Long[] getSearchEventId()
     {
         return searchEventId;
     }
-    public void setSearchEventId(Long searchEventId)
+    public void setSearchEventId(Long[] searchEventId)
     {
         this.searchEventId = searchEventId;
     }

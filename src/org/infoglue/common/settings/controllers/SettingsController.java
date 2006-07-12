@@ -121,7 +121,7 @@ public class SettingsController
 		String key = "propertyDocument_" + nameSpace;
 		
 		Object object = CacheController.getCachedObject(SETTINGSPROPERTIESCACHENAME, key);
-		//System.out.println("Cached object:" + object);
+		//log.debug("Cached object:" + object);
 		if(object instanceof NullObject)
 			return null;
 		
@@ -135,12 +135,12 @@ public class SettingsController
 				String xml = property.getValue();
 				if(xml != null && xml.length() > 0)
 				{
-					//System.out.println("xml:" + xml);
+					//log.debug("xml:" + xml);
 					try
 					{
 						document = domBuilder.getDocument(xml);
 						//String xml2 = domBuilder.getFormattedDocument(document, false, false, "UTF-8");
-						//System.out.println("xml2:" + xml2);
+						//log.debug("xml2:" + xml2);
 					}
 					catch(Exception e)
 					{
@@ -154,26 +154,26 @@ public class SettingsController
 			}
 			else
 			{
-				//System.out.println("Property was null...");
+				//log.debug("Property was null...");
 				document = domBuilder.createDocument();
 				Element languagesElement = domBuilder.addElement(document, "variations");
 				Element languageElement = domBuilder.addElement(languagesElement, "variation");
 				domBuilder.addAttribute(languageElement, "id", "default"); 
 				Element labelsElement = domBuilder.addElement(languageElement, "setting");
 				String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-				System.out.println("xml:" + xml);
+				//log.debug("xml:" + xml);
 	
 	            labelsPersister.createProperty(nameSpace, "systemSettings", xml, session);
 			
-	            System.out.println("Creating property:" + xml);
+	            //log.debug("Creating property:" + xml);
 	        	
 				document = domBuilder.getDocument(xml);
 			}
 		
-			//System.out.println("document before cache:" + document);
+			//log.debug("document before cache:" + document);
 			if(document != null)
 			{
-				//System.out.println("caching document:" + cacheName + ":" + key + ":" + document);
+				//log.debug("caching document:" + cacheName + ":" + key + ":" + document);
 				CacheController.cacheObject(SETTINGSPROPERTIESCACHENAME, key, document);
 			}
 			else
@@ -193,7 +193,7 @@ public class SettingsController
 		domBuilder.addAttribute(languageElement, "id", id); 
 		Element labelsElement = domBuilder.addElement(languageElement, "setting");
         String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-        //System.out.println("xml:" + xml);
+        //log.debug("xml:" + xml);
 
         labelsPersister.updateProperty(nameSpace, "systemSettings", xml, session);
 
@@ -203,14 +203,14 @@ public class SettingsController
 	public void updateSettings(String nameSpace, String id, Map properties, Session session) throws Exception
 	{
 		Document document = getPropertyDocument(nameSpace, session);
-        String xml1 = domBuilder.getFormattedDocument(document, "UTF-8");
-        System.out.println("xml1:" + xml1);
+        //String xml1 = domBuilder.getFormattedDocument(document, "UTF-8");
+        //log.debug("xml1:" + xml1);
         String xpath = "/variations/variation[@id='" + id +"']/setting";
         //String xpath = "/languages/language[@languageCode='" + languageCode +"']/labels";
-        System.out.println("xpath:" + xpath);
+        //log.debug("xpath:" + xpath);
         
 		Element labelsElement = (Element)document.selectSingleNode(xpath);
-		System.out.println("labelsElement:" + labelsElement);
+		//log.debug("labelsElement:" + labelsElement);
 		
 		Iterator keyInterator = properties.keySet().iterator();
 		while(keyInterator.hasNext())
@@ -233,7 +233,7 @@ public class SettingsController
 				while(elementsIterator.hasNext())
 				{
 					Element element = (Element)elementsIterator.next();
-					System.out.println("Removing element:" + element.asXML());
+					//log.debug("Removing element:" + element.asXML());
 					labelElement.remove(element);
 				}
 				
@@ -242,7 +242,7 @@ public class SettingsController
 		}
 		
         String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-        //System.out.println("xml:" + xml);
+        //log.debug("xml:" + xml);
 
         labelsPersister.updateProperty(nameSpace, "systemSettings", xml, session);
 
@@ -266,15 +266,15 @@ public class SettingsController
 			key = "NP" + key;
 
 		Document document = getPropertyDocument(nameSpace, session);
-		//System.out.println("key:" + key);
-		//System.out.println("locale.getLanguage():" + locale.getLanguage());
+		//log.debug("key:" + key);
+		//log.debug("locale.getLanguage():" + locale.getLanguage());
         if(document != null)
         {
 			String xpath = "/variations/variation[@id='" + id +"']/setting/" + key;
-	        //System.out.println("xpath:" + xpath);
+	        //log.debug("xpath:" + xpath);
 	        
 			Element labelElement = (Element)document.selectSingleNode(xpath);
-			//System.out.println("labelElement:" + labelElement);
+			//log.debug("labelElement:" + labelElement);
 			
 			if(labelElement != null)
 				label = labelElement.getText();

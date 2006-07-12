@@ -26,6 +26,8 @@ package org.infoglue.calendar.actions;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.infoglue.calendar.controllers.EntryController;
@@ -50,6 +52,8 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class UpdateEntryAction extends CalendarUploadAbstractAction
 {
+	private static Log log = LogFactory.getLog(UpdateEntryAction.class);
+
     private Long entryId;
     private String firstName;
     private String lastName;
@@ -62,7 +66,7 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
     private String fax;
     private String message;
 
-    private Long searchEventId;
+    private Long[] searchEventId;
     private String searchFirstName;
     private String searchLastName;
     private String searchEmail;
@@ -85,14 +89,14 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
 	    	        	
 	        int i = 0;
 	        String idKey = ServletActionContext.getRequest().getParameter("attributeName_" + i);
-	        System.out.println("idKey:" + idKey);
+	        log.debug("idKey:" + idKey);
 	        while(idKey != null && idKey.length() > 0)
 	        {
 	            String[] value = ServletActionContext.getRequest().getParameterValues(idKey);
 	            if(value == null || value.length == 0)
 	                this.addFieldError(idKey, "errors.atLeastOneItem");
 	
-	            System.out.println(idKey + "=" + value);
+	            log.debug(idKey + "=" + value);
 	            
 	            String valueString = "";
 	            if(value != null)
@@ -122,7 +126,7 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
 	        }
 	
 	        String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-	        System.out.println("xml:" + xml);
+	        log.debug("xml:" + xml);
 	
 	        Entry entry = EntryController.getController().getEntry(entryId, getSession());
 	        EventType eventType = EventTypeController.getController().getEventType(entry.getEvent().getEntryFormId(), getSession());
@@ -264,11 +268,11 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
     {
         this.searchEmail = searchEmail;
     }
-    public Long getSearchEventId()
+    public Long[] getSearchEventId()
     {
         return searchEventId;
     }
-    public void setSearchEventId(Long searchEventId)
+    public void setSearchEventId(Long[] searchEventId)
     {
         this.searchEventId = searchEventId;
     }

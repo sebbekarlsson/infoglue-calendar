@@ -31,6 +31,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -48,6 +50,8 @@ import org.infoglue.cms.util.CmsSessionContextListener;
 
 public class ViewApplicationStateAction extends CalendarAbstractAction 
 {
+	private static Log log = LogFactory.getLog(ViewApplicationStateAction.class);
+
     private List states 					= new ArrayList();
     
 	private boolean databaseConnectionOk 	= false;
@@ -124,7 +128,7 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
      */
     public String logLevel() throws Exception
     {
-    	System.out.println("Setting loglevel....");
+    	log.debug("Setting loglevel....");
     	
     	Level newLevel = Level.ERROR;
     	if(this.logLevel.equalsIgnoreCase("debug"))
@@ -140,7 +144,7 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
     	if(category != null)
     		category.setLevel(newLevel);
         
-    	System.out.println("Setting loglevel end....");
+    	log.debug("Setting loglevel end....");
     	
         return "cleared";
     }

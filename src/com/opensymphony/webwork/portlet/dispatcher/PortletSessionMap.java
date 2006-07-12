@@ -13,6 +13,10 @@ import javax.servlet.http.HttpSession;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.actions.UpdateEventTypeAction;
+
 
 /**
  * A simple implementation of the {@link java.util.Map} interface to handle a collection of HTTP session
@@ -22,7 +26,10 @@ import javax.portlet.PortletSession;
  * @author <a href="mailto:rickard@middleware-company.com">Rickard Öberg</a>
  * @author Bill Lynch (docs)
  */
-public class PortletSessionMap extends AbstractMap implements Serializable {
+public class PortletSessionMap extends AbstractMap implements Serializable 
+{
+	private static Log log = LogFactory.getLog(PortletSessionMap.class);
+
     //~ Instance fields ////////////////////////////////////////////////////////
 
     PortletSession session;
@@ -62,21 +69,21 @@ public class PortletSessionMap extends AbstractMap implements Serializable {
     {
         synchronized (session) 
         {
-        	System.out.println("Session:" + session);
-        	System.out.println("Session:" + session.getAttribute("infogluePrincipal"));
-        	System.out.println("Session entries:" + entries);
+        	log.debug("Session:" + session);
+        	log.debug("Session:" + session.getAttribute("infogluePrincipal"));
+        	log.debug("Session entries:" + entries);
             if (entries == null) 
             {
                 entries = new HashSet();
 
-                System.out.println("Session:" + session.getAttribute("infogluePrincipal"));
+                log.debug("Session:" + session.getAttribute("infogluePrincipal"));
                 Enumeration enumeration = session.getAttributeNames();
-                System.out.println("enumeration:" + enumeration.hasMoreElements());
+                log.debug("enumeration:" + enumeration.hasMoreElements());
                 
                 while (enumeration.hasMoreElements()) 
                 {
                     final String key = enumeration.nextElement().toString();
-                    System.out.println("key:" + key);
+                    log.debug("key:" + key);
                     final Object value = session.getAttribute(key);
                     entries.add(new Entry() {
                             public boolean equals(Object obj) {

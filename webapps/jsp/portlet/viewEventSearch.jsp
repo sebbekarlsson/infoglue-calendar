@@ -35,7 +35,10 @@
 	<portlet:renderURL var="viewListUrl">
 		<portlet:param name="action" value="ViewEventSearch"/>
 		<c:if test="${searchEventId != null}">
-			<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
+			<ww:iterator value="searchEventId">
+				<ww:set name="currentSearchEventId" value="top" scope="page"/>
+				<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
+			</ww:iterator>
 		</c:if>
 		<c:if test="${searchFirstName != null}">
 			<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>

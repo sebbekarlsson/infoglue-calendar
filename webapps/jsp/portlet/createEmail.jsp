@@ -1,7 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
-<% System.err.println( "In createEmail" ); %>
-
 <c:set var="activeNavItem" value="EntrySearch" scope="page"/>
 
 <%@ include file="adminHeader.jsp" %>
@@ -18,6 +16,11 @@
 		{
 			attachmentFormElement.style.display = "block";
 			emailFormElement.style.display = "none";
+			document.attachment.emailAddresses.value = document.email.emailAddresses.value;
+			document.attachment.subject.value = document.email.subject.value;
+			document.attachment.message.value = document.email.message.value;
+			document.attachment.attachParticipants.value = document.email.attachParticipants.value;
+			document.attachment.eventId.value = document.email.eventId.value;
 		}
 		else
 		{
@@ -41,11 +44,14 @@
 </portlet:actionURL>
 		
 <form name="email" method="post" action="<c:out value="${sendEmailUrl}"/>">
-	<input type="hidden" name="searchEventId" value="<ww:property value="searchEventId"/>">
+	<ww:iterator value="searchEventId">
+	<input type="hidden" name="searchEventId" value="<ww:property value="top"/>">
+	</ww:iterator>
 	<input type="hidden" name="searchFirstName" value="<ww:property value="searchFirstName"/>">
 	<input type="hidden" name="searchLastName" value="<ww:property value="searchLastName"/>">
 	<input type="hidden" name="searchEmail" value="<ww:property value="searchEmail"/>">
 	<input type="hidden" name="attachments" value="<ww:property value="attachments"/>">
+	<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
 
 	<ww:property value="this.getLabel('labels.internal.soba.emailIntro')"/>
 	
@@ -54,20 +60,34 @@
 	<ww:if test="attachments != null && attachments.size > 0">
 		<div class="fieldrow">
 			<label for="attachmentSelect"><ww:property value="this.getLabel('labels.internal.soba.attachments')"/></label><br/>
-			<select id="attachmentSelect" name="searchEventId" class="listBox">
+			<select id="attachmentSelect" name="attachmentsSelect" class="listBox">
 				<ww:iterator value="attachments">
 				<option value="<ww:property value="name"/>"/><ww:property value="name"/></option>
 				</ww:iterator>
 			</select>
+			<input type="button" class="button" onClick="javascript:toggleForms();" value="<ww:property value="this.getLabel('labels.internal.soba.addAttachment')"/>"/>
 		</div>
 	</ww:if>
+	<ww:else>
+		<div class="fieldrow">
+			<label for="attachmentSelect"><ww:property value="this.getLabel('labels.internal.soba.attachments')"/></label><br/>
+			<select id="attachmentSelect" name="attachmentsSelect" class="listBox">
+				<ww:iterator value="attachments">
+				<option value="<ww:property value="name"/>"/><ww:property value="name"/></option>
+				</ww:iterator>
+			</select>
+			<input type="button" class="button" onClick="javascript:toggleForms();" value="<ww:property value="this.getLabel('labels.internal.soba.addAttachment')"/>"/>
+		</div>
+	</ww:else>
 
-	<calendar:textAreaField label="labels.internal.soba.message" name="message" value="message" cssClass="smalltextarea" required="true"/>
-
+	<calendar:textAreaField label="labels.internal.soba.message" name="'message'" value="message" cssClass="smalltextarea" required="true"/>
+	<ww:if test="eventId != null || attachParticipants == 'true'">
+		<calendar:checkboxField label="labels.internal.soba.attachParticipants" name="'attachParticipants'" valueMap="yesNoMap" selectedValue="attachParticipants"/>
+	</ww:if>
+	
 	<div style="height:10px"></div>
      
-    <input type="button" class="button" onClick="javascript:toggleForms();" value="<ww:property value="this.getLabel('labels.internal.soba.addAttachment')"/>"/>
-	<input type="submit" name="send"  class="button" value="<ww:property value="this.getLabel('labels.internal.soba.sendMessage')"/>"/>
+    <input type="submit" name="send"  class="button" value="<ww:property value="this.getLabel('labels.internal.soba.sendMessage')"/>"/>
 	<input type="submit" name="cancel" class="button" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>"></a>
 </form>
 </div>
@@ -76,6 +96,10 @@
   <form name="attachment" method="post" action="<c:out value="${addAttachmentUrl}"/>" enctype="multipart/form-data">
 	<input type="hidden" name="attachments" value="<ww:property value="attachments"/>">
 	<input type="hidden" name="emailAddresses" value="<ww:property value="emailAddresses"/>">
+	<input atype="hidden" name="subject" value="<ww:property value="subject"/>">
+	<input atype="hidden" name="message" value="<ww:property value="message"/>">
+	<input atype="hidden" name="attachParticipants" value="<ww:property value="attachParticipants"/>">
+	<input atype="hidden" name="eventId" value="<ww:property value="eventId"/>">
 	
 	<ww:property value="this.getLabel('labels.internal.soba.attachmentIntro')"/>
 

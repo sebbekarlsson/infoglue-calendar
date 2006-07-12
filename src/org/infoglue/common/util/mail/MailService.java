@@ -149,14 +149,19 @@ public class MailService
 			mbp1.setDataHandler(new DataHandler(new StringDataSource(content,
 					contentTypeWithEncoding, encoding)));
 			mp.addBodyPart(mbp1);
-			if ( attachments != null ) {
-				for( Iterator it = attachments.iterator(); it.hasNext(); ) {
+			if ( attachments != null ) 
+			{
+				for( Iterator it = attachments.iterator(); it.hasNext(); ) 
+				{
 					File attachmentFile = ( File ) it.next();
-					System.err.println( "Filename: " + attachmentFile.getName() );
-					MimeBodyPart attachment = new MimeBodyPart();
-					attachment.setFileName( attachmentFile.getName() );
-					attachment.setDataHandler(new DataHandler(new FileDataSource(attachmentFile)));
-					mp.addBodyPart(attachment);
+					System.err.println( "Filename: " + attachmentFile.getPath() + ":" + attachmentFile.exists());
+					if(attachmentFile.exists())
+					{
+						MimeBodyPart attachment = new MimeBodyPart();
+						attachment.setFileName( attachmentFile.getName() );
+						attachment.setDataHandler(new DataHandler(new FileDataSource(attachmentFile)));
+						mp.addBodyPart(attachment);
+					}
 				}
 			}
 			message.setContent(mp);

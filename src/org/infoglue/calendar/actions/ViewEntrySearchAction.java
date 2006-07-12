@@ -62,7 +62,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
 {
     private static Log log = LogFactory.getLog(ViewEntrySearchAction.class);
 
-    private Long searchEventId;
+    private Long[] searchEventId;
     private String searchFirstName;
     private String searchLastName;
     private String searchEmail;
@@ -91,7 +91,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         this.categoryList = CategoryController.getController().getRootCategoryList(getSession());
         this.locationList = LocationController.getController().getLocationList(getSession());
         this.categoryAttributes = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttributeList(getSession());
-        System.out.println("calendars:" + categoryAttributes.size());
+        log.debug("calendars:" + categoryAttributes.size());
 		String entryResultValues = PropertyHelper.getProperty("entryResultsValues");
         StringTokenizer st = new StringTokenizer( entryResultValues, ",", false );
         while( st.hasMoreTokens() ) 
@@ -132,10 +132,10 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         
 
         log.info("searchEventId:::::" + this.searchEventId);
-        log.warn("andSearch:" + this.andSearch);
+        log.info("andSearch:" + this.andSearch);
         
         this.andSearch = ServletActionContext.getRequest().getParameter("andSearch");
-        log.warn("andSearch:" + andSearch);
+        log.info("andSearch:" + andSearch);
 
         
         this.entries = EntryController.getController().getEntryList(this.getInfoGlueRemoteUser(), 
@@ -203,7 +203,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
     	List result = new ArrayList();
     	result.addAll(entries);
-    	System.out.println("result:" + result.size());
+    	log.debug("result:" + result.size());
         return result;
     }
 
@@ -252,12 +252,12 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         return eventList;
     }
  
-    public Long getSearchEventId()
+    public Long[] getSearchEventId()
     {
         return searchEventId;
     }
     
-    public void setSearchEventId(Long searchEventId)
+    public void setSearchEventId(Long[] searchEventId)
     {
         this.searchEventId = searchEventId;
     }
@@ -337,5 +337,13 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
 	 */
 	public void setResultValues(List resultValues) {
 		this.resultValues = resultValues;
+	}
+	
+	public boolean getSingleEventSearch()
+	{
+		if(searchEventId == null || searchEventId.length > 1 || searchEventId[0] == null)
+			return false;
+		else
+			return true;
 	}
 }

@@ -120,7 +120,7 @@ public class LabelsController
 		String key = "propertyDocument_" + nameSpace;
 		
 		Object object = CacheController.getCachedObject(LABELSPROPERTIESCACHENAME, key);
-		//System.out.println("Cached object:" + object);
+		//log.debug("Cached object:" + object);
 		if(object instanceof NullObject)
 			return null;
 		
@@ -134,13 +134,13 @@ public class LabelsController
 				String xml = property.getValue();
 				if(xml != null && xml.length() > 0)
 				{
-					//System.out.println("xml:" + xml);
+					//log.debug("xml:" + xml);
 					FileHelper.writeToFile(new File("c:/temp/apa.xml"), xml, false);
 					try
 					{
 						document = domBuilder.getDocument(xml);
 						//String xml2 = domBuilder.getFormattedDocument(document, false, false, "UTF-8");
-						//System.out.println("xml2:" + xml2);
+						//log.debug("xml2:" + xml2);
 					}
 					catch(Exception e)
 					{
@@ -160,17 +160,17 @@ public class LabelsController
 				domBuilder.addAttribute(languageElement, "languageCode", "en"); 
 				Element labelsElement = domBuilder.addElement(languageElement, "labels");
 				String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-				//System.out.println("xml:" + xml);
+				//log.debug("xml:" + xml);
 	
 	            labelsPersister.createProperty(nameSpace, "systemLabels", xml, session);
 			
 				document = domBuilder.getDocument(xml);
 			}
 		
-			//System.out.println("document before cache:" + document);
+			//log.debug("document before cache:" + document);
 			if(document != null)
 			{
-				//System.out.println("caching document:" + cacheName + ":" + key + ":" + document);
+				//log.debug("caching document:" + cacheName + ":" + key + ":" + document);
 				CacheController.cacheObject(LABELSPROPERTIESCACHENAME, key, document);
 			}
 			else
@@ -190,7 +190,7 @@ public class LabelsController
 		domBuilder.addAttribute(languageElement, "languageCode", languageCode); 
 		Element labelsElement = domBuilder.addElement(languageElement, "labels");
         String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-        //System.out.println("xml:" + xml);
+        //log.debug("xml:" + xml);
 
         labelsPersister.updateProperty(nameSpace, "systemLabels", xml, session);
 
@@ -200,14 +200,14 @@ public class LabelsController
 	public void updateLabels(String nameSpace, String languageCode, Map properties, Session session) throws Exception
 	{
 		Document document = getPropertyDocument(nameSpace, session);
-        String xml1 = domBuilder.getFormattedDocument(document, "UTF-8");
-        System.out.println("xml1:" + xml1);
+        //String xml1 = domBuilder.getFormattedDocument(document, "UTF-8");
+		//log.debug("xml1:" + xml1);
         String xpath = "/languages/language[@languageCode='" + languageCode +"']/labels";
         //String xpath = "/languages/language[@languageCode='" + languageCode +"']/labels";
-        System.out.println("xpath:" + xpath);
+        //log.debug("xpath:" + xpath);
         
 		Element labelsElement = (Element)document.selectSingleNode(xpath);
-		System.out.println("labelsElement:" + labelsElement);
+		//log.debug("labelsElement:" + labelsElement);
 		
 		Iterator keyInterator = properties.keySet().iterator();
 		while(keyInterator.hasNext())
@@ -230,7 +230,7 @@ public class LabelsController
 				while(elementsIterator.hasNext())
 				{
 					Element element = (Element)elementsIterator.next();
-					System.out.println("Removing element:" + element.asXML());
+					//log.debug("Removing element:" + element.asXML());
 					labelElement.remove(element);
 				}
 				
@@ -239,7 +239,7 @@ public class LabelsController
 		}
 		
         String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-        //System.out.println("xml:" + xml);
+        //log.debug("xml:" + xml);
 
         labelsPersister.updateProperty(nameSpace, "systemLabels", xml, session);
 
@@ -263,15 +263,15 @@ public class LabelsController
 			key = "NP" + key;
 
 		Document document = getPropertyDocument(nameSpace, session);
-		//System.out.println("key:" + key);
-		//System.out.println("locale.getLanguage():" + locale.getLanguage());
+		//log.debug("key:" + key);
+		//log.debug("locale.getLanguage():" + locale.getLanguage());
         if(document != null)
         {
 			String xpath = "/languages/language[@languageCode='" + locale.getLanguage() +"']/labels/" + key;
-	        //System.out.println("xpath:" + xpath);
+	        //log.debug("xpath:" + xpath);
 	        
 			Element labelElement = (Element)document.selectSingleNode(xpath);
-			//System.out.println("labelElement:" + labelElement);
+			//log.debug("labelElement:" + labelElement);
 			
 			if(labelElement != null)
 				label = labelElement.getText();

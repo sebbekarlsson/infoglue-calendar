@@ -148,7 +148,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            String id;
 	            String optionText;
 	            Object obj = valuesIterator.next();
-	            //System.out.println("Obj: " + obj.getClass().getName());
+	            //log.debug("Obj: " + obj.getClass().getName());
 	            if(obj instanceof InfoGluePrincipal)
 	            {
 	                InfoGluePrincipal value = (InfoGluePrincipal)obj;
@@ -382,13 +382,13 @@ public class SelectFieldTag extends AbstractCalendarTag
             }
         }
         
-        //System.out.println("this.selectedValues:" + this.selectedValues);
+        //log.debug("this.selectedValues:" + this.selectedValues);
     }
 
     public void setSelectedValue(String selectedValue) throws JspException
     {
         Object o = findOnValueStack(selectedValue);
-        //System.out.println("o:" + o);
+        //log.debug("o:" + o);
         if(o != null) 
             this.selectedValues = new String[] {o.toString()};
         else
@@ -475,7 +475,7 @@ public class SelectFieldTag extends AbstractCalendarTag
     
     public void setMandatory(String mandatory)
     {
-    	System.out.println("APA1:" + mandatory);
+    	log.debug("APA1:" + mandatory);
     }
 
     public boolean getMandatory()

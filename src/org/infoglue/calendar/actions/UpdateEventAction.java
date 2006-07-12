@@ -161,17 +161,17 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         	        	
             int attributeIndex = 0;
             String attributeIdKey = ServletActionContext.getRequest().getParameter("attributeName_" + attributeIndex);
-            System.out.println("attributeIdKey:" + attributeIdKey);
+            log.debug("attributeIdKey:" + attributeIdKey);
             log.info("attributeIdKey:" + attributeIdKey);
             while(attributeIdKey != null && attributeIdKey.length() > 0)
             {
-            	System.out.println("attributeIdKey in loop: " + attributeIdKey);
+            	log.debug("attributeIdKey in loop: " + attributeIdKey);
             	
                 String[] value = ServletActionContext.getRequest().getParameterValues(attributeIdKey);
                 if(value == null || value.length == 0)
                     this.addFieldError(attributeIdKey, "errors.atLeastOneItem");
 
-                System.out.println(attributeIdKey + "=" + value);
+                log.debug(attributeIdKey + "=" + value);
                 log.info("value:" + value);
                 
                 String valueString = "";
@@ -203,7 +203,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
             }
 
             String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-            System.out.println("xml:" + xml);
+            log.debug("xml:" + xml);
             
             ServletActionContext.getRequest().getSession().setAttribute("attributes", attributes);
         	

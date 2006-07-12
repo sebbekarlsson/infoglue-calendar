@@ -193,7 +193,7 @@ public class CalendarController extends BasicController
 	            Role role = new Role();
 	            String roleName = roles[i];
 	            role.setCalendar(calendar);
-	            //System.out.println("ID: " + calendar.getId());
+	            //log.debug("ID: " + calendar.getId());
 	            role.setName(roleName);
 	            session.save(role);
 	            calendar.getOwningRoles().add(role);
@@ -207,7 +207,7 @@ public class CalendarController extends BasicController
 	            Group group = new Group();
 	            String groupName = groups[i];
 	            group.setCalendar(calendar);
-	            //System.out.println("ID: " + calendar.getId());
+	            //log.debug("ID: " + calendar.getId());
 	            group.setName(groupName);
 	            session.save(group);
 	            calendar.getOwningGroups().add(group);

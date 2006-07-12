@@ -149,6 +149,14 @@ public class CalendarAbstractAction extends ActionSupport
         return yesOrNo;
     }
 
+    public Map getYesNoMap()
+    {
+        Map yesOrNo = new HashMap();
+        yesOrNo.put("true", "true");
+        
+        return yesOrNo;
+    }
+
     public String concat(String start, String end)
     {
     	return start + end;
@@ -221,7 +229,7 @@ public class CalendarAbstractAction extends ActionSupport
     public List getAnonymousCalendars() throws Exception
     {
     	String anonymousCalendar = PropertyHelper.getProperty("anonymousCalendar");
-    	System.out.println("anonymousCalendar:" + anonymousCalendar);
+    	log.info("anonymousCalendar:" + anonymousCalendar);
     	if(anonymousCalendar == null)
     		anonymousCalendar = "";
     	
@@ -237,8 +245,8 @@ public class CalendarAbstractAction extends ActionSupport
             org.infoglue.calendar.entities.Calendar owningCalendar = event.getOwningCalendar();
             if(owningCalendar != null)
             {
-	            log.warn("owningCalendar.getOwningRoles():" + owningCalendar.getOwningRoles());
-	            log.warn("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
+	            log.info("owningCalendar.getOwningRoles():" + owningCalendar.getOwningRoles());
+	            log.info("this.getInfoGlueRemoteUserGroups():" + this.getInfoGlueRemoteUserGroups());
 		        if(owningCalendar.getOwningRoles().size() > 0 && this.getInfoGlueRemoteUserGroups().size() == 0)
 		        {
 		            isEventOwner = false;
@@ -246,7 +254,7 @@ public class CalendarAbstractAction extends ActionSupport
 		        else
 		        {
 		            Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
-			        System.out.println("calendars: " + calendars);
+			        log.info("calendars: " + calendars);
 			        if(calendars.contains(owningCalendar))
 			            isEventOwner = true;
 		        }
@@ -354,13 +362,13 @@ public class CalendarAbstractAction extends ActionSupport
 	{
 		String value = "";
 		
-		System.out.println("xml:" + xml);
+		log.info("xml:" + xml);
 
 		if(xml != null)
 		{
 			try
 	        {
-		        //System.out.println("key:" + key);
+		        //log.info("key:" + key);
 				
 				int startTagIndex = xml.indexOf("<" + key + ">");
 				int endTagIndex   = xml.indexOf("]]></" + key + ">");
@@ -531,14 +539,14 @@ public class CalendarAbstractAction extends ActionSupport
     	boolean throwError = false;
     	
     	Map fieldErrors = new HashMap();
-        System.out.println("this.getFieldErrors() 0:" + this.getFieldErrors().size());
+        log.info("this.getFieldErrors() 0:" + this.getFieldErrors().size());
 
         String context = ActionContext.getContext().getName();
         ActionValidatorManager.validate(this, context);
         if(this.getFieldErrors() != null && this.getFieldErrors().size() > 0)
         {
         	fieldErrors.putAll(this.getFieldErrors());
-        	System.out.println("fieldErrors:" + fieldErrors.size());
+        	log.info("fieldErrors:" + fieldErrors.size());
 
             throwError = true;
         }
@@ -551,7 +559,7 @@ public class CalendarAbstractAction extends ActionSupport
         log.warn("fieldErrors:" + this.getFieldErrors());
         log.warn("errorAction:" + this);
 
-        System.out.println("ceb:" + ceb);
+        log.info("ceb:" + ceb);
         if(ceb != null)
         {
         	List errs = new ArrayList();
@@ -563,9 +571,9 @@ public class CalendarAbstractAction extends ActionSupport
 		        String errorCode 	= ce.getErrorCode();
 		        String message 		= ce.getMessage();
 		        
-		        System.out.println("fieldName:" + fieldName);
-		        System.out.println("errorCode:" + errorCode);
-		        System.out.println("message:" + message);
+		        log.info("fieldName:" + fieldName);
+		        log.info("errorCode:" + errorCode);
+		        log.info("message:" + message);
 	
 		        errs.add(errorCode);
 		        
@@ -581,7 +589,7 @@ public class CalendarAbstractAction extends ActionSupport
         while(keyIterator.hasNext())
         {
         	String key = (String)keyIterator.next();
-        	System.out.println("FieldError: " + key + "=" + fieldErrors.get(key));
+        	log.info("FieldError: " + key + "=" + fieldErrors.get(key));
         }        	
 
         if(throwError)
@@ -775,7 +783,7 @@ public class CalendarAbstractAction extends ActionSupport
     public boolean isActiveEventField(String fieldName)
     {
     	String hiddenEventFields = getSetting("hiddenEventFields");
-    	System.out.println("hiddenEventFields:" + hiddenEventFields);
+    	log.info("hiddenEventFields:" + hiddenEventFields);
 
     	return !(hiddenEventFields.indexOf(fieldName) > -1);	 
     }
@@ -783,7 +791,7 @@ public class CalendarAbstractAction extends ActionSupport
     public boolean isActiveEntryField(String fieldName)
     {
     	String hiddenEntryFields = getSetting("hiddenEntryFields");
-    	System.out.println("hiddenEntryFields:" + hiddenEntryFields);
+    	log.info("hiddenEntryFields:" + hiddenEntryFields);
 
     	return !(hiddenEntryFields.indexOf(fieldName) > -1);	 
     }
@@ -810,7 +818,7 @@ public class CalendarAbstractAction extends ActionSupport
 
     public String getSetting(String key, String variationId, boolean skipProperty, boolean fallbackToDefault)
     {
-    	//System.out.println("Getting setting for " + key + ":" + variationId + ":" + skipProperty + ":" + fallbackToDefault);
+    	//log.info("Getting setting for " + key + ":" + variationId + ":" + skipProperty + ":" + fallbackToDefault);
     	
     	if(variationId == null)
     		variationId = "default";
@@ -824,7 +832,7 @@ public class CalendarAbstractAction extends ActionSupport
 	        if(derivedObject != null)
 	        	derivedValue = derivedObject.toString();
 	        
-	        //System.out.println("derivedValue:" + derivedValue);
+	        //log.info("derivedValue:" + derivedValue);
 	        
 	        if(!skipProperty)
 	        {
@@ -852,7 +860,7 @@ public class CalendarAbstractAction extends ActionSupport
 	        log.warn("An label was not found for key: " + key + ": " + e.getMessage(), e);
 	    }
 	    
-	    //System.out.println("label:" + label);
+	    //log.info("label:" + label);
 	    
 	    return label;
     }

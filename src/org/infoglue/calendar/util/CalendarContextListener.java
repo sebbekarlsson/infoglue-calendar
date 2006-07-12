@@ -25,6 +25,9 @@ package org.infoglue.calendar.util;
 
 import javax.servlet.*;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.actions.ViewApplicationStateAction;
 import org.infoglue.cms.security.InfoGlueAuthenticationFilter;
 import org.infoglue.cms.util.CmsPropertyHandler;
 import org.infoglue.common.util.PropertyHelper;
@@ -38,7 +41,8 @@ import java.io.File;
 
 public final class CalendarContextListener implements ServletContextListener 
 {
-	
+	private static Log log = LogFactory.getLog(ViewApplicationStateAction.class);
+
 	/**
 	 * This method is called when the servlet context is 
 	 * initialized(when the Web Application is deployed). 

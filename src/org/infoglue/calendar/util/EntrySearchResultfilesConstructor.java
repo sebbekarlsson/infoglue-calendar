@@ -25,6 +25,7 @@ public class EntrySearchResultfilesConstructor {
 
 	private Set entries;
 	private Map searchResultFiles;
+	private Map searchResultFilePaths;
 	private String tempFilePath;
 	private String scheme;
 	private String serverName;
@@ -48,6 +49,7 @@ public class EntrySearchResultfilesConstructor {
 	private void createResults()
 	{
 		searchResultFiles = new LinkedHashMap();
+		searchResultFilePaths = new LinkedHashMap();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String exportEntryResultsFolder = PropertyHelper.getProperty("exportEntryResultsFolder");
 		fileFolderLocation = tempFilePath + File.separator + exportEntryResultsFolder + File.separator;
@@ -74,38 +76,47 @@ public class EntrySearchResultfilesConstructor {
 					if (txtConstructor.createFile())
 					{
 						searchResultFiles.put("Text", txtConstructor.getFileLocation());
+						//searchResultFilePaths.put("Text", txtConstructor.get)
 					}
 				}
 				if (resultType.indexOf("CSV") > -1)
 				{
-					System.out.println("fileFolderLocation:" + fileFolderLocation);
+					log.debug("fileFolderLocation:" + fileFolderLocation);
 					String fileName = fileFolderLocation + File.separator + "entries_" + System.currentTimeMillis() + ".csv";
 					String fileURL = httpFolderLocation + "entries_" + System.currentTimeMillis() + ".csv";
 					searchResultFiles.put("CSV", fileURL);
+					searchResultFilePaths.put("CSV", fileName);
+					
 					new JFreeReportHelper().getEntriesReport(entries, fileName, "csv");
 				}
 				if (resultType.indexOf("XLS") > -1)
 				{
-					System.out.println("fileFolderLocation:" + fileFolderLocation);
+					log.debug("fileFolderLocation:" + fileFolderLocation);
 					String fileName = fileFolderLocation + File.separator + "entries_" + System.currentTimeMillis() + ".xls";
 					String fileURL = httpFolderLocation + "entries_" + System.currentTimeMillis() + ".xls";
 					searchResultFiles.put("Excel", fileURL);
+					searchResultFilePaths.put("Excel", fileName);
+
 					new JFreeReportHelper().getEntriesReport(entries, fileName, "xls");
 				}
 				if (resultType.indexOf("PDF") > -1)
 				{
-					System.out.println("fileFolderLocation:" + fileFolderLocation);
+					log.debug("fileFolderLocation:" + fileFolderLocation);
 					String fileName = fileFolderLocation + File.separator + "entries_" + System.currentTimeMillis() + ".pdf";
 					String fileURL = httpFolderLocation + "entries_" + System.currentTimeMillis() + ".pdf";
 					searchResultFiles.put("PDF", fileURL);
+					searchResultFilePaths.put("PDF", fileName);
+
 					new JFreeReportHelper().getEntriesReport(entries, fileName, "pdf");
 				}
 				if (resultType.indexOf("HTML") > -1)
 				{ 
-					System.out.println("fileFolderLocation:" + fileFolderLocation);
+					log.debug("fileFolderLocation:" + fileFolderLocation);
 					String fileName = fileFolderLocation + File.separator + "entries_" + System.currentTimeMillis() + ".html";
 					String fileURL = httpFolderLocation + "entries_" + System.currentTimeMillis() + ".html";
 					searchResultFiles.put("HTML", fileURL);
+					searchResultFilePaths.put("HTML", fileName);
+
 					new JFreeReportHelper().getEntriesReport(entries, fileName, "html");
 				}
 			}
@@ -114,6 +125,10 @@ public class EntrySearchResultfilesConstructor {
 
 	public Map getResults() {
 		return searchResultFiles;
+	}
+
+	public Map getFileResults() {
+		return searchResultFilePaths;
 	}
 
 	class ResultFilesCleaner implements Runnable {

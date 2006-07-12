@@ -27,6 +27,8 @@ import java.util.List;
 
 import javax.portlet.PortletURL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
@@ -34,6 +36,7 @@ import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.EventType;
 import org.infoglue.common.util.DBSessionWrapper;
 
+import com.opensymphony.webwork.portlet.dispatcher.PortletSessionMap;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.validator.ValidationException;
@@ -46,6 +49,8 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class CreateEventTypeAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(CreateEventTypeAction.class);
+
     private EventType dataBean = new EventType();
 
     /**
@@ -57,7 +62,7 @@ public class CreateEventTypeAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            System.out.println("Type:" + dataBean.getType());
+            log.debug("Type:" + dataBean.getType());
             EventTypeController.getController().createEventType(dataBean.getName(), dataBean.getDescription(), dataBean.getType(), getSession());
         }
         catch(ValidationException e)

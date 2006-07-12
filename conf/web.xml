@@ -102,6 +102,11 @@
 		<taglib-uri>calendar</taglib-uri>
 		<taglib-location>/WEB-INF/tld/calendar.tld</taglib-location>
 	</taglib>
+	<taglib>
+        <taglib-uri>http://displaytag.sourceforge.net/</taglib-uri>
+        <taglib-location>/WEB-INF/displaytag.tld</taglib-location>
+    </taglib>
+	
 <!--
     <security-role>
         <role-name>tomcat</role-name>

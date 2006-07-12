@@ -116,17 +116,17 @@ public class CreateEntryAction extends CalendarAbstractAction
         	        	
             int i = 0;
             String idKey = ServletActionContext.getRequest().getParameter("attributeName_" + i);
-            System.out.println("idKey:" + idKey);
+            log.debug("idKey:" + idKey);
             log.info("idKey:" + idKey);
             while(idKey != null && idKey.length() > 0)
             {
-            	System.out.println("idKey in loop: " + idKey);
+            	log.debug("idKey in loop: " + idKey);
             	
                 String[] value = ServletActionContext.getRequest().getParameterValues(idKey);
                 if(value == null || value.length == 0)
                     this.addFieldError(idKey, "errors.atLeastOneItem");
 
-                System.out.println(idKey + "=" + value);
+                log.debug(idKey + "=" + value);
                 log.info("value:" + value);
                 
                 String valueString = "";
@@ -158,7 +158,7 @@ public class CreateEntryAction extends CalendarAbstractAction
             }
 
             String xml = domBuilder.getFormattedDocument(document, "UTF-8");
-            System.out.println("xml:" + xml);
+            log.debug("xml:" + xml);
             
             ServletActionContext.getRequest().getSession().setAttribute("attributes", attributes);
         	
@@ -169,7 +169,7 @@ public class CreateEntryAction extends CalendarAbstractAction
             entry.setAttributes(xml);
             ConstraintExceptionBuffer ceb = entry.validate(eventType);
             ActionContext.getContext().getValueStack().getContext().put("errorEntry", entry);
-            System.out.println("Added error entry to stack:" + entry.getAttributes());
+            log.debug("Added error entry to stack:" + entry.getAttributes());
             
             validateInput(this, ceb);
 
@@ -382,13 +382,13 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String getFirstName()
     {
-    	System.out.println("firstName:" + firstName);
+    	log.debug("firstName:" + firstName);
         return firstName;
     }
     
     public void setFirstName(String firstName)
     {
-    	System.out.println("set firstName:" + firstName);
+    	log.debug("set firstName:" + firstName);
         this.firstName = firstName;
     }
     

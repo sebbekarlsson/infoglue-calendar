@@ -40,17 +40,25 @@ import org.jfree.xml.ParseException;
 
 public class JFreeReportHelper
 {
-
+	private static boolean initialized = false;
+	
+	private static JFreeReport report = null;
+	
   public void getEntriesReport(Set entries, final String filename, final String format)
   {
 	  try
 	  {
-		  JFreeReportBoot.getInstance().start();
+		  if(!initialized)
+		  {
+			  JFreeReportBoot.getInstance().start();
+			  initialized = true;
+		
+			  File template = new File(PropertyHelper.getProperty("contextRootPath") + "templates/entriesReport.xml");
+			    
+			  report = parseReport(template);
+			    
+		  }
 		  
-	    //final URL in = ObjectUtilities.getResource("org/jfree/report/demo/opensource/opensource.xml", StraightToEverything.class);
-	    File template = new File(PropertyHelper.getProperty("contextRootPath") + "templates/entriesReport.xml");
-	    
-	    final JFreeReport report = parseReport(template);
 	    final TableModel data = new EntriesTableModel(entries);
 	    report.setData(data);
 	    try

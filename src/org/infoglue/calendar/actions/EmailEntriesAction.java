@@ -45,7 +45,7 @@ public class EmailEntriesAction extends CalendarAbstractAction
     private String subject;
     private String message;
     
-    private Long searchEventId;
+    private Long[] searchEventId;
     private String searchFirstName;
     private String searchLastName;
     private String searchEmail;
@@ -72,11 +72,11 @@ public class EmailEntriesAction extends CalendarAbstractAction
     {
         this.searchEmail = searchEmail;
     }
-    public Long getSearchEventId()
+    public Long[] getSearchEventId()
     {
         return searchEventId;
     }
-    public void setSearchEventId(Long searchEventId)
+    public void setSearchEventId(Long[] searchEventId)
     {
         this.searchEventId = searchEventId;
     }

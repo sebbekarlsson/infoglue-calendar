@@ -189,7 +189,7 @@ public class TextAreaFieldTag extends AbstractCalendarTag
     
     public void setMandatory(String mandatory)
     {
-    	System.out.println("APA1:" + mandatory);
+    	log.debug("APA1:" + mandatory);
     }
 
     public boolean getMandatory()

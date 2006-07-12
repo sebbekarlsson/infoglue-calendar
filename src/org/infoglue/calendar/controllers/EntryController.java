@@ -416,7 +416,7 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public Set getEntryList(String userName, List roles, List groups, String firstName, String lastName, String email, boolean onlyFutureEvents, Long eventId, Map categoryAttributesMap, boolean andSearch, String[] locations, Session session) throws Exception
+    public Set getEntryList(String userName, List roles, List groups, String firstName, String lastName, String email, boolean onlyFutureEvents, Long[] eventId, Map categoryAttributesMap, boolean andSearch, String[] locations, Session session) throws Exception
     {
 		Set set = getEntryList(userName, roles, groups, eventId, firstName, lastName, email, onlyFutureEvents, categoryAttributesMap, andSearch, session);
 		
@@ -528,7 +528,7 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public Set getEntryList(String userName, List roles, List groups, Long eventId, String firstName, String lastName, String email, boolean onlyFutureEvents, Map selectedCategoryAttributes, boolean andSearch, Session session) throws Exception 
+    public Set getEntryList(String userName, List roles, List groups, Long[] eventId, String firstName, String lastName, String email, boolean onlyFutureEvents, Map selectedCategoryAttributes, boolean andSearch, Session session) throws Exception 
     {
         List result = null;
 
@@ -576,8 +576,12 @@ public class EntryController extends BasicController
         	log.info("junction:" + junction.toString());
         }
         
-        if(eventId != null)
-        	eventCriteria.add(Restrictions.idEq(eventId));
+//        if(eventId != null)
+//        	eventCriteria.add(Restrictions.idEq(eventId));
+
+        if(eventId != null && eventId.length > 0 && eventId[0] != null)
+        	eventCriteria.add(Restrictions.in("id", eventId));
+
         if(firstName != null && firstName.length() != 0)
         	criteria.add(Restrictions.like("firstName", firstName));
         if(lastName != null && lastName.length() != 0)
@@ -695,7 +699,7 @@ public class EntryController extends BasicController
 	            contentType = "text/html";
 	        
 	        String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.notification.message", locale, false, true, false, session);
-	        System.out.println("\n\ntemplate:" + template);
+	        log.debug("\n\ntemplate:" + template);
 	        if(template == null || template.equals(""))
 	        {
 		        if(contentType.equalsIgnoreCase("text/plain"))
@@ -746,7 +750,7 @@ public class EntryController extends BasicController
 	        String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.message", locale, false, true, false, session);
 	        String subject = entry.getEvent().getName() + " - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.subject", locale, false, true, false, session);
 
-	        System.out.println("\n\ntemplate:" + template);
+	        log.debug("\n\ntemplate:" + template);
 	        if(template == null || template.equals(""))
 	        {
 		        if(contentType.equalsIgnoreCase("text/plain"))

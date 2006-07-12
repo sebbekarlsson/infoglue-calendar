@@ -5,19 +5,23 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.Field;
 import org.apache.commons.validator.Msg;
 import org.apache.commons.validator.Validator;
 import org.apache.commons.validator.ValidatorResources;
 import org.apache.commons.validator.ValidatorResult;
 import org.apache.commons.validator.ValidatorResults;
+import org.infoglue.calendar.actions.ViewApplicationStateAction;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
 
 public class BaseValidator 
 {
-	
+	private static Log log = LogFactory.getLog(BaseValidator.class);
+
 	/**
 	 * 
 	 */
@@ -63,7 +67,7 @@ public class BaseValidator
 			for(Iterator messages=field.getMessages().values().iterator(); messages.hasNext();) 
 			{
 				Msg m = (Msg) messages.next();
-				System.out.println("Adding error message:" + name + "=" + m.getKey());
+				log.debug("Adding error message:" + name + "=" + m.getKey());
 				ceb.add(new ConstraintException(name, m.getKey()));
 			}
 		}
@@ -82,7 +86,7 @@ public class BaseValidator
 		} 
 		catch(Exception e) 
 		{
-			System.out.println(e.toString());
+			log.debug(e.toString());
 		}
 		return null;
     }

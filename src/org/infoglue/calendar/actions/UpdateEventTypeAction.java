@@ -23,6 +23,8 @@
 
 package org.infoglue.calendar.actions;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.EventType;
 
@@ -37,6 +39,7 @@ import com.opensymphony.xwork.validator.ValidationException;
 
 public class UpdateEventTypeAction extends CalendarAbstractAction
 {
+	private static Log log = LogFactory.getLog(UpdateEventTypeAction.class);
 
     private EventType dataBean = new EventType();
     
@@ -49,7 +52,7 @@ public class UpdateEventTypeAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
-            System.out.println("dataBean:" + dataBean.getType());
+            log.debug("dataBean:" + dataBean.getType());
             EventTypeController.getController().updateEventType(dataBean.getId(), dataBean.getName(), dataBean.getDescription(), dataBean.getSchemaValue(), dataBean.getType(), getSession());
         }
         catch(ValidationException e)

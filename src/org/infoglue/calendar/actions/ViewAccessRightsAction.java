@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.infoglue.calendar.controllers.AccessRightController;
 import org.infoglue.calendar.controllers.EntryController;
@@ -49,7 +51,7 @@ import com.opensymphony.xwork.Action;
 
 public class ViewAccessRightsAction extends CalendarAbstractAction
 {
-    private final static Logger logger = Logger.getLogger(ViewAccessRightsAction.class.getName());
+	private static Log log = LogFactory.getLog(ViewAccessRightsAction.class);
 
 	private Long interceptionPointId = null;
 	private String interceptionPointName = null;
@@ -70,8 +72,8 @@ public class ViewAccessRightsAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-    	System.out.println("interceptionPointCategory:" + interceptionPointCategory);
-    	System.out.println("extraParameters:" + extraParameters);
+    	log.debug("interceptionPointCategory:" + interceptionPointCategory);
+    	log.debug("extraParameters:" + extraParameters);
 		this.interceptionPointList = InterceptionPointController.getController().getInterceptionPointList(interceptionPointCategory, getSession());
 		
 		this.roleList = RoleControllerProxy.getController().getAllRoles();
@@ -93,7 +95,7 @@ public class ViewAccessRightsAction extends CalendarAbstractAction
 	    }
 	    catch(Exception e)
 	    {
-	        logger.warn(e);
+	        log.warn(e);
 	        throw new SystemException(e);
 	    }
 	}

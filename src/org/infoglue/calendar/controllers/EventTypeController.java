@@ -101,7 +101,7 @@ public class EventTypeController extends BasicController
         if(schemaValue != null)
         	eventType.setSchemaValue(schemaValue);
         
-        System.out.println("type:" + type);
+        log.debug("type:" + type);
         eventType.setType(type);
         
 		session.update(eventType);

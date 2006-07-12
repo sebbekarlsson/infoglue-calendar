@@ -93,9 +93,15 @@
 	</div>
 	
  	<ww:set name="emailAddresses" value="emailAddresses" scope="page"/>
+ 	<ww:set name="searchEventId" value="searchEventId" scope="page"/>
+ 	
 	<portlet:renderURL var="composeEmailUrl">
 		<calendar:evalParam name="action" value="ComposeEmail"/>
 		<portlet:param name="emailAddresses" value="<%= pageContext.getAttribute("emailAddresses").toString().replaceAll(";", "," ) %>"/>
+
+		<ww:if test="singleEventSearch == true">
+			<portlet:param name="eventId" value="<%= ((Long[])pageContext.getAttribute("searchEventId"))[0].toString() %>"/>
+		</ww:if>
 	</portlet:renderURL>
 	
 	<portlet:renderURL var="createEntryRenderURL">
@@ -193,8 +199,11 @@
 				<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
 			</c:if>
 			<c:if test="${searchEventId != null}">
-				<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
-			</c:if>		
+				<ww:iterator value="searchEventId">
+					<ww:set name="currentSearchEventId" value="top" scope="page"/>
+					<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
+				</ww:iterator>
+			</c:if>
 		</portlet:renderURL>
 	
 		<portlet:actionURL var="deleteUrl">
@@ -203,7 +212,10 @@
 				<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
 			</c:if>
 			<c:if test="${searchEventId != null}">
-				<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
+				<ww:iterator value="searchEventId">
+					<ww:set name="currentSearchEventId" value="top" scope="page"/>
+					<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
+				</ww:iterator>
 			</c:if>
 			<c:if test="${searchFirstName != null}">
 				<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
@@ -222,7 +234,10 @@
 		<portlet:actionURL var="viewListUrl">
 			<portlet:param name="action" value="ViewEntrySearch"/>
 			<c:if test="${searchEventId != null}">
-				<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("searchEventId").toString() %>"/>
+				<ww:iterator value="searchEventId">
+					<ww:set name="currentSearchEventId" value="top" scope="page"/>
+					<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
+				</ww:iterator>
 			</c:if>
 			<c:if test="${searchFirstName != null}">
 				<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
