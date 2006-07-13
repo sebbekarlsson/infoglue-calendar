@@ -25,7 +25,7 @@
 
         <property name="nameSpace" type="string" update="true" insert="true" access="property" column="nameSpace" not-null="false" unique="false"/>
         <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="false"/>
-        <property name="value" type="text" update="true" insert="true" access="property" column="value" not-null="false" unique="false"/>
+        <property name="value" type="text" column="value" not-null="false" unique="false"/>
 
         <!--
             To add non XDoclet property mappings, create a file named
