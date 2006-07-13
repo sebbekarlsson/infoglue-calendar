@@ -135,7 +135,6 @@ public class LabelsController
 				if(xml != null && xml.length() > 0)
 				{
 					//log.debug("xml:" + xml);
-					FileHelper.writeToFile(new File("c:/temp/apa.xml"), xml, false);
 					try
 					{
 						document = domBuilder.getDocument(xml);
