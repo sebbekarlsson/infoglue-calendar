@@ -13,6 +13,7 @@
 	
 	<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
+		<input type="hidden" name="languageCode" value="<ww:property value="languageCode"/>">
 		<input type="hidden" name="returnAddress" value="<ww:property value="returnAddress"/>">
 			
 		<h1><ww:property value="this.getLabel('labels.internal.entry.createNewEntry')"/></h1>

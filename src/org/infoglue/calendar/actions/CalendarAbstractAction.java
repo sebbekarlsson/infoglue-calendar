@@ -175,6 +175,9 @@ public class CalendarAbstractAction extends ActionSupport
     public String getLanguageCode()
     {
     	String languageCode = (String)ServletActionContext.getRequest().getAttribute("languageCode");
+       	if(languageCode == null || languageCode.equals(""))
+    		languageCode = (String)ServletActionContext.getRequest().getParameter("languageCode");
+
     	if(languageCode == null || languageCode.equals(""))
     		languageCode = "en";
     	
