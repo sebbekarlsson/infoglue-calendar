@@ -400,7 +400,14 @@
 			</fileset>
 		</copy>
 
-		<echo message="Copying CSS-files"/>
+		<echo message="Copying Script-files"/>
+		<copy todir="${deploy.dir.working}/script">
+			<fileset dir="${webapp}/script">
+				<include name="**/*.js"/>
+			</fileset>
+		</copy>
+
+		<echo message="Copying Images-files"/>
 		<copy todir="${deploy.dir.working}/images">
 			<fileset dir="${webapp}/images">
 				<include name="**/*"/>
@@ -443,7 +450,7 @@
 		</copy>
 
 		<echo message="Copying confs to cms"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes" overwrite="true">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes" overwrite="false">
 			<fileset dir="${conf}">
 				<include name="*.properties"/>
 				<include name="*.xml"/>
@@ -493,21 +500,23 @@
 		</copy>
 
 		<echo message="Copying Template-files ${webapp}"/>
-                <copy todir="${deploy.dir.working}/templates" verbose="true">
-                        <fileset dir="${webapp}/templates">
-                                <include name="**/*"/>
-                        </fileset>
-                </copy>
+        <copy todir="${deploy.dir.working}/templates" verbose="true">
+                <fileset dir="${webapp}/templates">
+                        <include name="**/*"/>
+                </fileset>
+        </copy>
 
 		<echo message="Copying Other-files"/>
 		<copy todir="${deploy.dir.working}" verbose="true">
 			<fileset dir="${webapp}">
 				<include name="applications/**/*.*"/>
+				<include name="digitalAssets/**/*.*"/>
 				<include name="calendars/**/*.*"/>
 				<include name="css/**/*.*"/>
 				<include name="images/**/*.*"/>
 				<include name="logs/**/*.*"/>
 				<include name="script/**/*.*"/>
+				<include name="scripts/**/*.*"/>
 				<include name="templates/**/*.*"/>
 				<include name="index.html"/>
 			</fileset>
