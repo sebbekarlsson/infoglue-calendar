@@ -20,6 +20,104 @@
 <ww:set name="contentTypeDefinitionId" value="eventTypeId" scope="page"/>
 <ww:set name="eventTypeId" value="eventTypeId" scope="page"/>
 
+<style type="text/css">
+<!--
+/*Content type definition editor */
+
+.moveup { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "moveup")"); }
+.movedown { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "movedown")"); }
+.checkboxIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "checkboxIcon")"); }
+.radiobuttonIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "radiobuttonIcon")"); }
+.selectIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "selectIcon")"); }
+.textfieldIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "textfieldIcon")"); }
+.textareaIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "textareaIcon")"); }
+.hiddenIcon { 					background-image: url("$cl.getAssetUrl($cl.infoGlueComponent.contentId, "hiddenIcon")"); }
+
+#contentTypeEditorContainer {
+	width: 100%;
+	margin: 0px 0px 0px 0px;
+	padding: 10px 10px 10px 10px;
+	border: 1px solid green;
+}
+#attributes {
+	aborder: 1px solid red;	
+}
+
+.propertiesDiv {
+	position:absolute;
+	width:700px;
+    background-color:#F4F4F4;
+	border:1px solid #333333;
+	z-index:201;
+	left:10px;
+	top:100px;
+	height:650px;
+	}
+
+.propertiesDivHandle {
+	padding:2px;
+        margin: 2px;
+        margin-bottom: 8px;
+        width:690px;
+	color:white;
+	background-color:navy;
+	font-family:verdana, sans-serif;
+	font-size:10px;
+	}
+
+.propertiesDivLeftHandle {
+	width: 150px; 
+	float: left;
+	color:white;
+	text-align: left;
+	line-height:10px;
+	}
+
+.propertiesDivRightHandle {
+	color:white;
+	text-align: right;
+	line-height:10px;	
+	}
+
+.propertiesDivBody {
+        padding: 4px;
+	}
+
+#propertyBody label {
+        display: block;
+		float: left;
+		margin-bottom: 10px;
+        padding-right: 5px;
+        atext-align: right;
+		width: 200px;
+}
+
+br {
+	clear: left;
+}
+
+a.white {
+        text-decoration:none;
+        color: white;
+		font-size:10px;
+    }
+a.white:hover {
+	text-decoration:underline;
+	}
+a.white:active {
+	font-weight: bold;
+	}
+
+.validationRow {
+  	width: 25%;
+  	padding:0.125em 0.75em 0.125em 0.75em;  
+}
+
+/* END */
+
+-->
+</style>
+
 <script type="text/javascript">
 <!--
 	function submitNewAttribute()
