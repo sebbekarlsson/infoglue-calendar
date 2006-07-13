@@ -138,7 +138,7 @@ public class CreateEventAction extends CalendarAbstractAction
             {
                 String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
                 if(categoryIds == null || categoryIds.length == 0)
-                    this.addFieldError("categoryAttribute_" + idKey + "_categoryId", "errors.atLeastOneItem");
+                	this.addFieldError("categoryAttribute_" + idKey + "_categoryId", "errors.atLeastOneItem");
 
                 log.info("categoryIds:" + categoryIds);
                 categoryAttributes.put(idKey, categoryIds);
@@ -170,7 +170,8 @@ public class CreateEventAction extends CalendarAbstractAction
             	
                 String[] value = ServletActionContext.getRequest().getParameterValues(attributeIdKey);
                 if(value == null || value.length == 0)
-                    this.addFieldError(attributeIdKey, "errors.atLeastOneItem");
+                	value = new String[0];
+                    //this.addFieldError(attributeIdKey, "errors.atLeastOneItem");
 
                 log.debug(attributeIdKey + "=" + value);
                 log.info("value:" + value);

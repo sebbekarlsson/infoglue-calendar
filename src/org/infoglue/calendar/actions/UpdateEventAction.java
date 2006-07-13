@@ -138,7 +138,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
                 log.info("categoryIds:" + categoryIds);
                 
                 if(categoryIds == null || categoryIds.length == 0)
-                    this.addFieldError("categoryAttribute_" + idKey + "_categoryId", "errors.atLeastOneItem");
+                	this.addFieldError("categoryAttribute_" + idKey + "_categoryId", "errors.atLeastOneItem");
 
                 categoryAttributes.put(idKey, categoryIds);
 
@@ -169,7 +169,8 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
             	
                 String[] value = ServletActionContext.getRequest().getParameterValues(attributeIdKey);
                 if(value == null || value.length == 0)
-                    this.addFieldError(attributeIdKey, "errors.atLeastOneItem");
+                	value = new String[0];
+                    //this.addFieldError(attributeIdKey, "errors.atLeastOneItem");
 
                 log.debug(attributeIdKey + "=" + value);
                 log.info("value:" + value);

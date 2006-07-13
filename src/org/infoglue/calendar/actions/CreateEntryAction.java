@@ -124,7 +124,8 @@ public class CreateEntryAction extends CalendarAbstractAction
             	
                 String[] value = ServletActionContext.getRequest().getParameterValues(idKey);
                 if(value == null || value.length == 0)
-                    this.addFieldError(idKey, "errors.atLeastOneItem");
+                	value = new String[0];
+                    //this.addFieldError(idKey, "errors.atLeastOneItem");
 
                 log.debug(idKey + "=" + value);
                 log.info("value:" + value);
