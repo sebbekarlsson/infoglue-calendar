@@ -31,9 +31,6 @@ import java.util.Map;
 import java.util.Iterator;
 import java.io.*;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-
 /**
  *
  * @author Mattias Bogeblad

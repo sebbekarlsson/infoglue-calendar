@@ -67,7 +67,6 @@ public class ViewEntryAction extends CalendarAbstractAction
         EventType eventType = EventTypeController.getController().getEventType(entry.getEvent().getEntryFormId(), getSession());
 		this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
 
-		System.out.println("view:" + view);
 		if(view != null && view.length() > 0)
 		{			
 		    return "successEntryReceiptGU";

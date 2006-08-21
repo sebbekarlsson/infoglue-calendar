@@ -41,6 +41,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.portlet.RenderRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -66,6 +69,7 @@ import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.ResourceBundleHelper;
+import org.infoglue.deliver.portal.information.RenderRequestIG;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
@@ -227,7 +231,20 @@ public class CalendarAbstractAction extends ActionSupport
     {
         return UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
     }
-    
+
+    /*
+    public String getRequestClass()
+    {
+    	HttpServletRequest request = ServletActionContext.getRequest();
+    	
+    	RenderRequest renderRequest = (RenderRequest)request.getAttribute("javax.portlet.request");
+    	log.debug("renderRequest:" + renderRequest.getRemoteUser());
+    	log.debug("Session ID in portlet: " + ServletActionContext.getRequest().getRequestedSessionId());
+
+    	return (String)ServletActionContext.getRequest().getRemoteUser();
+    }
+    */
+
     public boolean getIsEventOwner(Long eventId) throws Exception
     {
         return getIsEventOwner(EventController.getController().getEvent(eventId, getSession()));
@@ -546,14 +563,14 @@ public class CalendarAbstractAction extends ActionSupport
     	boolean throwError = false;
     	
     	Map fieldErrors = new HashMap();
-        System.out.println("this.getFieldErrors() 0:" + this.getFieldErrors().size());
+        //log.debug("this.getFieldErrors() 0:" + this.getFieldErrors().size());
 
         String context = ActionContext.getContext().getName();
         ActionValidatorManager.validate(this, context);
         if(this.getFieldErrors() != null && this.getFieldErrors().size() > 0)
         {
         	fieldErrors.putAll(this.getFieldErrors());
-        	System.out.println("fieldErrors:" + fieldErrors.size());
+        	log.debug("fieldErrors:" + fieldErrors.size());
 
             throwError = true;
         }
@@ -562,11 +579,11 @@ public class CalendarAbstractAction extends ActionSupport
         ActionContext.getContext().getValueStack().getContext().put("fieldErrors", fieldErrors);
         ActionContext.getContext().getValueStack().getContext().put("errorAction", this);
         
-        System.out.println("actionErrors:" + this.getActionErrors());
-        System.out.println("fieldErrors:" + this.getFieldErrors());
-        System.out.println("errorAction:" + this);
+        log.debug("actionErrors:" + this.getActionErrors());
+        log.debug("fieldErrors:" + this.getFieldErrors());
+        log.debug("errorAction:" + this);
 
-        System.out.println("ceb:" + ceb);
+        log.debug("ceb:" + ceb);
         if(ceb != null)
         {
         	List errs = new ArrayList();
@@ -578,9 +595,9 @@ public class CalendarAbstractAction extends ActionSupport
 		        String errorCode 	= ce.getErrorCode();
 		        String message 		= ce.getMessage();
 		        
-		        System.out.println("fieldName:" + fieldName);
-		        System.out.println("errorCode:" + errorCode);
-		        System.out.println("message:" + message);
+		        log.debug("fieldName:" + fieldName);
+		        log.debug("errorCode:" + errorCode);
+		        log.debug("message:" + message);
 	
 		        errs.add(errorCode);
 		        

@@ -544,7 +544,6 @@ public class EntryController extends BasicController
         if(onlyFutureEvents)
         	eventCriteria.add(Expression.gt("endDateTime", java.util.Calendar.getInstance()));
 
-        //System.out.println("selectedCategoryAttributes:" + selectedCategoryAttributes);
         if(selectedCategoryAttributes != null && selectedCategoryAttributes.size() > 0)
         {
     		Criteria eventCategoriesCriteria = eventCriteria.createCriteria("eventCategories");
