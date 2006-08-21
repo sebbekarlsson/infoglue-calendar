@@ -51,7 +51,7 @@
 		</ww:if>
 		
 		<ww:if test="this.isActiveEntryField('message')">
-			<calendar:textField label="labels.internal.entry.message" name="'message'" value="entry.message" cssClass="smalltextarea"/>
+			<calendar:textAreaField label="labels.internal.entry.message" name="'message'" value="entry.message" cssClass="smalltextarea"/>
 		</ww:if>
 				
 		<ww:set name="count" value="0"/>
