@@ -777,6 +777,27 @@ public class EntryController extends BasicController
 		{
 		    e.printStackTrace();
 			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+			
+			try
+			{
+		        String contentType = PropertyHelper.getProperty("mail.contentType");
+		        if(contentType == null || contentType.length() == 0)
+		            contentType = "text/html";
+
+				String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
+				if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
+					systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
+
+				String warningEmailReceiver = PropertyHelper.getProperty("warningEmailReceiver");
+				if(warningEmailReceiver != null && !warningEmailReceiver.equalsIgnoreCase(""))
+				{
+					MailServiceFactory.getService().send(systemEmailSender, warningEmailReceiver, null, "Could not send email verification...", "<div>Error reported:<br/>" + e.getMessage() + "<br/>Entry:" + entry.getFirstName() + " " + entry.getLastName() + " - " + entry.getEmail() + " was booked on " + entry.getEvent().getName() + "</div>", contentType, "UTF-8", null);
+				}
+			}
+			catch(Exception e2)
+			{
+				e2.printStackTrace();
+			}
 		}
 		
     }

@@ -664,7 +664,7 @@ public class EventController extends BasicController
      * @return Event
      * @throws Exception
      */
-    
+
     public Event getEvent(Long id, Session session) throws Exception
     {
         Event event = (Event)session.load(Event.class, id);
@@ -672,7 +672,20 @@ public class EventController extends BasicController
 		return event;
     }
     
-    
+    /**
+     * This method returns a Event based on it's primary key inside a transaction and states if it's a read only or not
+     * @return Event
+     * @throws Exception
+     */
+/*    
+    public Event getEvent(Long id, Session session, boolean readOnly) throws Exception
+    {
+        Event event = (Event)session.load(Event.class, id);
+		session.setReadOnly(event, readOnly);
+		
+		return event;
+    }
+*/    
     
     /**
      * Gets a list of all events available for a particular day.
