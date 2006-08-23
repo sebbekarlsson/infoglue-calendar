@@ -209,7 +209,7 @@
         inputField     :    "startDateTime",     // id of the input field
         ifFormat       :    "%Y-%m-%d",      // format of the input field
         button         :    "trigger_startDateTime",  // trigger for the calendar (button ID)
-        align          :    "Bl",           // alignment (defaults to "Bl")
+        align          :    "BR",           // alignment (defaults to "Bl")
         singleClick    :    true,
         firstDay  	   : 	1        
     });
@@ -220,7 +220,7 @@
         inputField     :    "endDateTime",     // id of the input field
         ifFormat       :    "%Y-%m-%d",      // format of the input field
         button         :    "trigger_endDateTime",  // trigger for the calendar (button ID)
-        align          :    "Bl",           // alignment (defaults to "Bl")
+        align          :    "BR",           // alignment (defaults to "Bl")
         singleClick    :    true,
         firstDay  	   : 	1    
     });
@@ -231,7 +231,7 @@
         inputField     :    "lastRegistrationDateTime",     // id of the input field
         ifFormat       :    "%Y-%m-%d",      // format of the input field
         button         :    "trigger_lastRegistrationDateTime",  // trigger for the calendar (button ID)
-        align          :    "Bl",           // alignment (defaults to "Bl")
+        align          :    "BR",           // alignment (defaults to "Bl")
         singleClick    :    true,
         firstDay  	   : 	1    
     });
