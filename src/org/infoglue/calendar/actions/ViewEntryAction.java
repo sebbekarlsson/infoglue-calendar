@@ -53,6 +53,8 @@ public class ViewEntryAction extends CalendarAbstractAction
     private String searchFirstName;
     private String searchLastName;
     private String searchEmail;
+    private String searchHashCode;
+    
     private List attributes;
 
     private String view = null;
@@ -137,5 +139,15 @@ public class ViewEntryAction extends CalendarAbstractAction
 
 	public void setView(String view) {
 		this.view = view;
+	}
+
+	public String getSearchHashCode()
+	{
+		return searchHashCode;
+	}
+
+	public void setSearchHashCode(String searchHashCode)
+	{
+		this.searchHashCode = searchHashCode;
 	}
 }

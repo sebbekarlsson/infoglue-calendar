@@ -34,6 +34,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,6 +72,8 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     private String[] categoryId;
     private String[] locationId;
     
+    private String searchHashCode = "";
+    
     private Set eventList;
     private List categoryList;
     private List locationList;
@@ -79,7 +82,8 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     private String andSearch = "false";
     
     private Set entries;
-    private String emailAddresses = "";
+    //private String emailAddresses = "";
+    //private String emailEntryIds = "";
 
 	private Map searchResultFiles;
 	private List resultValues = new LinkedList(); 
@@ -110,34 +114,50 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         initialize();
 
-        int i = 0;
-        String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-        log.info("idKey:" + idKey);
-        while(idKey != null && idKey.length() > 0)
+        if(this.searchHashCode != null && !this.searchHashCode.equals(""))
         {
-            String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
-            log.info("categoryIds:" + categoryIds);
-            if(categoryIds != null)
-            {
-	            Long[] categoryIdsLong = new Long[categoryIds.length];
-	            for(int j=0; j<categoryIds.length; j++)
-	            	categoryIdsLong[j] = new Long(categoryIds[j]);
-	            
-	            categoryAttributesMap.put(idKey, categoryIdsLong);
-            }
-            
-            i++;
-            idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
-            log.info("idKey:" + idKey);
+        	log.debug("Getting search args from session..." + this.searchHashCode);
+        	HttpSession session = ServletActionContext.getRequest().getSession();
+
+            this.searchFirstName = (String)session.getAttribute("request_" + searchHashCode + "_searchFirstName");
+            this.searchLastName = (String)session.getAttribute("request_" + searchHashCode + "_searchLastName");
+            this.searchEmail = (String)session.getAttribute("request_" + searchHashCode + "_searchEmail");
+            this.onlyFutureEvents = Boolean.parseBoolean((String)session.getAttribute("request_" + searchHashCode + "_onlyFutureEvents"));
+            this.searchEventId = (Long[])session.getAttribute("request_" + searchHashCode + "_searchEventId");
+            this.categoryAttributesMap = (Map)session.getAttribute("request_" + searchHashCode + "_categoryAttributesMap");
+            this.andSearch = (String)session.getAttribute("request_" + searchHashCode + "_andSearch");
+            this.locationId = (String[])session.getAttribute("request_" + searchHashCode + "_locationId");
         }
-        
-
-        log.info("searchEventId:::::" + this.searchEventId);
-        log.info("andSearch:" + this.andSearch);
-        
-        this.andSearch = ServletActionContext.getRequest().getParameter("andSearch");
-        log.info("andSearch:" + andSearch);
-
+        else
+        {
+        	log.debug("Getting search args from request...");
+        	
+	        int i = 0;
+	        String idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+	        log.info("idKey:" + idKey);
+	        while(idKey != null && idKey.length() > 0)
+	        {
+	            String[] categoryIds = ServletActionContext.getRequest().getParameterValues("categoryAttribute_" + idKey + "_categoryId");
+	            log.info("categoryIds:" + categoryIds);
+	            if(categoryIds != null)
+	            {
+		            Long[] categoryIdsLong = new Long[categoryIds.length];
+		            for(int j=0; j<categoryIds.length; j++)
+		            	categoryIdsLong[j] = new Long(categoryIds[j]);
+		            
+		            categoryAttributesMap.put(idKey, categoryIdsLong);
+	            }
+	            
+	            i++;
+	            idKey = ServletActionContext.getRequest().getParameter("categoryAttributeId_" + i);
+	            log.info("idKey:" + idKey);
+	        }
+	        log.info("searchEventId:::::" + this.searchEventId);
+	        log.info("andSearch:" + this.andSearch);
+	        
+	        this.andSearch = ServletActionContext.getRequest().getParameter("andSearch");
+	        log.info("andSearch:" + andSearch);
+        }
         
         this.entries = EntryController.getController().getEntryList(this.getInfoGlueRemoteUser(), 
         															this.getInfoGlueRemoteUserRoles(), 
@@ -152,25 +172,32 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 													locationId,
                 													getSession());
 
-        /*
-        this.entries = EntryController.getController().getEntryList(searchFirstName, 
-				searchLastName, 
-				searchEmail, 
-				searchEventId, 
-				categoryId, 
-				locationId,
-				getSession());
-		*/
-        
+        String emailAddresses = "";
         Iterator entriesIterator = entries.iterator();
         while(entriesIterator.hasNext())
         {
-            Entry entry = (Entry)entriesIterator.next();
+        	Entry entry = (Entry)entriesIterator.next();
             if(emailAddresses.length() != 0)
                 emailAddresses += ";" + entry.getEmail();
             else
                 emailAddresses += entry.getEmail();
         }
+        
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        
+        this.searchHashCode = "" + ServletActionContext.getRequest().hashCode();
+        log.debug("searchHashCode:" + searchHashCode);
+        session.setAttribute("request_" + searchHashCode + "_emailAddresses", emailAddresses);
+        
+        session.setAttribute("request_" + searchHashCode + "_searchFirstName", searchFirstName);
+        session.setAttribute("request_" + searchHashCode + "_searchLastName", searchLastName);
+        session.setAttribute("request_" + searchHashCode + "_searchEmail", searchEmail);
+        session.setAttribute("request_" + searchHashCode + "_onlyFutureEvents", "" + onlyFutureEvents);
+        session.setAttribute("request_" + searchHashCode + "_searchEventId", searchEventId);
+        session.setAttribute("request_" + searchHashCode + "_categoryAttributesMap", categoryAttributesMap);
+        session.setAttribute("request_" + searchHashCode + "_andSearch", andSearch);
+        session.setAttribute("request_" + searchHashCode + "_locationId", locationId);
+
         
         // should we create result files?
         boolean exportEntryResults = PropertyHelper.getBooleanProperty("exportEntryResults");
@@ -290,11 +317,12 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         this.searchLastName = searchLastName;
     }
+    /*
     public String getEmailAddresses()
     {
         return emailAddresses;
     }
-
+    */
 	public void setOnlyFutureEvents(boolean onlyFutureEvents)
 	{
 		this.onlyFutureEvents = onlyFutureEvents;
@@ -349,5 +377,26 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
 			return false;
 		else
 			return true;
+	}
+	/*
+	public String getEmailEntryIds()
+	{
+		return emailEntryIds;
+	}
+
+	public void setEmailEntryIds(String emailEntryIds)
+	{
+		this.emailEntryIds = emailEntryIds;
+	}
+	*/
+
+	public String getSearchHashCode()
+	{
+		return searchHashCode;
+	}
+
+	public void setSearchHashCode(String searchHashCode)
+	{
+		this.searchHashCode = searchHashCode;
 	}
 }

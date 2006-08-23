@@ -21,6 +21,7 @@
 			document.attachment.message.value = document.email.message.value;
 			document.attachment.attachParticipants.value = document.email.attachParticipants.value;
 			document.attachment.eventId.value = document.email.eventId.value;
+			document.attachment.searchHashCode.value = document.email.searchHashCode.value;
 		}
 		else
 		{
@@ -52,9 +53,11 @@
 		</ww:iterator>
 	</ww:if>
 
+	<input type="hidden" name="searchEventId" value="<ww:property value="searchEventId"/>">
 	<input type="hidden" name="searchFirstName" value="<ww:property value="searchFirstName"/>">
 	<input type="hidden" name="searchLastName" value="<ww:property value="searchLastName"/>">
 	<input type="hidden" name="searchEmail" value="<ww:property value="searchEmail"/>">
+	<input type="hidden" name="searchHashCode" value="<ww:property value="searchHashCode"/>">
 	<input type="hidden" name="attachments" value="<ww:property value="attachments"/>">
 	<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
 
@@ -105,6 +108,7 @@
 	<input type="hidden" name="message" value="<ww:property value="message"/>">
 	<input type="hidden" name="attachParticipants" value="<ww:property value="attachParticipants"/>">
 	<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
+	<input type="hidden" name="searchHashCode" value="<ww:property value="searchHashCode"/>">
 	
 	<ww:property value="this.getLabel('labels.internal.soba.attachmentIntro')"/>
 

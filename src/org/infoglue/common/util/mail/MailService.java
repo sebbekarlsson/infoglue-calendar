@@ -154,7 +154,6 @@ public class MailService
 				for( Iterator it = attachments.iterator(); it.hasNext(); ) 
 				{
 					File attachmentFile = ( File ) it.next();
-					System.err.println( "Filename: " + attachmentFile.getPath() + ":" + attachmentFile.exists());
 					if(attachmentFile.exists())
 					{
 						MimeBodyPart attachment = new MimeBodyPart();

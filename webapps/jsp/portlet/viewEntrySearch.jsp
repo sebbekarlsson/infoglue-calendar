@@ -91,24 +91,19 @@
 	<div class="portlet_margin">
 		<h1><ww:property value="this.getLabel('labels.internal.soba.hitListStart')"/> <ww:property value="entries.size()"/> <ww:property value="this.getLabel('labels.internal.soba.hitListEnd')"/></h1>
 	</div>
+		
+	<ww:set name="searchHashCode" value="searchHashCode" scope="page"/>
 	
- 	<ww:set name="emailAddresses" value="emailAddresses" scope="page"/>
- 	<ww:set name="searchEventId" value="searchEventId" scope="page"/>
- 	
 	<portlet:renderURL var="composeEmailUrl">
 		<calendar:evalParam name="action" value="ComposeEmail"/>
-		<portlet:param name="emailAddresses" value="<%= pageContext.getAttribute("emailAddresses").toString().replaceAll(";", "," ) %>"/>
-
-		<ww:if test="singleEventSearch == true">
-			<portlet:param name="eventId" value="<%= ((Long[])pageContext.getAttribute("searchEventId"))[0].toString() %>"/>
-		</ww:if>
+		<calendar:evalParam name="searchHashCode" value="${searchHashCode}"/>
 	</portlet:renderURL>
 	
 	<portlet:renderURL var="createEntryRenderURL">
 		<portlet:param name="action" value="CreateEntry!input"/>
 		<portlet:param name="eventId" value="1"/>
 	</portlet:renderURL>
-	
+		
 	<div class="subfunctionarea">
 	<span class="left">
 		<a href="javascript:toggleSearchForm();"><ww:property value="this.getLabel('labels.internal.soba.newSearch')"/></a>
@@ -195,6 +190,7 @@
 		</ww:if>
 		<portlet:renderURL var="viewEntryRenderURL">
 			<portlet:param name="action" value="ViewEntry"/>
+			<calendar:evalParam name="searchHashCode" value="${searchHashCode}"/>
 			<c:if test="${entryId != null}">
 				<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
 			</c:if>
@@ -210,6 +206,7 @@
 	
 		<portlet:actionURL var="deleteUrl">
 			<portlet:param name="action" value="DeleteEntry"/>
+			<calendar:evalParam name="searchHashCode" value="${searchHashCode}"/>
 			<c:if test="${entryId != null}">
 				<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
 			</c:if>
@@ -234,9 +231,10 @@
 				<portlet:param name="onlyFutureEvents" value="<%= pageContext.getAttribute("onlyFutureEvents").toString() %>"/>
 			</c:if>			
 		</portlet:actionURL>
-	
+		
 		<portlet:actionURL var="viewListUrl">
 			<portlet:param name="action" value="ViewEntrySearch"/>
+			<calendar:evalParam name="searchHashCode" value="${searchHashCode}"/>
 			<c:if test="${searchEventId != null}">
 				<ww:iterator value="searchEventId">
 					<ww:if test="top != null">

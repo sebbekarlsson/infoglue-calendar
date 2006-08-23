@@ -19,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.util.EntrySearchResultfilesConstructor;
 import org.infoglue.common.util.PropertyHelper;
@@ -26,14 +27,27 @@ import org.infoglue.common.util.PropertyHelper;
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 
-public class ComposeEmailAction extends CalendarAbstractAction {
+public class ComposeEmailAction extends CalendarAbstractAction 
+{
 
 	private static Log log = LogFactory.getLog(ComposeEmailAction.class);
 
 	private Long eventId;
 	private String attachParticipants = "false";
 	
-	private String emailAddresses;
+    private String searchHashCode = "";
+
+	private String emailAddresses = "";
+	
+	private Long[] searchEventId;
+	private String searchFirstName;
+	private String searchLastName;
+	private String searchEmail;
+    private String[] categoryId;
+    private String[] locationId;
+    private boolean onlyFutureEvents = true;
+    private Map categoryAttributesMap = new HashMap();
+    private String andSearch = "false";
 
 	private String subject;
 
@@ -49,112 +63,129 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 
 	public String execute() throws Exception 
 	{
-		log.debug("execute()");
-		if (PortletFileUpload.isMultipartContent(ServletActionContext.getRequest()))
+		try
 		{
-			log.debug("This is a multipart request.");
-
-			DiskFileItemFactory dfif = new DiskFileItemFactory();
-			PortletFileUpload pfu = new PortletFileUpload(dfif);
-			List params = pfu.parseRequest(ServletActionContext.getRequest());
-			for (Iterator it = params.iterator(); it.hasNext();)
+			log.debug("execute()");
+			if (PortletFileUpload.isMultipartContent(ServletActionContext.getRequest()))
 			{
-				DiskFileItem dfi = (DiskFileItem) it.next();
-				if (dfi.isFormField())
+				log.debug("This is a multipart request.");
+				
+				DiskFileItemFactory dfif = new DiskFileItemFactory();
+				PortletFileUpload pfu = new PortletFileUpload(dfif);
+				List params = pfu.parseRequest(ServletActionContext.getRequest());
+				for (Iterator it = params.iterator(); it.hasNext();)
 				{
-					String paramName = dfi.getFieldName();
-					String paramValue = dfi.getString();
-					if (paramName.equals("emailAddresses"))
+					DiskFileItem dfi = (DiskFileItem) it.next();
+					if (dfi.isFormField())
 					{
-						emailAddresses = paramValue;
-					} 
-					else if (paramName.equals("subject"))
-					{
-						subject = paramValue;
-					} 
-					else if (paramName.equals("message"))
-					{
-						message = paramValue;
-					} 
-					else if (paramName.equals("attachParticipants"))
-					{
-						attachParticipants = paramValue;
-					} 
-					else if (paramName.equals("eventId") && paramValue.length() > 0)
-					{
-						eventId = new Long(paramValue);
-					} 
-					else if (paramName.equals("attachments"))
-					{
-						log.error("Got param attachments: " + paramValue);
-						StringTokenizer st = new StringTokenizer(paramValue, ",[]", false);
-						while (st.hasMoreTokens())
+						String paramName = dfi.getFieldName();
+						String paramValue = dfi.getString();
+						if (paramName.equals("emailAddresses"))
 						{
-							String fileName = st.nextToken();
-							log.error("Attachment: " + fileName);
-							attachments.add(new File(fileName));
+							emailAddresses = paramValue;
+						} 
+						else if (paramName.equals("searchHashCode"))
+						{
+							searchHashCode = paramValue;
+						} 
+						else if (paramName.equals("subject"))
+						{
+							subject = paramValue;
+						} 
+						else if (paramName.equals("message"))
+						{
+							message = paramValue;
+						} 
+						else if (paramName.equals("attachParticipants"))
+						{
+							attachParticipants = paramValue;
+						} 
+						else if (paramName.equals("eventId") && paramValue.length() > 0)
+						{
+							eventId = new Long(paramValue);
+						} 
+						else if (paramName.equals("attachments"))
+						{
+							log.debug("Got param attachments: " + paramValue);
+							StringTokenizer st = new StringTokenizer(paramValue, ",[]", false);
+							while (st.hasMoreTokens())
+							{
+								String fileName = st.nextToken();
+								log.debug("Attachment: " + fileName);
+								attachments.add(new File(fileName));
+							}
 						}
+					} 
+					else
+					{
+						String fileName = dfi.getName();
+						File f = new File(getTempFilePath() + File.separator + fileName);
+						log.debug("Attaching file: " + f.getPath());
+						dfi.write(f);
+						attachments.add(f);
 					}
-				} 
-				else
-				{
-					String fileName = dfi.getName();
-					File f = new File(getTempFilePath() + File.separator + fileName);
-					log.debug("Attaching file: " + f.getPath());
-					dfi.write(f);
-					attachments.add(f);
 				}
-			}
-		} 
-		else
-		{
-			if (cancel != null)
-			{
-				// cancel sending message
-				return "finished";
 			} 
-			else if (send != null)
+			else
 			{
-		        // should we attach participants?
-		        if(eventId != null && (attachParticipants != null && attachParticipants.equalsIgnoreCase("true"))) 
-		        {
-		        	Event event = EventController.getController().getEvent(eventId, getSession());
-		        	Set entries = event.getEntries();
-		        	if(entries != null && entries.size() > 0)
-		        	{
-		        		List resultValues = new ArrayList();
-		        		String entryResultValues = "PDF";
-		                
-			        	HttpServletRequest request = ServletActionContext.getRequest();
-			        	Map parameters = new HashMap();
-			        	parameters.put("headLine", "Entries for event " + event.getName() + "(" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd") + ")");
-			        	
-			        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(parameters, entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this );
-			        	Map searchResultFiles = results.getFileResults();
-			        	
-			        	String fileName = (String)searchResultFiles.get("PDF");
-			        	if(fileName != null)
+				if (cancel != null)
+				{
+					// cancel sending message
+					return "finished";
+				} 
+				else if (send != null)
+				{
+			        // should we attach participants?
+			        if(eventId != null && (attachParticipants != null && attachParticipants.equalsIgnoreCase("true"))) 
+			        {
+			        	Event event = EventController.getController().getEvent(eventId, getSession());
+			        	Set entries = event.getEntries();
+			        	if(entries != null && entries.size() > 0)
 			        	{
-			        		File f = new File(fileName.trim());
-			        		log.debug("f:" + f.exists());
-			        		attachments.add(f);
+			        		List resultValues = new ArrayList();
+			        		String entryResultValues = "PDF";
+			                
+				        	HttpServletRequest request = ServletActionContext.getRequest();
+				        	Map parameters = new HashMap();
+				        	parameters.put("headLine", "Entries for event " + event.getName() + "(" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd") + ")");
+				        	
+				        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(parameters, entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this );
+				        	Map searchResultFiles = results.getFileResults();
+				        	
+				        	String fileName = (String)searchResultFiles.get("PDF");
+				        	if(fileName != null)
+				        	{
+				        		File f = new File(fileName.trim());
+				        		log.debug("f:" + f.exists());
+				        		attachments.add(f);
+				        	}
 			        	}
-		        	}
-		        }
-
-				// time to send
-				log.info("Sending email to " + emailAddresses + " with " + attachments.size() + " attachments.");
-				EntryController.getController().mailEntries(emailAddresses, subject, message, attachments, this.getLocale(), this.getSession());
-				return "finished";
+			        }
+	
+					// time to send
+					log.info("Sending email to " + emailAddresses + " with " + attachments.size() + " attachments.");
+					EntryController.getController().mailEntries(emailAddresses, subject, message, attachments, this.getLocale(), this.getSession());
+					return "finished";
+				}
+				
+				emailAddresses = (String)ServletActionContext.getRequest().getSession().getAttribute("request_" + searchHashCode + "_emailAddresses");
+				if(emailAddresses == null)
+					emailAddresses = "";
 			}
+			return Action.SUCCESS;
 		}
-		return Action.SUCCESS;
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return Action.ERROR;
+		}
 	}
 
 	/**
 	 * @return Returns the emailAddresses.
 	 */
-	public String getEmailAddresses() {
+	public String getEmailAddresses() 
+	{
 		return emailAddresses;
 	}
 
@@ -162,7 +193,9 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 	 * @param emailAddresses
 	 *            The emailAddresses to set.
 	 */
-	public void setEmailAddresses(String emailAddresses) {
+	
+	public void setEmailAddresses(String emailAddresses) 
+	{
 		// aaargh, ugly fix, but I didn't have time to dig deeper
 		// the reason is I couldn't pass this parameter with ; since
 		// that broke something on the way so I changed all ; to , and
@@ -172,11 +205,13 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 		}
 		this.emailAddresses = emailAddresses;
 	}
+	
 
 	/**
 	 * @return Returns the message.
 	 */
-	public String getMessage() {
+	public String getMessage() 
+	{
 		return message;
 	}
 
@@ -184,14 +219,16 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 	 * @param message
 	 *            The message to set.
 	 */
-	public void setMessage(String message) {
+	public void setMessage(String message) 
+	{
 		this.message = message;
 	}
 
 	/**
 	 * @return Returns the subject.
 	 */
-	public String getSubject() {
+	public String getSubject() 
+	{
 		return subject;
 	}
 
@@ -199,18 +236,21 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 	 * @param subject
 	 *            The subject to set.
 	 */
-	public void setSubject(String subject) {
+	public void setSubject(String subject) 
+	{
 		this.subject = subject;
 	}
 
 	/**
 	 * @return Returns the attachments.
 	 */
-	public List getAttachments() {
+	public List getAttachments() 
+	{
 		return attachments;
 	}
 
-	public void setAttachments(List attachments) {
+	public void setAttachments(List attachments) 
+	{
 		log.debug("Got list param attachments: " + attachments);
 		StringTokenizer st = new StringTokenizer(attachments.toString(), ",[]",
 				false);
@@ -223,31 +263,34 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 	/**
 	 * @return Returns the cancel.
 	 */
-	public String getCancel() {
+	public String getCancel() 
+	{
 		return cancel;
 	}
 
 	/**
 	 * @param cancel
-	 *            The cancel to set.
+	 * The cancel to set.
 	 */
-	public void setCancel(String cancel) {
-		log.error("Got parameter cancel: " + cancel);
+	public void setCancel(String cancel) 
+	{
 		this.cancel = cancel;
 	}
 
 	/**
 	 * @return Returns the send.
 	 */
-	public String getSend() {
+	public String getSend() 
+	{
 		return send;
 	}
 
 	/**
 	 * @param send
-	 *            The send to set.
+	 * The send to set.
 	 */
-	public void setSend(String send) {
+	public void setSend(String send) 
+	{
 		log.debug("Got parameter send: " + send);
 		this.send = send;
 	}
@@ -255,7 +298,8 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 	/**
 	 * @return Returns the remove.
 	 */
-	public String getRemove() {
+	public String getRemove() 
+	{
 		return remove;
 	}
 
@@ -263,7 +307,8 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 	 * @param remove
 	 *            The remove to set.
 	 */
-	public void setRemove(String remove) {
+	public void setRemove(String remove) 
+	{
 		this.remove = remove;
 	}
 
@@ -285,5 +330,100 @@ public class ComposeEmailAction extends CalendarAbstractAction {
 	public String getAttachParticipants()
 	{
 		return attachParticipants;
+	}
+
+	public Long[] getSearchEventId()
+	{
+		return searchEventId;
+	}
+
+	public String getSearchFirstName()
+	{
+		return searchFirstName;
+	}
+
+	public String getSearchLastName()
+	{
+		return searchLastName;
+	}
+
+	public void setSearchEventId(Long[] searchEventId)
+	{
+		this.searchEventId = searchEventId;
+	}
+
+	public void setSearchFirstName(String searchFirstName)
+	{
+		this.searchFirstName = searchFirstName;
+	}
+
+	public void setSearchLastName(String searchLastName)
+	{
+		this.searchLastName = searchLastName;
+	}
+
+	public String[] getCategoryId()
+	{
+		return categoryId;
+	}
+
+	public void setCategoryId(String[] categoryId)
+	{
+		this.categoryId = categoryId;
+	}
+
+	public String[] getLocationId()
+	{
+		return locationId;
+	}
+
+	public void setLocationId(String[] locationId)
+	{
+		this.locationId = locationId;
+	}
+
+	public String getSearchEmail()
+	{
+		return searchEmail;
+	}
+
+	public void setSearchEmail(String searchEmail)
+	{
+		this.searchEmail = searchEmail;
+	}
+
+	public Map getCategoryAttributesMap()
+	{
+		return categoryAttributesMap;
+	}
+
+	public void setCategoryAttributesMap(Map categoryAttributesMap)
+	{
+		this.categoryAttributesMap = categoryAttributesMap;
+	}
+
+	public boolean isOnlyFutureEvents()
+	{
+		return onlyFutureEvents;
+	}
+
+	public void setOnlyFutureEvents(boolean onlyFutureEvents)
+	{
+		this.onlyFutureEvents = onlyFutureEvents;
+	}
+
+	public void setAndSearch(String andSearch)
+	{
+		this.andSearch = andSearch;
+	}
+
+	public String getSearchHashCode()
+	{
+		return searchHashCode;
+	}
+
+	public void setSearchHashCode(String searchHashCode)
+	{
+		this.searchHashCode = searchHashCode;
 	}
 }

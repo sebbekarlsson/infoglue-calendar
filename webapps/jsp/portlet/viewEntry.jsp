@@ -21,6 +21,7 @@
 		<input type="hidden" name="searchFirstName" value="<ww:property value="searchFirstName"/>">
 		<input type="hidden" name="searchLastName" value="<ww:property value="searchLastName"/>">
 		<input type="hidden" name="searchEmail" value="<ww:property value="searchEmail"/>">
+		<input type="hidden" name="searchHashCode" value="<ww:property value="searchHashCode"/>">
 
 		<calendar:textField label="labels.internal.entry.firstName" name="'firstName'" value="entry.firstName" required="true" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.lastName" name="'lastName'" value="entry.lastName" required="true" cssClass="longtextfield"/>
