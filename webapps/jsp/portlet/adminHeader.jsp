@@ -18,6 +18,7 @@
 			<style type="text/css" media="screen">@import url(http://cms.it.gu.se/infoglueDeliverWorking/ViewPage.action?siteNodeId=101891&amp;languageId=100000&amp;contentId=-1);</style>
 		</ww:else>
 		
+		<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/skins/aqua/theme.css" title="aqua" />
 		<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
 		
 		<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
@@ -71,6 +72,15 @@
 	</span>	
 	<span class="right">	
 		<ww:property value="this.getInfoGluePrincipal().firstName"/> <ww:property value="this.getInfoGluePrincipal().lastName"/> | <a href="<ww:property value="logoutUrl"/>">Logga ut</a>
+		<%--
+		Request: <c:out value="${request.remoteUser}"/><br/>
+		<%=request.getContextPath()%><br/>
+		<%=request.getRemoteUser()%><br/>
+		<%=request.isUserInRole("admin")%><br/>
+		<%=request.isUserInRole("cmsUser")%><br/>
+		<%=request.getUserPrincipal().toString()%><br/>
+		RemoteUser: <ww:property value="this.getRequestClass()"/><br/>
+		--%>
 	</span>
     <div class="clear"></div>
 </div>
