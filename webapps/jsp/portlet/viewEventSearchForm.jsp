@@ -62,8 +62,9 @@
         inputField     :    "startDateTime",     // id of the input field
         ifFormat       :    "%Y-%m-%d",      // format of the input field
         button         :    "trigger_startDateTime",  // trigger for the calendar (button ID)
-        align          :    "Tl",           // alignment (defaults to "Bl")
-        singleClick    :    true
+        align          :    "Bl",           // alignment (defaults to "Bl")
+        singleClick    :    true,
+        firstDay  	   : 	1    
     });
 </script>
 
@@ -72,8 +73,9 @@
         inputField     :    "endDateTime",     // id of the input field
         ifFormat       :    "%Y-%m-%d",      // format of the input field
         button         :    "trigger_endDateTime",  // trigger for the calendar (button ID)
-        align          :    "Tl",           // alignment (defaults to "Bl")
-        singleClick    :    true
+        align          :    "Bl",           // alignment (defaults to "Bl")
+        singleClick    :    true,
+        firstDay  	   : 	1    
     });
 </script>
 
