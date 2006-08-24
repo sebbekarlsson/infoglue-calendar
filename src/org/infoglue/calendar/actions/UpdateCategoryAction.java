@@ -58,23 +58,27 @@ public class UpdateCategoryAction extends ViewCategoryAction
     
     public String execute() throws Exception 
     {
+    	Category category = null;
+    	
         try
         {
-            validateInput(this);
-            
-            Category category = CategoryController.getController().updateCategory(this.updateCategoryId, this.internalName, this.name, this.description, getSession());
-            
-            if(category != null && category.getParent() != null)
-            {
-                this.categoryId = category.getParent().getId();
-                return Action.SUCCESS;
-            }
-            else
-                return "successRootCategory";
+            validateInput(this);            
+            category = CategoryController.getController().updateCategory(this.updateCategoryId, this.internalName, this.name, this.description, getSession());
         }
         catch(ValidationException e)
         {
-            return Action.ERROR;            
+        	this.categoryId = this.updateCategoryId;
+        	return Action.ERROR;            
+        }
+            
+        if(category != null && category.getParent() != null)
+        {
+            this.categoryId = category.getParent().getId();
+            return Action.SUCCESS;
+        }
+        else
+        {
+            return "successRootCategory";
         }
     } 
     

@@ -197,7 +197,7 @@
 				<param name="viewAction">ViewCategoryList.action</param>
 			</result>
 			<result name="error" type="eventProcessed">
-				<param name="viewAction">ViewCategory.action</param>
+				<param name="viewAction">ViewCategory.action?categoryId=${categoryId}</param>
 			</result>
 		</action>
 		<action name="DeleteCategory" class="org.infoglue.calendar.actions.DeleteCategoryAction">

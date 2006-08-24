@@ -577,7 +577,7 @@ public class CalendarAbstractAction extends ActionSupport
         
     	ActionContext.getContext().getValueStack().getContext().put("actionErrors", this.getActionErrors());
         ActionContext.getContext().getValueStack().getContext().put("fieldErrors", fieldErrors);
-        ActionContext.getContext().getValueStack().getContext().put("errorAction", this);
+        //ActionContext.getContext().getValueStack().getContext().put("errorAction", this);
         
         log.debug("actionErrors:" + this.getActionErrors());
         log.debug("fieldErrors:" + this.getFieldErrors());
@@ -617,7 +617,10 @@ public class CalendarAbstractAction extends ActionSupport
         }        	
 
         if(throwError)
+        {
+            ActionContext.getContext().getValueStack().getContext().put("errorAction", this);
             throw new ValidationException("An validation error occurred - more information is in the valuestack...");
+        }
         
 	        /*
 	        if (fValidator != null) 
