@@ -33,6 +33,7 @@ import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.common.util.DBSessionWrapper;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.validator.ValidationException;
@@ -62,6 +63,13 @@ public class UpdateCalendarAction extends CalendarAbstractAction
         {
             validateInput(this);
             //log.debug("calendarId: " + calendarId);
+            if(this.eventTypeId == null)
+            {
+                String eventTypeIdString = ServletActionContext.getRequest().getParameter("eventTypeId");
+                if(eventTypeIdString != null && !eventTypeIdString.equals(""))
+                	this.eventTypeId = new Long(ServletActionContext.getRequest().getParameter("eventTypeId"));
+            }
+            
             CalendarController.getController().updateCalendar(calendarId, name, description, roles, groups, eventTypeId, getSession());
         }
         catch(ValidationException e)
