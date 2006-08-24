@@ -171,6 +171,13 @@ public class ComposeEmailAction extends CalendarAbstractAction
 				emailAddresses = (String)ServletActionContext.getRequest().getSession().getAttribute("request_" + searchHashCode + "_emailAddresses");
 				if(emailAddresses == null)
 					emailAddresses = "";
+				
+	            Long[] searchEventId = (Long[])ServletActionContext.getRequest().getSession().getAttribute("request_" + searchHashCode + "_searchEventId");
+	            if(searchEventId != null && searchEventId.length == 1)
+	            {
+	            	this.eventId = searchEventId[0];
+	            	//this.attachParticipants = true;
+	            }
 			}
 			return Action.SUCCESS;
 		}
@@ -350,6 +357,8 @@ public class ComposeEmailAction extends CalendarAbstractAction
 	public void setSearchEventId(Long[] searchEventId)
 	{
 		this.searchEventId = searchEventId;
+		if(searchEventId != null && searchEventId.length == 1)
+			this.eventId = searchEventId[0];
 	}
 
 	public void setSearchFirstName(String searchFirstName)
