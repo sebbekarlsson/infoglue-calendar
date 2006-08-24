@@ -157,7 +157,6 @@ public class UpdateEntryAction extends CalendarUploadAbstractAction
 	    }
 	    catch(ValidationException e)
 	    {
-	        e.printStackTrace();
 	        return Action.ERROR;            
 	    }
 

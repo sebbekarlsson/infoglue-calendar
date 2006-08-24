@@ -195,12 +195,10 @@ public class CreateEntryAction extends CalendarAbstractAction
         }
         catch(ValidationException e)
         {
-            e.printStackTrace();
             return Action.ERROR;            
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             throw e;
         }
 

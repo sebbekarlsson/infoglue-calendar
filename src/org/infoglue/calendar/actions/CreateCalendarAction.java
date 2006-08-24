@@ -69,7 +69,6 @@ public class CreateCalendarAction extends CalendarAbstractAction
         }
         catch(ValidationException e)
         {
-            e.printStackTrace();
             return Action.ERROR;            
         }
         

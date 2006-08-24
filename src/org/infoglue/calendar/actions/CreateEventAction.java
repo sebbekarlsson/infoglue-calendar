@@ -264,7 +264,6 @@ public class CreateEventAction extends CalendarAbstractAction
         }
         catch(ValidationException e)
         {
-            log.error("An validation error occcurred:" + e.getMessage(), e);
             return Action.ERROR;            
         }
         
