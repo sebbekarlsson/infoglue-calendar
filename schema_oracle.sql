@@ -10,23 +10,30 @@ CREATE TABLE calendar (
 CREATE TABLE calendar_role (
   id int NOT NULL,
   calendar_id int NULL,
-  roleName varchar(255) NOT NULL,
+  roleName varchar(255) NULL,
   PRIMARY KEY  (id)
 );
 
 CREATE TABLE calendar_group (
   id int NOT NULL,
   calendar_id int NULL,
-  groupName varchar(255) NOT NULL,
+  groupName varchar(255) NULL,
   PRIMARY KEY  (id)
+);
+
+CREATE TABLE event_calendar (
+  event_id int NOT NULL,
+  calendar_id int NOT NULL,
+  PRIMARY KEY  (event_id, calendar_id)
 );
 
 CREATE TABLE category (
   id int NOT NULL ,
+  internalName varchar(255) default NULL,
   name varchar(255) default NULL,
   description varchar(255) default NULL,
   active int default '1' NOT NULL ,
-  parentId int,  
+  parent_id int,  
   PRIMARY KEY  (id)
 );
 
@@ -52,13 +59,13 @@ CREATE TABLE event (
   description varchar(255) default NULL,
   endDateTime date default NULL,
   startDateTime date default NULL,
-  lecturer varchar(255) default NULL,
+  lecturer varchar(1024) default NULL,
   isOrganizedByGU int default NULL,
   lastRegistrationDateTime date default NULL,
-  longDescription varchar(255) default NULL,
+  longDescription clob NULL,
   maximumParticipants int default NULL,
   contactEmail varchar(255) default NULL,
-  shortDescription varchar(255) default NULL,
+  shortDescription clob NULL,
   organizerName varchar(255) default NULL,
   contactPhone varchar(255) default NULL,
   price float default NULL,
@@ -126,6 +133,7 @@ CREATE TABLE eventtype (
 
 CREATE TABLE eventtype_category (
   id int NOT NULL,
+  internalName varchar(255) default NULL,
   name varchar(255) default NULL,
   eventtype_id int NOT NULL,
   category_id int NOT NULL,
