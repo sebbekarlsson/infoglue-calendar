@@ -40,31 +40,33 @@
 	</ww:if>
 	
 	<div class="calFact" style="clear:both">
-		<p><span class="calFactLabel">F&ouml;rel&auml;sare: </span><ww:property value="event.lecturer"/></p>
-			<ww:set name="startDate" value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>
-			<ww:set name="endDate" value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
-			<ww:if test="#startDate != #endDate">
-				<p><span class="calFactLabel">Datum & tid: </span><ww:property value="#startDate"/>
-				<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
-			 	kl <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> kl <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>
-			 	</ww:if>
-				</p>                             		
+		<ww:if test="event.lecturer != null && event.lecturer != ''">
+			<p><span class="calFactLabel">F&ouml;rel&auml;sare: </span><ww:property value="event.lecturer"/></p>
+		</ww:if>
+		<ww:set name="startDate" value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>
+		<ww:set name="endDate" value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
+		<ww:if test="#startDate != #endDate">
+			<p><span class="calFactLabel">Datum & tid: </span><ww:property value="#startDate"/>
+			<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
+		 	kl <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> kl <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>
+		 	</ww:if>
+			</p>                             		
+		</ww:if>
+		<ww:else>
+			<p><span class="calFactLabel">Datum: </span><ww:property value="#startDate"/></p>                             		
+			<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
+		 	<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></ww:if></p>
+		 	</ww:if>
+		</ww:else>
+		<p><span class="calFactLabel">Kategori: </span>
+		<ww:iterator value="event.owningCalendar.eventType.categoryAttributes">
+			<ww:if test="top.name == 'Ämnesområde' || top.name == 'Ämnesområden'">
+				<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
+				<ww:iterator value="#selectedCategories" status="rowstatus">
+					<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
+				</ww:iterator>
 			</ww:if>
-			<ww:else>
-				<p><span class="calFactLabel">Datum: </span><ww:property value="#startDate"/></p>                             		
-				<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
-			 	<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></ww:if></p>
-			 	</ww:if>
-			</ww:else>
-			<p><span class="calFactLabel">Kategori: </span>
-			<ww:iterator value="event.owningCalendar.eventType.categoryAttributes">
-				<ww:if test="top.name == 'Ämnesområde' || top.name == 'Ämnesområden'">
-					<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
-					<ww:iterator value="#selectedCategories" status="rowstatus">
-						<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
-					</ww:iterator>
-				</ww:if>
-	   		</ww:iterator>
+   		</ww:iterator>
    		</p>
    		
    		<ww:if test="event.organizerName != null && event.organizerName != ''">
