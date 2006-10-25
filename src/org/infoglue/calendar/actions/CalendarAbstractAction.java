@@ -229,7 +229,15 @@ public class CalendarAbstractAction extends ActionSupport
 
     public InfoGluePrincipal getInfoGluePrincipal() throws Exception
     {
-        return UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
+    	try
+    	{
+    		return UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
+    	}
+    	catch(Exception e)
+    	{
+    		log.error("Could not get infoglue user:", e);
+    		throw e;
+    	}
     }
 
     /*
