@@ -753,6 +753,7 @@ public class EventController extends BasicController
             String price,
             Integer maximumParticipants,
             Boolean sortAscending,
+            Long categoryId,
             Session session) throws Exception 
     {
         List result = null;
@@ -855,6 +856,17 @@ public class EventController extends BasicController
         }
         
         result = q.list();
+        
+        if(categoryId != null)
+        {
+	        Iterator resultIterator = result.iterator();
+	        while(resultIterator.hasNext())
+	        {
+	        	Event event = (Event)resultIterator.next();
+	        	if(!getHasCategory(event, categoryId))
+	        		resultIterator.remove();
+	        }
+        }
         
         return result;
     }

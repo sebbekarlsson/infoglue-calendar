@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,9 +37,11 @@ import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
+import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.Location;
+import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.xwork.Action;
 
@@ -71,10 +74,16 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private Calendar startCalendar;
     private Calendar endCalendar;
 
-    private List events;
+    private Long categoryId;
     
+    private List events;
+    private Set categoriesList;
+
     private void initialize() throws Exception
     {
+        Category category = CategoryController.getController().getCategoryByPath(getSession(), PropertyHelper.getProperty("filterCategoryPath"));
+        if(category != null)
+        	categoriesList = category.getChildren();
     }
     
     /**
@@ -105,6 +114,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 															        price,
 															        maximumParticipants,
 															        sortAscending,
+															        categoryId,
 															        getSession());
         
         
@@ -290,5 +300,21 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 	{
 		this.lecturer = lecturer;
 	}
+	
+	public Set getCategoriesList() 
+	{
+		return categoriesList;
+	}
+
+	public Long getCategoryId() 
+	{
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) 
+	{
+		this.categoryId = categoryId;
+	}
+
 }
 

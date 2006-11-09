@@ -22,7 +22,7 @@
 <c:set var="eventsItems" value="${eventList}"/>
 <ww:if test="events != null && events.size() > 0">
 	<ww:set name="numberOfItems" value="numberOfItems" scope="page"/>
-	<c:if test="${numberOfItems == null || numberOfItems == ''}">
+	<c:if test="${numberOfItems == null || numberOfItems == '' || numberOfItems == 'Undefined'}">
 		<c:set var="numberOfItems" value="10"/>
 	</c:if>
 	<c:set var="currentSlot" value="${param.currentSlot}"/>

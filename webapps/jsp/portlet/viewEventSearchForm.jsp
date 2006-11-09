@@ -52,6 +52,8 @@
 			<input name="endTime" value="<ww:property value="endTime"/>" class="hourfield" type="textfield">					
 		</div>
 
+		<calendar:selectField label="labels.internal.calendar.eventType" name="'categoryId'" headerItem="Filtrera på evenemangstyp" multiple="false" value="categoriesList" selectedValue="categoryId" cssClass="listBox"/>
+
 	<div style="height:10px"></div>
 	<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.searchButton')"/>" class="button"/>
 	</form>
