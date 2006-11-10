@@ -35,6 +35,9 @@
 <portlet:renderURL var="viewLabelsUrl">
 	<portlet:param name="action" value="ViewLabels"/>
 </portlet:renderURL>
+<portlet:renderURL var="viewLanguagesUrl">
+	<portlet:param name="action" value="ViewLanguageList"/>
+</portlet:renderURL>
 
 <calendar:hasRole id="calendarSuperUser" roleName="CalendarSuperUser"/>
 <calendar:hasRole id="calendarAdministrator" roleName="CalendarAdministrator"/>
@@ -70,6 +73,7 @@
 	<c:if test="${calendarSuperUser == true}">
 		<a href="<c:out value="${viewSettingsUrl}"/>" <c:if test="${activeNavItem == 'Settings'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerSettings')"/></a> |
 		<a href="<c:out value="${viewLabelsUrl}"/>" <c:if test="${activeNavItem == 'Labels'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerLabels')"/></a> |
+		<a href="<c:out value="${viewLanguagesUrl}"/>" <c:if test="${activeNavItem == 'Languages'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerLanguages')"/></a> |
 	</c:if>
 	
 	<c:if test="${calendarAdministrator == true}">

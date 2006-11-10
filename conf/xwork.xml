@@ -146,6 +146,45 @@
 				<param name="viewAction">ViewLocationList.action</param>
 			</result>
 		</action>
+
+		<!-- LANGUAGE ACTIONS -->
+		<action name="ViewLanguageList" class="org.infoglue.calendar.actions.ViewLanguageListAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewLanguageList.jsp</param>
+			</result>
+		</action>
+		<action name="CreateLanguage" class="org.infoglue.calendar.actions.CreateLanguageAction">
+			<result name="input" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/createLanguage.jsp</param>
+            </result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewLanguageList.action</param>
+			</result>
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">CreateLanguage!input.action</param>
+			</result>
+		</action>
+		<action name="ViewLanguage" class="org.infoglue.calendar.actions.ViewLanguageAction">
+			<result name="success" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewLanguage.jsp</param>
+            </result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
+		<action name="UpdateLanguage" class="org.infoglue.calendar.actions.UpdateLanguageAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewLanguageList.action</param>
+			</result>
+			<result name="error" type="eventProcessed">
+				<param name="viewAction">ViewLanguage.action</param>
+			</result>
+		</action>
+		<action name="DeleteLanguage" class="org.infoglue.calendar.actions.DeleteLanguageAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewLanguageList.action</param>
+			</result>
+		</action>
 		
 		<!-- CATEGORY ACTIONS -->
 		<action name="ViewCategoryList" class="org.infoglue.calendar.actions.ViewCategoryListAction">

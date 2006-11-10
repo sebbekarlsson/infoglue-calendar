@@ -69,6 +69,8 @@
 <ww:iterator value="#attr.eventsItems" status="rowstatus">
 
 	<ww:set name="event" value="top"/>
+	<ww:set name="eventVersion" value="this.getMasterEventVersion('#event')"/>
+	<ww:set name="eventVersion" value="this.getMasterEventVersion('#event')" scope="page"/>
 	<ww:set name="eventId" value="id" scope="page"/>
 	<ww:set name="name" value="name" scope="page"/>
 
@@ -102,7 +104,7 @@
     </ww:else>
 
 	   	<div class="columnMedium">
-	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="name"/>'"><ww:property value="name"/></a>
+	   		<p class="portletHeadline"><a href="<c:out value="${eventUrl}"/>" title="Visa '<ww:property value="#eventVersion.name"/>'"><ww:property value="#eventVersion.name"/><ww:if test="#eventVersion == null"><ww:property value="#event.id"/></ww:if></a>
 		   		<ww:iterator value="owningCalendar.eventType.categoryAttributes">
 					<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 						<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
@@ -114,7 +116,7 @@
 	   		</p>
 	   	</div>
 	   	<div class="columnMedium">
-	   		<p><ww:property value="shortDescription"/>&nbsp;</p>
+	   		<p><ww:property value="#eventVersion.shortDescription"/>&nbsp;</p>
 	   	</div>
 	   	<div class="columnShort">
 	   		<p><ww:property value="owningCalendar.name"/></p>
@@ -123,8 +125,8 @@
 	   		<p style="white-space: nowrap;"><ww:property value="this.formatDate(startDateTime.time, 'yyyy-MM-dd')"/></p>
 	   	</div>
 	   	<div class="columnEnd">
-	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>
-	   	   	<a href="<c:out value="${eventUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>
+	   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="#eventVersion.name"/>'" class="delete"></a>
+	   	   	<a href="<c:out value="${eventUrl}"/>" title="Redigera '<ww:property value="#eventVersion.name"/>'" class="edit"></a>
 	   	</div>
 	   	<div class="clear"></div>
 	</div>

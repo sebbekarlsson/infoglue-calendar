@@ -26,6 +26,7 @@ package org.infoglue.calendar.actions;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,11 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.LanguageController;
+import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventVersion;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.cms.util.CmsPropertyHandler;
 import org.infoglue.cms.util.CmsSessionContextListener;
 
@@ -156,6 +162,47 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
     public String doClearCaches() throws Exception
     {
         return "cleared";
+    }
+
+    /**
+     * This action allows upgrade of model from a versionless situation to a version based event handling.
+     */
+    public String doUpgradeModel() throws Exception
+    {
+        List events = EventController.getController().getEventList(getSession());
+        Iterator eventsIterator = events.iterator();
+        while(eventsIterator.hasNext())
+        {
+        	Event event = (Event)eventsIterator.next();
+        	if(event.getVersions().size() == 0)
+        	{
+                Language language = LanguageController.getController().getMasterLanguage(getSession());
+
+        		EventVersion eventVersion = new EventVersion();
+            	eventVersion.setLanguage(language);
+            	eventVersion.setEvent(event);
+            	eventVersion.setName(event.getName());
+            	eventVersion.setDescription(event.getDescription());
+                eventVersion.setOrganizerName(event.getOrganizerName());
+                eventVersion.setLecturer(event.getLecturer());
+                eventVersion.setCustomLocation(event.getCustomLocation());
+                eventVersion.setAlternativeLocation(event.getAlternativeLocation());
+                eventVersion.setShortDescription(event.getShortDescription());
+                eventVersion.setLongDescription(event.getLongDescription());
+                eventVersion.setEventUrl(event.getEventUrl());
+                eventVersion.setContactName(event.getContactName());
+                eventVersion.setContactEmail(event.getContactEmail());
+                eventVersion.setContactPhone(event.getContactPhone());
+                eventVersion.setPrice(event.getPrice());
+                eventVersion.setAttributes(event.getAttributes());
+                
+            	getSession().save(eventVersion);
+        	}
+        	
+        	getSession().update(event);
+        }
+    	
+    	return "success";
     }
 
     

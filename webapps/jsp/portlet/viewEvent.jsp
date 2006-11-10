@@ -7,12 +7,14 @@
 <ww:set name="event" value="event" scope="page"/>
 <ww:set name="eventId" value="event.id" scope="page"/>
 <ww:set name="calendarId" value="calendarId" scope="page"/>
+<ww:set name="languageId" value="languageId" scope="page"/>
 
 <%@ include file="functionMenu.jsp" %>
 
 <div id="inputDiv">
 	
 	<ww:set name="eventId" value="event.id" scope="page"/>
+	<ww:set name="eventVersion" value="eventVersion" scope="page"/>
 	<ww:set name="name" value="event.name" scope="page"/>
 	
 	<portlet:actionURL var="deleteUrl">
@@ -49,8 +51,33 @@
 			
 	<div class="portlet_margin">
 	
+		<ul class="languagesTabs">
+			<ww:iterator value="availableLanguages" status="rowstatus">
+				<ww:set name="currentLanguageId" value="top.id" scope="page"/>
+				
+				<portlet:renderURL var="viewEventVersionUrl">
+					<portlet:param name="action" value="ViewEvent"/>
+					<calendar:evalParam name="eventId" value="${eventId}"/>
+					<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
+				</portlet:renderURL>
+					
+				<c:choose>
+					<c:when test="languageId == currentLanguageId">
+						<c:set var="cssClass" value="active"/>
+					</c:when>
+					<c:otherwise>
+						<c:set var="cssClass" value=""/>
+					</c:otherwise>
+				</c:choose>		
+				<li class="<c:out value="${cssClass}"/>">
+					<a href="<c:out value="${viewEventVersionUrl}"/>"><ww:property value="top.name"/></a>
+				</li>
+				
+			</ww:iterator>
+		</ul>
+		 
 		<p>
-			<calendar:textValue label="labels.internal.event.name" value="event.name" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.name" value="eventVersion.name" labelCssClass="label"/>
 		</p>
 		<p>
 			<span class="label"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span><br />
@@ -69,10 +96,10 @@
 		</p>
 		
 		<p>
-			<calendar:textValue label="labels.internal.event.shortDescription" value="event.shortDescription" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.shortDescription" value="eventVersion.shortDescription" labelCssClass="label"/>
 		</p>
 		<p>
-			<calendar:textValue label="labels.internal.event.longDescription" value="event.longDescription" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.longDescription" value="eventVersion.longDescription" labelCssClass="label"/>
 		</p>
 		<ww:if test="this.isActiveEventField('isInternal')">
 		<p>
@@ -86,47 +113,47 @@
 		</ww:if>
 		<ww:if test="this.isActiveEventField('organizerName')">
 		<p>
-			<calendar:textValue label="labels.internal.event.organizerName" value="event.organizerName" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.organizerName" value="eventVersion.organizerName" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('lecturer')">
 		<p>
-			<calendar:textValue label="labels.internal.event.lecturer" value="event.lecturer" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.lecturer" value="eventVersion.lecturer" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('customLocation')">
 		<p>
-			<calendar:textValue label="labels.internal.event.customLocation" value="event.customLocation" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.customLocation" value="eventVersion.customLocation" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('alternativeLocation')">
 		<p>
-			<calendar:textValue label="labels.internal.event.alternativeLocation" value="event.alternativeLocation" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.alternativeLocation" value="eventVersion.alternativeLocation" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('eventUrl')">
 		<p>
-			<calendar:textValue label="labels.internal.event.eventUrl" value="event.eventUrl" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.eventUrl" value="eventVersion.eventUrl" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactName')">
 		<p>
-			<calendar:textValue label="labels.internal.event.contactName" value="event.contactName" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.contactName" value="eventVersion.contactName" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactEmail')">
 		<p>
-			<calendar:textValue label="labels.internal.event.contactEmail" value="event.contactEmail" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.contactEmail" value="eventVersion.contactEmail" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactPhone')">
 		<p>
-			<calendar:textValue label="labels.internal.event.contactPhone" value="event.contactPhone" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.contactPhone" value="eventVersion.contactPhone" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('price')">
 		<p>
-			<calendar:textValue label="labels.internal.event.price" value="event.price" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.price" value="eventVersion.price" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<p>
@@ -154,7 +181,7 @@
 			<ww:set name="attribute" value="top" scope="page"/>
 			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 			<ww:set name="attributeName" value="this.concat('attribute_', top.name)"/>
-			<ww:set name="attributeValue" value="this.getAttributeValue(event.attributes, top.name)"/>
+			<ww:set name="attributeValue" value="this.getAttributeValue(eventVersion.attributes, top.name)"/>
 			<p>
 				<calendar:textValue label="${title}" value="#attributeValue" labelCssClass="label"/>
 			</p>
@@ -218,6 +245,7 @@
 			<calendar:evalParam name="action" value="ViewEvent!edit"/>
 			<calendar:evalParam name="eventId" value="${eventId}"/>
 			<calendar:evalParam name="calendarId" value="${calendarId}"/>
+			<calendar:evalParam name="languageId" value="${languageId}"/>
 		</portlet:renderURL>
 		
 		<portlet:renderURL var="uploadFormURL">

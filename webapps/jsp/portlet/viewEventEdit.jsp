@@ -6,12 +6,39 @@
 <%@ include file="functionMenu.jsp" %>
 
 <ww:set name="event" value="event" scope="page"/>
+<ww:set name="eventVersion" value="eventVersion" scope="page"/>
 <ww:set name="eventId" value="event.id" scope="page"/>
 <ww:set name="calendarId" value="calendarId" scope="page"/>
+<ww:set name="languageId" value="languageId" scope="page"/>
 <ww:set name="mode" value="mode" scope="page"/>
 
 <div class="portlet_margin">
 	
+	<ul class="languagesTabs">
+		<ww:iterator value="availableLanguages" status="rowstatus">
+			<ww:set name="currentLanguageId" value="top.id" scope="page"/>
+			
+			<portlet:renderURL var="viewEventVersionEditUrl">
+				<portlet:param name="action" value="ViewEvent!edit"/>
+				<calendar:evalParam name="eventId" value="${eventId}"/>
+				<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
+			</portlet:renderURL>
+				
+			<c:choose>
+				<c:when test="languageId == currentLanguageId">
+					<c:set var="cssClass" value="active"/>
+				</c:when>
+				<c:otherwise>
+					<c:set var="cssClass" value=""/>
+				</c:otherwise>
+			</c:choose>		
+			<li class="<c:out value="${cssClass}"/>">
+				<a href="<c:out value="${viewEventVersionEditUrl}"/>"><ww:property value="top.name"/></a>
+			</li>
+			
+		</ww:iterator>
+	</ul>
+
 	<%
 	Object requestObject = request.getAttribute("javax.portlet.request");
 	javax.portlet.PortletRequest renderRequestIG = (javax.portlet.PortletRequest)requestObject;
@@ -28,11 +55,12 @@
 	
 	<form name="updateForm" method="POST" action="<c:out value="${updateEventActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
+		<input type="hidden" name="languageId" value="<ww:property value="languageId"/>"/>
 		<input type="hidden" name="calendarId" value="<ww:property value="event.owningCalendar.id"/>"/>
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 		<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
 					
-		<calendar:textField label="labels.internal.event.name" name="'name'" value="event.name" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.event.name" name="'name'" value="eventVersion.name" cssClass="longtextfield"/>
 
 		<calendar:selectField label="labels.internal.event.entryForm" name="'entryFormId'" multiple="false" value="entryFormEventTypes" selectedValue="event.entryFormId" headerItem="Choose entry form" cssClass="listBox"/>
 
@@ -54,16 +82,16 @@
 			<input name="endTime" value="<ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '13:34'"><ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></ww:if>" class="hourfield" type="textfield">					
 		</div>
 
-		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="event.shortDescription" cssClass="smalltextarea" required="false"/>
+		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="eventVersion.shortDescription" cssClass="smalltextarea" required="false"/>
 
-		<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="event.longDescription" cssClass="largetextarea" required="false"/>
+		<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="eventVersion.longDescription" cssClass="largetextarea" required="false"/>
 		
 		<ww:if test="this.isActiveEventField('lecturer')">
-			<calendar:textAreaField label="labels.internal.event.lecturer" name="lecturer" value="event.lecturer" cssClass="smalltextarea"/>
+			<calendar:textAreaField label="labels.internal.event.lecturer" name="lecturer" value="eventVersion.lecturer" cssClass="smalltextarea"/>
 		</ww:if>
 
 		<ww:if test="this.isActiveEventField('organizerName')">
-			<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="event.organizerName" cssClass="longtextfield" required="false"/>
+			<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="eventVersion.organizerName" cssClass="longtextfield" required="false"/>
 		</ww:if>
 
 		<ww:if test="this.isActiveEventField('isInternal')">
@@ -75,7 +103,7 @@
 		</ww:if>
 	
 		<ww:if test="this.isActiveEventField('eventUrl')">
-			<calendar:textField label="labels.internal.event.eventUrl" name="'eventUrl'" value="event.eventUrl" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.eventUrl" name="'eventUrl'" value="eventVersion.eventUrl" cssClass="longtextfield"/>
 		</ww:if>
 		
 		<ww:if test="this.isActiveEventField('locationId')">
@@ -83,15 +111,15 @@
 		</ww:if>
 
 		<ww:if test="this.isActiveEventField('alternativeLocation')">
-			<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="event.alternativeLocation" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="eventVersion.alternativeLocation" cssClass="longtextfield"/>
 		</ww:if>
 		
 		<ww:if test="this.isActiveEventField('customLocation')">
-			<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="event.customLocation" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="eventVersion.customLocation" cssClass="longtextfield"/>
 		</ww:if>
 	
 		<ww:if test="this.isActiveEventField('price')">
-			<calendar:textField label="labels.internal.event.price" name="'price'" value="event.price" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.price" name="'price'" value="eventVersion.price" cssClass="longtextfield"/>
 		</ww:if>
 	
 		<calendar:textField label="labels.internal.event.maximumParticipants" name="'maximumParticipants'" value="event.maximumParticipants" cssClass="longtextfield"/>
@@ -106,13 +134,13 @@
 		</div>
 	
 		<ww:if test="this.isActiveEventField('contactName')">
-			<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="event.contactName" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="eventVersion.contactName" cssClass="longtextfield"/>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactEmail')">
-			<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="event.contactEmail" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="eventVersion.contactEmail" cssClass="longtextfield"/>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactPhone')">
-			<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="event.contactPhone" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="eventVersion.contactPhone" cssClass="longtextfield"/>
 		</ww:if>
 
 		<hr>
@@ -126,7 +154,7 @@
 				<ww:set name="attributeValue" value="this.getAttributeValue(#errorEvent.attributes, top.name)"/>
 			</ww:if>
 			<ww:else>
-				<ww:set name="attributeValue" value="this.getAttributeValue(event.attributes, top.name)"/>
+				<ww:set name="attributeValue" value="this.getAttributeValue(eventVersion.attributes, top.name)"/>
 			</ww:else>
 			
 			<c:set var="required" value="false"/>

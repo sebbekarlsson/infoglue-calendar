@@ -34,6 +34,59 @@
 				width:18%;
 				float:left; 
 			}
+			
+			.languagesTabs {
+				height: 20px;	
+				margin: 0;	
+				padding-left: 10px;
+				border-bottom: 1px solid #ccc;
+			}
+			
+			.languagesTabs li {
+				margin: 0; 
+				padding: 0;
+				display: inline;	
+				list-style-type: none;
+			}
+			
+			.languagesTabs a:link, .languagesTabs a:visited {	
+				float: left;
+				background: #f3f3f3;
+				font-size: 10px;	
+				line-height: 14px;	
+				font-weight: bold;
+				padding: 2px 10px 2px 10px;
+				margin-right: 4px;	
+				border: 1px solid #ccc;	
+				border-bottom: 0px solid white;
+				text-decoration: none;	
+				color: #666;
+			}
+			
+			.languagesTabs a:link.active, .languagesTabs a:visited.active {
+				border-bottom: 1px solid #fff;
+				background: #fff;	
+				color: #000;
+			}
+			
+			.languagesTabs a:hover	{
+				background: #fff;
+			}
+			
+			.activeTabClass {
+				border: 1px solid #666666;
+				font-weight: bold;
+				font-size: 12px;
+				width: 100px;
+				
+			}
+
+			.tabClass {
+				border: 1px solid #666666;
+				font-weight: normal;
+				font-size: 10px;
+				width: 100px;
+			}
 		</style>
 
 		<script type="text/javascript">
@@ -60,7 +113,7 @@
 
 	</head>
 
-<body aonload="resize();">
+<body>
 
 <div class="calApp">
 
@@ -71,7 +124,7 @@
 		<ww:property value="this.getLabel('labels.internal.applicationTitle')"/>
 	</span>	
 	<span class="right">	
-		<ww:property value="this.getInfoGluePrincipal().firstName"/> <ww:property value="this.getInfoGluePrincipal().lastName"/> | <a href="<ww:property value="logoutUrl"/>">Logga ut</a>
+		<ww:property value="this.().firstName"/> <ww:property value="this.getInfoGluePrincipal().lastName"/> | <a href="<ww:property value="logoutUrl"/>">Logga ut</a>
 		<%--
 		Request: <c:out value="${request.remoteUser}"/><br/>
 		<%=request.getContextPath()%><br/>

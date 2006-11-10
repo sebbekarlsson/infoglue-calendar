@@ -54,11 +54,14 @@ import org.infoglue.calendar.controllers.CalendarLabelsController;
 import org.infoglue.calendar.controllers.CalendarSettingsController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.ICalendarController;
+import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
+import org.infoglue.calendar.entities.EventVersion;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.util.AttributeType;
 import org.infoglue.common.util.VisualFormatter;
@@ -759,7 +762,7 @@ public class CalendarAbstractAction extends ActionSupport
 	    Locale locale = Locale.ENGLISH;
     	if(languageCode != null && !languageCode.equals(""))
         	locale = new Locale(languageCode);
-	    
+
 	    String label = getLabel(key, locale, skipProperty, fallbackToDefault, fallbackToKey);
 	    
 	    return label;
@@ -810,6 +813,49 @@ public class CalendarAbstractAction extends ActionSupport
 	    return label;
     }
 
+    public EventVersion getMasterEventVersion(String eventString)
+    {
+        Object object = findOnValueStack(eventString);
+        //System.out.println("Object:" + object);
+        Event event = (Event)object;
+        
+        if(event == null)
+    		return null;
+
+        //System.out.println("event:" + event.getId());
+
+    	EventVersion masterEventVersion = null;
+
+    	try
+    	{
+	    	Language language = LanguageController.getController().getMasterLanguage(getSession());
+	    	System.out.println("language:" + language.getId());
+	    	
+	    	Iterator eventVersionsIterator = event.getVersions().iterator();
+	        while(eventVersionsIterator.hasNext())
+	        {
+	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
+	        	System.out.println("currentEventVersion.getLanguageId:" + currentEventVersion.getLanguageId());
+	        	if(currentEventVersion.getLanguageId().equals(language.getId()))
+	        	{
+	        		masterEventVersion = currentEventVersion;
+	        		break;
+	        	}
+	        }
+	        
+	        if(masterEventVersion == null && event.getVersions().size() > 0)
+	        	masterEventVersion = (EventVersion)event.getVersions().toArray()[0];
+    	}
+    	catch(Exception e)
+    	{
+    		log.error("Error when getting event version for event: " + event + ":" + e.getMessage(), e); 
+    	}
+    	
+    	System.out.println("masterEventVersion:" + masterEventVersion);
+    	
+        return masterEventVersion;
+    }
+    
     public VisualFormatter getVisualFormatter()
     {
     	return new VisualFormatter();

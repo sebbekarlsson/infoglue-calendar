@@ -22,6 +22,7 @@
 */
 package org.infoglue.calendar.entities;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,16 +32,17 @@ import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
 
 /**
- * This class represents an event. An event is something that takes place between a startdate and an enddate
- * at one or several locations.
+ * This class represents an event version. An event version contains the langauge versions of the event - so that an event can be described in different languages.
  * 
  * @author mattias
  * 
- * @hibernate.class table="Event"
+ * @hibernate.class table="EventVersion"
  */
 
-public class Event implements BaseEntity
+public class EventVersion implements BaseEntity
 {
+
+	/*
     public static final Integer STATE_WORKING = new Integer(0);
     public static final Integer STATE_PUBLISH = new Integer(2);
     public static final Integer STATE_PUBLISHED = new Integer(3);
@@ -55,8 +57,33 @@ public class Event implements BaseEntity
     private Integer maximumParticipants;
     private Integer stateId = STATE_WORKING; //Default if not otherwise set
     private String creator;
+    private String attributes;
     
-    //REMOVE LATER
+    private Long entryFormId;
+    
+    private Calendar owningCalendar;
+    private Set calendars = new HashSet();
+    private Set locations = new HashSet();;
+    private Set participants = new HashSet();;
+    private Set resources = new HashSet();;
+    private Set eventCategories = new HashSet();;
+    private Set entries = new HashSet();;
+    */
+    
+	private Long id;
+    //private Integer stateId				= new Integer(0);
+    //private Date modifiedDateTime			= new Date();
+    //private String versionComment			= "No comment";
+    //private Boolean isCheckedOut			= new Boolean(false);
+   	//private Boolean isActive				= new Boolean(true);
+	
+	private Long languageId					= null;
+	//private String languageName 			= "";
+   	private Long eventId					= null;
+    //private String eventName 				= "";
+    //private Long eventTypeId				= null;
+    //private String versionModifier			= null;
+
     private String name;
     private String description;
     private String organizerName;
@@ -70,34 +97,11 @@ public class Event implements BaseEntity
     private String contactEmail;
     private String contactPhone;
     private String price;
-    private String attributes;
-    //REMOVE LATER
-    
-    private Long entryFormId;
-    
-    private Set versions = new HashSet();;
-    private Calendar owningCalendar;
-    private Set calendars = new HashSet();
-    private Set locations = new HashSet();;
-    private Set participants = new HashSet();;
-    private Set resources = new HashSet();;
-    private Set eventCategories = new HashSet();;
-    private Set entries = new HashSet();;
-    
+	private String attributes = "";
 
-    /** 
-     * @hibernate.one-to-many class="org.infoglue.calendar.entities.EventVersion" column="event_id"
-     */ 
-    
-    public Set getVersions()
-    {
-        return versions;
-    }
-    
-    public void setVersions(Set versions)
-    {
-        this.versions = versions;
-    }
+	private Event event;
+	private Language language;
+	
     
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
@@ -113,17 +117,15 @@ public class Event implements BaseEntity
     {
         this.id = id;
     }
-     
+
     /**
      * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
      * 
      * @return String
      */
-    
     public String getName()
     {
         return name;
-        //return "Event with id " + id; //name;
     }
     
     public void setName(String name)
@@ -131,13 +133,11 @@ public class Event implements BaseEntity
         this.name = name;
     }
     
-    
     /**
      * @hibernate.property name="getDescription" column="description" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getDescription()
     {
         return description;
@@ -148,107 +148,11 @@ public class Event implements BaseEntity
         this.description = description;
     }
     
-    
-    /**
-     * @hibernate.property name="getEndDateTime" column="endDateTime" type="calendar" not-null="false" unique="false"
-     * 
-     * @return java.util.Calendar
-     */
-    public java.util.Calendar getEndDateTime()
-    {
-        return endDateTime;
-    }
-    
-    public void setEndDateTime(java.util.Calendar endDateTime)
-    {
-        this.endDateTime = endDateTime;
-    }
-    
-    /**
-     * @hibernate.property name="getStartDateTime" column="startDateTime" type="calendar" not-null="false" unique="false"
-     * 
-     * @return java.util.Calendar
-     */
-    public java.util.Calendar getStartDateTime()
-    {
-        return startDateTime;
-    }
-    
-    public void setStartDateTime(java.util.Calendar startDateTime)
-    {
-        this.startDateTime = startDateTime;
-    }
-    
-    /**
-     * @hibernate.set table="Event_Location" cascade="none"
-     * @hibernate.collection-key column="event_id"
-     * @hibernate.collection-many-to-many class="org.infoglue.calendar.entities.Location" column="location_id"
-     * 
-     * @return java.util.Set
-     */
-    public Set getLocations()
-    {
-        return locations;
-    }
-    
-    public void setLocations(Set locations)
-    {
-        this.locations = locations;
-    }
-    
-	/**
-     * @hibernate.set lazy="false"
-     * @hibernate.collection-key column="event_id"
-     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Participant"
-   	 *
-	 * @return Set
-	 */ 
-    public Set getParticipants()
-    {
-        return participants;
-    }
-    
-    public void setParticipants(Set participants)
-    {
-        this.participants = participants;
-    }
-    
-	/**
-     * @hibernate.set lazy="false"
-     * @hibernate.collection-key column="event_id"
-     * @hibernate.collection-one-to-many class="org.infoglue.calendar.entities.Resource"
-   	 *
-	 * @return Set
-	 */ 
-    public Set getResources()
-    {
-        return resources;
-    }
-    
-    public void setResources(Set resources)
-    {
-        this.resources = resources;
-    }
-    
-    /** 
-     * @hibernate.many-to-one class="org.infoglue.calendar.entities.Calendar" column="calendar_id"
-     */  
-    public Calendar getOwningCalendar()
-    {
-        return owningCalendar;
-    }
-    
-    public void setOwningCalendar(Calendar owningCalendar)
-    {
-        this.owningCalendar = owningCalendar;
-    }
-    
     /**
      * @hibernate.property name="getContactEmail" column="contactEmail" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getContactEmail()
     {
         return contactEmail;
@@ -259,13 +163,11 @@ public class Event implements BaseEntity
         this.contactEmail = contactEmail;
     }
     
-    
     /**
      * @hibernate.property name="getContactName" column="contactName" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getContactName()
     {
         return contactName;
@@ -276,13 +178,11 @@ public class Event implements BaseEntity
         this.contactName = contactName;
     }
     
-    
     /**
      * @hibernate.property name="getContactPhone" column="contactPhone" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getContactPhone()
     {
         return contactPhone;
@@ -293,13 +193,11 @@ public class Event implements BaseEntity
         this.contactPhone = contactPhone;
     }
     
-   
     /**
      * @hibernate.property name="getCustomLocation" column="customLocation" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getCustomLocation()
     {
         return customLocation;
@@ -310,13 +208,11 @@ public class Event implements BaseEntity
         this.customLocation = customLocation;
     }
     
-    
     /**
      * @hibernate.property name="getAlternativeLocation" column="alternativeLocation" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getAlternativeLocation()
     {
         return alternativeLocation;
@@ -326,14 +222,12 @@ public class Event implements BaseEntity
     {
         this.alternativeLocation = alternativeLocation;
     }
-    
 
     /**
      * @hibernate.property name="getEventUrl" column="eventUrl" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getEventUrl()
     {
         if(eventUrl != null && !eventUrl.equalsIgnoreCase("") && eventUrl.indexOf("http") == -1)
@@ -348,62 +242,13 @@ public class Event implements BaseEntity
             eventUrl = "http://" + eventUrl;
         
         this.eventUrl = eventUrl;
-    }
-    
-    
-    /**
-     * @hibernate.property name="getIsInternal" column="isInternal" type="boolean" not-null="false" unique="false"
-     * 
-     * @return Boolean
-     */
-    public Boolean getIsInternal()
-    {
-        return isInternal;
-    }
-    
-    public void setIsInternal(Boolean isInternal)
-    {
-        this.isInternal = isInternal;
-    }
-    
-    /**
-     * @hibernate.property name="getIsOrganizedByGU" column="isOrganizedByGU" type="boolean" not-null="false" unique="false"
-     * 
-     * @return Boolean
-     */
-    public Boolean getIsOrganizedByGU()
-    {
-        return isOrganizedByGU;
-    }
-    
-    public void setIsOrganizedByGU(Boolean isOrganizedByGU)
-    {
-        if(isOrganizedByGU != null)	
-            this.isOrganizedByGU = isOrganizedByGU;
-    }
-
-    /**
-     * @hibernate.property name="getLastRegistrationDateTime" column="lastRegistrationDateTime" type="calendar" not-null="false" unique="false"
-     * 
-     * @return java.util.Calendar
-     */
-
-    public java.util.Calendar getLastRegistrationDateTime()
-    {
-        return lastRegistrationDateTime;
-    }
-
-    public void setLastRegistrationDateTime(java.util.Calendar lastRegistrationDateTime)
-    {
-        this.lastRegistrationDateTime = lastRegistrationDateTime;
-    }
+    }   
 
     /**
      * @hibernate.property name="getLecturer" column="lecturer" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getLecturer()
     {
         return lecturer;
@@ -414,28 +259,11 @@ public class Event implements BaseEntity
         this.lecturer = lecturer;
     }
     
-        
-    /**
-     * @hibernate.property name="getMaximumParticipants" column="maximumParticipants" type="string" not-null="false" unique="false"
-     * 
-     * @return Integer
-     */
-    public Integer getMaximumParticipants()
-    {
-        return maximumParticipants;
-    }
-    
-    public void setMaximumParticipants(Integer maximumParticipants)
-    {
-        this.maximumParticipants = maximumParticipants;
-    }
-    
     /**
      * @hibernate.property name="getOrganizerName" column="organizerName" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getOrganizerName()
     {
         return organizerName;
@@ -446,13 +274,11 @@ public class Event implements BaseEntity
         this.organizerName = organizerName;
     }
     
-    
     /**
      * @hibernate.property name="getPrice" column="price" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getPrice()
     {
         if(price == null || price.equals("0") || price.equals("0.0"))
@@ -460,19 +286,16 @@ public class Event implements BaseEntity
         
         return price;
     }
-    
     public void setPrice(String price)
     {
         this.price = price;
     }
-    
     
     /**
      * @hibernate.property name="getShortDescription" column="shortDescription" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getShortDescription()
     {
         return shortDescription;
@@ -488,19 +311,18 @@ public class Event implements BaseEntity
         
         return shortDescription;
     }
+
     
     public void setShortDescription(String shortDescription)
     {
         this.shortDescription = shortDescription;
     }
-	
     
     /**
      * @hibernate.property name="getLongDescription" column="longDescription" type="string" not-null="false" unique="false"
      * 
      * @return String
      */
-    
     public String getLongDescription()
     {
         return longDescription;
@@ -521,8 +343,8 @@ public class Event implements BaseEntity
     {
         this.longDescription = longDescription;
     }
-    
-   	public String getAttributes()
+
+	public String getAttributes()
 	{
 		return attributes;
 	}
@@ -532,92 +354,74 @@ public class Event implements BaseEntity
 		this.attributes = attributes;
 	}
 
-    
-    
-    
-    public Set getEventCategories()
+    /**
+     * @hibernate.id generator-class="native" type="long" column="languageId" unsaved-value="null"
+     * 
+     * @return long
+     */    
+    public Long getLanguageId()
     {
-        return eventCategories;
+        return languageId;
     }
     
-    public void setEventCategories(Set eventCategories)
+    public void setLanguageId(Long languageId)
     {
-        this.eventCategories = eventCategories;
-    }
-
-    public Set getCalendars()
-    {
-        return calendars;
-    }
-    
-    public void setCalendars(Set calendars)
-    {
-        this.calendars = calendars;
-    }
-
-    public Set getEntries()
-    {
-        return entries;
-    }
-    
-    public void setEntries(Set entries)
-    {
-        this.entries = entries;
+        this.languageId = languageId;
     }
 
     /**
-     * @hibernate.property name="getStateId" column="stateId" type="integer" not-null="false" unique="false"
+     * @hibernate.id generator-class="native" type="long" column="languageId" unsaved-value="null"
      * 
-     * @return Integer
-     */
-    public Integer getStateId()
+     * @return long
+     */    
+    public Long getEventId()
     {
-        return stateId;
+        return eventId;
     }
     
-    public void setStateId(Integer stateId)
+    public void setEventId(Long eventId)
     {
-        this.stateId = stateId;
+        this.eventId = eventId;
     }
     
-    /**
-     * @hibernate.property name="getCreator" column="creator" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
+    /** 
+     * @hibernate.many-to-one class="org.infoglue.calendar.entities.Event" column="event_id"
+     */  
     
-    public String getCreator()
+    public Event getEvent()
     {
-        return creator;
+        return event;
     }
     
-    public void setCreator(String creator)
+    public void setEvent(Event event)
     {
-        this.creator = creator;
+        this.event = event;
     }
 
-    /**
-     * @hibernate.property name="getEntryFormId" column="entryFormId" type="integer" not-null="false" unique="false"
-     * 
-     * @return Long
-     */
+    /** 
+     * @hibernate.many-to-one class="org.infoglue.calendar.entities.Language" column="language_id"
+     */  
+    
+    public Language getLanguage()
+    {
+        return language;
+    }
+    
+    public void setLanguage(Language language)
+    {
+    	System.out.println("Setting language when loaded " + language.getId());
+    	if(language != null)
+            this.languageId = language.getId();
 
-    public Long getEntryFormId()
-	{
-		return entryFormId;
-	}
-
-	public void setEntryFormId(Long entryFormId)
-	{
-		this.entryFormId = entryFormId;
-	}
+    	this.language = language;
+    }
 
 	public ConstraintExceptionBuffer validate(ContentTypeDefinition contentTypeDefinition)
 	{
 		ConstraintExceptionBuffer ceb = new ConstraintExceptionBuffer();
-		//ceb.add(new BaseValidator().validate(contentTypeDefinition, this.getAttributes()));
+		ceb.add(new BaseValidator().validate(contentTypeDefinition, this.getAttributes()));
 		
 		return ceb;
 	}
-
+    
 }

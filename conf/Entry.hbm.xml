@@ -35,16 +35,7 @@
         <property name="message" type="string" update="true" insert="true" access="property" column="message" not-null="false" unique="false"/>
         <property name="attributes" type="text" column="attributes" not-null="false" unique="false"/>
 
-        <many-to-one
-            name="event"
-            class="org.infoglue.calendar.entities.Event"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            access="property"
-            column="event_id"
-        />
+        <many-to-one name="event" class="org.infoglue.calendar.entities.Event" cascade="none" outer-join="auto" update="true" insert="true" access="property" column="event_id"/>
 
         <!--
             To add non XDoclet property mappings, create a file named

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,11 +36,14 @@ import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeController;
+import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
+import org.infoglue.calendar.entities.EventVersion;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 import org.infoglue.deliver.util.Timer;
 
@@ -57,7 +61,9 @@ public class ViewEventAction extends CalendarAbstractAction
     private static Log log = LogFactory.getLog(ViewEventAction.class);
 
     private Long eventId;
+    private Long languageId;
     private Event event;
+    private EventVersion eventVersion;
     
     private Long calendarId;
     private String mode = "day";
@@ -84,7 +90,8 @@ public class ViewEventAction extends CalendarAbstractAction
     private EventType entryFormEventType;
     
     private List attributes;
-
+    private List availableLanguages = new ArrayList();
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -93,7 +100,7 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         try
         {
-	        log.info("this.eventId:" + eventId);
+        	log.info("this.eventId:" + eventId);
 	        
 	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
 	        String forceRequestEventIdString = ServletActionContext.getRequest().getParameter("forceRequestEventId");
@@ -107,9 +114,28 @@ public class ViewEventAction extends CalendarAbstractAction
 	        if((this.eventId == null || this.forceRequestEventId.booleanValue()) && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
 	            this.eventId = new Long(requestEventId);
 	
+	        this.availableLanguages = LanguageController.getController().getLanguageList(getSession());
+            if(this.languageId == null && this.availableLanguages.size() > 0)
+            {
+            	this.languageId = ((Language)this.availableLanguages.get(0)).getId();
+            	System.out.println("languageId:" + languageId);
+            }
+            
 	        if(this.eventId != null)
 	        {
 	            this.event = EventController.getController().getEvent(eventId, getSession());
+	            Iterator eventVersionsIterator = this.event.getVersions().iterator();
+	            while(eventVersionsIterator.hasNext())
+	            {
+	            	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
+	            	System.out.println("currentEventVersion.getLanguageId:" + currentEventVersion.getLanguageId());
+	            	if(currentEventVersion.getLanguageId().equals(languageId))
+	            	{
+	            		this.eventVersion = currentEventVersion;
+	            		break;
+	            	}
+	            }
+	            
 	            this.calendarId = this.event.getOwningCalendar().getId();
 	            
 	            this.locations 	= LocationController.getController().getLocationList(getSession());
@@ -355,5 +381,30 @@ public class ViewEventAction extends CalendarAbstractAction
 	public List getAttributes()
 	{
 		return attributes;
+	}
+
+	public List getAvailableLanguages() 
+	{
+		return availableLanguages;
+	}
+
+	public Long getLanguageId() 
+	{
+		return languageId;
+	}
+
+	public void setLanguageId(Long languageId) 
+	{
+		this.languageId = languageId;
+	}
+
+	public EventVersion getEventVersion() 
+	{
+		return eventVersion;
+	}
+
+	public void setEventVersion(EventVersion eventVersion) 
+	{
+		this.eventVersion = eventVersion;
 	}
 }

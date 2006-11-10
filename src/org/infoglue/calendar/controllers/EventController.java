@@ -35,7 +35,9 @@ import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
+import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Group;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.entities.Role;
@@ -404,6 +406,7 @@ public class EventController extends BasicController
     
     public void updateEvent(
             Long id, 
+            Long languageId,
             String name, 
             String description, 
             Boolean isInternal, 
@@ -432,7 +435,8 @@ public class EventController extends BasicController
     {
 
         Event event = getEvent(id, session);
-		
+        Language language = LanguageController.getController().getLanguage(languageId, session);
+        
 		Set locations = new HashSet();
 		if(locationId != null)
 		{
@@ -463,7 +467,8 @@ public class EventController extends BasicController
 		}
 		
 		updateEvent(
-		        event, 
+		        event,
+		        language,
 		        name, 
 		        description, 
 		        isInternal, 
@@ -500,6 +505,7 @@ public class EventController extends BasicController
     
     public void updateEvent(
             Event event, 
+            Language language,
             String name, 
             String description, 
             Boolean isInternal, 
@@ -526,29 +532,85 @@ public class EventController extends BasicController
             String xml,
             Session session) throws Exception 
     {
+    	EventVersion eventVersion = null;
+        Iterator eventVersions = event.getVersions().iterator();
+        while(eventVersions.hasNext())
+        {
+        	EventVersion currentEventVersion = (EventVersion)eventVersions.next();
+        	if(currentEventVersion.getLanguageId().equals(language.getId()))
+        	{
+        		eventVersion = currentEventVersion;
+        		break;
+        	}
+        }
+        
+        if(eventVersion == null)
+        {
+        	eventVersion = new EventVersion();
+        	eventVersion.setLanguage(language);
+        	eventVersion.setEvent(event);
+        	eventVersion.setName(name);
+        	eventVersion.setDescription(description);
+            eventVersion.setOrganizerName(organizerName);
+            eventVersion.setLecturer(lecturer);
+            eventVersion.setCustomLocation(customLocation);
+            eventVersion.setAlternativeLocation(alternativeLocation);
+            eventVersion.setShortDescription(shortDescription);
+            eventVersion.setLongDescription(longDescription);
+            eventVersion.setEventUrl(eventUrl);
+            eventVersion.setContactName(contactName);
+            eventVersion.setContactEmail(contactEmail);
+            eventVersion.setContactPhone(contactPhone);
+            eventVersion.setPrice(price);
+            eventVersion.setAttributes(xml);
+            
+        	session.save(eventVersion);
+        }
+        else
+        {
+        	eventVersion.setName(name);
+        	eventVersion.setDescription(description);
+            eventVersion.setOrganizerName(organizerName);
+            eventVersion.setLecturer(lecturer);
+            eventVersion.setCustomLocation(customLocation);
+            eventVersion.setAlternativeLocation(alternativeLocation);
+            eventVersion.setShortDescription(shortDescription);
+            eventVersion.setLongDescription(longDescription);
+            eventVersion.setEventUrl(eventUrl);
+            eventVersion.setContactName(contactName);
+            eventVersion.setContactEmail(contactEmail);
+            eventVersion.setContactPhone(contactPhone);
+            eventVersion.setPrice(price);
+            eventVersion.setAttributes(xml);
+            
+    		session.update(eventVersion);
+        }
+
         event.setName(name);
-        event.setDescription(description);
+        //event.setDescription(description);
         event.setIsInternal(isInternal);
         event.setIsOrganizedByGU(isOrganizedByGU);
-        event.setOrganizerName(organizerName);
-        event.setLecturer(lecturer);
-        event.setCustomLocation(customLocation);
-        event.setAlternativeLocation(alternativeLocation);
-        event.setShortDescription(shortDescription);
-        event.setLongDescription(longDescription);
-        event.setEventUrl(eventUrl);
-        event.setContactName(contactName);
-        event.setContactEmail(contactEmail);
-        event.setContactPhone(contactPhone);
-        event.setPrice(price);
+//        event.setOrganizerName(organizerName);
+//        event.setLecturer(lecturer);
+//        event.setCustomLocation(customLocation);
+//        event.setAlternativeLocation(alternativeLocation);
+//        event.setShortDescription(shortDescription);
+//        event.setLongDescription(longDescription);
+//        event.setEventUrl(eventUrl);
+//        event.setContactName(contactName);
+//        event.setContactEmail(contactEmail);
+//        event.setContactPhone(contactPhone);
+//        event.setPrice(price);
         event.setMaximumParticipants(maximumParticipants);
         event.setLastRegistrationDateTime(lastRegistrationCalendar);
         event.setStartDateTime(startDateTime);
         event.setEndDateTime(endDateTime);
         event.setLocations(locations);
         event.setEntryFormId(entryFormId);
-        event.setAttributes(xml);
+        //event.setAttributes(xml);
         
+    	System.out.println("event:" + event);
+
         Iterator eventCategoryIterator = event.getEventCategories().iterator();
 		while(eventCategoryIterator.hasNext())
 		{
@@ -573,6 +635,8 @@ public class EventController extends BasicController
 			        
 			        EventCategory eventCategory = new EventCategory();
 				    eventCategory.setEvent(event);
+			    	System.out.println("Setting event:" + event.getId());
+
 				    eventCategory.setCategory(category);
 				    eventCategory.setEventTypeCategoryAttribute(eventTypeCategoryAttribute);
 				    session.save(eventCategory);
