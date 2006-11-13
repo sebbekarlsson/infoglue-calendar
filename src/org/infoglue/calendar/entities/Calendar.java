@@ -47,6 +47,7 @@ public class Calendar implements BaseEntity
     private Set waitingEvents = new HashSet();
     private Set workingEvents = new HashSet();
     private Set subscriptions = new HashSet();
+    private Set languages = new HashSet();
     
     private Set roles = new HashSet();
     private Set groups = new HashSet();
@@ -247,4 +248,15 @@ public class Calendar implements BaseEntity
     {
         this.subscriptions = subscriptions;
     }
+
+    public Set getLanguages()
+    {
+        return languages;
+    }
+    
+    public void setLanguages(Set languages)
+    {
+        this.languages = languages;
+    }
+
 }

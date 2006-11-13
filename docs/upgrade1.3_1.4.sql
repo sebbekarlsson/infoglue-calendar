@@ -23,3 +23,10 @@ CREATE TABLE event_version (
   attributes text NULL,
   PRIMARY KEY  (id)
 );
+
+DROP TABLE IF EXISTS Calendar_Language;
+CREATE TABLE  Calendar_Language (
+  calendar_id bigint(20) NOT NULL default '0',
+  language_id bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (calendar_id,language_id)
+);
