@@ -297,7 +297,20 @@
 					<calendar:evalParam name="calendarId" value="${calendarId}"/>
 					<calendar:evalParam name="publishEventUrl" value="http://${hostName}${publishEventUrl}"/>
 				</portlet:actionURL>
-				<input onclick="document.location.href='<c:out value="${submitForPublishEventActionUrl}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.submitForPublishEvent')"/>" class="button"/>
+				       	
+				<ww:if test="event.versions.size() > 1">
+					<ww:set name="publishButtonLabel" value="this.getParameterizedLabel('labels.internal.event.submitAllForPublishEvent', 'All')"/>
+				</ww:if>
+				<ww:else>
+					<%
+					org.infoglue.calendar.entities.Event event = (org.infoglue.calendar.entities.Event)pageContext.getAttribute("event");
+					String languageName = ((org.infoglue.calendar.entities.EventVersion)event.getVersions().toArray()[0]).getLanguage().getName();
+					pageContext.setAttribute("languageName", languageName);
+					%>
+					<ww:set name="publishButtonLabel" value="this.getParameterizedLabel('labels.internal.event.submitLanguageVersionForPublishEvent', #attr.languageName)"/>
+				</ww:else>
+				
+				<input onclick="document.location.href='<c:out value="${submitForPublishEventActionUrl}"/>';" type="button" value="<ww:property value="#publishButtonLabel"/>" class="button"/>
 			</ww:if>
 			
 		</ww:if>

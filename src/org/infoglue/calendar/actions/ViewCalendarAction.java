@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeController;
+import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
@@ -76,9 +77,12 @@ public class ViewCalendarAction extends CalendarAbstractAction
     private List infoglueRoles;
     private List infoglueGroups;
     private List eventTypes;
+    private List languages;
     
     private String[] roles;
     private String[] groups;
+
+    private String[] languageId;
 
     /**
      * This is the entry point for the main listing.
@@ -165,6 +169,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.infoglueGroups = GroupControllerProxy.getController().getAllGroups();
 
         this.eventTypes = EventTypeController.getController().getEventTypeList(EventType.EVENT_DEFINITION, getSession());
+        this.languages = LanguageController.getController().getLanguageList(getSession());
 
         log.debug("startCalendar:" + startCalendar.getTime());
         
@@ -511,6 +516,11 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.groups = new String[] {roles};
     }
 
+    public void setSelectedLanguages(String[] languageId)
+    {
+        this.languageId = languageId;
+    }
+
     public List getInfoglueGroups()
     {
         return infoglueGroups;
@@ -520,4 +530,8 @@ public class ViewCalendarAction extends CalendarAbstractAction
     {
         return infoglueRoles;
     }
+
+	public List getLanguages() {
+		return languages;
+	}
 }

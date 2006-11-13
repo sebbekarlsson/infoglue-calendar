@@ -25,6 +25,7 @@ package org.infoglue.calendar.actions;
 
 import java.io.File;
 import java.security.Principal;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -721,6 +722,22 @@ public class CalendarAbstractAction extends ActionSupport
         
         return (useEntryLimitation.equalsIgnoreCase("true") ? true : false);
     }
+
+    public String getParameterizedLabel(String key, String argument)
+    {
+        Locale locale = new Locale(this.getLanguageCode());
+        
+        String label = getLabel(key, locale, false, true, true);
+        
+        Object[] arguments = {argument};
+
+        label = MessageFormat.format(label, arguments);
+        
+        //label"At {1,time} on {1,date}, there was {2} on planet {0,number,integer}.",
+      
+        return label;
+    }
+
     
     public String getLabel(String key)
     {

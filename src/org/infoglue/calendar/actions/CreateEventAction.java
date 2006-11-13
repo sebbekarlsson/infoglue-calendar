@@ -102,6 +102,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private org.infoglue.calendar.entities.Calendar calendar;
     private List locations;
     //private List categories;
+    private List languages;
     private Map categoryAttributes = new HashMap();
     private List infogluePrincipals;
     private List entryFormEventTypes;
@@ -121,6 +122,7 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+    	/*
         String requestLanguageId = ServletActionContext.getRequest().getParameter("languageId");
         if(languageId == null)
         {
@@ -129,7 +131,8 @@ public class CreateEventAction extends CalendarAbstractAction
         	else
         		this.languageId = LanguageController.getController().getMasterLanguage(getSession()).getId();
         }
-        	
+        */	
+        
         if(startDateTime != null && (endDateTime == null || endDateTime.equals("")))
         {
             endDateTime = startDateTime;
@@ -363,7 +366,8 @@ public class CreateEventAction extends CalendarAbstractAction
         //this.categories = CategoryController.getController().getRootCategoryList(getSession());
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.entryFormEventTypes = EventTypeController.getController().getEventTypeList(EventType.ENTRY_DEFINITION, getSession());
-
+        this.languages = LanguageController.getController().getLanguageList(getSession());
+        
         EventType eventType = this.calendar.getEventType();
         if(eventType != null)
         	this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
@@ -728,9 +732,15 @@ public class CreateEventAction extends CalendarAbstractAction
 		return languageId;
 	}
 
-
+	
 	public void setLanguageId(Long languageId) 
 	{
 		this.languageId = languageId;
+	}
+
+
+	public List getLanguages() 
+	{
+		return languages;
 	}
 }

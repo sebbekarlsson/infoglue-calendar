@@ -12,6 +12,8 @@
 	<validator name="conversion" class="com.opensymphony.xwork.validator.validators.ConversionErrorFieldValidator"/> 
 
 	<validator name="igrequiredstring" class="org.infoglue.common.util.RequiredStringValidator"/> 
+	<validator name="igrequiredfloat" class="org.infoglue.common.util.RequiredFloatValidator"/> 
+	<validator name="igrequiredlong" class="org.infoglue.common.util.RequiredLongValidator"/> 
 	<validator name="igrequiredoption" class="org.infoglue.common.util.RequiredOptionValidator"/> 
 	<validator name="igemail" class="org.infoglue.common.util.EmailValidator"/> 
 
