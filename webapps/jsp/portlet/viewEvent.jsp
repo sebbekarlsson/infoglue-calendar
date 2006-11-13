@@ -53,6 +53,7 @@
 	
 		<ul class="languagesTabs">
 			<ww:iterator value="availableLanguages" status="rowstatus">
+				<ww:set name="currentLanguageId" value="top.id"/>
 				<ww:set name="currentLanguageId" value="top.id" scope="page"/>
 				
 				<portlet:renderURL var="viewEventVersionUrl">
@@ -62,8 +63,8 @@
 				</portlet:renderURL>
 					
 				<c:choose>
-					<c:when test="languageId == currentLanguageId">
-						<c:set var="cssClass" value="active"/>
+					<c:when test="${languageId == currentLanguageId}">
+						<c:set var="cssClass" value="activeTab"/>
 					</c:when>
 					<c:otherwise>
 						<c:set var="cssClass" value=""/>

@@ -54,7 +54,7 @@
 				background: #f3f3f3;
 				font-size: 10px;	
 				line-height: 14px;	
-				font-weight: bold;
+				afont-weight: bold;
 				padding: 2px 10px 2px 10px;
 				margin-right: 4px;	
 				border: 1px solid #ccc;	
@@ -73,20 +73,16 @@
 				background: #fff;
 			}
 			
-			.activeTabClass {
-				border: 1px solid #666666;
+			.activeTab {
+				color: #000;
 				font-weight: bold;
-				font-size: 12px;
-				width: 100px;
-				
 			}
 
-			.tabClass {
-				border: 1px solid #666666;
-				font-weight: normal;
-				font-size: 10px;
-				width: 100px;
+			.activeTab a:link, .activeTab a:link.visited {
+				color: #000;
+				font-weight: bold;
 			}
+		
 		</style>
 
 		<script type="text/javascript">
