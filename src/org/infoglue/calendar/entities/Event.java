@@ -55,8 +55,11 @@ public class Event implements BaseEntity
     private Integer maximumParticipants;
     private Integer stateId = STATE_WORKING; //Default if not otherwise set
     private String creator;
-    
+
+    private String contactEmail;
+
     //REMOVE LATER
+    /*
     private String name;
     private String description;
     private String organizerName;
@@ -67,10 +70,10 @@ public class Event implements BaseEntity
     private String longDescription;
     private String eventUrl;
     private String contactName;
-    private String contactEmail;
     private String contactPhone;
     private String price;
     private String attributes;
+    */
     //REMOVE LATER
     
     private Long entryFormId;
@@ -112,42 +115,7 @@ public class Event implements BaseEntity
     public void setId(Long id)
     {
         this.id = id;
-    }
-     
-    /**
-     * @hibernate.property name="getName" column="name" type="string" not-null="false" unique="true"
-     * 
-     * @return String
-     */
-    
-    public String getName()
-    {
-        return name;
-        //return "Event with id " + id; //name;
-    }
-    
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-    
-    
-    /**
-     * @hibernate.property name="getDescription" column="description" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    
-    public String getDescription()
-    {
-        return description;
-    }
-    
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-    
+    }    
     
     /**
      * @hibernate.property name="getEndDateTime" column="endDateTime" type="calendar" not-null="false" unique="false"
@@ -244,114 +212,6 @@ public class Event implements BaseEntity
     }
     
     /**
-     * @hibernate.property name="getContactEmail" column="contactEmail" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    
-    public String getContactEmail()
-    {
-        return contactEmail;
-    }
-    
-    public void setContactEmail(String contactEmail)
-    {
-        this.contactEmail = contactEmail;
-    }
-    
-    
-    /**
-     * @hibernate.property name="getContactName" column="contactName" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    
-    public String getContactName()
-    {
-        return contactName;
-    }
-    
-    public void setContactName(String contactName)
-    {
-        this.contactName = contactName;
-    }
-    
-    
-    /**
-     * @hibernate.property name="getContactPhone" column="contactPhone" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    
-    public String getContactPhone()
-    {
-        return contactPhone;
-    }
-    
-    public void setContactPhone(String contactPhone)
-    {
-        this.contactPhone = contactPhone;
-    }
-    
-   
-    /**
-     * @hibernate.property name="getCustomLocation" column="customLocation" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    
-    public String getCustomLocation()
-    {
-        return customLocation;
-    }
-    
-    public void setCustomLocation(String customLocation)
-    {
-        this.customLocation = customLocation;
-    }
-    
-    
-    /**
-     * @hibernate.property name="getAlternativeLocation" column="alternativeLocation" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    
-    public String getAlternativeLocation()
-    {
-        return alternativeLocation;
-    }
-
-    public void setAlternativeLocation(String alternativeLocation)
-    {
-        this.alternativeLocation = alternativeLocation;
-    }
-    
-
-    /**
-     * @hibernate.property name="getEventUrl" column="eventUrl" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    
-    public String getEventUrl()
-    {
-        if(eventUrl != null && !eventUrl.equalsIgnoreCase("") && eventUrl.indexOf("http") == -1)
-            eventUrl = "http://" + eventUrl;
-        
-        return eventUrl;
-    }
-    
-    public void setEventUrl(String eventUrl)
-    {
-        if(eventUrl != null && !eventUrl.equalsIgnoreCase("") && eventUrl.indexOf("http") == -1)
-            eventUrl = "http://" + eventUrl;
-        
-        this.eventUrl = eventUrl;
-    }
-    
-    
-    /**
      * @hibernate.property name="getIsInternal" column="isInternal" type="boolean" not-null="false" unique="false"
      * 
      * @return Boolean
@@ -398,23 +258,7 @@ public class Event implements BaseEntity
         this.lastRegistrationDateTime = lastRegistrationDateTime;
     }
 
-    /**
-     * @hibernate.property name="getLecturer" column="lecturer" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
     
-    public String getLecturer()
-    {
-        return lecturer;
-    }
-    
-    public void setLecturer(String lecturer)
-    {
-        this.lecturer = lecturer;
-    }
-    
-        
     /**
      * @hibernate.property name="getMaximumParticipants" column="maximumParticipants" type="string" not-null="false" unique="false"
      * 
@@ -429,12 +273,110 @@ public class Event implements BaseEntity
     {
         this.maximumParticipants = maximumParticipants;
     }
+
+    public String getName()
+    {
+        //return name;
+        return "Event with id " + id; //name;
+    }
+
+    public String getContactEmail()
+    {
+        return contactEmail;
+    }
     
-    /**
-     * @hibernate.property name="getOrganizerName" column="organizerName" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
+    public void setContactEmail(String contactEmail)
+    {
+        this.contactEmail = contactEmail;
+    }
+
+    /*
+    public String getName()
+    {
+        return name;
+        //return "Event with id " + id; //name;
+    }
+    
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    
+    public String getDescription()
+    {
+        return description;
+    }
+    
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+    
+    public String getContactName()
+    {
+        return contactName;
+    }
+    
+    public void setContactName(String contactName)
+    {
+        this.contactName = contactName;
+    }
+    
+    public String getContactPhone()
+    {
+        return contactPhone;
+    }
+    
+    public void setContactPhone(String contactPhone)
+    {
+        this.contactPhone = contactPhone;
+    }
+
+    public String getCustomLocation()
+    {
+        return customLocation;
+    }
+    
+    public void setCustomLocation(String customLocation)
+    {
+        this.customLocation = customLocation;
+    }
+    
+    public String getAlternativeLocation()
+    {
+        return alternativeLocation;
+    }
+
+    public void setAlternativeLocation(String alternativeLocation)
+    {
+        this.alternativeLocation = alternativeLocation;
+    }
+    
+    public String getEventUrl()
+    {
+        if(eventUrl != null && !eventUrl.equalsIgnoreCase("") && eventUrl.indexOf("http") == -1)
+            eventUrl = "http://" + eventUrl;
+        
+        return eventUrl;
+    }
+    
+    public void setEventUrl(String eventUrl)
+    {
+        if(eventUrl != null && !eventUrl.equalsIgnoreCase("") && eventUrl.indexOf("http") == -1)
+            eventUrl = "http://" + eventUrl;
+        
+        this.eventUrl = eventUrl;
+    }
+        
+    public String getLecturer()
+    {
+        return lecturer;
+    }
+    
+    public void setLecturer(String lecturer)
+    {
+        this.lecturer = lecturer;
+    }
     
     public String getOrganizerName()
     {
@@ -445,13 +387,6 @@ public class Event implements BaseEntity
     {
         this.organizerName = organizerName;
     }
-    
-    
-    /**
-     * @hibernate.property name="getPrice" column="price" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
     
     public String getPrice()
     {
@@ -465,14 +400,7 @@ public class Event implements BaseEntity
     {
         this.price = price;
     }
-    
-    
-    /**
-     * @hibernate.property name="getShortDescription" column="shortDescription" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    
+        
     public String getShortDescription()
     {
         return shortDescription;
@@ -494,13 +422,6 @@ public class Event implements BaseEntity
         this.shortDescription = shortDescription;
     }
 	
-    
-    /**
-     * @hibernate.property name="getLongDescription" column="longDescription" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    
     public String getLongDescription()
     {
         return longDescription;
@@ -532,7 +453,8 @@ public class Event implements BaseEntity
 		this.attributes = attributes;
 	}
 
-    
+    */
+
     
     
     public Set getEventCategories()

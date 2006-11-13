@@ -94,7 +94,7 @@ public class EventVersion implements BaseEntity
     private String longDescription;
     private String eventUrl;
     private String contactName;
-    private String contactEmail;
+    //private String contactEmail;
     private String contactPhone;
     private String price;
 	private String attributes = "";
@@ -153,6 +153,7 @@ public class EventVersion implements BaseEntity
      * 
      * @return String
      */
+    /*
     public String getContactEmail()
     {
         return contactEmail;
@@ -162,6 +163,7 @@ public class EventVersion implements BaseEntity
     {
         this.contactEmail = contactEmail;
     }
+    */
     
     /**
      * @hibernate.property name="getContactName" column="contactName" type="string" not-null="false" unique="false"

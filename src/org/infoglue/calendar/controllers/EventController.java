@@ -32,6 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Category;
+import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
@@ -75,6 +76,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.NotExpression;
 import org.hibernate.criterion.Order;
@@ -102,6 +104,231 @@ public class EventController extends BasicController
      * This method is used to create a new Event object in the database.
      */
     
+    public Event createEvent(Long calendarId, 
+            				Event originalEvent, 
+            	            Integer stateId,
+            	            String creator,
+            	            Long entryFormId,
+            	            Session session) throws HibernateException, Exception 
+    {
+        Event event = null;
+ 
+		Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
+		
+		Set locations = new HashSet();
+		Iterator oldLocationsIterator = originalEvent.getLocations().iterator();
+		while(oldLocationsIterator.hasNext())
+		{
+		    Location location = (Location)oldLocationsIterator.next();
+		    locations.add(location);
+		}
+		
+		Set participants = new HashSet();
+		Iterator oldParticipantsIterator = originalEvent.getParticipants().iterator();
+		while(oldParticipantsIterator.hasNext())
+		{
+		    Participant oldParticipant = (Participant)oldParticipantsIterator.next();
+		    Participant participant = new Participant();
+		    participant.setUserName(oldParticipant.getUserName());
+		    participant.setEvent(event);
+		    session.save(participant);
+		    participants.add(participant);
+		}
+		
+		event = createEvent(calendar, 
+			                originalEvent.getIsInternal(), 
+			                originalEvent.getIsOrganizedByGU(), 
+			                originalEvent.getLastRegistrationDateTime(),
+			                originalEvent.getMaximumParticipants(),
+			                originalEvent.getStartDateTime(), 
+			                originalEvent.getEndDateTime(),
+			                originalEvent.getContactEmail(),
+			                locations, 
+		        			participants,
+		        			stateId,
+		        			creator,
+		        			entryFormId,
+		        			session);
+		
+		Set eventVersions = new HashSet();
+		Iterator eventVersionIterator = originalEvent.getVersions().iterator();
+		while(eventVersionIterator.hasNext())
+		{
+			EventVersion originalEventVersion = (EventVersion)eventVersionIterator.next();
+			
+			EventVersion eventVersion = new EventVersion();
+
+			eventVersion.setName(originalEventVersion.getName());
+			eventVersion.setDescription(originalEventVersion.getDescription());
+			eventVersion.setOrganizerName(originalEventVersion.getOrganizerName());
+			eventVersion.setLecturer(originalEventVersion.getLecturer());
+			eventVersion.setCustomLocation(originalEventVersion.getCustomLocation());
+			eventVersion.setAlternativeLocation(originalEventVersion.getAlternativeLocation());
+			eventVersion.setShortDescription(originalEventVersion.getShortDescription());
+			eventVersion.setLongDescription(originalEventVersion.getLongDescription());
+			eventVersion.setEventUrl(originalEventVersion.getEventUrl());
+			eventVersion.setContactName(originalEventVersion.getContactName());
+			//eventVersion.setContactEmail(originalEventVersion.getContactEmail());
+			eventVersion.setContactPhone(originalEventVersion.getContactPhone());
+			eventVersion.setPrice(originalEventVersion.getPrice());
+			
+			eventVersion.setEvent(event);
+			eventVersion.setLanguage(originalEventVersion.getLanguage());
+
+			session.save(eventVersion);
+		
+			eventVersions.add(eventVersion);
+		}
+
+		Set eventCategories = new HashSet();
+		Iterator oldEventCategoriesIterator = originalEvent.getEventCategories().iterator();
+		while(oldEventCategoriesIterator.hasNext())
+		{
+		    EventCategory oldEventCategory = (EventCategory)oldEventCategoriesIterator.next();
+		    
+		    EventCategory eventCategory = new EventCategory();
+		    eventCategory.setEvent(event);
+		    eventCategory.setCategory(oldEventCategory.getCategory());
+		    eventCategory.setEventTypeCategoryAttribute(oldEventCategory.getEventTypeCategoryAttribute());
+
+		    session.save(eventCategory);
+		    
+	        eventCategories.add(eventCategory);
+		}
+
+		event.setEventCategories(eventCategories);
+		event.setVersions(eventVersions);
+		
+        return event;
+    }
+
+    
+    /**
+     * This method is used to create a new Event object in the database.
+     */
+    
+    public Event createEvent(Long calendarId, 
+    						Long languageId,
+            				String name, 
+            				String description, 
+            				Boolean isInternal, 
+            	            Boolean isOrganizedByGU, 
+            	            String organizerName, 
+            	            String lecturer, 
+            	            String customLocation,
+            	            String alternativeLocation,
+            	            String shortDescription,
+            	            String longDescription,
+            	            String eventUrl,
+            	            String contactName,
+            	            String contactEmail,
+            	            String contactPhone,
+            	            String price,
+            	            java.util.Calendar lastRegistrationCalendar,
+            	            Integer maximumParticipants,
+            	            java.util.Calendar startDateTime, 
+            	            java.util.Calendar endDateTime, 
+            	            Set oldLocations, 
+            	            Set oldEventCategories, 
+            	            Set oldParticipants,
+            	            Integer stateId,
+            	            String creator,
+            	            Long entryFormId,
+            	            String xml,
+            	            Session session) throws HibernateException, Exception 
+    {
+        Event event = null;
+ 
+		Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
+		Language language = LanguageController.getController().getLanguage(languageId, session);
+		
+		Set locations = new HashSet();
+		Iterator oldLocationsIterator = oldLocations.iterator();
+		while(oldLocationsIterator.hasNext())
+		{
+		    Location location = (Location)oldLocationsIterator.next();
+		    locations.add(location);
+		}
+		
+		Set participants = new HashSet();
+		Iterator oldParticipantsIterator = oldParticipants.iterator();
+		while(oldParticipantsIterator.hasNext())
+		{
+		    Participant oldParticipant = (Participant)oldParticipantsIterator.next();
+		    Participant participant = new Participant();
+		    participant.setUserName(oldParticipant.getUserName());
+		    participant.setEvent(event);
+		    session.save(participant);
+		    participants.add(participant);
+		}
+
+		event = createEvent(calendar, 
+		        			isInternal, 
+		                    isOrganizedByGU, 
+		                    lastRegistrationCalendar,
+		                    maximumParticipants,
+		        			startDateTime, 
+		        			endDateTime, 
+		        			contactEmail,
+		        			locations, 
+		        			participants,
+		        			stateId,
+		        			creator,
+		        			entryFormId,
+		        			session);
+		
+		//Creates the master language version
+		Set eventVersions = new HashSet();
+		EventVersion eventVersion = new EventVersion();
+
+		eventVersion.setName(name);
+		eventVersion.setDescription(description);
+		eventVersion.setOrganizerName(organizerName);
+		eventVersion.setLecturer(lecturer);
+		eventVersion.setCustomLocation(customLocation);
+		eventVersion.setAlternativeLocation(alternativeLocation);
+		eventVersion.setShortDescription(shortDescription);
+		eventVersion.setLongDescription(longDescription);
+		eventVersion.setEventUrl(eventUrl);
+		eventVersion.setContactName(contactName);
+		//eventVersion.setContactEmail(contactEmail);
+		eventVersion.setContactPhone(contactPhone);
+		eventVersion.setPrice(price);
+
+		eventVersion.setEvent(event);
+		eventVersion.setLanguage(language);
+
+		session.save(eventVersion);
+
+		eventVersions.add(eventVersion);
+
+		
+		Set eventCategories = new HashSet();
+		Iterator oldEventCategoriesIterator = oldEventCategories.iterator();
+		while(oldEventCategoriesIterator.hasNext())
+		{
+		    EventCategory oldEventCategory = (EventCategory)oldEventCategoriesIterator.next();
+		    
+		    EventCategory eventCategory = new EventCategory();
+		    eventCategory.setEvent(event);
+		    eventCategory.setCategory(oldEventCategory.getCategory());
+		    eventCategory.setEventTypeCategoryAttribute(oldEventCategory.getEventTypeCategoryAttribute());
+		    session.save(eventCategory);
+		    
+	        eventCategories.add(eventCategory);
+		}
+
+		event.setVersions(eventVersions);
+		event.setEventCategories(eventCategories);
+		
+        return event;
+    }
+
+    
+    /**
+     * This method is used to create a new Event object in the database.
+     */
+/* 
     public Event createEvent(Long calendarId, 
             				String name, 
             				String description, 
@@ -203,13 +430,152 @@ public class EventController extends BasicController
 		
         return event;
     }
-
+*/
     
     
     /**
      * This method is used to create a new Event object in the database.
      */
+
+    public Event createEvent(Long calendarId, 
+    		Long languageId,
+			String name, 
+			String description, 
+			Boolean isInternal, 
+            Boolean isOrganizedByGU, 
+            String organizerName, 
+            String lecturer, 
+            String customLocation,
+            String alternativeLocation,
+            String shortDescription,
+            String longDescription,
+            String eventUrl,
+            String contactName,
+            String contactEmail,
+            String contactPhone,
+            String price,
+            java.util.Calendar lastRegistrationCalendar,
+            Integer maximumParticipants,
+            java.util.Calendar startDateTime, 
+            java.util.Calendar endDateTime, 
+            String[] locationId, 
+            Map categoryAttributes, 
+            String[] participantUserName,
+            Integer stateId,
+            String creator,
+            Long entryFormId,
+            String xml,
+            Session session) throws HibernateException, Exception 
+	{
+		Event event = null;
+		
+		Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
+		Language language = null;
+		if(languageId != null)
+			language = LanguageController.getController().getLanguage(languageId, session);
+		else
+			language = LanguageController.getController().getMasterLanguage(session);
+		
+		Set locations = new HashSet();
+		if(locationId != null)
+		{
+			for(int i=0; i<locationId.length; i++)
+			{
+				if(!locationId[i].equals(""))
+				{
+					Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
+					locations.add(location);
+				}
+			}
+		}
+		
+		Set participants = new HashSet();
+		if(participantUserName != null)
+		{
+			for(int i=0; i<participantUserName.length; i++)
+			{
+				Participant participant = new Participant();
+				participant.setUserName(participantUserName[i]);
+				participant.setEvent(event);
+				session.save(participant);
+				participants.add(participant);
+			}
+		}
+		
+		event = createEvent(calendar, 
+					isInternal, 
+		            isOrganizedByGU, 
+		            lastRegistrationCalendar,
+		            maximumParticipants,
+					startDateTime, 
+					endDateTime, 
+					contactEmail,
+					locations, 
+					participants,
+					stateId,
+					creator,
+					entryFormId,
+					session);
+		
+		//Creates the master language version
+		Set eventVersions = new HashSet();
+		EventVersion eventVersion = new EventVersion();
+
+		eventVersion.setName(name);
+		eventVersion.setDescription(description);
+		eventVersion.setOrganizerName(organizerName);
+		eventVersion.setLecturer(lecturer);
+		eventVersion.setCustomLocation(customLocation);
+		eventVersion.setAlternativeLocation(alternativeLocation);
+		eventVersion.setShortDescription(shortDescription);
+		eventVersion.setLongDescription(longDescription);
+		eventVersion.setEventUrl(eventUrl);
+		eventVersion.setContactName(contactName);
+		//eventVersion.setContactEmail(contactEmail);
+		eventVersion.setContactPhone(contactPhone);
+		eventVersion.setPrice(price);
+
+		eventVersion.setEvent(event);
+		eventVersion.setLanguage(language);
+
+		session.save(eventVersion);
+
+		eventVersions.add(eventVersion);
+		
+		
+		Set eventCategories = new HashSet();
+		if(categoryAttributes != null)
+		{
+			Iterator categoryAttributesIterator = categoryAttributes.keySet().iterator();
+			while(categoryAttributesIterator.hasNext())
+			{
+				String categoryAttributeId = (String)categoryAttributesIterator.next(); 
+				log.info("categoryAttributeId:" + categoryAttributeId);
+				EventTypeCategoryAttribute eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttribute(new Long(categoryAttributeId), session);
+				 
+				String[] categoriesArray = (String[])categoryAttributes.get(categoryAttributeId);
+				for(int i=0; i < categoriesArray.length; i++)
+				{
+				    Category category = CategoryController.getController().getCategory(new Long(categoriesArray[i]), session);
+				    
+				    EventCategory eventCategory = new EventCategory();
+				    eventCategory.setEvent(event);
+				    eventCategory.setCategory(category);
+				    eventCategory.setEventTypeCategoryAttribute(eventTypeCategoryAttribute);
+				    session.save(eventCategory);
+				    
+				    eventCategories.add(eventCategory);
+				}
+			}
+		}
+		
+		event.setEventCategories(eventCategories);
+		event.setVersions(eventVersions);
+		
+		return event;
+	}
     
+    /*
     public Event createEvent(Long calendarId, 
             				String name, 
             				String description, 
@@ -326,12 +692,12 @@ public class EventController extends BasicController
 		
         return event;
     }
-
+	*/
     
     /**
      * This method is used to create a new Event object in the database inside a transaction.
      */
-    
+    /*
     public Event createEvent(Calendar owningCalendar, 
             				String name, 
             				String description, 
@@ -396,7 +762,50 @@ public class EventController extends BasicController
         
         return event;
     }
+    */
     
+    
+    /**
+     * This method is used to create a new Event object in the database inside a transaction.
+     */
+    
+    public Event createEvent(Calendar owningCalendar, 
+            				Boolean isInternal, 
+            	            Boolean isOrganizedByGU, 
+            	            java.util.Calendar lastRegistrationCalendar,
+            	            Integer maximumParticipants,
+            	            java.util.Calendar startDateTime, 
+            				java.util.Calendar endDateTime, 
+            				String contactEmail,
+            				Set locations, 
+            				Set participants,
+            				Integer stateId,
+            				String creator,
+            				Long entryFormId,
+            				Session session) throws HibernateException, Exception 
+    {
+        Event event = new Event();
+        event.setIsInternal(isInternal);
+        event.setIsOrganizedByGU(isOrganizedByGU);
+        event.setMaximumParticipants(maximumParticipants);
+        event.setLastRegistrationDateTime(lastRegistrationCalendar);
+        event.setStartDateTime(startDateTime);
+        event.setEndDateTime(endDateTime);
+        event.setContactEmail(contactEmail);
+        event.setStateId(stateId);
+        event.setCreator(creator);
+        event.setEntryFormId(entryFormId);
+        
+        event.setOwningCalendar(owningCalendar);
+        event.getCalendars().add(owningCalendar);
+        event.setLocations(locations);
+        event.setParticipants(participants);
+        owningCalendar.getEvents().add(event);
+        
+        session.save(event);
+        
+        return event;
+    }
     
     /**
      * Updates an event.
@@ -559,7 +968,7 @@ public class EventController extends BasicController
             eventVersion.setLongDescription(longDescription);
             eventVersion.setEventUrl(eventUrl);
             eventVersion.setContactName(contactName);
-            eventVersion.setContactEmail(contactEmail);
+            //eventVersion.setContactEmail(contactEmail);
             eventVersion.setContactPhone(contactPhone);
             eventVersion.setPrice(price);
             eventVersion.setAttributes(xml);
@@ -578,7 +987,7 @@ public class EventController extends BasicController
             eventVersion.setLongDescription(longDescription);
             eventVersion.setEventUrl(eventUrl);
             eventVersion.setContactName(contactName);
-            eventVersion.setContactEmail(contactEmail);
+            //eventVersion.setContactEmail(contactEmail);
             eventVersion.setContactPhone(contactPhone);
             eventVersion.setPrice(price);
             eventVersion.setAttributes(xml);
@@ -586,7 +995,7 @@ public class EventController extends BasicController
     		session.update(eventVersion);
         }
 
-        event.setName(name);
+//        event.setName(name);
         //event.setDescription(description);
         event.setIsInternal(isInternal);
         event.setIsOrganizedByGU(isOrganizedByGU);
@@ -825,9 +1234,59 @@ public class EventController extends BasicController
         List arguments = new ArrayList();
         List values = new ArrayList();
         
+        Criteria criteria = session.createCriteria(Event.class);
+        
+        Criteria eventVersionCriteria = criteria.createCriteria("versions");
+        if(name != null && name.length() > 0)
+        	eventVersionCriteria.add(Restrictions.like("name", "%" + name + "%"));
+        
+        if(organizerName != null && organizerName.length() > 0)
+        	eventVersionCriteria.add(Restrictions.like("organizerName", "%" + organizerName + "%"));
+
+        if(lecturer != null && lecturer.length() > 0)
+        	eventVersionCriteria.add(Restrictions.like("lecturer", "%" + lecturer + "%"));
+
+        if(customLocation != null && customLocation.length() > 0)
+        	eventVersionCriteria.add(Restrictions.like("customLocation", "%" + customLocation + "%"));
+
+        if(alternativeLocation != null && alternativeLocation.length() > 0)
+        	eventVersionCriteria.add(Restrictions.like("alternativeLocation", "%" + alternativeLocation + "%"));
+
+        if(contactName != null && contactName.length() > 0)
+        	eventVersionCriteria.add(Restrictions.like("contactName", "%" + contactName + "%"));
+
+        if(contactEmail != null && contactEmail.length() > 0)
+        	criteria.add(Restrictions.like("contactEmail", "%" + contactEmail + "%"));
+
+        if(contactPhone != null && contactPhone.length() > 0)
+        	eventVersionCriteria.add(Restrictions.like("contactPhone", "%" + contactPhone + "%"));
+
+        if(price != null && price.length() > 0)
+        	eventVersionCriteria.add(Restrictions.eq("price", "%" + price + "%"));
+
+        if(maximumParticipants != null)
+        	criteria.add(Restrictions.eq("maximumParticipants", maximumParticipants));
+
+        if(startDateTime != null)
+        	criteria.add(Restrictions.le("startDateTime", startDateTime));
+
+        if(endDateTime != null)
+        	criteria.add(Restrictions.ge("endDateTime", endDateTime));
+        
+        if(sortAscending.booleanValue())
+        {
+        	criteria.addOrder(Order.asc("startDateTime"));
+        }
+        else
+        {
+        	criteria.addOrder(Order.desc("startDateTime"));	
+        }
+        
+        result = criteria.list();
+        /*
         if(name != null && name.length() > 0)
         {
-            arguments.add("event.name like ?");
+            arguments.add("event.versions.name like ?");
             values.add("%" + name + "%");
         }
         if(organizerName != null && organizerName.length() > 0)
@@ -901,7 +1360,7 @@ public class EventController extends BasicController
             order = "asc";
         
         Query q = session.createQuery("from Event event " + (argumentsSQL.length() > 0 ? "WHERE " + argumentsSQL : "") + " order by event.startDateTime " + order);
-   
+   		
         int i = 0;
         Iterator valuesIterator = values.iterator();
         while(valuesIterator.hasNext())
@@ -920,7 +1379,8 @@ public class EventController extends BasicController
         }
         
         result = q.list();
-        
+        */
+   
         if(categoryId != null)
         {
 	        Iterator resultIterator = result.iterator();

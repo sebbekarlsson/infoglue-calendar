@@ -36,6 +36,9 @@
 	
 		<ww:set name="event" value="top"/>
 		<ww:set name="eventId" value="id" scope="page"/>
+		<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
+		<ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
+		
 		<portlet:renderURL var="eventDetailUrl">
 			<portlet:param name="action" value="ViewEvent!publicGU"/>
 			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
@@ -62,7 +65,7 @@
 					</ww:if>
 		   		</ww:iterator>
 			</span>
-			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="name"/></a></h3>
+			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="#eventVersion.name"/></a></h3>
 	
 			<p><span class="calFactLabel">Tid:</span> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/> 
 			<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
@@ -73,9 +76,9 @@
 			<ww:if test="#puffImage != null">
 			<img src="<ww:property value="#puffImage"/>" class="img_calendar_event"/>
 			</ww:if>
-			<p><ww:property value="shortDescription"/></p>
-			<ww:if test="lecturer != null && lecturer != ''">
-			<p><span class="calFactLabel">F&ouml;rel&auml;sare:</span> <ww:property value="lecturer"/></p>
+			<p><ww:property value="#eventVersion.shortDescription"/></p>
+			<ww:if test="#eventVersion.lecturer != null && #eventVersion.lecturer != ''">
+			<p><span class="calFactLabel">F&ouml;rel&auml;sare:</span> <ww:property value="#eventVersion.lecturer"/></p>
 			</ww:if>
 		</div>
 		<!-- Record End -->

@@ -143,7 +143,7 @@
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactEmail')">
 		<p>
-			<calendar:textValue label="labels.internal.event.contactEmail" value="eventVersion.contactEmail" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.contactEmail" value="event.contactEmail" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactPhone')">

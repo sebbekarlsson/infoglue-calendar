@@ -11,13 +11,15 @@
 		<portlet:param name="action" value="CreateEntry!publicGU"/>
 	</portlet:actionURL>
 	
+	<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
+	
 	<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">
 		<input type="hidden" name="languageCode" value="<ww:property value="languageCode"/>">
 		<input type="hidden" name="returnAddress" value="<ww:property value="returnAddress"/>">
 			
 		<h1><ww:property value="this.getLabel('labels.internal.entry.createNewEntry')"/></h1>
-		<h3>"<ww:property value="event.name"/>"</h3>
+		<h3>"<ww:property value="#eventVersion.name"/>"</h3>
 		
 		<calendar:textField label="labels.internal.entry.firstName" name="'firstName'" value="entry.firstName" required="true" labelCssClass="label" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.entry.lastName" name="'lastName'" value="entry.lastName" required="true" labelCssClass="label" cssClass="longtextfield"/>

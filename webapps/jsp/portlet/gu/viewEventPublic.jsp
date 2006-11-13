@@ -5,6 +5,9 @@
 
 <portlet:defineObjects/>
 
+<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
+<ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
+
 
 <!-- Calendar start -->
 <div class="calendar"> 	
@@ -19,29 +22,29 @@
    		</ww:iterator>
 	</span> 	
 	
-	<H1><ww:property value="event.name"/></H1>
+	<H1><ww:property value="eventVersion.name"/></H1>
 
 <!-- Detta skall ev vara med beroende på hur articelkomponenten ser ut
 	<div class="recordLine">
 	<span class="categoryLabelSmall">Öppen föreläsning</span> -->
 	
-	<ww:if test="event.decoratedShortDescription != null && event.decoratedShortDescription != ''">
-		<h4><ww:property value="event.decoratedShortDescription"/></h4>
+	<ww:if test="eventVersion.decoratedShortDescription != null && eventVersion.decoratedShortDescription != ''">
+		<h4><ww:property value="eventVersion.decoratedShortDescription"/></h4>
 	</ww:if>
 	
-	<ww:if test="event.decoratedLongDescription != null && event.decoratedLongDescription != ''">
+	<ww:if test="eventVersion.decoratedLongDescription != null && eventVersion.decoratedLongDescription != ''">
 	<p>
 	<ww:set name="puffImage" value="this.getResourceUrl(event, 'DetaljBild')"/>
 	<ww:if test="#puffImage != null">
 	<img src="<ww:property value="#puffImage"/>" class="img_left_letter"/>
 	</ww:if>
-	<ww:property value="event.decoratedLongDescription"/>
+	<ww:property value="eventVersion.decoratedLongDescription"/>
 	</p>
 	</ww:if>
 	
 	<div class="calFact" style="clear:both">
-		<ww:if test="event.lecturer != null && event.lecturer != ''">
-			<p><span class="calFactLabel">F&ouml;rel&auml;sare: </span><ww:property value="event.lecturer"/></p>
+		<ww:if test="eventVersion.lecturer != null && eventVersion.lecturer != ''">
+			<p><span class="calFactLabel">F&ouml;rel&auml;sare: </span><ww:property value="eventVersion.lecturer"/></p>
 		</ww:if>
 		<ww:set name="startDate" value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>
 		<ww:set name="endDate" value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
@@ -69,13 +72,13 @@
    		</ww:iterator>
    		</p>
    		
-   		<ww:if test="event.organizerName != null && event.organizerName != ''">
-   			<p><span class="calFactLabel">Arrang&ouml;r: </span><ww:property value="event.organizerName"/></p>
+   		<ww:if test="eventVersion.organizerName != null && eventVersion.organizerName != ''">
+   			<p><span class="calFactLabel">Arrang&ouml;r: </span><ww:property value="eventVersion.organizerName"/></p>
 		</ww:if>
 		
 		<p><span class="calFactLabel">Plats: </span><br/>
-			<ww:if test="event.alternativeLocation != null && event.alternativeLocation != ''">
-				<ww:property value="event.alternativeLocation"/>		
+			<ww:if test="eventVersion.alternativeLocation != null && eventVersion.alternativeLocation != ''">
+				<ww:property value="eventVersion.alternativeLocation"/>		
 			</ww:if>
 			<ww:else>
   				<ww:iterator value="event.locations">
@@ -83,11 +86,11 @@
 	 				<ww:property value='#location.name'/><br/>		
 	      		</ww:iterator>
 			</ww:else>
-			<ww:property value="event.customLocation"/>
+			<ww:property value="eventVersion.customLocation"/>
 		</p>
 	
-		<ww:if test="event.eventUrl != null && event.eventUrl != ''">
-			<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="event.eventUrl"/>">Läs mer om <ww:property value="event.name"/></a></p>
+		<ww:if test="eventVersion.eventUrl != null && eventVersion.eventUrl != ''">
+			<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="eventVersion.eventUrl"/>">Läs mer om <ww:property value="eventVersion.name"/></a></p>
 		</ww:if>
 			
 		<ww:if test="event.resources.size() > 0">
@@ -118,16 +121,16 @@
    			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		</ww:if>
 		
-		<ww:if test="event.price != null && event.price != ''">
-	  		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price"/> </p>
+		<ww:if test="eventVersion.price != null && eventVersion.price != ''">
+	  		<p><span class="calFactLabel">Avgift:</span> <ww:property value="eventVersion.price"/> </p>
 		</ww:if>
 		<ww:else>
   			<p><span class="calFactLabel">Avgift:</span> Ingen avgift </p>		
 		</ww:else>
 		
 		<ww:if test="event.contactEmail != null && event.contactEmail != ''">
-			<ww:if test="event.contactName != null && event.contactName != ''">
-				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactName"/></A></p>
+			<ww:if test="eventVersion.contactName != null && eventVersion.contactName != ''">
+				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="eventVersion.contactName"/></A></p>
 			</ww:if>
 			<ww:else>
 				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>

@@ -594,37 +594,6 @@ public class EntryController extends BasicController
         set.addAll(criteria.list());
         
         return set;	
-    	
-/*
-        String arguments = "";
-        
-        if(eventId != null)
-            arguments += "entry.event.id = :eventId ";
-        if(firstName != null && firstName.length() != 0)
-            arguments += (arguments.length() == 0 ? "" : "and ") + "entry.firstName = :firstName ";
-        if(lastName != null && lastName.length() != 0)
-            arguments += (arguments.length() == 0 ? "" : "and ") + "entry.lastName = :lastName ";
-        if(email != null && email.length() != 0)
-            arguments += (arguments.length() == 0 ? "" : "and ") + "entry.email = :email ";
-        
-        String sql = "from Entry entry " + (arguments.length() > 0 ? "WHERE " + arguments : "") + " order by entry.id";
-        log.info("SQL:" + sql);
-        
-        Query q = session.createQuery(sql);
-
-        if(eventId != null)
-            q.setParameter("eventId", eventId, Hibernate.LONG);
-        if(firstName != null && firstName.length() != 0)
-            q.setParameter("firstName", firstName, Hibernate.STRING);
-        if(lastName != null && lastName.length() != 0)
-            q.setParameter("lastName", lastName, Hibernate.STRING);
-        if(email != null && email.length() != 0)
-            q.setParameter("email", email, Hibernate.STRING);
-        
-        result = q.list();
-        
-        return result;
-        */
     }
 
     /**

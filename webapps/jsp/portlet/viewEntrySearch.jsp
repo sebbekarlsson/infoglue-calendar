@@ -48,7 +48,10 @@
 			<option value=""/><ww:property value="this.getLabel('labels.internal.soba.anyEvent')"/></option>
 			<option value=""/>--------------------</option>
 			<ww:iterator value="eventList">
-			<option value="<ww:property value="id"/>"/><ww:property value="name"/></option>
+				<ww:set name="event" value="top"/>
+				<ww:set name="eventVersion" value="this.getMasterEventVersion('#event')"/>
+				<ww:set name="eventVersion" value="this.getMasterEventVersion('#event')" scope="page"/>
+				<option value="<ww:property value="id"/>"/><ww:property value="#eventVersion.name"/></option>
 			</ww:iterator>
 		</select>
 	</div>

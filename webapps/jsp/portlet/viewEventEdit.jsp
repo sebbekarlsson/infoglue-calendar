@@ -137,7 +137,7 @@
 			<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="eventVersion.contactName" cssClass="longtextfield"/>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactEmail')">
-			<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="eventVersion.contactEmail" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="event.contactEmail" cssClass="longtextfield"/>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactPhone')">
 			<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="eventVersion.contactPhone" cssClass="longtextfield"/>

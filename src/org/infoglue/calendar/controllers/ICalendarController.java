@@ -8,7 +8,9 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -19,6 +21,8 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventVersion;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.calendar.entities.Resource;
 import org.infoglue.calendar.util.ICalendar;
 import org.infoglue.calendar.util.ICalendarVEvent;
@@ -42,11 +46,12 @@ public class ICalendarController extends BasicController
         String url = "";
 
         Event event = EventController.getController().getEvent(id, session);
-			
+        Language masterLanguage = LanguageController.getController().getMasterLanguage(session);
+        
 		String calendarPath = PropertyHelper.getProperty("calendarPath");
 		String fileName = "event_" + event.getId() + ".vcs";
 		
-		getVCalendar(event, calendarPath + fileName);
+		getVCalendar(event, masterLanguage, calendarPath + fileName);
 		
 		String urlBase = PropertyHelper.getProperty("urlBase");
 		
@@ -56,9 +61,22 @@ public class ICalendarController extends BasicController
     }
 
     
-    public void getVCalendar(Event event, String file) throws Exception
+    public void getVCalendar(Event event, Language language, String file) throws Exception
     {
-		ICalendar iCal = new ICalendar();
+    	Set versions = event.getVersions();
+    	Iterator versionsIterator = versions.iterator();
+		EventVersion eventVersion = null;
+    	while(versionsIterator.hasNext())
+    	{
+    		EventVersion eventVersionCandidate = (EventVersion)versionsIterator.next();
+    		if(eventVersionCandidate.getLanguage().getId().equals(language.getId()))
+    		{
+    			eventVersion = eventVersionCandidate;
+    			break;
+    		}
+    	}
+    	
+    	ICalendar iCal = new ICalendar();
 		iCal.icalEventCollection = new LinkedList();
 		iCal.setProdId("InfoGlueCalendar");
 		iCal.setVersion("1.0");
@@ -68,7 +86,12 @@ public class ICalendarController extends BasicController
 		vevent.setDateStart(event.getStartDateTime().getTime());
 		vevent.setDateEnd(event.getEndDateTime().getTime());
 		vevent.setSummary(event.getName());
-		vevent.setDescription(event.getDescription());
+		
+		if(eventVersion != null)
+			vevent.setDescription(eventVersion.getDescription());
+		else
+			vevent.setDescription("No description set");
+		
 		vevent.setSequence(0);
 		vevent.setEventClass("PUBLIC");
 		vevent.setTransparency("OPAQUE");

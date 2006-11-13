@@ -10,6 +10,8 @@
 <ww:if test="#rowstatus.count <= numberOfItems">
 
 	<ww:set name="event" value="top"/>
+	<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
+	<ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
 
 	<div class="record">
 		<ww:if test="#attr.detailUrl.indexOf('?') > -1">
@@ -19,7 +21,7 @@
 			<c:set var="delim" value="?"/>
 		</ww:else>
 
-		<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="name"/></a></h3>
+		<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="#eventVersion.name"/></a></h3>
 		<span class="newsdate"><ww:property value="this.formatDate(top.startDateTime.getTime(), 'd MMM')"/> 
 		<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
 		kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>

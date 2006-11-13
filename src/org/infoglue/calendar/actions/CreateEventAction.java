@@ -36,10 +36,13 @@ import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeController;
+import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.entities.EventVersion;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
 import org.infoglue.common.util.dom.DOMBuilder;
@@ -93,6 +96,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private String time;
     private String mode;
     private Long calendarId;
+    private Long languageId;
     private Long eventId;
     
     private org.infoglue.calendar.entities.Calendar calendar;
@@ -117,6 +121,15 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+        String requestLanguageId = ServletActionContext.getRequest().getParameter("languageId");
+        if(languageId == null)
+        {
+        	if(requestLanguageId != null && requestLanguageId.length() != 0)
+        		this.languageId = new Long(requestLanguageId);
+        	else
+        		this.languageId = LanguageController.getController().getMasterLanguage(getSession()).getId();
+        }
+        	
         if(startDateTime != null && (endDateTime == null || endDateTime.equals("")))
         {
             endDateTime = startDateTime;
@@ -214,10 +227,10 @@ public class CreateEventAction extends CalendarAbstractAction
             
             if(eventType != null)
             {
-	            Event event = new Event();
-	            event.setAttributes(xml);
-	            ConstraintExceptionBuffer ceb = event.validate(eventType);
-	            ActionContext.getContext().getValueStack().getContext().put("errorEvent", event);
+            	EventVersion eventVersion = new EventVersion();
+	            eventVersion.setAttributes(xml);
+	            ConstraintExceptionBuffer ceb = eventVersion.validate(eventType);
+	            ActionContext.getContext().getValueStack().getContext().put("errorEvent", eventVersion);
 	            
 	            validateInput(this, ceb);
             }
@@ -233,6 +246,7 @@ public class CreateEventAction extends CalendarAbstractAction
                 stateId = Event.STATE_WORKING;
                         
             newEvent = EventController.getController().createEvent(calendarId,
+            											languageId,
 									                    name, 
 									                    description,
 									                    isInternal, 
@@ -286,6 +300,14 @@ public class CreateEventAction extends CalendarAbstractAction
             stateId = Event.STATE_WORKING;
 
         newEvent = EventController.getController().createEvent(calendarId,
+                originalEvent, 
+                stateId,
+                this.getInfoGlueRemoteUser(),
+                originalEvent.getEntryFormId(),
+                getSession());
+        
+        /*
+        newEvent = EventController.getController().createEvent(calendarId,
                 originalEvent.getName(), 
                 originalEvent.getDescription(),
                 originalEvent.getIsInternal(), 
@@ -313,7 +335,8 @@ public class CreateEventAction extends CalendarAbstractAction
                 originalEvent.getEntryFormId(),
                 originalEvent.getAttributes(),
                 getSession());
-
+		*/
+        
         return Action.SUCCESS + "Copy";
     } 
 
@@ -697,5 +720,17 @@ public class CreateEventAction extends CalendarAbstractAction
 	public List getAttributes()
 	{
 		return attributes;
+	}
+
+
+	public Long getLanguageId() 
+	{
+		return languageId;
+	}
+
+
+	public void setLanguageId(Long languageId) 
+	{
+		this.languageId = languageId;
 	}
 }

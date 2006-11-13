@@ -160,16 +160,31 @@ public class LanguageController extends BasicController
      * @throws Exception
      */
     
-    public List getLanguage(String name, Session session) throws Exception 
+    public Language getLanguage(String name, Session session) throws Exception 
     {
-        List languages = null;
+        Language language = null;
         
-        languages = session.createQuery("from Language as language where language.name = ?").setString(0, name).list();
+        language = (Language)session.createQuery("from Language as language where language.name = ?").setString(0, name).uniqueResult();
         
-        return languages;
+        return language;
     }
     
+
+    /**
+     * Gets a list of languages fetched by name.
+     * @return List of Language
+     * @throws Exception
+     */
     
+    public Language getLanguageWithCode(String isoCode, Session session) throws Exception 
+    {
+        Language language = null;
+        
+        language = (Language)session.createQuery("from Language as language where language.isoCode = ?").setString(0, isoCode).uniqueResult();
+        
+        return language;
+    }
+
     /**
      * Deletes a language object in the database. Also cascades all events associated to it.
      * @throws Exception

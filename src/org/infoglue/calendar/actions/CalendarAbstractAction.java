@@ -856,6 +856,49 @@ public class CalendarAbstractAction extends ActionSupport
         return masterEventVersion;
     }
     
+    public EventVersion getEventVersion(String eventString)
+    {
+        Object object = findOnValueStack(eventString);
+        //System.out.println("Object:" + object);
+        Event event = (Event)object;
+        
+        if(event == null)
+    		return null;
+
+        //System.out.println("event:" + event.getId());
+
+    	EventVersion eventVersion = null;
+
+    	try
+    	{
+    		Language language = LanguageController.getController().getLanguageWithCode(this.getLanguageCode(), getSession());
+	    	System.out.println("language:" + language.getId());
+	    	
+	    	Iterator eventVersionsIterator = event.getVersions().iterator();
+	        while(eventVersionsIterator.hasNext())
+	        {
+	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
+	        	System.out.println("currentEventVersion.getLanguageId:" + currentEventVersion.getLanguageId());
+	        	if(currentEventVersion.getLanguageId().equals(language.getId()))
+	        	{
+	        		eventVersion = currentEventVersion;
+	        		break;
+	        	}
+	        }
+	        
+	        if(eventVersion == null && event.getVersions().size() > 0)
+	        	eventVersion = (EventVersion)event.getVersions().toArray()[0];
+    	}
+    	catch(Exception e)
+    	{
+    		log.error("Error when getting event version for event: " + event + ":" + e.getMessage(), e); 
+    	}
+    	
+    	System.out.println("eventVersion:" + eventVersion);
+    	
+        return eventVersion;
+    }
+
     public VisualFormatter getVisualFormatter()
     {
     	return new VisualFormatter();
