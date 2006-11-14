@@ -62,7 +62,7 @@ public class Event implements BaseEntity
     private String price;
 
     //REMOVE LATER
-    /*
+    
     private String name;
     private String description;
     private String organizerName;
@@ -73,7 +73,7 @@ public class Event implements BaseEntity
     private String longDescription;
     private String eventUrl;
     private String attributes;
-    */
+    
     //REMOVE LATER
     
     private Long entryFormId;
@@ -274,12 +274,6 @@ public class Event implements BaseEntity
         this.maximumParticipants = maximumParticipants;
     }
 
-    public String getName()
-    {
-        //return name;
-        return "Event with id " + id; //name;
-    }
-
     public String getContactEmail()
     {
         return contactEmail;
@@ -324,6 +318,13 @@ public class Event implements BaseEntity
     }
 
     /*
+    public String getName()
+    {
+        //return name;
+        return "Event with id " + id; //name;
+    }
+    */
+    
     public String getName()
     {
         return name;
@@ -453,7 +454,7 @@ public class Event implements BaseEntity
 		this.attributes = attributes;
 	}
 
-    */
+    //TODO
 
     
     

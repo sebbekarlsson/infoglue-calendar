@@ -30,7 +30,6 @@
 		<property name="contactPhone" column="contactPhone" type="string"/>
 		<property name="price" column="price" type="string"/>
 		
-		<!-- 
 		<property name="name" column="name" type="string"/>
 		<property name="lecturer" column="lecturer" type="string"/>
 		<property name="longDescription" column="longDescription" type="string"/>
@@ -41,7 +40,7 @@
 		<property name="alternativeLocation" column="alternativeLocation" type="string"/>
 		<property name="eventUrl" column="eventUrl" type="string"/>
 		<property name="attributes" type="text" column="attributes" not-null="false" unique="false"/>
-		 -->
+		
 		
         <set name="versions" table="Event_Version" lazy="true" inverse="false" cascade="none" order-by="language_id" sort="unsorted">
 	    	<key column="event_id"></key>
