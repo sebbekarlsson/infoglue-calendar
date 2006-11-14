@@ -14,17 +14,32 @@
 <div id="inputDiv">
 	
 	<ww:set name="eventId" value="event.id" scope="page"/>
+	<ww:set name="languageId" value="languageId" scope="page"/>
 	<ww:set name="eventVersion" value="eventVersion" scope="page"/>
-	<ww:set name="name" value="event.name" scope="page"/>
+	<ww:set name="name" value="eventVersion.name" scope="page"/>
 	
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEvent"/>
 		<calendar:evalParam name="eventId" value="${eventId}"/>
 	</portlet:actionURL>
 
+	<portlet:actionURL var="deleteVersionUrl">
+		<portlet:param name="action" value="DeleteEventVersion"/>
+		<calendar:evalParam name="eventId" value="${eventId}"/>
+		<calendar:evalParam name="eventVersionId" value="${eventVersion.id}"/>
+	</portlet:actionURL>
+
 	<portlet:renderURL var="viewListUrl">
 		<portlet:param name="action" value="ViewEvent"/>
 		<calendar:evalParam name="eventId" value="${eventId}"/>
+		<calendar:evalParam name="languageId" value="${languageId}"/>
+	</portlet:renderURL>
+
+	<portlet:renderURL var="translateEventRenderURL">
+		<calendar:evalParam name="action" value="ViewEvent!chooseLanguageForEdit"/>
+		<calendar:evalParam name="eventId" value="${eventId}"/>
+		<calendar:evalParam name="calendarId" value="${calendarId}"/>
+		<portlet:param name="skipLanguageTabs" value="true"/>	
 	</portlet:renderURL>
 
 	<portlet:renderURL var="confirmUrl">
@@ -48,35 +63,66 @@
 		<input type="hidden" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>">
 		<input type="hidden" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>">
 	</form>	
+
+	<form name="deleteVersionLinkForm" method="POST" action="<c:out value="${confirmUrl}"/>">
+		<input type="hidden" name="confirmTitle" value="Radera - bekräfta"/>
+		<input type="hidden" name="confirmMessage" value="Är du säker på att du vill radera den <c:out value="${eventVersion.language.name}"/> versionen av &quot;<c:out value="${name}"/>&quot;"/>
+		<input type="hidden" name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteVersionUrl").toString(), "utf-8") %>"/>
+		<input type="hidden" name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
+
+		<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
+		<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
+		<input type="hidden" name="startDateTime" value="<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>">
+		<input type="hidden" name="endDateTime" value="<ww:property value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>">
+	</form>	
 			
 	<div class="portlet_margin">
 	
-		<ul class="languagesTabs">
-			<ww:iterator value="availableLanguages" status="rowstatus">
-				<ww:set name="currentLanguageId" value="top.id"/>
-				<ww:set name="currentLanguageId" value="top.id" scope="page"/>
-				
-				<portlet:renderURL var="viewEventVersionUrl">
-					<portlet:param name="action" value="ViewEvent"/>
-					<calendar:evalParam name="eventId" value="${eventId}"/>
-					<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
-				</portlet:renderURL>
-					
-				<c:choose>
-					<c:when test="${languageId == currentLanguageId}">
-						<c:set var="cssClass" value="activeTab"/>
-					</c:when>
-					<c:otherwise>
-						<c:set var="cssClass" value=""/>
-					</c:otherwise>
-				</c:choose>		
-				<li class="<c:out value="${cssClass}"/>">
-					<a href="<c:out value="${viewEventVersionUrl}"/>"><ww:property value="top.name"/></a>
-				</li>
-				
-			</ww:iterator>
-		</ul>
-		 
+		<ww:if test="skipLanguageTabs != true">
+		
+			<ww:if test="event.versions.size() > 1">
+				<p>
+					<ww:property value="this.getLabel('labels.internal.application.languageTranslationTabsIntro')"/>
+					<ww:if test="event.versions.size() < availableLanguages.size()">
+						<ww:property value="this.getParameterizedLabel('labels.internal.application.languageTranslationNewVersionText', #attr.translateEventRenderURL)"/>
+					</ww:if>
+				</p>
+				<ul class="languagesTabs">
+					<ww:iterator value="event.versions" status="rowstatus">
+						<ww:set name="currentLanguageId" value="top.language.id"/>
+						<ww:set name="currentLanguageId" value="top.language.id" scope="page"/>
+						
+						<portlet:renderURL var="viewEventVersionUrl">
+							<portlet:param name="action" value="ViewEvent"/>
+							<calendar:evalParam name="eventId" value="${eventId}"/>
+							<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
+						</portlet:renderURL>
+							
+						<c:choose>
+							<c:when test="${languageId == currentLanguageId}">
+								<c:set var="cssClass" value="activeTab"/>
+							</c:when>
+							<c:otherwise>
+								<c:set var="cssClass" value=""/>
+							</c:otherwise>
+						</c:choose>		
+						<li class="<c:out value="${cssClass}"/>">
+							<a href="<c:out value="${viewEventVersionUrl}"/>"><ww:property value="top.language.name"/></a>
+						</li>
+						
+					</ww:iterator>
+				</ul>
+			</ww:if>
+			<ww:else>
+				<ww:if test="event.versions.size() < availableLanguages.size()">
+				<p>
+					<ww:property value="this.getParameterizedLabel('labels.internal.application.languageTranslationNewVersionText', #attr.translateEventRenderURL)"/>
+				</p>
+				</ww:if>
+			</ww:else>
+		
+		</ww:if>
+		
 		<p>
 			<calendar:textValue label="labels.internal.event.name" value="eventVersion.name" labelCssClass="label"/>
 		</p>
@@ -139,7 +185,7 @@
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactName')">
 		<p>
-			<calendar:textValue label="labels.internal.event.contactName" value="eventVersion.contactName" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.contactName" value="event.contactName" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactEmail')">
@@ -149,12 +195,12 @@
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactPhone')">
 		<p>
-			<calendar:textValue label="labels.internal.event.contactPhone" value="eventVersion.contactPhone" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.contactPhone" value="event.contactPhone" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('price')">
 		<p>
-			<calendar:textValue label="labels.internal.event.price" value="eventVersion.price" labelCssClass="label"/>
+			<calendar:textValue label="labels.internal.event.price" value="event.price" labelCssClass="label"/>
 		</p>
 		</ww:if>
 		<p>
@@ -229,6 +275,12 @@
 			</ww:if>
 		</p>
 
+		<ww:if test="event.versions.size() < availableLanguages.size()">
+		<p>
+			<ww:property value="this.getParameterizedLabel('labels.internal.application.languageTranslationNewVersionText', #attr.translateEventRenderURL)"/>
+		</p>
+		</ww:if>
+		
 		<ww:set name="eventId" value="eventId" scope="page"/>
 		<ww:if test="event.lastRegistrationDateTime != null">
 			<ww:if test="event.stateId == 3 && event.lastRegistrationDateTime.time.time > now.time.time">
@@ -248,7 +300,7 @@
 			<calendar:evalParam name="calendarId" value="${calendarId}"/>
 			<calendar:evalParam name="languageId" value="${languageId}"/>
 		</portlet:renderURL>
-		
+
 		<portlet:renderURL var="uploadFormURL">
 			<calendar:evalParam name="action" value="UpdateEvent!uploadForm"/>
 			<calendar:evalParam name="eventId" value="${eventId}"/>
@@ -256,11 +308,20 @@
 		
 		<calendar:hasRole id="calendarAdministrator" roleName="CalendarAdministrator"/>
 		
+		<%
+		org.infoglue.calendar.entities.Event event = (org.infoglue.calendar.entities.Event)pageContext.getAttribute("event");
+		String languageName = ((org.infoglue.calendar.entities.EventVersion)event.getVersions().toArray()[0]).getLanguage().getName();
+		pageContext.setAttribute("languageName", languageName);
+		%>
+
 		<ww:if test="this.getIsEventCreator(event) || this.getIsEventOwner(event) || calendarAdministrator == true">
 
 	  		<input onclick="document.location.href='<c:out value="${uploadFormURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.attachFile')"/>" class="button">
 			<input onclick="document.location.href='<c:out value="${editEventRenderURL}"/>';" type="button" value="<ww:property value="this.getLabel('labels.internal.event.editButton')"/>" class="button">
-		
+			
+			<ww:if test="event.versions.size() > 1">
+				<input onclick="document.deleteVersionLinkForm.submit();" type="button" value="<ww:property value="this.getParameterizedLabel('labels.internal.event.deleteVersionButton', eventVersion.language.name)"/>" class="button"></a>
+			</ww:if>
 			<input onclick="document.deleteLinkForm.submit();" type="button" value="<ww:property value="this.getLabel('labels.internal.event.deleteButton')"/>" class="button"></a>
 		
 			<%
@@ -299,14 +360,9 @@
 				</portlet:actionURL>
 				       	
 				<ww:if test="event.versions.size() > 1">
-					<ww:set name="publishButtonLabel" value="this.getParameterizedLabel('labels.internal.event.submitAllForPublishEvent', 'All')"/>
+					<ww:set name="publishButtonLabel" value="this.getLabel('labels.internal.event.submitAllForPublishEvent')"/>
 				</ww:if>
 				<ww:else>
-					<%
-					org.infoglue.calendar.entities.Event event = (org.infoglue.calendar.entities.Event)pageContext.getAttribute("event");
-					String languageName = ((org.infoglue.calendar.entities.EventVersion)event.getVersions().toArray()[0]).getLanguage().getName();
-					pageContext.setAttribute("languageName", languageName);
-					%>
 					<ww:set name="publishButtonLabel" value="this.getParameterizedLabel('labels.internal.event.submitLanguageVersionForPublishEvent', #attr.languageName)"/>
 				</ww:else>
 				

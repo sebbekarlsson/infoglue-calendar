@@ -54,7 +54,6 @@
 				background: #f3f3f3;
 				font-size: 10px;	
 				line-height: 14px;	
-				afont-weight: bold;
 				padding: 2px 10px 2px 10px;
 				margin-right: 4px;	
 				border: 1px solid #ccc;	

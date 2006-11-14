@@ -190,10 +190,10 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
                 eventVersion.setShortDescription(event.getShortDescription());
                 eventVersion.setLongDescription(event.getLongDescription());
                 eventVersion.setEventUrl(event.getEventUrl());
-                eventVersion.setContactName(event.getContactName());
-                eventVersion.setContactEmail(event.getContactEmail());
-                eventVersion.setContactPhone(event.getContactPhone());
-                eventVersion.setPrice(event.getPrice());
+                //eventVersion.setContactName(event.getContactName());
+                //eventVersion.setContactEmail(event.getContactEmail());
+                //eventVersion.setContactPhone(event.getContactPhone());
+                //eventVersion.setPrice(event.getPrice());
                 eventVersion.setAttributes(event.getAttributes());
                 
             	getSession().save(eventVersion);

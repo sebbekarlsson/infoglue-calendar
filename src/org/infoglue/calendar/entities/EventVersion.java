@@ -93,10 +93,10 @@ public class EventVersion implements BaseEntity
     private String shortDescription;
     private String longDescription;
     private String eventUrl;
-    private String contactName;
+    //private String contactName;
     //private String contactEmail;
-    private String contactPhone;
-    private String price;
+    //private String contactPhone;
+    //private String price;
 	private String attributes = "";
 
 	private Event event;
@@ -163,13 +163,7 @@ public class EventVersion implements BaseEntity
     {
         this.contactEmail = contactEmail;
     }
-    */
     
-    /**
-     * @hibernate.property name="getContactName" column="contactName" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
     public String getContactName()
     {
         return contactName;
@@ -180,11 +174,6 @@ public class EventVersion implements BaseEntity
         this.contactName = contactName;
     }
     
-    /**
-     * @hibernate.property name="getContactPhone" column="contactPhone" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
     public String getContactPhone()
     {
         return contactPhone;
@@ -194,7 +183,21 @@ public class EventVersion implements BaseEntity
     {
         this.contactPhone = contactPhone;
     }
-    
+
+    public String getPrice()
+    {
+        if(price == null || price.equals("0") || price.equals("0.0"))
+            return "";
+        
+        return price;
+    }
+    public void setPrice(String price)
+    {
+        this.price = price;
+    }
+
+    */
+        
     /**
      * @hibernate.property name="getCustomLocation" column="customLocation" type="string" not-null="false" unique="false"
      * 
@@ -275,24 +278,7 @@ public class EventVersion implements BaseEntity
     {
         this.organizerName = organizerName;
     }
-    
-    /**
-     * @hibernate.property name="getPrice" column="price" type="string" not-null="false" unique="false"
-     * 
-     * @return String
-     */
-    public String getPrice()
-    {
-        if(price == null || price.equals("0") || price.equals("0.0"))
-            return "";
         
-        return price;
-    }
-    public void setPrice(String price)
-    {
-        this.price = price;
-    }
-    
     /**
      * @hibernate.property name="getShortDescription" column="shortDescription" type="string" not-null="false" unique="false"
      * 

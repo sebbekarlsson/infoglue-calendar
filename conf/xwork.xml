@@ -368,6 +368,9 @@
 			<result name="successEdit" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewEventEdit.jsp</param>
 			</result>
+			<result name="successChooseLanguageForEdit" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/chooseLanguageForEdit.jsp</param>
+			</result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
@@ -426,6 +429,16 @@
 			</result>
 			<result name="successSearch" type="eventProcessed">
 				<param name="viewAction">ViewEventSearch.action</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
+
+		<action name="DeleteEventVersion" class="org.infoglue.calendar.actions.DeleteEventVersionAction">
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewEvent.action?eventId=${eventId}</param>
 				<param name="parse">true</param>
 			</result>
 			<result name="error" type="portletDispatch">

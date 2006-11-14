@@ -57,6 +57,9 @@ public class Event implements BaseEntity
     private String creator;
 
     private String contactEmail;
+    private String contactName;
+    private String contactPhone;
+    private String price;
 
     //REMOVE LATER
     /*
@@ -69,9 +72,6 @@ public class Event implements BaseEntity
     private String shortDescription;
     private String longDescription;
     private String eventUrl;
-    private String contactName;
-    private String contactPhone;
-    private String price;
     private String attributes;
     */
     //REMOVE LATER
@@ -290,6 +290,39 @@ public class Event implements BaseEntity
         this.contactEmail = contactEmail;
     }
 
+    public String getContactName()
+    {
+        return contactName;
+    }
+    
+    public void setContactName(String contactName)
+    {
+        this.contactName = contactName;
+    }
+    
+    public String getContactPhone()
+    {
+        return contactPhone;
+    }
+    
+    public void setContactPhone(String contactPhone)
+    {
+        this.contactPhone = contactPhone;
+    }
+
+    public String getPrice()
+    {
+        if(price == null || price.equals("0") || price.equals("0.0"))
+            return "";
+        
+        return price;
+    }
+    
+    public void setPrice(String price)
+    {
+        this.price = price;
+    }
+
     /*
     public String getName()
     {
@@ -312,26 +345,6 @@ public class Event implements BaseEntity
         this.description = description;
     }
     
-    public String getContactName()
-    {
-        return contactName;
-    }
-    
-    public void setContactName(String contactName)
-    {
-        this.contactName = contactName;
-    }
-    
-    public String getContactPhone()
-    {
-        return contactPhone;
-    }
-    
-    public void setContactPhone(String contactPhone)
-    {
-        this.contactPhone = contactPhone;
-    }
-
     public String getCustomLocation()
     {
         return customLocation;
@@ -387,20 +400,7 @@ public class Event implements BaseEntity
     {
         this.organizerName = organizerName;
     }
-    
-    public String getPrice()
-    {
-        if(price == null || price.equals("0") || price.equals("0.0"))
-            return "";
-        
-        return price;
-    }
-    
-    public void setPrice(String price)
-    {
-        this.price = price;
-    }
-        
+            
     public String getShortDescription()
     {
         return shortDescription;

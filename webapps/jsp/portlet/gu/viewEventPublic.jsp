@@ -121,16 +121,16 @@
    			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		</ww:if>
 		
-		<ww:if test="eventVersion.price != null && eventVersion.price != ''">
-	  		<p><span class="calFactLabel">Avgift:</span> <ww:property value="eventVersion.price"/> </p>
+		<ww:if test="event.price != null && event.price != ''">
+	  		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price"/> </p>
 		</ww:if>
 		<ww:else>
   			<p><span class="calFactLabel">Avgift:</span> Ingen avgift </p>		
 		</ww:else>
 		
 		<ww:if test="event.contactEmail != null && event.contactEmail != ''">
-			<ww:if test="eventVersion.contactName != null && eventVersion.contactName != ''">
-				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="eventVersion.contactName"/></A></p>
+			<ww:if test="event.contactName != null && event.contactName != ''">
+				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactName"/></A></p>
 			</ww:if>
 			<ww:else>
 				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>

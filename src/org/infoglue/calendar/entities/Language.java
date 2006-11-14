@@ -83,4 +83,14 @@ public class Language implements BaseEntity
 		this.isoCode = isoCode;
 	}
 	
+	public boolean equals(Object object)
+	{
+		if(object instanceof Language) 
+		{
+			Language compLanguage = (Language)object;
+			return this.getId().equals(compLanguage.getId());
+		}
+		else
+			return false;
+	}
 }

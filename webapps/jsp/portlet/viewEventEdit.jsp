@@ -12,32 +12,59 @@
 <ww:set name="languageId" value="languageId" scope="page"/>
 <ww:set name="mode" value="mode" scope="page"/>
 
+<portlet:renderURL var="translateEventRenderURL">
+	<calendar:evalParam name="action" value="ViewEvent!chooseLanguageForEdit"/>
+	<calendar:evalParam name="eventId" value="${eventId}"/>
+	<calendar:evalParam name="calendarId" value="${calendarId}"/>
+	<portlet:param name="skipLanguageTabs" value="true"/>	
+</portlet:renderURL>
+
 <div class="portlet_margin">
 	
-	<ul class="languagesTabs">
-		<ww:iterator value="availableLanguages" status="rowstatus">
-			<ww:set name="currentLanguageId" value="top.id" scope="page"/>
-			
-			<portlet:renderURL var="viewEventVersionEditUrl">
-				<portlet:param name="action" value="ViewEvent!edit"/>
-				<calendar:evalParam name="eventId" value="${eventId}"/>
-				<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
-			</portlet:renderURL>
-				
-			<c:choose>
-				<c:when test="${languageId == currentLanguageId}">
-					<c:set var="cssClass" value="active"/>
-				</c:when>
-				<c:otherwise>
-					<c:set var="cssClass" value=""/>
-				</c:otherwise>
-			</c:choose>		
-			<li class="<c:out value="${cssClass}"/>">
-				<a href="<c:out value="${viewEventVersionEditUrl}"/>"><ww:property value="top.name"/></a>
-			</li>
-			
-		</ww:iterator>
-	</ul>
+	<ww:if test="skipLanguageTabs != true">
+	
+		<ww:if test="event.versions.size() > 1">
+			<p>
+				<ww:property value="this.getLabel('labels.internal.application.languageTranslationTabsIntro')"/>
+				<ww:if test="event.versions.size() < availableLanguages.size()">
+					<ww:property value="this.getParameterizedLabel('labels.internal.application.languageTranslationNewVersionText', #attr.translateEventRenderURL)"/>
+				</ww:if>
+			</p>
+			<ul class="languagesTabs">
+				<ww:iterator value="event.versions" status="rowstatus">
+					<ww:set name="currentLanguageId" value="top.language.id"/>
+					<ww:set name="currentLanguageId" value="top.language.id" scope="page"/>
+					
+					<portlet:renderURL var="viewEventVersionUrl">
+						<portlet:param name="action" value="ViewEvent!edit"/>
+						<calendar:evalParam name="eventId" value="${eventId}"/>
+						<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
+					</portlet:renderURL>
+						
+					<c:choose>
+						<c:when test="${languageId == currentLanguageId}">
+							<c:set var="cssClass" value="activeTab"/>
+						</c:when>
+						<c:otherwise>
+							<c:set var="cssClass" value=""/>
+						</c:otherwise>
+					</c:choose>		
+					<li class="<c:out value="${cssClass}"/>">
+						<a href="<c:out value="${viewEventVersionUrl}"/>"><ww:property value="top.language.name"/></a>
+					</li>
+					
+				</ww:iterator>
+			</ul>
+		</ww:if>
+		<ww:else>
+			<ww:if test="event.versions.size() < availableLanguages.size()">
+			<p>
+				<ww:property value="this.getParameterizedLabel('labels.internal.application.languageTranslationNewVersionText', #attr.translateEventRenderURL)"/>
+			</p>
+			</ww:if>
+		</ww:else>
+		
+	</ww:if>	
 
 	<%
 	Object requestObject = request.getAttribute("javax.portlet.request");
@@ -119,7 +146,7 @@
 		</ww:if>
 	
 		<ww:if test="this.isActiveEventField('price')">
-			<calendar:textField label="labels.internal.event.price" name="'price'" value="eventVersion.price" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.price" name="'price'" value="event.price" cssClass="longtextfield"/>
 		</ww:if>
 	
 		<calendar:textField label="labels.internal.event.maximumParticipants" name="'maximumParticipants'" value="event.maximumParticipants" cssClass="longtextfield"/>
@@ -134,13 +161,13 @@
 		</div>
 	
 		<ww:if test="this.isActiveEventField('contactName')">
-			<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="eventVersion.contactName" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.contactName" name="'contactName'" value="event.contactName" cssClass="longtextfield"/>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactEmail')">
 			<calendar:textField label="labels.internal.event.contactEmail" name="'contactEmail'" value="event.contactEmail" cssClass="longtextfield"/>
 		</ww:if>
 		<ww:if test="this.isActiveEventField('contactPhone')">
-			<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="eventVersion.contactPhone" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.contactPhone" name="'contactPhone'" value="event.contactPhone" cssClass="longtextfield"/>
 		</ww:if>
 
 		<hr>

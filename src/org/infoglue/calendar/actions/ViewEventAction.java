@@ -92,6 +92,8 @@ public class ViewEventAction extends CalendarAbstractAction
     private List attributes;
     private List availableLanguages = new ArrayList();
     
+    private Boolean skipLanguageTabs;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -172,6 +174,25 @@ public class ViewEventAction extends CalendarAbstractAction
         return Action.ERROR;
     } 
 
+    public String chooseLanguageForEdit() throws Exception 
+    {
+        this.availableLanguages = LanguageController.getController().getLanguageList(getSession());
+
+        if(this.eventId != null)
+        {
+            this.event = EventController.getController().getEvent(eventId, getSession());
+            Iterator eventVersionIterator = this.event.getVersions().iterator();
+            while(eventVersionIterator.hasNext())
+            {
+            	EventVersion eventVersion = (EventVersion)eventVersionIterator.next();
+            	this.availableLanguages.remove(eventVersion.getLanguage());
+            }
+        }
+        
+    	System.out.println("chooseLanguageForEdit startas....................");
+    	return "successChooseLanguageForEdit";
+    }
+    
     public String edit() throws Exception 
     {
         if(this.execute().equals(Action.ERROR))
@@ -406,5 +427,15 @@ public class ViewEventAction extends CalendarAbstractAction
 	public void setEventVersion(EventVersion eventVersion) 
 	{
 		this.eventVersion = eventVersion;
+	}
+
+	public Boolean getSkipLanguageTabs() 
+	{
+		return skipLanguageTabs;
+	}
+
+	public void setSkipLanguageTabs(Boolean skipLanguageTabs) 
+	{
+		this.skipLanguageTabs = skipLanguageTabs;
 	}
 }

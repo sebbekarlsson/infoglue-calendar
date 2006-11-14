@@ -143,6 +143,9 @@ public class EventController extends BasicController
 			                originalEvent.getStartDateTime(), 
 			                originalEvent.getEndDateTime(),
 			                originalEvent.getContactEmail(),
+			                originalEvent.getContactName(),
+			                originalEvent.getContactPhone(),
+			                originalEvent.getPrice(),
 			                locations, 
 		        			participants,
 		        			stateId,
@@ -167,10 +170,10 @@ public class EventController extends BasicController
 			eventVersion.setShortDescription(originalEventVersion.getShortDescription());
 			eventVersion.setLongDescription(originalEventVersion.getLongDescription());
 			eventVersion.setEventUrl(originalEventVersion.getEventUrl());
-			eventVersion.setContactName(originalEventVersion.getContactName());
+			//eventVersion.setContactName(originalEventVersion.getContactName());
 			//eventVersion.setContactEmail(originalEventVersion.getContactEmail());
-			eventVersion.setContactPhone(originalEventVersion.getContactPhone());
-			eventVersion.setPrice(originalEventVersion.getPrice());
+			//eventVersion.setContactPhone(originalEventVersion.getContactPhone());
+			//eventVersion.setPrice(originalEventVersion.getPrice());
 			
 			eventVersion.setEvent(event);
 			eventVersion.setLanguage(originalEventVersion.getLanguage());
@@ -270,6 +273,9 @@ public class EventController extends BasicController
 		        			startDateTime, 
 		        			endDateTime, 
 		        			contactEmail,
+		        			contactName,
+		        			contactPhone,
+		        			price,
 		        			locations, 
 		        			participants,
 		        			stateId,
@@ -290,10 +296,10 @@ public class EventController extends BasicController
 		eventVersion.setShortDescription(shortDescription);
 		eventVersion.setLongDescription(longDescription);
 		eventVersion.setEventUrl(eventUrl);
-		eventVersion.setContactName(contactName);
+		//eventVersion.setContactName(contactName);
 		//eventVersion.setContactEmail(contactEmail);
-		eventVersion.setContactPhone(contactPhone);
-		eventVersion.setPrice(price);
+		//eventVersion.setContactPhone(contactPhone);
+		//eventVersion.setPrice(price);
 
 		eventVersion.setEvent(event);
 		eventVersion.setLanguage(language);
@@ -510,6 +516,9 @@ public class EventController extends BasicController
 					startDateTime, 
 					endDateTime, 
 					contactEmail,
+					contactName,
+					contactPhone,
+					price,
 					locations, 
 					participants,
 					stateId,
@@ -530,10 +539,11 @@ public class EventController extends BasicController
 		eventVersion.setShortDescription(shortDescription);
 		eventVersion.setLongDescription(longDescription);
 		eventVersion.setEventUrl(eventUrl);
-		eventVersion.setContactName(contactName);
+		eventVersion.setAttributes(xml);
+		//eventVersion.setContactName(contactName);
 		//eventVersion.setContactEmail(contactEmail);
-		eventVersion.setContactPhone(contactPhone);
-		eventVersion.setPrice(price);
+		//eventVersion.setContactPhone(contactPhone);
+		//eventVersion.setPrice(price);
 
 		eventVersion.setEvent(event);
 		eventVersion.setLanguage(language);
@@ -777,6 +787,9 @@ public class EventController extends BasicController
             	            java.util.Calendar startDateTime, 
             				java.util.Calendar endDateTime, 
             				String contactEmail,
+            				String contactName,
+    						String contactPhone,
+    						String price,
             				Set locations, 
             				Set participants,
             				Integer stateId,
@@ -792,6 +805,9 @@ public class EventController extends BasicController
         event.setStartDateTime(startDateTime);
         event.setEndDateTime(endDateTime);
         event.setContactEmail(contactEmail);
+        event.setContactName(contactName);
+        event.setContactPhone(contactPhone);
+        event.setPrice(price);
         event.setStateId(stateId);
         event.setCreator(creator);
         event.setEntryFormId(entryFormId);
@@ -967,10 +983,10 @@ public class EventController extends BasicController
             eventVersion.setShortDescription(shortDescription);
             eventVersion.setLongDescription(longDescription);
             eventVersion.setEventUrl(eventUrl);
-            eventVersion.setContactName(contactName);
+            //eventVersion.setContactName(contactName);
             //eventVersion.setContactEmail(contactEmail);
-            eventVersion.setContactPhone(contactPhone);
-            eventVersion.setPrice(price);
+            //eventVersion.setContactPhone(contactPhone);
+            //eventVersion.setPrice(price);
             eventVersion.setAttributes(xml);
             
         	session.save(eventVersion);
@@ -986,10 +1002,10 @@ public class EventController extends BasicController
             eventVersion.setShortDescription(shortDescription);
             eventVersion.setLongDescription(longDescription);
             eventVersion.setEventUrl(eventUrl);
-            eventVersion.setContactName(contactName);
+            //eventVersion.setContactName(contactName);
             //eventVersion.setContactEmail(contactEmail);
-            eventVersion.setContactPhone(contactPhone);
-            eventVersion.setPrice(price);
+            //eventVersion.setContactPhone(contactPhone);
+            //eventVersion.setPrice(price);
             eventVersion.setAttributes(xml);
             
     		session.update(eventVersion);
@@ -1144,7 +1160,20 @@ public class EventController extends BasicController
 		
 		return event;
     }
-    
+
+    /**
+     * This method returns a Event based on it's primary key inside a transaction
+     * @return Event
+     * @throws Exception
+     */
+
+    public EventVersion getEventVersion(Long id, Session session) throws Exception
+    {
+        EventVersion eventVersion = (EventVersion)session.load(EventVersion.class, id);
+		
+		return eventVersion;
+    }
+
     /**
      * This method returns a Event based on it's primary key inside a transaction and states if it's a read only or not
      * @return Event
@@ -1253,16 +1282,16 @@ public class EventController extends BasicController
         	eventVersionCriteria.add(Restrictions.like("alternativeLocation", "%" + alternativeLocation + "%"));
 
         if(contactName != null && contactName.length() > 0)
-        	eventVersionCriteria.add(Restrictions.like("contactName", "%" + contactName + "%"));
+        	criteria.add(Restrictions.like("contactName", "%" + contactName + "%"));
 
         if(contactEmail != null && contactEmail.length() > 0)
         	criteria.add(Restrictions.like("contactEmail", "%" + contactEmail + "%"));
 
         if(contactPhone != null && contactPhone.length() > 0)
-        	eventVersionCriteria.add(Restrictions.like("contactPhone", "%" + contactPhone + "%"));
+        	criteria.add(Restrictions.like("contactPhone", "%" + contactPhone + "%"));
 
         if(price != null && price.length() > 0)
-        	eventVersionCriteria.add(Restrictions.eq("price", "%" + price + "%"));
+        	criteria.add(Restrictions.eq("price", "%" + price + "%"));
 
         if(maximumParticipants != null)
         	criteria.add(Restrictions.eq("maximumParticipants", maximumParticipants));
@@ -1762,6 +1791,23 @@ public class EventController extends BasicController
     }
     
     
+    /**
+     * Deletes a event object in the database. Also cascades all events associated to it.
+     * @throws Exception
+     */
+    
+    public void deleteEventVersion(Long id, Session session) throws Exception 
+    {
+        EventVersion eventVersion = this.getEventVersion(id, session);
+        
+        if(eventVersion.getEvent().getStateId().equals(Event.STATE_PUBLISHED))
+            new RemoteCacheUpdater().updateRemoteCaches(eventVersion.getEvent().getCalendars());
+        
+        eventVersion.getEvent().getVersions().remove(eventVersion);
+        
+        session.delete(eventVersion);
+    }
+
     /**
      * Deletes a event object in the database. Also cascades all events associated to it.
      * @throws Exception
