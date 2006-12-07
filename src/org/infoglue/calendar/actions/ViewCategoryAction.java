@@ -23,6 +23,7 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +31,10 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.entities.Category;
+import org.infoglue.calendar.entities.Language;
+import org.infoglue.calendar.entities.Location;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -48,7 +52,11 @@ public class ViewCategoryAction extends CalendarAbstractAction
     private Long categoryId;
     private Category category;
     private List categories;
+    private Location location;
+    private Long languageId;
     
+    private List availableLanguages = new ArrayList();
+
     /**
      * This is the entry point for the main listing.
      */
@@ -73,6 +81,13 @@ public class ViewCategoryAction extends CalendarAbstractAction
             	this.categoryId = new Long(categoryIdString);
         }
         
+        this.availableLanguages = LanguageController.getController().getLanguageList(getSession());
+        if(this.languageId == null && this.availableLanguages.size() > 0)
+        {
+        	this.languageId = ((Language)this.availableLanguages.get(0)).getId();
+        	System.out.println("languageId:" + languageId);
+        }
+
         if(categoryId != null)
         {
             this.category = CategoryController.getController().getCategory(categoryId, getSession());
@@ -108,4 +123,25 @@ public class ViewCategoryAction extends CalendarAbstractAction
     {
         return categories;
     }
+    
+	public List getAvailableLanguages() 
+	{
+		return availableLanguages;
+	}
+
+	public Long getLanguageId() 
+	{
+		return languageId;
+	}
+
+	public void setLanguageId(Long languageId) 
+	{
+		this.languageId = languageId;
+	}
+
+	public Language getLanguage() throws Exception 
+	{
+		return LanguageController.getController().getLanguage(getLanguageId(), getSession());
+	}
+
 }

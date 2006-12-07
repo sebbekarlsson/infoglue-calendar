@@ -32,6 +32,72 @@
 <div class="clear"></div>
 </div>
 
+<ww:set name="categoryId" value="categoryId" scope="page"/>
+<ww:set name="language" value="language"/>
+<ww:set name="language" value="language" scope="page"/>
+
+<script type="text/javascript">
+	
+	function setLocalizedValueAndSubmit()
+	{
+		var languageCode = "<ww:property value="#language.isoCode"/>";
+		var name = document.inputForm.name.value;
+		var localizedName = document.inputForm.localizedName.value;
+		var newName = name;
+		//alert("name:" + name);
+		//alert("localizedName:" + localizedName);
+		//alert("languageCode:" + languageCode);
+		var startIndex = name.indexOf(languageCode + "=");
+		if(startIndex > -1) 
+		{
+			var endIndex = name.indexOf(",", startIndex);
+			if(endIndex > -1)
+				newName = name.substring(0, startIndex) + languageCode + "=" + localizedName + name.substring(endIndex);				
+			else
+				newName = name.substring(0, startIndex) + languageCode + "=" + localizedName;
+		}
+		else
+		{
+			if(name.indexOf("=") > -1)
+				newName = newName + "," + languageCode + "=" + localizedName;
+			else
+				newName = languageCode + "=" + localizedName;
+		}
+		
+		document.inputForm.name.value = newName;
+		document.inputForm.submit();
+	}
+	
+</script>
+
+<br/>
+
+<ul class="languagesTabs">
+	<ww:iterator value="availableLanguages" status="rowstatus">
+		<ww:set name="currentLanguageId" value="top.id"/>
+		<ww:set name="currentLanguageId" value="top.id" scope="page"/>
+		
+		<portlet:renderURL var="viewCategoryUrl">
+			<portlet:param name="action" value="ViewCategory"/>
+			<calendar:evalParam name="categoryId" value="${categoryId}"/>
+			<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
+		</portlet:renderURL>
+			
+		<c:choose>
+			<c:when test="${languageId == currentLanguageId || languageId == language.id}">
+				<c:set var="cssClass" value="activeTab"/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="cssClass" value=""/>
+			</c:otherwise>
+		</c:choose>		
+		<li class="<c:out value="${cssClass}"/>">
+			<a href="<c:out value="${viewCategoryUrl}"/>"><ww:property value="top.name"/></a>
+		</li>
+		
+	</ww:iterator>
+</ul>
+
 <div class="portlet_margin">
 
 	<portlet:actionURL var="updateCategoryActionUrl">
@@ -40,12 +106,16 @@
 	
 	<form name="inputForm" method="POST" action="<c:out value="${updateCategoryActionUrl}"/>">
 		<input type="hidden" name="updateCategoryId" value="<ww:property value="category.id"/>">
-
+		<input type="hidden" name="name" value="<ww:property value="category.name"/>">
+		
 		<calendar:textField label="labels.internal.category.internalName" name="'internalName'" value="category.internalName" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.category.name" name="'name'" value="category.name" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.category.name" name="'localizedName'" value="category.getLocalizedName(#language.isoCode, 'sv')" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.category.description" name="'description'" value="category.description" cssClass="longtextfield"/>
 		<div style="height:10px"></div>
+		<!-- 
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.category.updateButton')"/>" class="button">
+		-->
+		<input type="button" value="<ww:property value="this.getLabel('labels.internal.category.updateButton')"/>" class="button" onclick="setLocalizedValueAndSubmit();">
 		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 </div>
@@ -60,7 +130,11 @@
 <ww:iterator value="category.children" status="rowstatus">
 
 	<ww:set name="categoryId" value="id" scope="page"/>
-	<ww:set name="name" value="name" scope="page"/>
+	<ww:set name="category" value="top"/>
+	<ww:set name="category" value="top" scope="page"/>
+	<ww:set name="languageCode" value="this.getLanguageCode()"/>
+	<ww:set name="name" value="#category.getLocalizedName(#languageCode, 'sv')"/>
+	
 	<portlet:renderURL var="categoryUrl">
 		<portlet:param name="action" value="ViewCategory"/>
 		<portlet:param name="categoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
@@ -92,14 +166,14 @@
     </ww:else>
 
        	<div class="columnLong">
-       		<p class="portletHeadline"><a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="name"/>'"><ww:property value="name"/> (<ww:property value="internalName"/>)</a></p>
+       		<p class="portletHeadline"><a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="#name"/>'"><ww:property value="#name"/> (<ww:property value="internalName"/>)</a></p>
        	</div>
        	<div class="columnMedium">
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>
-       	   	<a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="#name"/>'" class="delete"></a>
+       	   	<a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="#name"/>'" class="edit"></a>
        	</div>
        	<div class="clear"></div>
     </div>

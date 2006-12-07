@@ -62,6 +62,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     private String categories = "";
     private String categoryAttribute = "";
     private String categoryNames = "";
+    private String includedLanguages = "";
     private Calendar calendar;
     
     private Set events;
@@ -76,7 +77,7 @@ public class ViewEventListAction extends CalendarAbstractAction
         String[] calendarIds = calendarId.split(",");
         String[] categoryNamesArray = categoryNames.split(",");
 
-        this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, getSession());
+        this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, getSession());
         
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
@@ -125,6 +126,18 @@ public class ViewEventListAction extends CalendarAbstractAction
         this.categories = categories;
     }
     
+    public String getIncludedLanguages()
+    {
+    	String includedLanguages = (String)ServletActionContext.getRequest().getAttribute("includedLanguages");
+       	if(includedLanguages == null || includedLanguages.equals(""))
+       		includedLanguages = (String)ServletActionContext.getRequest().getParameter("includedLanguages");
+
+    	if(includedLanguages == null || includedLanguages.equals(""))
+    		includedLanguages = "*";
+    	
+        return includedLanguages;
+    }
+
     public Integer getNumberOfItems()
     {
         Object o = ServletActionContext.getRequest().getAttribute("numberOfItems");
@@ -160,6 +173,11 @@ public class ViewEventListAction extends CalendarAbstractAction
     public void setCategoryNames(String categoryNames)
     {
         this.categoryNames = categoryNames;
+    }
+    
+    public void setIncludedLanguages(String includedLanguages)
+    {
+    	this.includedLanguages = includedLanguages;
     }
     /*
     public List getCategoriesList()

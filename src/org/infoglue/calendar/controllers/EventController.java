@@ -1665,7 +1665,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public Set getEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, Session session) throws Exception 
+    public Set getEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, String includedLanguages, Session session) throws Exception 
     {
         List result = null;
         
@@ -1729,6 +1729,15 @@ public class EventController extends BasicController
 	            eventCategoriesCriteria = criteria.createCriteria("eventCategories");
 	            eventCategoriesCriteria.createCriteria("eventTypeCategoryAttribute")
 	            .add(Expression.eq("internalName", categoryAttribute));
+	        }
+
+	        Criteria languageVersionCriteria = null;
+	        log.info("includedLanguages:" + includedLanguages);
+	        if(includedLanguages != null && !includedLanguages.equalsIgnoreCase("") && !includedLanguages.equalsIgnoreCase("*"))
+	        {
+	        	languageVersionCriteria = criteria.createCriteria("versions");
+	        	languageVersionCriteria.createCriteria("language")
+	            .add(Expression.eq("isoCode", includedLanguages));
 	        }
 
 	        if(categoryNames.length > 0 && !categoryNames[0].equalsIgnoreCase(""))

@@ -28,8 +28,10 @@ import java.util.List;
 import javax.portlet.PortletURL;
 
 import org.infoglue.calendar.controllers.CalendarController;
+import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.databeans.AdministrationUCCBean;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
@@ -60,4 +62,5 @@ public class ViewLocationListAction extends CalendarAbstractAction
     {
         return locations;
     }
+    
 }

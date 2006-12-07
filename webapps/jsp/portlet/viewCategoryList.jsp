@@ -26,7 +26,11 @@
 <ww:iterator value="categories" status="rowstatus">
 
 	<ww:set name="categoryId" value="id" scope="page"/>
-	<ww:set name="name" value="name" scope="page"/>
+	<ww:set name="category" value="top"/>
+	<ww:set name="category" value="top" scope="page"/>
+	<ww:set name="languageCode" value="this.getLanguageCode()"/>
+	<ww:set name="name" value="#category.getLocalizedName(#languageCode, 'sv')"/>
+	
 	<portlet:renderURL var="categoryUrl">
 		<portlet:param name="action" value="ViewCategory"/>
 		<portlet:param name="categoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
@@ -57,14 +61,14 @@
     </ww:else>
 
        	<div class="columnMedium">
-       		<p class="portletHeadline"><a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="name"/>'"><ww:property value="name"/> (<ww:property value="internalName"/>)</a></p>
+       		<p class="portletHeadline"><a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="#name"/>'"><ww:property value="#name"/> (<ww:property value="internalName"/>)</a></p>
        	</div>
        	<div class="columnLong">
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="name"/>'" class="delete"></a>
-       	   	<a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>
+       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="#name"/>'" class="delete"></a>
+       	   	<a href="<c:out value="${categoryUrl}"/>" title="Redigera '<ww:property value="#name"/>'" class="edit"></a>
        	</div>
        	<div class="clear"></div>
     </div>

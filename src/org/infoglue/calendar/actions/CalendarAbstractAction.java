@@ -201,6 +201,15 @@ public class CalendarAbstractAction extends ActionSupport
     	return new Locale(languageCode);
     }
 
+    public Language getLanguage() throws Exception
+    {
+    	String languageCode = getLanguageCode();
+    	if(languageCode == null || languageCode.equals(""))
+    		languageCode = "en";
+    	
+    	return LanguageController.getController().getLanguageWithCode(languageCode, getSession());
+    }
+
     public String getLogoutUrl()
     {
         return (String)ServletActionContext.getRequest().getAttribute("logoutUrl");
@@ -875,8 +884,9 @@ public class CalendarAbstractAction extends ActionSupport
     
     public EventVersion getEventVersion(String eventString)
     {
+    	System.out.println("eventString:" + eventString);
         Object object = findOnValueStack(eventString);
-        //System.out.println("Object:" + object);
+        System.out.println("Object:" + object);
         Event event = (Event)object;
         
         if(event == null)

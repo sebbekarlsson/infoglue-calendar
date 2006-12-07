@@ -51,7 +51,7 @@ public class CreateLocationAction extends CalendarAbstractAction
 	private static Log log = LogFactory.getLog(CreateLocationAction.class);
 
     private Location dataBean = new Location();
-
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -61,6 +61,7 @@ public class CreateLocationAction extends CalendarAbstractAction
         try
         {
             validateInput(this);
+            dataBean.setName(getLanguageCode() + "=" + dataBean.getName());
             LocationController.getController().createLocation(dataBean.getName(), dataBean.getDescription(), getSession());
         }
         catch(ValidationException e)

@@ -25,8 +25,12 @@
 
 <ww:iterator value="locations" status="rowstatus">
 
+	<ww:set name="location" value="top"/>
+	<ww:set name="location" value="top" scope="page"/>
 	<ww:set name="locationId" value="id" scope="page"/>
-	<ww:set name="name" value="name" scope="page"/>
+	<ww:set name="languageCode" value="this.getLanguageCode()"/>
+	<ww:set name="name" value="#location.getLocalizedName(#languageCode, 'sv')"/>
+	
 	<portlet:renderURL var="locationUrl">
 		<portlet:param name="action" value="ViewLocation"/>
 		<portlet:param name="locationId" value="<%= pageContext.getAttribute("locationId").toString() %>"/>
@@ -57,7 +61,7 @@
     </ww:else>
 
        	<div class="columnLong">
-       		<p class="portletHeadline"><a href="<c:out value="${locationUrl}"/>" title="Redigera '<ww:property value="name"/>'"><ww:property value="name"/></a></p>
+       		<p class="portletHeadline"><a href="<c:out value="${locationUrl}"/>" title="Redigera '<ww:property value="#name"/>'"><ww:property value="#name"/></a></p>
        	</div>
        	<div class="columnMedium">
        		<p><ww:property value="description"/></p>

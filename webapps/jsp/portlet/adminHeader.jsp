@@ -122,7 +122,11 @@
 		<ww:property value="this.().firstName"/> <ww:property value="this.getInfoGluePrincipal().lastName"/> | <a href="<ww:property value="logoutUrl"/>">Logga ut</a>
 		<%--
 		Request: <c:out value="${request.remoteUser}"/><br/>
+		Request: <c:out value="${request.remoteHost}"/><br/>
 		<%=request.getContextPath()%><br/>
+		Host: <%=request.getRemoteHost()%><br/>
+		Class: <%=request.getClass().getName()%><br/>
+		Host: <%=request.getRemoteHost()%><br/>
 		<%=request.getRemoteUser()%><br/>
 		<%=request.isUserInRole("admin")%><br/>
 		<%=request.isUserInRole("cmsUser")%><br/>

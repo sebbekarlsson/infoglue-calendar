@@ -67,9 +67,9 @@
 			</span>
 			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="#eventVersion.name"/></a></h3>
 	
-			<p><span class="calFactLabel">Tid:</span> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/> 
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.timeLabel')"/></span> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/> 
 			<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
-			kl <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
+			<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
 			</ww:if>
 			<br /></p>
 	        <ww:set name="puffImage" value="this.getResourceUrl(event, 'PuffBild')"/>
@@ -78,7 +78,7 @@
 			</ww:if>
 			<p><ww:property value="#eventVersion.shortDescription"/></p>
 			<ww:if test="#eventVersion.lecturer != null && #eventVersion.lecturer != ''">
-			<p><span class="calFactLabel">F&ouml;rel&auml;sare:</span> <ww:property value="#eventVersion.lecturer"/></p>
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lecturerLabel')"/>:</span> <ww:property value="#eventVersion.lecturer"/></p>
 			</ww:if>
 		</div>
 		<!-- Record End -->

@@ -5,9 +5,10 @@
 
 <portlet:defineObjects/>
 
+<ww:set name="event" value="event"/>
+<ww:set name="event" value="event" scope="page"/>
 <ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
 <ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
-
 
 <!-- Calendar start -->
 <div class="calendar"> 	
@@ -22,46 +23,42 @@
    		</ww:iterator>
 	</span> 	
 	
-	<H1><ww:property value="eventVersion.name"/></H1>
+	<H1><ww:property value="#eventVersion.name"/></H1>
 
-<!-- Detta skall ev vara med beroende på hur articelkomponenten ser ut
-	<div class="recordLine">
-	<span class="categoryLabelSmall">Öppen föreläsning</span> -->
-	
-	<ww:if test="eventVersion.decoratedShortDescription != null && eventVersion.decoratedShortDescription != ''">
-		<h4><ww:property value="eventVersion.decoratedShortDescription"/></h4>
+	<ww:if test="#eventVersion.decoratedShortDescription != null && #eventVersion.decoratedShortDescription != ''">
+		<h4><ww:property value="#eventVersion.decoratedShortDescription"/></h4>
 	</ww:if>
 	
-	<ww:if test="eventVersion.decoratedLongDescription != null && eventVersion.decoratedLongDescription != ''">
+	<ww:if test="#eventVersion.decoratedLongDescription != null && #eventVersion.decoratedLongDescription != ''">
 	<p>
 	<ww:set name="puffImage" value="this.getResourceUrl(event, 'DetaljBild')"/>
 	<ww:if test="#puffImage != null">
 	<img src="<ww:property value="#puffImage"/>" class="img_left_letter"/>
 	</ww:if>
-	<ww:property value="eventVersion.decoratedLongDescription"/>
+	<ww:property value="#eventVersion.decoratedLongDescription"/>
 	</p>
 	</ww:if>
 	
 	<div class="calFact" style="clear:both">
-		<ww:if test="eventVersion.lecturer != null && eventVersion.lecturer != ''">
-			<p><span class="calFactLabel">F&ouml;rel&auml;sare: </span><ww:property value="eventVersion.lecturer"/></p>
+		<ww:if test="#eventVersion.lecturer != null && #eventVersion.lecturer != ''">
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lecturerLabel')"/>: </span><ww:property value="#eventVersion.lecturer"/></p>
 		</ww:if>
 		<ww:set name="startDate" value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>
 		<ww:set name="endDate" value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
 		<ww:if test="#startDate != #endDate">
-			<p><span class="calFactLabel">Datum & tid: </span><ww:property value="#startDate"/>
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.dateAndTimeLabel')"/>: </span><ww:property value="#startDate"/>
 			<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
-		 	kl <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> kl <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>
+		 	<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>
 		 	</ww:if>
 			</p>                             		
 		</ww:if>
 		<ww:else>
-			<p><span class="calFactLabel">Datum: </span><ww:property value="#startDate"/></p>                             		
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.dateLabel')"/>: </span><ww:property value="#startDate"/></p>                             		
 			<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
-		 	<p><span class="calFactLabel">Tid: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></ww:if></p>
+		 	<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.timeLabel')"/>: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></ww:if></p>
 		 	</ww:if>
 		</ww:else>
-		<p><span class="calFactLabel">Kategori: </span>
+		<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.categoryLabel')"/>: </span>
 		<ww:iterator value="event.owningCalendar.eventType.categoryAttributes">
 			<ww:if test="top.name == 'Ämnesområde' || top.name == 'Ämnesområden'">
 				<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
@@ -72,13 +69,13 @@
    		</ww:iterator>
    		</p>
    		
-   		<ww:if test="eventVersion.organizerName != null && eventVersion.organizerName != ''">
-   			<p><span class="calFactLabel">Arrang&ouml;r: </span><ww:property value="eventVersion.organizerName"/></p>
+   		<ww:if test="#eventVersion.organizerName != null && #eventVersion.organizerName != ''">
+   			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.organizerLabel')"/>: </span><ww:property value="#eventVersion.organizerName"/></p>
 		</ww:if>
 		
-		<p><span class="calFactLabel">Plats: </span><br/>
-			<ww:if test="eventVersion.alternativeLocation != null && eventVersion.alternativeLocation != ''">
-				<ww:property value="eventVersion.alternativeLocation"/>		
+		<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.locationLabel')"/>: </span><br/>
+			<ww:if test="#eventVersion.alternativeLocation != null && #eventVersion.alternativeLocation != ''">
+				<ww:property value="#eventVersion.alternativeLocation"/>		
 			</ww:if>
 			<ww:else>
   				<ww:iterator value="event.locations">
@@ -86,15 +83,15 @@
 	 				<ww:property value='#location.name'/><br/>		
 	      		</ww:iterator>
 			</ww:else>
-			<ww:property value="eventVersion.customLocation"/>
+			<ww:property value="#eventVersion.customLocation"/>
 		</p>
 	
-		<ww:if test="eventVersion.eventUrl != null && eventVersion.eventUrl != ''">
-			<p><span class="calFactLabel">Evenemangsl&auml;nk: </span><a href="<ww:property value="eventVersion.eventUrl"/>">Läs mer om <ww:property value="eventVersion.name"/></a></p>
+		<ww:if test="#eventVersion.eventUrl != null && #eventVersion.eventUrl != ''">
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.eventURLLabel')"/>: </span><a href="<ww:property value="#eventVersion.eventUrl"/>">Läs mer om <ww:property value="#eventVersion.name"/></a></p>
 		</ww:if>
 			
 		<ww:if test="event.resources.size() > 0">
-  			<p><span class="calFactLabel">Ytterligare information: </span><br/>
+  			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.additionalInfoLabel')"/>: </span><br/>
 			<ww:iterator value="event.resources">
 	  		  <ww:if test="top.assetKey == 'BifogadFil'">
 				<ww:set name="resourceId" value="top.id" scope="page"/>
@@ -118,32 +115,32 @@
 		</ww:if>
 
 		<ww:if test="event.lastRegistrationDateTime != null">
-   			<p><span class="calFactLabel">Sista anm&auml;lningsdag: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> kl. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
+   			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lastRegistrationDateLabel')"/>: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/>. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		</ww:if>
 		
 		<ww:if test="event.price != null && event.price != ''">
-	  		<p><span class="calFactLabel">Avgift:</span> <ww:property value="event.price"/> </p>
+	  		<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.feeLabel')"/>:</span> <ww:property value="event.price"/> </p>
 		</ww:if>
 		<ww:else>
-  			<p><span class="calFactLabel">Avgift:</span> Ingen avgift </p>		
+  			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.feeLabel')"/>:</span> <ww:property value="this.getLabel('labels.public.event.noFeeLabel')"/> </p>		
 		</ww:else>
 		
 		<ww:if test="event.contactEmail != null && event.contactEmail != ''">
 			<ww:if test="event.contactName != null && event.contactName != ''">
-				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactName"/></A></p>
+				<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.contactPersonLabel')"/>: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactName"/></A></p>
 			</ww:if>
 			<ww:else>
-				<p><span class="calFactLabel">Kontaktperson: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
+				<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.contactPersonLabel')"/>: </span><A href="mailto:<ww:property value="event.contactEmail"/>"><ww:property value="event.contactEmail"/></A></p>
 			</ww:else>
 		</ww:if>
 		<ww:else>
 			<ww:if test="event.contactName != null && event.contactName != ''">
-				<p><span class="calFactLabel">Kontaktperson: </span><ww:property value="event.contactName"/></p>
+				<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.contactPersonLabel')"/>: </span><ww:property value="event.contactName"/></p>
 			</ww:if>
 		</ww:else>
 		
 		<ww:if test="event.contactPhone != null && event.contactPhone != ''">
-			<p><span class="calFactLabel">Telefon: </span><ww:property value="event.contactPhone"/></p>
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.phoneLabel')"/>: </span><ww:property value="event.contactPhone"/></p>
 		</ww:if>
 		
 		<ww:set name="count" value="0"/>
@@ -160,7 +157,7 @@
 		
 		
 		<ww:if test="event.maximumParticipants != null && event.maximumParticipants != 0">
-			<p><span class="calFactLabel">Antal platser: </span><ww:property value="event.maximumParticipants"/> (Varav <ww:property value="event.entries.size()"/> är bokade)</p>
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.numberOfSeatsLabel')"/>: </span><ww:property value="event.maximumParticipants"/> (<ww:property value="this.getLabel('labels.public.event.ofWhichLabel')"/> <ww:property value="event.entries.size()"/> <ww:property value="this.getLabel('labels.public.event.isBookedLabel')"/>)</p>
 		</ww:if>
 
 		<ww:if test="event.lastRegistrationDateTime != null">

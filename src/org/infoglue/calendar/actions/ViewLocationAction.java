@@ -23,7 +23,13 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.controllers.LocationController;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.calendar.entities.Location;
 
 import com.opensymphony.xwork.Action;
@@ -38,7 +44,10 @@ public class ViewLocationAction extends CalendarAbstractAction
 {
     private Long locationId;
     private Location location;
+    private Long languageId;
     
+    private List availableLanguages = new ArrayList();
+
     /**
      * This is the entry point for the main listing.
      */
@@ -46,7 +55,14 @@ public class ViewLocationAction extends CalendarAbstractAction
     public String execute() throws Exception 
     {
         this.location = LocationController.getController().getLocation(locationId, getSession());
-        
+
+        this.availableLanguages = LanguageController.getController().getLanguageList(getSession());
+        if(this.languageId == null && this.availableLanguages.size() > 0)
+        {
+        	this.languageId = ((Language)this.availableLanguages.get(0)).getId();
+        	System.out.println("languageId:" + languageId);
+        }
+
         return Action.SUCCESS;
     } 
 
@@ -64,5 +80,25 @@ public class ViewLocationAction extends CalendarAbstractAction
     {
         return location;
     }
+
+	public List getAvailableLanguages() 
+	{
+		return availableLanguages;
+	}
+
+	public Long getLanguageId() 
+	{
+		return languageId;
+	}
+
+	public void setLanguageId(Long languageId) 
+	{
+		this.languageId = languageId;
+	}
+
+	public Language getLanguage() throws Exception 
+	{
+		return LanguageController.getController().getLanguage(getLanguageId(), getSession());
+	}
 
 }

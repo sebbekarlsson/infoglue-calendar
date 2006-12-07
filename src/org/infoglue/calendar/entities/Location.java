@@ -24,6 +24,8 @@ package org.infoglue.calendar.entities;
 
 import java.util.Set;
 
+import com.opensymphony.xwork.ActionContext;
+
 /**
  * This class represents a location where events can take place.
  * 
@@ -68,6 +70,53 @@ public class Location implements BaseEntity
     {
         this.name = name;
     }
+
+    /**
+     * This method returns a localized / parsed version of the name
+     */
+    public String getLocalizedName(String isoCode, String fallbackIsoCode)
+    {
+    	System.out.println("isoCode:" + isoCode);
+        Object object = findOnValueStack(isoCode);
+        if(object != null)
+        	isoCode = (String)object;
+        
+    	System.out.println("isoCode:" + isoCode);
+    	String localizedName = name;
+    	
+    	int startIndex = name.indexOf(isoCode + "=");
+    	if(startIndex > -1)
+    	{
+    		int stopIndex = name.indexOf(",", startIndex + isoCode.length() + 1);
+    		if(stopIndex > -1)
+    			localizedName = name.substring(startIndex + isoCode.length() + 1, stopIndex);
+    		else
+    			localizedName = name.substring(startIndex + isoCode.length() + 1);    			
+    	}
+    	else
+    	{
+    		startIndex = name.indexOf(fallbackIsoCode + "=");
+        	if(startIndex > -1)
+        	{
+        		int stopIndex = name.indexOf(",", startIndex + fallbackIsoCode.length() + 1);
+        		if(stopIndex > -1)
+        			localizedName = name.substring(startIndex + fallbackIsoCode.length() + 1, stopIndex);
+        		else
+        			localizedName = name.substring(startIndex + fallbackIsoCode.length() + 1);    			
+        	}
+    	}
+    	
+    	if(localizedName.indexOf(",") > -1)
+    	{
+    		localizedName = localizedName.substring(0, localizedName.indexOf(","));
+    	}
+		if(localizedName.indexOf("=") > -1)
+		{
+			localizedName = localizedName.substring(localizedName.indexOf("=") + 1);
+		}
+    	
+    	return localizedName;
+    }
     
     /**
      * @hibernate.property name="getDescription" column="description" type="string" not-null="false" unique="false"
@@ -93,4 +142,12 @@ public class Location implements BaseEntity
     {
         this.events = events;
     }
+    
+    public static Object findOnValueStack(String expr) 
+    {
+		ActionContext a = ActionContext.getContext();
+		Object value = a.getValueStack().findValue(expr);
+		return value;
+	}
+
 }
