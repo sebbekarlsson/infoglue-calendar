@@ -57,7 +57,7 @@
 		</portlet:renderURL>
 			
 		<c:choose>
-			<c:when test="${languageId == currentLanguageId}">
+			<c:when test="${languageId == currentLanguageId || currentLanguageId == language.id}">
 				<c:set var="cssClass" value="activeTab"/>
 			</c:when>
 			<c:otherwise>
