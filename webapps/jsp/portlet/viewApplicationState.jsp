@@ -55,6 +55,11 @@
 
 <body>
 
+ 
+<portlet:actionURL var="updateModelActionUrl">
+	<portlet:param name="action" value="ViewApplicationState!upgradeModel"/>
+</portlet:actionURL>
+
 <center>
 
 <table class="fullymarginalized" border="0" cellpadding="2" cellspacing="0">
@@ -64,6 +69,16 @@
   <tr>
     <td colspan="4"><hr/></td>
   </tr>
+  <tr>
+    <td colspan="4" class="header">Maintainence actions</td>
+  </tr>
+  <tr>
+    <td colspan="4"><a href="<c:out value="${updateModelActionUrl}"/>">Upgrade model</a></td>
+  </tr>
+   <tr>
+    <td colspan="4"><hr/></td>
+  </tr>
+  
 <%--
   <tr>
     <td class="label" bgcolor="gray">InfoGlue cache name</td>
