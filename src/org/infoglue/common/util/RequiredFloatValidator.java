@@ -22,20 +22,15 @@ public class RequiredFloatValidator extends FieldValidatorSupport
         
         if (!(value instanceof Float || value instanceof Float[])) 
         {
-        	System.out.println("It was not a float...:" + value.getClass().getName());
-            addFieldError(fieldName, object);
+        	addFieldError(fieldName, object);
         } 
         else 
         {
-        	System.out.println("It was a float...:" + value.getClass().getName());
-        	System.out.println("value:" + value);
-
-        	if(value instanceof Float)
+          	if(value instanceof Float)
             {
                 Float f = (Float) value;
             	
                 if (f == null || f.equals(0)) {
-                	System.out.println("adding error:" + f);
                 	addFieldError(fieldName, object);
                 }
             }
@@ -44,7 +39,6 @@ public class RequiredFloatValidator extends FieldValidatorSupport
             	Float[] f = (Float[]) value;
                 
                 if (f == null || f.length == 0) {
-                	System.out.println("adding error:" + f);
                     addFieldError(fieldName, object);
                 }                
             }

@@ -1034,8 +1034,6 @@ public class EventController extends BasicController
         event.setEntryFormId(entryFormId);
         //event.setAttributes(xml);
         
-    	System.out.println("event:" + event);
-
         Iterator eventCategoryIterator = event.getEventCategories().iterator();
 		while(eventCategoryIterator.hasNext())
 		{
@@ -1060,8 +1058,7 @@ public class EventController extends BasicController
 			        
 			        EventCategory eventCategory = new EventCategory();
 				    eventCategory.setEvent(event);
-			    	System.out.println("Setting event:" + event.getId());
-
+			    	
 				    eventCategory.setCategory(category);
 				    eventCategory.setEventTypeCategoryAttribute(eventTypeCategoryAttribute);
 				    session.save(eventCategory);

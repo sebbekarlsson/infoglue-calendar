@@ -193,7 +193,6 @@ public class CalendarController extends BasicController
 	            Role role = new Role();
 	            String roleName = roles[i];
 	            role.setCalendar(calendar);
-	            //System.out.println("ID: " + calendar.getId());
 	            role.setName(roleName);
 	            session.save(role);
 	            calendar.getOwningRoles().add(role);

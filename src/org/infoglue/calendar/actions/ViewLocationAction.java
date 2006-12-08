@@ -60,7 +60,6 @@ public class ViewLocationAction extends CalendarAbstractAction
         if(this.languageId == null && this.availableLanguages.size() > 0)
         {
         	this.languageId = ((Language)this.availableLanguages.get(0)).getId();
-        	System.out.println("languageId:" + languageId);
         }
 
         return Action.SUCCESS;

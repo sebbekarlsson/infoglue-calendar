@@ -95,12 +95,10 @@ public class Category implements BaseEntity
      */
     public String getLocalizedName(String isoCode, String fallbackIsoCode)
     {
-    	System.out.println("isoCode:" + isoCode);
         Object object = findOnValueStack(isoCode);
         if(object != null)
         	isoCode = (String)object;
         
-    	System.out.println("isoCode:" + isoCode);
     	String localizedName = name;
     	
     	int startIndex = name.indexOf(isoCode + "=");

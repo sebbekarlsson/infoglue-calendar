@@ -22,19 +22,15 @@ public class RequiredLongValidator extends FieldValidatorSupport
         
         if (!(value instanceof Long || value instanceof Long[])) 
         {
-        	System.out.println("It was not a long...:" + value);
             addFieldError(fieldName, object);
         } 
         else 
         {
-        	System.out.println("It was a long...:" + value);
-
         	if(value instanceof Long)
             {
                 Long f = (Long) value;
             	
                 if (f == null || f.equals(0)) {
-                	System.out.println("adding error:" + f);
                 	addFieldError(fieldName, object);
                 }
             }
@@ -43,7 +39,6 @@ public class RequiredLongValidator extends FieldValidatorSupport
             	Long[] f = (Long[]) value;
                 
                 if (f == null || f.length == 0) {
-                	System.out.println("adding error:" + f);
                     addFieldError(fieldName, object);
                 }                
             }

@@ -842,26 +842,21 @@ public class CalendarAbstractAction extends ActionSupport
     public EventVersion getMasterEventVersion(String eventString)
     {
         Object object = findOnValueStack(eventString);
-        //System.out.println("Object:" + object);
         Event event = (Event)object;
         
         if(event == null)
     		return null;
 
-        //System.out.println("event:" + event.getId());
-
-    	EventVersion masterEventVersion = null;
+       	EventVersion masterEventVersion = null;
 
     	try
     	{
 	    	Language language = LanguageController.getController().getMasterLanguage(getSession());
-	    	System.out.println("language:" + language.getId());
 	    	
 	    	Iterator eventVersionsIterator = event.getVersions().iterator();
 	        while(eventVersionsIterator.hasNext())
 	        {
 	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
-	        	System.out.println("currentEventVersion.getLanguageId:" + currentEventVersion.getLanguageId());
 	        	if(currentEventVersion.getLanguageId().equals(language.getId()))
 	        	{
 	        		masterEventVersion = currentEventVersion;
@@ -877,35 +872,27 @@ public class CalendarAbstractAction extends ActionSupport
     		log.error("Error when getting event version for event: " + event + ":" + e.getMessage(), e); 
     	}
     	
-    	System.out.println("masterEventVersion:" + masterEventVersion);
-    	
         return masterEventVersion;
     }
     
     public EventVersion getEventVersion(String eventString)
     {
-    	System.out.println("eventString:" + eventString);
         Object object = findOnValueStack(eventString);
-        System.out.println("Object:" + object);
         Event event = (Event)object;
         
         if(event == null)
     		return null;
-
-        //System.out.println("event:" + event.getId());
 
     	EventVersion eventVersion = null;
 
     	try
     	{
     		Language language = LanguageController.getController().getLanguageWithCode(this.getLanguageCode(), getSession());
-	    	System.out.println("language:" + language.getId());
 	    	
 	    	Iterator eventVersionsIterator = event.getVersions().iterator();
 	        while(eventVersionsIterator.hasNext())
 	        {
 	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
-	        	System.out.println("currentEventVersion.getLanguageId:" + currentEventVersion.getLanguageId());
 	        	if(currentEventVersion.getLanguageId().equals(language.getId()))
 	        	{
 	        		eventVersion = currentEventVersion;
@@ -920,8 +907,6 @@ public class CalendarAbstractAction extends ActionSupport
     	{
     		log.error("Error when getting event version for event: " + event + ":" + e.getMessage(), e); 
     	}
-    	
-    	System.out.println("eventVersion:" + eventVersion);
     	
         return eventVersion;
     }

@@ -120,7 +120,6 @@ public class ViewEventAction extends CalendarAbstractAction
             if(this.languageId == null && this.availableLanguages.size() > 0)
             {
             	this.languageId = ((Language)this.availableLanguages.get(0)).getId();
-            	System.out.println("languageId:" + languageId);
             }
             
 	        if(this.eventId != null)
@@ -130,7 +129,6 @@ public class ViewEventAction extends CalendarAbstractAction
 	            while(eventVersionsIterator.hasNext())
 	            {
 	            	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
-	            	System.out.println("currentEventVersion.getLanguageId:" + currentEventVersion.getLanguageId());
 	            	if(currentEventVersion.getLanguageId().equals(languageId))
 	            	{
 	            		this.eventVersion = currentEventVersion;
@@ -189,7 +187,6 @@ public class ViewEventAction extends CalendarAbstractAction
             }
         }
         
-    	System.out.println("chooseLanguageForEdit startas....................");
     	return "successChooseLanguageForEdit";
     }
     

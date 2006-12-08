@@ -397,7 +397,6 @@ public class EventVersion implements BaseEntity
     
     public void setLanguage(Language language)
     {
-    	System.out.println("Setting language when loaded " + language.getId());
     	if(language != null)
             this.languageId = language.getId();
 

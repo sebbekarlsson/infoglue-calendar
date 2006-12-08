@@ -85,7 +85,6 @@ public class ViewCategoryAction extends CalendarAbstractAction
         if(this.languageId == null && this.availableLanguages.size() > 0)
         {
         	this.languageId = ((Language)this.availableLanguages.get(0)).getId();
-        	System.out.println("languageId:" + languageId);
         }
 
         if(categoryId != null)
