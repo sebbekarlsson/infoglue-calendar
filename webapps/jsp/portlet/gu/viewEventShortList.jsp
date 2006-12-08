@@ -5,6 +5,8 @@
 
 <portlet:defineObjects/>
 
+<ww:set name="languageCode" value="this.getLanguageCode()"/>
+
 <ww:iterator value="events" status="rowstatus">
 
 <ww:if test="#rowstatus.count <= numberOfItems">
@@ -29,7 +31,7 @@
 		<ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
 			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 				<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
-				[<ww:iterator value="#selectedCategories" status="rowstatus"><ww:property value="top.name"/><ww:if test="!#rowstatus.last">,</ww:if></ww:iterator>]
+				[<ww:iterator value="#selectedCategories" status="rowstatus"><ww:property value="top.getLocalizedName(#languageCode, 'sv')"/><ww:if test="!#rowstatus.last">,</ww:if></ww:iterator>]
 			</ww:if>
    		</ww:iterator>
 		</span>

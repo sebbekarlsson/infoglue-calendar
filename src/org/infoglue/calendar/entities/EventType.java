@@ -122,4 +122,9 @@ public class EventType implements BaseEntity, ContentTypeDefinition
 		this.type = type;
 	}
 
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

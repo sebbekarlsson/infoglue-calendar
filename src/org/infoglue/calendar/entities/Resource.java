@@ -130,4 +130,9 @@ public class Resource implements BaseEntity
         return this.getAssetKey();
     }
 
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

@@ -110,4 +110,10 @@ public abstract class Property implements BaseEntity
 		
 		return ceb;
 	}
+	
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

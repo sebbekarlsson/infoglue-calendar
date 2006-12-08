@@ -100,7 +100,7 @@ public class TextValueTag extends AbstractCalendarTag
             while(i.hasNext())
             {
                 Object o = i.next();
-                sb.append(((BaseEntity)o).getName() + ", ");
+                sb.append(((BaseEntity)o).getLocalizedName(getLanguageCode(), "sv") + ", ");
             }
         }
         else

@@ -5,6 +5,8 @@
 
 <portlet:defineObjects/>
 
+<ww:set name="languageCode" value="this.getLanguageCode()"/>
+
 <H1>Kalendarium</H1>
 <!-- Calendar start -->
 <div class="calendar">   
@@ -31,7 +33,7 @@
 			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 				<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
 				<ww:iterator value="#selectedCategories" status="rowstatus">
-					<ww:set name="visibleCategoryName" value="top.name"/>
+					<ww:set name="visibleCategoryName" value="top.getLocalizedName(#languageCode, 'sv')"/>
 				</ww:iterator>
 			</ww:if>
    		</ww:iterator>
@@ -43,7 +45,7 @@
 					<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 						<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
 						<ww:iterator value="#selectedCategories" status="rowstatus">
-							<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
+							<ww:property value="top.getLocalizedName(#languageCode, 'sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
 						</ww:iterator>
 					</ww:if>
 		   		</ww:iterator>

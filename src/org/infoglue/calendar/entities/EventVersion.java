@@ -411,4 +411,9 @@ public class EventVersion implements BaseEntity
 		return ceb;
 	}
     
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

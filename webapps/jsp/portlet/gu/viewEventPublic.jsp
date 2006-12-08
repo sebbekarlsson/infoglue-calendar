@@ -9,6 +9,7 @@
 <ww:set name="event" value="event" scope="page"/>
 <ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
 <ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
+<ww:set name="languageCode" value="this.getLanguageCode()"/>
 
 <!-- Calendar start -->
 <div class="calendar"> 	
@@ -17,7 +18,7 @@
 			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 				<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
 				<ww:iterator value="#selectedCategories" status="rowstatus">
-					<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
+					<ww:property value="top.getLocalizedName(#languageCode, 'sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
 				</ww:iterator>
 			</ww:if>
    		</ww:iterator>
@@ -63,7 +64,7 @@
 			<ww:if test="top.name == 'Ämnesområde' || top.name == 'Ämnesområden'">
 				<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
 				<ww:iterator value="#selectedCategories" status="rowstatus">
-					<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
+					<ww:property value="top.getLocalizedName(#language.isoCode, 'sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
 				</ww:iterator>
 			</ww:if>
    		</ww:iterator>
@@ -80,7 +81,7 @@
 			<ww:else>
   				<ww:iterator value="event.locations">
 		      		<ww:set name="location" value="top"/>
-	 				<ww:property value='#location.name'/><br/>		
+	 				<ww:property value="#location.getLocalizedName(#languageCode, 'sv')"/><br/>		
 	      		</ww:iterator>
 			</ww:else>
 			<ww:property value="#eventVersion.customLocation"/>

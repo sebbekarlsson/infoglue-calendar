@@ -35,6 +35,7 @@
 <ww:set name="categoryId" value="categoryId" scope="page"/>
 <ww:set name="language" value="language"/>
 <ww:set name="language" value="language" scope="page"/>
+<ww:set name="languageCode" value="this.getLanguageCode()"/>
 
 <script type="text/javascript">
 	

@@ -39,4 +39,6 @@ public interface BaseEntity
      
     public String getName();
 
+    public String getLocalizedName(String isoCode, String fallbackIsoCode);
+    
 }

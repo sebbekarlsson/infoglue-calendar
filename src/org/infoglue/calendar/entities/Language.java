@@ -93,4 +93,10 @@ public class Language implements BaseEntity
 		else
 			return false;
 	}
+	
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

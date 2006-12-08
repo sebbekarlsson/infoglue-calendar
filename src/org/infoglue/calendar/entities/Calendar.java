@@ -259,4 +259,9 @@ public class Calendar implements BaseEntity
         this.languages = languages;
     }
 
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

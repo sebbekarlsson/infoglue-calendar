@@ -171,7 +171,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            {
 	                BaseEntity value = (BaseEntity)obj;
 	                id = value.getId().toString();
-	                optionText = value.getName();
+	                optionText = value.getLocalizedName(getLanguageCode(), "sv");
 	            }
 	            else if(obj instanceof AttributeType)
 	            {

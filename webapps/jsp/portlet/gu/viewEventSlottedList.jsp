@@ -5,6 +5,7 @@
 
 <portlet:defineObjects/>
 
+<ww:set name="languageCode" value="this.getLanguageCode()"/>
 <ww:set name="events" value="events" scope="page"/>
 <calendar:setToList id="eventList" set="${events}"/>
 
@@ -48,7 +49,7 @@
 			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 				<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
 				<ww:iterator value="#selectedCategories" status="rowstatus">
-					<ww:set name="visibleCategoryName" value="top.name"/>
+					<ww:set name="visibleCategoryName" value="top.getLocalizedName(#languageCode, 'sv')"/>
 				</ww:iterator>
 			</ww:if>
    		</ww:iterator>
@@ -60,7 +61,7 @@
 					<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 						<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
 						<ww:iterator value="#selectedCategories" status="rowstatus">
-							<ww:property value="top.name"/><ww:if test="!#rowstatus.last">, </ww:if>
+							<ww:property value="top.getLocalizedName(#language.isoCode, 'sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
 						</ww:iterator>
 					</ww:if>
 		   		</ww:iterator>

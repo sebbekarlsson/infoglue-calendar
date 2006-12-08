@@ -19,6 +19,7 @@
 <portlet:defineObjects/>
 
 <ww:set name="languageCode" value="languageCode" scope="page"/>
+
 <% 
 	Locale locale = new Locale(pageContext.getAttribute("languageCode").toString());
 	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
@@ -118,14 +119,14 @@
       		<span class="calendarLabel"><%= resourceBundle.getString("labels.public.event.location") %></span><br>
 			<ww:iterator value="event.locations">
 	      		<ww:set name="location" value="top"/>
- 				<ww:property value='#location.name'/>
+ 				<ww:property value="#location.getLocalizedName(#languageCode, 'sv')"/>
       		</ww:iterator>
   		</p>
 		<p>
       		<span class="calendarLabel"><%= resourceBundle.getString("labels.public.event.category") %></span><br>
 			<ww:iterator value="event.categories">
 	      		<ww:set name="category" value="top"/>
- 				<ww:property value='#category.name'/>
+ 				<ww:property value="#category.getLocalizedName(#languageCode, 'sv')"/>
       		</ww:iterator>
        	</p>
 		<p>  		

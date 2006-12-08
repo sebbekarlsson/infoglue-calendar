@@ -5,6 +5,8 @@
 <%@ include file="adminHeader.jsp" %>
 <%@ include file="functionMenu.jsp" %>
 
+<ww:set name="languageCode" value="this.getLanguageCode()"/>
+
 <portlet:renderURL var="createAttributeCategoryUrl">
 	<portlet:param name="action" value="CreateEventTypeCategoryAttribute!input"/>
 	<calendar:evalParam name="eventTypeId" value="${param.eventTypeId}"/>
@@ -50,7 +52,7 @@
 <ww:iterator value="eventType.categoryAttributes" status="rowstatus">
 		
 	<ww:set name="eventTypeCategoryAttributeId" value="id" scope="page"/>
-	<ww:set name="name" value="name" scope="page"/>
+	<ww:set name="name" value="top.getLocalizedName(#languageCode, 'sv')" scope="page"/>
 	<ww:set name="eventTypeId" value="eventTypeId" scope="page"/>
 	<portlet:renderURL var="attributeCategoryUrl">
 		<portlet:param name="action" value="ViewEventTypeCategoryAttribute"/>

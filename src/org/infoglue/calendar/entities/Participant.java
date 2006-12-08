@@ -84,4 +84,10 @@ public class Participant implements BaseEntity
     {
         return this.getUserName();
     }
+    
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

@@ -81,4 +81,9 @@ public class Subscriber implements BaseEntity
         this.calendar = calendar;
     }
 
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

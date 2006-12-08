@@ -121,5 +121,10 @@ public class InterceptionPoint implements BaseEntity
 	{
 		this.usesExtraDataForAccessControl = usesExtraDataForAccessControl;
 	}
-        
+       
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

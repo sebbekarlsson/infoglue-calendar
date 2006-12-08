@@ -71,4 +71,9 @@ public class AccessRightUser implements BaseEntity
 		this.accessRight = accessRight;
 	}
     	
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }

@@ -84,4 +84,10 @@ public class EventCategory implements BaseEntity
     {
         this.eventTypeCategoryAttribute = eventTypeCategoryAttribute;
     }
+    
+	public String getLocalizedName(String isoCode, String fallbackIsoCode) 
+	{
+		return this.getName();
+	}
+
 }
