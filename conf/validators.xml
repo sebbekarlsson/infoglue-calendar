@@ -16,6 +16,7 @@
 	<validator name="igrequiredlong" class="org.infoglue.common.util.RequiredLongValidator"/> 
 	<validator name="igrequiredoption" class="org.infoglue.common.util.RequiredOptionValidator"/> 
 	<validator name="igemail" class="org.infoglue.common.util.EmailValidator"/> 
+	<validator name="igmaxlength" class="org.infoglue.common.util.MaxLengthValidator"/> 
 
 </validators>
 

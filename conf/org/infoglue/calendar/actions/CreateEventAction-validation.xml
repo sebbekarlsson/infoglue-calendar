@@ -35,6 +35,12 @@
             <message>errors.maximumParticipantsDemandsLastRegistrationDateTime</message>
         </field-validator>
     </field>
+    <field name="lecturer">
+        <field-validator type="igmaxlength">
+        	<param name="maxLength">1024</param>
+            <message>To long - the limit is 1024 characters.</message>
+        </field-validator>
+    </field>
     
 <!--
     <field name="shortDescription">

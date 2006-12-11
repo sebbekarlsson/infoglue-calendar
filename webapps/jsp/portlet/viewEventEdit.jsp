@@ -109,12 +109,12 @@
 			<input name="endTime" value="<ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '13:34'"><ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></ww:if>" class="hourfield" type="textfield">					
 		</div>
 
-		<calendar:textAreaField label="labels.internal.event.shortDescription" name="shortDescription" value="eventVersion.shortDescription" cssClass="smalltextarea" required="false"/>
+		<calendar:textAreaField label="labels.internal.event.shortDescription" name="'shortDescription'" value="eventVersion.shortDescription" cssClass="smalltextarea" required="false"/>
 
-		<calendar:textAreaField label="labels.internal.event.longDescription" name="longDescription" value="eventVersion.longDescription" cssClass="largetextarea" required="false"/>
+		<calendar:textAreaField label="labels.internal.event.longDescription" name="'longDescription'" value="eventVersion.longDescription" cssClass="largetextarea" required="false"/>
 		
 		<ww:if test="this.isActiveEventField('lecturer')">
-			<calendar:textAreaField label="labels.internal.event.lecturer" name="lecturer" value="eventVersion.lecturer" cssClass="smalltextarea"/>
+			<calendar:textAreaField label="labels.internal.event.lecturer" name="'lecturer'" value="eventVersion.lecturer" cssClass="smalltextarea"/>
 		</ww:if>
 
 		<ww:if test="this.isActiveEventField('organizerName')">
@@ -122,11 +122,11 @@
 		</ww:if>
 
 		<ww:if test="this.isActiveEventField('isInternal')">
-			<calendar:radioButtonField label="labels.internal.event.isInternal" name="isInternal" required="true" valueMap="internalEventMap" selectedValue="event.isInternal"/>
+			<calendar:radioButtonField label="labels.internal.event.isInternal" name="'isInternal'" required="true" valueMap="internalEventMap" selectedValue="event.isInternal"/>
 		</ww:if>
 		
 		<ww:if test="this.isActiveEventField('isOrganizedByGU')">
-			<calendar:checkboxField label="labels.internal.event.isOrganizedByGU" name="isOrganizedByGU" valueMap="isOrganizedByGUMap" selectedValues="event.isOrganizedByGU"/>
+			<calendar:checkboxField label="labels.internal.event.isOrganizedByGU" name="'isOrganizedByGU'" valueMap="isOrganizedByGUMap" selectedValues="event.isOrganizedByGU"/>
 		</ww:if>
 	
 		<ww:if test="this.isActiveEventField('eventUrl')">
@@ -134,7 +134,7 @@
 		</ww:if>
 		
 		<ww:if test="this.isActiveEventField('locationId')">
-			<calendar:selectField label="labels.internal.event.location" name="locationId" multiple="true" value="locations" selectedValueSet="event.locations" headerItem="Anger annan plats istället nedan" cssClass="listBox"/>
+			<calendar:selectField label="labels.internal.event.location" name="'locationId'" multiple="true" value="locations" selectedValueSet="event.locations" headerItem="Anger annan plats istället nedan" cssClass="listBox"/>
 		</ww:if>
 
 		<ww:if test="this.isActiveEventField('alternativeLocation')">
