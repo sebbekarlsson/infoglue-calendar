@@ -7,6 +7,7 @@
  */
 package com.opensymphony.webwork.portlet.dispatcher;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.webwork.WebWorkStatics;
 import com.opensymphony.webwork.util.AttributeMap;
 import com.opensymphony.webwork.views.velocity.VelocityManager;
@@ -23,6 +24,7 @@ import com.opensymphony.xwork.interceptor.component.DefaultComponentManager;
 import com.opensymphony.xwork.util.LocalizedTextUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -31,6 +33,7 @@ import org.hibernate.cfg.Configuration;
 import javax.portlet.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
@@ -225,15 +228,15 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
         } 
         catch (ConfigurationException e)
         {
-            log.error("Could not find action", e);
-            //      sendError(request, response, HttpServletResponse.SC_NOT_FOUND,
-            // e);
+            log.error("Could not find action:" + e.getMessage());
+            //sendError(request, response, HttpServletResponse.SC_NOT_FOUND, e);
+            disposeSession(request);
         } 
         catch (Exception e)
         {
             log.error("Could not execute action", e);
-            //      sendError(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
-            
+            //sendError(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
+            disposeSession(request);
         }
     }
 
@@ -323,17 +326,92 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 	    
 	    Session session = factory.openSession();
 	    log.debug("Initializing session:" + session);
-		transaction = session.beginTransaction();
+	    transaction = session.beginTransaction();
 		
         request.setAttribute("HIBERNATE_SESSION", session);
         request.setAttribute("HIBERNATE_TRANSACTION", transaction);
     }
     
-    protected PortletContext getPortletContext(PortletSession session) {
+	public Session getSession(PortletRequest request) throws HibernateException 
+	{
+	    return (Session)request.getAttribute("HIBERNATE_SESSION");
+	}
+
+	public Transaction getTransaction(PortletRequest request) throws HibernateException 
+	{
+	    return (Transaction)request.getAttribute("HIBERNATE_TRANSACTION");
+	}
+
+	public void emptySession(PortletRequest request) throws HibernateException 
+	{
+	    request.removeAttribute("HIBERNATE_SESSION");
+	}
+
+	public void emptyTransaction(PortletRequest request) throws HibernateException 
+	{
+	    request.removeAttribute("HIBERNATE_TRANSACTION");
+	}
+
+	
+    boolean rollBackOnly = false;
+	
+	public void disposeSession(PortletRequest request) throws HibernateException {
+		
+		log.debug("disposing");
+
+		if (getSession(request)==null) return;
+
+		if (rollBackOnly) 
+		{
+			try 
+			{
+				log.debug("rolling back");
+				if (getTransaction(request)!=null) getTransaction(request).rollback();
+			}
+			catch (HibernateException e) 
+			{
+			    log.error("error during rollback", e);
+				throw e;
+			}
+			finally 
+			{
+			    getSession(request).close();
+				emptySession(request);
+				emptyTransaction(request);
+			}
+		}
+		else 
+		{
+			try 
+			{
+				log.debug("committing");
+				if (getTransaction(request)!=null) 
+				{
+				    getTransaction(request).commit();
+				}
+			}
+			catch (HibernateException e) 
+			{
+			    log.error("error during commit", e);
+				getTransaction(request).rollback();
+				throw e;
+			}
+			finally 
+			{
+				getSession(request).close();
+				emptySession(request);
+				emptyTransaction(request);
+			}
+		}
+	}
+	
+    protected PortletContext getPortletContext(PortletSession session) 
+    {
         return session.getPortletContext();
     }
     
-    protected DefaultComponentManager createComponentManager() {
+    protected DefaultComponentManager createComponentManager() 
+    {
         return new DefaultComponentManager();
     }
 
