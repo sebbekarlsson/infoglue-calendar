@@ -97,7 +97,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private String time;
     private String mode;
     private Long calendarId;
-    private Long languageId;
+    private Long versionLanguageId;
     private Long eventId;
     
     private org.infoglue.calendar.entities.Calendar calendar;
@@ -122,19 +122,8 @@ public class CreateEventAction extends CalendarAbstractAction
      */
     
     public String execute() throws Exception 
-    {
-    	/*
-        String requestLanguageId = ServletActionContext.getRequest().getParameter("languageId");
-        if(languageId == null)
-        {
-        	if(requestLanguageId != null && requestLanguageId.length() != 0)
-        		this.languageId = new Long(requestLanguageId);
-        	else
-        		this.languageId = LanguageController.getController().getMasterLanguage(getSession()).getId();
-        }
-        */	
-        
-    	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("languageId") + ":" + this.languageId + "\n\n");
+    {        
+    	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("versionLanguageId") + ":" + this.versionLanguageId + "\n\n");
 
         if(startDateTime != null && (endDateTime == null || endDateTime.equals("")))
         {
@@ -258,10 +247,10 @@ public class CreateEventAction extends CalendarAbstractAction
             if(useEventPublishing())
                 stateId = Event.STATE_WORKING;
                         
-        	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("languageId") + ":" + this.languageId + "\n\n");
+        	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("versionLanguageId") + ":" + this.versionLanguageId + "\n\n");
 
             newEvent = EventController.getController().createEvent(calendarId,
-            											languageId,
+            											versionLanguageId,
 									                    name, 
 									                    description,
 									                    isInternal, 
@@ -373,7 +362,7 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
-    	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("languageId") + ":" + this.languageId + "\n\n");
+    	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("versionLanguageId") + ":" + this.versionLanguageId + "\n\n");
     	
         this.calendar = CalendarController.getController().getCalendar(this.calendarId, getSession());
         this.locations 	= LocationController.getController().getLocationList(getSession());
@@ -741,15 +730,15 @@ public class CreateEventAction extends CalendarAbstractAction
 	}
 
 
-	public Long getLanguageId() 
+	public Long getVersionLanguageId() 
 	{
-		return languageId;
+		return versionLanguageId;
 	}
 
 	
-	public void setLanguageId(Long languageId) 
+	public void setVersionLanguageId(Long versionLanguageId) 
 	{
-		this.languageId = languageId;
+		this.versionLanguageId = versionLanguageId;
 	}
 
 

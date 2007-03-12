@@ -27,8 +27,8 @@
 	
 	<form name="inputForm" method="POST" action="<c:out value="${createLanguageActionUrl}"/>">
 
-		<calendar:textField label="labels.internal.language.name" name="'name'" value="language.name" cssClass="longtextfield"/>
-		<calendar:textField label="labels.internal.language.isoCode" name="'isoCode'" value="language.isoCode" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.language.name" name="'name'" value="name" cssClass="longtextfield"/>
+		<calendar:textField label="labels.internal.language.isoCode" name="'isoCode'" value="isoCode" cssClass="longtextfield"/>
 	
 		<div style="height:10px"></div>
 		

@@ -82,7 +82,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
     private String[] roles;
     private String[] groups;
 
-    private String[] languageId;
+    private String[] systemLanguageId;
 
     /**
      * This is the entry point for the main listing.
@@ -516,9 +516,9 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.groups = new String[] {roles};
     }
 
-    public void setSelectedLanguages(String[] languageId)
+    public void setSelectedLanguages(String[] systemLanguageId)
     {
-        this.languageId = languageId;
+        this.systemLanguageId = systemLanguageId;
     }
 
     public List getInfoglueGroups()

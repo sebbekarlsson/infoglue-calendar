@@ -12,7 +12,7 @@
 	</portlet:actionURL>
 	
 	<form name="inputForm" method="POST" action="<c:out value="${updateLanguageActionUrl}"/>">
-		<input type="hidden" name="languageId" value="<ww:property value="language.id"/>">
+		<input type="hidden" name="systemLanguageId" value="<ww:property value="language.id"/>">
 		
 		<calendar:textField label="labels.internal.language.name" name="'name'" value="language.name" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.language.isoCode" name="'isoCode'" value="language.isoCode" cssClass="longtextfield"/>

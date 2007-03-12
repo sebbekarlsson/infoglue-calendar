@@ -44,7 +44,7 @@ import com.opensymphony.xwork.ActionContext;
 
 public class DeleteLanguageAction extends CalendarAbstractAction
 {
-    private Long languageId;
+    private Long systemLanguageId;
     
     /**
      * This is the entry point for the main listing.
@@ -52,19 +52,19 @@ public class DeleteLanguageAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        LanguageController.getController().deleteLanguage(languageId, getSession());
+        LanguageController.getController().deleteLanguage(systemLanguageId, getSession());
         
         return Action.SUCCESS;
     } 
     
-    public Long getLanguageId()
+    public Long getSystemLanguageId()
     {
-        return languageId;
+        return systemLanguageId;
     }
     
-    public void setLanguageId(Long languageId)
+    public void setSystemLanguageId(Long systemLanguageId)
     {
-        this.languageId = languageId;
+        this.systemLanguageId = systemLanguageId;
     }
     
 }

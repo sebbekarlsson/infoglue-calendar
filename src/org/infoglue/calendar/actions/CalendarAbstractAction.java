@@ -857,7 +857,7 @@ public class CalendarAbstractAction extends ActionSupport
 	        while(eventVersionsIterator.hasNext())
 	        {
 	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
-	        	if(currentEventVersion.getLanguageId().equals(language.getId()))
+	        	if(currentEventVersion.getVersionLanguageId().equals(language.getId()))
 	        	{
 	        		masterEventVersion = currentEventVersion;
 	        		break;
@@ -893,7 +893,7 @@ public class CalendarAbstractAction extends ActionSupport
 	        while(eventVersionsIterator.hasNext())
 	        {
 	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
-	        	if(currentEventVersion.getLanguageId().equals(language.getId()))
+	        	if(currentEventVersion.getVersionLanguageId().equals(language.getId()))
 	        	{
 	        		eventVersion = currentEventVersion;
 	        		break;

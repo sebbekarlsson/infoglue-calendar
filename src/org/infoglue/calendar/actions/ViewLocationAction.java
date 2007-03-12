@@ -44,7 +44,7 @@ public class ViewLocationAction extends CalendarAbstractAction
 {
     private Long locationId;
     private Location location;
-    private Long languageId;
+    private Long systemLanguageId;
     
     private List availableLanguages = new ArrayList();
 
@@ -57,9 +57,9 @@ public class ViewLocationAction extends CalendarAbstractAction
         this.location = LocationController.getController().getLocation(locationId, getSession());
 
         this.availableLanguages = LanguageController.getController().getLanguageList(getSession());
-        if(this.languageId == null && this.availableLanguages.size() > 0)
+        if(this.systemLanguageId == null && this.availableLanguages.size() > 0)
         {
-        	this.languageId = ((Language)this.availableLanguages.get(0)).getId();
+        	this.systemLanguageId = ((Language)this.availableLanguages.get(0)).getId();
         }
 
         return Action.SUCCESS;
@@ -85,19 +85,19 @@ public class ViewLocationAction extends CalendarAbstractAction
 		return availableLanguages;
 	}
 
-	public Long getLanguageId() 
+	public Long getSystemLanguageId() 
 	{
-		return languageId;
+		return systemLanguageId;
 	}
 
-	public void setLanguageId(Long languageId) 
+	public void setSystemLanguageId(Long systemLanguageId) 
 	{
-		this.languageId = languageId;
+		this.systemLanguageId = systemLanguageId;
 	}
 
 	public Language getLanguage() throws Exception 
 	{
-		return LanguageController.getController().getLanguage(getLanguageId(), getSession());
+		return LanguageController.getController().getLanguage(getSystemLanguageId(), getSession());
 	}
 
 }

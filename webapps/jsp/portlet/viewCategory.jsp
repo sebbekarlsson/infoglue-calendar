@@ -81,11 +81,11 @@
 		<portlet:renderURL var="viewCategoryUrl">
 			<portlet:param name="action" value="ViewCategory"/>
 			<calendar:evalParam name="categoryId" value="${categoryId}"/>
-			<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
+			<calendar:evalParam name="systemLanguageId" value="${currentLanguageId}"/>
 		</portlet:renderURL>
 			
 		<c:choose>
-			<c:when test="${languageId == currentLanguageId || currentLanguageId == language.id}">
+			<c:when test="${systemLanguageId == currentLanguageId || currentLanguageId == language.id}">
 				<c:set var="cssClass" value="activeTab"/>
 			</c:when>
 			<c:otherwise>

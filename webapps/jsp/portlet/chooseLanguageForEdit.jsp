@@ -22,11 +22,11 @@
 
 <ww:iterator value="availableLanguages" status="rowstatus">
 	
-	<ww:set name="languageId" value="id" scope="page"/>
+	<ww:set name="systemLanguageId" value="id" scope="page"/>
 	<ww:set name="eventId" value="eventId" scope="page"/>
 	<portlet:renderURL var="editEventUrl">
 		<portlet:param name="action" value="ViewEvent!edit"/>
-		<portlet:param name="languageId" value="<%= pageContext.getAttribute("languageId").toString() %>"/>
+		<portlet:param name="versionLanguageId" value="<%= pageContext.getAttribute("systemLanguageId").toString() %>"/>
 		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 		<calendar:evalParam name="skipLanguageTabs" value="${skipLanguageTabs}"/>
 	</portlet:renderURL>

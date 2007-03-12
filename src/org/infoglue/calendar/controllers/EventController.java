@@ -962,7 +962,7 @@ public class EventController extends BasicController
         while(eventVersions.hasNext())
         {
         	EventVersion currentEventVersion = (EventVersion)eventVersions.next();
-        	if(currentEventVersion.getLanguageId().equals(language.getId()))
+        	if(currentEventVersion.getVersionLanguageId().equals(language.getId()))
         	{
         		eventVersion = currentEventVersion;
         		break;

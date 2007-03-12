@@ -9,7 +9,7 @@
 <ww:set name="eventVersion" value="eventVersion" scope="page"/>
 <ww:set name="eventId" value="event.id" scope="page"/>
 <ww:set name="calendarId" value="calendarId" scope="page"/>
-<ww:set name="languageId" value="languageId" scope="page"/>
+<ww:set name="versionLanguageId" value="versionLanguageId" scope="page"/>
 <ww:set name="mode" value="mode" scope="page"/>
 
 <portlet:renderURL var="translateEventRenderURL">
@@ -38,11 +38,11 @@
 					<portlet:renderURL var="viewEventVersionUrl">
 						<portlet:param name="action" value="ViewEvent!edit"/>
 						<calendar:evalParam name="eventId" value="${eventId}"/>
-						<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
+						<calendar:evalParam name="versionLanguageId" value="${currentLanguageId}"/>
 					</portlet:renderURL>
 						
 					<c:choose>
-						<c:when test="${languageId == currentLanguageId}">
+						<c:when test="${versionLanguageId == currentLanguageId}">
 							<c:set var="cssClass" value="activeTab"/>
 						</c:when>
 						<c:otherwise>
@@ -82,7 +82,7 @@
 	
 	<form name="updateForm" method="POST" action="<c:out value="${updateEventActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="event.id"/>"/>
-		<input type="hidden" name="languageId" value="<ww:property value="languageId"/>"/>
+		<input type="hidden" name="versionLanguageId" value="<ww:property value="versionLanguageId"/>"/>
 		<input type="hidden" name="calendarId" value="<ww:property value="event.owningCalendar.id"/>"/>
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 		<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>

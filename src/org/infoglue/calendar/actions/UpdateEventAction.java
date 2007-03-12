@@ -70,7 +70,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
 	private static Log log = LogFactory.getLog(UpdateEventAction.class);
 
     private Long eventId;
-    private Long languageId;
+    private Long versionLanguageId;
     private String name;
     private String description;
     private String startDateTime;
@@ -234,7 +234,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
             
             EventController.getController().updateEvent(
                     eventId, 
-                    languageId,
+                    versionLanguageId,
                     name,
                     description, 
                     isInternal, 
@@ -660,14 +660,14 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
 		this.entryFormId = entryFormId;
 	}
 
-	public Long getLanguageId()
+	public Long getVersionLanguageId()
 	{
-		return languageId;
+		return versionLanguageId;
 	}
 
-	public void setLanguageId(Long languageId)
+	public void setVersionLanguageId(Long versionLanguageId)
 	{
-		this.languageId = languageId;
+		this.versionLanguageId = versionLanguageId;
 	}
 
 }

@@ -59,14 +59,14 @@ public class UpdateLanguageAction extends CalendarAbstractAction
         return Action.SUCCESS;
     } 
     
-    public Long getLanguageId()
+    public Long getSystemLanguageId()
     {
         return dataBean.getId();
     }
 
-    public void setLanguageId(Long languageId)
+    public void setSystemLanguageId(Long systemLanguageId)
     {
-        this.dataBean.setId(languageId);
+        this.dataBean.setId(systemLanguageId);
     }
 
     public String getIsoCode()

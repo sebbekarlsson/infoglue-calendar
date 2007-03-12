@@ -36,7 +36,7 @@ import com.opensymphony.xwork.Action;
 
 public class ViewLanguageAction extends CalendarAbstractAction
 {
-    private Long languageId;
+    private Long systemLanguageId;
     private Language language;
     
     /**
@@ -45,19 +45,19 @@ public class ViewLanguageAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.language = LanguageController.getController().getLanguage(languageId, getSession());
+        this.language = LanguageController.getController().getLanguage(systemLanguageId, getSession());
         
         return Action.SUCCESS;
     } 
 
-    public Long getLanguageId()
+    public Long getSystemLanguageId()
     {
-        return languageId;
+        return systemLanguageId;
     }
     
-    public void setLanguageId(Long languageId)
+    public void setSystemLanguageId(Long systemLanguageId)
     {
-        this.languageId = languageId;
+        this.systemLanguageId = systemLanguageId;
     }
 
     public Language getLanguage()

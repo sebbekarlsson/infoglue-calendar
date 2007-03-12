@@ -7,14 +7,14 @@
 <ww:set name="event" value="event" scope="page"/>
 <ww:set name="eventId" value="event.id" scope="page"/>
 <ww:set name="calendarId" value="calendarId" scope="page"/>
-<ww:set name="languageId" value="languageId" scope="page"/>
+<ww:set name="versionLanguageId" value="versionLanguageId" scope="page"/>
 
 <%@ include file="functionMenu.jsp" %>
 
 <div id="inputDiv">
 	
 	<ww:set name="eventId" value="event.id" scope="page"/>
-	<ww:set name="languageId" value="languageId" scope="page"/>
+	<ww:set name="versionLanguageId" value="versionLanguageId" scope="page"/>
 	<ww:set name="eventVersion" value="eventVersion" scope="page"/>
 	<ww:set name="name" value="eventVersion.name" scope="page"/>
 	
@@ -32,7 +32,7 @@
 	<portlet:renderURL var="viewListUrl">
 		<portlet:param name="action" value="ViewEvent"/>
 		<calendar:evalParam name="eventId" value="${eventId}"/>
-		<calendar:evalParam name="languageId" value="${languageId}"/>
+		<calendar:evalParam name="versionLanguageId" value="${versionLanguageId}"/>
 	</portlet:renderURL>
 
 	<portlet:renderURL var="translateEventRenderURL">
@@ -95,11 +95,11 @@
 						<portlet:renderURL var="viewEventVersionUrl">
 							<portlet:param name="action" value="ViewEvent"/>
 							<calendar:evalParam name="eventId" value="${eventId}"/>
-							<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
+							<calendar:evalParam name="versionLanguageId" value="${currentLanguageId}"/>
 						</portlet:renderURL>
 							
 						<c:choose>
-							<c:when test="${languageId == currentLanguageId}">
+							<c:when test="${versionLanguageId == currentLanguageId}">
 								<c:set var="cssClass" value="activeTab"/>
 							</c:when>
 							<c:otherwise>
@@ -298,7 +298,7 @@
 			<calendar:evalParam name="action" value="ViewEvent!edit"/>
 			<calendar:evalParam name="eventId" value="${eventId}"/>
 			<calendar:evalParam name="calendarId" value="${calendarId}"/>
-			<calendar:evalParam name="languageId" value="${languageId}"/>
+			<calendar:evalParam name="versionLanguageId" value="${versionLanguageId}"/>
 		</portlet:renderURL>
 
 		<portlet:renderURL var="uploadFormURL">

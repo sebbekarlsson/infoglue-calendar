@@ -61,7 +61,7 @@ public class ViewEventAction extends CalendarAbstractAction
     private static Log log = LogFactory.getLog(ViewEventAction.class);
 
     private Long eventId;
-    private Long languageId;
+    private Long versionLanguageId;
     private Event event;
     private EventVersion eventVersion;
     
@@ -117,9 +117,9 @@ public class ViewEventAction extends CalendarAbstractAction
 	            this.eventId = new Long(requestEventId);
 	
 	        this.availableLanguages = LanguageController.getController().getLanguageList(getSession());
-            if(this.languageId == null && this.availableLanguages.size() > 0)
+            if(this.versionLanguageId == null && this.availableLanguages.size() > 0)
             {
-            	this.languageId = ((Language)this.availableLanguages.get(0)).getId();
+            	this.versionLanguageId = ((Language)this.availableLanguages.get(0)).getId();
             }
             
 	        if(this.eventId != null)
@@ -129,7 +129,7 @@ public class ViewEventAction extends CalendarAbstractAction
 	            while(eventVersionsIterator.hasNext())
 	            {
 	            	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
-	            	if(currentEventVersion.getLanguageId().equals(languageId))
+	            	if(currentEventVersion.getVersionLanguageId().equals(versionLanguageId))
 	            	{
 	            		this.eventVersion = currentEventVersion;
 	            		break;
@@ -406,14 +406,14 @@ public class ViewEventAction extends CalendarAbstractAction
 		return availableLanguages;
 	}
 
-	public Long getLanguageId() 
+	public Long getVersionLanguageId() 
 	{
-		return languageId;
+		return versionLanguageId;
 	}
 
-	public void setLanguageId(Long languageId) 
+	public void setVersionLanguageId(Long versionLanguageId) 
 	{
-		this.languageId = languageId;
+		this.versionLanguageId = versionLanguageId;
 	}
 
 	public EventVersion getEventVersion() 

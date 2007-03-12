@@ -77,7 +77,7 @@ public class EventVersion implements BaseEntity
     //private Boolean isCheckedOut			= new Boolean(false);
    	//private Boolean isActive				= new Boolean(true);
 	
-	private Long languageId					= null;
+	private Long versionLanguageId					= null;
 	//private String languageName 			= "";
    	private Long eventId					= null;
     //private String eventName 				= "";
@@ -347,14 +347,14 @@ public class EventVersion implements BaseEntity
      * 
      * @return long
      */    
-    public Long getLanguageId()
+    public Long getVersionLanguageId()
     {
-        return languageId;
+        return versionLanguageId;
     }
     
-    public void setLanguageId(Long languageId)
+    public void setVersionLanguageId(Long versionLanguageId)
     {
-        this.languageId = languageId;
+        this.versionLanguageId = versionLanguageId;
     }
 
     /**
@@ -398,7 +398,7 @@ public class EventVersion implements BaseEntity
     public void setLanguage(Language language)
     {
     	if(language != null)
-            this.languageId = language.getId();
+            this.versionLanguageId = language.getId();
 
     	this.language = language;
     }

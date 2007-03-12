@@ -25,16 +25,16 @@
 
 <ww:iterator value="languages" status="rowstatus">
 
-	<ww:set name="languageId" value="id" scope="page"/>
+	<ww:set name="systemLanguageId" value="id" scope="page"/>
 	<ww:set name="name" value="name" scope="page"/>
 	<portlet:renderURL var="languageUrl">
 		<portlet:param name="action" value="ViewLanguage"/>
-		<portlet:param name="languageId" value="<%= pageContext.getAttribute("languageId").toString() %>"/>
+		<portlet:param name="systemLanguageId" value="<%= pageContext.getAttribute("systemLanguageId").toString() %>"/>
 	</portlet:renderURL>
 	
 	<portlet:actionURL var="deleteLanguageUrl">
 		<portlet:param name="action" value="DeleteLanguage"/>
-		<portlet:param name="languageId" value="<%= pageContext.getAttribute("languageId").toString() %>"/>
+		<portlet:param name="systemLanguageId" value="<%= pageContext.getAttribute("systemLanguageId").toString() %>"/>
 	</portlet:actionURL>
 
 	<portlet:renderURL var="viewLanguageListUrl">

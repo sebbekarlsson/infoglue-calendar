@@ -53,11 +53,11 @@
 		<portlet:renderURL var="viewLocationUrl">
 			<portlet:param name="action" value="ViewLocation"/>
 			<calendar:evalParam name="locationId" value="${locationId}"/>
-			<calendar:evalParam name="languageId" value="${currentLanguageId}"/>
+			<calendar:evalParam name="systemLanguageId" value="${currentLanguageId}"/>
 		</portlet:renderURL>
 			
 		<c:choose>
-			<c:when test="${languageId == currentLanguageId || currentLanguageId == language.id}">
+			<c:when test="${systemLanguageId == currentLanguageId || currentLanguageId == language.id}">
 				<c:set var="cssClass" value="activeTab"/>
 			</c:when>
 			<c:otherwise>
@@ -79,7 +79,7 @@
 	
 	<form name="inputForm" method="POST" action="<c:out value="${updateLocationActionUrl}"/>">
 		<input type="hidden" name="locationId" value="<ww:property value="location.id"/>">
-		<input type="hidden" name="languageId" value="<ww:property value="languageId"/>">
+		<input type="hidden" name="systemLanguageId" value="<ww:property value="systemLanguageId"/>">
 		<input type="hidden" name="name" value="<ww:property value="location.name"/>">
 		
 		<calendar:textField label="labels.internal.category.name" name="'localizedName'" value="location.getLocalizedName(#language.isoCode, 'sv')" cssClass="longtextfield"/>
