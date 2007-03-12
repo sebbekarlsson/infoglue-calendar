@@ -25,6 +25,7 @@ package org.infoglue.calendar.actions;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -138,6 +139,13 @@ public class CreateEventAction extends CalendarAbstractAction
         if(startDateTime != null && (endDateTime == null || endDateTime.equals("")))
         {
             endDateTime = startDateTime;
+        }
+        
+        Iterator keyIterator = this.getActionContext().getParameters().keySet().iterator();
+        while(keyIterator.hasNext())
+        {
+        	String key = (String)keyIterator.next();
+        	System.out.println("" + key + "=" + this.getActionContext().getParameters().get(key));
         }
         
         startCalendar 	= getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", false); 
