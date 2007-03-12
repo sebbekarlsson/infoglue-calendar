@@ -133,6 +133,8 @@ public class CreateEventAction extends CalendarAbstractAction
         }
         */	
         
+    	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("languageId") + ":" + this.languageId + "\n\n");
+
         if(startDateTime != null && (endDateTime == null || endDateTime.equals("")))
         {
             endDateTime = startDateTime;
@@ -248,6 +250,8 @@ public class CreateEventAction extends CalendarAbstractAction
             if(useEventPublishing())
                 stateId = Event.STATE_WORKING;
                         
+        	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("languageId") + ":" + this.languageId + "\n\n");
+
             newEvent = EventController.getController().createEvent(calendarId,
             											languageId,
 									                    name, 
@@ -361,6 +365,8 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
+    	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("languageId") + ":" + this.languageId + "\n\n");
+    	
         this.calendar = CalendarController.getController().getCalendar(this.calendarId, getSession());
         this.locations 	= LocationController.getController().getLocationList(getSession());
         //this.categories = CategoryController.getController().getRootCategoryList(getSession());
