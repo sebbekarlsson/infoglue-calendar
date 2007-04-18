@@ -265,7 +265,41 @@ public class ViewEventAction extends CalendarAbstractAction
         
         return Action.ERROR;
     }
+
+    public String doPublicCustom() throws Exception 
+    {
+        try
+        {
+	        log.info("this.eventId:" + eventId);
+	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
+	        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
+	            this.eventId = new Long(requestEventId);
+	
+	        if(this.eventId != null)
+	        {
+	            this.event = EventController.getController().getEvent(eventId, getSession());
+	            return "successPublicCustom";
+	        }
+	        else
+	        {
+	            throw new ObjectNotFoundException("EventId was empty", "");
+	        }
+        }
+        catch(ObjectNotFoundException o)
+        {
+            log.warn("Det fanns inget evenemang med id " + this.eventId + ":" + o.getMessage());
+            setError("Det fanns inget evenemang med id " + this.eventId, o);
+        }
+        catch(Exception e)
+        {
+            log.error("Ett fel uppstod när evenemang med id " + this.eventId + " skulle visas:" + e.getMessage(), e);
+            setError("Ett fel uppstod när evenemang med id " + this.eventId + " skulle visas.", e);
+        }
+        
+        return Action.ERROR;
+    }
     
+
     public List getEventCategories(EventTypeCategoryAttribute categoryAttribute)
     {
         //Timer timer = new Timer();
@@ -435,4 +469,5 @@ public class ViewEventAction extends CalendarAbstractAction
 	{
 		this.skipLanguageTabs = skipLanguageTabs;
 	}
+
 }

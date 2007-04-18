@@ -365,6 +365,9 @@
 			<result name="successPublicGU" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/gu/viewEventPublic.jsp</param>
 			</result>
+			<result name="successPublicCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventPublic.jsp</param>
+			</result>
 			<result name="successEdit" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewEventEdit.jsp</param>
 			</result>
@@ -461,6 +464,15 @@
 			</result>
 			<result name="successShortGU" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/gu/viewEventShortList.jsp</param>
+			</result>
+			<result name="successCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventList.jsp</param>
+			</result>
+			<result name="successSlotCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventSlottedList.jsp</param>
+			</result>
+			<result name="successShortCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventShortList.jsp</param>
 			</result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>

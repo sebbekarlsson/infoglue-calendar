@@ -92,6 +92,12 @@ public class ViewEventListAction extends CalendarAbstractAction
         return Action.SUCCESS + "GU";
     }
 
+    public String listCustom() throws Exception
+    {
+        execute();
+        return Action.SUCCESS + "Custom";
+    }
+
     public String listSlottedGU() throws Exception
     {
         execute();
@@ -105,7 +111,21 @@ public class ViewEventListAction extends CalendarAbstractAction
         
         return Action.SUCCESS + "ShortGU";
     }
-    
+
+    public String listSlottedCustom() throws Exception
+    {
+        execute();
+        
+        return Action.SUCCESS + "SlotCustom";
+    }
+
+    public String shortListCustom() throws Exception
+    {
+        execute();
+        
+        return Action.SUCCESS + "ShortCustom";
+    }
+
     public String getCalendarId()
     {
         return calendarId;
