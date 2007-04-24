@@ -40,7 +40,7 @@
 	<ww:else>
 		<ww:property value="#startDate"/>
 		<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
-	 	<ww:property value="this.getLabel('labels.public.event.timeLabel')"/>: </span><ww:property value="this.formatDate(top.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(top.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(top.endDateTime.time, 'HH:mm')"/></ww:if>
+	 	<ww:property value="this.getLabel('labels.public.event.timeLabel')"/>: <ww:property value="this.formatDate(top.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(top.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(top.endDateTime.time, 'HH:mm')"/></ww:if>
 	 	</ww:if>
 	</ww:else>
 	]</p>
