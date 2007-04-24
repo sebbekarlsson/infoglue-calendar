@@ -45,8 +45,6 @@
 	</ww:else>
 	]</p>
 	
-	<!-- <p class="dateformat">[<ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/>, kl 09.00 - 16.00]</p> -->
-	<p class="unpaddedtext">Konferenser/seminarier - Ulltuna</p>
 	<p><ww:property value="#eventVersion.shortDescription"/></p>
 
 </ww:iterator>
