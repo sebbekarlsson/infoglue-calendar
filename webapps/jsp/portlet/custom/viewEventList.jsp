@@ -22,7 +22,7 @@
 	<ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
 	<ww:set name="eventId" value="id" scope="page"/>
 	<portlet:renderURL var="eventDetailUrl">
-		<portlet:param name="action" value="ViewEvent!publicGU"/>
+		<portlet:param name="action" value="ViewEvent!publicCustom"/>
 		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 	</portlet:renderURL>
 
