@@ -8,6 +8,45 @@
 
 <%@ include file="eventSubFunctionMenu.jsp" %>
 
+<script type="text/javascript">
+    function validateTimes()
+    {    	   	
+    	var startTime 				= document.inputForm.startTime.value;
+    	var endTime 				= document.inputForm.endTime.value;
+    	var lastRegistrationTime	= document.inputForm.lastRegistrationTime.value;
+    	
+    	if (startTime != "" && !validateTime(startTime))
+    	{
+    		alert("Felaktigt format\n Starttiden måste följa formatet hh:mm");
+    		document.inputForm.startTime.focus();
+    		return false;
+    	}
+    	
+    	if (endTime != "" && !validateTime(endTime))
+    	{
+    		alert("Felaktigt format\n Sluttiden måste följa formatet hh:mm");
+    		document.inputForm.endTime.focus();
+    		return false;
+    	}
+    	
+    	if (lastRegistrationTime != "" && !validateTime(lastRegistrationTime))
+    	{
+    		alert("Felaktigt format\n Tiden för sista registrering måste följa formatet hh:mm");
+    		document.inputForm.lastRegistrationTime.focus();
+    		return false;
+    	}
+    	
+    	return true;
+    }
+    
+    function validateTime(aTimeString)
+    {
+    	var myRegexp 	= /^[0-9]{2}:[0-9]{2}$/;
+    	var match 		= myRegexp.test(aTimeString);    	
+    	return match;
+    }
+</script>
+
 <div class="portlet_margin">
 
 	<portlet:actionURL var="createEventUrl">
@@ -16,7 +55,7 @@
 
 	<!--Errors: <ww:property value="#fieldErrors"/>-->
 
-	<form name="inputForm" method="POST" action="<c:out value="${createEventUrl}"/>">
+	<form name="inputForm" method="POST" action="<c:out value="${createEventUrl}"/>" onsubmit="return validateTimes();">
 		<input type="hidden" name="calendarId" value="<ww:property value="calendarId"/>"/>
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 		<input type="hidden" name="date" value="<ww:property value="date"/>"/>
