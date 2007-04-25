@@ -44,12 +44,6 @@
 
 	<portlet:renderURL var="confirmUrl">
 		<portlet:param name="action" value="Confirm"/>
-		<%--
-		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
-		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
-		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
-		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
-		--%>
 	</portlet:renderURL>
 
 	<form name="deleteLinkForm" method="POST" action="<c:out value="${confirmUrl}"/>">

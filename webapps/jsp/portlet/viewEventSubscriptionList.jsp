@@ -12,6 +12,30 @@
 	<portlet:param name="action" value="CreateEventSubscription!input"/>
 </portlet:renderURL>
 
+<portlet:renderURL var="viewListUrl">
+	<portlet:param name="action" value="ViewEventSubscriptionList"/>
+</portlet:renderURL>
+
+<portlet:renderURL var="confirmUrl">
+	<portlet:param name="action" value="Confirm"/>
+</portlet:renderURL>
+
+<script type="text/javascript">
+	function submitDelete(okUrl, confirmMessage)
+	{
+		//alert("okUrl:" + okUrl);
+		document.confirmForm.okUrl.value = okUrl;
+		document.confirmForm.confirmMessage.value = confirmMessage;
+		document.confirmForm.submit();
+	}
+</script>
+<form name="confirmForm" action="<c:out value="${confirmUrl}"/>" method="post">
+	<input type="hidden" name="confirmTitle" value="Radera - bekräfta"/>
+	<input type="hidden" name="confirmMessage" value="Fixa detta"/>
+	<input type="hidden" name="okUrl" value=""/>
+	<input type="hidden" name="cancelUrl" value="<c:out value="${viewListUrl}"/>"/>	
+</form>
+
 <div class="subfunctionarea">
 <span class="left"></span>	
 <span class="right">
@@ -36,18 +60,6 @@
 		<portlet:param name="subscriptionId" value="<%= pageContext.getAttribute("subscriptionId").toString() %>"/>
 	</portlet:actionURL>
 	
-	<portlet:renderURL var="viewListUrl">
-		<portlet:param name="action" value="ViewEventSubscriptionList"/>
-	</portlet:renderURL>
-
-	<portlet:renderURL var="confirmUrl">
-		<portlet:param name="action" value="Confirm"/>
-		<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
-		<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill ta bort prenumerationen på kalendern &quot;${name}&quot;"/>
-		<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "iso-8859-1") %>"/>
-		<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "iso-8859-1") %>"/>
-	</portlet:renderURL>
-	
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
     </ww:if>
@@ -62,7 +74,7 @@
        		<p><ww:property value="top.calendar.description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="top.calendar.name"/>'" class="delete"></a>
+       		<a href="javascript:submitDelete('<c:out value="${deleteUrl}"/>', 'Är du säker på att du vill radera &quot;<ww:property value="#name"/>&quot;');" title="Radera '<ww:property value="top.calendar.name"/>'" class="delete"></a>
        	</div>
        	<div class="clear"></div>
     </div>

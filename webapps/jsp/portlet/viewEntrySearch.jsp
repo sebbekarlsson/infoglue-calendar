@@ -164,6 +164,51 @@
 		<div class="clear"></div>
 	</div>
 	
+	<portlet:actionURL var="viewListUrl">
+		<portlet:param name="action" value="ViewEntrySearch"/>
+		<calendar:evalParam name="searchHashCode" value="${searchHashCode}"/>
+		<c:if test="${searchEventId != null}">
+			<ww:iterator value="searchEventId">
+				<ww:if test="top != null">
+					<ww:set name="currentSearchEventId" value="top" scope="page"/>
+					<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
+				</ww:if>
+			</ww:iterator>
+		</c:if>
+		<c:if test="${searchFirstName != null}">
+			<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
+		</c:if>
+		<c:if test="${searchLastName != null}">
+			<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
+		</c:if>
+		<c:if test="${searchEmail != null}">
+			<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+		</c:if>
+		<c:if test="${onlyFutureEvents != null}">
+			<portlet:param name="onlyFutureEvents" value="<%= pageContext.getAttribute("onlyFutureEvents").toString() %>"/>
+		</c:if>
+	</portlet:actionURL>
+
+	<portlet:renderURL var="confirmUrl">
+		<portlet:param name="action" value="Confirm"/>
+	</portlet:renderURL>
+	
+	<script type="text/javascript">
+		function submitDelete(okUrl, confirmMessage)
+		{
+			//alert("okUrl:" + okUrl);
+			document.confirmForm.okUrl.value = okUrl;
+			document.confirmForm.confirmMessage.value = confirmMessage;
+			document.confirmForm.submit();
+		}
+	</script>
+	<form name="confirmForm" action="<c:out value="${confirmUrl}"/>" method="post">
+		<input type="hidden" name="confirmTitle" value="Radera - bekräfta"/>
+		<input type="hidden" name="confirmMessage" value="Fixa detta"/>
+		<input type="hidden" name="okUrl" value=""/>
+		<input type="hidden" name="cancelUrl" value="<c:out value="${viewListUrl}"/>"/>	
+	</form>
+
 	<ww:iterator value="entries" status="rowstatus">
 	    <ww:set name="firstName" value="firstName" scope="page"/>
 	    <ww:set name="lastName" value="lastName" scope="page"/>
@@ -234,40 +279,7 @@
 				<portlet:param name="onlyFutureEvents" value="<%= pageContext.getAttribute("onlyFutureEvents").toString() %>"/>
 			</c:if>			
 		</portlet:actionURL>
-		
-		<portlet:actionURL var="viewListUrl">
-			<portlet:param name="action" value="ViewEntrySearch"/>
-			<calendar:evalParam name="searchHashCode" value="${searchHashCode}"/>
-			<c:if test="${searchEventId != null}">
-				<ww:iterator value="searchEventId">
-					<ww:if test="top != null">
-						<ww:set name="currentSearchEventId" value="top" scope="page"/>
-						<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
-					</ww:if>
-				</ww:iterator>
-			</c:if>
-			<c:if test="${searchFirstName != null}">
-				<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
-			</c:if>
-			<c:if test="${searchLastName != null}">
-				<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
-			</c:if>
-			<c:if test="${searchEmail != null}">
-				<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
-			</c:if>
-			<c:if test="${onlyFutureEvents != null}">
-				<portlet:param name="onlyFutureEvents" value="<%= pageContext.getAttribute("onlyFutureEvents").toString() %>"/>
-			</c:if>
-		</portlet:actionURL>
-	
-		<portlet:renderURL var="confirmUrl">
-			<portlet:param name="action" value="Confirm"/>
-			<portlet:param name="confirmTitle" value="Radera - bekräfta"/>
-			<calendar:evalParam name="confirmMessage" value="Är du säker på att du vill radera &quot;${name}&quot;"/>
-			<portlet:param name="okUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("deleteUrl").toString(), "utf-8") %>"/>
-			<portlet:param name="cancelUrl" value="<%= java.net.URLEncoder.encode(pageContext.getAttribute("viewListUrl").toString(), "utf-8") %>"/>
-		</portlet:renderURL>
-	
+				
 		<ww:if test="#rowstatus.odd == true">
 	    	<div class="oddrow">
 	    </ww:if>
@@ -321,7 +333,7 @@
 
 		</ww:iterator>
 		   	<div class="columnEnd">
-		   		<a href="<c:out value="${confirmUrl}"/>" title="Radera '<ww:property value="entry.firstName"/>'" class="delete"></a>
+		   		<a href="javascript:submitDelete('<c:out value="${deleteUrl}"/>', 'Är du säker på att du vill radera &quot;<ww:property value="#name"/>&quot;');" title="Radera '<ww:property value="entry.firstName"/>'" class="delete"></a>
 		   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="entry.firstName"/>'" class="edit"></a>
 		   	</div>
 		   	<div class="clear"></div>
