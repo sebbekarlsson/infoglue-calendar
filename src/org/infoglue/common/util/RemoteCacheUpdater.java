@@ -167,7 +167,9 @@ public class RemoteCacheUpdater
    {        
        URL url = new URL(urlAddress);
        URLConnection urlConn = url.openConnection();
-       urlConn.setAllowUserInteraction(false); 
+       urlConn.setConnectTimeout(3000);
+       urlConn.setReadTimeout(3000);
+	   urlConn.setAllowUserInteraction(false); 
        urlConn.setDoOutput (true); 
        urlConn.setDoInput (true); 
        urlConn.setUseCaches (false); 
