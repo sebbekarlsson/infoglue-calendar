@@ -160,8 +160,8 @@
 <ww:if test="event.contactPhone != null && event.contactPhone != ''">
 	<div>
 		<div class="eventCellLeft"><ww:property value="this.getLabel('labels.public.event.phoneLabel')"/>: </div>
-  			<div class="eventCellRight"><ww:property value="event.contactPhone"/></div>
-  		</div>
+		<div class="eventCellRight"><ww:property value="event.contactPhone"/></div>
+	</div>
 </ww:if>
    
 <ww:set name="count" value="0"/>
