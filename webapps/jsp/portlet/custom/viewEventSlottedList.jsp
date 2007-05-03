@@ -21,8 +21,7 @@
 </ww:if>
 
 <!-- Calendar start -->
-<div class="calendar">   
-
+<div>   
 	<ww:if test="#attr.detailUrl.indexOf('?') > -1">
 		<c:set var="delim" value="&"/>
 	</ww:if>
