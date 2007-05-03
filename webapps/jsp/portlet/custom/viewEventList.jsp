@@ -67,7 +67,7 @@
 			</ww:iterator>
 		</ww:if>
 
-		<ww:if test="top.internalName == 'topicArea'">
+		<ww:if test="top.internalName == 'city'">
 			<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)" />
 			<ww:iterator value="#selectedCategories" status="rowstatus">
 				<ww:set name="city"	value="top.getLocalizedName(#languageCode, 'sv')" />
