@@ -89,7 +89,7 @@
     
 <ww:if test="event.resources.size() > 0">
 	<div>
-		<div class="eventCellLeft"><ww:property value="this.getLabel('labels.public.event.additionalInfoLabel')"/>: </span><br/>
+		<div class="eventCellLeft"><ww:property value="this.getLabel('labels.public.event.additionalInfoLabel')"/>:</div>
 		<div class="eventCellRight">
 			<ww:iterator value="event.resources">
 			  	<ww:if test="top.assetKey == 'BifogadFil'">
