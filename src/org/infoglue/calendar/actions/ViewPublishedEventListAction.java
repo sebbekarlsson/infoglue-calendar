@@ -61,8 +61,10 @@ public class ViewPublishedEventListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {    	
-        this.events = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), categoryId, getSession());
-        Category category = CategoryController.getController().getCategoryByPath(getSession(), PropertyHelper.getProperty("filterCategoryPath"));
+    	Session session = getSession(true);
+    	
+        this.events = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), categoryId, session);
+        Category category = CategoryController.getController().getCategoryByPath(session, PropertyHelper.getProperty("filterCategoryPath"));
         if(category != null)
         	categoriesList = category.getChildren();
         

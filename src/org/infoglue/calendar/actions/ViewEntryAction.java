@@ -27,6 +27,7 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 
+import org.hibernate.Session;
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventTypeController;
@@ -65,8 +66,10 @@ public class ViewEntryAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.entry = EntryController.getController().getEntry(entryId, getSession());
-        EventType eventType = EventTypeController.getController().getEventType(entry.getEvent().getEntryFormId(), getSession());
+    	Session session = getSession(true);
+    	
+        this.entry = EntryController.getController().getEntry(entryId, session);
+        EventType eventType = EventTypeController.getController().getEventType(entry.getEvent().getEntryFormId(), session);
 		this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
 
 		if(view != null && view.length() > 0)

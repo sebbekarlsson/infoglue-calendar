@@ -32,6 +32,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
@@ -81,7 +82,9 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 
     private void initialize() throws Exception
     {
-        Category category = CategoryController.getController().getCategoryByPath(getSession(), PropertyHelper.getProperty("filterCategoryPath"));
+    	Session session = getSession(true);
+    	
+        Category category = CategoryController.getController().getCategoryByPath(session, PropertyHelper.getProperty("filterCategoryPath"));
         if(category != null)
         	categoriesList = category.getChildren();
     }
@@ -92,6 +95,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     
     public String execute() throws Exception
     {
+    	Session session = getSession(true);
     	
         if(startDateTime != null && startDateTime.length() > 0)
             startCalendar 	= getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", true); 
@@ -115,7 +119,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 															        maximumParticipants,
 															        sortAscending,
 															        categoryId,
-															        getSession());
+															        session);
         
         
         return Action.SUCCESS;

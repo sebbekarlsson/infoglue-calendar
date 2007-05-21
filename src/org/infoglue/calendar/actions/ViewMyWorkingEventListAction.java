@@ -28,6 +28,7 @@ import java.util.Set;
 
 import javax.portlet.PortletURL;
 
+import org.hibernate.Session;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LocationController;
@@ -55,7 +56,9 @@ public class ViewMyWorkingEventListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.events = EventController.getController().getMyWorkingEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+    	Session session = getSession(true);
+    	
+        this.events = EventController.getController().getMyWorkingEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), session);
 
         return Action.SUCCESS;
     } 

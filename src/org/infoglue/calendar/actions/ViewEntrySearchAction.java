@@ -38,6 +38,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EntryController;
@@ -90,12 +91,12 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     private Map categoryAttributesMap = new HashMap();
 
-    private void initialize() throws Exception
+    private void initialize(Session session) throws Exception
     {
-        this.eventList = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), null, getSession());
-        this.categoryList = CategoryController.getController().getRootCategoryList(getSession());
-        this.locationList = LocationController.getController().getLocationList(getSession());
-        this.categoryAttributes = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttributeList(getSession());
+    	this.eventList = EventController.getController().getPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), null, session);
+        this.categoryList = CategoryController.getController().getRootCategoryList(session);
+        this.locationList = LocationController.getController().getLocationList(session);
+        this.categoryAttributes = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttributeList(session);
         log.debug("calendars:" + categoryAttributes.size());
 		String entryResultValues = PropertyHelper.getProperty("entryResultsValues");
         StringTokenizer st = new StringTokenizer( entryResultValues, ",", false );
@@ -112,7 +113,9 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     public String execute() throws Exception
     {
-        initialize();
+    	Session dbSession = getSession(true);
+    	
+        initialize(dbSession);
 
         if(this.searchHashCode != null && !this.searchHashCode.equals(""))
         {
@@ -170,7 +173,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 													categoryAttributesMap,
                 													Boolean.parseBoolean(andSearch),
                 													locationId,
-                													getSession());
+                													dbSession);
 
         String emailAddresses = "";
         Iterator entriesIterator = entries.iterator();
@@ -220,7 +223,9 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     public String doInput() throws Exception 
     {
-        initialize();
+    	Session session = getSession(true);
+    	
+        initialize(session);
 
         return Action.INPUT;
     } 

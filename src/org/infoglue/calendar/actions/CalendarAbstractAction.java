@@ -47,6 +47,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -436,6 +437,18 @@ public class CalendarAbstractAction extends ActionSupport
 	}
 	
 	
+    public String getStringAttributeValue(String attributeName)
+    {
+    	try
+    	{
+    		return (String)ServletActionContext.getRequest().getAttribute(attributeName);
+    	}
+    	catch(Exception e)
+    	{
+    		return "";
+    	}
+    }
+
     public String formatDate(Date date, String pattern, Locale locale)
     {	
     	if(date == null)
@@ -911,6 +924,39 @@ public class CalendarAbstractAction extends ActionSupport
         return eventVersion;
     }
 
+    public EventVersion getEventVersion(Event event)
+    {        
+        if(event == null)
+    		return null;
+
+    	EventVersion eventVersion = null;
+
+    	try
+    	{
+    		Language language = LanguageController.getController().getLanguageWithCode(this.getLanguageCode(), getSession());
+	    	
+	    	Iterator eventVersionsIterator = event.getVersions().iterator();
+	        while(eventVersionsIterator.hasNext())
+	        {
+	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
+	        	if(currentEventVersion.getVersionLanguageId().equals(language.getId()))
+	        	{
+	        		eventVersion = currentEventVersion;
+	        		break;
+	        	}
+	        }
+	        
+	        if(eventVersion == null && event.getVersions().size() > 0)
+	        	eventVersion = (EventVersion)event.getVersions().toArray()[0];
+    	}
+    	catch(Exception e)
+    	{
+    		log.error("Error when getting event version for event: " + event + ":" + e.getMessage(), e); 
+    	}
+    	
+        return eventVersion;
+    }
+
     public VisualFormatter getVisualFormatter()
     {
     	return new VisualFormatter();
@@ -1005,6 +1051,14 @@ public class CalendarAbstractAction extends ActionSupport
 	public Session getSession() throws HibernateException {
 	    return (Session)ServletActionContext.getRequest().getAttribute("HIBERNATE_SESSION");
 	}
+	
+
+	public Session getSession(boolean readOnly) throws HibernateException {
+		Session session = (Session)ServletActionContext.getRequest().getAttribute("HIBERNATE_SESSION");
+		if(readOnly)
+			session.setFlushMode(FlushMode.NEVER);
+		return session;
+	}
 
 	public Transaction getTransaction() throws HibernateException {
 	    return (Transaction)ServletActionContext.getRequest().getAttribute("HIBERNATE_TRANSACTION");
@@ -1061,6 +1115,7 @@ public class CalendarAbstractAction extends ActionSupport
 			}
 		}
 	}
+
 	/*
 	protected void setRollbackOnly() {
 		session.setRollBackOnly(true);

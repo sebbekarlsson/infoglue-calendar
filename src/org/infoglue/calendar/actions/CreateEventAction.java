@@ -105,7 +105,7 @@ public class CreateEventAction extends CalendarAbstractAction
     //private List categories;
     private List languages;
     private Map categoryAttributes = new HashMap();
-    private List infogluePrincipals;
+    //private List infogluePrincipals;
     private List entryFormEventTypes;
     private Long entryFormId;
     
@@ -367,7 +367,7 @@ public class CreateEventAction extends CalendarAbstractAction
         this.calendar = CalendarController.getController().getCalendar(this.calendarId, getSession());
         this.locations 	= LocationController.getController().getLocationList(getSession());
         //this.categories = CategoryController.getController().getRootCategoryList(getSession());
-        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+        //this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.entryFormEventTypes = EventTypeController.getController().getEventTypeList(EventType.ENTRY_DEFINITION, getSession());
         this.languages = LanguageController.getController().getLanguageList(getSession());
         
@@ -630,7 +630,7 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         this.participantUserName = participantUserName;
     }
-    
+    /*
     public List getInfogluePrincipals()
     {
         return infogluePrincipals;
@@ -640,7 +640,7 @@ public class CreateEventAction extends CalendarAbstractAction
     {
         this.infogluePrincipals = infogluePrincipals;
     }
-    
+    */
     public String[] getCategoryId()
     {
         return categoryId;

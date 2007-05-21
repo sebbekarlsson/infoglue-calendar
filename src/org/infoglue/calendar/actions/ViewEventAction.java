@@ -32,6 +32,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.ObjectNotFoundException;
+import org.hibernate.Session;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EventController;
@@ -70,7 +71,7 @@ public class ViewEventAction extends CalendarAbstractAction
 
     private List locations;
     private List categories;
-    private List infogluePrincipals;
+    //private List infogluePrincipals;
 
     private List yesOrNo = new ArrayList();
 
@@ -104,6 +105,8 @@ public class ViewEventAction extends CalendarAbstractAction
         {
         	log.info("this.eventId:" + eventId);
 	        
+        	Session session = getSession(true);
+        	
 	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
 	        String forceRequestEventIdString = ServletActionContext.getRequest().getParameter("forceRequestEventId");
 	        if(forceRequestEventIdString != null && forceRequestEventIdString.length() > 0)
@@ -116,7 +119,7 @@ public class ViewEventAction extends CalendarAbstractAction
 	        if((this.eventId == null || this.forceRequestEventId.booleanValue()) && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
 	            this.eventId = new Long(requestEventId);
 	
-	        this.availableLanguages = LanguageController.getController().getLanguageList(getSession());
+	        this.availableLanguages = LanguageController.getController().getLanguageList(session);
             if(this.versionLanguageId == null && this.availableLanguages.size() > 0)
             {
             	this.versionLanguageId = ((Language)this.availableLanguages.get(0)).getId();
@@ -124,7 +127,7 @@ public class ViewEventAction extends CalendarAbstractAction
             
 	        if(this.eventId != null)
 	        {
-	            this.event = EventController.getController().getEvent(eventId, getSession());
+	            this.event = EventController.getController().getEvent(eventId, session);
 	            Iterator eventVersionsIterator = this.event.getVersions().iterator();
 	            while(eventVersionsIterator.hasNext())
 	            {
@@ -136,13 +139,14 @@ public class ViewEventAction extends CalendarAbstractAction
 	            	}
 	            }
 	            
-	            this.calendarId = this.event.getOwningCalendar().getId();
+	            if(this.event.getOwningCalendar() != null)
+	            	this.calendarId = this.event.getOwningCalendar().getId();
 	            
-	            this.locations 	= LocationController.getController().getLocationList(getSession());
-	            this.categories = CategoryController.getController().getRootCategoryList(getSession());
-	            this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
-	            this.entryFormEventTypes = EventTypeController.getController().getEventTypeList(EventType.ENTRY_DEFINITION, getSession());
-	            this.entryFormEventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
+	            this.locations 	= LocationController.getController().getLocationList(session);
+	            this.categories = CategoryController.getController().getRootCategoryList(session);
+	            //this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
+	            this.entryFormEventTypes = EventTypeController.getController().getEventTypeList(EventType.ENTRY_DEFINITION, session);
+	            this.entryFormEventType = EventTypeController.getController().getEventType(event.getEntryFormId(), session);
 	            
 	            EventType eventType = this.event.getOwningCalendar().getEventType();
 	    		if(eventType != null)
@@ -174,11 +178,13 @@ public class ViewEventAction extends CalendarAbstractAction
 
     public String chooseLanguageForEdit() throws Exception 
     {
-        this.availableLanguages = LanguageController.getController().getLanguageList(getSession());
+    	Session session = getSession(true);
+    	
+        this.availableLanguages = LanguageController.getController().getLanguageList(session);
 
         if(this.eventId != null)
         {
-            this.event = EventController.getController().getEvent(eventId, getSession());
+            this.event = EventController.getController().getEvent(eventId, session);
             Iterator eventVersionIterator = this.event.getVersions().iterator();
             while(eventVersionIterator.hasNext())
             {
@@ -202,6 +208,8 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         try
         {
+        	Session session = getSession(true);
+        	
             log.info("this.eventId:" + eventId);
 	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
 	        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
@@ -209,7 +217,7 @@ public class ViewEventAction extends CalendarAbstractAction
 	
 	        if(this.eventId != null)
 	        {
-	            this.event = EventController.getController().getEvent(eventId, getSession());
+	            this.event = EventController.getController().getEvent(eventId, session);
 	
 	            return "successPublic";
 	        }
@@ -236,6 +244,8 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         try
         {
+        	Session session = getSession(true);
+        	
 	        log.info("this.eventId:" + eventId);
 	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
 	        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
@@ -243,7 +253,7 @@ public class ViewEventAction extends CalendarAbstractAction
 	
 	        if(this.eventId != null)
 	        {
-	            this.event = EventController.getController().getEvent(eventId, getSession());
+	            this.event = EventController.getController().getEvent(eventId, session);
 	
 	            return "successPublicGU";
 	        }
@@ -268,16 +278,18 @@ public class ViewEventAction extends CalendarAbstractAction
 
     public String doPublicCustom() throws Exception 
     {
-        try
+    	try
         {
-	        log.info("this.eventId:" + eventId);
+    		Session session = getSession(true);
+        
+    		log.info("this.eventId:" + eventId);
 	        String requestEventId = ServletActionContext.getRequest().getParameter("eventId");
 	        if(this.eventId == null && requestEventId != null && !requestEventId.equalsIgnoreCase(""))
 	            this.eventId = new Long(requestEventId);
 	
 	        if(this.eventId != null)
 	        {
-	            this.event = EventController.getController().getEvent(eventId, getSession());
+	            this.event = EventController.getController().getEvent(eventId, session);
 	            return "successPublicCustom";
 	        }
 	        else
@@ -354,12 +366,12 @@ public class ViewEventAction extends CalendarAbstractAction
     {
         this.mode = mode;
     }
-    
+    /*
     public List getInfogluePrincipals()
     {
         return infogluePrincipals;
     }
-    
+    */
     public List getParticipatingPrincipals()
     {
         return participatingPrincipals;

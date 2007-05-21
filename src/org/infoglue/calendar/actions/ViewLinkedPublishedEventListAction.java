@@ -30,6 +30,8 @@ import java.util.Set;
 
 import javax.portlet.PortletURL;
 
+import org.hibernate.FlushMode;
+import org.hibernate.Session;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
@@ -66,8 +68,11 @@ public class ViewLinkedPublishedEventListAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        this.events = EventController.getController().getLinkedPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), this.categoryId, getSession());
-        Category category = CategoryController.getController().getCategoryByPath(getSession(), PropertyHelper.getProperty("filterCategoryPath"));
+    	Session session = getSession(true);
+    	
+        this.events = EventController.getController().getLinkedPublishedEventList(this.getInfoGlueRemoteUser(), this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), this.categoryId, session);
+        
+        Category category = CategoryController.getController().getCategoryByPath(session, PropertyHelper.getProperty("filterCategoryPath"));
         if(category != null)
         	categoriesList = category.getChildren();
 
