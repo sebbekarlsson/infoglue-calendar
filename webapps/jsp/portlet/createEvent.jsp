@@ -204,9 +204,9 @@
 			<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValues="getCategoryAttributeValues(top.id)" cssClass="listBox" required="true"/>
 		</ww:iterator>
 
-		<!--
+		<%--
 		<calendar:selectField label="labels.internal.event.participants" name="participantUserName" multiple="true" value="infogluePrincipals" cssClass="listBox"/>
-		-->
+		--%>
 		
 		<div style="height:10px"></div>
 			
