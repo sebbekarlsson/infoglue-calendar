@@ -480,6 +480,15 @@
 			<result name="successAggregatedRSS" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAsAggregatedRSS.jsp</param>
 			</result>
+			<result name="successAggregatedCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAsAggregated.jsp</param>
+			</result>
+			<result name="successAggregatedCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAggregated.jsp</param>
+			</result>
+			<result name="successShortAggregatedCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventShortListAggregated.jsp</param>
+			</result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>

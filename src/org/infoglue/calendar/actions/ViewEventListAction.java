@@ -23,7 +23,12 @@
 
 package org.infoglue.calendar.actions;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +60,8 @@ import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
+import com.sun.syndication.io.SyndFeedInput;
+import com.sun.syndication.io.XmlReader;
 
 /**
  * This action represents a Calendar Administration screen.
@@ -106,9 +113,10 @@ public class ViewEventListAction extends CalendarAbstractAction
     {
         execute();
         
-        return Action.SUCCESS + "AggregratedRSS";
+        return Action.SUCCESS + "AggregatedRSS";
     }
-
+    
+    
     public String listGU() throws Exception
     {
         execute();
@@ -120,6 +128,13 @@ public class ViewEventListAction extends CalendarAbstractAction
     {
         execute();
         return Action.SUCCESS + "Custom";
+    }
+
+    public String listAggregatedCustom() throws Exception
+    {
+        execute();
+        
+        return Action.SUCCESS + "AggregatedCustom";
     }
 
     public String listSlottedGU() throws Exception
@@ -148,6 +163,13 @@ public class ViewEventListAction extends CalendarAbstractAction
         execute();
         
         return Action.SUCCESS + "ShortCustom";
+    }
+
+    public String shortListAggregatedCustom() throws Exception
+    {
+        execute();
+        
+        return Action.SUCCESS + "ShortAggregatedCustom";
     }
 
     public String getCalendarId()
@@ -226,58 +248,8 @@ public class ViewEventListAction extends CalendarAbstractAction
 	        feed.setLink(this.getStringAttributeValue("feedLink"));
 	        feed.setDescription(this.getStringAttributeValue("feedDescription"));
 	        
-	        List entries = new ArrayList();
-	        SyndEntry entry;
-	        SyndContent description;
+	        List entries = getInternalFeedEntries(eventURL);
 	        
-	    	Iterator eventsIterator = events.iterator();
-	    	while(eventsIterator.hasNext())
-	    	{
-	    		Event event = (Event)eventsIterator.next();
-	    		EventVersion eventVersion = this.getEventVersion(event);
-	    		
-	    		entry = new SyndEntryImpl();
-	    		entry.setTitle(eventVersion.getName());
-    			entry.setLink(eventURL.replaceAll("\\{eventId\\}", "" + event.getId()));
-	    		entry.setPublishedDate(new Date());
-	
-	    		List categories = new ArrayList();
-	    		Iterator eventCategoriesIterator = event.getEventCategories().iterator();
-	    		while(eventCategoriesIterator.hasNext())
-	    		{
-	    			EventCategory eventCategory = (EventCategory)eventCategoriesIterator.next();
-	    			SyndCategory syndCategory = new SyndCategoryImpl();
-	    			syndCategory.setName(eventCategory.getCategory().getLocalizedName(this.getLanguageCode(), "sv"));
-	    			categories.add(syndCategory);
-	    		}
-	    				    		
-	    		entry.setCategories(categories);
-	    		
-	    		description = new SyndContentImpl();
-	    		description.setType("text/html");
-	    		description.setValue(eventVersion.getShortDescription());
-	    		entry.setDescription(description);
-
-	    		List contents = new ArrayList();
-
-	    		SyndContent metaData = new SyndContentImpl();
-
-	    		StringBuffer xml = new StringBuffer("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-	    		xml.append("<metadata>");
-	    		xml.append("<startDateTime>" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</startDateTime>");
-	    		xml.append("<endDateTime>" + this.formatDate(event.getEndDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</endDateTime>");
-	    		xml.append("</metadata>]]>");
-
-	    		metaData.setType("text/xml");
-	    		metaData.setValue(xml.toString());
-	    		
-	    		contents.add(metaData);
-
-	    		entry.setContents(contents);
-	    		
-	    		entries.add(entry);
-	    	}
-	    	
 	    	feed.setEntries(entries);
 	    	RssHelper rssHelper = new RssHelper();
 	    	rssXML = rssHelper.render(feed);
@@ -288,6 +260,220 @@ public class ViewEventListAction extends CalendarAbstractAction
     	}
     	
         return rssXML;
+    }
+    
+    public String getAggregatedRSSXML()
+    {
+    	String rssXML = null;
+    	
+    	try
+    	{
+	    	SyndFeed feed = new SyndFeedImpl();
+	        feed.setFeedType("atom_1.0");
+	
+	        feed.setTitle(this.getStringAttributeValue("feedTitle"));
+	        feed.setLink(this.getStringAttributeValue("feedLink"));
+	        feed.setDescription(this.getStringAttributeValue("feedDescription"));
+
+    		String eventURL = this.getStringAttributeValue("detailUrl");
+    		if(eventURL == null)
+    			eventURL = "";
+
+	        String externalRSSUrl = this.getStringAttributeValue("externalRSSUrl");
+    		if(externalRSSUrl == null || externalRSSUrl.equalsIgnoreCase(""))
+    			externalRSSUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
+    		
+            List entries = getExternalFeedEntries(externalRSSUrl);
+    		List internalEntries = getInternalFeedEntries(eventURL);	
+
+    		entries.addAll(internalEntries);
+    		
+    		sortEntries(entries);
+    		
+	    	feed.setEntries(entries);
+	    	RssHelper rssHelper = new RssHelper();
+	    	rssXML = rssHelper.render(feed);
+    	}
+    	catch(Throwable t)
+    	{
+    		t.printStackTrace();
+    	}
+    	
+        return rssXML;
+    }
+
+    public List getAggregatedEntries()
+    {
+    	String rssXML = null;
+    	
+    	try
+    	{
+    		String eventURL = this.getStringAttributeValue("detailUrl");
+    		if(eventURL == null)
+    			eventURL = "";
+
+	        String externalRSSUrl = this.getStringAttributeValue("externalRSSUrl");
+    		if(externalRSSUrl == null || externalRSSUrl.equalsIgnoreCase(""))
+    			externalRSSUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
+    		
+            List entries = getExternalFeedEntries(externalRSSUrl);
+    		List internalEntries = getInternalFeedEntries(eventURL);	
+
+    		entries.addAll(internalEntries);
+    		
+    		sortEntries(entries);
+
+    		System.out.println("entries:" + entries.size());
+    		
+    		return entries;
+    	}
+    	catch(Throwable t)
+    	{
+    		t.printStackTrace();
+    	}
+    	
+        return new ArrayList();
+    }
+
+
+    private List getInternalFeedEntries(String eventURL)
+    {
+        List entries = new ArrayList();
+        SyndEntry entry;
+        SyndContent description;
+        
+    	Iterator eventsIterator = events.iterator();
+    	while(eventsIterator.hasNext())
+    	{
+    		Event event = (Event)eventsIterator.next();
+    		EventVersion eventVersion = this.getEventVersion(event);
+    		
+    		entry = new SyndEntryImpl();
+    		entry.setTitle(eventVersion.getName());
+			entry.setLink(eventURL.replaceAll("\\{eventId\\}", "" + event.getId()));
+    		entry.setPublishedDate(event.getStartDateTime().getTime());
+    		entry.setUri(eventURL.replaceAll("\\{eventId\\}", "" + event.getId()));
+    		
+    		List categories = new ArrayList();
+    		Iterator eventCategoriesIterator = event.getEventCategories().iterator();
+    		while(eventCategoriesIterator.hasNext())
+    		{
+    			EventCategory eventCategory = (EventCategory)eventCategoriesIterator.next();
+    			SyndCategory syndCategory = new SyndCategoryImpl();
+    			syndCategory.setTaxonomyUri(eventCategory.getEventTypeCategoryAttribute().getInternalName());
+    			syndCategory.setName(eventCategory.getCategory().getLocalizedName(this.getLanguageCode(), "sv"));
+    			categories.add(syndCategory);
+    		}
+    				    		
+    		entry.setCategories(categories);
+    		
+    		description = new SyndContentImpl();
+    		description.setType("text/html");
+    		description.setValue(eventVersion.getShortDescription());
+    		entry.setDescription(description);
+
+    		List contents = new ArrayList();
+
+    		SyndContent metaData = new SyndContentImpl();
+
+    		StringBuffer xml = new StringBuffer("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+    		xml.append("<metadata>");
+    		xml.append("<startDateTime>" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</startDateTime>");
+    		xml.append("<endDateTime>" + this.formatDate(event.getEndDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</endDateTime>");
+    		xml.append("</metadata>]]>");
+
+    		metaData.setType("text/xml");
+    		metaData.setValue(xml.toString());
+    		
+    		contents.add(metaData);
+
+    		entry.setContents(contents);
+    		
+    		entries.add(entry);
+    	}
+
+    	return entries;
+    }
+    
+    public List getExternalFeedEntries(String externalRSSUrl) throws Exception
+    {
+    	try
+    	{
+	    	URL url = new URL(externalRSSUrl);
+	        URLConnection urlConn = url.openConnection();
+	        urlConn.setConnectTimeout(3000);
+	        urlConn.setReadTimeout(5000);
+	        
+	        SyndFeedInput input = new SyndFeedInput();
+	        SyndFeed inputFeed = input.build(new XmlReader(urlConn));
+	        
+	        List entries = inputFeed.getEntries();
+	
+	        return entries;
+    	}
+    	catch (Exception e) 
+    	{
+    		log.error("We could not fetch the external rss from " + externalRSSUrl + ". Reason: " + e.getMessage() , e);
+			return new ArrayList();
+		}
+    }
+    
+    private void sortEntries(List entries)
+    {
+    	Collections.sort(entries, Collections.reverseOrder(new OrderByDate()));
+    }
+
+    
+    public List getDates(String entryString)
+    {
+    	List dates = new ArrayList();
+    	
+    	try
+		{
+			
+	        Object object = findOnValueStack(entryString);
+	        SyndEntry entry = (SyndEntry)object;
+	        
+	        if(entry != null && entry.getContents() != null && entry.getContents().size() > 0)
+	        {
+		        SyndContent metaData = (SyndContent)entry.getContents().get(0);
+		        String content = metaData.getValue();
+		        
+		        int indexStart = content.indexOf("<startDateTime>") + "<startDateTime>".length();
+		        if(indexStart > -1)
+		        {
+		            int indexEnd = content.indexOf("</startDateTime>", indexStart);
+		            if(indexEnd > -1)
+		            {
+		                String startDateTimeString = content.substring(indexStart, indexEnd);
+		                dates.add(this.parseDate(startDateTimeString, "yyyy-MM-dd HH:ss"));
+		    	    }
+		        }
+		
+		        indexStart = content.indexOf("<endDateTime>") + "<endDateTime>".length();
+		        if(indexStart > -1)
+		        {
+		            int indexEnd = content.indexOf("</endDateTime>", indexStart);
+		            if(indexEnd > -1)
+		            {
+		                String endDateTimeString = content.substring(indexStart, indexEnd);
+		                dates.add(this.parseDate(endDateTimeString, "yyyy-MM-dd HH:ss"));
+		    	    }
+		        }
+	        }	
+	        
+	        if(dates.size() < 2)
+	        {
+		        dates.add(new Date());
+		    	dates.add(new Date());
+	        }	        
+		} 
+    	catch (Exception e)
+		{
+    		e.printStackTrace();
+		}
+        
+        return dates;
     }
 
     public void setCategoryAttribute(String categoryAttribute)
@@ -312,3 +498,18 @@ public class ViewEventListAction extends CalendarAbstractAction
     */
 
 }
+
+//--------------------------------------------------
+//Inner class for sorting entries by date.
+//--------------------------------------------------
+
+final class OrderByDate implements Comparator
+{
+	public int compare(final Object aObj, final Object bObj)
+	{
+		final Date aDate = ((SyndEntry)aObj).getPublishedDate();
+		final Date bDate = ((SyndEntry)bObj).getPublishedDate();
+		return (aDate == null) ? 1 : (bDate == null) ? -1 : bDate.compareTo(aDate);
+	}
+}
+
