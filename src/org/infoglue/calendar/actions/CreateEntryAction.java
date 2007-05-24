@@ -254,6 +254,33 @@ public class CreateEntryAction extends CalendarAbstractAction
         return Action.SUCCESS + "PublicGU";
     } 
 
+    public String doPublicCustom() throws Exception 
+    {
+        /*
+        if(useEntryLimitation())
+        {
+		    Event event = EventController.getController().getEvent(eventId, getSession());
+	        List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
+	        
+	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
+	            return "maximumReachedPublic";
+        }
+        */
+        
+        try
+        {
+            validateInput(this);
+
+            this.execute();
+        }
+        catch(ValidationException e)
+        {
+            return Action.ERROR + "PublicCustom";            
+        }
+        
+        return Action.SUCCESS + "PublicCustom";
+    } 
+
     
     /**
      * This is the entry point creating a new calendar.
