@@ -26,31 +26,6 @@ package org.infoglue.calendar.controllers;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.infoglue.calendar.entities.Calendar;
-import org.infoglue.calendar.entities.Category;
-import org.infoglue.calendar.entities.Entry;
-import org.infoglue.calendar.entities.Event;
-import org.infoglue.calendar.entities.Location;
-import org.infoglue.calendar.entities.Role;
-import org.infoglue.calendar.entities.Subscriber;
-import org.infoglue.cms.applications.common.VisualFormatter;
-import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
-import org.infoglue.cms.entities.content.ContentVersionVO;
-import org.infoglue.cms.security.InfoGluePrincipal;
-import org.infoglue.cms.util.CmsPropertyHandler;
-import org.infoglue.common.util.PropertyHelper;
-import org.infoglue.common.util.VelocityTemplateProcessor;
-import org.infoglue.common.util.io.FileHelper;
-import org.infoglue.common.util.mail.MailServiceFactory;
-
-
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -59,21 +34,26 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
+import org.infoglue.calendar.entities.Entry;
+import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.Location;
+import org.infoglue.cms.applications.common.VisualFormatter;
+import org.infoglue.common.util.PropertyHelper;
+import org.infoglue.common.util.VelocityTemplateProcessor;
+import org.infoglue.common.util.io.FileHelper;
+import org.infoglue.common.util.mail.MailServiceFactory;
 
 public class EntryController extends BasicController
 {    
