@@ -630,6 +630,9 @@
 			<result name="inputPublicGU" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/gu/createEntry.jsp</param>
             </result>
+            <result name="inputPublicCustom" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/custom/createEntry.jsp</param>
+            </result>
             <result name="success" type="eventProcessed">
 				<param name="viewAction">CreateEntry!receipt.action?eventId=${eventId}&amp;entryId=${newEntry.id}</param>
 				<param name="parse">true</param>
@@ -640,6 +643,10 @@
 			</result>
             <result name="successPublicGU" type="eventProcessed">
 				<param name="viewAction">CreateEntry!receiptPublicGU.action?eventId=${eventId}&amp;entryId=${newEntry.id}</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="successPublicCustom" type="eventProcessed">
+				<param name="viewAction">CreateEntry!receiptPublicCustom.action?eventId=${eventId}&amp;entryId=${newEntry.id}</param>
 				<param name="parse">true</param>
 			</result>
             <result name="maximumReached" type="portletDispatch">
@@ -668,6 +675,9 @@
 			</result>
             <result name="receiptPublicGU" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/gu/entryReceipt.jsp</param>
+			</result>
+			 <result name="receiptPublicCustom" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/custom/entryReceipt.jsp</param>
 			</result>
 		</action>
 		<action name="ViewEntrySearch" class="org.infoglue.calendar.actions.ViewEntrySearchAction">
