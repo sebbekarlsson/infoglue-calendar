@@ -35,7 +35,7 @@
 		<ww:set name="eventId" value="id" scope="page"/>
 		<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
 		<ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
-		
+
 		<portlet:renderURL var="eventDetailUrl">
 			<portlet:param name="action" value="ViewEvent!publicCustom"/>
 			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
@@ -43,52 +43,57 @@
 	                     
 		<!-- Record Start -->
 		
-		<h2><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="#eventVersion.name"/></a></h2>	
-		
-		<p class="dateformat">[
-			<ww:set name="startDate" value="this.formatDate(top.startDateTime.time, 'yyyy-MM-dd')"/>
-			<ww:set name="endDate" value="this.formatDate(top.endDateTime.time, 'yyyy-MM-dd')"/>
-			<ww:if test="#startDate != #endDate">
-				<ww:property value="#startDate"/>
-				<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
-			 	<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.endDateTime.time, 'HH:mm')"/>
-			 	</ww:if>
+		<div class="right">
+			<ww:set name="puffImage" value="this.getResourceUrl(#event, 'PuffBild')"/>
+		    <ww:if test="#puffImage != null">
+				<img src="<ww:property value="#puffImage"/>"/>
 			</ww:if>
-			<ww:else>
-				<ww:property value="#startDate"/>
-				<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
-			 	<ww:property value="this.getLabel('labels.public.event.timeLabel')"/>: <ww:property value="this.formatDate(top.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(top.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(top.endDateTime.time, 'HH:mm')"/></ww:if>
-			 	</ww:if>
-			</ww:else>
-			]
-		</p>
-					
-		<ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
-			<ww:if test="top.internalName == 'eventType'">
-				<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
-				<ww:iterator value="#selectedCategories" status="rowstatus">				
-					<ww:set name="area" value="top.getLocalizedName(#languageCode, 'sv')"/>
-				</ww:iterator>
-			</ww:if>
-									
-			<ww:if test="top.internalName == 'city'">
-				<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
-				<ww:iterator value="#selectedCategories" status="rowstatus">				
-					<ww:set name="city" value="top.getLocalizedName(#languageCode, 'sv')"/>
-				</ww:iterator>
-			</ww:if>				
-	  	</ww:iterator>				
-		
-		<p class="unpaddedtext"><ww:property value="#area"/> - <ww:property value="#city"/></p>
-		
-        <ww:set name="puffImage" value="this.getResourceUrl(event, 'PuffBild')"/>
-		<ww:if test="#puffImage != null">
-			<img src="<ww:property value="#puffImage"/>" class="img_calendar_event"/>
-		</ww:if>
-		
-		<p>
-			<ww:property value="#eventVersion.shortDescription"/>
-		</p>		
+		</div>
+		<div>		
+			<h2><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="#eventVersion.name"/></a></h2>	
+			
+			<p class="dateformat2">[
+				<ww:set name="startDate" value="this.formatDate(top.startDateTime.time, 'yyyy-MM-dd')"/>
+				<ww:set name="endDate" value="this.formatDate(top.endDateTime.time, 'yyyy-MM-dd')"/>
+				<ww:if test="#startDate != #endDate">
+					<ww:property value="#startDate"/>
+					<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
+				 	<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.endDateTime.time, 'HH:mm')"/>
+				 	</ww:if>
+				</ww:if>
+				<ww:else>
+					<ww:property value="#startDate"/>
+					<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
+				 	<ww:property value="this.getLabel('labels.public.event.timeLabel')"/>: <ww:property value="this.formatDate(top.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(top.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(top.endDateTime.time, 'HH:mm')"/></ww:if>
+				 	</ww:if>
+				</ww:else>
+				]
+			</p>
+						
+			<ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
+				<ww:if test="top.internalName == 'eventType'">
+					<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
+					<ww:iterator value="#selectedCategories" status="rowstatus">				
+						<ww:set name="area" value="top.getLocalizedName(#languageCode, 'sv')"/>
+					</ww:iterator>
+				</ww:if>
+										
+				<ww:if test="top.internalName == 'city'">
+					<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
+					<ww:iterator value="#selectedCategories" status="rowstatus">				
+						<ww:set name="city" value="top.getLocalizedName(#languageCode, 'sv')"/>
+					</ww:iterator>
+				</ww:if>				
+		  	</ww:iterator>				
+			
+			<p class="unpaddedtext"><ww:property value="#area"/> - <ww:property value="#city"/></p>
+			
+			<p>				        			
+				<ww:property value="#eventVersion.shortDescription"/>
+			</p>
+		</div>
+		<br/>
+				
 		<!-- Record End -->
 	</ww:iterator>
 
