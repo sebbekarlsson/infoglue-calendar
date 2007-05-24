@@ -10,11 +10,9 @@
 <ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
 <ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
 <ww:set name="languageCode" value="this.getLanguageCode()"/>
-
-<!-- Event detail start -->
-
 <ww:set name="startDate" value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>
 <ww:set name="endDate" value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
+<ww:set name="detailImage" value="this.getResourceUrl(event, 'DetaljBild')"/>
 
 <p class="dateformat">[
 	<ww:if test="#startDate != #endDate">		
@@ -35,7 +33,12 @@
 
 <div>
 	<div class="eventCellLeft">Beskrivning:</div>
-	<div class="eventCellRight"><ww:property value="#eventVersion.decoratedLongDescription"/></div>
+	<div class="eventCellRight">
+		<ww:if test="#detailImage != null">
+			<img src="<ww:property value="#detailImage"/>" class="right"/>
+		</ww:if>
+		<ww:property value="#eventVersion.decoratedLongDescription"/>				
+	</div>
 </div>
 
 <ww:if test="#eventVersion.organizerName != null && #eventVersion.organizerName != ''">
@@ -198,7 +201,7 @@
 				<ww:if test="event.maximumParticipants == null || event.maximumParticipants > event.entries.size()">
 					<ww:set name="eventId" value="eventId" scope="page"/>
 					<portlet:renderURL var="createEntryRenderURL">
-						<calendar:evalParam name="action" value="CreateEntry!inputPublicGU"/>
+						<calendar:evalParam name="action" value="CreateEntry!inputPublicCustom"/>
 						<calendar:evalParam name="eventId" value="${eventId}"/>
 					</portlet:renderURL>
 					<a href="<c:out value="${createEntryRenderURL}"/>"><ww:property value="this.getLabel('labels.public.event.signUp')"/></a>
@@ -219,6 +222,3 @@
 		</div>
 	</div>
 </ww:if>
-
-<!-- Calendar End -->
-

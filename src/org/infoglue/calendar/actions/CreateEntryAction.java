@@ -23,31 +23,22 @@
 
 package org.infoglue.calendar.actions;
 
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.portlet.PortletURL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
-import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeController;
-import org.infoglue.calendar.controllers.LocationController;
-import org.infoglue.calendar.databeans.AdministrationUCCBean;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
-import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
-import org.infoglue.common.util.DBSessionWrapper;
 import org.infoglue.common.util.dom.DOMBuilder;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -333,6 +324,17 @@ public class CreateEntryAction extends CalendarAbstractAction
         
         return Action.INPUT + "PublicGU";
     } 
+    
+    /**
+     * This is the entry point creating a new calendar.
+     */
+    
+    public String inputPublicCustom() throws Exception 
+    {
+    	inputPublicGU();
+        
+        return Action.INPUT + "PublicCustom";
+    } 
 
     public String receipt() throws Exception 
     {
@@ -374,6 +376,17 @@ public class CreateEntryAction extends CalendarAbstractAction
         log.info("Receipt public GU end");
 
         return "receiptPublicGU";
+    } 
+    
+    public String receiptPublicCustom() throws Exception 
+    {
+    	log.info("Receipt public Custom start");
+        
+    	receiptPublicGU();
+
+        log.info("Receipt public Custom end");
+
+        return "receiptPublicCustom";
     } 
     
     
