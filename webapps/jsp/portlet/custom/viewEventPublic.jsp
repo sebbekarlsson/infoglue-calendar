@@ -14,6 +14,24 @@
 <ww:set name="endDate" value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
 <ww:set name="detailImage" value="this.getResourceUrl(event, 'DetaljBild')"/>
 
+<ww:iterator value="event.owningCalendar.eventType.categoryAttributes">
+	<ww:if test="top.internalName == 'eventType'">
+		<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)" />
+		<ww:iterator value="#selectedCategories" status="rowstatus">
+			<ww:set name="area"	value="top.getLocalizedName(#languageCode, 'sv')" />
+		</ww:iterator>
+	</ww:if>
+
+	<ww:if test="top.internalName == 'city'">
+		<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)" />
+		<ww:iterator value="#selectedCategories" status="rowstatus">
+			<ww:set name="city"	value="top.getLocalizedName(#languageCode, 'sv')" />
+		</ww:iterator>
+	</ww:if>
+</ww:iterator>
+
+<div class="sectionheader"><ww:property value="#eventVersion.name"/> - <ww:property value="#area"/>, <ww:property value="#city"/><img alt="" class="leftpadding" src="<ww:property value="this.getStringAttributeValue('balkImageUrl')"/>"/></div>
+
 <p class="dateformat">[
 	<ww:if test="#startDate != #endDate">		
    		<ww:property value="#startDate"/>
@@ -28,8 +46,6 @@
 	 	</ww:if>			
 	</ww:else>
 ]</p>
-
-<h2><ww:property value="#eventVersion.name"/></h2>
 
 <div>
 	<div class="eventCellLeft">Beskrivning:</div>
