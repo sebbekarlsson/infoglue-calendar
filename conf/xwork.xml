@@ -666,7 +666,10 @@
 			</result>
 			<result name="errorPublicGU" type="eventProcessed">
 				<param name="viewAction">CreateEntry!inputPublicGU.action</param>
-			</result>			
+			</result>		
+			<result name="errorPublicCustom" type="eventProcessed">
+				<param name="viewAction">CreateEntry!inputPublicCustom.action</param>
+			</result>	
             <result name="receipt" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/entryReceipt.jsp</param>
 			</result>
