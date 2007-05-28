@@ -1,6 +1,6 @@
 <div><h2>New entry created</h2></div>
 <div>
-	InfoGlue Calendar Notification: A new entry to "$event.getName()" was made.<br/>
+	InfoGlue Calendar Notification: A new entry to "$eventVersion.name" was made.<br/>
 	<hr/>
 	Name: $entry.firstName $entry.lastName<br/>
 	Email: <a href="mailto:$entry.email">$entry.email</a><br/>

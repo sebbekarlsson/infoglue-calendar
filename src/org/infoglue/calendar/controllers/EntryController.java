@@ -46,8 +46,10 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.cms.applications.common.VisualFormatter;
 import org.infoglue.common.util.PropertyHelper;
@@ -695,8 +697,11 @@ public class EntryController extends BasicController
 	        if(contentType == null || contentType.length() == 0)
 	            contentType = "text/html";
 	        
+	        CalendarAbstractAction caa = new CalendarAbstractAction();
+	        EventVersion eventVersion = caa.getEventVersion(entry.getEvent());
+	        
 	        String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.message", locale, false, true, false, session);
-	        String subject = entry.getEvent().getName() + " - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.subject", locale, false, true, false, session);
+	        String subject = eventVersion.getName() + " - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.subject", locale, false, true, false, session);
 
 	        log.debug("\n\ntemplate:" + template);
 	        if(template == null || template.equals(""))
@@ -709,6 +714,7 @@ public class EntryController extends BasicController
 	        
 		    Map parameters = new HashMap();
 		    parameters.put("entry", entry);
+		    parameters.put("eventVersion", eventVersion);
 		    parameters.put("formatter", new VisualFormatter());
 
 			StringWriter tempString = new StringWriter();
@@ -716,6 +722,8 @@ public class EntryController extends BasicController
 			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
 			email = tempString.toString();
             
+System.out.println("---------------- VERIFICATION ----------------------" + email);				
+			
 			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
@@ -770,6 +778,9 @@ public class EntryController extends BasicController
 	    {
 	    	String addresses = event.getContactEmail();
 	    	
+	    	CalendarAbstractAction caa = new CalendarAbstractAction();
+	        EventVersion eventVersion = caa.getEventVersion(entry.getEvent());	        
+	    	
             String template;
 	        
 	        String contentType = PropertyHelper.getProperty("mail.contentType");
@@ -783,6 +794,7 @@ public class EntryController extends BasicController
 		    
 		    Map parameters = new HashMap();
 		    parameters.put("entry", entry);
+		    parameters.put("eventVersion", eventVersion);
 		    parameters.put("event", event);
 		    
 			StringWriter tempString = new StringWriter();
@@ -790,6 +802,8 @@ public class EntryController extends BasicController
 			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
 			email = tempString.toString();
 	    
+System.out.println("----------------- OWNER ---------------------" + email);			
+			
 			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");

@@ -1,6 +1,6 @@
 New entry created
 
-InfoGlue Calendar Notification: A new entry to "$event.getName()" was made by "$entry.firstName $entry.lastName . 
+InfoGlue Calendar Notification: A new entry to "$eventVersion.name" was made by "$entry.firstName $entry.lastName . 
 
 Name: $entry.firstName $entry.lastName
 Email: <a href="mailto:$entry.email">$entry.email</a>
