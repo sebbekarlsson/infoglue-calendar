@@ -1,6 +1,6 @@
 <div><h2>Message</h2></div>
 <div>    
-	You are registered for the event $entry.event.name
+	You are registered for the event $eventVersion.name
 	<hr/>
 	This email was sent from the InfoGlue Calendar Application.<br/>
 	Do not reply to this email. <br/>

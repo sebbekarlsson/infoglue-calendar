@@ -1,6 +1,6 @@
 InfoGlue Calendar Verification Message
 
-You are registered for the event $entry.event.name
+You are registered for the event $eventVersion.name
 
 ----------------------------------------------------------
 This email was sent from the InfoGlue Calendar Application.
