@@ -80,6 +80,8 @@ import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
 import com.opensymphony.xwork.ActionSupport;
 import com.opensymphony.xwork.validator.ValidationException;
+import com.sun.syndication.feed.synd.SyndCategory;
+import com.sun.syndication.feed.synd.SyndEntry;
 
 
 /**
@@ -955,6 +957,37 @@ public class CalendarAbstractAction extends ActionSupport
     	}
     	
         return eventVersion;
+    }
+
+    public String getCategoryValue(String feedEntryString, String categoryName)
+    {
+        Object object = findOnValueStack(feedEntryString);
+        SyndEntry entry = (SyndEntry)object;
+        
+        if(entry == null)
+    		return null;
+
+       	String categoryValue = null;
+
+    	try
+    	{
+    		Iterator categoriesIterator = entry.getCategories().iterator();
+    		while(categoriesIterator.hasNext())
+    		{
+    			SyndCategory category = (SyndCategory)categoriesIterator.next();
+    			if(category.getTaxonomyUri().indexOf(categoryName) > -1)
+    			{
+    				categoryValue = category.getName();
+    				break;
+    			}
+    		}
+    	}
+    	catch(Exception e)
+    	{
+    		log.error("Error when getting category for entry: " + feedEntryString + ":" + e.getMessage(), e); 
+    	}
+    	
+        return categoryValue;
     }
 
     public VisualFormatter getVisualFormatter()

@@ -46,6 +46,7 @@ import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.EventVersion;
+import org.infoglue.calendar.util.CalendarHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.rss.RssHelper;
 import org.infoglue.deliver.util.Timer;
@@ -414,7 +415,33 @@ public class ViewEventListAction extends CalendarAbstractAction
 	        SyndFeed inputFeed = input.build(new XmlReader(urlConn));
 	        
 	        List entries = inputFeed.getEntries();
-	
+	        Iterator entriesIterator = entries.iterator();
+	        while(entriesIterator.hasNext())
+	        {
+	        	SyndEntry entry = (SyndEntry)entriesIterator.next();
+	        	System.out.println("entry:" + entry.getContents());
+	        	Iterator contentIterator = entry.getContents().iterator();
+	        	while(contentIterator.hasNext())
+	        	{
+	        		SyndContent content = (SyndContent)contentIterator.next();
+	        		System.out.println("content:" + content.getValue());
+	        		if(content.getType().equalsIgnoreCase("text/xml"))
+	        			content.setValue("<![CDATA[" + content.getValue() + "]]>");
+	        	}
+	        }
+
+	        entriesIterator = entries.iterator();
+	        while(entriesIterator.hasNext())
+	        {
+	        	SyndEntry entry = (SyndEntry)entriesIterator.next();
+	        	Iterator contentIterator = entry.getContents().iterator();
+	        	while(contentIterator.hasNext())
+	        	{
+	        		SyndContent content = (SyndContent)contentIterator.next();
+	        		System.out.println("content:" + content.getValue());
+	        	}
+	        }
+
 	        return entries;
     	}
     	catch (Exception e) 
@@ -427,6 +454,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     private void sortEntries(List entries)
     {
     	Collections.sort(entries, Collections.reverseOrder(new OrderByDate()));
+    	//Collections.sort(entries, Collections.reverseOrder(new OrderByEventDate(this.getLanguageCode())));
     }
 
     
@@ -439,46 +467,22 @@ public class ViewEventListAction extends CalendarAbstractAction
 			
 	        Object object = findOnValueStack(entryString);
 	        SyndEntry entry = (SyndEntry)object;
-	        
-	        if(entry != null && entry.getContents() != null && entry.getContents().size() > 0)
-	        {
-		        SyndContent metaData = (SyndContent)entry.getContents().get(0);
-		        String content = metaData.getValue();
-		        
-		        int indexStart = content.indexOf("<startDateTime>") + "<startDateTime>".length();
-		        if(indexStart > -1)
-		        {
-		            int indexEnd = content.indexOf("</startDateTime>", indexStart);
-		            if(indexEnd > -1)
-		            {
-		                String startDateTimeString = content.substring(indexStart, indexEnd);
-		                dates.add(this.parseDate(startDateTimeString, "yyyy-MM-dd HH:ss"));
-		    	    }
-		        }
-		
-		        indexStart = content.indexOf("<endDateTime>") + "<endDateTime>".length();
-		        if(indexStart > -1)
-		        {
-		            int indexEnd = content.indexOf("</endDateTime>", indexStart);
-		            if(indexEnd > -1)
-		            {
-		                String endDateTimeString = content.substring(indexStart, indexEnd);
-		                dates.add(this.parseDate(endDateTimeString, "yyyy-MM-dd HH:ss"));
-		    	    }
-		        }
-	        }	
-	        
-	        if(dates.size() < 2)
-	        {
-		        dates.add(new Date());
-		    	dates.add(new Date());
-	        }	        
+	        if(object != null)
+	        	dates = CalendarHelper.getDates(entry, this.getLanguageCode());
+	        else
+	        	System.out.println("entryString:" + entryString);
 		} 
     	catch (Exception e)
 		{
     		e.printStackTrace();
 		}
         
+        if(dates.size() < 2)
+        {
+	        dates.add(new Date());
+	    	dates.add(new Date());
+        }	        
+
         return dates;
     }
 

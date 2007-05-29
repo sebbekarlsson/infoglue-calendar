@@ -22,7 +22,6 @@
 		<p class="unpaddedtext"><ww:property value="#entry.description.value" /></p>
 		
 		<ww:set name="dates" value="this.getDates('#entry')" />
-		<ww:set name="dates" value="this.getDates('entry')" />
 		
 		<ww:set name="startDateTime" value="#dates[0]" />
 		<ww:set name="endDateTime" value="#dates[1]" />
@@ -54,15 +53,8 @@
 			</ww:else>]
 		</p>
 		
-		<ww:iterator value="#entry.categories">
-			<ww:if test="top.taxonomyUri == 'eventType'">
-				<ww:set name="area"	value="top.name" />
-			</ww:if>
-	
-			<ww:if test="top.taxonomyUri == 'city'">
-				<ww:set name="city"	value="top.name" />
-			</ww:if>
-		</ww:iterator>
+		<ww:set name="area"	value="this.getCategoryValue('#entry', 'eventType')" /> 
+		<ww:set name="city"	value="this.getCategoryValue('#entry', 'city')" />
 	
 		<p class="unpaddedtext"><ww:property value="#area" /><ww:if test="#city != null"> - <ww:property value="#city" /></ww:if></p>
 	
