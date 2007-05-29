@@ -330,7 +330,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     		
     		sortEntries(entries);
 
-    		System.out.println("entries:" + entries.size());
+    		log.info("entries:" + entries.size());
     		
     		return entries;
     	}
@@ -419,26 +419,13 @@ public class ViewEventListAction extends CalendarAbstractAction
 	        while(entriesIterator.hasNext())
 	        {
 	        	SyndEntry entry = (SyndEntry)entriesIterator.next();
-	        	System.out.println("entry:" + entry.getContents());
 	        	Iterator contentIterator = entry.getContents().iterator();
 	        	while(contentIterator.hasNext())
 	        	{
 	        		SyndContent content = (SyndContent)contentIterator.next();
-	        		System.out.println("content:" + content.getValue());
+	        		log.info("content:" + content.getValue());
 	        		if(content.getType().equalsIgnoreCase("text/xml"))
 	        			content.setValue("<![CDATA[" + content.getValue() + "]]>");
-	        	}
-	        }
-
-	        entriesIterator = entries.iterator();
-	        while(entriesIterator.hasNext())
-	        {
-	        	SyndEntry entry = (SyndEntry)entriesIterator.next();
-	        	Iterator contentIterator = entry.getContents().iterator();
-	        	while(contentIterator.hasNext())
-	        	{
-	        		SyndContent content = (SyndContent)contentIterator.next();
-	        		System.out.println("content:" + content.getValue());
 	        	}
 	        }
 
@@ -470,7 +457,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 	        if(object != null)
 	        	dates = CalendarHelper.getDates(entry, this.getLanguageCode());
 	        else
-	        	System.out.println("entryString:" + entryString);
+	        	log.info("entryString:" + entryString);
 		} 
     	catch (Exception e)
 		{

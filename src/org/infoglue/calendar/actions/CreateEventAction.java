@@ -123,7 +123,7 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {        
-    	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("versionLanguageId") + ":" + this.versionLanguageId + "\n\n");
+    	log.info("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("versionLanguageId") + ":" + this.versionLanguageId + "\n\n");
 
         if(startDateTime != null && (endDateTime == null || endDateTime.equals("")))
         {
@@ -134,7 +134,7 @@ public class CreateEventAction extends CalendarAbstractAction
         while(keyIterator.hasNext())
         {
         	String key = (String)keyIterator.next();
-        	System.out.println("" + key + "=" + this.getActionContext().getParameters().get(key));
+        	log.info("" + key + "=" + this.getActionContext().getParameters().get(key));
         }
         
         startCalendar 	= getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", false); 
@@ -247,7 +247,7 @@ public class CreateEventAction extends CalendarAbstractAction
             if(useEventPublishing())
                 stateId = Event.STATE_WORKING;
                         
-        	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("versionLanguageId") + ":" + this.versionLanguageId + "\n\n");
+            log.info("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("versionLanguageId") + ":" + this.versionLanguageId + "\n\n");
 
             newEvent = EventController.getController().createEvent(calendarId,
             											versionLanguageId,
@@ -362,7 +362,7 @@ public class CreateEventAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
-    	System.out.println("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("versionLanguageId") + ":" + this.versionLanguageId + "\n\n");
+    	log.info("\n\nLanguage sent in:" + ServletActionContext.getRequest().getParameter("versionLanguageId") + ":" + this.versionLanguageId + "\n\n");
     	
         this.calendar = CalendarController.getController().getCalendar(this.calendarId, getSession());
         this.locations 	= LocationController.getController().getLocationList(getSession());

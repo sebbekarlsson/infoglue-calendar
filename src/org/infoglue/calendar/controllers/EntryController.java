@@ -722,7 +722,7 @@ public class EntryController extends BasicController
 			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
 			email = tempString.toString();
             
-System.out.println("---------------- VERIFICATION ----------------------" + email);				
+			log.info("---------------- VERIFICATION ----------------------" + email);				
 			
 			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
@@ -802,7 +802,7 @@ System.out.println("---------------- VERIFICATION ----------------------" + emai
 			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
 			email = tempString.toString();
 	    
-System.out.println("----------------- OWNER ---------------------" + email);			
+			log.info("----------------- OWNER ---------------------" + email);			
 			
 			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
