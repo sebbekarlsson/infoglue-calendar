@@ -281,7 +281,10 @@ public class ViewEventListAction extends CalendarAbstractAction
 
 	        String externalRSSUrl = this.getStringAttributeValue("externalRSSUrl");
     		if(externalRSSUrl == null || externalRSSUrl.equalsIgnoreCase(""))
+    		{
+    			log.error("You must send in an attribute called externalRSSUrl to this view. Defaulting to default example feed now.");
     			externalRSSUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
+    		}
     		
             List entries = getExternalFeedEntries(externalRSSUrl);
     		List internalEntries = getInternalFeedEntries(eventURL);	
@@ -314,7 +317,10 @@ public class ViewEventListAction extends CalendarAbstractAction
 
 	        String externalRSSUrl = this.getStringAttributeValue("externalRSSUrl");
     		if(externalRSSUrl == null || externalRSSUrl.equalsIgnoreCase(""))
+    		{
+    			log.error("You must send in an attribute called externalRSSUrl to this view. Defaulting to default example feed now.");
     			externalRSSUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
+    		}
     		
             List entries = getExternalFeedEntries(externalRSSUrl);
     		List internalEntries = getInternalFeedEntries(eventURL);	
@@ -401,8 +407,8 @@ public class ViewEventListAction extends CalendarAbstractAction
     	{
 	    	URL url = new URL(externalRSSUrl);
 	        URLConnection urlConn = url.openConnection();
-	        urlConn.setConnectTimeout(3000);
-	        urlConn.setReadTimeout(5000);
+	        urlConn.setConnectTimeout(5000);
+	        urlConn.setReadTimeout(10000);
 	        
 	        SyndFeedInput input = new SyndFeedInput();
 	        SyndFeed inputFeed = input.build(new XmlReader(urlConn));
