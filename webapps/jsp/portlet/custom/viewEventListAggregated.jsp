@@ -18,10 +18,10 @@
 		<ww:set name="isInfoGlueLink" value="this.getCategoryValue('#entry', 'isInfoGlueLink')" />
 		
 		<ww:if test="#isInfoGlueLink == 'true'">
-			<h2><a href="<ww:property value="#entry.uri"/>"><ww:property value="#entry.title" /></a></h2>
+			<h2><a href="<ww:property value="#entry.link"/>"><ww:property value="#entry.title" /></a></h2>
 		</ww:if>
 		<ww:else>
-			<h2><a target="_blank" title="Länk till extern webbplats. Öppnas i nytt fönster." href="<ww:property value="#entry.uri"/>"><ww:property value="#entry.title" /></a></h2>
+			<h2><a target="_blank" title="Länk till extern webbplats. Öppnas i nytt fönster." href="<ww:property value="#entry.link"/>"><ww:property value="#entry.title" /></a></h2>
 		</ww:else>
 				
 		<ww:set name="dates" value="this.getDates('#entry')" />
