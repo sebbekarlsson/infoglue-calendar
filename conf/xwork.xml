@@ -492,6 +492,9 @@
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
+			<result name="errorCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/error.jsp</param>
+			</result>
 		</action>
 		
 		<action name="ViewMyWorkingEventList" class="org.infoglue.calendar.actions.ViewMyWorkingEventListAction">
