@@ -53,6 +53,7 @@ import org.infoglue.deliver.util.Timer;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 import com.sun.syndication.feed.synd.SyndCategory;
 import com.sun.syndication.feed.synd.SyndCategoryImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -74,15 +75,15 @@ public class ViewEventListAction extends CalendarAbstractAction
 {
 	private static Log log = LogFactory.getLog(ViewEventListAction.class);
 
-    private String calendarId = "";
-    private String categories = "";
-    private String categoryAttribute = "";
-    private String categoryNames = "";
-    private String includedLanguages = "";
-    private Calendar calendar;
-    
+    private String calendarId 			= "";
+    private String categories 			= "";
+    private String categoryAttribute	= "";
+    private String categoryNames 		= "";
+    private String includedLanguages 	= "";
+    private Calendar calendar;    
     private Set events;
-    //private List categoriesList;
+    private List aggregatedEntries 		= null;
+    private String message				= "";
     
     /**
      * This is the entry point for the main listing.
@@ -134,7 +135,40 @@ public class ViewEventListAction extends CalendarAbstractAction
     public String listAggregatedCustom() throws Exception
     {
         execute();
-        
+            		
+		String externalRSSUrl = this.getStringAttributeValue("externalRSSUrl");
+		
+		try
+		{
+			String eventURL = this.getStringAttributeValue("detailUrl");
+			if(eventURL == null)
+				eventURL = "";
+		
+		    
+			if(externalRSSUrl == null || externalRSSUrl.equalsIgnoreCase(""))
+			{
+				log.error("You must send in an attribute called externalRSSUrl to this view. Defaulting to default example feed now.");
+				externalRSSUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
+			}
+			
+		    List entries = getExternalFeedEntries(externalRSSUrl);
+			List internalEntries = getInternalFeedEntries(eventURL);	
+		
+			entries.addAll(internalEntries);
+			
+			sortEntries(entries);
+		
+			log.info("entries:" + entries.size());
+			
+			aggregatedEntries = entries;
+		}
+		catch(Exception e)
+		{
+			//setError("Could not connect to the RSS feed \"" + externalRSSUrl + "\".", e);
+			setError(getParameterizedLabel("labels.internal.event.error.couldNotConnectToRSS", externalRSSUrl), e);
+			return Action.ERROR + "Custom";
+		}
+
         return Action.SUCCESS + "AggregatedCustom";
     }
 
@@ -308,38 +342,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public List getAggregatedEntries()
     {
-    	String rssXML = null;
-    	
-    	try
-    	{
-    		String eventURL = this.getStringAttributeValue("detailUrl");
-    		if(eventURL == null)
-    			eventURL = "";
-
-	        String externalRSSUrl = this.getStringAttributeValue("externalRSSUrl");
-    		if(externalRSSUrl == null || externalRSSUrl.equalsIgnoreCase(""))
-    		{
-    			log.error("You must send in an attribute called externalRSSUrl to this view. Defaulting to default example feed now.");
-    			externalRSSUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
-    		}
-    		
-            List entries = getExternalFeedEntries(externalRSSUrl);
-    		List internalEntries = getInternalFeedEntries(eventURL);	
-
-    		entries.addAll(internalEntries);
-    		
-    		sortEntries(entries);
-
-    		log.info("entries:" + entries.size());
-    		
-    		return entries;
-    	}
-    	catch(Throwable t)
-    	{
-    		t.printStackTrace();
-    	}
-    	
-        return new ArrayList();
+        return aggregatedEntries;
     }
 
 
@@ -371,7 +374,17 @@ public class ViewEventListAction extends CalendarAbstractAction
     			syndCategory.setName(eventCategory.getCategory().getLocalizedName(this.getLanguageCode(), "sv"));
     			categories.add(syndCategory);
     		}
-    				    		
+
+    		//--------------------------------------------
+    		// Add an extra category to internal entries, 
+    		// so that we can identify them later.
+    		//--------------------------------------------
+    		
+			SyndCategory syndCategory = new SyndCategoryImpl();
+			syndCategory.setTaxonomyUri("isInfoGlueLink");
+			syndCategory.setName("true");
+			categories.add(syndCategory);
+
     		entry.setCategories(categories);
     		
     		description = new SyndContentImpl();
@@ -403,39 +416,31 @@ public class ViewEventListAction extends CalendarAbstractAction
     }
     
     public List getExternalFeedEntries(String externalRSSUrl) throws Exception
-    {
-    	try
-    	{
-	    	URL url = new URL(externalRSSUrl);
-	        URLConnection urlConn = url.openConnection();
-	        urlConn.setConnectTimeout(5000);
-	        urlConn.setReadTimeout(10000);
-	        
-	        SyndFeedInput input = new SyndFeedInput();
-	        SyndFeed inputFeed = input.build(new XmlReader(urlConn));
-	        
-	        List entries = inputFeed.getEntries();
-	        Iterator entriesIterator = entries.iterator();
-	        while(entriesIterator.hasNext())
-	        {
-	        	SyndEntry entry = (SyndEntry)entriesIterator.next();
-	        	Iterator contentIterator = entry.getContents().iterator();
-	        	while(contentIterator.hasNext())
-	        	{
-	        		SyndContent content = (SyndContent)contentIterator.next();
-	        		log.info("content:" + content.getValue());
-	        		if(content.getType().equalsIgnoreCase("text/xml"))
-	        			content.setValue("<![CDATA[" + content.getValue() + "]]>");
-	        	}
-	        }
+    {    	
+    	URL url = new URL(externalRSSUrl);
+        URLConnection urlConn = url.openConnection();
+        urlConn.setConnectTimeout(5000);
+        urlConn.setReadTimeout(10000);
+        
+        SyndFeedInput input = new SyndFeedInput();
+        SyndFeed inputFeed = input.build(new XmlReader(urlConn));
+        
+        List entries = inputFeed.getEntries();
+        Iterator entriesIterator = entries.iterator();
+        while(entriesIterator.hasNext())
+        {
+        	SyndEntry entry = (SyndEntry)entriesIterator.next();
+        	Iterator contentIterator = entry.getContents().iterator();
+        	while(contentIterator.hasNext())
+        	{
+        		SyndContent content = (SyndContent)contentIterator.next();
+        		log.info("content:" + content.getValue());
+        		if(content.getType().equalsIgnoreCase("text/xml"))
+        			content.setValue("<![CDATA[" + content.getValue() + "]]>");
+        	}
+        }
 
-	        return entries;
-    	}
-    	catch (Exception e) 
-    	{
-    		log.error("We could not fetch the external rss from " + externalRSSUrl + ". Reason: " + e.getMessage() , e);
-			return new ArrayList();
-		}
+        return entries;    	
     }
     
     private void sortEntries(List entries)
@@ -487,12 +492,25 @@ public class ViewEventListAction extends CalendarAbstractAction
     {
     	this.includedLanguages = includedLanguages;
     }
+    
+    public String getMessage()
+    {
+    	return this.message;
+    }
+    
     /*
     public List getCategoriesList()
     {
         return categoriesList;
     }
     */
+    
+    public void setError(String message, Exception e)
+    {
+        String context = ActionContext.getContext().getName();
+        ActionContext.getContext().getValueStack().getContext().put("message", message);
+        ActionContext.getContext().getValueStack().getContext().put("error", e);
+    }
 
 }
 
