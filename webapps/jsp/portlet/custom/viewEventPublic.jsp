@@ -51,7 +51,7 @@
 	<div class="eventCellLeft">Beskrivning:</div>
 	<div class="eventCellRight">
 		<ww:if test="#detailImage != null">
-			<img src="<ww:property value="#detailImage"/>" class="right"/>
+			<img src="<ww:property value="#detailImage"/>" class="mediumRight"/>
 		</ww:if>
 		<ww:property value="#eventVersion.decoratedLongDescription"/>				
 	</div>

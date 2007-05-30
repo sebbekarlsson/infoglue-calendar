@@ -42,14 +42,13 @@
 		</portlet:renderURL>
 	                     
 		<!-- Record Start -->
-		
-		<div class="right">
+
+		<div>	
 			<ww:set name="puffImage" value="this.getResourceUrl(#event, 'PuffBild')"/>
 		    <ww:if test="#puffImage != null">
-				<img src="<ww:property value="#puffImage"/>"/>
+				<img class="newsListThumb" src="<ww:property value="#puffImage"/>"/>
 			</ww:if>
-		</div>
-		<div>		
+			
 			<h2><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="#eventVersion.name"/></a></h2>	
 			
 			<p class="dateformat2">[
