@@ -704,6 +704,7 @@ public class EntryController extends BasicController
 	        String subject = eventVersion.getName() + " - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.subject", locale, false, true, false, session);
 
 	        log.debug("\n\ntemplate:" + template);
+	        
 	        if(template == null || template.equals(""))
 	        {
 		        if(contentType.equalsIgnoreCase("text/plain"))
@@ -723,7 +724,7 @@ public class EntryController extends BasicController
 			email = tempString.toString();
             
 			log.info("---------------- VERIFICATION ----------------------" + email);				
-			
+
 			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
@@ -765,7 +766,7 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void notifyEventOwner(Entry entry) throws Exception
+    public void notifyEventOwner(Entry entry, Locale locale, Session session) throws Exception
     {
     	Event event = entry.getEvent();
     	
@@ -776,22 +777,28 @@ public class EntryController extends BasicController
 	    
 	    try
 	    {
+	    	String contentType = PropertyHelper.getProperty("mail.contentType");
+	        if(contentType == null || contentType.length() == 0)
+	            contentType = "text/html";
+	        
 	    	String addresses = event.getContactEmail();
 	    	
 	    	CalendarAbstractAction caa = new CalendarAbstractAction();
 	        EventVersion eventVersion = caa.getEventVersion(entry.getEvent());	        
 	    	
-            String template;
+            String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.notification.message", locale, false, true, false, session);
+	        String subject = "InfoGlue - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.notification.subject", locale, false, true, false, session) + " \"" + eventVersion.getName() + "\"";
+
+	        log.debug("\n\ntemplate:" + template);
 	        
-	        String contentType = PropertyHelper.getProperty("mail.contentType");
-	        if(contentType == null || contentType.length() == 0)
-	            contentType = "text/html";
+	        if(template == null || template.equals(""))
+	        {
+		        if(contentType.equalsIgnoreCase("text/plain"))
+		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryNotificationMessage_plain.vm"));
+			    else
+		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryNotificationMessage_html.vm"));
+	        }
 	        
-	        if(contentType.equalsIgnoreCase("text/plain"))
-	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEntryNotification_plain.vm"));
-		    else
-	            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/newEntryNotification_html.vm"));
-		    
 		    Map parameters = new HashMap();
 		    parameters.put("entry", entry);
 		    parameters.put("eventVersion", eventVersion);
@@ -803,13 +810,14 @@ public class EntryController extends BasicController
 			email = tempString.toString();
 	    
 			log.info("----------------- OWNER ---------------------" + email);			
-			
+
 			String systemEmailSender = PropertyHelper.getProperty("systemEmailSender");
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
 			log.info("Sending mail to:" + systemEmailSender + " and " + addresses);
-			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, addresses, "InfoGlue Calendar - new entry made to " + event.getName(), email, contentType, "UTF-8", null);
+			
+			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, addresses, subject, email, contentType, "UTF-8", null);
 	    }
 		catch(Exception e)
 		{
