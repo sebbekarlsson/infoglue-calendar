@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@ taglib uri="calendar" prefix="calendar" %>
 
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <portlet:defineObjects/>
 
 <portlet:actionURL var="createEntryActionUrl">
