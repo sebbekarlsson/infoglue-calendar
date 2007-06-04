@@ -86,7 +86,10 @@ public class ViewLabelsAction extends CalendarAbstractAction
             String key = (String)labelsIterator.next();
             String value = ServletActionContext.getRequest().getParameter(key);
             if(key != null && value != null && value.length() > 0)
-            	properties.put(key, value);
+            {
+            	value = value.replaceAll("\"", "");
+            	properties.put(key, value);         	
+            }
     	}
 
     	CalendarLabelsController.getCalendarLabelsController().updateLabels("infoglueCalendar", selectedLanguageCode, properties, getSession());
