@@ -23,14 +23,14 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.infoglue.calendar.controllers.AccessRightController;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.EventType;
-import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
+import org.infoglue.common.util.WebServiceHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -50,7 +50,6 @@ public class CreateCalendarAction extends CalendarAbstractAction
     private String[] groups;
     private Long eventTypeId;
     
-    private List infogluePrincipals;
     private List infoglueRoles;
     private List infoglueGroups;
     private List eventTypes;
@@ -81,9 +80,9 @@ public class CreateCalendarAction extends CalendarAbstractAction
     
     public String input() throws Exception 
     {
-        this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
-        this.infoglueRoles = RoleControllerProxy.getController().getAllRoles();
-        this.infoglueGroups = GroupControllerProxy.getController().getAllGroups();
+        this.infoglueRoles = AccessRightController.getController().getRoles();
+        this.infoglueGroups = AccessRightController.getController().getGroups();
+
         this.eventTypes = EventTypeController.getController().getEventTypeList(EventType.EVENT_DEFINITION, getSession());
 
         return Action.INPUT;
@@ -106,10 +105,6 @@ public class CreateCalendarAction extends CalendarAbstractAction
         this.name = name;
     }
 
-    public List getInfogluePrincipals()
-    {
-        return infogluePrincipals;
-    }
     public Long getEventTypeId()
     {
         return eventTypeId;

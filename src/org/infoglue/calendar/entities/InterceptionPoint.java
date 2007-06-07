@@ -23,9 +23,6 @@
 
 package org.infoglue.calendar.entities;
 
-import org.infoglue.cms.entities.kernel.IBaseEntity;
-import org.infoglue.cms.exception.ConstraintException;
-
 /**
  * This class represents a single interception point object. An interception point is called upon with a key/name.
  * 

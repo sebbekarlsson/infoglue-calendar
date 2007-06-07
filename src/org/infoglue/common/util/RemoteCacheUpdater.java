@@ -38,8 +38,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.entities.Calendar;
-import org.infoglue.cms.entities.structure.SiteNode;
-import org.infoglue.cms.entities.structure.impl.simple.SiteNodeImpl;
 
 
 /**
@@ -124,7 +122,7 @@ public class RemoteCacheUpdater
 			
 		    Integer siteNodeId = (Integer)siteNodeIdListIterator.next();
 		    log.info("Updating siteNodeId:" + siteNodeId);
-		    hashedMessage.put("className", SiteNode.class.getName());
+		    hashedMessage.put("className", "org.infoglue.cms.entities.structure.SiteNode");
 		    hashedMessage.put("objectId", "" + siteNodeId);
 
 		    int i = 0;

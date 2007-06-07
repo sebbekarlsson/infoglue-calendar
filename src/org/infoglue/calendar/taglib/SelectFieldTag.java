@@ -39,11 +39,11 @@ import org.infoglue.calendar.entities.Role;
 import org.infoglue.calendar.entities.Group;
 import org.infoglue.calendar.util.AttributeType;
 
-import org.infoglue.cms.security.InfoGluePrincipal;
-import org.infoglue.cms.security.InfoGlueRole;
-import org.infoglue.cms.security.InfoGlueGroup;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameter;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameterValue;
+import org.infoglue.common.security.beans.InfoGlueGroupBean;
+import org.infoglue.common.security.beans.InfoGluePrincipalBean;
+import org.infoglue.common.security.beans.InfoGlueRoleBean;
 
 import com.opensymphony.webwork.ServletActionContext;
 
@@ -149,21 +149,21 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            String optionText;
 	            Object obj = valuesIterator.next();
 	            //log.debug("Obj: " + obj.getClass().getName());
-	            if(obj instanceof InfoGluePrincipal)
+	            if(obj instanceof InfoGluePrincipalBean)
 	            {
-	                InfoGluePrincipal value = (InfoGluePrincipal)obj;
+	                InfoGluePrincipalBean value = (InfoGluePrincipalBean)obj;
 	                id = value.getName().toString();
 	                optionText = value.getFirstName() + " " + value.getLastName();
 	            } 
-	            else if(obj instanceof InfoGlueRole)
+	            else if(obj instanceof InfoGlueRoleBean)
 	            {
-	                InfoGlueRole value = (InfoGlueRole)obj;
+	                InfoGlueRoleBean value = (InfoGlueRoleBean)obj;
 	                id = value.getName().toString();
 	                optionText = value.getName();
 	            } 
-	            else if(obj instanceof InfoGlueGroup)
+	            else if(obj instanceof InfoGlueGroupBean)
 	            {
-	                InfoGlueGroup value = (InfoGlueGroup)obj;
+	                InfoGlueGroupBean value = (InfoGlueGroupBean)obj;
 	                id = value.getName().toString();
 	                optionText = value.getName();
 	            } 
@@ -221,19 +221,19 @@ public class SelectFieldTag extends AbstractCalendarTag
 		            {
 	                    String selId;
 	                	Object selObj = selectedValueListIterator.next();
-	    	            if(selObj instanceof InfoGluePrincipal)
+	    	            if(selObj instanceof InfoGluePrincipalBean)
 	    	            {
-	    	                InfoGluePrincipal selValue = (InfoGluePrincipal)selObj;
+	    	                InfoGluePrincipalBean selValue = (InfoGluePrincipalBean)selObj;
 	    	                selId = selValue.getName().toString();
 	    	            } 
-	    	            else if(selObj instanceof InfoGlueRole)
+	    	            else if(selObj instanceof InfoGlueRoleBean)
 	    	            {
-	    	                InfoGlueRole value = (InfoGlueRole)selObj;
+	    	                InfoGlueRoleBean value = (InfoGlueRoleBean)selObj;
 	    	                selId = value.getName().toString();
 	    	            } 
-	    	            else if(selObj instanceof InfoGlueGroup)
+	    	            else if(selObj instanceof InfoGlueGroupBean)
 	    	            {
-	    	                InfoGlueGroup value = (InfoGlueGroup)selObj;
+	    	                InfoGlueGroupBean value = (InfoGlueGroupBean)selObj;
 	    	                selId = value.getName().toString();
 	    	            } 
 	    	            else if(selObj instanceof Role)
@@ -264,19 +264,19 @@ public class SelectFieldTag extends AbstractCalendarTag
 		            {
 	                    String selId;
 	                	Object selObj = selectedValueSetIterator.next();
-	                	if(selObj instanceof InfoGluePrincipal)
+	                	if(selObj instanceof InfoGluePrincipalBean)
 	    	            {
-	    	                InfoGluePrincipal selValue = (InfoGluePrincipal)selObj;
+	    	                InfoGluePrincipalBean selValue = (InfoGluePrincipalBean)selObj;
 	    	                selId = selValue.getName().toString();
 	    	            } 
-	    	            else if(selObj instanceof InfoGlueRole)
+	    	            else if(selObj instanceof InfoGlueRoleBean)
 	    	            {
-	    	                InfoGlueRole value = (InfoGlueRole)selObj;
+	    	                InfoGlueRoleBean value = (InfoGlueRoleBean)selObj;
 	    	                selId = value.getName().toString();
 	    	            } 
-	    	            else if(selObj instanceof InfoGlueGroup)
+	    	            else if(selObj instanceof InfoGlueGroupBean)
 	    	            {
-	    	                InfoGlueGroup value = (InfoGlueGroup)selObj;
+	    	                InfoGlueGroupBean value = (InfoGlueGroupBean)selObj;
 	    	                selId = value.getName().toString();
 	    	            } 
 	    	            else if(selObj instanceof Role)

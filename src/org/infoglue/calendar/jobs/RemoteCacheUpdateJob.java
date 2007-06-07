@@ -36,7 +36,6 @@ import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.common.util.HibernateUtil;
 import org.infoglue.common.util.RemoteCacheUpdater;
-import org.infoglue.deliver.util.CacheController;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

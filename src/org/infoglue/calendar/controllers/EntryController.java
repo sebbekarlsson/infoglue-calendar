@@ -51,7 +51,6 @@ import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Location;
-import org.infoglue.cms.applications.common.VisualFormatter;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.io.FileHelper;

@@ -35,11 +35,9 @@ import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.InterceptionPointController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
-import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
-import org.infoglue.cms.exception.Bug;
-import org.infoglue.cms.exception.SystemException;
+import org.infoglue.common.exceptions.Bug;
+import org.infoglue.common.exceptions.SystemException;
+import org.infoglue.common.util.WebServiceHelper;
 
 import com.opensymphony.xwork.Action;
 
@@ -76,8 +74,11 @@ public class ViewAccessRightsAction extends CalendarAbstractAction
     	log.debug("extraParameters:" + extraParameters);
 		this.interceptionPointList = InterceptionPointController.getController().getInterceptionPointList(interceptionPointCategory, getSession());
 		
-		this.roleList = RoleControllerProxy.getController().getAllRoles();
-        this.groupList = GroupControllerProxy.getController().getAllGroups();
+        this.roleList = AccessRightController.getController().getRoles();
+        this.groupList = AccessRightController.getController().getGroups();
+
+		//this.roleList = RoleControllerProxy.getController().getAllRoles();
+        //this.groupList = GroupControllerProxy.getController().getAllGroups();
 
         //this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         //this.accessRightsUserRows = AccessRightController.getController().getAccessRightsUserRows(interceptionPointCategory, extraParameters);

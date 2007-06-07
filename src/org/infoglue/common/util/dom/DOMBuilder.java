@@ -41,8 +41,7 @@ import org.dom4j.Node;
 import org.dom4j.io.DOMReader;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import org.infoglue.cms.exception.SystemException;
-import org.infoglue.cms.io.FileHelper;
+import org.infoglue.common.util.io.FileHelper;
 import org.xml.sax.InputSource;
 
 /**
@@ -103,19 +102,6 @@ public class DOMBuilder
 		{
 			String xml = FileHelper.readUTF8FromFile(file);
 			document = getDocument(xml);
-			
-			/*
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder(); 
-			org.w3c.dom.Document documentW3C = builder.parse(new InputSource(new StringReader(xml)));
-			String modifiedXML = XMLHelper.serializeDom(documentW3C, new StringBuffer()).toString(); 
-			
-			FileHelper.writeUTF8ToFile(new File("c:/temp/treeXMLDocument.xml"), modifiedXML, false);
-			
-			FileHelper.writeUTF8ToFile(new File("c:/temp/treeXML.xml"), xml, false);
-			*/
-			//SAXReader xmlReader = new SAXReader();
-			//document = xmlReader.read(file); 			
 		}
 		catch(Exception e)
 		{

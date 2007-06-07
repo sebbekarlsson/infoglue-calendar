@@ -45,8 +45,6 @@ import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Language;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
-import org.infoglue.deliver.util.Timer;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;

@@ -51,6 +51,7 @@ import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.infoglue.calendar.controllers.AccessRightController;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CalendarLabelsController;
 import org.infoglue.calendar.controllers.CalendarSettingsController;
@@ -66,15 +67,14 @@ import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Language;
 import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.util.AttributeType;
+import org.infoglue.common.security.beans.InfoGluePrincipalBean;
 import org.infoglue.common.util.VisualFormatter;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
-import org.infoglue.cms.security.InfoGluePrincipal;
 import org.infoglue.common.exceptions.ConstraintException;
 import org.infoglue.common.util.ActionValidatorManager;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.ResourceBundleHelper;
-import org.infoglue.deliver.portal.information.RenderRequestIG;
+import org.infoglue.common.util.WebServiceHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.ActionContext;
@@ -243,11 +243,12 @@ public class CalendarAbstractAction extends ActionSupport
         return (List)ServletActionContext.getRequest().getAttribute("infoglueRemoteUserGroups");
     }
 
-    public InfoGluePrincipal getInfoGluePrincipal() throws Exception
+    public InfoGluePrincipalBean getInfoGluePrincipal() throws Exception
     {
     	try
     	{
-    		return UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
+            return AccessRightController.getController().getPrincipal(this.getInfoGlueRemoteUser());
+    		//return UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
     	}
     	catch(Exception e)
     	{

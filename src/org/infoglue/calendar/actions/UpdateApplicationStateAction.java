@@ -34,8 +34,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.infoglue.cms.util.CmsPropertyHandler;
-import org.infoglue.cms.util.CmsSessionContextListener;
 
 /**
  * This is the action that shows the application state and also can be used to set up surveilence.

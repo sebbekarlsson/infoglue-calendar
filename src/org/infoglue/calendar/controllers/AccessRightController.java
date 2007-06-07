@@ -25,16 +25,22 @@ package org.infoglue.calendar.controllers;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.infoglue.cms.entities.management.AccessRight;
-import org.infoglue.cms.exception.Bug;
-import org.infoglue.cms.exception.SystemException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
+import org.infoglue.calendar.actions.CalendarAbstractAction;
+import org.infoglue.calendar.entities.AccessRight;
+import org.infoglue.common.exceptions.Bug;
+import org.infoglue.common.exceptions.SystemException;
+import org.infoglue.common.security.beans.InfoGluePrincipalBean;
+import org.infoglue.common.util.CacheController;
+import org.infoglue.common.util.WebServiceHelper;
 
 public class AccessRightController extends BasicController
 {    
@@ -84,4 +90,126 @@ public class AccessRightController extends BasicController
 		return result;		
 	}
     
+	
+	public List getRoles()
+	{
+		List list = null;
+			
+		try
+		{
+		    WebServiceHelper wsh = new WebServiceHelper();
+	        wsh.setServiceUrl(getServiceURL());
+	        
+	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getRoles")));
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public List getGroups()
+	{
+		List list = null;
+			
+		try
+		{
+		    WebServiceHelper wsh = new WebServiceHelper();
+	        wsh.setServiceUrl(getServiceURL());
+	        
+	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getGroups")));
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public List getPrincipals()
+	{
+		List list = null;
+			
+		try
+		{
+		    WebServiceHelper wsh = new WebServiceHelper();
+	        wsh.setServiceUrl(getServiceURL());
+	        
+	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getPrincipals")));
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	public List getPrincipalsWithRole(String roleName)
+	{
+		List list = null;
+			
+		try
+		{
+		    WebServiceHelper wsh = new WebServiceHelper();
+	        wsh.setServiceUrl(getServiceURL());
+	        
+	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getPrincipalsWithRole", roleName)));
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	public List getPrincipalsWithGroup(String groupName)
+	{
+		List list = null;
+			
+		try
+		{
+		    WebServiceHelper wsh = new WebServiceHelper();
+	        wsh.setServiceUrl(getServiceURL());
+	        
+	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getPrincipalsWithGroup", groupName)));
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	public InfoGluePrincipalBean getPrincipal(String userName)
+	{
+		InfoGluePrincipalBean infoGluePrincipalBean = null;
+			
+		try
+		{
+		    WebServiceHelper wsh = new WebServiceHelper();
+	        //wsh.setServiceUrl("http://localhost:8080/infoglueCMS/services/RemoteUserService");
+	        wsh.setServiceUrl(getServiceURL());
+	        
+	        infoGluePrincipalBean = (InfoGluePrincipalBean)wsh.getObject("getPrincipal", userName);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return infoGluePrincipalBean;
+	}
+
+	private String getServiceURL()
+	{
+		CalendarAbstractAction action = new CalendarAbstractAction();
+		
+		return action.getSetting("remoteUserServiceURL");
+	}
 }

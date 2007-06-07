@@ -44,19 +44,17 @@ import org.infoglue.calendar.entities.Participant;
 import org.infoglue.calendar.entities.Role;
 import org.infoglue.calendar.entities.Subscriber;
 import org.infoglue.calendar.util.EventComparator;
-import org.infoglue.cms.security.InfoGluePrincipal;
-import org.infoglue.cms.security.InfoGlueRole;
-import org.infoglue.cms.util.sorters.SiteNodeComparator;
-import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
+import org.infoglue.common.security.beans.InfoGluePrincipalBean;
+import org.infoglue.common.security.beans.InfoGlueRoleBean;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.VelocityTemplateProcessor;
+import org.infoglue.common.util.WebServiceHelper;
 import org.infoglue.common.util.io.FileHelper;
 import org.infoglue.common.util.mail.MailServiceFactory;
 
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -1869,12 +1867,14 @@ public class EventController extends BasicController
 	        while(owningRolesIterator.hasNext())
 	        {
 	            Role role = (Role)owningRolesIterator.next();
-	            List principals = RoleControllerProxy.getController().getInfoGluePrincipals(role.getName());
+	            
+	            List principals = new ArrayList(Arrays.asList(AccessRightController.getController().getPrincipalsWithRole(role.getName())));
+	            //List principals = RoleControllerProxy.getController().getInfoGluePrincipals(role.getName());
 	            
 	            Iterator userIterator = principals.iterator();
 	            while(userIterator.hasNext())
 	            {
-	                InfoGluePrincipal principal = (InfoGluePrincipal)userIterator.next();
+	                InfoGluePrincipalBean principal = (InfoGluePrincipalBean)userIterator.next();
 	                boolean hasGroup = hasUserGroup(principal, event);
 	                if(hasGroup)
 	                    allPrincipals.add(principal);
@@ -1885,7 +1885,7 @@ public class EventController extends BasicController
 	        Iterator allPrincipalsIterator = allPrincipals.iterator();
 	        while(allPrincipalsIterator.hasNext())
 	        {
-		        InfoGluePrincipal inforgluePrincipal = (InfoGluePrincipal)allPrincipalsIterator.next();
+		        InfoGluePrincipalBean inforgluePrincipal = (InfoGluePrincipalBean)allPrincipalsIterator.next();
 		        addresses += inforgluePrincipal.getEmail() + ";";
 	        }
 
@@ -2004,7 +2004,7 @@ public class EventController extends BasicController
      * @return
      * @throws Exception
      */
-    public boolean hasUserGroup(InfoGluePrincipal principal, Event event) throws Exception
+    public boolean hasUserGroup(InfoGluePrincipalBean principal, Event event) throws Exception
     {
         Collection owningGroups = event.getOwningCalendar().getOwningGroups();
         if(owningGroups == null || owningGroups.size() == 0)
@@ -2014,7 +2014,10 @@ public class EventController extends BasicController
         while(owningGroupsIterator.hasNext())
         {
             Group group = (Group)owningGroupsIterator.next();
-            List principals = GroupControllerProxy.getController().getInfoGluePrincipals(group.getName());
+            
+            List principals = new ArrayList(Arrays.asList(AccessRightController.getController().getPrincipalsWithGroup(group.getName())));
+            //List principals = GroupControllerProxy.getController().getInfoGluePrincipals(group.getName());
+
             if(principals.contains(principal))
                 return true;
         }

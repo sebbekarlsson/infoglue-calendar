@@ -49,7 +49,6 @@ import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.util.CalendarHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.rss.RssHelper;
-import org.infoglue.deliver.util.Timer;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;

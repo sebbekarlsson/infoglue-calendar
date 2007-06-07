@@ -23,8 +23,6 @@
 
 package org.infoglue.calendar.entities;
 
-import org.infoglue.cms.entities.kernel.IBaseEntity;
-
 /**
  * This class represents an access right group in the system.
  * 

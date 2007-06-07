@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.controllers.AccessRightController;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
@@ -34,8 +35,8 @@ import org.infoglue.calendar.controllers.SubscriptionController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Subscriber;
 import org.infoglue.calendar.taglib.AbstractCalendarTag;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
-import org.infoglue.cms.security.InfoGluePrincipal;
+import org.infoglue.common.security.beans.InfoGluePrincipalBean;
+import org.infoglue.common.util.WebServiceHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.webwork.util.AttributeMap;
@@ -65,7 +66,9 @@ public class CreateEventSubscriptionAction extends CalendarUploadAbstractAction
     
     public String execute() throws Exception 
     {
-        InfoGluePrincipal principal = UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
+        InfoGluePrincipalBean principal = (InfoGluePrincipalBean)AccessRightController.getController().getPrincipal(this.getInfoGlueRemoteUser());
+        //InfoGluePrincipal principal = UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
+        
         Calendar calendar = CalendarController.getController().getCalendar(calendarId, getSession());
         
         this.subscriper = SubscriptionController.getController().createSubscriber(principal.getEmail(), calendar, getSession());
@@ -79,7 +82,8 @@ public class CreateEventSubscriptionAction extends CalendarUploadAbstractAction
     
     public String input() throws Exception 
     {
-        InfoGluePrincipal principal = UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
+        InfoGluePrincipalBean principal = (InfoGluePrincipalBean)AccessRightController.getController().getPrincipal(this.getInfoGlueRemoteUser());
+        //InfoGluePrincipal principal = UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
 
         this.calendars = CalendarController.getController().getUnsubscribedCalendarList(principal.getEmail(), getSession());
             

@@ -27,8 +27,7 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
-import org.infoglue.deliver.taglib.AbstractTag;
-import org.infoglue.deliver.util.Slots;
+import org.infoglue.common.util.Slots;
 
 /**
  * 

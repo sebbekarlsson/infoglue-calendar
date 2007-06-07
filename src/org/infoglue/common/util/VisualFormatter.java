@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
-import org.infoglue.cms.util.CmsPropertyHandler;
 
 public class VisualFormatter
 {

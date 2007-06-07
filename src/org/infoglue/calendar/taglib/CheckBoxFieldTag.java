@@ -33,7 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.BaseEntity;
 
-import org.infoglue.cms.security.InfoGluePrincipal;
+import org.infoglue.common.security.beans.InfoGluePrincipalBean;
 
 
 
@@ -145,9 +145,9 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 		            {
 	                    String selId;
 	                	Object selObj = selectedValueListIterator.next();
-	    	            if(selObj instanceof InfoGluePrincipal)
+	    	            if(selObj instanceof InfoGluePrincipalBean)
 	    	            {
-	    	                InfoGluePrincipal selValue = (InfoGluePrincipal)selObj;
+	    	                InfoGluePrincipalBean selValue = (InfoGluePrincipalBean)selObj;
 	    	                selId = selValue.getName().toString();
 	    	            } 
 	    	            else
@@ -167,9 +167,9 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 		            {
 	                    String selId;
 	                	Object selObj = selectedValueSetIterator.next();
-	    	            if(selObj instanceof InfoGluePrincipal)
+	    	            if(selObj instanceof InfoGluePrincipalBean)
 	    	            {
-	    	                InfoGluePrincipal selValue = (InfoGluePrincipal)selObj;
+	    	                InfoGluePrincipalBean selValue = (InfoGluePrincipalBean)selObj;
 	    	                selId = selValue.getName().toString();
 	    	            } 
 	    	            else

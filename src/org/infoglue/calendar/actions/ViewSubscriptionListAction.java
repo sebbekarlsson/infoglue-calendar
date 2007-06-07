@@ -23,21 +23,11 @@
 
 package org.infoglue.calendar.actions;
 
-import java.util.List;
 import java.util.Set;
 
-import javax.portlet.PortletURL;
-
 import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.controllers.SubscriptionController;
-import org.infoglue.calendar.databeans.AdministrationUCCBean;
-import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
-import org.infoglue.cms.security.InfoGluePrincipal;
-import org.infoglue.common.util.DBSessionWrapper;
 
 import com.opensymphony.xwork.Action;
-import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Calendar Administration screen.

@@ -23,7 +23,9 @@
 
 package org.infoglue.calendar.actions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +33,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.controllers.AccessRightController;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeController;
@@ -38,9 +41,7 @@ import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
-import org.infoglue.cms.controllers.kernel.impl.simple.GroupControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.RoleControllerProxy;
-import org.infoglue.cms.controllers.kernel.impl.simple.UserControllerProxy;
+import org.infoglue.common.util.WebServiceHelper;
 
 import com.opensymphony.xwork.Action;
 
@@ -73,7 +74,6 @@ public class ViewCalendarAction extends CalendarAbstractAction
     private Set monthEvents;
     private List dates;
     
-    private List infogluePrincipals;
     private List infoglueRoles;
     private List infoglueGroups;
     private List eventTypes;
@@ -163,11 +163,16 @@ public class ViewCalendarAction extends CalendarAbstractAction
         this.weekEvents = EventController.getController().getEventList(calendarId, Event.STATE_PUBLISHED, weekStartCalendar, weekEndCalendar, getSession());
         this.monthEvents = EventController.getController().getEventList(calendarId, Event.STATE_PUBLISHED, monthStartCalendar, monthEndCalendar, getSession());
         this.dates = getDateList(calendar);
-            
+        
+        this.infoglueRoles = AccessRightController.getController().getRoles();
+        this.infoglueGroups = AccessRightController.getController().getGroups();
+        
+        /*
         this.infogluePrincipals = UserControllerProxy.getController().getAllUsers();
         this.infoglueRoles = RoleControllerProxy.getController().getAllRoles();
         this.infoglueGroups = GroupControllerProxy.getController().getAllGroups();
-
+		*/
+        
         this.eventTypes = EventTypeController.getController().getEventTypeList(EventType.EVENT_DEFINITION, getSession());
         this.languages = LanguageController.getController().getLanguageList(getSession());
 
@@ -475,12 +480,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
     {
         return endCalendar;
     }
-    
-    public List getInfogluePrincipals()
-    {
-        return infogluePrincipals;
-    }
-    
+        
     public List getEventTypes()
     {
         return eventTypes;

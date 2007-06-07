@@ -27,8 +27,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.infoglue.cms.entities.kernel.IBaseEntity;
-
 /**
  * This class represents an access right in the system.
  * 

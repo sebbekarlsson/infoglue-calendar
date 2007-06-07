@@ -41,15 +41,14 @@ import org.apache.xpath.XPathAPI;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.infoglue.cms.applications.common.VisualFormatter;
-import org.infoglue.cms.applications.databeans.AssetKeyDefinition;
-import org.infoglue.cms.entities.kernel.BaseEntityVO;
+import org.infoglue.common.contenttypeeditor.entities.AssetKeyDefinition;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameter;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameterValue;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeValidator;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeDefinition;
-import org.infoglue.deliver.util.CacheController;
+import org.infoglue.common.util.VisualFormatter;
+import org.infoglue.common.util.XMLHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -550,7 +549,7 @@ public class ContentTypeDefinitionController
 			}
 
 			StringBuffer sb = new StringBuffer();
-			org.infoglue.cms.util.XMLHelper.serializeDom(document.getDocumentElement(), sb);
+			XMLHelper.serializeDom(document.getDocumentElement(), sb);
 			newSchemaValue = sb.toString();
 		}
 		catch(Exception e)
