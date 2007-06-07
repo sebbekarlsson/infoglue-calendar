@@ -53,6 +53,7 @@ import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.VelocityTemplateProcessor;
+import org.infoglue.common.util.VisualFormatter;
 import org.infoglue.common.util.io.FileHelper;
 import org.infoglue.common.util.mail.MailServiceFactory;
 
