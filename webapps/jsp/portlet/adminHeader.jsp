@@ -119,7 +119,7 @@
 		<ww:property value="this.getLabel('labels.internal.applicationTitle')"/>
 	</span>	
 	<span class="right">	
-		<ww:property value="this.().firstName"/> <ww:property value="this.getInfoGluePrincipal().lastName"/> | <a href="<ww:property value="logoutUrl"/>">Logga ut</a>
+		<ww:property value="this.getInfoGluePrincipal().firstName"/> <ww:property value="this.getInfoGluePrincipal().lastName"/> | <a href="<ww:property value="logoutUrl"/>">Logga ut</a>
 		<%--
 		Request: <c:out value="${request.remoteUser}"/><br/>
 		Request: <c:out value="${request.remoteHost}"/><br/>
