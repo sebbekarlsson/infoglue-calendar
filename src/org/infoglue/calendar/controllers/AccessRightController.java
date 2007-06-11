@@ -51,6 +51,7 @@ public class AccessRightController extends BasicController
      * 
      * @return InterceptionPointController
      */
+    private static final long timeoutLength = 10000;
     
     public static AccessRightController getController()
     {
@@ -93,18 +94,27 @@ public class AccessRightController extends BasicController
 	
 	public List getRoles()
 	{
-		List list = null;
-			
+		List list = (List)CacheController.getCachedObject("rolesCache", "allRoles", timeoutLength);
+		if(list != null)
+		{
+			log.info("cached roles...");
+			return list;			
+		}
+		
 		try
 		{
+			log.info("looking for roles...");
 		    WebServiceHelper wsh = new WebServiceHelper();
 	        wsh.setServiceUrl(getServiceURL());
 	        
 	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getRoles")));
+	        if(list != null)
+	        	CacheController.cacheObject("rolesCache", "allRoles", list);
 		}
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			list = (List)CacheController.getCachedObject("rolesCache", "allRoles");
 		}
 		
 		return list;
@@ -112,7 +122,12 @@ public class AccessRightController extends BasicController
 	
 	public List getGroups()
 	{
-		List list = null;
+		List list = (List)CacheController.getCachedObject("groupsCache", "allGroups", timeoutLength);
+		if(list != null)
+		{
+			log.info("cached groups...");
+			return list;			
+		}
 			
 		try
 		{
@@ -120,10 +135,13 @@ public class AccessRightController extends BasicController
 	        wsh.setServiceUrl(getServiceURL());
 	        
 	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getGroups")));
+	        if(list != null)
+	        	CacheController.cacheObject("groupsCache", "allGroups", list);
 		}
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			list = (List)CacheController.getCachedObject("groupsCache", "allGroups");
 		}
 		
 		return list;
@@ -131,7 +149,12 @@ public class AccessRightController extends BasicController
 	
 	public List getPrincipals()
 	{
-		List list = null;
+		List list = (List)CacheController.getCachedObject("principalsCache", "allPrincipals", timeoutLength);
+		if(list != null)
+		{
+			log.info("cached principals...");
+			return list;			
+		}
 			
 		try
 		{
@@ -139,10 +162,13 @@ public class AccessRightController extends BasicController
 	        wsh.setServiceUrl(getServiceURL());
 	        
 	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getPrincipals")));
+	        if(list != null)
+	        	CacheController.cacheObject("principalsCache", "allPrincipals", list);
 		}
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			list = (List)CacheController.getCachedObject("principalsCache", "allPrincipals");
 		}
 		
 		return list;
@@ -150,7 +176,12 @@ public class AccessRightController extends BasicController
 
 	public List getPrincipalsWithRole(String roleName)
 	{
-		List list = null;
+		List list = (List)CacheController.getCachedObject("principalsCache", "role_principals_" + roleName, timeoutLength);
+		if(list != null)
+		{
+			log.info("cached role principals...");
+			return list;			
+		}
 			
 		try
 		{
@@ -158,10 +189,13 @@ public class AccessRightController extends BasicController
 	        wsh.setServiceUrl(getServiceURL());
 	        
 	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getPrincipalsWithRole", roleName)));
+	        if(list != null)
+	        	CacheController.cacheObject("principalsCache", "role_principals_" + roleName, list);
 		}
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			list = (List)CacheController.getCachedObject("principalsCache", "role_principals_" + roleName);
 		}
 		
 		return list;
@@ -169,7 +203,12 @@ public class AccessRightController extends BasicController
 
 	public List getPrincipalsWithGroup(String groupName)
 	{
-		List list = null;
+		List list = (List)CacheController.getCachedObject("principalsCache", "group_principals_" + groupName, timeoutLength);
+		if(list != null)
+		{
+			log.info("cached group principals...");
+			return list;			
+		}
 			
 		try
 		{
@@ -177,10 +216,13 @@ public class AccessRightController extends BasicController
 	        wsh.setServiceUrl(getServiceURL());
 	        
 	        list = new ArrayList(Arrays.asList((Object[])wsh.getArray("getPrincipalsWithGroup", groupName)));
+	        if(list != null)
+	        	CacheController.cacheObject("principalsCache", "group_principals_" + groupName, list);
 		}
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			list = (List)CacheController.getCachedObject("principalsCache", "group_principals_" + groupName);
 		}
 		
 		return list;
@@ -188,19 +230,26 @@ public class AccessRightController extends BasicController
 
 	public InfoGluePrincipalBean getPrincipal(String userName)
 	{
-		InfoGluePrincipalBean infoGluePrincipalBean = null;
+		InfoGluePrincipalBean infoGluePrincipalBean = (InfoGluePrincipalBean)CacheController.getCachedObject("principalsCache", "principal_" + userName, timeoutLength);
+		if(infoGluePrincipalBean != null)
+		{
+			log.info("cached principal...");
+			return infoGluePrincipalBean;			
+		}
 			
 		try
 		{
 		    WebServiceHelper wsh = new WebServiceHelper();
-	        //wsh.setServiceUrl("http://localhost:8080/infoglueCMS/services/RemoteUserService");
 	        wsh.setServiceUrl(getServiceURL());
 	        
 	        infoGluePrincipalBean = (InfoGluePrincipalBean)wsh.getObject("getPrincipal", userName);
+	        if(infoGluePrincipalBean != null)
+	        	CacheController.cacheObject("principalsCache", "principal_" + userName, infoGluePrincipalBean);	        	
 		}
 		catch (Exception e) 
 		{
 			e.printStackTrace();
+			infoGluePrincipalBean = (InfoGluePrincipalBean)CacheController.getCachedObject("principalsCache", "principal_" + userName);
 		}
 		
 		return infoGluePrincipalBean;
