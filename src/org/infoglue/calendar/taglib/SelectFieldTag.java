@@ -159,13 +159,13 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            {
 	                InfoGlueRoleBean value = (InfoGlueRoleBean)obj;
 	                id = value.getName().toString();
-	                optionText = value.getName();
+	                optionText = value.getDisplayName();
 	            } 
 	            else if(obj instanceof InfoGlueGroupBean)
 	            {
 	                InfoGlueGroupBean value = (InfoGlueGroupBean)obj;
 	                id = value.getName().toString();
-	                optionText = value.getName();
+	                optionText = value.getDisplayName();
 	            } 
 	            else if(obj instanceof BaseEntity)
 	            {
