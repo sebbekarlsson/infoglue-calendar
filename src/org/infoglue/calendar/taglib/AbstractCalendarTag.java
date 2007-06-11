@@ -34,6 +34,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.infoglue.calendar.util.CalendarLabelHelper;
 import org.infoglue.common.util.ResourceBundleHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -111,14 +112,17 @@ public abstract class AbstractCalendarTag extends AbstractTag
 	    
 	    try
 	    {
+	    	label = CalendarLabelHelper.getHelper().getLabel(key, this.getLanguageCode(), getSession());
+	    	/*
 	        Object derivedValue = findOnValueStack(key);
 	    	Locale locale = new Locale(this.getLanguageCode());
+	    	System.out.println("locale:" + locale);
 	    	ResourceBundle resourceBundle = ResourceBundleHelper.getResourceBundle("infoglueCalendar", locale);
 	    	if(derivedValue != null)
 	    	    label = resourceBundle.getString("" + derivedValue.toString());
 	        else
 	            label = resourceBundle.getString(key);
-	            
+	        */    
 	    	if(label == null || label.equals(""))
 	            label = key;
 	    }
