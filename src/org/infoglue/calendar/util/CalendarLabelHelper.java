@@ -98,7 +98,7 @@ public class CalendarLabelHelper
 	    }
 	    catch(Exception e)
 	    {
-	        log.warn("An label was not found for key: " + key + ": " + e.getMessage(), e);
+	        log.info("An label was not found for key: " + key + ": " + e.getMessage(), e);
 	    }
 	    
 	    return label;

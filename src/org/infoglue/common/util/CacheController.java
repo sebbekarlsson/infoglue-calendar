@@ -78,6 +78,7 @@ public class CacheController
 			    synchronized(cacheInstance)
 		        {
 				    cacheInstance.put(key, value);
+				    cacheInstance.put(key + "_insertTime", new Long(System.currentTimeMillis()));
 		        }
 		    }
 		}
@@ -94,6 +95,32 @@ public class CacheController
 		        synchronized(cacheInstance)
 		        {
 		            return cacheInstance.get(key);
+		        }
+		    }
+		}
+		
+        return null;
+    }
+
+	public static Object getCachedObject(String cacheName, Object key, long timeout)
+	{
+		synchronized(caches)
+		{
+			Map cacheInstance = (Map)caches.get(cacheName);
+		    
+		    if(cacheInstance != null)
+		    {
+		        synchronized(cacheInstance)
+		        {
+		        	Object object = cacheInstance.get(key);
+		            if(object != null)
+		            {
+		            	Long insertTime = (Long)cacheInstance.get(key + "_insertTime");
+			         	if((System.currentTimeMillis() - insertTime.longValue()) > timeout)
+			            	return null;
+		            	else
+		            		return object;
+		            }
 		        }
 		    }
 		}

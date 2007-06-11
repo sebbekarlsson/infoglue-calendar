@@ -51,7 +51,7 @@ public class AccessRightController extends BasicController
      * 
      * @return InterceptionPointController
      */
-    private static final long timeoutLength = 10000;
+    private static final long timeoutLength = 3600000;
     
     public static AccessRightController getController()
     {
