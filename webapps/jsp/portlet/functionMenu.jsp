@@ -5,6 +5,9 @@
 	<portlet:param name="action" value="ViewWaitingEventList"/>
 </portlet:renderURL>
 
+<portlet:renderURL var="viewAuthorizationSwitchManagementUrl">
+	<portlet:param name="action" value="ViewAuthorizationSwitchManagement!input"/>
+</portlet:renderURL>
 <portlet:renderURL var="viewCalendarListUrl">
 	<portlet:param name="action" value="ViewCalendarList"/>
 </portlet:renderURL>
@@ -64,6 +67,7 @@
 	<b><ww:property value="this.getLabel('labels.internal.applicationAdministrate')"/></b> 
 	-->
 	
+	
 	<c:if test="${calendarAdministrator == true}">
 		<a href="<c:out value="${viewCategoryUrl}"/>" <c:if test="${activeNavItem == 'Categories'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerCategories')"/></a> |
 		<a href="<c:out value="${viewCalendarListUrl}"/>" <c:if test="${activeNavItem == 'Calendars'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerCalendars')"/></a> |
@@ -71,6 +75,7 @@
 	</c:if>
 	
 	<c:if test="${calendarSuperUser == true}">
+		<a href="<c:out value="${viewAuthorizationSwitchManagementUrl}"/>" <c:if test="${activeNavItem == 'AuthorizationSwitchManagement'}">class="current"</c:if>>Auth transfer</a> |
 		<a href="<c:out value="${viewSettingsUrl}"/>" <c:if test="${activeNavItem == 'Settings'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerSettings')"/></a> |
 		<a href="<c:out value="${viewLabelsUrl}"/>" <c:if test="${activeNavItem == 'Labels'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerLabels')"/></a> |
 		<a href="<c:out value="${viewLanguagesUrl}"/>" <c:if test="${activeNavItem == 'Languages'}">class="current"</c:if>><ww:property value="this.getLabel('labels.internal.applicationAdministerLanguages')"/></a> |

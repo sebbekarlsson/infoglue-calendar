@@ -452,6 +452,18 @@ public class CalendarAbstractAction extends ActionSupport
     	}
     }
 
+    public String getRequestParameterValue(String name)
+    {
+    	try
+    	{
+    		return (String)ServletActionContext.getRequest().getParameter(name);
+    	}
+    	catch(Exception e)
+    	{
+    		return null;
+    	}
+    }
+
     public String formatDate(Date date, String pattern, Locale locale)
     {	
     	if(date == null)

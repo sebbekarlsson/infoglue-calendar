@@ -29,7 +29,6 @@ public class MaxLengthValidator extends FieldValidatorSupport {
         	String stringValue = value.toString();
         	if(stringValue.length() > maxLength)
         	{
-        		System.out.println("Setting error:" + fieldName);
         		addFieldError(fieldName, object);
         	}
         }

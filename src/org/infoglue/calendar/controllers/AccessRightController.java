@@ -28,14 +28,21 @@ import org.apache.commons.logging.LogFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.AccessRight;
+import org.infoglue.calendar.entities.Group;
+import org.infoglue.calendar.entities.Participant;
+import org.infoglue.calendar.entities.Role;
 import org.infoglue.common.exceptions.Bug;
 import org.infoglue.common.exceptions.SystemException;
 import org.infoglue.common.security.beans.InfoGluePrincipalBean;
@@ -91,7 +98,149 @@ public class AccessRightController extends BasicController
 		return result;		
 	}
     
-	
+	/**
+     * Gets a list of all roles existing in the calendar_role table.
+     * @return List of Role
+     * @throws Exception
+     */
+    
+    public Set getCalendarRole(Session session) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Role role order by role.name");
+   
+        result = q.list();
+        
+        Set set = new LinkedHashSet();
+        set.addAll(result);
+        
+        return set;
+    }
+
+	/**
+     * Gets a list of all groups existing in the calendar_group table.
+     * @return List of Role
+     * @throws Exception
+     */
+    
+    public Set getCalendarGroup(Session session) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Group g order by g.name");
+   
+        result = q.list();
+        
+        Set set = new LinkedHashSet();
+        set.addAll(result);
+        
+        return set;
+    }
+
+	/**
+     * Gets a list of all users existing in the calendar_participant table.
+     * @return List of Participant
+     * @throws Exception
+     */
+    
+    public Set getCalendarParticipant(Session session) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Participant participant order by participant.userName");
+   
+        result = q.list();
+        
+        Set set = new LinkedHashSet();
+        set.addAll(result);
+        
+        return set;
+    }
+
+	/**
+     * Replace all occurrancies in the calendar_participant table.
+     * @throws Exception
+     */
+    
+    public void complementEventParticipant(Session session, String userName, String newUserName) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Participant participant where participant.userName = ?");
+        q.setString(0, userName);
+        
+        result = q.list();
+
+        Iterator resultIterator = result.iterator();
+        while(resultIterator.hasNext())
+        {
+        	Participant participant = (Participant)resultIterator.next();
+        	if(participant.getEvent() != null)
+        	{
+        		ParticipantController.getController().createParticipant(newUserName, participant.getEvent(), session);
+        	}
+        }
+    }
+
+	/**
+     * Replace all occurrancies in the calendar_role table.
+     * @throws Exception
+     */
+    
+    public void complementCalendarRole(Session session, String roleName, String newRoleName) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Role role where role.name = ?");
+        q.setString(0, roleName);
+        
+        result = q.list();
+
+        Iterator resultIterator = result.iterator();
+        while(resultIterator.hasNext())
+        {
+        	Role role = (Role)resultIterator.next();
+        	if(role != null && role.getCalendar() != null)
+        	{
+	            Role newRole = new Role();
+	            newRole.setCalendar(role.getCalendar());
+	            newRole.setName(newRoleName);
+	            session.save(newRole);
+	            role.getCalendar().getOwningRoles().add(newRole);
+        	}
+        }
+    }
+
+	/**
+     * Replace all occurrancies in the calendar_role table.
+     * @throws Exception
+     */
+    
+    public void complementCalendarGroup(Session session, String groupName, String newGroupName) throws Exception 
+    {
+        List result = null;
+        
+        Query q = session.createQuery("from Group g where g.name = ?");
+        q.setString(0, groupName);
+        
+        result = q.list();
+
+        Iterator resultIterator = result.iterator();
+        while(resultIterator.hasNext())
+        {
+        	Group group = (Group)resultIterator.next();
+        	if(group != null && group.getCalendar() != null)
+        	{
+	            Group newGroup = new Group();
+	            newGroup.setCalendar(group.getCalendar());
+	            newGroup.setName(newGroupName);
+	            session.save(newGroup);
+	            group.getCalendar().getOwningGroups().add(newGroup);
+        	}
+        }
+    }
+
 	public List getRoles()
 	{
 		List list = (List)CacheController.getCachedObject("rolesCache", "allRoles", timeoutLength);

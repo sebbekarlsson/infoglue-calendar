@@ -817,6 +817,19 @@
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
+
+		<!-- HERE COMES THE AUTHORIZATION SWITCH ACTION-->
+		<action name="ViewAuthorizationSwitchManagement" class="org.infoglue.calendar.actions.ViewAuthorizationSwitchManagementAction">
+			<result name="input" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewAuthorizationSwitchManagement.jsp</param>
+			</result>
+			<result name="success" type="eventProcessed">
+				<param name="viewAction">ViewAuthorizationSwitchManagement!input.action</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
 		
 	</package>
 </xwork>

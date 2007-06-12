@@ -29,6 +29,9 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.infoglue.calendar.actions.CalendarAbstractAction;
+import org.infoglue.common.util.PropertyHelper;
+
 import com.opensymphony.webwork.ServletActionContext;
 
 
@@ -74,6 +77,12 @@ public class HasRoleTag extends AbstractTag
 
     public void setRoleName(final String roleName) throws JspException
     {
-        this.roleName = roleName;
+    	CalendarAbstractAction action = new CalendarAbstractAction();
+    	String translatedName = action.getSetting(roleName + "_translation");
+		//String translatedName = PropertyHelper.getProperty(roleName + "_translation");
+    	if(translatedName != null && translatedName.length() > 0)
+    		this.roleName = translatedName;
+    	else
+    		this.roleName = roleName;
     }
 }
