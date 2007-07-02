@@ -133,12 +133,12 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public String listAggregatedCustom() throws Exception
     {
-        execute();
-            		
-		String externalRSSUrl = this.getStringAttributeValue("externalRSSUrl");
-		
 		try
 		{
+	        execute();
+	            		
+			String externalRSSUrl = this.getStringAttributeValue("externalRSSUrl");
+		
 			String eventURL = this.getStringAttributeValue("detailUrl");
 			if(eventURL == null)
 				eventURL = "";
@@ -163,8 +163,8 @@ public class ViewEventListAction extends CalendarAbstractAction
 		}
 		catch(Exception e)
 		{
-			//setError("Could not connect to the RSS feed \"" + externalRSSUrl + "\".", e);
-			setError(getParameterizedLabel("labels.internal.event.error.couldNotConnectToRSS", externalRSSUrl), e);
+			//System.out.println("Error:" + e.getMessage());
+			setError(e.getMessage(), e);
 			return Action.ERROR + "Custom";
 		}
 
@@ -351,95 +351,105 @@ public class ViewEventListAction extends CalendarAbstractAction
         SyndEntry entry;
         SyndContent description;
         
-    	Iterator eventsIterator = events.iterator();
-    	while(eventsIterator.hasNext())
-    	{
-    		Event event = (Event)eventsIterator.next();
-    		EventVersion eventVersion = this.getEventVersion(event);
-    		
-    		entry = new SyndEntryImpl();
-    		entry.setTitle(eventVersion.getName());
-			entry.setLink(eventURL.replaceAll("\\{eventId\\}", "" + event.getId()));
-    		entry.setPublishedDate(event.getStartDateTime().getTime());
-    		entry.setUri(eventURL.replaceAll("\\{eventId\\}", "" + event.getId()));
-    		
-    		List categories = new ArrayList();
-    		Iterator eventCategoriesIterator = event.getEventCategories().iterator();
-    		while(eventCategoriesIterator.hasNext())
-    		{
-    			EventCategory eventCategory = (EventCategory)eventCategoriesIterator.next();
-    			SyndCategory syndCategory = new SyndCategoryImpl();
-    			syndCategory.setTaxonomyUri(eventCategory.getEventTypeCategoryAttribute().getInternalName());
-    			syndCategory.setName(eventCategory.getCategory().getLocalizedName(this.getLanguageCode(), "sv"));
-    			categories.add(syndCategory);
-    		}
-
-    		//--------------------------------------------
-    		// Add an extra category to internal entries, 
-    		// so that we can identify them later.
-    		//--------------------------------------------
-    		
-			SyndCategory syndCategory = new SyndCategoryImpl();
-			syndCategory.setTaxonomyUri("isInfoGlueLink");
-			syndCategory.setName("true");
-			categories.add(syndCategory);
-
-    		entry.setCategories(categories);
-    		
-    		description = new SyndContentImpl();
-    		description.setType("text/html");
-    		description.setValue(eventVersion.getShortDescription());
-    		entry.setDescription(description);
-
-    		List contents = new ArrayList();
-
-    		SyndContent metaData = new SyndContentImpl();
-
-    		StringBuffer xml = new StringBuffer("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-    		xml.append("<metadata>");
-    		xml.append("<startDateTime>" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</startDateTime>");
-    		xml.append("<endDateTime>" + this.formatDate(event.getEndDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</endDateTime>");
-    		xml.append("</metadata>]]>");
-
-    		metaData.setType("text/xml");
-    		metaData.setValue(xml.toString());
-    		
-    		contents.add(metaData);
-
-    		entry.setContents(contents);
-    		
-    		entries.add(entry);
-    	}
-
+        if(events != null)
+        {
+	    	Iterator eventsIterator = events.iterator();
+	    	while(eventsIterator.hasNext())
+	    	{
+	    		Event event = (Event)eventsIterator.next();
+	    		EventVersion eventVersion = this.getEventVersion(event);
+	    		
+	    		entry = new SyndEntryImpl();
+	    		entry.setTitle(eventVersion.getName());
+				entry.setLink(eventURL.replaceAll("\\{eventId\\}", "" + event.getId()));
+	    		entry.setPublishedDate(event.getStartDateTime().getTime());
+	    		entry.setUri(eventURL.replaceAll("\\{eventId\\}", "" + event.getId()));
+	    		
+	    		List categories = new ArrayList();
+	    		Iterator eventCategoriesIterator = event.getEventCategories().iterator();
+	    		while(eventCategoriesIterator.hasNext())
+	    		{
+	    			EventCategory eventCategory = (EventCategory)eventCategoriesIterator.next();
+	    			SyndCategory syndCategory = new SyndCategoryImpl();
+	    			syndCategory.setTaxonomyUri(eventCategory.getEventTypeCategoryAttribute().getInternalName());
+	    			syndCategory.setName(eventCategory.getCategory().getLocalizedName(this.getLanguageCode(), "sv"));
+	    			categories.add(syndCategory);
+	    		}
+	
+	    		//--------------------------------------------
+	    		// Add an extra category to internal entries, 
+	    		// so that we can identify them later.
+	    		//--------------------------------------------
+	    		
+				SyndCategory syndCategory = new SyndCategoryImpl();
+				syndCategory.setTaxonomyUri("isInfoGlueLink");
+				syndCategory.setName("true");
+				categories.add(syndCategory);
+	
+	    		entry.setCategories(categories);
+	    		
+	    		description = new SyndContentImpl();
+	    		description.setType("text/html");
+	    		description.setValue(eventVersion.getShortDescription());
+	    		entry.setDescription(description);
+	
+	    		List contents = new ArrayList();
+	
+	    		SyndContent metaData = new SyndContentImpl();
+	
+	    		StringBuffer xml = new StringBuffer("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+	    		xml.append("<metadata>");
+	    		xml.append("<startDateTime>" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</startDateTime>");
+	    		xml.append("<endDateTime>" + this.formatDate(event.getEndDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</endDateTime>");
+	    		xml.append("</metadata>]]>");
+	
+	    		metaData.setType("text/xml");
+	    		metaData.setValue(xml.toString());
+	    		
+	    		contents.add(metaData);
+	
+	    		entry.setContents(contents);
+	    		
+	    		entries.add(entry);
+	    	}
+        }
+        
     	return entries;
     }
     
     public List getExternalFeedEntries(String externalRSSUrl) throws Exception
     {    	
-    	URL url = new URL(externalRSSUrl);
-        URLConnection urlConn = url.openConnection();
-        urlConn.setConnectTimeout(5000);
-        urlConn.setReadTimeout(10000);
-        
-        SyndFeedInput input = new SyndFeedInput();
-        SyndFeed inputFeed = input.build(new XmlReader(urlConn));
-        
-        List entries = inputFeed.getEntries();
-        Iterator entriesIterator = entries.iterator();
-        while(entriesIterator.hasNext())
-        {
-        	SyndEntry entry = (SyndEntry)entriesIterator.next();
-        	Iterator contentIterator = entry.getContents().iterator();
-        	while(contentIterator.hasNext())
-        	{
-        		SyndContent content = (SyndContent)contentIterator.next();
-        		log.info("content:" + content.getValue());
-        		if(content.getType().equalsIgnoreCase("text/xml"))
-        			content.setValue("<![CDATA[" + content.getValue() + "]]>");
-        	}
-        }
+    	try
+    	{
+	    	URL url = new URL(externalRSSUrl);
+	        URLConnection urlConn = url.openConnection();
+	        urlConn.setConnectTimeout(5000);
+	        urlConn.setReadTimeout(10000);
+	        
+	        SyndFeedInput input = new SyndFeedInput();
+	        SyndFeed inputFeed = input.build(new XmlReader(urlConn));
+	        
+	        List entries = inputFeed.getEntries();
+	        Iterator entriesIterator = entries.iterator();
+	        while(entriesIterator.hasNext())
+	        {
+	        	SyndEntry entry = (SyndEntry)entriesIterator.next();
+	        	Iterator contentIterator = entry.getContents().iterator();
+	        	while(contentIterator.hasNext())
+	        	{
+	        		SyndContent content = (SyndContent)contentIterator.next();
+	        		log.info("content:" + content.getValue());
+	        		if(content.getType().equalsIgnoreCase("text/xml"))
+	        			content.setValue("<![CDATA[" + content.getValue() + "]]>");
+	        	}
+	        }
 
-        return entries;    	
+	        return entries;    	
+    	}
+    	catch (Exception e) 
+    	{
+    		throw new Exception(getParameterizedLabel("labels.internal.event.error.couldNotConnectToRSS", externalRSSUrl));
+    	}
     }
     
     private void sortEntries(List entries)
