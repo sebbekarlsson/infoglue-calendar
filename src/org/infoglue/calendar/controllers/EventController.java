@@ -1678,7 +1678,7 @@ public class EventController extends BasicController
 	            }
 	            catch(Exception e)
 	            {
-	                log.warn("An invalid calendarId was given:" + e.getMessage(), e);
+	                log.warn("An invalid calendarId was given:" + e.getMessage());
 	                return null;
 	            }
 	            
