@@ -82,7 +82,8 @@ public abstract class BasicController
         {
             Group group = (Group)owningGroupsIterator.next();
             
-            List principals = new ArrayList(Arrays.asList(AccessRightController.getController().getPrincipalsWithGroup(group.getName())));
+            List principals = new ArrayList();
+            principals.addAll(AccessRightController.getController().getPrincipalsWithGroup(group.getName()));
             //List principals = new ArrayList(wsh.getCollection("getPrincipals"));
             //List principals = GroupControllerProxy.getController().getInfoGluePrincipals(group.getName());
 

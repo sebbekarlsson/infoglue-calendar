@@ -1868,12 +1868,14 @@ public class EventController extends BasicController
 	        {
 	            Role role = (Role)owningRolesIterator.next();
 	            
-	            List principals = new ArrayList(Arrays.asList(AccessRightController.getController().getPrincipalsWithRole(role.getName())));
+	            List principals = new ArrayList();
+	            principals.addAll(AccessRightController.getController().getPrincipalsWithRole(role.getName()));
 	            //List principals = RoleControllerProxy.getController().getInfoGluePrincipals(role.getName());
 	            
 	            Iterator userIterator = principals.iterator();
 	            while(userIterator.hasNext())
 	            {
+	            	
 	                InfoGluePrincipalBean principal = (InfoGluePrincipalBean)userIterator.next();
 	                boolean hasGroup = hasUserGroup(principal, event);
 	                if(hasGroup)
@@ -2015,7 +2017,8 @@ public class EventController extends BasicController
         {
             Group group = (Group)owningGroupsIterator.next();
             
-            List principals = new ArrayList(Arrays.asList(AccessRightController.getController().getPrincipalsWithGroup(group.getName())));
+            List principals = new ArrayList();
+            principals.addAll(AccessRightController.getController().getPrincipalsWithGroup(group.getName()));
             //List principals = GroupControllerProxy.getController().getInfoGluePrincipals(group.getName());
 
             if(principals.contains(principal))
