@@ -56,6 +56,17 @@
 			<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
 			<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
 			</ww:if>
+			
+			<ww:if test="#eventVersion.alternativeLocation != ''">
+				<ww:property value="#eventVersion.alternativeLocation"/>
+			</ww:if>
+			<ww:else>
+				<ww:iterator value="top.locations">
+					<ww:property value="top.getLocalizedName('en','sv')"/>,
+				</ww:iterator>
+			</ww:else>
+			- <ww:property value="#eventVersion.customLocation"/>
+			
 			<br /></p>
 	        <ww:set name="puffImage" value="this.getResourceUrl(event, 'PuffBild')"/>
 			<ww:if test="#puffImage != null">
