@@ -54,7 +54,7 @@
 	
 			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.timeLabel')"/></span> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/> 
 			<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
-			<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>
+			<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>, 
 			</ww:if>
 			
 			<ww:if test="#eventVersion.alternativeLocation != ''">
