@@ -17,11 +17,15 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.portlet.PortletFileUpload;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.util.EntrySearchResultfilesConstructor;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
 import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -148,8 +152,21 @@ public class ComposeEmailAction extends CalendarAbstractAction
 				        	HttpServletRequest request = ServletActionContext.getRequest();
 				        	Map parameters = new HashMap();
 				        	parameters.put("headLine", "Entries for event " + event.getName() + "(" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd") + ")");
+
+				        	EventType eventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
+				    		List attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
+
+				    		List attributeNames = new ArrayList();
+				    		Iterator attributesIterator = attributes.iterator();
+				    		while(attributesIterator.hasNext())
+				    		{
+				    			ContentTypeAttribute attribute = (ContentTypeAttribute)attributesIterator.next();
+				    			attributeNames.add(attribute.getName());
+				    		}
+				        	parameters.put("attributes", attributes);
+				        	parameters.put("attributeNames", attributeNames);
 				        	
-				        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(parameters, entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this );
+				        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(parameters, entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this, event.getEntryFormId().toString());
 				        	Map searchResultFiles = results.getFileResults();
 				        	
 				        	String fileName = (String)searchResultFiles.get("PDF");

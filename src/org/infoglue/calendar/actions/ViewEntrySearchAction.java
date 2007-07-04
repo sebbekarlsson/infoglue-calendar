@@ -41,15 +41,19 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeCategoryAttributeController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.util.EntrySearchResultfilesConstructor;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
 import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -176,10 +180,14 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 													dbSession);
 
         String emailAddresses = "";
+        Long entryTypeId = null;
         Iterator entriesIterator = entries.iterator();
         while(entriesIterator.hasNext())
         {
         	Entry entry = (Entry)entriesIterator.next();
+        	if(entryTypeId == null)
+        		entryTypeId = entry.getEvent().getEntryFormId();
+        	
             if(emailAddresses.length() != 0)
                 emailAddresses += ";" + entry.getEmail();
             else
@@ -209,8 +217,20 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         	Map parameters = new HashMap();
         	parameters.put("headLine", "Entries found");
 
+        	EventType eventType = EventTypeController.getController().getEventType(entryTypeId, getSession());
+    		List attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
+    		List attributeNames = new ArrayList();
+    		Iterator attributesIterator = attributes.iterator();
+    		while(attributesIterator.hasNext())
+    		{
+    			ContentTypeAttribute attribute = (ContentTypeAttribute)attributesIterator.next();
+    			attributeNames.add(attribute.getName());
+    		}
+        	parameters.put("attributes", attributes);
+        	parameters.put("attributeNames", attributeNames);
+
         	HttpServletRequest request = ServletActionContext.getRequest();
-        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(parameters, entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this );
+        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(parameters, entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this, entryTypeId.toString());
         	searchResultFiles = results.getResults();
         }
         

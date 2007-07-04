@@ -11,6 +11,9 @@
 	Phone: $entry.phone<br/>
 	Fax: $entry.fax<br/>
 	Message: $entry.message<br/>
+	#foreach($attribute in $attributes)
+		$attribute.name: $this.getAttributeValue($entry.attributes, $attribute.name, true)<br/>
+	#end	
 	<hr/>
 	This email was automatically generated and the sender is the Calendar-system.<br/>
 	Do not reply to this email. <br/>

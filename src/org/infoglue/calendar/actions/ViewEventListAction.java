@@ -163,7 +163,6 @@ public class ViewEventListAction extends CalendarAbstractAction
 		}
 		catch(Exception e)
 		{
-			//System.out.println("Error:" + e.getMessage());
 			setError(e.getMessage(), e);
 			return Action.ERROR + "Custom";
 		}

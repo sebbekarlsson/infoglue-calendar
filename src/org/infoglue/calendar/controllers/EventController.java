@@ -1020,10 +1020,10 @@ public class EventController extends BasicController
 //        event.setShortDescription(shortDescription);
 //        event.setLongDescription(longDescription);
 //        event.setEventUrl(eventUrl);
-//        event.setContactName(contactName);
-//        event.setContactEmail(contactEmail);
-//        event.setContactPhone(contactPhone);
-//        event.setPrice(price);
+        event.setContactName(contactName);
+        event.setContactEmail(contactEmail);
+        event.setContactPhone(contactPhone);
+        event.setPrice(price);
         event.setMaximumParticipants(maximumParticipants);
         event.setLastRegistrationDateTime(lastRegistrationCalendar);
         event.setStartDateTime(startDateTime);

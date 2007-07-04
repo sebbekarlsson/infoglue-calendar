@@ -35,8 +35,9 @@ public class EntrySearchResultfilesConstructor
 	private String fileFolderLocation;
 	private List resultValues;
 	private CalendarAbstractAction action;
+	private String entryTypeId;
 	
-	public EntrySearchResultfilesConstructor(Map parameters, Set entries, String tempFilePath, String scheme, String serverName, int port, List resultValues, CalendarAbstractAction action) 
+	public EntrySearchResultfilesConstructor(Map parameters, Set entries, String tempFilePath, String scheme, String serverName, int port, List resultValues, CalendarAbstractAction action, String entryTypeId) 
 	{
 		this.parameters = parameters;
 		this.entries = entries;
@@ -46,6 +47,7 @@ public class EntrySearchResultfilesConstructor
 		this.port = port;
 		this.resultValues = resultValues;
 		this.action = action;
+		this.entryTypeId = entryTypeId;
 		createResults();
 	}
 
@@ -90,7 +92,7 @@ public class EntrySearchResultfilesConstructor
 					searchResultFiles.put("CSV", fileURL);
 					searchResultFilePaths.put("CSV", fileName);
 					
-					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "csv");
+					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "csv", entryTypeId);
 				}
 				if (resultType.indexOf("XLS") > -1)
 				{
@@ -100,7 +102,7 @@ public class EntrySearchResultfilesConstructor
 					searchResultFiles.put("Excel", fileURL);
 					searchResultFilePaths.put("Excel", fileName);
 
-					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "xls");
+					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "xls", entryTypeId);
 				}
 				if (resultType.indexOf("PDF") > -1)
 				{
@@ -110,7 +112,7 @@ public class EntrySearchResultfilesConstructor
 					searchResultFiles.put("PDF", fileURL);
 					searchResultFilePaths.put("PDF", fileName);
 
-					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "pdf");
+					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "pdf", entryTypeId);
 				}
 				if (resultType.indexOf("HTML") > -1)
 				{ 
@@ -120,7 +122,7 @@ public class EntrySearchResultfilesConstructor
 					searchResultFiles.put("HTML", fileURL);
 					searchResultFilePaths.put("HTML", fileName);
 
-					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "html");
+					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "html", entryTypeId);
 				}
 			}
 		}

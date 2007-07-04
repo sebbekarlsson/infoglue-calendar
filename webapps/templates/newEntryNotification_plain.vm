@@ -3,14 +3,17 @@ New entry created
 InfoGlue Calendar Notification: A new entry to "$eventVersion.name" was made by "$entry.firstName $entry.lastName . 
 
 Name: $entry.firstName $entry.lastName
-Email: <a href="mailto:$entry.email">$entry.email</a>
+Email: $entry.email
 Organisation: $entry.organisation
 Address: $entry.address
 ZipCode: $entry.zipcode
 City: $entry.city
 Phone: $entry.phone
 Fax: $entry.fax
-Message: $entry.message<
+Message: $entry.message
+#foreach($attribute in $attributes)
+$attribute.name: $this.getAttributeValue($entry.attributes, $attribute.name, true)
+#end
 
 ----------------------------------------------------------
 This email was automatically generated and the sender is the calendar-system.

@@ -26,6 +26,7 @@ package org.infoglue.calendar.controllers;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -49,8 +50,10 @@ import org.hibernate.criterion.Restrictions;
 import org.infoglue.calendar.actions.CalendarAbstractAction;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Location;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.VisualFormatter;
@@ -406,7 +409,9 @@ public class EntryController extends BasicController
 		while(entryListIterator.hasNext())
 		{
 		    Entry entry = (Entry)entryListIterator.next();
-		    
+		    /*List 
+		    String value = getAttributeValue(entry, attributeName, false);
+		    */
 		    boolean isValid = true;
 		    /*
 		    Iterator categoryAttributeMapIterator = categoryAttributesMap.entrySet().iterator();
@@ -632,7 +637,40 @@ public class EntryController extends BasicController
 		return value;
 	}
 
-    
+	/**
+	 * This method fetches a value from the xml that is the contentVersions Value. If the 
+	 * contentVersioVO is null the contentVersion has not been created yet and no values are present.
+	 */
+	 
+	public String getAttributeValue(String xml, String key, boolean escapeHTML)
+	{
+		String value = "";
+		
+		if(xml != null)
+		{
+			try
+	        {
+		        //log.info("key:" + key);
+				
+				int startTagIndex = xml.indexOf("<" + key + ">");
+				int endTagIndex   = xml.indexOf("]]></" + key + ">");
+
+				if(startTagIndex > 0 && startTagIndex < xml.length() && endTagIndex > startTagIndex && endTagIndex <  xml.length())
+				{
+					value = xml.substring(startTagIndex + key.length() + 11, endTagIndex);
+					if(escapeHTML)
+						value = new VisualFormatter().escapeHTML(value);
+				}					
+	        }
+	        catch(Exception e)
+	        {
+	        	e.printStackTrace();
+	        }
+		}
+				
+		return value;
+	}
+
     /**
      * This method emails all persons in an email-address string a message.
      * @throws Exception
@@ -713,11 +751,16 @@ public class EntryController extends BasicController
 		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_html.vm"));
 	        }
 	        
+        	EventType eventType = EventTypeController.getController().getEventType(entry.getEvent().getEntryFormId(), session);
+    		List attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
+
 		    Map parameters = new HashMap();
 		    parameters.put("entry", entry);
 		    parameters.put("eventVersion", eventVersion);
+        	parameters.put("attributes", attributes);
 		    parameters.put("formatter", new VisualFormatter());
-
+		    parameters.put("this", this);
+		    
 			StringWriter tempString = new StringWriter();
 			PrintWriter pw = new PrintWriter(tempString);
 			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
@@ -799,11 +842,17 @@ public class EntryController extends BasicController
 		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryNotificationMessage_html.vm"));
 	        }
 	        
+        	EventType eventType = EventTypeController.getController().getEventType(entry.getEvent().getEntryFormId(), session);
+    		List attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
+
 		    Map parameters = new HashMap();
 		    parameters.put("entry", entry);
 		    parameters.put("eventVersion", eventVersion);
 		    parameters.put("event", event);
-		    
+        	parameters.put("attributes", attributes);
+		    parameters.put("formatter", new VisualFormatter());
+		    parameters.put("this", this);
+
 			StringWriter tempString = new StringWriter();
 			PrintWriter pw = new PrintWriter(tempString);
 			new VelocityTemplateProcessor().renderTemplate(parameters, pw, template);
