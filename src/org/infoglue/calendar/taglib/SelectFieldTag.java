@@ -312,6 +312,9 @@ public class SelectFieldTag extends AbstractCalendarTag
         write(sb.toString());
 	    
         log.info("sb:" + sb.toString());
+        this.selectedValues = null;
+        this.selectedValueList = null;
+        this.selectedValueSet = null;
         
         return EVAL_PAGE;
     }
