@@ -198,10 +198,11 @@ public class SelectFieldTag extends AbstractCalendarTag
 	                optionText = value;
 	            }
             	log.info("ID:" + id + ": optionText:" + optionText);
-
+            		
 	            String selected = "";
 	            if(selectedValues != null)
 	            {
+	            	log.info("selectedValues:" + selectedValues + ":" + selectedValues.length);
 	            	for(int i=0; i<selectedValues.length; i++)
 		            {
 	                	log.info("1:" + id + "=" + selectedValues[i]);
