@@ -51,6 +51,7 @@ import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.util.EntrySearchResultfilesConstructor;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
@@ -179,12 +180,29 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 													locationId,
                 													dbSession);
 
+        List<Event> events = new ArrayList<Event>();
+        String eventName = "";
+        
         String emailAddresses = "";
         Long entryTypeId = null;
         Iterator entriesIterator = entries.iterator();
         while(entriesIterator.hasNext())
         {
         	Entry entry = (Entry)entriesIterator.next();
+        	if(!events.contains(entry.getEvent()))
+        	{
+        		String name = entry.getEvent().getLocalizedName(this.getLanguageCode(), "sv");
+        		if(name == null)
+        		{
+        			EventVersion eventVersion = this.getEventVersion(entry.getEvent());
+        			if(eventVersion != null)
+        				name = eventVersion.getLocalizedName(this.getLanguageCode(), "sv");
+        		}
+        		
+        		eventName += (eventName.equals("") ? "" : ", ") + name;
+        		events.add(entry.getEvent());
+        	}
+        		        	
         	if(entryTypeId == null)
         		entryTypeId = entry.getEvent().getEntryFormId();
         	
@@ -215,7 +233,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         if( entries.size() > 0 && exportEntryResults ) 
         {
         	Map parameters = new HashMap();
-        	parameters.put("headLine", "Entries found");
+        	parameters.put("headLine", "Entries found for: " + eventName);
 
         	EventType eventType = EventTypeController.getController().getEventType(entryTypeId, getSession());
     		List attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
