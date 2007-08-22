@@ -63,6 +63,7 @@ public class ViewEventAction extends CalendarAbstractAction
     private Long versionLanguageId;
     private Event event;
     private EventVersion eventVersion;
+    private EventVersion alternativeEventVersion;
     
     private Long calendarId;
     private String mode = "day";
@@ -134,6 +135,10 @@ public class ViewEventAction extends CalendarAbstractAction
 	            	{
 	            		this.eventVersion = currentEventVersion;
 	            		break;
+	            	}
+	            	else if(alternativeEventVersion == null) //Setting the alternative version if none set before and it's not the current.
+	            	{
+	            		alternativeEventVersion = currentEventVersion;
 	            	}
 	            }
 	            
@@ -468,6 +473,11 @@ public class ViewEventAction extends CalendarAbstractAction
 	public void setEventVersion(EventVersion eventVersion) 
 	{
 		this.eventVersion = eventVersion;
+	}
+
+	public EventVersion getAlternativeEventVersion()
+	{
+		return alternativeEventVersion;
 	}
 
 	public Boolean getSkipLanguageTabs() 
