@@ -439,6 +439,7 @@ a.white:active {
 				<ww:if test="#parameter.value.type == 0">
 					<label for="<ww:property value="#parameter.key"/>"><ww:property value="#parameter.key"/>:</label>
 					<input type="textfield" name="<ww:property value="#parameter.key"/>" value="<ww:property value="#parameter.value.getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)"/>" class="longtextfield">
+					<div class="clear"></div>
 				</ww:if>
 				<ww:else>
 					
@@ -517,100 +518,6 @@ a.white:active {
 </script>
 
 </ww:iterator>
-
-#set($categoryKeys = $definedCategoryKeys)
-#set($categoryList = $allCategories)
-
-#foreach($category in $categoryKeys)
-#set($categoryKey = $category.value)
-<div id="${categoryKey}PropertyLayer" style="border: 1px solid black; background-color: white; LEFT:250px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
-	<form name="${categoryKey}PropertiesForm" action="ViewEventType!updateCategoryKey.action" method="POST">
-	<table border="0" cellpadding="4" cellspacing="0">
-	<tr>
-		<td colspan="2" class="propertiesheader">Edit Category Attributes</td>
-	</tr>
-	<tr>
-		<td colspan="2"><img src="images/trans.gif" height="5" width="1"></td>
-	</tr>
-	<tr>
-		<td><b>Category Key</b></td>
-		<td><input type="textfield" name="newCategoryKey" value="$categoryKey" class="normaltextfield"></td>
-	</tr>
-	<tr>
-		<td><b>Title</b></td>
-		<td><input type="textfield" name="title" value="$!category.title" class="normaltextfield"></td>
-	</tr>
-	<tr>
-		<td><b>Description</b></td>
-		<td><input type="textfield" name="description" value="$!category.description" class="normaltextfield"></td>
-	</tr>
-	<tr>
-		<td><b>Base Category</b></td>
-		<td>
-			#addCategorySelect("categoryId" $categoryList $category.categoryId)
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<img src="images/trans.gif" width="80" height="25" border="0">
-		</td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td>
-			<input type="image" src="$ui.getString("images.managementtool.buttons.saveAndExit")" width="80" height="25" border="0"></a>
-			<a href="javascript:hideDiv('${categoryKey}PropertyLayer');"><img src="$ui.getString("images.managementtool.buttons.cancel")" width="50" height="25" border="0"></a>
-		</td>
-	</tr>
-	</table>
-	<input type="hidden" name="contentTypeDefinitionId" value="$contentTypeDefinitionId">
-	<input type="hidden" name="categoryKey" value="$categoryKey">
-	</form>
-</div>
-#end
-
-
-#foreach($assetKeyDefinition in $definedAssetKeys)
-<div id="${assetKeyDefinition.assetKey}PropertyLayer" class="smallPropDiv" style="LEFT:250px; position:absolute; TOP:250px; visibility:hidden; z-index:1">
-	<div id="${assetKey}PropertiesHandle" class="smallPropDivHandle">
-		Edit AssetKey
-	</div>
-	<div id="${assetKeyDefinition.assetKey}PropertiesBody" class="smallPropDivBody">
-		<form name="${assetKeyDefinition.assetKey}PropertiesForm" action="ViewEventType!updateAssetKey.action" method="POST">
-		<p>
-			<b>Asset Key:</b> <input type="textfield" name="newAssetKey" value="$assetKeyDefinition.assetKey" class="normaltextfield">
-		</p>
-		<p>
-			<b>Max size(b):</b> <input type="textfield" name="maximumSize" value="$!assetKeyDefinition.maximumSize" class="normaltextfield">
-		</p>
-		<p>
-			<b>AssetType:</b>
-			<select name="allowedContentTypes" onchange="checkDisplay(this.value, 'imageProperties${assetKeyDefinition.assetKey}');">
-			 	<option value="any" #checkSelected("$assetKeyDefinition.allowedContentTypes" "any")>Any</option>
-			 	<option value="image" #checkSelected("$assetKeyDefinition.allowedContentTypes" "image")>Image</option>
-			</select>
-		</p>
-		<div id="imageProperties${assetKeyDefinition.assetKey}" style="#if($assetKeyDefinition.allowedContentTypes == "any") display: none; #else display: block;#end">
-		<p>
-			<b>Width:</b>
-			<input id="imageProperties${assetKeyDefinition.assetKey}width" type="textfield" name="imageWidth" value="$!assetKeyDefinition.imageWidth" class="normaltextfield">
-		</p>
-		<p>
-			<b>Height:</b></td>
-			<input id="imageProperties${assetKeyDefinition.assetKey}width" type="textfield" name="imageHeight" value="$!assetKeyDefinition.imageHeight" class="normaltextfield">
-		</p>
-		</div>
-		<p>
-			<input type="image" src="$ui.getString("images.managementtool.buttons.saveAndExit")" width="80" height="25" border="0"></a>
-			<a href="javascript:hideDiv('${assetKeyDefinition.assetKey}PropertyLayer');"><img src="$ui.getString("images.managementtool.buttons.cancel")" width="50" height="25" border="0"></a>
-		</p>
-	</div>	
-	
-	<input type="hidden" name="contentTypeDefinitionId" value="$contentTypeDefinitionId">
-	<input type="hidden" name="assetKey" value="${assetKeyDefinition.assetKey}">
-	</form>
-</div>
-#end
 
 
 <form name="editForm" method="POST" action="<c:out value="${updateContentTypeDefinitionUrl}"/>">
@@ -722,127 +629,6 @@ a.white:active {
 	</ww:if>
 </div>
 
-<%--
-<div class="columnlabelarea">
-	<div class="columnLong">Defined Categories</div>
-	<div class="columnEnd">&nbsp;</div>
-	<div class="clear"></div>
-</div>
-
-<div class="columnlabelarea">
-	<div class="columnMedium">Attribute (key)</div>
-	<div class="columnMedium">Base Category</div>
-	<div class="columnEnd">&nbsp;</div>
-	<div class="clear"></div>
-</div>
-
-<div id="categories">
-
-	<c:set var="count" value="0"/>
-	<ww:iterator value="categoryKeys" status="rowstatus">
-		<ww:set name="category" value="top" scope="page"/>
-		<ww:set name="categoryKey" value="top.value" scope="page"/>
-		
-		<ww:if test="#rowstatus.odd == true">
-	    	<div class="oddrow">
-	    </ww:if>
-	    <ww:else>
-			<div class="evenrow">
-	    </ww:else>
-
-		   	<div class="columnShort">
-				<a href="ViewEventType!moveAttributeUp.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="moveup"></a>
-				<a href="ViewEventType!moveAttributeDown.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="moveDown"></a>
-				<a href="#" title="<c:out value="${attribute.inputType}"/>" class="<c:out value="${attribute.inputType}"/>Icon"></a>
-			</div
-			<div class="columnLong">
-				<a name="<ww:property value="#attribute.name"/>" href="javascript:showPropertyDiv('<ww:property value="#attribute.name"/>PropertyLayer');">
-				<ww:property value="#attribute.name"/> (<c:out value="${title}"/>) of type <c:out value="${attribute.inputType}"/></a>
-			</div>
-			<div class="columnEnd">
-				<a href="ViewEventType!deleteAttribute.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&attributeName=$attribute.name" class="delete"></a>
-				<a href="javascript:showPropertyDiv('<ww:property value="#attribute.name"/>PropertyLayer');" class="edit"></a>
-			</div>
-			<div class="clear"></div>
-		</div>
-		<ww:set name="count" value="${count + 1)"/>
-	</ww:iterator>
-</div>
-
-<table class="managementtooledit" cellpadding="2" cellspacing="2" border="0" width="100%">
-<tr>
-	<td>
-		<table width="700" cellpadding="0" cellspacing="2" border="0">
-			<tr>
-				<td align="left"><b>Defined Categories</b></td>
-				<td align="right">
-					<a href="ViewEventType!insertCategoryKey.action?contentTypeDefinitionId=$contentTypeDefinitionId">Add Category</a>
-				</td>
-			</tr>
-		</table>
-		<table width="700" cellpadding="0" cellspacing="2" border="0" class="bordered">
-			<tr>
-				<td width="45%"><b>Attribute (Key)</b></td>
-				<td width="45%"><b>Base Category</b></td>
-				<td/>
-			</tr>
-		#foreach($category in $categoryKeys)
-			#set($categoryKey = $category.value)
-			<tr>
-				<td width="45%">$category.title ($categoryKey)</td>
-				<td width="45%">$category.categoryName</td>
-				<td align="right">
-					<nobr>
-					<a href="javascript:showDiv('${categoryKey}PropertyLayer');"><img src="images/properties.gif" border="0"></a>
-					<a href="ViewEventType!deleteCategoryKey.action?contentTypeDefinitionId=$contentTypeDefinitionId&categoryKey=$categoryKey"><img src="images/delete.gif" border="0"></a>
-					</nobr>
-				</td>
-			</tr>
-		#end
-		</table>
-	</td>
-</tr>
-</table>
-
-<table class="managementtooledit" cellpadding="2" cellspacing="2" border="0" width="100%">
-<tr>
-	<td>
-		<table width="700" cellpadding="0" cellspacing="2" border="0">
-			<tr>
-				<td align="left"><b>Defined Asset Keys</b></td>
-				<td align="right">
-					<a href="ViewEventType!insertAssetKey.action?contentTypeDefinitionId=$contentTypeDefinitionId">Add Asset Key</a>
-				</td>
-			</tr>
-		</table>
-		<table width="700" cellpadding="0" cellspacing="2" border="0" class="bordered">
-		#foreach($assetKeyDefinition in $definedAssetKeys)
-			<tr>
-				<td><nobr><a href="ViewEventType!moveAssetKeyUp.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&assetKey=$assetKeyDefinition.assetKey"><img src="images/moveUp.gif" border="0"></a><a href="ViewEventType!moveAssetKeyDown.action?contentTypeDefinitionId=$contentTypeDefinitionId&title=$title&assetKey=$assetKeyDefinition.assetKey"><img src="images/moveDown.gif" border="0"></a></nobr></td>
-				<td width="90%">$assetKeyDefinition.assetKey</td>
-				<td align="right">
-					<nobr>
-					<a href="javascript:showDiv('${assetKeyDefinition.assetKey}PropertyLayer');"><img src="images/properties.gif" border="0"></a>
-					<a href="ViewEventType!deleteAssetKey.action?contentTypeDefinitionId=$contentTypeDefinitionId&assetKey=$assetKeyDefinition.assetKey"><img src="images/delete.gif" border="0"></a>
-					</nobr>
-				</td>
-			</tr>
-		#end
-		</table>
-	</td>
-</tr>
-<tr>
-	<td>&nbsp;</th>
-</tr>
-<tr>
-	<td>
-		<input type="image" src="$ui.getString("images.managementtool.buttons.save")" width="50" height="25">
-		<a href="javascript:saveAndExit(document.editForm, 'UpdateContentTypeDefinition!saveAndExit.action');"><img src="$ui.getString("images.managementtool.buttons.saveAndExit")" width="80" height="25" border="0"></a>
-		<a href="ViewListContentTypeDefinition.action"><img src="$ui.getString("images.managementtool.buttons.cancel")" width="50" height="25" border="0"></a>
-	</td>
-</tr>
-</table>
---%>
 </form>
 </div>
 
@@ -860,5 +646,3 @@ a.white:active {
 		showDiv("${activatedName.get(0)}PropertyLayer");
 	#end
 </script>
-
-
