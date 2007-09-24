@@ -5,6 +5,8 @@
 
 <portlet:defineObjects/>
 
+<c:catch var="exception1">
+
 <ww:set name="languageCode" value="this.getLanguageCode()"/>
 <ww:set name="events" value="events" scope="page"/>
 <calendar:setToList id="eventList" set="${events}"/>
@@ -12,7 +14,7 @@
 <c:set var="eventsItems" value="${eventList}"/>
 <ww:if test="events != null && events.size() > 0">
 	<ww:set name="numberOfItems" value="numberOfItems" scope="page"/>
-	<c:if test="${numberOfItems == null || numberOfItems == '' || numberOfItems == 'Undefined'}">
+	<c:if test="${empty numberOfItems}">
 		<c:set var="numberOfItems" value="10"/>
 	</c:if>
 	<c:set var="currentSlot" value="${param.currentSlot}"/>
@@ -21,6 +23,14 @@
 	</c:if>
 	<calendar:slots visibleElementsId="eventsItems" visibleSlotsId="indices" lastSlotId="lastSlot" elements="${eventList}" currentSlot="${currentSlot}" slotSize="${numberOfItems}" slotCount="10"/>
 </ww:if>
+
+</c:catch>
+
+<c:if test="${exception1 != null}">
+	An error occurred: <c:out value="${exception1}"/>
+</c:if>
+
+<c:catch var="exception2">
 
 <H1>Kalendarium</H1>
 <!-- Calendar start -->
@@ -143,4 +153,10 @@ kategorin <!--"<ww:property value="#visibleCategoryName"/>"--></p>
 </ww:else>
 	
 </div>
+
+</c:catch>
+
+<c:if test="${exception2 != null}">
+	An error occurred: <c:out value="${exception2}"/>
+</c:if>
 <!-- Calendar End -->  
