@@ -54,15 +54,6 @@
 			<portlet:param name="action" value="ViewEvent!publicGU"/>
 			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
 		</portlet:renderURL>
-	        
-	    <ww:iterator value="top.owningCalendar.eventType.categoryAttributes">
-			<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
-				<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
-				<ww:iterator value="#selectedCategories" status="rowstatus">
-					<ww:set name="visibleCategoryName" value="top.getLocalizedName(#languageCode, 'sv')"/>
-				</ww:iterator>
-			</ww:if>
-   		</ww:iterator>
    		                 
 		<!-- Record Start -->
 		<div class="recordLine">
@@ -71,7 +62,7 @@
 					<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
 						<ww:set name="selectedCategories" value="this.getEventCategories('#event', top)"/>
 						<ww:iterator value="#selectedCategories" status="rowstatus">
-							<ww:property value="top.getLocalizedName(#language.isoCode, 'sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
+							<ww:property value="top.getLocalizedName(#languageCode, 'sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
 						</ww:iterator>
 					</ww:if>
 		   		</ww:iterator>
