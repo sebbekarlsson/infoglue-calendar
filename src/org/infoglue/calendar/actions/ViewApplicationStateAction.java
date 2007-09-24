@@ -167,6 +167,8 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
      */
     public String doUpgradeModel() throws Exception
     {
+        Language language = LanguageController.getController().getMasterLanguage(getSession());
+
         List events = EventController.getController().getEventList(getSession());
         Iterator eventsIterator = events.iterator();
         while(eventsIterator.hasNext())
@@ -174,8 +176,6 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
         	Event event = (Event)eventsIterator.next();
         	if(event.getVersions().size() == 0)
         	{
-                Language language = LanguageController.getController().getMasterLanguage(getSession());
-
         		EventVersion eventVersion = new EventVersion();
             	eventVersion.setLanguage(language);
             	eventVersion.setEvent(event);
