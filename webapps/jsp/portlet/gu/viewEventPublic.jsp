@@ -64,7 +64,7 @@
 			<ww:if test="top.name == 'Ämnesområde' || top.name == 'Ämnesområden'">
 				<ww:set name="selectedCategories" value="this.getEventCategories(top)"/>
 				<ww:iterator value="#selectedCategories" status="rowstatus">
-					<ww:property value="top.getLocalizedName(#language.isoCode, 'sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
+					<ww:property value="top.getLocalizedName(#languageCode, 'sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
 				</ww:iterator>
 			</ww:if>
    		</ww:iterator>
