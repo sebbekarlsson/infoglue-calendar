@@ -88,7 +88,9 @@
 		</p>
 	
 		<ww:if test="#eventVersion.eventUrl != null && #eventVersion.eventUrl != ''">
-			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.eventURLLabel')"/>: </span><a href="<ww:property value="#eventVersion.eventUrl"/>">Läs mer om <ww:property value="#eventVersion.name"/></a></p>
+			<ww:set name="readMoreLabel" value="'Läs mer om'"/>
+			<ww:if test="#languageCode == 'en'"><ww:set name="readMoreLabel" value="'Read more about'"/></ww:if>
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.eventURLLabel')"/>: </span><a href="<ww:property value="#eventVersion.eventUrl"/>"><ww:property value="#readMoreLabel"/> <ww:property value="#eventVersion.name"/></a></p>
 		</ww:if>
 			
 		<ww:if test="event.resources.size() > 0">
