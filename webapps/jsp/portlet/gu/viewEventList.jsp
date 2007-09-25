@@ -7,7 +7,7 @@
 
 <ww:set name="languageCode" value="this.getLanguageCode()"/>
 
-<H1>Kalendarium</H1>
+<H1><ww:property value="this.getLabel('labels.public.calendar.calendarLabel')"/></H1>
 <!-- Calendar start -->
 <div class="calendar">   
 
@@ -81,7 +81,7 @@
 	</ww:iterator>
 	
 	<ww:if test="events == null || events.size() == 0">
-		<p>För tillfället finns inga aktuella kalenderhändelser inlagda i kategorin 
+		<p><ww:property value="this.getLabel('labels.public.event.slots.noMatchesLabel')"/>
 		<!--"<ww:property value="#visibleCategoryName"/>"-->
 		</p>
 	</ww:if>

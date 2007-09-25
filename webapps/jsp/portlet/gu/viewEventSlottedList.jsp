@@ -32,7 +32,7 @@
 
 <c:catch var="exception2">
 
-<H1>Kalendarium</H1>
+<H1><ww:property value="this.getLabel('labels.public.calendar.calendarLabel')"/></H1>
 <!-- Calendar start -->
 <div class="calendar">   
 
@@ -88,7 +88,7 @@
 
 <ww:if test="events != null && events.size() > 0">
 	<br/>
-	<p><strong>Sida <c:out value="${currentSlot}"/> av <c:out value="${lastSlot}"/></strong>&nbsp;</p>                       
+	<p><strong><ww:property value="this.getLabel('labels.public.event.slots.pageLabel')"/> <c:out value="${currentSlot}"/> <ww:property value="this.getLabel('labels.public.event.slots.ofLabel')"/> <c:out value="${lastSlot}"/></strong>&nbsp;</p>                       
 	
 	<!-- slot navigator -->
 	<c:if test="${lastSlot != 1}">
@@ -104,8 +104,8 @@
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("previousSlotId").toString() %>"/>
 				</portlet:renderURL>
 				
-				<a href="<c:out value='${firstUrl}'/>" class="number" title="F&ouml;rsta sidan">F&Ouml;RSTA</a>
-				<a href="<c:out value='${previousSlot}'/>" title="F&ouml;reg&aring;ende sida" class="number">&laquo;</a>
+				<a href="<c:out value='${firstUrl}'/>" class="number" title="<ww:property value="this.getLabel('labels.public.event.slots.firstPageTitle')"/>"><ww:property value="this.getLabel('labels.public.event.slots.firstPageLabel')"/></a>
+				<a href="<c:out value='${previousSlot}'/>" title="<ww:property value="this.getLabel('labels.public.event.slots.previousPageTitle')"/>" class="number">&laquo;</a>
 			</c:if>
 			<c:forEach var="slot" items="${indices}" varStatus="count">
 				<c:if test="${slot == currentSlot}">
@@ -118,7 +118,7 @@
 						<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("slotId").toString() %>"/>
 					</portlet:renderURL>
 
-					<a href="<c:out value='${url}'/>" title="Sida <c:out value='${slot}'/>" class="number"><c:out value="${slot}"/></a>
+					<a href="<c:out value='${url}'/>" title="<ww:property value="this.getLabel('labels.public.event.slots.pageLabel')"/> <c:out value='${slot}'/>" class="number"><c:out value="${slot}"/></a>
 				</c:if>
 			</c:forEach>
 			<c:if test="${currentSlot lt lastSlot}">
@@ -128,7 +128,7 @@
 					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("nextSlotId").toString() %>"/>
 				</portlet:renderURL>
 						
-				<a href="<c:out value='${nextSlotUrl}'/>" title="N&auml;sta sida" class="number">&raquo;</a>
+				<a href="<c:out value='${nextSlotUrl}'/>" title="<ww:property value="this.getLabel('labels.public.event.slots.nextPageTitle')"/>" class="number">&raquo;</a>
 			</c:if>
 		</div>
 	</c:if>
@@ -137,8 +137,7 @@
 <ww:else>
 	
 	<ww:if test="events == null || events.size() == 0">
-		<p>För tillfället finns inga aktuella kalenderhändelser inlagda i  
-kategorin <!--"<ww:property value="#visibleCategoryName"/>"--></p>
+		<p><ww:property value="this.getLabel('labels.public.event.slots.noMatchesLabel')"/> <!--"<ww:property value="#visibleCategoryName"/>"--></p>
 	</ww:if>
 
 </ww:else>
