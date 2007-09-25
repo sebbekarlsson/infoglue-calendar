@@ -23,7 +23,16 @@
 		var startIndex = name.indexOf(languageCode + "=");
 		if(startIndex > -1) 
 		{
-			var endIndex = name.indexOf(",", startIndex);
+    		var nextEQIndex = name.indexOf("=", startIndex + languageCode.length + 1);
+    		if(nextEQIndex > -1)
+    		{
+    			endIndex = name.lastIndexOf(",", nextEQIndex);
+        	}
+    		else
+    		{
+    			endIndex = -1;
+    		}
+			
 			if(endIndex > -1)
 				newName = name.substring(0, startIndex) + languageCode + "=" + localizedName + name.substring(endIndex);				
 			else

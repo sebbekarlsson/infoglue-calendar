@@ -82,14 +82,24 @@ public class Location implements BaseEntity
         
     	String localizedName = name;
     	
+    	boolean done = false;
+    	
     	int startIndex = name.indexOf(isoCode + "=");
     	if(startIndex > -1)
     	{
-    		int stopIndex = name.indexOf(",", startIndex + isoCode.length() + 1);
-    		if(stopIndex > -1)
-    			localizedName = name.substring(startIndex + isoCode.length() + 1, stopIndex);
+    		int nextEQIndex = name.indexOf("=", startIndex + isoCode.length() + 1);
+    		if(nextEQIndex > -1)
+    		{
+    			String part = name.substring(startIndex + isoCode.length() + 1, nextEQIndex);
+        		part = part.substring(0, part.lastIndexOf(","));
+        		localizedName = part;
+    		}
     		else
-    			localizedName = name.substring(startIndex + isoCode.length() + 1);    			
+    		{
+    			String part = name.substring(startIndex + isoCode.length() + 1);    			
+        		localizedName = part;
+    		}
+    		done = true;
     	}
     	else
     	{
@@ -103,15 +113,18 @@ public class Location implements BaseEntity
         			localizedName = name.substring(startIndex + fallbackIsoCode.length() + 1);    			
         	}
     	}
-    	
-    	if(localizedName.indexOf(",") > -1)
+
+    	if(!done)
     	{
-    		localizedName = localizedName.substring(0, localizedName.indexOf(","));
+	    	if(localizedName.indexOf(",") > -1)
+	    	{
+	    		localizedName = localizedName.substring(0, localizedName.indexOf(","));
+	    	}
+			if(localizedName.indexOf("=") > -1)
+			{
+				localizedName = localizedName.substring(localizedName.indexOf("=") + 1);
+			}
     	}
-		if(localizedName.indexOf("=") > -1)
-		{
-			localizedName = localizedName.substring(localizedName.indexOf("=") + 1);
-		}
     	
     	return localizedName;
     }
