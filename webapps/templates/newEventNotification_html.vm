@@ -1,6 +1,6 @@
 <div><h2>New event created</h2></div>
 <div>
-	InfoGlue Calendar Notification: A new event called "$event.getName()" was created but yet not published. <br/>
+	InfoGlue Calendar Notification: A new event called "$eventVersion.getName()" was created but yet not published. <br/>
 	<br/>
 	You can go to the application and publish it by clicking <a href="$publishEventUrl">here</a><br/>
 	<br/>

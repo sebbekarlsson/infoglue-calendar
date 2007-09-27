@@ -1,6 +1,6 @@
 New event created
 
-InfoGlue Calendar Notification: A new event called "$event.getName()" was created but yet not published. 
+InfoGlue Calendar Notification: A new event called "$eventVersion.getName()" was created but yet not published. 
 
 You can go to the application and publish it now by using this url: $publishEventUrl 
 

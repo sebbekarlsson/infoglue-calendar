@@ -1,6 +1,6 @@
 <div><h2>New event published</h2></div>
 <div>
-	InfoGlue Calendar Notification: A new event called "$event.getName()" was published. <br/>
+	InfoGlue Calendar Notification: A new event called "$eventVersion.getName()" was published. <br/>
 	<br/>
 	You can go to the application and look at it by clicking <a href="$publishedEventUrl">here</a><br/>
 	<br/>

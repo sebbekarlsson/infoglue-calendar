@@ -45,6 +45,15 @@
     	var match 		= myRegexp.test(aTimeString);    	
     	return match;
     }
+    
+    function completeTime(textfield)
+    {
+    	if(textfield.value.length == 2)
+    	{
+    		textfield.value = textfield.value + ":00";
+    	}
+    }
+    
 </script>
 
 <div class="portlet_margin">
@@ -72,7 +81,7 @@
 			<input readonly="1" id="startDateTime" name="startDateTime" value="<ww:property value="startDateTime"/>" class="datefield" type="textfield">
 			<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_startDateTime" style="border: 0px solid black; cursor: pointer;" title="Date selector">
 			<img src="<%=request.getContextPath()%>/images/delete.gif" style="border: 0px solid black; cursor: pointer;" title="Remove value" onclick="document.getElementById('startDateTime').value = '';">			
-			<input name="startTime" value="<ww:if test="startTime != '12:34'"><ww:property value="startTime"/></ww:if>" class="hourfield" type="textfield">			
+			<input name="startTime" value="<ww:if test="startTime != '12:34'"><ww:property value="startTime"/></ww:if>" class="hourfield" type="textfield" onblur="completeTime(this);">		
 		</div>
 
 		<div class="fieldrow">
@@ -81,7 +90,7 @@
 			<input readonly="1" id="endDateTime" name="endDateTime" value="<ww:property value="endDateTime"/>" class="datefield" type="textfield">
 			<img src="<%=request.getContextPath()%>/images/calendar.gif" id="trigger_endDateTime" style="border: 0px solid black; cursor: pointer;" title="Date selector">
 			<img src="<%=request.getContextPath()%>/images/delete.gif" style="border: 0px solid black; cursor: pointer;" title="Remove value" onclick="document.getElementById('endDateTime').value = '';">			
-			<input name="endTime" value="<ww:if test="endTime != '13:34'"><ww:property value="endTime"/></ww:if>" class="hourfield" type="textfield">					
+			<input name="endTime" value="<ww:if test="endTime != '13:34'"><ww:property value="endTime"/></ww:if>" class="hourfield" type="textfield" onblur="completeTime(this);">					
 		</div>
 					
 		<calendar:textAreaField label="labels.internal.event.shortDescription" name="'shortDescription'" value="event.shortDescription" cssClass="smalltextarea" required="false"/>

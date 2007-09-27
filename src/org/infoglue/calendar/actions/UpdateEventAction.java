@@ -279,7 +279,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String submitForPublishEvent() throws Exception 
     {
-        EventController.getController().submitForPublishEvent(eventId, this.publishEventUrl, getSession());
+        EventController.getController().submitForPublishEvent(eventId, this.publishEventUrl, this.getLanguageCode(), getSession());
 
         return "successSubmitForPublish";
     } 
@@ -290,7 +290,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String publishEvent() throws Exception 
     {
-        EventController.getController().publishEvent(eventId, this.publishedEventUrl, getSession());
+        EventController.getController().publishEvent(eventId, this.publishedEventUrl, this.getLanguageCode(), getSession());
 
         return "successPublish";
     } 

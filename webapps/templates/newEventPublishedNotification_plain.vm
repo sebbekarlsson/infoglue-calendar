@@ -1,6 +1,6 @@
 New event published
 
-InfoGlue Calendar Notification: A new event called "$event.getName()" was published. 
+InfoGlue Calendar Notification: A new event called "$eventVersion.getName()" was published. 
 
 You can go to the application and look at it now by using this url: $publishedEventUrl 
 

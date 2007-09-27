@@ -1096,16 +1096,17 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void submitForPublishEvent(Long id, String publishEventUrl, Session session) throws Exception 
+    public void submitForPublishEvent(Long id, String publishEventUrl, String languageCode, Session session) throws Exception 
     {
 		Event event = getEvent(id, session);
 		event.setStateId(Event.STATE_PUBLISH);
+		EventVersion eventVersion = getEventVersion(event, languageCode, session);
 		
         if(useEventPublishing())
         {
             try
             {
-                EventController.getController().notifyPublisher(event, publishEventUrl);
+                EventController.getController().notifyPublisher(event, eventVersion, publishEventUrl);
             }
             catch(Exception e)
             {
@@ -1122,10 +1123,11 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void publishEvent(Long id, String publishedEventUrl, Session session) throws Exception 
+    public void publishEvent(Long id, String publishedEventUrl, String languageCode, Session session) throws Exception 
     {
 		Event event = getEvent(id, session);
 		event.setStateId(Event.STATE_PUBLISHED);
+		EventVersion eventVersion = getEventVersion(event, languageCode, session);
 		
 		new RemoteCacheUpdater().updateRemoteCaches(event.getOwningCalendar().getId());
 		
@@ -1133,7 +1135,7 @@ public class EventController extends BasicController
         {
             try
             {
-                EventController.getController().notifySubscribers(event, publishedEventUrl);
+                EventController.getController().notifySubscribers(event, eventVersion, publishedEventUrl);
             }
             catch(Exception e)
             {
@@ -1167,6 +1169,39 @@ public class EventController extends BasicController
         EventVersion eventVersion = (EventVersion)session.load(EventVersion.class, id);
 		
 		return eventVersion;
+    }
+
+    public EventVersion getEventVersion(Event event, String languageCode, Session session)
+    {        
+        if(event == null)
+    		return null;
+
+    	EventVersion eventVersion = null;
+
+    	try
+    	{
+    		Language language = LanguageController.getController().getLanguageWithCode(languageCode, session);
+	    	
+	    	Iterator eventVersionsIterator = event.getVersions().iterator();
+	        while(eventVersionsIterator.hasNext())
+	        {
+	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
+	        	if(currentEventVersion.getVersionLanguageId().equals(language.getId()))
+	        	{
+	        		eventVersion = currentEventVersion;
+	        		break;
+	        	}
+	        }
+	        
+	        if(eventVersion == null && event.getVersions().size() > 0)
+	        	eventVersion = (EventVersion)event.getVersions().toArray()[0];
+    	}
+    	catch(Exception e)
+    	{
+    		log.error("Error when getting event version for event: " + event + ":" + e.getMessage(), e); 
+    	}
+    	
+        return eventVersion;
     }
 
     /**
@@ -1855,7 +1890,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void notifyPublisher(Event event, String publishEventUrl) throws Exception
+    public void notifyPublisher(Event event, EventVersion eventVersion, String publishEventUrl) throws Exception
     {
 	    String email = "";
 	    
@@ -1906,7 +1941,9 @@ public class EventController extends BasicController
 	        publishEventUrl = publishEventUrl.replaceAll("j_password", "fold2");
 	        
 		    Map parameters = new HashMap();
+		    
 		    parameters.put("event", event);
+		    parameters.put("eventVersion", eventVersion);
 		    parameters.put("publishEventUrl", publishEventUrl.replaceAll("\\{eventId\\}", event.getId().toString()));
 		    
 			StringWriter tempString = new StringWriter();
@@ -1934,7 +1971,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void notifySubscribers(Event event, String publishedEventUrl) throws Exception
+    public void notifySubscribers(Event event, EventVersion eventVersion, String publishedEventUrl) throws Exception
     {
 	    String subscriberEmails = PropertyHelper.getProperty("subscriberEmails");
 	    
@@ -1956,6 +1993,7 @@ public class EventController extends BasicController
 	        
 	        Map parameters = new HashMap();
 		    parameters.put("event", event);
+		    parameters.put("eventVersion", eventVersion);
 		    parameters.put("publishedEventUrl", publishedEventUrl.replaceAll("\\{eventId\\}", event.getId().toString()));
 		    
 			StringWriter tempString = new StringWriter();
