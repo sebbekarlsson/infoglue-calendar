@@ -6,6 +6,14 @@
 <portlet:defineObjects/>
 
 <ww:set name="languageCode" value="this.getLanguageCode()"/>
+<ww:if test="#languageCode == 'en'">
+	<ww:set name="dateFormat" value="'d/M/yyyy'"/>
+	<ww:set name="timeFormat" value="'HH:mm aaa'"/>
+</ww:if>
+<ww:else>
+	<ww:set name="dateFormat" value="'yyyy-MM-dd'"/>
+	<ww:set name="timeFormat" value="'HH:mm'"/>
+</ww:else>
 
 <H1><ww:property value="this.getLabel('labels.public.calendar.calendarLabel')"/></H1>
 <!-- Calendar start -->
@@ -52,9 +60,9 @@
 			</span>
 			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="#eventVersion.name"/></a></h3>
 	
-			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.timeLabel')"/></span> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/> 
+			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.timeLabel')"/></span> <ww:property value="this.formatDate(top.startDateTime.getTime(), #dateFormat)"/> 
 			<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
-			<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.startDateTime.getTime(), 'HH.mm')"/>, 
+			<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.startDateTime.getTime(), #timeFormat)"/>, 
 			</ww:if>
 			
 			<ww:if test="#eventVersion.alternativeLocation != ''">

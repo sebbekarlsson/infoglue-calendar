@@ -10,6 +10,14 @@
 <ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
 <ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
 <ww:set name="languageCode" value="this.getLanguageCode()"/>
+<ww:if test="#languageCode == 'en'">
+	<ww:set name="dateFormat" value="'d/M/yyyy'"/>
+	<ww:set name="timeFormat" value="'HH:mm aaa'"/>
+</ww:if>
+<ww:else>
+	<ww:set name="dateFormat" value="'yyyy-MM-dd'"/>
+	<ww:set name="timeFormat" value="'HH:mm'"/>
+</ww:else>
 
 <!-- Calendar start -->
 <div class="calendar"> 	
@@ -44,19 +52,19 @@
 		<ww:if test="#eventVersion.lecturer != null && #eventVersion.lecturer != ''">
 			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lecturerLabel')"/>: </span><ww:property value="#eventVersion.lecturer"/></p>
 		</ww:if>
-		<ww:set name="startDate" value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/>
-		<ww:set name="endDate" value="this.formatDate(event.endDateTime.time, 'yyyy-MM-dd')"/>
+		<ww:set name="startDate" value="this.formatDate(event.startDateTime.time, #dateFormat)"/>
+		<ww:set name="endDate" value="this.formatDate(event.endDateTime.time, #dateFormat)"/>
 		<ww:if test="#startDate != #endDate">
 			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.dateAndTimeLabel')"/>: </span><ww:property value="#startDate"/>
 			<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
-		 	<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> till <ww:property value="#endDate"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/>
+		 	<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(event.startDateTime.time, #timeFormat)"/> till <ww:property value="#endDate"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(event.endDateTime.time, #timeFormat)"/>
 		 	</ww:if>
 			</p>                             		
 		</ww:if>
 		<ww:else>
 			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.dateLabel')"/>: </span><ww:property value="#startDate"/></p>                             		
 			<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">
-		 	<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.timeLabel')"/>: </span><ww:property value="this.formatDate(event.startDateTime.time, 'HH:mm')"/> <ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(event.endDateTime.time, 'HH:mm')"/></ww:if></p>
+		 	<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.timeLabel')"/>: </span><ww:property value="this.formatDate(event.startDateTime.time, #timeFormat)"/> <ww:if test="this.formatDate(event.endDateTime.time, 'HH:mm') != '23:59'">- <ww:property value="this.formatDate(event.endDateTime.time, #timeFormat)"/></ww:if></p>
 		 	</ww:if>
 		</ww:else>
 		<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.categoryLabel')"/>: </span>
@@ -118,7 +126,7 @@
 		</ww:if>
 
 		<ww:if test="event.lastRegistrationDateTime != null">
-   			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lastRegistrationDateLabel')"/>: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'yyyy-MM-dd')"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/>. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
+   			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lastRegistrationDateLabel')"/>: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, #dateFormat)"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/>. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, 'HH')"/>.</p>
 		</ww:if>
 		
 		<ww:if test="event.price != null && event.price != ''">
