@@ -11,7 +11,7 @@
 <ww:set name="events" value="events" scope="page"/>
 <ww:if test="#languageCode == 'en'">
 	<ww:set name="dateFormat" value="'M/d/yyyy'"/>
-	<ww:set name="timeFormat" value="'HH:mm aaa'"/>
+	<ww:set name="timeFormat" value="'h:mm aaa'"/>
 </ww:if>
 <ww:else>
 	<ww:set name="dateFormat" value="'yyyy-MM-dd'"/>
