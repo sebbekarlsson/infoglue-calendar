@@ -126,7 +126,7 @@
 		</ww:if>
 
 		<ww:if test="event.lastRegistrationDateTime != null">
-   			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lastRegistrationDateLabel')"/>: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, #dateFormat)"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/>. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, '#timeFormat')"/>.</p>
+   			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lastRegistrationDateLabel')"/>: </span><ww:property value="this.formatDate(event.lastRegistrationDateTime.time, #dateFormat)"/> <ww:property value="this.getLabel('labels.public.event.klockLabel')"/>. <ww:property value="this.formatDate(event.lastRegistrationDateTime.time, #timeFormat)"/>.</p>
 		</ww:if>
 		
 		<ww:if test="event.price != null && event.price != ''">
