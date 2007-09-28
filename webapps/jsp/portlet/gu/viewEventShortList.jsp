@@ -7,7 +7,7 @@
 
 <ww:set name="languageCode" value="this.getLanguageCode()"/>
 <ww:if test="#languageCode == 'en'">
-	<ww:set name="dateFormat" value="'d/M/yyyy'"/>
+	<ww:set name="dateFormat" value="'M/d/yyyy'"/>
 	<ww:set name="timeFormat" value="'HH:mm aaa'"/>
 </ww:if>
 <ww:else>
