@@ -5,6 +5,7 @@
 CREATE DATABASE IF NOT EXISTS calendar;
 USE calendar;
 
+/*
 DROP TABLE IF EXISTS `accessright`;
 CREATE TABLE `accessright` (
   `accessRightId` int(11) NOT NULL auto_increment,
@@ -37,8 +38,20 @@ CREATE TABLE `accessrightuser` (
   PRIMARY KEY  (`accessRightUserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `asset`;
-CREATE TABLE `asset` (
+DROP TABLE IF EXISTS `interceptionpoint`;
+CREATE TABLE `interceptionpoint` (
+  `id` int(11) NOT NULL auto_increment,
+  `category` text NOT NULL,
+  `name` varchar(255) NOT NULL default '',
+  `description` text NOT NULL,
+  `uses_extra_data` int(11) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+*/
+
+DROP TABLE IF EXISTS `Asset`;
+CREATE TABLE `Asset` (
   `id` bigint(20) NOT NULL auto_increment,
   `assetKey` varchar(85) default NULL,
   `assetBlob` blob NOT NULL,
@@ -49,8 +62,8 @@ CREATE TABLE `asset` (
   KEY `FKEF86282E41A9A85C` (`event_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `calendar`;
-CREATE TABLE `calendar` (
+DROP TABLE IF EXISTS `Calendar`;
+CREATE TABLE `Calendar` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(85) default NULL,
   `description` varchar(85) default NULL,
@@ -60,31 +73,31 @@ CREATE TABLE `calendar` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `calendar_group`;
-CREATE TABLE `calendar_group` (
+DROP TABLE IF EXISTS `Calendar_Group`;
+CREATE TABLE `Calendar_Group` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `calendar_id` bigint(20) unsigned NOT NULL default '0',
   `groupName` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `calendar_language`;
-CREATE TABLE `calendar_language` (
+DROP TABLE IF EXISTS `Calendar_Language`;
+CREATE TABLE `Calendar_Language` (
   `calendar_id` bigint(20) NOT NULL default '0',
   `language_id` bigint(20) NOT NULL default '0',
   PRIMARY KEY  (`calendar_id`,`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `calendar_role`;
-CREATE TABLE `calendar_role` (
+DROP TABLE IF EXISTS `Calendar_Role`;
+CREATE TABLE `Calendar_Role` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `calendar_id` bigint(20) unsigned NOT NULL default '0',
   `roleName` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=116 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `category`;
-CREATE TABLE `category` (
+DROP TABLE IF EXISTS `Category`;
+CREATE TABLE `Category` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `description` varchar(255) default NULL,
@@ -94,8 +107,8 @@ CREATE TABLE `category` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `content_type_definition`;
-CREATE TABLE `content_type_definition` (
+DROP TABLE IF EXISTS `Content_Type_Definition`;
+CREATE TABLE `Content_Type_Definition` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `schemaValue` text NOT NULL,
   `name` varchar(255) NOT NULL default '',
@@ -103,8 +116,8 @@ CREATE TABLE `content_type_definition` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `entry`;
-CREATE TABLE `entry` (
+DROP TABLE IF EXISTS `Entry`;
+CREATE TABLE `Entry` (
   `id` bigint(20) NOT NULL auto_increment,
   `firstName` varchar(85) default NULL,
   `lastName` varchar(85) default NULL,
@@ -124,8 +137,8 @@ CREATE TABLE `entry` (
   KEY `FK400185241A9A85C` (`event_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `event`;
-CREATE TABLE `event` (
+DROP TABLE IF EXISTS `Event`;
+CREATE TABLE `Event` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(85) default NULL,
   `description` varchar(85) default NULL,
@@ -157,15 +170,15 @@ CREATE TABLE `event` (
   KEY `FK403827A20EA88D8` (`calendar_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=186 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `event_calendar`;
-CREATE TABLE `event_calendar` (
+DROP TABLE IF EXISTS `Event_Calendar`;
+CREATE TABLE `Event_Calendar` (
   `event_id` bigint(20) NOT NULL default '0',
   `calendar_id` bigint(20) NOT NULL default '0',
   PRIMARY KEY  (`event_id`,`calendar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `event_category`;
-CREATE TABLE `event_category` (
+DROP TABLE IF EXISTS `Event_Category`;
+CREATE TABLE `Event_Category` (
   `id` bigint(20) NOT NULL auto_increment,
   `event_id` bigint(20) default '0',
   `category_id` bigint(20) NOT NULL default '0',
@@ -173,8 +186,8 @@ CREATE TABLE `event_category` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=840 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `event_location`;
-CREATE TABLE `event_location` (
+DROP TABLE IF EXISTS `Event_Location`;
+CREATE TABLE `Event_Location` (
   `event_id` bigint(20) NOT NULL default '0',
   `location_id` bigint(20) NOT NULL default '0',
   PRIMARY KEY  (`event_id`,`location_id`),
@@ -184,37 +197,38 @@ CREATE TABLE `event_location` (
   KEY `FK5DDBFAA5AE2178` (`location_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `event_version`;
-CREATE TABLE `event_version` (
+DROP TABLE IF EXISTS `Event_Version`;
+CREATE TABLE `Event_Version` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `description` varchar(255) default NULL,
+  `name` varchar(1024) default NULL,
+  `title` varchar(1024) default NULL,
+  `description` varchar(1024) default NULL,
   `lecturer` varchar(1024) default NULL,
   `longDescription` text,
-  `contactEmail` varchar(255) default NULL,
+  `contactEmail` varchar(1024) default NULL,
   `shortDescription` text,
-  `organizerName` varchar(255) default NULL,
-  `contactPhone` varchar(255) default NULL,
-  `price` varchar(255) default NULL,
-  `customLocation` varchar(255) default NULL,
-  `eventUrl` varchar(255) default NULL,
-  `contactName` varchar(255) default NULL,
+  `organizerName` varchar(1024) default NULL,
+  `contactPhone` varchar(1024) default NULL,
+  `price` varchar(1024) default NULL,
+  `customLocation` varchar(1024) default NULL,
+  `eventUrl` varchar(1024) default NULL,
+  `contactName` varchar(1024) default NULL,
   `event_id` int(11) default NULL,
   `attributes` text,
-  `alternativeLocation` varchar(255) default NULL,
+  `alternativeLocation` varchar(1024) default NULL,
   `language_id` bigint(20) unsigned default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `events`;
-CREATE TABLE `events` (
+DROP TABLE IF EXISTS `Events`;
+CREATE TABLE `Events` (
   `uid_1` bigint(20) NOT NULL default '0',
   `elm_1` varchar(85) default NULL,
   KEY `FKB307E1196A1FC02` (`uid_1`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `eventtype`;
-CREATE TABLE `eventtype` (
+DROP TABLE IF EXISTS `EventType`;
+CREATE TABLE `EventType` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `description` varchar(255) default NULL,
@@ -224,8 +238,8 @@ CREATE TABLE `eventtype` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `eventtype_category`;
-CREATE TABLE `eventtype_category` (
+DROP TABLE IF EXISTS `EventType_Category`;
+CREATE TABLE `EventType_Category` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `eventtype_id` bigint(20) NOT NULL default '0',
@@ -234,26 +248,16 @@ CREATE TABLE `eventtype_category` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `interceptionpoint`;
-CREATE TABLE `interceptionpoint` (
-  `id` int(11) NOT NULL auto_increment,
-  `category` text NOT NULL,
-  `name` varchar(255) NOT NULL default '',
-  `description` text NOT NULL,
-  `uses_extra_data` int(11) default '0',
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `language`;
-CREATE TABLE `language` (
+DROP TABLE IF EXISTS `Language`;
+CREATE TABLE `Language` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `isoCode` varchar(10) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-DROP TABLE IF EXISTS `location`;
-CREATE TABLE `location` (
+DROP TABLE IF EXISTS `Location`;
+CREATE TABLE `Location` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(85) default NULL,
   `description` varchar(85) default NULL,
@@ -261,15 +265,8 @@ CREATE TABLE `location` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `locations`;
-CREATE TABLE `locations` (
-  `uid_4` bigint(20) NOT NULL default '0',
-  `elm_4` varchar(85) default NULL,
-  KEY `FKB8A4575E6A1FC05` (`uid_4`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `participant`;
-CREATE TABLE `participant` (
+DROP TABLE IF EXISTS `Participant`;
+CREATE TABLE `Participant` (
   `id` bigint(20) NOT NULL auto_increment,
   `userName` varchar(85) default NULL,
   `event_id` bigint(20) default NULL,
@@ -278,8 +275,8 @@ CREATE TABLE `participant` (
   KEY `FK9127971341A9A85C` (`event_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=175 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `property`;
-CREATE TABLE `property` (
+DROP TABLE IF EXISTS `Property`;
+CREATE TABLE `Property` (
   `id` bigint(20) NOT NULL auto_increment,
   `nameSpace` varchar(100) NOT NULL default '',
   `name` varchar(155) NOT NULL default '',
@@ -287,15 +284,15 @@ CREATE TABLE `property` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `resources`;
-CREATE TABLE `resources` (
+DROP TABLE IF EXISTS `Resources`;
+CREATE TABLE `Resources` (
   `uid_3` bigint(20) NOT NULL default '0',
   `elm_3` varchar(85) default NULL,
   KEY `FK89CCBE256A1FC04` (`uid_3`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `subscriber`;
-CREATE TABLE `subscriber` (
+DROP TABLE IF EXISTS `Subscriber`;
+CREATE TABLE `Subscriber` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `calendar_id` bigint(20) unsigned NOT NULL default '0',
   `email` varchar(255) NOT NULL default '',

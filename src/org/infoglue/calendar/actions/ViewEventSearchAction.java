@@ -57,6 +57,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private static Log log = LogFactory.getLog(ViewEventSearchAction.class);
 
     private String name;
+    private String title;
     private String startDateTime;
     private String endDateTime;
     private String startTime;
@@ -225,6 +226,16 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         this.name = name;
     }
     
+    public String getTitle()
+    {
+        return title;
+    }
+    
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
     public String getOrganizerName()
     {
         return organizerName;

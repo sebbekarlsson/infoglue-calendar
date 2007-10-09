@@ -58,7 +58,7 @@
 					</ww:if>
 		   		</ww:iterator>
 			</span>
-			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>"><ww:property value="#eventVersion.name"/></a></h3>
+			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>" title="<ww:property value="#eventVersion.title"/>"><ww:property value="#eventVersion.name"/></a></h3>
 	
 			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.timeLabel')"/></span> <ww:property value="this.formatDate(top.startDateTime.getTime(), #dateFormat)"/> 
 			<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">

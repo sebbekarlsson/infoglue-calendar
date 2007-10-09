@@ -73,6 +73,7 @@
 		<calendar:selectField label="labels.internal.event.language" name="'versionLanguageId'" multiple="false" value="languages" selectedValue="versionLanguageId" required="true" headerItem="Select which language to create the event in" cssClass="listBox"/>
 		
 		<calendar:textField label="labels.internal.event.name" name="'name'" value="event.name" cssClass="longtextfield" required="true"/>
+		<calendar:textField label="labels.internal.event.title" name="'title'" value="event.title" cssClass="longtextfield" required="true"/>
 		<calendar:selectField label="labels.internal.event.entryForm" name="'entryFormId'" multiple="false" value="entryFormEventTypes" selectedValue="event.entryFormId" cssClass="listBox"/>
 		
 		<div class="fieldrow">

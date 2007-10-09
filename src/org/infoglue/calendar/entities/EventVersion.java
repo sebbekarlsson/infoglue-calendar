@@ -85,6 +85,7 @@ public class EventVersion implements BaseEntity
     //private String versionModifier			= null;
 
     private String name;
+    private String title;
     private String description;
     private String organizerName;
     private String lecturer;
@@ -132,7 +133,22 @@ public class EventVersion implements BaseEntity
     {
         this.name = name;
     }
+
+    /**
+     * @hibernate.property name="getTitle" column="title" type="string" not-null="false" unique="true"
+     * 
+     * @return String
+     */
+    public String getTitle()
+    {
+        return title;
+    }
     
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
     /**
      * @hibernate.property name="getDescription" column="description" type="string" not-null="false" unique="false"
      * 

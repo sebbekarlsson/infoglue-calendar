@@ -97,6 +97,8 @@
 		<ww:else>
 			<calendar:textField label="labels.internal.event.name" name="'name'" value="alternativeEventVersion.name" cssClass="longtextfield"/>
 		</ww:else>
+
+		<calendar:textField label="labels.internal.event.title" name="'title'" value="eventVersion.title" cssClass="longtextfield"/>
 		
 		<calendar:selectField label="labels.internal.event.entryForm" name="'entryFormId'" multiple="false" value="entryFormEventTypes" selectedValue="event.entryFormId" headerItem="Choose entry form" cssClass="listBox"/>
 

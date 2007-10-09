@@ -32,7 +32,7 @@ DROP TABLE calendar_group;
 CREATE TABLE calendar_group (
   id [int] IDENTITY (1, 1) NOT NULL,
   calendar_id [int] default NULL,
-  groupName varchar(255) default NOT NULL,
+  groupName varchar(255) NOT NULL,
   PRIMARY KEY  (id)
 )
 
@@ -51,7 +51,7 @@ DROP TABLE calendar_role;
 CREATE TABLE calendar_role (
   id [int] IDENTITY (1, 1) NOT NULL,
   calendar_id [int] default NULL,
-  roleName varchar(255) default NOT NULL,
+  roleName varchar(255) NOT NULL,
   PRIMARY KEY  (id)
 )
 
@@ -114,7 +114,7 @@ CREATE TABLE event (
   isOrganizedByGU [int] default NULL,
   lastRegistrationDateTime datetime default NULL,
   longDescription ntext,
-  maximumParticipants int(11) default NULL,
+  maximumParticipants [int] default NULL,
   contactEmail varchar(85) default NULL,
   shortDescription ntext,
   organizerName varchar(85) default NULL,
@@ -127,7 +127,7 @@ CREATE TABLE event (
   stateId [int] default NULL,
   creator varchar(255) default NULL,
   alternativeLocation varchar(255) default NULL,
-  entryFormId [int] unsigned default NULL,
+  entryFormId [int] default NULL,
   attributes ntext,
   PRIMARY KEY  (id)
 )
@@ -135,7 +135,6 @@ CREATE TABLE event (
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[event_calendar]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE event_calendar;
   
-DROP TABLE IF EXISTS event_calendar;
 CREATE TABLE event_calendar (
   event_id [int] NOT NULL default '0',
   calendar_id [int] NOT NULL default '0',
@@ -166,23 +165,24 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[event_vers
 DROP TABLE event_version;
 
 CREATE TABLE event_version (
-  id [int] unsigned IDENTITY (1, 1) NOT NULL,
-  name varchar(255) default NULL,
-  description varchar(255) default NULL,
+  id [int] IDENTITY (1, 1) NOT NULL,
+  name varchar(1024) default NULL,
+  title varchar(1024) default NULL,
+  description varchar(1024) default NULL,
   lecturer varchar(1024) default NULL,
   longDescription ntext,
-  contactEmail varchar(255) default NULL,
+  contactEmail varchar(1024) default NULL,
   shortDescription ntext,
-  organizerName varchar(255) default NULL,
-  contactPhone varchar(255) default NULL,
-  price varchar(255) default NULL,
-  customLocation varchar(255) default NULL,
-  eventUrl varchar(255) default NULL,
-  contactName varchar(255) default NULL,
-  event_id int(11) default NULL,
+  organizerName varchar(1024) default NULL,
+  contactPhone varchar(1024) default NULL,
+  price varchar(1024) default NULL,
+  customLocation varchar(1024) default NULL,
+  eventUrl varchar(1024) default NULL,
+  contactName varchar(1024) default NULL,
+  event_id [int] default NULL,
   attributes ntext,
-  alternativeLocation varchar(255) default NULL,
-  language_id [int] unsigned default NULL,
+  alternativeLocation varchar(1024) default NULL,
+  language_id [int] default NULL,
   PRIMARY KEY  (id)
 )
 
@@ -194,7 +194,7 @@ CREATE TABLE eventtype (
   name varchar(255) default NULL,
   description varchar(255) default NULL,
   schemaValue ntext,
-  type [int] unsigned NOT NULL default '0',
+  type [int] NOT NULL default '0',
   PRIMARY KEY  (id)
 )
 
@@ -214,7 +214,7 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[language]'
 DROP TABLE language;
 
 CREATE TABLE language (
-  id [int] unsigned IDENTITY (1, 1) NOT NULL,
+  id [int] IDENTITY (1, 1) NOT NULL,
   name varchar(255) default NULL,
   isoCode varchar(10) default NULL,
   PRIMARY KEY  (id)
@@ -255,8 +255,8 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subscriber
 DROP TABLE subscriber;
 
 CREATE TABLE subscriber (
-  id [int] unsigned IDENTITY (1, 1) NOT NULL,
-  calendar_id [int] unsigned NOT NULL default '0',
+  id [int] IDENTITY (1, 1) NOT NULL,
+  calendar_id [int] NOT NULL default '0',
   email varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
 )

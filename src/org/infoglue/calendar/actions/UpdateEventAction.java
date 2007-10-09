@@ -72,6 +72,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private Long eventId;
     private Long versionLanguageId;
     private String name;
+    private String title;
     private String description;
     private String startDateTime;
     private String endDateTime;
@@ -236,6 +237,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
                     eventId, 
                     versionLanguageId,
                     name,
+                    title,
                     description, 
                     isInternal, 
                     isOrganizedByGU, 
@@ -414,6 +416,16 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
         this.name = name;
     }
     
+    public String getTitle()
+    {
+        return title;
+    }
+    
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
     public String getStartDateTime()
     {
         return startDateTime;

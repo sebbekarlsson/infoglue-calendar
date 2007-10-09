@@ -22,7 +22,7 @@
 			</ww:else>
 	
 			<p class="dateformat leftpadding">[<ww:property value="this.formatDate(top.startDateTime.getTime(), 'yyyy-MM-dd')"/>]</p>
-	       	<p class="unpaddedtext"><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>" class="bulleted"><ww:property value="#eventVersion.name"/></a></p>
+	       	<p class="unpaddedtext"><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>" class="bulleted" title="<ww:property value="#eventVersion.title"/>"><ww:property value="#eventVersion.name"/></a></p>
 		</div>
 	
 	</ww:if>

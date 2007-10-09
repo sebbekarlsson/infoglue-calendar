@@ -160,6 +160,7 @@ public class EventController extends BasicController
 			EventVersion eventVersion = new EventVersion();
 
 			eventVersion.setName(originalEventVersion.getName());
+			eventVersion.setTitle(originalEventVersion.getTitle());
 			eventVersion.setDescription(originalEventVersion.getDescription());
 			eventVersion.setOrganizerName(originalEventVersion.getOrganizerName());
 			eventVersion.setLecturer(originalEventVersion.getLecturer());
@@ -211,6 +212,7 @@ public class EventController extends BasicController
     public Event createEvent(Long calendarId, 
     						Long languageId,
             				String name, 
+            				String title, 
             				String description, 
             				Boolean isInternal, 
             	            Boolean isOrganizedByGU, 
@@ -286,6 +288,7 @@ public class EventController extends BasicController
 		EventVersion eventVersion = new EventVersion();
 
 		eventVersion.setName(name);
+		eventVersion.setTitle(title);
 		eventVersion.setDescription(description);
 		eventVersion.setOrganizerName(organizerName);
 		eventVersion.setLecturer(lecturer);
@@ -329,113 +332,6 @@ public class EventController extends BasicController
     }
 
     
-    /**
-     * This method is used to create a new Event object in the database.
-     */
-/* 
-    public Event createEvent(Long calendarId, 
-            				String name, 
-            				String description, 
-            				Boolean isInternal, 
-            	            Boolean isOrganizedByGU, 
-            	            String organizerName, 
-            	            String lecturer, 
-            	            String customLocation,
-            	            String alternativeLocation,
-            	            String shortDescription,
-            	            String longDescription,
-            	            String eventUrl,
-            	            String contactName,
-            	            String contactEmail,
-            	            String contactPhone,
-            	            String price,
-            	            java.util.Calendar lastRegistrationCalendar,
-            	            Integer maximumParticipants,
-            	            java.util.Calendar startDateTime, 
-            	            java.util.Calendar endDateTime, 
-            	            Set oldLocations, 
-            	            Set oldEventCategories, 
-            	            Set oldParticipants,
-            	            Integer stateId,
-            	            String creator,
-            	            Long entryFormId,
-            	            String xml,
-            	            Session session) throws HibernateException, Exception 
-    {
-        Event event = null;
- 
-		Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
-		
-		Set locations = new HashSet();
-		Iterator oldLocationsIterator = oldLocations.iterator();
-		while(oldLocationsIterator.hasNext())
-		{
-		    Location location = (Location)oldLocationsIterator.next();
-		    locations.add(location);
-		}
-		
-		Set participants = new HashSet();
-		Iterator oldParticipantsIterator = oldParticipants.iterator();
-		while(oldParticipantsIterator.hasNext())
-		{
-		    Participant oldParticipant = (Participant)oldParticipantsIterator.next();
-		    Participant participant = new Participant();
-		    participant.setUserName(oldParticipant.getUserName());
-		    participant.setEvent(event);
-		    session.save(participant);
-		    participants.add(participant);
-		}
-		
-		event = createEvent(calendar, 
-		        			name, 
-		        			description, 
-		        			isInternal, 
-		                    isOrganizedByGU, 
-		                    organizerName, 
-		                    lecturer, 
-		                    customLocation,
-		                    alternativeLocation,
-		                    shortDescription,
-		                    longDescription,
-		                    eventUrl,
-		                    contactName,
-		                    contactEmail,
-		                    contactPhone,
-		                    price,
-		                    lastRegistrationCalendar,
-		                    maximumParticipants,
-		        			startDateTime, 
-		        			endDateTime, 
-		        			locations, 
-		        			participants,
-		        			stateId,
-		        			creator,
-		        			entryFormId,
-		        			xml,
-		        			session);
-		
-		Set eventCategories = new HashSet();
-		Iterator oldEventCategoriesIterator = oldEventCategories.iterator();
-		while(oldEventCategoriesIterator.hasNext())
-		{
-		    EventCategory oldEventCategory = (EventCategory)oldEventCategoriesIterator.next();
-		    
-		    EventCategory eventCategory = new EventCategory();
-		    eventCategory.setEvent(event);
-		    eventCategory.setCategory(oldEventCategory.getCategory());
-		    eventCategory.setEventTypeCategoryAttribute(oldEventCategory.getEventTypeCategoryAttribute());
-		    session.save(eventCategory);
-		    
-	        eventCategories.add(eventCategory);
-	    
-		}
-
-		event.setEventCategories(eventCategories);
-		
-        return event;
-    }
-*/
-    
     
     /**
      * This method is used to create a new Event object in the database.
@@ -444,6 +340,7 @@ public class EventController extends BasicController
     public Event createEvent(Long calendarId, 
     		Long languageId,
 			String name, 
+			String title, 
 			String description, 
 			Boolean isInternal, 
             Boolean isOrganizedByGU, 
@@ -529,6 +426,7 @@ public class EventController extends BasicController
 		EventVersion eventVersion = new EventVersion();
 
 		eventVersion.setName(name);
+		eventVersion.setTitle(title);
 		eventVersion.setDescription(description);
 		eventVersion.setOrganizerName(organizerName);
 		eventVersion.setLecturer(lecturer);
@@ -582,195 +480,6 @@ public class EventController extends BasicController
 		
 		return event;
 	}
-    
-    /*
-    public Event createEvent(Long calendarId, 
-            				String name, 
-            				String description, 
-            				Boolean isInternal, 
-            	            Boolean isOrganizedByGU, 
-            	            String organizerName, 
-            	            String lecturer, 
-            	            String customLocation,
-            	            String alternativeLocation,
-            	            String shortDescription,
-            	            String longDescription,
-            	            String eventUrl,
-            	            String contactName,
-            	            String contactEmail,
-            	            String contactPhone,
-            	            String price,
-            	            java.util.Calendar lastRegistrationCalendar,
-            	            Integer maximumParticipants,
-            	            java.util.Calendar startDateTime, 
-            	            java.util.Calendar endDateTime, 
-            	            String[] locationId, 
-            	            Map categoryAttributes, 
-            	            String[] participantUserName,
-            	            Integer stateId,
-            	            String creator,
-            	            Long entryFormId,
-            	            String xml,
-            	            Session session) throws HibernateException, Exception 
-    {
-        Event event = null;
- 
-		Calendar calendar = CalendarController.getController().getCalendar(calendarId, session);
-		
-		Set locations = new HashSet();
-		if(locationId != null)
-		{
-			for(int i=0; i<locationId.length; i++)
-			{
-			    if(!locationId[i].equals(""))
-			    {
-				    Location location = LocationController.getController().getLocation(new Long(locationId[i]), session);
-				    locations.add(location);
-			    }
-			}
-		}
-		
-		Set participants = new HashSet();
-		if(participantUserName != null)
-		{
-			for(int i=0; i<participantUserName.length; i++)
-			{
-			    Participant participant = new Participant();
-			    participant.setUserName(participantUserName[i]);
-			    participant.setEvent(event);
-			    session.save(participant);
-			    participants.add(participant);
-			}
-		}
-		
-		event = createEvent(calendar, 
-		        			name, 
-		        			description, 
-		        			isInternal, 
-		                    isOrganizedByGU, 
-		                    organizerName, 
-		                    lecturer, 
-		                    customLocation,
-		                    alternativeLocation,
-		                    shortDescription,
-		                    longDescription,
-		                    eventUrl,
-		                    contactName,
-		                    contactEmail,
-		                    contactPhone,
-		                    price,
-		                    lastRegistrationCalendar,
-		                    maximumParticipants,
-		        			startDateTime, 
-		        			endDateTime, 
-		        			locations, 
-		        			participants,
-		        			stateId,
-		        			creator,
-		        			entryFormId,
-		        			xml,
-		        			session);
-		
-		Set eventCategories = new HashSet();
-		if(categoryAttributes != null)
-		{
-			Iterator categoryAttributesIterator = categoryAttributes.keySet().iterator();
-			while(categoryAttributesIterator.hasNext())
-			{
-			    String categoryAttributeId = (String)categoryAttributesIterator.next(); 
-			    log.info("categoryAttributeId:" + categoryAttributeId);
-			    EventTypeCategoryAttribute eventTypeCategoryAttribute = EventTypeCategoryAttributeController.getController().getEventTypeCategoryAttribute(new Long(categoryAttributeId), session);
-			     
-			    String[] categoriesArray = (String[])categoryAttributes.get(categoryAttributeId);
-			    for(int i=0; i < categoriesArray.length; i++)
-			    {
-			        Category category = CategoryController.getController().getCategory(new Long(categoriesArray[i]), session);
-			        
-			        EventCategory eventCategory = new EventCategory();
-				    eventCategory.setEvent(event);
-				    eventCategory.setCategory(category);
-				    eventCategory.setEventTypeCategoryAttribute(eventTypeCategoryAttribute);
-				    session.save(eventCategory);
-				    
-			        eventCategories.add(eventCategory);
-			    }
-			}
-		}
-		event.setEventCategories(eventCategories);
-		
-        return event;
-    }
-	*/
-    
-    /**
-     * This method is used to create a new Event object in the database inside a transaction.
-     */
-    /*
-    public Event createEvent(Calendar owningCalendar, 
-            				String name, 
-            				String description, 
-            				Boolean isInternal, 
-            	            Boolean isOrganizedByGU, 
-            	            String organizerName, 
-            	            String lecturer, 
-            	            String customLocation,
-            	            String alternativeLocation,
-            	            String shortDescription,
-            	            String longDescription,
-            	            String eventUrl,
-            	            String contactName,
-            	            String contactEmail,
-            	            String contactPhone,
-            	            String price,
-            	            java.util.Calendar lastRegistrationCalendar,
-            	            Integer maximumParticipants,
-            	            java.util.Calendar startDateTime, 
-            				java.util.Calendar endDateTime, 
-            				Set locations, 
-            				Set participants,
-            				Integer stateId,
-            				String creator,
-            				Long entryFormId,
-            				String xml,
-            				Session session) throws HibernateException, Exception 
-    {
-        
-        Event event = new Event();
-        event.setName(name);
-        event.setDescription(description);
-        event.setIsInternal(isInternal);
-        event.setIsOrganizedByGU(isOrganizedByGU);
-        event.setOrganizerName(organizerName);
-        event.setLecturer(lecturer);
-        event.setCustomLocation(customLocation);
-        event.setAlternativeLocation(alternativeLocation);
-        event.setShortDescription(shortDescription);
-        event.setLongDescription(longDescription);
-        event.setEventUrl(eventUrl);
-        event.setContactName(contactName);
-        event.setContactEmail(contactEmail);
-        event.setContactPhone(contactPhone);
-        event.setPrice(price);
-        event.setMaximumParticipants(maximumParticipants);
-        event.setLastRegistrationDateTime(lastRegistrationCalendar);
-        event.setStartDateTime(startDateTime);
-        event.setEndDateTime(endDateTime); 
-        event.setStateId(stateId);
-        event.setCreator(creator);
-        event.setEntryFormId(entryFormId);
-        event.setAttributes(xml);
-        
-        event.setOwningCalendar(owningCalendar);
-        event.getCalendars().add(owningCalendar);
-        event.setLocations(locations);
-        event.setParticipants(participants);
-        owningCalendar.getEvents().add(event);
-        
-        session.save(event);
-        
-        return event;
-    }
-    */
     
     
     /**
@@ -831,6 +540,7 @@ public class EventController extends BasicController
             Long id, 
             Long languageId,
             String name, 
+            String title,
             String description, 
             Boolean isInternal, 
             Boolean isOrganizedByGU, 
@@ -893,6 +603,7 @@ public class EventController extends BasicController
 		        event,
 		        language,
 		        name, 
+		        title,
 		        description, 
 		        isInternal, 
 		        isOrganizedByGU, 
@@ -930,6 +641,7 @@ public class EventController extends BasicController
             Event event, 
             Language language,
             String name, 
+            String title, 
             String description, 
             Boolean isInternal, 
             Boolean isOrganizedByGU, 
@@ -973,6 +685,7 @@ public class EventController extends BasicController
         	eventVersion.setLanguage(language);
         	eventVersion.setEvent(event);
         	eventVersion.setName(name);
+    		eventVersion.setTitle(title);
         	eventVersion.setDescription(description);
             eventVersion.setOrganizerName(organizerName);
             eventVersion.setLecturer(lecturer);
@@ -992,6 +705,7 @@ public class EventController extends BasicController
         else
         {
         	eventVersion.setName(name);
+    		eventVersion.setTitle(title);
         	eventVersion.setDescription(description);
             eventVersion.setOrganizerName(organizerName);
             eventVersion.setLecturer(lecturer);

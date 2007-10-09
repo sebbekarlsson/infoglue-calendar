@@ -17,6 +17,7 @@
         </id>
 
 		<property name="name" column="name" type="string"/>
+		<property name="title" column="title" type="string"/>
 		<property name="lecturer" column="lecturer" type="string"/>
 		<property name="longDescription" column="longDescription" type="string"/>
 		<!--

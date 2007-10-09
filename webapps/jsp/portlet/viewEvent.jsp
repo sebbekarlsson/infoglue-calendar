@@ -121,6 +121,9 @@
 			<calendar:textValue label="labels.internal.event.name" value="eventVersion.name" labelCssClass="label"/>
 		</p>
 		<p>
+			<calendar:textValue label="labels.internal.event.title" value="eventVersion.title" labelCssClass="label"/>
+		</p>
+		<p>
 			<span class="label"><ww:property value="this.getLabel('labels.internal.event.startDate')"/></span><br />
 			<ww:property value="this.formatDate(event.startDateTime.time, 'yyyy-MM-dd')"/> 
 			<ww:if test="this.formatDate(event.startDateTime.time, 'HH:mm') != '12:34'">

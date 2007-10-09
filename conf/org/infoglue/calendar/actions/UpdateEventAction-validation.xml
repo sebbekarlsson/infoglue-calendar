@@ -5,6 +5,11 @@
             <message>errors.reqiredField</message>
         </field-validator>
     </field>
+    <field name="name">
+        <field-validator type="igrequiredstring">
+            <message>errors.reqiredField</message>
+        </field-validator>
+    </field>
     <field name="isInternal">
     	<field-validator type="fieldexpression">
             <param name="expression">isInternal != null</param>

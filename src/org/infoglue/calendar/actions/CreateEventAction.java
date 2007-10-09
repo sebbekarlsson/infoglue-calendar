@@ -65,6 +65,7 @@ public class CreateEventAction extends CalendarAbstractAction
     //private Map dataBean = new HashMap();
 
     private String name;
+    private String title;
     private String description;
     private String startDateTime;
     private String endDateTime;
@@ -251,6 +252,7 @@ public class CreateEventAction extends CalendarAbstractAction
             newEvent = EventController.getController().createEvent(calendarId,
             											versionLanguageId,
 									                    name, 
+									                    title,
 									                    description,
 									                    isInternal, 
 									                    isOrganizedByGU, 
@@ -405,6 +407,16 @@ public class CreateEventAction extends CalendarAbstractAction
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+    
+    public void setTitle(String title)
+    {
+        this.title = title;
     }
 
     public String getContactEmail()
