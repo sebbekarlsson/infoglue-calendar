@@ -82,18 +82,28 @@
    			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.organizerLabel')"/>: </span><ww:property value="#eventVersion.organizerName"/></p>
 		</ww:if>
 		
+		<c:set var="location">
 		<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.locationLabel')"/>: </span><br/>
 			<ww:if test="#eventVersion.alternativeLocation != null && #eventVersion.alternativeLocation != ''">
 				<ww:property value="#eventVersion.alternativeLocation"/>		
+      			<c:set var="locationExists" value="true"/>
 			</ww:if>
 			<ww:else>
   				<ww:iterator value="event.locations">
 		      		<ww:set name="location" value="top"/>
 	 				<ww:property value="#location.getLocalizedName(#languageCode, 'sv')"/><br/>		
+	      			<c:set var="locationExists" value="true"/>
 	      		</ww:iterator>
 			</ww:else>
-			<ww:property value="#eventVersion.customLocation"/>
+			<ww:if test="#eventVersion.customLocation != null && #eventVersion.customLocation != ''">
+				<ww:property value="#eventVersion.customLocation"/>
+	      		<c:set var="locationExists" value="true"/>
+			</ww:if>
 		</p>
+		</c:set>
+		<c:if test="${locationExists}">
+			<c:out value="${location}" escapeXml="false"/> 
+		</c:if>
 	
 		<ww:if test="#eventVersion.eventUrl != null && #eventVersion.eventUrl != ''">
 			<ww:set name="readMoreLabel" value="'Läs mer om'"/>
@@ -132,9 +142,11 @@
 		<ww:if test="event.price != null && event.price != ''">
 	  		<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.feeLabel')"/>:</span> <ww:property value="event.price"/> </p>
 		</ww:if>
+		<%--
 		<ww:else>
   			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.feeLabel')"/>:</span> <ww:property value="this.getLabel('labels.public.event.noFeeLabel')"/> </p>		
 		</ww:else>
+		--%>
 		
 		<ww:if test="event.contactEmail != null && event.contactEmail != ''">
 			<ww:if test="event.contactName != null && event.contactName != ''">
