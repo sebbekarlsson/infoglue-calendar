@@ -281,7 +281,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String submitForPublishEvent() throws Exception 
     {
-        EventController.getController().submitForPublishEvent(eventId, this.publishEventUrl, this.getLanguageCode(), getSession());
+    	EventController.getController().submitForPublishEvent(eventId, this.publishEventUrl, this.getLanguageCode(), this.getInfoGluePrincipal(), getSession());
 
         return "successSubmitForPublish";
     } 
@@ -292,7 +292,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     
     public String publishEvent() throws Exception 
     {
-        EventController.getController().publishEvent(eventId, this.publishedEventUrl, this.getLanguageCode(), getSession());
+        EventController.getController().publishEvent(eventId, this.publishedEventUrl, this.getLanguageCode(), this.getInfoGluePrincipal(), getSession());
 
         return "successPublish";
     } 

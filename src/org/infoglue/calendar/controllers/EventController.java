@@ -810,7 +810,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void submitForPublishEvent(Long id, String publishEventUrl, String languageCode, Session session) throws Exception 
+    public void submitForPublishEvent(Long id, String publishEventUrl, String languageCode, InfoGluePrincipalBean infoGluePrincipal, Session session) throws Exception 
     {
 		Event event = getEvent(id, session);
 		event.setStateId(Event.STATE_PUBLISH);
@@ -820,7 +820,7 @@ public class EventController extends BasicController
         {
             try
             {
-                EventController.getController().notifyPublisher(event, eventVersion, publishEventUrl);
+                EventController.getController().notifyPublisher(event, eventVersion, publishEventUrl, infoGluePrincipal);
             }
             catch(Exception e)
             {
@@ -837,7 +837,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void publishEvent(Long id, String publishedEventUrl, String languageCode, Session session) throws Exception 
+    public void publishEvent(Long id, String publishedEventUrl, String languageCode, InfoGluePrincipalBean infoGluePrincipal, Session session) throws Exception 
     {
 		Event event = getEvent(id, session);
 		event.setStateId(Event.STATE_PUBLISHED);
@@ -849,7 +849,7 @@ public class EventController extends BasicController
         {
             try
             {
-                EventController.getController().notifySubscribers(event, eventVersion, publishedEventUrl);
+                EventController.getController().notifySubscribers(event, eventVersion, publishedEventUrl, infoGluePrincipal);
             }
             catch(Exception e)
             {
@@ -1604,7 +1604,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void notifyPublisher(Event event, EventVersion eventVersion, String publishEventUrl) throws Exception
+    public void notifyPublisher(Event event, EventVersion eventVersion, String publishEventUrl, InfoGluePrincipalBean infoGluePrincipal) throws Exception
     {
 	    String email = "";
 	    
@@ -1656,6 +1656,7 @@ public class EventController extends BasicController
 	        
 		    Map parameters = new HashMap();
 		    
+		    parameters.put("principal", infoGluePrincipal);
 		    parameters.put("event", event);
 		    parameters.put("eventVersion", eventVersion);
 		    parameters.put("publishEventUrl", publishEventUrl.replaceAll("\\{eventId\\}", event.getId().toString()));
@@ -1685,7 +1686,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public void notifySubscribers(Event event, EventVersion eventVersion, String publishedEventUrl) throws Exception
+    public void notifySubscribers(Event event, EventVersion eventVersion, String publishedEventUrl, InfoGluePrincipalBean infoGluePrincipal) throws Exception
     {
 	    String subscriberEmails = PropertyHelper.getProperty("subscriberEmails");
 	    
@@ -1706,6 +1707,7 @@ public class EventController extends BasicController
 	        publishedEventUrl = publishedEventUrl.replaceAll("j_password", "fold2");
 	        
 	        Map parameters = new HashMap();
+		    parameters.put("principal", infoGluePrincipal);
 		    parameters.put("event", event);
 		    parameters.put("eventVersion", eventVersion);
 		    parameters.put("publishedEventUrl", publishedEventUrl.replaceAll("\\{eventId\\}", event.getId().toString()));

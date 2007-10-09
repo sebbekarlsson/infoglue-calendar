@@ -54,6 +54,7 @@ import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
+import org.infoglue.common.security.beans.InfoGluePrincipalBean;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.VisualFormatter;
@@ -809,7 +810,7 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void notifyEventOwner(Entry entry, Locale locale, Session session) throws Exception
+    public void notifyEventOwner(Entry entry, Locale locale, InfoGluePrincipalBean infoGluePrincipalBean, Session session) throws Exception
     {
     	Event event = entry.getEvent();
     	
@@ -846,6 +847,7 @@ public class EntryController extends BasicController
     		List attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
 
 		    Map parameters = new HashMap();
+		    parameters.put("principal", infoGluePrincipalBean);
 		    parameters.put("entry", entry);
 		    parameters.put("eventVersion", eventVersion);
 		    parameters.put("event", event);
