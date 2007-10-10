@@ -52,6 +52,7 @@ import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.entities.EventVersion;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
 import org.infoglue.common.security.beans.InfoGluePrincipalBean;
@@ -773,7 +774,20 @@ public class EntryController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), null, subject, email, contentType, "UTF-8", null);
+			//Setting up and generating a vcal/ical
+	        Language language = LanguageController.getController().getLanguageWithCode(locale.getLanguage(), session);
+			String calendarPath = PropertyHelper.getProperty("calendarsPath");
+			String vFileName = "event_" + entry.getEvent().getId() + ".vcs";
+			String iFileName = "event_" + entry.getEvent().getId() + ".ics";
+			
+			//ICalendarController.getICalendarController().getVCalendar(entry.getEvent(), language, calendarPath + vFileName);
+			ICalendarController.getICalendarController().getICalendar(entry.getEvent(), language, calendarPath + iFileName);
+			//File file = new File(calendarPath + vFileName);
+			File file = new File(calendarPath + iFileName);
+			List attachments = new ArrayList();
+			attachments.add(file);
+			
+			MailServiceFactory.getService().send(systemEmailSender, entry.getEmail(), null, subject, email, contentType, "UTF-8", attachments);
 		}
 		catch(Exception e)
 		{
