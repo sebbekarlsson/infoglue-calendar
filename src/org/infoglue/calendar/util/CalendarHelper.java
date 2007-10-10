@@ -35,7 +35,7 @@ public class CalendarHelper
 		            if(indexEnd > -1)
 		            {
 		                String startDateTimeString = content.substring(indexStart, indexEnd);
-		                dates.add(parseDate(startDateTimeString, "yyyy-MM-dd HH:ss", languageCode));
+		                dates.add(parseDate(startDateTimeString, "yyyy-MM-dd HH:mm", languageCode));
 		    	    }
 		        }
 		
@@ -46,7 +46,7 @@ public class CalendarHelper
 		            if(indexEnd > -1)
 		            {
 		                String endDateTimeString = content.substring(indexStart, indexEnd);
-		                dates.add(parseDate(endDateTimeString, "yyyy-MM-dd HH:ss", languageCode));
+		                dates.add(parseDate(endDateTimeString, "yyyy-MM-dd HH:mm", languageCode));
 		    	    }
 		        }
 	        }	
