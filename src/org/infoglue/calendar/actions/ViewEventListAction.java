@@ -482,7 +482,6 @@ public class ViewEventListAction extends CalendarAbstractAction
 	        dates.add(new Date());
 	    	dates.add(new Date());
         }	        
-
         return dates;
     }
 
