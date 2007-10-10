@@ -146,8 +146,9 @@ public class ViewEventListAction extends CalendarAbstractAction
 		    
 			if(externalRSSUrl == null || externalRSSUrl.equalsIgnoreCase(""))
 			{
-				log.error("You must send in an attribute called externalRSSUrl to this view. Defaulting to default example feed now.");
-				externalRSSUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
+				String defaultUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
+				log.error("You must send in an attribute called externalRSSUrl to this view. Defaulting feed \"" + defaultUrl + "\".");
+				externalRSSUrl = defaultUrl;
 			}
 			
 		    List entries = getExternalFeedEntries(externalRSSUrl);
@@ -315,8 +316,9 @@ public class ViewEventListAction extends CalendarAbstractAction
 	        String externalRSSUrl = this.getStringAttributeValue("externalRSSUrl");
     		if(externalRSSUrl == null || externalRSSUrl.equalsIgnoreCase(""))
     		{
-    			log.error("You must send in an attribute called externalRSSUrl to this view. Defaulting to default example feed now.");
-    			externalRSSUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
+    			String defaultUrl = "http://aktuellt.slu.se/kalendarium_rss.cfm";
+    			log.error("You must send in an attribute called externalRSSUrl to this view. Defaulting to feed \"" + defaultUrl + "\".");
+    			externalRSSUrl = defaultUrl;
     		}
     		
             List entries = getExternalFeedEntries(externalRSSUrl);
