@@ -356,7 +356,7 @@ public class CalendarAbstractAction extends ActionSupport
         		log.warn("InfoGlue remote user is null - should not happen..");
         	else
         	{
-        		if(event.getCreator().equalsIgnoreCase(this.getInfoGlueRemoteUser()))
+        		if(event.getCreator() != null && event.getCreator().equalsIgnoreCase(this.getInfoGlueRemoteUser()))
         			isEventCreator = true;           
         	}
 	    }

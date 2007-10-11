@@ -47,6 +47,12 @@
 		document.confirmForm.confirmMessage.value = confirmMessage;
 		document.confirmForm.submit();
 	}
+	
+	function changeSlot(slotId)
+	{
+		document.slotForm.currentSlot.value = slotId;
+		document.slotForm.submit();
+	}
 </script>
 <form name="confirmForm" action="<c:out value="${confirmUrl}"/>" method="post">
 	<input type="hidden" name="confirmTitle" value="Radera - bekräfta"/>
@@ -55,14 +61,48 @@
 	<input type="hidden" name="cancelUrl" value="<c:out value="${viewListUrl}"/>"/>	
 </form>
 
-<ww:iterator value="events" status="rowstatus">
+<portlet:renderURL var="slotUrl">
+	<portlet:param name="action" value="ViewEventSearch"/>
+</portlet:renderURL>
+
+<form name="slotForm" action="<c:out value="${slotUrl}"/>" method="POST">
+	<ww:if test="name != null || name != ''"><input type="hidden" name="name" value="<ww:property value="name"/>"/></ww:if>
+	<ww:if test="organizerName != null || organizerName != ''"><input type="hidden" name="organizerName" value="<ww:property value="organizerName"/>"/></ww:if>
+	<ww:if test="lecturer != null || lecturer != ''"><input type="hidden" name="lecturer" value="<ww:property value="lecturer"/>"/></ww:if>
+	<ww:if test="customLocation != null || customLocation != ''"><input type="hidden" name="customLocation" value="<ww:property value="customLocation"/>"/></ww:if>
+	<ww:if test="alternativeLocation != null || alternativeLocation != ''"><input type="hidden" name="alternativeLocation" value="<ww:property value="alternativeLocation"/>"/></ww:if>
+	<ww:if test="contactName != null || contactName != ''"><input type="hidden" name="contactName" value="<ww:property value="contactName"/>"/></ww:if>
+	<ww:if test="startDateTime != null || startDateTime != ''"><input type="hidden" name="startDateTime" value="<ww:property value="startDateTime"/>"/></ww:if>
+	<ww:if test="startTime != null || startTime != ''"><input type="hidden" name="startTime" value="<ww:property value="startTime"/>"/></ww:if>
+	<ww:if test="endDateTime != null || endDateTime != ''"><input type="hidden" name="endDateTime" value="<ww:property value="endDateTime"/>"/></ww:if>
+	<ww:if test="endTime != null || endTime != ''"><input type="hidden" name="endTime" value="<ww:property value="endTime"/>"/></ww:if>
+	<ww:if test="categoryId != null || categoryId != ''"><input type="hidden" name="categoryId" value="<ww:property value="categoryId"/>"/></ww:if>
+	<input type="hidden" name="currentSlot" value=""/>
+</form>
+
+<ww:set name="eventList" value="events" scope="page"/>
+
+<c:set var="eventsItems" value="${eventList}"/>
+<ww:if test="events != null && events.size() > 0">
+	<ww:set name="numberOfItems" value="numberOfItems" scope="page"/>
+	<c:if test="${numberOfItems == null || numberOfItems == '' || numberOfItems == 'Undefined'}">
+		<c:set var="numberOfItems" value="50"/>
+	</c:if>
+	<c:set var="currentSlot" value="${param.currentSlot}"/>
+	<c:if test="${currentSlot == null}">
+		<c:set var="currentSlot" value="1"/>
+	</c:if>
+	<calendar:slots visibleElementsId="eventsItems" visibleSlotsId="indices" lastSlotId="lastSlot" elements="${eventList}" currentSlot="${currentSlot}" slotSize="${numberOfItems}" slotCount="10"/>
+</ww:if>
+
+<ww:iterator value="#attr.eventsItems" status="rowstatus">
 
 	<ww:set name="eventId" value="id" scope="page"/>
 	<ww:set name="event" value="top"/>
 	<ww:set name="eventVersion" value="this.getMasterEventVersion('#event')"/>
 	<ww:set name="eventVersion" value="this.getMasterEventVersion('#event')" scope="page"/>
 	
-	<ww:set name="name" value="name" scope="page"/>
+	<ww:set name="eventName" value="name" scope="page"/>
 	<portlet:renderURL var="eventUrl">
 		<portlet:param name="action" value="ViewEvent"/>
 		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
@@ -105,13 +145,49 @@
 	</div>
 </ww:iterator>
 
-<ww:if test="events == null || events.size() == 0">
-	<div class="oddrow">
-		<div class="columnLong"><p class="portletHeadline"><ww:property value="this.getLabel('labels.internal.applicationNoItemsFound')"/></a></p></div>
-       	<div class="columnMedium"></div>
-       	<div class="columnEnd"></div>
-       	<div class="clear"></div>
-    </div>
+<ww:if test="events != null && events.size() > 0">
+	<br/>
+	<div class="prev_next">
+		<p><strong>Sida <c:out value="${currentSlot}"/> av <c:out value="${lastSlot}"/></strong>&nbsp;</p>
+	</div>
+	
+	<!-- slot navigator -->
+	<c:if test="${lastSlot != 1}">
+		<div class="prev_next">
+			<p>
+			<c:if test="${currentSlot gt 1}">
+				<c:set var="previousSlotId" value="${currentSlot - 1}"/>
+				<a href="javascript:changeSlot(1);" class="number" title="F&ouml;rsta sidan">F&Ouml;RSTA</a>
+				<a href="javascript:changeSlot(<c:out value='${previousSlotId}'/>);" title="F&ouml;reg&aring;ende sida" class="number">&laquo;</a>
+			</c:if>
+			<c:forEach var="slot" items="${indices}" varStatus="count">
+				<c:if test="${slot == currentSlot}">
+					<span class="number"><c:out value="${slot}"/></span>
+				</c:if>
+				<c:if test="${slot != currentSlot}">
+					<a href="javascript:changeSlot(<c:out value="${slot}"/>);" title="Sida <c:out value='${slot}'/>" class="number"><c:out value="${slot}"/></a>
+				</c:if>
+			</c:forEach>
+			<c:if test="${currentSlot lt lastSlot}">
+				<c:set var="nextSlotId" value="${currentSlot + 1}"/>
+				<a href="javascript:changeSlot(<c:out value="${nextSlotId}"/>);" title="N&auml;sta sida" class="number">&raquo;</a>
+			</c:if>
+			</p>
+		</div>
+	</c:if>
+
 </ww:if>
+<ww:else>
+
+	<ww:if test="events == null || events.size() == 0">
+		<div class="oddrow">
+			<div class="columnLong"><p class="portletHeadline"><ww:property value="this.getLabel('labels.internal.applicationNoItemsFound')"/></a></p></div>
+	       	<div class="columnMedium"></div>
+	       	<div class="columnEnd"></div>
+	       	<div class="clear"></div>
+	    </div>
+	</ww:if>
+
+</ww:else>
 
 <%@ include file="adminFooter.jsp" %>
