@@ -1003,10 +1003,7 @@ public class EventController extends BasicController
             Session session) throws Exception 
     {
         List result = null;
-        
-        List arguments = new ArrayList();
-        List values = new ArrayList();
-        
+                
         Criteria criteria = session.createCriteria(Event.class);
         
         Criteria eventVersionCriteria = criteria.createCriteria("versions");
@@ -1038,13 +1035,13 @@ public class EventController extends BasicController
         	criteria.add(Restrictions.eq("price", "%" + price + "%"));
 
         if(maximumParticipants != null)
-        	criteria.add(Restrictions.eq("maximumParticipants", maximumParticipants));
+        	criteria.add(Restrictions.le("maximumParticipants", maximumParticipants));
 
         if(startDateTime != null)
-        	criteria.add(Restrictions.le("startDateTime", startDateTime));
+        	criteria.add(Restrictions.ge("startDateTime", startDateTime));
 
         if(endDateTime != null)
-        	criteria.add(Restrictions.ge("endDateTime", endDateTime));
+        	criteria.add(Restrictions.le("endDateTime", endDateTime));
         
         if(sortAscending.booleanValue())
         {

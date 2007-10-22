@@ -99,12 +99,18 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     	Session session = getSession(true);
     	
         if(startDateTime != null && startDateTime.length() > 0)
-            startCalendar 	= getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", true); 
+            startCalendar = getCalendar(startDateTime + " " + startTime, "yyyy-MM-dd HH:mm", true); 
         
         if(endDateTime != null && endDateTime.length() > 0)
-        	endCalendar 	= getCalendar(endDateTime + " " + endTime, "yyyy-MM-dd HH:mm", true); 
+        	endCalendar = getCalendar(endDateTime + " " + endTime, "yyyy-MM-dd HH:mm", true); 
 
         log.info("price:" + price);
+        /*
+        if(startCalendar != null)
+        	System.out.println("startCalendar:" + startCalendar.getTime());
+        if(endCalendar != null)
+            System.out.println("endCalendar:" + endCalendar.getTime());
+        */
         
         this.events = EventController.getController().getEventList(name,
                 													startCalendar,
