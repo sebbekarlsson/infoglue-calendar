@@ -1738,11 +1738,14 @@ public class EventController extends BasicController
 		    {
 		        
 				log.info("Sending mail to:" + systemEmailSender + " and " + subscriberString);
-				MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, subscriberString, "InfoGlue Calendar - new event published", email, contentType, "UTF-8", null);
+				if(subscriberString != null && !subscriberString.equals(""))
+					MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, subscriberString, "InfoGlue Calendar - new event published", email, contentType, "UTF-8", null);
 		    }
 			catch(Exception e)
 			{
-				log.error("The notification was not sent to persons. Reason:" + e.getMessage(), e);
+				log.error("The notification was not sent to persons. Reason:" + e.getMessage());
+				log.error("systemEmailSender:" + systemEmailSender);
+				log.error("subscriberString:" + subscriberString);
 			}
 
 	    }
