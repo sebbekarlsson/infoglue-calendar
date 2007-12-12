@@ -5,13 +5,14 @@
 
 <portlet:defineObjects/>
 
-<div class="calendar">
+<portlet:actionURL var="createEntryActionUrl">
+	<portlet:param name="action" value="CreateEntry!publicGU"/>
+</portlet:actionURL>
 
-	<portlet:actionURL var="createEntryActionUrl">
-		<portlet:param name="action" value="CreateEntry!publicGU"/>
-	</portlet:actionURL>
-	
-	<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
+<ww:set name="event" value="event"/>
+<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
+
+<div class="calendar">
 	
 	<form name="inputForm" method="POST" action="<c:out value="${createEntryActionUrl}"/>">
 		<input type="hidden" name="eventId" value="<ww:property value="eventId"/>">

@@ -5,6 +5,9 @@
 
 <portlet:defineObjects/>
 
+<ww:set name="event" value="event"/>
+<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
+
 <ww:if test="#attr.detailUrl.indexOf('?') > -1">
 	<c:set var="delim" value="&"/>
 </ww:if>
@@ -17,7 +20,7 @@
 
 <div class="contaktform_receipt">
 	<h2>F&ouml;ljande person är nu anmäld till:</h2>
-	<h3>"<ww:property value="event.name"/>"</h3>
+	<h3>"<ww:property value="#eventVersion.name"/>"</h3>
 	<h3>Boknings ID:</h3>
 	<p><ww:property value="entry.id"/></p>
 	<h3>Namn:</h3>

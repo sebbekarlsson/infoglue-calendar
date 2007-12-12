@@ -688,7 +688,7 @@ public class EntryController extends BasicController
 	        if(contentType == null || contentType.length() == 0)
 	            contentType = "text/html";
 	        
-	        String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.notification.message", locale, false, true, false, session);
+	        String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.information.messageTemplate", locale, false, true, false, session);
 	        log.debug("\n\ntemplate:" + template);
 	        if(template == null || template.equals(""))
 	        {
@@ -699,6 +699,7 @@ public class EntryController extends BasicController
 	        }
 	        
 		    Map parameters = new HashMap();
+		    parameters.put("subject", subject);
 		    parameters.put("message", message);
 		    parameters.put("formatter", new VisualFormatter());
 	        

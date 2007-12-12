@@ -24,6 +24,7 @@ import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.util.EntrySearchResultfilesConstructor;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
 import org.infoglue.common.util.PropertyHelper;
@@ -143,6 +144,8 @@ public class ComposeEmailAction extends CalendarAbstractAction
 			        if(eventId != null && (attachParticipants != null && attachParticipants.equalsIgnoreCase("true"))) 
 			        {
 			        	Event event = EventController.getController().getEvent(eventId, getSession());
+			        	EventVersion eventVersion = getEventVersion(event);
+			        	
 			        	Set entries = event.getEntries();
 			        	if(entries != null && entries.size() > 0)
 			        	{
@@ -151,7 +154,7 @@ public class ComposeEmailAction extends CalendarAbstractAction
 			                
 				        	HttpServletRequest request = ServletActionContext.getRequest();
 				        	Map parameters = new HashMap();
-				        	parameters.put("headLine", "Entries for event " + event.getName() + "(" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd") + ")");
+				        	parameters.put("headLine", "Entries for event " + eventVersion.getName() + " (" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd") + ")");
 
 				        	EventType eventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
 				    		List attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
@@ -180,7 +183,8 @@ public class ComposeEmailAction extends CalendarAbstractAction
 			        }
 	
 					// time to send
-					log.info("Sending email to " + emailAddresses + " with " + attachments.size() + " attachments.");
+			        //System.out.println("Sending email to " + emailAddresses + " with " + attachments.size() + " attachments.");
+			        //System.out.println("message: " + message);
 					EntryController.getController().mailEntries(emailAddresses, subject, message, attachments, this.getLocale(), this.getSession());
 					return "finished";
 				}
