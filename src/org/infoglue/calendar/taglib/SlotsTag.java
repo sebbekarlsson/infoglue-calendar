@@ -27,6 +27,9 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.actions.CreateEntryAction;
 import org.infoglue.common.util.Slots;
 
 /**
@@ -34,6 +37,8 @@ import org.infoglue.common.util.Slots;
  */
 public class SlotsTag extends AbstractTag 
 {
+	private static Log log = LogFactory.getLog(SlotsTag.class);
+
 	/**
 	 * 
 	 */
@@ -114,7 +119,7 @@ public class SlotsTag extends AbstractTag
 		} 
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			log.error("Error calculating slots:" + e.getMessage());
 			throw new JspTagException(e.getMessage());
 		}
 	}
