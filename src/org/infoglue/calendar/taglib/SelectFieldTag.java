@@ -191,6 +191,20 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            	id = value.getId();
 	                optionText = value.getValue("label");
 	            }
+	            else if(obj instanceof String[])
+	            {
+	            	String[] value = (String[])obj;
+	            	if(value.length > 1)
+	            	{
+	            		id = value[0];
+	            		optionText = value[1];
+	            	}
+	            	else
+	            	{
+	            		id = "faulty";
+	            		optionText = "faulty";
+	            	}
+	            }
 	            else
 	            {
 	                String value = obj.toString();

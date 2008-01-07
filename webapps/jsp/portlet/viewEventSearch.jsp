@@ -85,14 +85,25 @@
 <c:set var="eventsItems" value="${eventList}"/>
 <ww:if test="events != null && events.size() > 0">
 	<ww:set name="numberOfItems" value="numberOfItems" scope="page"/>
+	<ww:set name="itemsPerPage" value="itemsPerPage" scope="page"/>
 	<c:if test="${numberOfItems == null || numberOfItems == '' || numberOfItems == 'Undefined'}">
 		<c:set var="numberOfItems" value="50"/>
+	</c:if>
+	<c:if test="${itemsPerPage != null && itemsPerPage != ''}">
+		<c:set var="numberOfItems" value="${itemsPerPage}"/>
 	</c:if>
 	<c:set var="currentSlot" value="${param.currentSlot}"/>
 	<c:if test="${currentSlot == null}">
 		<c:set var="currentSlot" value="1"/>
 	</c:if>
-	<calendar:slots visibleElementsId="eventsItems" visibleSlotsId="indices" lastSlotId="lastSlot" elements="${eventList}" currentSlot="${currentSlot}" slotSize="${numberOfItems}" slotCount="10"/>
+	<c:choose>
+		<c:when test="${numberOfItems != -1}">
+			<calendar:slots visibleElementsId="eventsItems" visibleSlotsId="indices" lastSlotId="lastSlot" elements="${eventList}" currentSlot="${currentSlot}" slotSize="${numberOfItems}" slotCount="10"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="eventsItems" value="${eventList}"/>
+		</c:otherwise>
+	</c:choose>
 </ww:if>
 
 <ww:iterator value="#attr.eventsItems" status="rowstatus">

@@ -77,6 +77,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private Calendar endCalendar;
 
     private Long categoryId;
+    private Integer itemsPerPage;
     
     private List events;
     private Set categoriesList;
@@ -335,6 +336,16 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 	public void setCategoryId(Long categoryId) 
 	{
 		this.categoryId = categoryId;
+	}
+
+	public Integer getItemsPerPage() 
+	{
+		return itemsPerPage;
+	}
+
+	public void setItemsPerPage(Integer itemsPerPage) 
+	{
+		this.itemsPerPage = itemsPerPage;
 	}
 
 }

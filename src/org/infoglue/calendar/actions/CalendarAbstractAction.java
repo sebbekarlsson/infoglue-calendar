@@ -142,6 +142,21 @@ public class CalendarAbstractAction extends ActionSupport
         return list;
     }
 
+    public List getItemsPerPageMap()
+    {
+    	List items = new ArrayList();
+    	
+        items.add(new String[]{"10", "10"});
+        items.add(new String[]{"20", "20"});
+        items.add(new String[]{"50", "50"});
+        items.add(new String[]{"100", "100"});
+        items.add(new String[]{"200", "200"});
+        items.add(new String[]{"500", "500"});
+        items.add(new String[]{"-1", "Alla"});
+        
+        return items;
+    }
+
     public List getEventTypes()
     {    	
     	List list = new ArrayList();

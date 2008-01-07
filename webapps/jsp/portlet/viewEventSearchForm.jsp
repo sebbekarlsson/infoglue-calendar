@@ -54,6 +54,8 @@
 
 		<calendar:selectField label="labels.internal.calendar.eventType" name="'categoryId'" headerItem="Filtrera på evenemangstyp" multiple="false" value="categoriesList" selectedValue="categoryId" cssClass="listBox"/>
 
+		<calendar:selectField label="labels.internal.event.searchItemsPerPage" name="'itemsPerPage'" headerItem="Antal poster per sida" multiple="false" value="itemsPerPageMap" selectedValue="itemsPerPage" cssClass="listBox"/>
+
 	<div style="height:10px"></div>
 	<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.searchButton')"/>" class="button"/>
 	</form>
