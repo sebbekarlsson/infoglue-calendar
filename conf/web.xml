@@ -12,9 +12,16 @@
         <param-value>parameter-value</param-value>
     </context-param>
 
+    <listener>
+        <listener-class>com.opensymphony.webwork.lifecycle.ApplicationLifecycleListener</listener-class>
+    </listener>
 
     <listener>
-	<listener-class>org.infoglue.calendar.util.CalendarContextListener</listener-class>
+        <listener-class>com.opensymphony.webwork.lifecycle.SessionLifecycleListener</listener-class>
+    </listener>
+
+    <listener>
+		<listener-class>org.infoglue.calendar.util.CalendarContextListener</listener-class>
     </listener>
 
     <servlet>
@@ -31,71 +38,9 @@
             <param-value>com.opensymphony.webwork.portlet.dispatcher.PortletDispatcher</param-value>
         </init-param>
     </servlet>
-    <servlet>
-        <servlet-name>BladePortlet</servlet-name>
-        <display-name>BladePortlet Wrapper</display-name>
-        <description>Automated generated Portlet Wrapper</description>
-        <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
-        <init-param>
-            <param-name>portlet-guid</param-name>
-            <param-value>infoglueCalendar.BladePortlet</param-value>
-        </init-param>
-        <init-param>
-            <param-name>portlet-class</param-name>
-            <param-value>org.infoglue.portal.portlet.BladePortlet</param-value>
-        </init-param>
-    </servlet>
-    <servlet>
-        <servlet-name>TestPortlet1</servlet-name>
-        <display-name>TestPortlet1 Wrapper</display-name>
-        <description>Automated generated Portlet Wrapper</description>
-        <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
-        <init-param>
-            <param-name>portlet-class</param-name>
-            <param-value>org.apache.pluto.portalImpl.portlet.TestPortlet</param-value>
-        </init-param>
-        <init-param>
-            <param-name>portlet-guid</param-name>
-            <param-value>infoglueCalendar.TestPortlet1</param-value>
-        </init-param>
-        <security-role-ref>
-            <role-name>plutoTestRole</role-name>
-            <role-link>tomcat</role-link>
-        </security-role-ref>
-    </servlet>
-    <servlet>
-        <servlet-name>TestPortlet2</servlet-name>
-        <display-name>TestPortlet2 Wrapper</display-name>
-        <description>Automated generated Portlet Wrapper</description>
-        <servlet-class>org.apache.pluto.core.PortletServlet</servlet-class>
-        <init-param>
-            <param-name>portlet-guid</param-name>
-            <param-value>infoglueCalendar.TestPortlet2</param-value>
-        </init-param>
-        <init-param>
-            <param-name>portlet-class</param-name>
-            <param-value>org.apache.pluto.portalImpl.portlet.TestPortlet</param-value>
-        </init-param>
-        <security-role-ref>
-            <role-name>plutoTestRole</role-name>
-            <role-link>tomcat</role-link>
-        </security-role-ref>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>BladePortlet</servlet-name>
-        <url-pattern>/BladePortlet/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TestPortlet2</servlet-name>
-        <url-pattern>/TestPortlet2/*</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WebworkDispatcherPortlet</servlet-name>
         <url-pattern>/WebworkDispatcherPortlet/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TestPortlet1</servlet-name>
-        <url-pattern>/TestPortlet1/*</url-pattern>
     </servlet-mapping>
 
 	<taglib>
@@ -106,14 +51,4 @@
 		<taglib-uri>infoglue-common</taglib-uri>
 		<taglib-location>/WEB-INF/tld/infoglue-common.tld</taglib-location>
 	</taglib>
-	<taglib>
-        <taglib-uri>http://displaytag.sourceforge.net/</taglib-uri>
-        <taglib-location>/WEB-INF/displaytag.tld</taglib-location>
-    </taglib>
-	
-<!--
-    <security-role>
-        <role-name>tomcat</role-name>
-    </security-role>
--->
 </web-app>
