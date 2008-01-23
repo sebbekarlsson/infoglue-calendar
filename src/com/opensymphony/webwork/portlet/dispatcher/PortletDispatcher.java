@@ -318,18 +318,37 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 
     private Session session;
 	private Transaction transaction;
-	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
+	private static SessionFactory factory = null;
+
+	static 
+	{
+		try
+		{
+			factory = new Configuration().configure().buildSessionFactory();
+		}
+		catch (Exception e) 
+		{
+			System.out.println("Could not connect to database:" + e.getMessage());
+		}
+	}
 	
     private void addSession(PortletRequest request)
     {
         log.debug("Initializing session:" + factory);
 	    
-	    Session session = factory.openSession();
-	    log.debug("Initializing session:" + session);
-	    transaction = session.beginTransaction();
-		
-        request.setAttribute("HIBERNATE_SESSION", session);
-        request.setAttribute("HIBERNATE_TRANSACTION", transaction);
+        if(factory != null)
+        {
+		    Session session = factory.openSession();
+		    log.debug("Initializing session:" + session);
+		    transaction = session.beginTransaction();
+			
+	        request.setAttribute("HIBERNATE_SESSION", session);
+	        request.setAttribute("HIBERNATE_TRANSACTION", transaction);
+        }
+        else
+        {
+	        request.setAttribute("DATABASE_CONFIGURATION_ERROR", "No database connection could be made");
+        }
     }
     
 	public Session getSession(PortletRequest request) throws HibernateException 

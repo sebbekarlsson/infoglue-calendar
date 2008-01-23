@@ -49,7 +49,10 @@ public class ViewCalendarAdministrationAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
-        return Action.SUCCESS;
+    	if(getDatabaseConfigurationError() != null)
+    		return "databaseConfigurationError";
+    	else
+    		return Action.SUCCESS;
     } 
 
 }

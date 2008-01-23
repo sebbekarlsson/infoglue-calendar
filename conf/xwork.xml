@@ -38,10 +38,22 @@
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
 		</action>
+
+		<action name="UpdateDatabaseConfiguration" class="org.infoglue.calendar.settings.actions.UpdateDatabaseConfigurationAction">
+			<result name="success" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewSettings.jsp</param>
+			</result>
+			<result name="error" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
+			</result>
+		</action>
 		
 		<action name="ViewCalendarAdministration" class="org.infoglue.calendar.actions.ViewCalendarAdministrationAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewCalendarAdministration.jsp</param>
+			</result>
+			<result name="databaseConfigurationError" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/databaseConfigurationError.jsp</param>
 			</result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>

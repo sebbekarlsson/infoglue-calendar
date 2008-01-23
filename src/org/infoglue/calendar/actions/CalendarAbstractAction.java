@@ -162,7 +162,7 @@ public class CalendarAbstractAction extends ActionSupport
     	List list = new ArrayList();
         
         list.add(new AttributeType("0", "Evenemangsdefinition"));
-        list.add(new AttributeType("1", "Anmälningsformulär"));
+        list.add(new AttributeType("1", "Anmï¿½lningsformulï¿½r"));
         
         return list;
     }
@@ -1108,7 +1108,11 @@ public class CalendarAbstractAction extends ActionSupport
 	    return label;
     }
 
-    
+
+	public String getDatabaseConfigurationError() throws HibernateException {
+	    return (String)ServletActionContext.getRequest().getAttribute("DATABASE_CONFIGURATION_ERROR");
+	}
+
 	public Session getSession() throws HibernateException {
 	    return (Session)ServletActionContext.getRequest().getAttribute("HIBERNATE_SESSION");
 	}
