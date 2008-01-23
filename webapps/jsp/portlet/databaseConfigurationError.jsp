@@ -38,15 +38,7 @@
 <h1>Database configuration error</h1>
 <p>
 	The portlet has no valid database connection - either you have just installed the portlet or your database/connection have been reconfigured.
-	<portlet:actionURL var="updateDatabaseConfigurationUrl">
-		<calendar:evalParam name="action" value="UpdateDatabaseConfiguration"/>
-	</portlet:actionURL>
-			
-	<form name="email" method="post" action="<c:out value="${updateDatabaseConfigurationUrl}"/>">
-		URL: <input type="text" name="url"/>	    
-	    <input type="submit" name="send"  class="button" value="Save"/>
-	</form>
-			
+	Check out the hibernate.cfg.xml-file in your WEB-INF/classes-directory and change the settings there. Here is a reference on what to set up.			
 </p>
 </div>
 
