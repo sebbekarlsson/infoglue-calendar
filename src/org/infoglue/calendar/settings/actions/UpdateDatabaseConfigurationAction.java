@@ -59,6 +59,7 @@ public class UpdateDatabaseConfigurationAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+    	/*
 		String contextRootPath = PropertyHelper.getProperty("contextRootPath"); 			
 
     	String hibernateXML = FileHelper.getFileAsString(new File(contextRootPath + File.separator + "WEB-INF/classes/hibernate.cfg.xml"));
@@ -71,7 +72,7 @@ public class UpdateDatabaseConfigurationAction extends CalendarAbstractAction
     	hibernateXML = hibernateXML.replaceFirst("<property name=\"dialect\">org.hibernate.dialect.MySQLDialect</property>", "<property name=\"dialect\">" + sqlDialect + "</property>"); 
 
     	System.out.println("updated hibernateXML:" + hibernateXML);
-
+		*/
     	return SUCCESS;
     }
 
