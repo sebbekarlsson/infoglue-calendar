@@ -15,7 +15,7 @@
 			<style type="text/css" media="screen">@import url(<ww:property value="CSSUrl"/>);</style>
 		</ww:if>
 		<ww:else>
-			<style type="text/css" media="screen">@import url(http://cms.it.gu.se/infoglueDeliverWorking/ViewPage.action?siteNodeId=101891&amp;languageId=100000&amp;contentId=-1);</style>
+			<style type="text/css" media="screen">@import url(/infoglueCalendar/css/calendarPortlet.css);</style>
 		</ww:else>
 		
 	</head>
@@ -38,7 +38,12 @@
 <h1>Database configuration error</h1>
 <p>
 	The portlet has no valid database connection - either you have just installed the portlet or your database/connection have been reconfigured.
-	Check out the hibernate.cfg.xml-file in your WEB-INF/classes-directory and change the settings there. Here is a reference on what to set up.			
+</p>
+<p>
+	Check out the hibernate.cfg.xml-file in your WEB-INF/classes-directory if you want to reconfigure the connection. 
+</p>
+<p>
+	Click <a href="http://www.infoglue.org">here</a> and navigate to the Calendar pages to find full installation / configuration instructions.
 </p>
 </div>
 

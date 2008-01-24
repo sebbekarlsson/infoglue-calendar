@@ -15,7 +15,7 @@
 			<style type="text/css" media="screen">@import url(<ww:property value="CSSUrl"/>);</style>
 		</ww:if>
 		<ww:else>
-			<style type="text/css" media="screen">@import url(http://cms.it.gu.se/infoglueDeliverWorking/ViewPage.action?siteNodeId=101891&amp;languageId=100000&amp;contentId=-1);</style>
+			<style type="text/css" media="screen">@import url(/infoglueCalendar/css/calendarPortlet.css);</style>
 		</ww:else>
 		
 		<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/skins/aqua/theme.css" title="aqua" />
