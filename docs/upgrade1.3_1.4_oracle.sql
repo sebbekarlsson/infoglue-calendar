@@ -23,7 +23,7 @@ CREATE TABLE event_version (
   PRIMARY KEY  (id)
 );
 
-DROP TABLE IF EXISTS Calendar_Language;
+DROP TABLE Calendar_Language;
 CREATE TABLE  Calendar_Language 
 (
   calendar_id number NOT NULL,

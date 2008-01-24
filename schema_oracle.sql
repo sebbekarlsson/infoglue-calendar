@@ -100,6 +100,13 @@ CREATE TABLE location (
   PRIMARY KEY  (id)
 );
 
+CREATE TABLE location (
+  id int NOT NULL ,
+  name varchar(255) default NULL,
+  description varchar(255) default NULL,
+  PRIMARY KEY  (id)
+);
+
 CREATE TABLE participant (
   id int NOT NULL ,
   userName varchar(255) default NULL,
