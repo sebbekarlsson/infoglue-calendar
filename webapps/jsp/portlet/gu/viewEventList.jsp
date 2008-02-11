@@ -64,13 +64,14 @@
 			<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
 			<ww:property value="this.getLabel('labels.public.event.klockLabel')"/> <ww:property value="this.formatDate(top.startDateTime.getTime(), #timeFormat)"/>, 
 			</ww:if>
-			
+			<br />
+			<span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.locationLabel')"/>:</span>
 			<ww:if test="#eventVersion.alternativeLocation != ''">
 				<ww:property value="#eventVersion.alternativeLocation"/>
 			</ww:if>
 			<ww:else>
-				<ww:iterator value="top.locations">
-					<ww:property value="top.getLocalizedName('en','sv')"/>,
+				<ww:iterator value="top.locations" status="rowstatus">
+					<ww:property value="top.getLocalizedName('en','sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
 				</ww:iterator>
 			</ww:else>
 			- <ww:property value="#eventVersion.customLocation"/>

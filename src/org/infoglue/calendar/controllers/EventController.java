@@ -1668,7 +1668,7 @@ public class EventController extends BasicController
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
 			log.info("Sending mail to:" + systemEmailSender + " and " + addresses);
-			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, addresses, "InfoGlue Calendar - new event waiting", email, contentType, "UTF-8", null);
+			MailServiceFactory.getService().send(systemEmailSender, addresses, null, "InfoGlue Calendar - new event waiting", email, contentType, "UTF-8", null);
 	    }
 		catch(Exception e)
 		{
@@ -1719,7 +1719,7 @@ public class EventController extends BasicController
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
 			log.info("Sending mail to:" + systemEmailSender + " and " + subscriberEmails);
-			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, subscriberEmails, "InfoGlue Calendar - new event published", email, contentType, "UTF-8", null);
+			MailServiceFactory.getService().send(systemEmailSender, subscriberEmails, null, "InfoGlue Calendar - new event published", email, contentType, "UTF-8", null);
 	    
 			String subscriberString = "";
 			Set subscribers = event.getOwningCalendar().getSubscriptions();
@@ -1739,7 +1739,7 @@ public class EventController extends BasicController
 		        
 				log.info("Sending mail to:" + systemEmailSender + " and " + subscriberString);
 				if(subscriberString != null && !subscriberString.equals(""))
-					MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, subscriberString, "InfoGlue Calendar - new event published", email, contentType, "UTF-8", null);
+					MailServiceFactory.getService().send(systemEmailSender, subscriberString, null, "InfoGlue Calendar - new event published", email, contentType, "UTF-8", null);
 		    }
 			catch(Exception e)
 			{

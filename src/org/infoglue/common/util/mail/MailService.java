@@ -136,8 +136,10 @@ public class MailService
 
 			// message.setContent(content, contentType);
 			message.setFrom(createInternetAddress(from));
-			message.setRecipient(Message.RecipientType.TO,
-					createInternetAddress(to));
+			//message.setRecipient(Message.RecipientType.TO,
+			//		createInternetAddress(to));
+			message.setRecipients(Message.RecipientType.TO,
+					createInternetAddresses(to));
 			if (bcc != null)
 				message.setRecipients(Message.RecipientType.BCC,
 						createInternetAddresses(bcc));

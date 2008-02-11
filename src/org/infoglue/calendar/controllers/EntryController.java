@@ -830,7 +830,10 @@ public class EntryController extends BasicController
     	Event event = entry.getEvent();
     	
     	if(event.getContactEmail() == null || event.getContactEmail().length() == 0)
+    	{
+    		log.info("There was no contact email set for event:" + event.getId());
     		return;
+    	}
     	
 	    String email = "";
 	    
@@ -881,9 +884,9 @@ public class EntryController extends BasicController
 			if(systemEmailSender == null || systemEmailSender.equalsIgnoreCase(""))
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
-			log.info("Sending mail to:" + systemEmailSender + " and " + addresses);
+			log.info("Sending mail from:" + systemEmailSender + " to " + addresses);
 			
-			MailServiceFactory.getService().send(systemEmailSender, systemEmailSender, addresses, subject, email, contentType, "UTF-8", null);
+			MailServiceFactory.getService().send(systemEmailSender, addresses, null, subject, email, contentType, "UTF-8", null);
 	    }
 		catch(Exception e)
 		{
