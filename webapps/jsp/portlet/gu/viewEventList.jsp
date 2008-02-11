@@ -66,7 +66,7 @@
 			</ww:if>
 			<br />
 			<span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.locationLabel')"/>:</span>
-			<ww:if test="#eventVersion.alternativeLocation != ''">
+			<ww:if test="#eventVersion.alternativeLocation != null && #eventVersion.alternativeLocation != ''">
 				<ww:property value="#eventVersion.alternativeLocation"/>
 			</ww:if>
 			<ww:else>
@@ -74,7 +74,9 @@
 					<ww:property value="top.getLocalizedName('en','sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
 				</ww:iterator>
 			</ww:else>
-			- <ww:property value="#eventVersion.customLocation"/>
+			<ww:if test="#eventVersion.customLocation != null && #eventVersion.customLocation != ''">
+				- <ww:property value="#eventVersion.customLocation"/>
+			</ww:if>
 			
 			<br /></p>
 	        <ww:set name="puffImage" value="this.getResourceUrl(event, 'PuffBild')"/>
