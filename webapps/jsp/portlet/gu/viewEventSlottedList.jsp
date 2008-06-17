@@ -89,7 +89,7 @@
 			</ww:if>
 			<ww:else>
 				<ww:iterator value="top.locations" status="rowstatus">
-					<ww:property value="top.getLocalizedName('en','sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
+					<ww:property value="top.getLocalizedName(#languageCode,'sv')"/><ww:if test="!#rowstatus.last">, </ww:if>
 				</ww:iterator>
 			</ww:else>
 			<ww:if test="#eventVersion.customLocation != null && #eventVersion.customLocation != ''">
