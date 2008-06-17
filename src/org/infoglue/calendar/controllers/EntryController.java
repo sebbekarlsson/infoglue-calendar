@@ -728,7 +728,7 @@ public class EntryController extends BasicController
      * @throws Exception
      */
     
-    public void mailVerification(Entry entry, Locale locale, Session session) throws Exception
+    public void mailVerification(Entry entry, Locale locale, boolean isReserve, Session session) throws Exception
     {
 	    String email = "";
 	    
@@ -741,20 +741,34 @@ public class EntryController extends BasicController
 	        CalendarAbstractAction caa = new CalendarAbstractAction();
 	        EventVersion eventVersion = caa.getEventVersion(entry.getEvent());
 	        
-	        String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.message", locale, false, true, false, session);
-	        String subject = eventVersion.getName() + " - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.subject", locale, false, true, false, session);
-
-	        log.debug("\n\ntemplate:" + template);
-	        
-	        if(template == null || template.equals(""))
+	        String template = "";
+	        String subject = "";
+	        if(!isReserve)
 	        {
-		        if(contentType.equalsIgnoreCase("text/plain"))
-		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_plain.vm"));
-			    else
-		            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_html.vm"));
+		        template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.message", locale, false, true, false, session);
+		        subject = eventVersion.getName() + " - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verification.subject", locale, false, true, false, session);
+		        if(template == null || template.equals(""))
+		        {
+			        if(contentType.equalsIgnoreCase("text/plain"))
+			            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_plain.vm"));
+				    else
+			            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationMessage_html.vm"));
+		        }
 	        }
-	        
-        	EventType eventType = EventTypeController.getController().getEventType(entry.getEvent().getEntryFormId(), session);
+	        else
+	        {
+		        template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verificationReserve.message", locale, false, true, false, session);
+		        subject = eventVersion.getName() + " - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.verificationReserve.subject", locale, false, true, false, session);
+		        if(template == null || template.equals(""))
+		        {
+			        if(contentType.equalsIgnoreCase("text/plain"))
+			            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationReserveMessage_plain.vm"));
+				    else
+			            template = FileHelper.getFileAsString(new File(PropertyHelper.getProperty("contextRootPath") + "templates/entryVerificationReserveMessage_html.vm"));
+		        }
+	        }
+
+	        EventType eventType = EventTypeController.getController().getEventType(entry.getEvent().getEntryFormId(), session);
     		List attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
 
 		    Map parameters = new HashMap();

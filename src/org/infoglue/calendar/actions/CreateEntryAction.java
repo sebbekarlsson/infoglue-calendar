@@ -78,6 +78,8 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     private List attributes;
     
+    private boolean isReserve = false;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -155,6 +157,10 @@ public class CreateEntryAction extends CalendarAbstractAction
             ServletActionContext.getRequest().getSession().setAttribute("attributes", attributes);
         	
             Event event = EventController.getController().getEvent(eventId, getSession());
+            int numberOfExistingEntries = event.getEntries().size();
+            if(numberOfExistingEntries >= event.getMaximumParticipants())
+            	isReserve = true;
+            
             EventType eventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
             
             Entry entry = new Entry();
@@ -179,7 +185,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 	                									eventId,
 	                									getSession());
 	        
-	        EntryController.getController().mailVerification(newEntry, this.getLocale(), getSession());
+	        EntryController.getController().mailVerification(newEntry, this.getLocale(), isReserve, getSession());
         
 	        EntryController.getController().notifyEventOwner(newEntry, this.getLocale(), this.getInfoGluePrincipal(), getSession());
 
@@ -372,6 +378,10 @@ public class CreateEntryAction extends CalendarAbstractAction
         event = EventController.getController().getEvent(eventId, getSession());
         entry = EntryController.getController().getEntry(entryId, this.getSession());
         
+        int numberOfExistingEntries = event.getEntries().size();
+        if(numberOfExistingEntries > event.getMaximumParticipants())
+        	isReserve = true;
+
         return "receipt";
     } 
 
@@ -384,6 +394,10 @@ public class CreateEntryAction extends CalendarAbstractAction
         event = EventController.getController().getEvent(eventId, getSession());
         entry = EntryController.getController().getEntry(entryId, this.getSession());
 
+        int numberOfExistingEntries = event.getEntries().size();
+        if(numberOfExistingEntries > event.getMaximumParticipants())
+        	isReserve = true;
+
         return "receiptPublic";
     } 
 
@@ -395,23 +409,23 @@ public class CreateEntryAction extends CalendarAbstractAction
         if(this.entryId == null && requestEntryId != null && !requestEntryId.equalsIgnoreCase(""))
             entryId = new Long(requestEntryId);
 
-        log.info("entryId:" + entryId);
-
         event = EventController.getController().getEvent(eventId, getSession());
         entry = EntryController.getController().getEntry(entryId, this.getSession());
 
-        log.info("Receipt public GU end");
+        int numberOfExistingEntries = event.getEntries().size();
+        if(numberOfExistingEntries > event.getMaximumParticipants())
+        	isReserve = true;
 
         return "receiptPublicGU";
     } 
     
     public String receiptPublicCustom() throws Exception 
     {
-    	log.info("Receipt public Custom start");
-        
     	receiptPublicGU();
 
-        log.info("Receipt public Custom end");
+        int numberOfExistingEntries = event.getEntries().size();
+        if(numberOfExistingEntries > event.getMaximumParticipants())
+        	isReserve = true;
 
         return "receiptPublicCustom";
     } 
@@ -548,5 +562,10 @@ public class CreateEntryAction extends CalendarAbstractAction
 	public List getAttributes()
 	{
 		return attributes;
+	}
+
+	public boolean getIsReserve()
+	{
+		return isReserve;
 	}
 }

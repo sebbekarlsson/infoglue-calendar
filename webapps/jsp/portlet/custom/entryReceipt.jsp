@@ -20,19 +20,23 @@
 	</ww:else>
 	
 	<!-- Anm&auml;lan - kvitto -->	
-			  
-	<H1>Kvitto - Anm&auml;lan till "<ww:property value="#eventVersion.name"/>"</H1>
+	<ww:if test="isReserve">
+		<H1><ww:property value="this.getLabel('labels.public.entryReceiptReserve.headline')"/> "<ww:property value="#eventVersion.name"/>"</H1>
+	</ww:if>
+	<ww:else>
+		<H1><ww:property value="this.getLabel('labels.public.entryReceipt.headline')"/> "<ww:property value="#eventVersion.name"/>"</H1>
+	</ww:else>
 	
 	<div class="contaktform_receipt">
-		<h3>Boknings ID:</h3>
+		<h3><ww:property value="this.getLabel('labels.public.entryReceipt.bookingIdLabel')"/>:</h3>
 		<p><ww:property value="entry.id"/></p>
-		<h3>Namn:</h3>
+		<h3><ww:property value="this.getLabel('labels.public.entryReceipt.nameLabel')"/>:</h3>
 		<p><ww:property value="entry.firstName"/> <ww:property value="entry.lastName"/></p>
-		<h3>E-post:</h3>
+		<h3><ww:property value="this.getLabel('labels.public.entryReceipt.emailLabel')"/>:</h3>
 		<p><ww:property value="entry.email"/></p>
-		<p>En bekr&auml;ftelse på anm&auml;lan &auml;r skickad till <ww:property value="entry.email"/></p>
-		<p>Välkommen!</p>
-		<p><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="eventId"/>" title="L&auml;nk till info om evenemanget">&laquo; Tillbaka till evenemangets informationssida</a></p>	
+		<p><ww:property value="this.getLabel('labels.public.entryReceipt.verificationText')"/> <ww:property value="entry.email"/></p>
+		<p><ww:property value="this.getLabel('labels.public.entryReceipt.welcomeText')"/></p>
+		<p><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="eventId"/>" title="<ww:property value="this.getLabel('labels.public.entryReceipt.backToEntryText')"/>">&laquo; <ww:property value="this.getLabel('labels.public.entryReceipt.backToEntryText')"/></a></p>	
 	</div>
 </ww:else>
 
