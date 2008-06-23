@@ -82,7 +82,7 @@ public class UpdateEventAction extends CalendarUploadAbstractAction
     private String lastRegistrationTime;
 
     private Boolean isInternal = new Boolean(false);
-    private Boolean isOrganizedByGU;
+    private Boolean isOrganizedByGU = new Boolean(false);
     private String organizerName;
     private String lecturer;
     private String customLocation;

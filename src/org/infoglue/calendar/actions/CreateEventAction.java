@@ -75,7 +75,7 @@ public class CreateEventAction extends CalendarAbstractAction
     private String lastRegistrationTime;
 
     private Boolean isInternal = new Boolean(false);
-    private Boolean isOrganizedByGU = new Boolean(true);
+    private Boolean isOrganizedByGU = new Boolean(false);
     private String organizerName;
     private String lecturer;
     private String customLocation;
