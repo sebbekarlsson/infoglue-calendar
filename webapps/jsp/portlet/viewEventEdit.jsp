@@ -91,11 +91,11 @@
 		<input type="hidden" name="mode" value="<ww:property value="mode"/>"/>
 		<input type="hidden" name="publishEventUrl" value="http://<%=hostName%><c:out value="${publishEventUrl}"/>"/>
 					
-		<ww:if test="alternativeEventVersion == null">
-			<calendar:textField label="labels.internal.event.name" name="'name'" value="eventVersion.name" cssClass="longtextfield"/>
+		<ww:if test="eventVersion == null && alternativeEventVersion != null">
+			<calendar:textField label="labels.internal.event.name" name="'name'" value="alternativeEventVersion.name" cssClass="longtextfield"/>
 		</ww:if>
 		<ww:else>
-			<calendar:textField label="labels.internal.event.name" name="'name'" value="alternativeEventVersion.name" cssClass="longtextfield"/>
+			<calendar:textField label="labels.internal.event.name" name="'name'" value="eventVersion.name" cssClass="longtextfield"/>
 		</ww:else>
 
 		<calendar:textField label="labels.internal.event.title" name="'title'" value="eventVersion.title" cssClass="longtextfield"/>
@@ -125,20 +125,20 @@
 		<calendar:textAreaField label="labels.internal.event.longDescription" name="'longDescription'" value="eventVersion.longDescription" cssClass="largetextarea" required="false"/>
 		
 		<ww:if test="this.isActiveEventField('lecturer')">
-			<ww:if test="alternativeEventVersion == null">
-				<calendar:textAreaField label="labels.internal.event.lecturer" name="'lecturer'" value="eventVersion.lecturer" cssClass="smalltextarea"/>
+			<ww:if test="eventVersion == null && alternativeEventVersion != null">
+				<calendar:textAreaField label="labels.internal.event.lecturer" name="'lecturer'" value="alternativeEventVersion.lecturer" cssClass="smalltextarea"/>
 			</ww:if>
 			<ww:else>
-				<calendar:textAreaField label="labels.internal.event.lecturer" name="'lecturer'" value="alternativeEventVersion.lecturer" cssClass="smalltextarea"/>
+				<calendar:textAreaField label="labels.internal.event.lecturer" name="'lecturer'" value="eventVersion.lecturer" cssClass="smalltextarea"/>
 			</ww:else>
 		</ww:if>
 
 		<ww:if test="this.isActiveEventField('organizerName')">
-			<ww:if test="alternativeEventVersion == null">
-				<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="eventVersion.organizerName" cssClass="longtextfield" required="false"/>
+			<ww:if test="eventVersion == null && alternativeEventVersion != null">
+				<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="alternativeEventVersion.organizerName" cssClass="longtextfield" required="false"/>
 			</ww:if>
 			<ww:else>
-				<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="alternativeEventVersion.organizerName" cssClass="longtextfield" required="false"/>
+				<calendar:textField label="labels.internal.event.organizerName" name="'organizerName'" value="eventVersion.organizerName" cssClass="longtextfield" required="false"/>
 			</ww:else>
 		</ww:if>
 
@@ -151,11 +151,11 @@
 		</ww:if>
 	
 		<ww:if test="this.isActiveEventField('eventUrl')">
-			<ww:if test="alternativeEventVersion == null">
-				<calendar:textField label="labels.internal.event.eventUrl" name="'eventUrl'" value="eventVersion.eventUrl" cssClass="longtextfield"/>
+			<ww:if test="eventVersion == null && alternativeEventVersion != null">
+				<calendar:textField label="labels.internal.event.eventUrl" name="'eventUrl'" value="alternativeEventVersion.eventUrl" cssClass="longtextfield"/>
 			</ww:if>
 			<ww:else>
-				<calendar:textField label="labels.internal.event.eventUrl" name="'eventUrl'" value="alternativeEventVersion.eventUrl" cssClass="longtextfield"/>
+				<calendar:textField label="labels.internal.event.eventUrl" name="'eventUrl'" value="eventVersion.eventUrl" cssClass="longtextfield"/>
 			</ww:else>
 		</ww:if>
 		
@@ -164,20 +164,20 @@
 		</ww:if>
 
 		<ww:if test="this.isActiveEventField('alternativeLocation')">
-			<ww:if test="alternativeEventVersion == null">
-				<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="eventVersion.alternativeLocation" cssClass="longtextfield"/>
+			<ww:if test="eventVersion == null && alternativeEventVersion != null">
+				<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="alternativeEventVersion.alternativeLocation" cssClass="longtextfield"/>
 			</ww:if>
 			<ww:else>
-				<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="alternativeEventVersion.alternativeLocation" cssClass="longtextfield"/>
+				<calendar:textField label="labels.internal.event.alternativeLocation" name="'alternativeLocation'" value="eventVersion.alternativeLocation" cssClass="longtextfield"/>
 			</ww:else>
 		</ww:if>
 		
 		<ww:if test="this.isActiveEventField('customLocation')">
-			<ww:if test="alternativeEventVersion == null">
-				<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="eventVersion.customLocation" cssClass="longtextfield"/>
+			<ww:if test="eventVersion == null && alternativeEventVersion != null">
+				<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="alternativeEventVersion.customLocation" cssClass="longtextfield"/>
 			</ww:if>
 			<ww:else>
-				<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="alternativeEventVersion.customLocation" cssClass="longtextfield"/>
+				<calendar:textField label="labels.internal.event.customLocation" name="'customLocation'" value="eventVersion.customLocation" cssClass="longtextfield"/>
 			</ww:else>
 		</ww:if>
 	
