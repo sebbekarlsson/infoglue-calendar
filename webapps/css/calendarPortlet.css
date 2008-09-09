@@ -277,7 +277,7 @@ form .PortletText1 {
 	margin-bottom:3em;
 	padding:0.75em 0 0 0;
 	border-top:1px solid #ffffff;
-	background-image: url("/infoglueDeliverWorking/digitalAssets/104417_menucloser_corner.gif");
+	background-image: url("../images/menucloser_corner.gif");
 	background-repeat: no-repeat;
 	background-position: right bottom;
 	background-color: #9BBDDE;
@@ -777,17 +777,17 @@ font.PortletHeading2,
 .portlet .filterarea {		color:#22486E; }
 
 
-.collapse {					background-image: url("/infoglueDeliverWorking/digitalAssets/104410_collapse.gif"); }
+.collapse {					background-image: url("../images/collapse.gif"); }
 
-.expand { 					background-image: url("/infoglueDeliverWorking/digitalAssets/104411_expand.gif"); }
+.expand { 					background-image: url("../images/expand.gif"); }
 
-.transparent {				background-image: url("/infoglueDeliverWorking/digitalAssets/975379_transparent.gif"); }
+.transparent {				background-image: url("../images/transparent.gif"); }
 
-.delete { 					background-image: url("/infoglueDeliverWorking/digitalAssets/104412_trash.gif"); }
+.delete { 					background-image: url("../images/trash.gif"); }
 
-.edit { 					background-image: url("/infoglueDeliverWorking/digitalAssets/104408_edit.gif"); }
+.edit { 					background-image: url("../images/edit.gif"); }
 
-.LeftCurve {				background-image: url("/infoglueDeliverWorking/digitalAssets/975383_related_corner.gif"); }
+.LeftCurve {				background-image: url("../images/related_corner.gif"); }
 
 
 .portlet {					border:#DFEAF6;
