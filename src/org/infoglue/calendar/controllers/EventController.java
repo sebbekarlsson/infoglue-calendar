@@ -28,6 +28,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Calendar;
@@ -75,7 +76,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.NotExpression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -425,6 +428,20 @@ public class EventController extends BasicController
 		Set eventVersions = new HashSet();
 		EventVersion eventVersion = new EventVersion();
 
+		/*
+        System.out.println("name:" + name + ":" + name.length());
+        name = StringEscapeUtils.escapeHtml(name);
+        System.out.println("escaped name:" + name + ":" + name.length());
+
+        System.out.println("title:" + title + ":" + title.length());
+        title = StringEscapeUtils.escapeHtml(title);
+        System.out.println("escaped title:" + title + ":" + title.length());
+
+        System.out.println("longDescription:" + longDescription + ":" + longDescription.length());
+        longDescription = StringEscapeUtils.escapeHtml(longDescription);
+        System.out.println("escaped longDescription:" + longDescription + ":" + longDescription.length());
+		*/
+		
 		eventVersion.setName(name);
 		eventVersion.setTitle(title);
 		eventVersion.setDescription(description);
@@ -1406,7 +1423,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public Set getEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, String includedLanguages, Session session) throws Exception 
+    public Set getEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, String includedLanguages, java.util.Calendar startCalendar, java.util.Calendar endCalendar, String freeText, Session session) throws Exception 
     {
         List result = null;
         
@@ -1444,19 +1461,18 @@ public class EventController extends BasicController
         for(int i=0; i<calendarIds.length; i++)
             calendarIdArray[i] = new Long(calendarIds[i]);
 
-        /*
-        Object[] categoryNameArray = new Object[categoryNames.length];
-        for(int i=0; i<categoryNames.length; i++)
-            categoryNameArray[i] = new Long(categoryNames[i]);
-            */
         Set set = new LinkedHashSet();
 
         if(calendarIdArray.length > 0)
         {
 	        Criteria criteria = session.createCriteria(Event.class);
 	        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
-	        //criteria.add(Expression.gt("startDateTime", java.util.Calendar.getInstance()));
-	        criteria.add(Expression.gt("endDateTime", java.util.Calendar.getInstance()));
+
+	        if(startCalendar != null && endCalendar != null)
+	        	criteria.add(Expression.or(Expression.and(Expression.ge("startDateTime", startCalendar), Expression.le("startDateTime", endCalendar)), Expression.and(Expression.ge("endDateTime", endCalendar),Expression.le("endDateTime", endCalendar))));
+	        else
+	        	criteria.add(Expression.gt("endDateTime", java.util.Calendar.getInstance()));
+	        	
 	        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
 	        criteria.addOrder(Order.asc("startDateTime"));
 	        criteria.createCriteria("calendars")
@@ -1489,6 +1505,40 @@ public class EventController extends BasicController
 
 	            eventCategoriesCriteria.createCriteria("category")
 	            .add(Expression.in("internalName", categoryNames));
+	        }
+
+	        if(freeText != null && !freeText.equals(""))
+	        {
+	        	Criterion nameRestriction = Restrictions.like("name", "%" + freeText + "%");
+	        	Criterion organizerNameRestriction = Restrictions.like("organizerName", "%" + freeText + "%");
+	        	
+	        	criteria.createAlias("versions", "v");
+
+	        	Junction d1 = Restrictions.disjunction()
+	            .add(Restrictions.like("v.name", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.description", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.lecturer", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.longDescription", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.shortDescription", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.organizerName", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.customLocation", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.eventUrl", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.alternativeLocation", "%" + freeText + "%"))
+	            .add(Restrictions.like("name", "%" + freeText + "%"))
+	            .add(Restrictions.like("description", "%" + freeText + "%"))
+	            .add(Restrictions.like("contactName", "%" + freeText + "%"))
+	            .add(Restrictions.like("lecturer", "%" + freeText + "%"))
+	            .add(Restrictions.like("longDescription", "%" + freeText + "%"))
+	            .add(Restrictions.like("contactEmail", "%" + freeText + "%"))
+	            .add(Restrictions.like("shortDescription", "%" + freeText + "%"))
+	            .add(Restrictions.like("organizerName", "%" + freeText + "%"))
+	            .add(Restrictions.like("contactPhone", "%" + freeText + "%"))
+	            .add(Restrictions.like("price", "%" + freeText + "%"))
+	            .add(Restrictions.like("customLocation", "%" + freeText + "%"))
+	            .add(Restrictions.like("eventUrl", "%" + freeText + "%"))
+	            .add(Restrictions.like("alternativeLocation", "%" + freeText + "%"));
+	            
+	        	criteria.add(d1);
 	        }
 	        
 	        result = criteria.list();

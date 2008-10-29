@@ -25,6 +25,7 @@ package org.infoglue.calendar.controllers;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Calendar;

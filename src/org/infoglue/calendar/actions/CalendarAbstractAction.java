@@ -258,6 +258,36 @@ public class CalendarAbstractAction extends ActionSupport
         return (List)ServletActionContext.getRequest().getAttribute("infoglueRemoteUserGroups");
     }
 
+    public String getStartDateTime()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("startDateTime");
+    }
+
+    public String getEndDateTime()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("endDateTime");
+    }
+
+    public String getCalendarMonth()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("calendarMonth");
+    }
+
+    public String getFreeText()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("freeText");
+    }
+
+    public String getCategoryAttribute()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("categoryAttribute");
+    }
+
+    public String getCategoryNames()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("categoryNames");
+    }
+
     public InfoGluePrincipalBean getInfoGluePrincipal() throws Exception
     {
     	try

@@ -30,8 +30,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.portlet.PortletURL;
@@ -84,6 +86,17 @@ public class ViewEventListAction extends CalendarAbstractAction
     private List aggregatedEntries 		= null;
     private String message				= "";
     
+    //This is for the new filtering list
+    private String startDateTime 		= null;
+    private String endDateTime 			= null;
+    private java.util.Calendar startCalendar;
+    private java.util.Calendar endCalendar;
+    private String freeText 			= null;
+    private String calendarMonth		= null;
+    private java.util.Calendar calendarMonthCalendar;
+    private String forwardMonthUrl		= null;
+    private String backwardMonthUrl		= null;
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -95,7 +108,7 @@ public class ViewEventListAction extends CalendarAbstractAction
         
         Session session = getSession(true);
     	        
-        this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, session);
+        this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, session);
         
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
@@ -178,6 +191,92 @@ public class ViewEventListAction extends CalendarAbstractAction
         return Action.SUCCESS + "SlotGU";
     }
 
+    public String listFilteredGU() throws Exception
+    {
+    	System.out.println("freeText:" + freeText);
+    	System.out.println("startDateTime:" + startDateTime);
+        System.out.println("endDateTime:" + endDateTime);
+        System.out.println("categoryAttribute:" + categoryAttribute);
+        System.out.println("categoryNames:" + categoryNames);
+        System.out.println("calendarMonth:" + calendarMonth);
+        
+    	if(startDateTime == null)
+    		startDateTime = getStartDateTime();
+    	
+    	if(endDateTime == null)
+    		endDateTime = getEndDateTime();
+
+    	if(freeText == null)
+    		freeText = getFreeText();
+
+    	if(categoryAttribute == null)
+    		categoryAttribute = getCategoryAttribute();
+
+    	if(categoryNames == null)
+    		categoryNames = getCategoryNames();
+
+    	if(calendarMonth == null)
+    		calendarMonth = getCalendarMonth();
+
+    	System.out.println("freeText:" + freeText);
+    	System.out.println("startDateTime:" + startDateTime);
+        System.out.println("endDateTime:" + endDateTime);
+        System.out.println("categoryAttribute:" + categoryAttribute);
+        System.out.println("categoryNames:" + categoryNames);
+        System.out.println("calendarMonth:" + calendarMonth);
+
+    	if(startDateTime != null && startDateTime.length() > 0)
+            startCalendar = getCalendar(startDateTime, "yyyy-MM-dd", true); 
+        else
+        {
+            startCalendar = java.util.Calendar.getInstance();
+            startCalendar.set(java.util.Calendar.DAY_OF_MONTH, 1); 
+        }
+        
+        if(endDateTime != null && endDateTime.length() > 0)
+        	endCalendar = getCalendar(endDateTime, "yyyy-MM-dd", true); 
+        else
+        {
+        	endCalendar = java.util.Calendar.getInstance();
+            int lastDate = endCalendar.getActualMaximum(java.util.Calendar.DATE);
+            endCalendar.set(java.util.Calendar.DAY_OF_MONTH, lastDate); 
+        }
+
+        if(calendarMonth != null && calendarMonth.length() > 0)
+        	calendarMonthCalendar = getCalendar(calendarMonth, "yyyy-MM", true); 
+        else
+        {
+        	calendarMonthCalendar = java.util.Calendar.getInstance();
+        	calendarMonthCalendar.set(java.util.Calendar.DAY_OF_MONTH, 1); 
+        }
+
+        
+        startCalendar.set(java.util.Calendar.HOUR_OF_DAY, 1);
+        endCalendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
+        System.out.println("startCalendar:" + startCalendar.getTime());
+        System.out.println("endCalendar:" + endCalendar.getTime());
+        
+        String[] calendarIds = calendarId.split(",");
+        String[] categoryNamesArray = categoryNames.split(",");
+        
+        Session session = getSession(true);
+    	        
+        this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, startCalendar, endCalendar, freeText, session);
+        
+        log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
+        RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
+        
+        return Action.SUCCESS + "FilteredGU";
+    }
+
+    public String listFilteredGraphicalCalendarGU() throws Exception
+    {
+    	listFilteredGU();
+
+        return Action.SUCCESS + "FilteredGraphicalCalendarGU";
+    }
+
+    
     public String shortListGU() throws Exception
     {
         execute();
@@ -459,6 +558,42 @@ public class ViewEventListAction extends CalendarAbstractAction
     	//Collections.sort(entries, Collections.reverseOrder(new OrderByEventDate(this.getLanguageCode())));
     }
 
+    public Map getDaysEventHash(String eventsString)
+    {
+    	Map daysEvents = new HashMap();
+    	
+    	try
+    	{
+	        Set events = (Set)findOnValueStack(eventsString);
+	
+	    	Iterator eventsIterator = events.iterator();
+	    	while(eventsIterator.hasNext())
+	    	{
+	    		Event event = (Event)eventsIterator.next();
+	    		java.util.Calendar startDateCalendar = event.getStartDateTime();
+	    		java.util.Calendar endDateCalendar = event.getEndDateTime();
+	    		while(startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH) <= endDateCalendar.get(java.util.Calendar.DAY_OF_MONTH))
+	    		{
+	    			int dayOfMonth = startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH);
+	    			List<Event> dayEvents = (List<Event>)daysEvents.get("day_" + dayOfMonth);
+	    			if(dayEvents == null)
+	    			{
+	    				dayEvents = new ArrayList<Event>();
+	    				daysEvents.put("day_" + dayOfMonth, dayEvents);
+	    			}
+	    			
+	    			dayEvents.add(event);
+	    			startDateCalendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+	    		}
+	    	}
+    	}
+    	catch (Exception e) 
+    	{
+    		e.printStackTrace();
+		}
+    	
+    	return daysEvents;
+    }
     
     public List getDates(String entryString)
     {

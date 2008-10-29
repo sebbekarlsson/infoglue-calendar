@@ -495,6 +495,12 @@
 			<result name="successAggregatedCustom" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAsAggregated.jsp</param>
 			</result>
+			<result name="successFilteredGU" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/gu/viewEventFilteredList.jsp</param>
+			</result>
+			<result name="successFilteredGraphicalCalendarGU" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/gu/viewEventFilteredGraphicalCalendar.jsp</param>
+			</result>
 			<result name="successAggregatedCustom" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAggregated.jsp</param>
 			</result>
