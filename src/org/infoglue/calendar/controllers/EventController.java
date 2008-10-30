@@ -427,20 +427,6 @@ public class EventController extends BasicController
 		//Creates the master language version
 		Set eventVersions = new HashSet();
 		EventVersion eventVersion = new EventVersion();
-
-		/*
-        System.out.println("name:" + name + ":" + name.length());
-        name = StringEscapeUtils.escapeHtml(name);
-        System.out.println("escaped name:" + name + ":" + name.length());
-
-        System.out.println("title:" + title + ":" + title.length());
-        title = StringEscapeUtils.escapeHtml(title);
-        System.out.println("escaped title:" + title + ":" + title.length());
-
-        System.out.println("longDescription:" + longDescription + ":" + longDescription.length());
-        longDescription = StringEscapeUtils.escapeHtml(longDescription);
-        System.out.println("escaped longDescription:" + longDescription + ":" + longDescription.length());
-		*/
 		
 		eventVersion.setName(name);
 		eventVersion.setTitle(title);
@@ -1497,7 +1483,7 @@ public class EventController extends BasicController
 	            .add(Expression.eq("isoCode", includedLanguages));
 	        }
 
-	        if(categoryNames.length > 0 && !categoryNames[0].equalsIgnoreCase(""))
+	        if(categoryNames != null && categoryNames.length > 0 && !categoryNames[0].equalsIgnoreCase(""))
 	        {
 	            log.info("categoryNames[0]:" + categoryNames[0]);
 	            if(eventCategoriesCriteria == null)

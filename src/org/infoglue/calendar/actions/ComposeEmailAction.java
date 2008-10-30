@@ -183,8 +183,6 @@ public class ComposeEmailAction extends CalendarAbstractAction
 			        }
 	
 					// time to send
-			        //System.out.println("Sending email to " + emailAddresses + " with " + attachments.size() + " attachments.");
-			        //System.out.println("message: " + message);
 					EntryController.getController().mailEntries(emailAddresses, subject, message, attachments, this.getLocale(), this.getSession());
 					return "finished";
 				}

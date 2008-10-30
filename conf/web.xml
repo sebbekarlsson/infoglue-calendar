@@ -54,6 +54,12 @@
         <description>To get internal information over REST</description>
         <servlet-class>org.infoglue.calendar.servlets.CalendarServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EventsRESTServlet</servlet-name>
+        <display-name>Event rest services servlet</display-name>
+        <description>To get internal information over REST</description>
+        <servlet-class>org.infoglue.calendar.servlets.EventsServlet</servlet-class>
+    </servlet>
 
     <!-- ****************************************** -->
 	<!-- This part is for Apache Axis			    -->
@@ -74,6 +80,11 @@
     <servlet-mapping>
         <servlet-name>CalendarRESTServlet</servlet-name>
         <url-pattern>/CalendarRESTServlet/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>EventsRESTServlet</servlet-name>
+        <url-pattern>/EventsRESTServlet/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

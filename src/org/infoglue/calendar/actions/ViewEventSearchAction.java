@@ -106,12 +106,6 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         	endCalendar = getCalendar(endDateTime + " " + endTime, "yyyy-MM-dd HH:mm", true); 
 
         log.info("price:" + price);
-        /*
-        if(startCalendar != null)
-        	System.out.println("startCalendar:" + startCalendar.getTime());
-        if(endCalendar != null)
-            System.out.println("endCalendar:" + endCalendar.getTime());
-        */
         
         this.events = EventController.getController().getEventList(name,
                 													startCalendar,

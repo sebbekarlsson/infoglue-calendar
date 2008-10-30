@@ -16,6 +16,7 @@
 </ww:else>
 
 <H1><ww:property value="this.getLabel('labels.public.calendar.calendarLabel')"/></H1>
+<H3><ww:property value="filterDescription"/></H3>
 <!-- Calendar start -->
 <div class="calendar">   
 
@@ -90,11 +91,9 @@
 		</div>
 		<!-- Record End -->
 	</ww:iterator>
-	
+
 	<ww:if test="events == null || events.size() == 0">
-		<p><ww:property value="this.getLabel('labels.public.event.slots.noMatchesLabel')"/>
-		<!--"<ww:property value="#visibleCategoryName"/>"-->
-		</p>
+		<p><ww:property value="this.getLabel('labels.public.event.noFilteredMatchesLabel')"/></p>
 	</ww:if>
 	
 </div>

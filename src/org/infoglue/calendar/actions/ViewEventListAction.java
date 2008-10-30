@@ -42,6 +42,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
@@ -50,6 +51,7 @@ import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.util.CalendarHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
+import org.infoglue.common.util.VisualFormatter;
 import org.infoglue.common.util.rss.RssHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -96,6 +98,9 @@ public class ViewEventListAction extends CalendarAbstractAction
     private java.util.Calendar calendarMonthCalendar;
     private String forwardMonthUrl		= null;
     private String backwardMonthUrl		= null;
+    private String filterDescription	= null;
+    
+    VisualFormatter vf = new VisualFormatter();
     
     /**
      * This is the entry point for the main listing.
@@ -193,13 +198,6 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public String listFilteredGU() throws Exception
     {
-    	System.out.println("freeText:" + freeText);
-    	System.out.println("startDateTime:" + startDateTime);
-        System.out.println("endDateTime:" + endDateTime);
-        System.out.println("categoryAttribute:" + categoryAttribute);
-        System.out.println("categoryNames:" + categoryNames);
-        System.out.println("calendarMonth:" + calendarMonth);
-        
     	if(startDateTime == null)
     		startDateTime = getStartDateTime();
     	
@@ -218,12 +216,12 @@ public class ViewEventListAction extends CalendarAbstractAction
     	if(calendarMonth == null)
     		calendarMonth = getCalendarMonth();
 
-    	System.out.println("freeText:" + freeText);
-    	System.out.println("startDateTime:" + startDateTime);
-        System.out.println("endDateTime:" + endDateTime);
-        System.out.println("categoryAttribute:" + categoryAttribute);
-        System.out.println("categoryNames:" + categoryNames);
-        System.out.println("calendarMonth:" + calendarMonth);
+    	log.info("freeText:" + freeText);
+    	log.info("startDateTime:" + startDateTime);
+    	log.info("endDateTime:" + endDateTime);
+    	log.info("categoryAttribute:" + categoryAttribute);
+    	log.info("categoryNames:" + categoryNames);
+    	log.info("calendarMonth:" + calendarMonth);
 
     	if(startDateTime != null && startDateTime.length() > 0)
             startCalendar = getCalendar(startDateTime, "yyyy-MM-dd", true); 
@@ -243,18 +241,47 @@ public class ViewEventListAction extends CalendarAbstractAction
         }
 
         if(calendarMonth != null && calendarMonth.length() > 0)
+        {
         	calendarMonthCalendar = getCalendar(calendarMonth, "yyyy-MM", true); 
+        	if(startDateTime == null || startDateTime.length() == 0)
+	    	{
+	    		startCalendar.setTime(calendarMonthCalendar.getTime());
+	    		startCalendar.set(java.util.Calendar.DAY_OF_MONTH, 1);
+	    	}
+	    	if(endDateTime == null || endDateTime.length() == 0)
+	    	{
+	    		endCalendar.setTime(calendarMonthCalendar.getTime());
+	    		int lastDate = endCalendar.getActualMaximum(java.util.Calendar.DATE);
+	            endCalendar.set(java.util.Calendar.DAY_OF_MONTH, lastDate); 
+	    	}
+        }
         else
         {
         	calendarMonthCalendar = java.util.Calendar.getInstance();
         	calendarMonthCalendar.set(java.util.Calendar.DAY_OF_MONTH, 1); 
         }
 
+        if(freeText != null)
+        {
+        	filterDescription = "Matching \"" + freeText + "\"";
+        }
+        else
+        {
+	        if(startCalendar.getTimeInMillis() == endCalendar.getTimeInMillis())
+	        	filterDescription = vf.formatDate(startCalendar.getTime(), getLocale(), "d MMMM");
+	        else
+	        	filterDescription = vf.formatDate(startCalendar.getTime(), getLocale(), "d MMMM") + " - " + vf.formatDate(endCalendar.getTime(), getLocale(), "d MMMM");
+        }   
+        
+        if(categoryNames != null && categoryNames.length() > 0)
+        {
+        	filterDescription = filterDescription + " (" + categoryNames + ")";
+        }
         
         startCalendar.set(java.util.Calendar.HOUR_OF_DAY, 1);
         endCalendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
-        System.out.println("startCalendar:" + startCalendar.getTime());
-        System.out.println("endCalendar:" + endCalendar.getTime());
+        log.info("startCalendar:" + startCalendar.getTime());
+        log.info("endCalendar:" + endCalendar.getTime());
         
         String[] calendarIds = calendarId.split(",");
         String[] categoryNamesArray = categoryNames.split(",");
@@ -570,6 +597,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 	    	while(eventsIterator.hasNext())
 	    	{
 	    		Event event = (Event)eventsIterator.next();
+	    		
 	    		java.util.Calendar startDateCalendar = event.getStartDateTime();
 	    		java.util.Calendar endDateCalendar = event.getEndDateTime();
 	    		while(startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH) <= endDateCalendar.get(java.util.Calendar.DAY_OF_MONTH))
@@ -640,6 +668,11 @@ public class ViewEventListAction extends CalendarAbstractAction
     public String getMessage()
     {
     	return this.message;
+    }
+    
+    public String getFilterDescription()
+    {
+    	return this.filterDescription;
     }
     
     /*
