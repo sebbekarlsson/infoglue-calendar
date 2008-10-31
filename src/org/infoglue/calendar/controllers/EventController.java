@@ -1455,10 +1455,21 @@ public class EventController extends BasicController
 	        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
 
 	        if(startCalendar != null && endCalendar != null)
-	        	criteria.add(Expression.or(Expression.and(Expression.ge("startDateTime", startCalendar), Expression.le("startDateTime", endCalendar)), Expression.and(Expression.ge("endDateTime", endCalendar),Expression.le("endDateTime", endCalendar))));
+	        {
+		        if(startCalendar.get(java.util.Calendar.YEAR) == endCalendar.get(java.util.Calendar.YEAR) && startCalendar.get(java.util.Calendar.DAY_OF_YEAR) == endCalendar.get(java.util.Calendar.DAY_OF_YEAR))
+		        {
+		        	startCalendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
+		        	endCalendar.set(java.util.Calendar.HOUR_OF_DAY, 1);
+		        	criteria.add(Expression.and(Expression.le("startDateTime", startCalendar), Expression.ge("endDateTime", endCalendar)));
+		        }
+		        else
+		        	criteria.add(Expression.or(Expression.and(Expression.ge("startDateTime", startCalendar), Expression.le("startDateTime", endCalendar)), Expression.and(Expression.ge("endDateTime", endCalendar),Expression.le("endDateTime", endCalendar))));
+	        }
 	        else
+	        {
 	        	criteria.add(Expression.gt("endDateTime", java.util.Calendar.getInstance()));
-	        	
+	        }
+	        
 	        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
 	        criteria.addOrder(Order.asc("startDateTime"));
 	        criteria.createCriteria("calendars")

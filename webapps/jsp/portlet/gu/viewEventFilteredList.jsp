@@ -15,6 +15,11 @@
 	<ww:set name="timeFormat" value="'HH:mm'"/>
 </ww:else>
 
+<%
+	java.util.Calendar now = java.util.Calendar.getInstance();
+	pageContext.setAttribute("now", now);
+%>
+
 <H1><ww:property value="this.getLabel('labels.public.calendar.calendarLabel')"/></H1>
 <H3><ww:property value="filterDescription"/></H3>
 <!-- Calendar start -->
@@ -33,6 +38,7 @@
 		<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
 		<ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
 		<ww:set name="eventId" value="id" scope="page"/>
+		
 		<portlet:renderURL var="eventDetailUrl">
 			<portlet:param name="action" value="ViewEvent!publicGU"/>
 			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
@@ -59,7 +65,13 @@
 					</ww:if>
 		   		</ww:iterator>
 			</span>
-			<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>" title="<ww:property value="#eventVersion.title"/>"><ww:property value="#eventVersion.name"/></a></h3>
+
+			<ww:if test="top.startDateTime.after(now)">
+				<h3><a href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>" title="<ww:property value="#eventVersion.title"/>"><ww:property value="#eventVersion.name"/></a></h3>
+			</ww:if>
+			<ww:else>
+				<h3><a class="expired" style="color: silver;" href="<ww:property value="#attr.detailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.id"/>" title="<ww:property value="#eventVersion.title"/>"><ww:property value="#eventVersion.name"/></a></h3>
+			</ww:else>
 	
 			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.timeLabel')"/></span> <ww:property value="this.formatDate(top.startDateTime.getTime(), #dateFormat)"/> 
 			<ww:if test="this.formatDate(top.startDateTime.time, 'HH:mm') != '12:34'">
@@ -80,13 +92,17 @@
 			</ww:if>
 			
 			<br /></p>
-	        <ww:set name="puffImage" value="this.getResourceUrl(event, 'PuffBild')"/>
-			<ww:if test="#puffImage != null">
-			<img src="<ww:property value="#puffImage"/>" class="img_calendar_event"/>
-			</ww:if>
-			<p><ww:property value="#eventVersion.shortDescription"/></p>
-			<ww:if test="#eventVersion.lecturer != null && #eventVersion.lecturer != ''">
-			<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lecturerLabel')"/>:</span> <ww:property value="#eventVersion.lecturer"/></p>
+
+			<ww:if test="top.startDateTime.after(now)">
+
+		        <ww:set name="puffImage" value="this.getResourceUrl(event, 'PuffBild')"/>
+				<ww:if test="#puffImage != null">
+				<img src="<ww:property value="#puffImage"/>" class="img_calendar_event"/>
+				</ww:if>
+				<p><ww:property value="#eventVersion.shortDescription"/></p>
+				<ww:if test="#eventVersion.lecturer != null && #eventVersion.lecturer != ''">
+				<p><span class="calFactLabel"><ww:property value="this.getLabel('labels.public.event.lecturerLabel')"/>:</span> <ww:property value="#eventVersion.lecturer"/></p>
+				</ww:if>
 			</ww:if>
 		</div>
 		<!-- Record End -->

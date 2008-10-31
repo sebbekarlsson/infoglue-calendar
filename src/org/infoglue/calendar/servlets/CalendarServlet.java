@@ -34,8 +34,6 @@ public class CalendarServlet extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		StringBuffer sb = new StringBuffer();
-		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		sb.append("<properties>");
 
         try
         {
@@ -44,7 +42,9 @@ public class CalendarServlet extends HttpServlet
         	try 
         	{
         		tx = session.beginTransaction();
-
+        		
+        		StringBuffer allCalendarsProperty = new StringBuffer("");
+        		
         		Set<Calendar> calendarSet = CalendarController.getController().getCalendarList(session);
         	    Iterator calendarSetIterator = calendarSet.iterator();
         		while(calendarSetIterator.hasNext())
@@ -56,8 +56,14 @@ public class CalendarServlet extends HttpServlet
         			calendarBean.setName(calendar.getName());
         			calendarBean.setDescription(calendar.getDescription());
         			sb.append("    <property name=\"" + StringEscapeUtils.unescapeHtml(calendar.getName()) + "\" value=\"" + calendar.getId() + "\"/>");
+        			if(allCalendarsProperty.length() > 0)
+        				allCalendarsProperty.append(",");
+        			allCalendarsProperty.append(calendar.getId());
         		}
         		
+        		sb.insert(0, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><properties><property name=\"All\" value=\"" + allCalendarsProperty + "\"/>");
+                sb.append("</properties>");
+    			
         		tx.commit();
         	}
         	catch (Exception e) 
@@ -74,8 +80,6 @@ public class CalendarServlet extends HttpServlet
         {
         	logger.error("En error occurred when we tried to create a new contentVersion:" + e.getMessage(), e);
         }
-
-        sb.append("</properties>");
 
 		response.setContentType("text/xml");
 		
