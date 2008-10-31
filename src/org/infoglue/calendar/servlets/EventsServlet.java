@@ -12,16 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.EventController;
-import org.infoglue.calendar.databeans.CalendarBean;
-import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
-import org.infoglue.calendar.webservices.RemoteCalendarServiceImpl;
 import org.infoglue.common.util.HibernateUtil;
 import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.VisualFormatter;

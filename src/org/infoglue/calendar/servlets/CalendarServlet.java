@@ -15,9 +15,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.infoglue.calendar.controllers.CalendarController;
-import org.infoglue.calendar.databeans.CalendarBean;
 import org.infoglue.calendar.entities.Calendar;
-import org.infoglue.calendar.webservices.RemoteCalendarServiceImpl;
 import org.infoglue.common.util.HibernateUtil;
 
 /**
@@ -51,10 +49,6 @@ public class CalendarServlet extends HttpServlet
         		{
         			Calendar calendar = (Calendar)calendarSetIterator.next();
         			
-        			CalendarBean calendarBean = new CalendarBean();
-        			calendarBean.setId(calendar.getId());
-        			calendarBean.setName(calendar.getName());
-        			calendarBean.setDescription(calendar.getDescription());
         			sb.append("    <property name=\"" + StringEscapeUtils.unescapeHtml(calendar.getName()) + "\" value=\"" + calendar.getId() + "\"/>");
         			if(allCalendarsProperty.length() > 0)
         				allCalendarsProperty.append(",");
