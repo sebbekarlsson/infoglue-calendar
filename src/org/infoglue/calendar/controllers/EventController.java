@@ -1454,6 +1454,8 @@ public class EventController extends BasicController
 	        Criteria criteria = session.createCriteria(Event.class);
 	        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
 
+	        Criteria versionsCriteria = criteria.createAlias("versions", "v");
+
 	        if(startCalendar != null && endCalendar != null)
 	        {
 		        if(startCalendar.get(java.util.Calendar.YEAR) == endCalendar.get(java.util.Calendar.YEAR) && startCalendar.get(java.util.Calendar.DAY_OF_YEAR) == endCalendar.get(java.util.Calendar.DAY_OF_YEAR))
@@ -1489,9 +1491,8 @@ public class EventController extends BasicController
 	        log.info("includedLanguages:" + includedLanguages);
 	        if(includedLanguages != null && !includedLanguages.equalsIgnoreCase("") && !includedLanguages.equalsIgnoreCase("*"))
 	        {
-	        	languageVersionCriteria = criteria.createCriteria("versions");
-	        	languageVersionCriteria.createCriteria("language")
-	            .add(Expression.eq("isoCode", includedLanguages));
+	        	//languageVersionCriteria = criteria.createCriteria("versions");
+	        	versionsCriteria.createCriteria("v.language").add(Expression.eq("isoCode", includedLanguages));
 	        }
 
 	        if(categoryNames != null && categoryNames.length > 0 && !categoryNames[0].equalsIgnoreCase(""))
@@ -1509,8 +1510,6 @@ public class EventController extends BasicController
 	        	Criterion nameRestriction = Restrictions.like("name", "%" + freeText + "%");
 	        	Criterion organizerNameRestriction = Restrictions.like("organizerName", "%" + freeText + "%");
 	        	
-	        	criteria.createAlias("versions", "v");
-
 	        	Junction d1 = Restrictions.disjunction()
 	            .add(Restrictions.like("v.name", "%" + freeText + "%"))
 	            .add(Restrictions.like("v.description", "%" + freeText + "%"))
