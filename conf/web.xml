@@ -55,6 +55,12 @@
         <servlet-class>org.infoglue.calendar.servlets.CalendarServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>CategoryRESTServlet</servlet-name>
+        <display-name>Category rest services servlet</display-name>
+        <description>To get internal information over REST</description>
+        <servlet-class>org.infoglue.calendar.servlets.CategoryServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>EventsRESTServlet</servlet-name>
         <display-name>Event rest services servlet</display-name>
         <description>To get internal information over REST</description>
@@ -80,6 +86,11 @@
     <servlet-mapping>
         <servlet-name>CalendarRESTServlet</servlet-name>
         <url-pattern>/CalendarRESTServlet/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CategoryRESTServlet</servlet-name>
+        <url-pattern>/CategoryRESTServlet/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
