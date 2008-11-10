@@ -44,7 +44,6 @@
 		
 	  	VisualFormatter vf = new VisualFormatter();
 	  	Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
-	  	System.out.println("daysEventHash:" + daysEventHash);
 	%>
 	<table border=1>
 		<tr><th colspan=7><%= months[mm] %>  <%= yy %></tr>
