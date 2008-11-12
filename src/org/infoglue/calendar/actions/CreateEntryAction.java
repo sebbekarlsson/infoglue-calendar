@@ -158,7 +158,7 @@ public class CreateEntryAction extends CalendarAbstractAction
         	
             Event event = EventController.getController().getEvent(eventId, getSession());
             int numberOfExistingEntries = event.getEntries().size();
-            if(numberOfExistingEntries >= event.getMaximumParticipants())
+            if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries >= event.getMaximumParticipants())
             	isReserve = true;
             
             EventType eventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
@@ -379,8 +379,9 @@ public class CreateEntryAction extends CalendarAbstractAction
         entry = EntryController.getController().getEntry(entryId, this.getSession());
         
         int numberOfExistingEntries = event.getEntries().size();
-        if(numberOfExistingEntries > event.getMaximumParticipants())
-        	isReserve = true;
+        //if(numberOfExistingEntries > event.getMaximumParticipants())
+       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries >= event.getMaximumParticipants())
+           	isReserve = true;
 
         return "receipt";
     } 
@@ -395,8 +396,9 @@ public class CreateEntryAction extends CalendarAbstractAction
         entry = EntryController.getController().getEntry(entryId, this.getSession());
 
         int numberOfExistingEntries = event.getEntries().size();
-        if(numberOfExistingEntries > event.getMaximumParticipants())
-        	isReserve = true;
+        //if(numberOfExistingEntries > event.getMaximumParticipants())
+       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries >= event.getMaximumParticipants())
+          	isReserve = true;
 
         return "receiptPublic";
     } 
@@ -413,8 +415,9 @@ public class CreateEntryAction extends CalendarAbstractAction
         entry = EntryController.getController().getEntry(entryId, this.getSession());
 
         int numberOfExistingEntries = event.getEntries().size();
-        if(numberOfExistingEntries > event.getMaximumParticipants())
-        	isReserve = true;
+        //if(numberOfExistingEntries > event.getMaximumParticipants())
+       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries >= event.getMaximumParticipants())
+           	isReserve = true;
 
         return "receiptPublicGU";
     } 
@@ -424,8 +427,9 @@ public class CreateEntryAction extends CalendarAbstractAction
     	receiptPublicGU();
 
         int numberOfExistingEntries = event.getEntries().size();
-        if(numberOfExistingEntries > event.getMaximumParticipants())
-        	isReserve = true;
+        //if(numberOfExistingEntries > event.getMaximumParticipants())
+       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries >= event.getMaximumParticipants())
+           	isReserve = true;
 
         return "receiptPublicCustom";
     } 
