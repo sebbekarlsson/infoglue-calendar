@@ -273,9 +273,9 @@ public class ViewEventListAction extends CalendarAbstractAction
 	        	filterDescription = vf.formatDate(startCalendar.getTime(), getLocale(), "d MMMM") + " - " + vf.formatDate(endCalendar.getTime(), getLocale(), "d MMMM");
         }   
         
-        if(categoryNames != null && categoryNames.length() > 0)
+        if(categoryNames != null && categoryNames.length() > 0 && categoryNames.indexOf(",") == -1)
         {
-        	filterDescription = filterDescription + " (" + categoryNames + ")";
+        	filterDescription = filterDescription + " (" + (categoryNames.length() > 40 ? categoryNames.substring(0, 40) + "..." : categoryNames) + ")";
         }
         
         startCalendar.set(java.util.Calendar.HOUR_OF_DAY, 1);

@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
+import org.infoglue.calendar.controllers.AccessRightController;
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
@@ -38,6 +39,7 @@ import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
+import org.infoglue.common.security.beans.InfoGluePrincipalBean;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
 import org.infoglue.common.util.dom.DOMBuilder;
 
@@ -186,8 +188,30 @@ public class CreateEntryAction extends CalendarAbstractAction
 	                									getSession());
 	        
 	        EntryController.getController().mailVerification(newEntry, this.getLocale(), isReserve, getSession());
-        
-	        EntryController.getController().notifyEventOwner(newEntry, this.getLocale(), this.getInfoGluePrincipal(), getSession());
+	        
+	        InfoGluePrincipalBean principalBean = null;
+	        try
+	        {
+	        	principalBean = this.getInfoGluePrincipal();
+	        }
+	        catch(Exception e)
+	        {
+	        	System.out.println("Problem getting current principal - falling back:" + e.getMessage());
+		        try
+		        {
+		        	principalBean = new InfoGluePrincipalBean();
+		        	principalBean.setDisplayName("Anonymous");
+		        	principalBean.setEmail(email);
+		        	principalBean.setName("anonymous");
+		        	principalBean.setFirstName("Anomymous");
+		        	principalBean.setLastName("User");
+		        }
+		        catch (Exception e2) 
+		        {
+		        	System.out.println("Problem getting fallback principal - falling back:" + e2.getMessage());
+				}
+	        }
+	        EntryController.getController().notifyEventOwner(newEntry, this.getLocale(), principalBean, getSession());
 
         }
         catch(ValidationException e)
