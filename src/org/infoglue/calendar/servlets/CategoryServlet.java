@@ -45,6 +45,11 @@ public class CategoryServlet extends HttpServlet
         	{
         		tx = session.beginTransaction();
         		
+        		String languageCode = "en";
+        		String languageCodeParameter = request.getParameter("languageCode");
+        		if(languageCodeParameter != null && !languageCodeParameter.equals(""))
+        			languageCode = languageCodeParameter;
+        		
         		StringBuffer allCategoriesProperty = new StringBuffer("");
         		
         		Category filterCategory = CategoryController.getController().getCategoryByPath(session, PropertyHelper.getProperty("filterCategoryPath"));
@@ -55,7 +60,7 @@ public class CategoryServlet extends HttpServlet
         		{
         			Category category = (Category)categorySetIterator.next();
         			
-        			sb.append("    <property name=\"" + category.getLocalizedName("sv", "en") + "\" value=\"" + category.getInternalName() + "\"/>");
+        			sb.append("    <property name=\"" + category.getLocalizedName(languageCode, "en") + "\" value=\"" + category.getInternalName() + "\"/>");
         			if(allCategoriesProperty.length() > 0)
         				allCategoriesProperty.append(",");
         			allCategoriesProperty.append(category.getInternalName());
