@@ -372,6 +372,8 @@ public class CreateEventAction extends CalendarAbstractAction
         this.entryFormEventTypes = EventTypeController.getController().getEventTypeList(EventType.ENTRY_DEFINITION, getSession());
         this.languages = LanguageController.getController().getLanguageList(getSession());
         
+        this.isOrganizedByGU = new Boolean(true);
+        
         EventType eventType = this.calendar.getEventType();
         if(eventType != null)
         	this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
