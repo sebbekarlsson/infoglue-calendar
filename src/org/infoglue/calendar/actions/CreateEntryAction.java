@@ -404,7 +404,7 @@ public class CreateEntryAction extends CalendarAbstractAction
         
         int numberOfExistingEntries = event.getEntries().size();
         //if(numberOfExistingEntries > event.getMaximumParticipants())
-       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries >= event.getMaximumParticipants())
+       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries > event.getMaximumParticipants())
            	isReserve = true;
 
         return "receipt";
@@ -421,7 +421,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 
         int numberOfExistingEntries = event.getEntries().size();
         //if(numberOfExistingEntries > event.getMaximumParticipants())
-       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries >= event.getMaximumParticipants())
+       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries > event.getMaximumParticipants())
           	isReserve = true;
 
         return "receiptPublic";
@@ -440,7 +440,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 
         int numberOfExistingEntries = event.getEntries().size();
         //if(numberOfExistingEntries > event.getMaximumParticipants())
-       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries >= event.getMaximumParticipants())
+       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries > event.getMaximumParticipants())
            	isReserve = true;
 
         return "receiptPublicGU";
@@ -452,7 +452,7 @@ public class CreateEntryAction extends CalendarAbstractAction
 
         int numberOfExistingEntries = event.getEntries().size();
         //if(numberOfExistingEntries > event.getMaximumParticipants())
-       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries >= event.getMaximumParticipants())
+       	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries > event.getMaximumParticipants())
            	isReserve = true;
 
         return "receiptPublicCustom";
