@@ -56,6 +56,8 @@
 
 		<calendar:selectField label="labels.internal.event.searchItemsPerPage" name="'itemsPerPage'" headerItem="Antal poster per sida" multiple="false" value="itemsPerPageMap" selectedValue="itemsPerPage" cssClass="listBox"/>
 
+		<calendar:checkboxField label="Export to Excel" name="'exportResult'" valueMap="yesNoMap" selectedValues="false"/>
+
 	<div style="height:10px"></div>
 	<input type="submit" value="<ww:property value="this.getLabel('labels.internal.soba.searchButton')"/>" class="button"/>
 	</form>

@@ -23,27 +23,39 @@
 
 package org.infoglue.calendar.actions;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.infoglue.calendar.controllers.CategoryController;
+import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.EventTypeController;
 import org.infoglue.calendar.controllers.LocationController;
 import org.infoglue.calendar.controllers.ResourceController;
 import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventType;
+import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Location;
+import org.infoglue.calendar.util.EntrySearchResultfilesConstructor;
+import org.infoglue.calendar.util.EventSearchResultfilesConstructor;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
 import org.infoglue.common.util.PropertyHelper;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
 
 /**
@@ -72,8 +84,9 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private String price = null;
     private Boolean sortAscending = new Boolean(true);
     private Integer maximumParticipants = null;
+	private Boolean exportResult = new Boolean(false);
     
-    private Calendar startCalendar;
+	private Calendar startCalendar;
     private Calendar endCalendar;
 
     private Long categoryId;
@@ -81,8 +94,10 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     
     private List events;
     private Set categoriesList;
-
-    private void initialize() throws Exception
+	private List resultValues = new LinkedList(); 
+	private Map searchResultFiles;
+	
+	private void initialize() throws Exception
     {
     	Session session = getSession(true);
     	
@@ -123,6 +138,17 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 															        categoryId,
 															        session);
         
+        // should we create result files?
+        boolean exportEntryResults = PropertyHelper.getBooleanProperty("exportEntryResults");
+        if( this.events.size() > 0 && exportResult) 
+        {
+        	Map parameters = new HashMap();
+        	parameters.put("headLine", "Events found");
+        	        	
+        	HttpServletRequest request = ServletActionContext.getRequest();
+        	EventSearchResultfilesConstructor results = new EventSearchResultfilesConstructor(parameters, this.events, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, (CalendarAbstractAction)this);
+        	searchResultFiles = results.getResults();
+        }
         
         return Action.SUCCESS;
     } 
@@ -340,6 +366,21 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 	public void setItemsPerPage(Integer itemsPerPage) 
 	{
 		this.itemsPerPage = itemsPerPage;
+	}
+
+    public Boolean getExportResult()
+	{
+		return exportResult;
+	}
+
+	public void setExportResult(Boolean exportResult)
+	{
+		this.exportResult = exportResult;
+	}
+
+    public Map getSearchResultFiles()
+	{
+		return searchResultFiles;
 	}
 
 }

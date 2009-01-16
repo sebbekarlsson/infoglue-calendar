@@ -6,7 +6,18 @@
 <%@ include file="functionMenu.jsp" %>
 
 <div class="portlet_margin">
-	<h1><ww:property value="this.getLabel('labels.internal.event.searchResult')"/></h1>
+	<h1>
+		<ww:property value="this.getLabel('labels.internal.event.searchResult')"/>
+
+		<ww:if test="events != null && events.size() > 0">
+			<ww:if test="searchResultFiles != null && searchResultFiles.size() > 0">
+				<ww:iterator value="searchResultFiles">
+				   <a href="<ww:property value="value"/>" title="<ww:property value="key"/>"><img src="<%=request.getContextPath()%>/images/excelIcon.jpg" border="0"/></a>
+				</ww:iterator>
+			</ww:if>
+		</ww:if>		
+	
+    </h1>
 </div>
 
 <div class="columnlabelarea">
@@ -186,6 +197,17 @@
 			</p>
 		</div>
 	</c:if>
+
+	<p>
+	<ww:if test="events != null && events.size() > 0">
+		<ww:if test="searchResultFiles != null && searchResultFiles.size() > 0">
+			<ww:property value="this.getLabel('labels.internal.soba.exportHitList')"/></label>
+			<ww:iterator value="searchResultFiles">
+			   <a href="<ww:property value="value"/>"><ww:property value="key"/></a>
+			</ww:iterator>
+		</ww:if>
+	</ww:if>		
+	</p>	
 
 </ww:if>
 <ww:else>

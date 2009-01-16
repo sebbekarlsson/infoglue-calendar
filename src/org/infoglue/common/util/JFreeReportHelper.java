@@ -120,6 +120,27 @@ public class JFreeReportHelper
 		}
 	}
 
+	public void getEventReportAsXLS(Map map, List events, final String filename)
+	{
+		try
+		{
+			map.put("events", events);
+			map.put("formatter", new VisualFormatter());
+			
+			File dynamicTemplate = new File(PropertyHelper.getProperty("contextRootPath") + "templates/eventReportXLS.vm");
+			String dynamicTemplateString = FileHelper.getFileAsString(dynamicTemplate);
+
+			PrintWriter pw = new PrintWriter(filename);
+			VelocityTemplateProcessor ctp = new VelocityTemplateProcessor();
+			ctp.renderTemplate(map, pw, dynamicTemplateString);
+			pw.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Reads the report from the specified template file.
 	 * 
