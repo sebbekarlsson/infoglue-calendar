@@ -66,68 +66,14 @@ public class EventSearchResultfilesConstructor
 		// start the thread cleaning the directory of old files
 		new Thread(new ResultFilesCleaner()).start();
 
-		String exportEntryResultsTypes = PropertyHelper.getProperty("exportEntryResultsTypes");
-		if (exportEntryResultsTypes != null)
-		{
-			StringTokenizer st = new StringTokenizer(exportEntryResultsTypes, ",", false);
-			while (st.hasMoreElements())
-			{
-				String resultType = st.nextToken().trim();
-				/*
-				if (resultType.equals("TXT"))
-				{
-					EntrySearchResultfilesConstructor_TXT txtConstructor = new EntrySearchResultfilesConstructor_TXT(entries, fileFolderLocation, httpFolderLocation, resultValues, action);
-					if (txtConstructor.createFile())
-					{
-						searchResultFiles.put("Text", txtConstructor.getFileLocation());
-						//searchResultFilePaths.put("Text", txtConstructor.get)
-					}
-				}
-				if (resultType.indexOf("CSV") > -1)
-				{
-					log.debug("fileFolderLocation:" + fileFolderLocation);
-					String fileName = fileFolderLocation + File.separator + "entries_" + System.currentTimeMillis() + ".csv";
-					String fileURL = httpFolderLocation + "entries_" + System.currentTimeMillis() + ".csv";
-					searchResultFiles.put("CSV", fileURL);
-					searchResultFilePaths.put("CSV", fileName);
-					
-					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "csv", entryTypeId);
-				}
-				*/
-				if (resultType.indexOf("XLS") > -1)
-				{
-					log.debug("fileFolderLocation:" + fileFolderLocation);
-					String fileName = fileFolderLocation + File.separator + "events_" + System.currentTimeMillis() + ".xls";
-					String fileURL = httpFolderLocation + "events_" + System.currentTimeMillis() + ".xls";
-					searchResultFiles.put("Excel", fileURL);
-					searchResultFilePaths.put("Excel", fileName);
+		log.debug("fileFolderLocation:" + fileFolderLocation);
+		String fileName = fileFolderLocation + File.separator + "events_" + System.currentTimeMillis() + ".xls";
+		String fileURL = httpFolderLocation + "events_" + System.currentTimeMillis() + ".xls";
+		searchResultFiles.put("Excel", fileURL);
+		searchResultFilePaths.put("Excel", fileName);
 
-					new JFreeReportHelper().getEventReportAsXLS(parameters, events, fileName);
-				}
-				/*
-				if (resultType.indexOf("PDF") > -1)
-				{
-					log.debug("fileFolderLocation:" + fileFolderLocation);
-					String fileName = fileFolderLocation + File.separator + "entries_" + System.currentTimeMillis() + ".pdf";
-					String fileURL = httpFolderLocation + "entries_" + System.currentTimeMillis() + ".pdf";
-					searchResultFiles.put("PDF", fileURL);
-					searchResultFilePaths.put("PDF", fileName);
-
-					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "pdf", entryTypeId);
-				}
-				if (resultType.indexOf("HTML") > -1)
-				{ 
-					log.debug("fileFolderLocation:" + fileFolderLocation);
-					String fileName = fileFolderLocation + File.separator + "entries_" + System.currentTimeMillis() + ".html";
-					String fileURL = httpFolderLocation + "entries_" + System.currentTimeMillis() + ".html";
-					searchResultFiles.put("HTML", fileURL);
-					searchResultFilePaths.put("HTML", fileName);
-
-					new JFreeReportHelper().getEntriesReport(parameters, entries, fileName, "html", entryTypeId);
-				}
-				*/
-			}
-		}
+		System.out.println("fileName:" + fileName);
+		new JFreeReportHelper().getEventReportAsXLS(parameters, events, fileName);
 	}
 
 	public Map getResults() {
