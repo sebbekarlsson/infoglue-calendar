@@ -93,27 +93,27 @@
    	#end
    <Row>
     <Cell><Data ss:Type="Number">$!event.id</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.name</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.title</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.lecturer</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.longDescription</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.shortDescription</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.organizerName</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.description</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.customLocation</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.alternativeLocation</Data></Cell>
-    <Cell><Data ss:Type="String">$!eventVersion.eventUrl</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.name)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.title)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.lecturer)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.longDescription)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.shortDescription)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.organizerName)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.description)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.customLocation)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.alternativeLocation)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.eventUrl)</Data></Cell>
     <Cell><Data ss:Type="String">$!event.isOrganizedByGU</Data></Cell>
-    <Cell><Data ss:Type="String">$formatter.formatDate($!event.lastRegistrationDateTime.time,"yyyy-MM-dd'T'HH:mm:ss'Z'")</Data></Cell>
-    <Cell><Data ss:Type="String">$formatter.formatDate($!event.endDateTime.time,"yyyy-MM-dd'T'HH:mm:ss'Z'")</Data></Cell>
-    <Cell><Data ss:Type="String">$formatter.formatDate($!event.startDateTime.time,"yyyy-MM-dd'T'HH:mm:ss'Z'")</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.formatDate($!event.lastRegistrationDateTime.time,"yyyy-MM-dd HH:mm:ss")</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.formatDate($!event.endDateTime.time,"yyyy-MM-dd HH:mm:ss")</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.formatDate($!event.startDateTime.time,"yyyy-MM-dd HH:mm:ss")</Data></Cell>
     <Cell><Data ss:Type="String">$!event.isInternal</Data></Cell>
     <Cell><Data ss:Type="Number">$!event.maximumPartipants</Data></Cell>
     <Cell><Data ss:Type="Number">$!event.stateId</Data></Cell>
-    <Cell ss:StyleID="s21" ss:HRef="mailto:$!event.contactEmail"><Data ss:Type="String">$!event.contactEmail</Data></Cell>
-    <Cell><Data ss:Type="String">$!event.contactName</Data></Cell>
-    <Cell><Data ss:Type="String">$!event.contactPhone</Data></Cell>
-    <Cell><Data ss:Type="String">$!event.price</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!event.contactEmail)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!event.contactName)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!event.contactPhone)</Data></Cell>
+    <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!event.price)</Data></Cell>
    </Row>
    #end
   </Table>
