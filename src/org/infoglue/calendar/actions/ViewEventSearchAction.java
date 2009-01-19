@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
+import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.ContentTypeDefinitionController;
 import org.infoglue.calendar.controllers.EntryController;
@@ -89,11 +90,13 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 	private Calendar startCalendar;
     private Calendar endCalendar;
 
+    private Long calendarId;
     private Long categoryId;
     private Integer itemsPerPage;
     
     private List events;
     private Set categoriesList;
+    private Set calendarList;
 	private List resultValues = new LinkedList(); 
 	private Map searchResultFiles;
 	
@@ -104,6 +107,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         Category category = CategoryController.getController().getCategoryByPath(session, PropertyHelper.getProperty("filterCategoryPath"));
         if(category != null)
         	categoriesList = category.getChildren();
+        calendarList = CalendarController.getController().getCalendarList(session);
     }
     
     /**
@@ -136,6 +140,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 															        maximumParticipants,
 															        sortAscending,
 															        categoryId,
+															        calendarId,
 															        session);
         
         // should we create result files?
@@ -351,6 +356,11 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 		return categoriesList;
 	}
 
+	public Set getCalendarList() 
+	{
+		return calendarList;
+	}
+
 	public Long getCategoryId() 
 	{
 		return categoryId;
@@ -359,6 +369,16 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 	public void setCategoryId(Long categoryId) 
 	{
 		this.categoryId = categoryId;
+	}
+
+	public Long getCalendarId()
+	{
+		return calendarId;
+	}
+
+	public void setCalendarId(Long calendarId)
+	{
+		this.calendarId = calendarId;
 	}
 
 	public Integer getItemsPerPage() 
