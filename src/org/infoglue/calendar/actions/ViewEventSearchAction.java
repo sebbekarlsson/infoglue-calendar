@@ -144,10 +144,8 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 															        session);
         
         // should we create result files?
-        System.out.println("exportResult:" + exportResult);
         if( this.events.size() > 0 && exportResult) 
         {
-        	System.out.println("Writing to file...");
         	
         	Map parameters = new HashMap();
         	parameters.put("headLine", "Events found");
@@ -155,7 +153,6 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         	HttpServletRequest request = ServletActionContext.getRequest();
         	EventSearchResultfilesConstructor results = new EventSearchResultfilesConstructor(parameters, this.events, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, (CalendarAbstractAction)this);
         	searchResultFiles = results.getResults();
-        	System.out.println("searchResultFiles:" + searchResultFiles);
         }
         
         return Action.SUCCESS;

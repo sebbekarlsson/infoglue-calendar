@@ -1003,6 +1003,7 @@ public class EventController extends BasicController
             Integer maximumParticipants,
             Boolean sortAscending,
             Long categoryId,
+            Long calendarId,
             Session session) throws Exception 
     {
         List result = null;
@@ -1164,7 +1165,18 @@ public class EventController extends BasicController
 	        		resultIterator.remove();
 	        }
         }
-        
+
+        if(calendarId != null)
+        {
+	        Iterator resultIterator = result.iterator();
+	        while(resultIterator.hasNext())
+	        {
+	        	Event event = (Event)resultIterator.next();
+	        	if(!getHasCalendar(event, calendarId))
+	        		resultIterator.remove();
+	        }
+        }
+
         return result;
     }
     
@@ -1357,6 +1369,14 @@ public class EventController extends BasicController
         }
 
         return false;
+    }
+
+    public boolean getHasCalendar(Event event, Long calendarId)
+    {        
+    	if(event.getOwningCalendar() != null)
+    		return calendarId.equals(event.getOwningCalendar().getId());
+    	else
+    		return false;
     }
 
     /**

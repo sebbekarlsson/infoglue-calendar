@@ -54,6 +54,8 @@
 
 		<calendar:selectField label="labels.internal.calendar.eventType" name="'categoryId'" headerItem="Filtrera på evenemangstyp" multiple="false" value="categoriesList" selectedValue="categoryId" cssClass="listBox"/>
 
+		<calendar:selectField label="labels.internal.event.owningCalendar" name="'calendarId'" headerItem="Huvudkalender" multiple="false" value="calendarList" selectedValue="calendarId" cssClass="listBox"/>
+
 		<calendar:selectField label="labels.internal.event.searchItemsPerPage" name="'itemsPerPage'" headerItem="Antal poster per sida" multiple="false" value="itemsPerPageMap" selectedValue="itemsPerPage" cssClass="listBox"/>
 
 		<calendar:checkboxField label="Export to Excel" name="'exportResult'" valueMap="yesNoMap" selectedValues="false"/>

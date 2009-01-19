@@ -34,12 +34,22 @@
   <Style ss:ID="s21" ss:Name="Hyperlink">
    <Font ss:Color="#0000FF" ss:Underline="Single"/>
   </Style>
-  <Style ss:ID="s23">
-   <NumberFormat ss:Format="General Date"/>
+  <Style ss:ID="s31">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font x:Family="Swiss" ss:Size="8" ss:Bold="1"/>
+   <Interior ss:Color="#CCFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s32">
+   <Font x:Family="Swiss" ss:Size="8"/>
+  </Style>
+  <Style ss:ID="s33" ss:Parent="s21">
+   <Font x:Family="Swiss" ss:Size="8" ss:Color="#0000FF" ss:Underline="Single"/>
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="22" ss:ExpandedRowCount="$rowCount" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="23" ss:ExpandedRowCount="$rowCount" x:FullColumns="1"
    x:FullRows="1">
    <Column ss:AutoFitWidth="0" ss:Width="45.75"/>
    <Column ss:Width="50.25"/>
@@ -62,7 +72,7 @@
    <Column ss:Width="85.5"/>
    <Column ss:Width="66.75"/>
    <Column ss:Width="39.75"/>
-   <Row>
+   <Row ss:Height="11.25" ss:StyleID="s31">
     <Cell><Data ss:Type="String">ID</Data></Cell>
     <Cell><Data ss:Type="String">Name</Data></Cell>
     <Cell><Data ss:Type="String">Title</Data></Cell>
@@ -85,13 +95,14 @@
     <Cell><Data ss:Type="String">ContactName</Data></Cell>
     <Cell><Data ss:Type="String">ContactPhone</Data></Cell>
     <Cell><Data ss:Type="String">Price</Data></Cell>
+    <Cell><Data ss:Type="String">OwningCalendar</Data></Cell>
    </Row>
    #foreach($event in $events)
     #set($eventVersion = "")
    	#foreach($currentEventVersion in $event.versions)
    		#set($eventVersion = $currentEventVersion)
    	#end
-   <Row>
+   <Row ss:Height="11.25" ss:StyleID="s32">
     <Cell><Data ss:Type="Number">$!event.id</Data></Cell>
     <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.name)</Data></Cell>
     <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!eventVersion.title)</Data></Cell>
@@ -114,6 +125,7 @@
     <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!event.contactName)</Data></Cell>
     <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!event.contactPhone)</Data></Cell>
     <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!event.price)</Data></Cell>
+    <Cell><Data ss:Type="String">$!event.owningCalendar.name</Data></Cell>
    </Row>
    #end
   </Table>
