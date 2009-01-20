@@ -49,7 +49,7 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="23" ss:ExpandedRowCount="$rowCount" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="25" ss:ExpandedRowCount="$rowCount" x:FullColumns="1"
    x:FullRows="1">
    <Column ss:AutoFitWidth="0" ss:Width="45.75"/>
    <Column ss:Width="50.25"/>
@@ -96,6 +96,8 @@
     <Cell><Data ss:Type="String">ContactPhone</Data></Cell>
     <Cell><Data ss:Type="String">Price</Data></Cell>
     <Cell><Data ss:Type="String">OwningCalendar</Data></Cell>
+    <Cell><Data ss:Type="String">Location</Data></Cell>
+    <Cell><Data ss:Type="String">NumberOfEntries</Data></Cell>
    </Row>
    #foreach($event in $events)
     #set($eventVersion = "")
@@ -126,6 +128,8 @@
     <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!event.contactPhone)</Data></Cell>
     <Cell><Data ss:Type="String">$!formatter.escapeHTMLforXMLService($!event.price)</Data></Cell>
     <Cell><Data ss:Type="String">$!event.owningCalendar.name</Data></Cell>
+    <Cell><Data ss:Type="String">#foreach($location in $event.locations)$!location.getLocalizedName("en", "sv"), #end</Data></Cell>
+    <Cell><Data ss:Type="String">$!event.entries.size()</Data></Cell>
    </Row>
    #end
   </Table>

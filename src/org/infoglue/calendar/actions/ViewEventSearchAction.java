@@ -92,11 +92,13 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 
     private Long calendarId;
     private Long categoryId;
+    private Long locationId;
     private Integer itemsPerPage;
     
     private List events;
     private Set categoriesList;
     private Set calendarList;
+    private List locationList;
 	private List resultValues = new LinkedList(); 
 	private Map searchResultFiles;
 	
@@ -108,6 +110,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         if(category != null)
         	categoriesList = category.getChildren();
         calendarList = CalendarController.getController().getCalendarList(session);
+        locationList = LocationController.getController().getLocationList(session);
     }
     
     /**
@@ -141,6 +144,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 															        sortAscending,
 															        categoryId,
 															        calendarId,
+															        locationId,
 															        session);
         
         // should we create result files?
@@ -358,6 +362,11 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 		return calendarList;
 	}
 
+	public List getLocationList() 
+	{
+		return locationList;
+	}
+
 	public Long getCategoryId() 
 	{
 		return categoryId;
@@ -376,6 +385,16 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 	public void setCalendarId(Long calendarId)
 	{
 		this.calendarId = calendarId;
+	}
+
+	public Long getLocationId() 
+	{
+		return categoryId;
+	}
+
+	public void setLocationId(Long locationId) 
+	{
+		this.locationId = locationId;
 	}
 
 	public Integer getItemsPerPage() 

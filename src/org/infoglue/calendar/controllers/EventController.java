@@ -1004,6 +1004,7 @@ public class EventController extends BasicController
             Boolean sortAscending,
             Long categoryId,
             Long calendarId,
+            Long locationId,
             Session session) throws Exception 
     {
         List result = null;
@@ -1173,6 +1174,17 @@ public class EventController extends BasicController
 	        {
 	        	Event event = (Event)resultIterator.next();
 	        	if(!getHasCalendar(event, calendarId))
+	        		resultIterator.remove();
+	        }
+        }
+
+        if(locationId != null)
+        {
+	        Iterator resultIterator = result.iterator();
+	        while(resultIterator.hasNext())
+	        {
+	        	Event event = (Event)resultIterator.next();
+	        	if(!getHasLocation(event, locationId))
 	        		resultIterator.remove();
 	        }
         }
@@ -1377,6 +1389,19 @@ public class EventController extends BasicController
     		return calendarId.equals(event.getOwningCalendar().getId());
     	else
     		return false;
+    }
+
+    public boolean getHasLocation(Event event, Long locationId)
+    {        
+        Iterator i = event.getLocations().iterator();
+        while(i.hasNext())
+        {
+            Location location = (Location)i.next();
+            if(location.getId().equals(locationId))
+                return true;
+        }
+
+        return false;
     }
 
     /**

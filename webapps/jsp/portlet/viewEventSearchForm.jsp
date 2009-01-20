@@ -54,7 +54,9 @@
 
 		<calendar:selectField label="labels.internal.calendar.eventType" name="'categoryId'" headerItem="Filtrera på evenemangstyp" multiple="false" value="categoriesList" selectedValue="categoryId" cssClass="listBox"/>
 
-		<calendar:selectField label="labels.internal.event.owningCalendar" name="'calendarId'" headerItem="Huvudkalender" multiple="false" value="calendarList" selectedValue="calendarId" cssClass="listBox"/>
+		<calendar:selectField label="labels.internal.event.owningCalendar" name="'calendarId'" headerItem="Filtrera på huvudkalender" multiple="false" value="calendarList" selectedValue="calendarId" cssClass="listBox"/>
+
+		<calendar:selectField label="labels.internal.event.location" name="'locationId'" headerItem="Filtrera på plats" multiple="false" value="locationList" selectedValue="locationId" cssClass="listBox"/>
 
 		<calendar:selectField label="labels.internal.event.searchItemsPerPage" name="'itemsPerPage'" headerItem="Antal poster per sida" multiple="false" value="itemsPerPageMap" selectedValue="itemsPerPage" cssClass="listBox"/>
 

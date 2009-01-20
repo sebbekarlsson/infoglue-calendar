@@ -72,7 +72,6 @@ public class EventSearchResultfilesConstructor
 		searchResultFiles.put("Excel", fileURL);
 		searchResultFilePaths.put("Excel", fileName);
 
-		System.out.println("fileName:" + fileName);
 		new JFreeReportHelper().getEventReportAsXLS(parameters, events, fileName);
 	}
 
