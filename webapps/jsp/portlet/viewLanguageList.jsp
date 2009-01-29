@@ -53,12 +53,12 @@
 	<ww:set name="name" value="name" scope="page"/>
 	<portlet:renderURL var="languageUrl">
 		<portlet:param name="action" value="ViewLanguage"/>
-		<portlet:param name="systemLanguageId" value="<%= pageContext.getAttribute("systemLanguageId").toString() %>"/>
+		<portlet:param name="systemLanguageId" value='<%= pageContext.getAttribute("systemLanguageId").toString() %>'/>
 	</portlet:renderURL>
 	
 	<portlet:actionURL var="deleteLanguageUrl">
 		<portlet:param name="action" value="DeleteLanguage"/>
-		<portlet:param name="systemLanguageId" value="<%= pageContext.getAttribute("systemLanguageId").toString() %>"/>
+		<portlet:param name="systemLanguageId" value='<%= pageContext.getAttribute("systemLanguageId").toString() %>'/>
 	</portlet:actionURL>
 
 	<ww:if test="#rowstatus.odd == true">

@@ -26,8 +26,8 @@
 	<ww:set name="eventId" value="eventId" scope="page"/>
 	<portlet:renderURL var="editEventUrl">
 		<portlet:param name="action" value="ViewEvent!edit"/>
-		<portlet:param name="versionLanguageId" value="<%= pageContext.getAttribute("systemLanguageId").toString() %>"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+		<portlet:param name="versionLanguageId" value='<%= pageContext.getAttribute("systemLanguageId").toString() %>'/>
+		<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 		<calendar:evalParam name="skipLanguageTabs" value="${skipLanguageTabs}"/>
 	</portlet:renderURL>
 	

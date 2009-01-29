@@ -9,7 +9,7 @@
 
 <portlet:renderURL var="viewSubscriptionsUrl">
 	<portlet:param name="action" value="ViewSubscriptionList"/>
-	<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+	<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 </portlet:renderURL>
 
 <div class="subfunctionarea">
@@ -28,7 +28,7 @@
 
 	<portlet:renderURL var="viewCalendarUrl">
 		<portlet:param name="action" value="ViewCalendar!gui"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 		<portlet:param name="mode" value="day"/>
 	</portlet:renderURL>
 			
@@ -61,7 +61,7 @@
 	<portlet:renderURL var="accessRightsActionUrl">
 		<portlet:param name="action" value="ViewAccessRights"/>
 		<portlet:param name="interceptionPointCategory" value="Calendar"/>
-		<portlet:param name="extraParameters" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="extraParameters" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 	</portlet:renderURL>
 	
 	<a href="<c:out value="${accessRightsActionUrl}"/>">Access rights</a>

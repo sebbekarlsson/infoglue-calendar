@@ -67,12 +67,12 @@
 
 	<portlet:renderURL var="eventUrl">
 		<portlet:param name="action" value="ViewEvent"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+		<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 	</portlet:renderURL>
 	
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEvent!working"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+		<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 	</portlet:actionURL>
 		
 	<ww:if test="#rowstatus.odd == true">
@@ -127,7 +127,7 @@
 				</portlet:renderURL>
 				<portlet:renderURL var="previousSlot">
 					<portlet:param name="action" value="ViewMyWorkingEventList"/>
-					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("previousSlotId").toString() %>"/>
+					<portlet:param name="currentSlot" value='<%= pageContext.getAttribute("previousSlotId").toString() %>'/>
 				</portlet:renderURL>
 				
 				<a href="<c:out value='${firstUrl}'/>" class="number" title="F&ouml;rsta sidan">F&Ouml;RSTA</a>
@@ -141,7 +141,7 @@
 					<c:set var="slotId" value="${slot}"/>
 					<portlet:renderURL var="url">
 						<portlet:param name="action" value="ViewMyWorkingEventList"/>
-						<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("slotId").toString() %>"/>
+						<portlet:param name="currentSlot" value='<%= pageContext.getAttribute("slotId").toString() %>'/>
 					</portlet:renderURL>
 	
 					<a href="<c:out value='${url}'/>" title="Sida <c:out value='${slot}'/>" class="number"><c:out value="${slot}"/></a>
@@ -151,7 +151,7 @@
 				<c:set var="nextSlotId" value="${currentSlot + 1}"/>
 				<portlet:renderURL var="nextSlotUrl">
 					<portlet:param name="action" value="ViewMyWorkingEventList"/>
-					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("nextSlotId").toString() %>"/>
+					<portlet:param name="currentSlot" value='<%= pageContext.getAttribute("nextSlotId").toString() %>'/>
 				</portlet:renderURL>
 						
 				<a href="<c:out value='${nextSlotUrl}'/>" title="N&auml;sta sida" class="number">&raquo;</a>

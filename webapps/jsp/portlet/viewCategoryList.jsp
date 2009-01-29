@@ -57,12 +57,12 @@
 	
 	<portlet:renderURL var="categoryUrl">
 		<portlet:param name="action" value="ViewCategory"/>
-		<portlet:param name="categoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
+		<portlet:param name="categoryId" value='<%= pageContext.getAttribute("categoryId").toString() %>'/>
 	</portlet:renderURL>
 	
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteCategory"/>
-		<portlet:param name="deleteCategoryId" value="<%= pageContext.getAttribute("categoryId").toString() %>"/>
+		<portlet:param name="deleteCategoryId" value='<%= pageContext.getAttribute("categoryId").toString() %>'/>
 	</portlet:actionURL>
 		
 	<ww:if test="#rowstatus.odd == true">

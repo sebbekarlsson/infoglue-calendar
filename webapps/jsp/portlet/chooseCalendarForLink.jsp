@@ -35,8 +35,8 @@
 	<ww:set name="eventId" value="eventId" scope="page"/>
 	<portlet:actionURL var="createEventUrl">
 		<portlet:param name="action" value="CreateEvent!link"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+		<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
+		<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 	</portlet:actionURL>
 	
 	<ww:if test="#rowstatus.odd == true">

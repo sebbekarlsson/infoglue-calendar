@@ -41,7 +41,7 @@
 		
 		<portlet:renderURL var="eventDetailUrl">
 			<portlet:param name="action" value="ViewEvent!publicGU"/>
-			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+			<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 		</portlet:renderURL>
 	        
 	    <ww:iterator value="top.owningCalendar.eventType.categoryAttributes">

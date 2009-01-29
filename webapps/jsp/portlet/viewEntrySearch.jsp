@@ -171,21 +171,21 @@
 			<ww:iterator value="searchEventId">
 				<ww:if test="top != null">
 					<ww:set name="currentSearchEventId" value="top" scope="page"/>
-					<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
+					<portlet:param name="searchEventId" value='<%= pageContext.getAttribute("currentSearchEventId").toString() %>'/>
 				</ww:if>
 			</ww:iterator>
 		</c:if>
 		<c:if test="${searchFirstName != null}">
-			<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
+			<portlet:param name="searchFirstName" value='<%= pageContext.getAttribute("searchFirstName").toString() %>'/>
 		</c:if>
 		<c:if test="${searchLastName != null}">
-			<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
+			<portlet:param name="searchLastName" value='<%= pageContext.getAttribute("searchLastName").toString() %>'/>
 		</c:if>
 		<c:if test="${searchEmail != null}">
-			<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+			<portlet:param name="searchEmail" value='<%= pageContext.getAttribute("searchEmail").toString() %>'/>
 		</c:if>
 		<c:if test="${onlyFutureEvents != null}">
-			<portlet:param name="onlyFutureEvents" value="<%= pageContext.getAttribute("onlyFutureEvents").toString() %>"/>
+			<portlet:param name="onlyFutureEvents" value='<%= pageContext.getAttribute("onlyFutureEvents").toString() %>'/>
 		</c:if>
 	</portlet:actionURL>
 
@@ -240,13 +240,13 @@
 			<portlet:param name="action" value="ViewEntry"/>
 			<calendar:evalParam name="searchHashCode" value="${searchHashCode}"/>
 			<c:if test="${entryId != null}">
-				<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+				<portlet:param name="entryId" value='<%= pageContext.getAttribute("entryId").toString() %>'/>
 			</c:if>
 			<c:if test="${searchEventId != null}">
 				<ww:iterator value="searchEventId">
 					<ww:if test="top != null">
 						<ww:set name="currentSearchEventId" value="top" scope="page"/>
-						<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
+						<portlet:param name="searchEventId" value='<%= pageContext.getAttribute("currentSearchEventId").toString() %>'/>
 					</ww:if>
 				</ww:iterator>
 			</c:if>
@@ -256,27 +256,27 @@
 			<portlet:param name="action" value="DeleteEntry"/>
 			<calendar:evalParam name="searchHashCode" value="${searchHashCode}"/>
 			<c:if test="${entryId != null}">
-				<portlet:param name="entryId" value="<%= pageContext.getAttribute("entryId").toString() %>"/>
+				<portlet:param name="entryId" value='<%= pageContext.getAttribute("entryId").toString() %>'/>
 			</c:if>
 			<c:if test="${searchEventId != null}">
 				<ww:iterator value="searchEventId">
 					<ww:if test="top != null">
 						<ww:set name="currentSearchEventId" value="top" scope="page"/>
-						<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
+						<portlet:param name="searchEventId" value='<%= pageContext.getAttribute("currentSearchEventId").toString() %>'/>
 					</ww:if>
 				</ww:iterator>
 			</c:if>
 			<c:if test="${searchFirstName != null}">
-				<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
+				<portlet:param name="searchFirstName" value='<%= pageContext.getAttribute("searchFirstName").toString() %>'/>
 			</c:if>
 			<c:if test="${searchLastName != null}">
-				<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
+				<portlet:param name="searchLastName" value='<%= pageContext.getAttribute("searchLastName").toString() %>'/>
 			</c:if>
 			<c:if test="${searchEmail != null}">
-				<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+				<portlet:param name="searchEmail" value='<%= pageContext.getAttribute("searchEmail").toString() %>'/>
 			</c:if>
 			<c:if test="${onlyFutureEvents != null}">
-				<portlet:param name="onlyFutureEvents" value="<%= pageContext.getAttribute("onlyFutureEvents").toString() %>"/>
+				<portlet:param name="onlyFutureEvents" value='<%= pageContext.getAttribute("onlyFutureEvents").toString() %>'/>
 			</c:if>			
 		</portlet:actionURL>
 				

@@ -12,7 +12,7 @@
 		<ww:if test="events != null && events.size() > 0">
 			<ww:if test="searchResultFiles != null && searchResultFiles.size() > 0">
 				<ww:iterator value="searchResultFiles">
-				   <a href="<ww:property value="value"/>" title="<ww:property value="key"/>"><img src="<%=request.getContextPath()%>/images/excelIcon.jpg" border="0"/></a>
+				   <a href="<ww:property value="value"/>" title="<ww:property value="key"/>"><img src='<%=request.getContextPath()%>/images/excelIcon.jpg" border="0"/></a>
 				</ww:iterator>
 			</ww:if>
 		</ww:if>		
@@ -35,18 +35,18 @@
 		<ww:iterator value="searchEventId">
 			<ww:if test="top != null">
 				<ww:set name="currentSearchEventId" value="top" scope="page"/>
-				<portlet:param name="searchEventId" value="<%= pageContext.getAttribute("currentSearchEventId").toString() %>"/>
+				<portlet:param name="searchEventId" value='<%= pageContext.getAttribute("currentSearchEventId").toString() %>'/>
 			</ww:if>
 		</ww:iterator>
 	</c:if>
 	<c:if test="${searchFirstName != null}">
-		<portlet:param name="searchFirstName" value="<%= pageContext.getAttribute("searchFirstName").toString() %>"/>
+		<portlet:param name="searchFirstName" value='<%= pageContext.getAttribute("searchFirstName").toString() %>'/>
 	</c:if>
 	<c:if test="${searchLastName != null}">
-		<portlet:param name="searchLastName" value="<%= pageContext.getAttribute("searchLastName").toString() %>"/>
+		<portlet:param name="searchLastName" value='<%= pageContext.getAttribute("searchLastName").toString() %>'/>
 	</c:if>
 	<c:if test="${searchEmail != null}">
-		<portlet:param name="searchEmail" value="<%= pageContext.getAttribute("searchEmail").toString() %>"/>
+		<portlet:param name="searchEmail" value='<%= pageContext.getAttribute("searchEmail").toString() %>'/>
 	</c:if>
 </portlet:renderURL>
 
@@ -127,12 +127,12 @@
 	<ww:set name="eventName" value="name" scope="page"/>
 	<portlet:renderURL var="eventUrl">
 		<portlet:param name="action" value="ViewEvent"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+		<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 	</portlet:renderURL>
 	
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEvent"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+		<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 	</portlet:actionURL>
 		
 	<ww:if test="#rowstatus.odd == true">

@@ -54,12 +54,12 @@
 	
 	<portlet:renderURL var="eventTypeUrl">
 		<portlet:param name="action" value="ViewEventType"/>
-		<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
+		<portlet:param name="eventTypeId" value='<%= pageContext.getAttribute("eventTypeId").toString() %>'/>
 	</portlet:renderURL>
 	
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEventType"/>
-		<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
+		<portlet:param name="eventTypeId" value='<%= pageContext.getAttribute("eventTypeId").toString() %>'/>
 	</portlet:actionURL>
 
 	<ww:if test="#rowstatus.odd == true">

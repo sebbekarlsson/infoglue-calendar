@@ -57,12 +57,12 @@
 	
 	<portlet:renderURL var="locationUrl">
 		<portlet:param name="action" value="ViewLocation"/>
-		<portlet:param name="locationId" value="<%= pageContext.getAttribute("locationId").toString() %>"/>
+		<portlet:param name="locationId" value='<%= pageContext.getAttribute("locationId").toString() %>'/>
 	</portlet:renderURL>
 	
 	<portlet:actionURL var="deleteLocationUrl">
 		<portlet:param name="action" value="DeleteLocation"/>
-		<portlet:param name="locationId" value="<%= pageContext.getAttribute("locationId").toString() %>"/>
+		<portlet:param name="locationId" value='<%= pageContext.getAttribute("locationId").toString() %>'/>
 	</portlet:actionURL>
 
 	<ww:if test="#rowstatus.odd == true">

@@ -61,7 +61,7 @@
 		
 		<portlet:renderURL var="eventDetailUrl">
 			<portlet:param name="action" value="ViewEvent!publicGU"/>
-			<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+			<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 		</portlet:renderURL>
    		                 
 		<!-- Record Start -->
@@ -124,7 +124,7 @@
 				</portlet:renderURL>
 				<portlet:renderURL var="previousSlot">
 					<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
-					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("previousSlotId").toString() %>"/>
+					<portlet:param name="currentSlot" value='<%= pageContext.getAttribute("previousSlotId").toString() %>'/>
 				</portlet:renderURL>
 				
 				<a href="<c:out value='${firstUrl}'/>" class="number" title="<ww:property value="this.getLabel('labels.public.event.slots.firstPageTitle')"/>"><ww:property value="this.getLabel('labels.public.event.slots.firstPageLabel')"/></a>
@@ -138,7 +138,7 @@
 					<c:set var="slotId" value="${slot}"/>
 					<portlet:renderURL var="url">
 						<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
-						<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("slotId").toString() %>"/>
+						<portlet:param name="currentSlot" value='<%= pageContext.getAttribute("slotId").toString() %>'/>
 					</portlet:renderURL>
 
 					<a href="<c:out value='${url}'/>" title="<ww:property value="this.getLabel('labels.public.event.slots.pageLabel')"/> <c:out value='${slot}'/>" class="number"><c:out value="${slot}"/></a>
@@ -148,7 +148,7 @@
 				<c:set var="nextSlotId" value="${currentSlot + 1}"/>
 				<portlet:renderURL var="nextSlotUrl">
 					<portlet:param name="action" value="ViewEventList!listSlottedGU"/>
-					<portlet:param name="currentSlot" value="<%= pageContext.getAttribute("nextSlotId").toString() %>"/>
+					<portlet:param name="currentSlot" value='<%= pageContext.getAttribute("nextSlotId").toString() %>'/>
 				</portlet:renderURL>
 						
 				<a href="<c:out value='${nextSlotUrl}'/>" title="<ww:property value="this.getLabel('labels.public.event.slots.nextPageTitle')"/>" class="number">&raquo;</a>

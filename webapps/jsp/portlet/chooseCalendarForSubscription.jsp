@@ -23,7 +23,7 @@
 	<ww:set name="calendarId" value="id" scope="page"/>
 	<portlet:actionURL var="createEventSubscriptionUrl">
 		<portlet:param name="action" value="CreateEventSubscription"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 	</portlet:actionURL>
 	
 	<ww:if test="#rowstatus.odd == true">

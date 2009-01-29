@@ -24,8 +24,7 @@
 	<ww:set name="eventId" value="id" scope="page" />
 	<portlet:renderURL var="eventDetailUrl">
 		<portlet:param name="action" value="ViewEvent!publicCustom" />
-		<portlet:param name="eventId"
-			value="<%= pageContext.getAttribute("eventId").toString() %>" />
+		<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>' />
 	</portlet:renderURL>
 
 	<h2><a

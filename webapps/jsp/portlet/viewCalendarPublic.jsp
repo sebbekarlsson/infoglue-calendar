@@ -22,7 +22,7 @@
 
 <portlet:renderURL var="viewCalendarUrl">
 	<portlet:param name="action" value="ViewCalendar!public"/>
-	<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+	<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 	<portlet:param name="mode" value="day"/>
 	<portlet:param name="startDateTime" value="$startDateTime"/>
 	<portlet:param name="endDateTime" value="$endDateTime"/>
@@ -218,7 +218,7 @@
 	<ww:set name="eventId" value="id" scope="page"/>
 	<portlet:renderURL var="eventUrl">
 		<portlet:param name="action" value="ViewEvent!public"/>
-		<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+		<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 	</portlet:renderURL>
 
 	<p>
@@ -257,11 +257,11 @@
 	
 	<portlet:renderURL var="createEventUrl">
 		<portlet:param name="action" value="CreateEvent!input"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 		<portlet:param name="mode" value="week"/>
-		<portlet:param name="startDateTime" value="<%= pageContext.getAttribute("startDateTime").toString() %>"/>
-		<portlet:param name="endDateTime" value="<%= pageContext.getAttribute("endDateTime").toString() %>"/>
-		<portlet:param name="time" value="<%= pageContext.getAttribute("time").toString() %>"/>
+		<portlet:param name="startDateTime" value='<%= pageContext.getAttribute("startDateTime").toString() %>'/>
+		<portlet:param name="endDateTime" value='<%= pageContext.getAttribute("endDateTime").toString() %>'/>
+		<portlet:param name="time" value='<%= pageContext.getAttribute("time").toString() %>'/>
 	</portlet:renderURL>
 	
 	<div class="dayItem<ww:property value="componentId"/>" aonClick="javascript:addEvent('<c:out value="${createEventUrl}"/>');" onmouseover="javascript:markElement(this);" style="border-bottom: 1px solid black;">
@@ -272,7 +272,7 @@
 		   			<ww:set name="eventId" value="id" scope="page"/>
 					<portlet:renderURL var="eventUrl">
 						<portlet:param name="action" value="ViewEvent!public"/>
-						<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+						<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 					</portlet:renderURL>
 						   		
 			   		<a href="<c:out value="${eventUrl}"/>"><ww:property value="name"/></a> 
@@ -342,14 +342,14 @@
 	
 				<portlet:renderURL var="createEventUrl">
 					<portlet:param name="action" value="CreateEvent!input"/>
-					<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+					<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 					<portlet:param name="mode" value="week"/>
-					<portlet:param name="startDateTime" value="<%= pageContext.getAttribute("startDateTime").toString() %>"/>
-					<portlet:param name="endDateTime" value="<%= pageContext.getAttribute("endDateTime").toString() %>"/>
-					<portlet:param name="time" value="<%= pageContext.getAttribute("time").toString() %>"/>
+					<portlet:param name="startDateTime" value='<%= pageContext.getAttribute("startDateTime").toString() %>'/>
+					<portlet:param name="endDateTime" value='<%= pageContext.getAttribute("endDateTime").toString() %>'/>
+					<portlet:param name="time" value='<%= pageContext.getAttribute("time").toString() %>'/>
 				</portlet:renderURL>
 				
-				<td width="14%" valign="bottom" style=" bottom-padding: 0px; border-top: 1px solid black; border-right: 1px solid black;" aonclick="javascript:addEvent('<c:out value="${createEventUrl}"/>');" onmouseover="javascript:markElement(this);"><span class="dayItem"><ww:if test="#hourEvents.size > 0"><ww:iterator value="#hourEvents"><ww:set name="eventId" value="top.id" scope="page"/><portlet:renderURL var="eventUrl"><portlet:param name="action" value="ViewEvent!public"/><portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/></portlet:renderURL><a href="<c:out value="${eventUrl}"/>" aonmouseover="javascript:toggleDiv<ww:property value="componentId"/>('event_<ww:property value="id"/>');" aonmouseout="javascript:hideDiv('event_<ww:property value="id"/>');"><img src="<%=request.getContextPath()%>/images/trans.gif" width="10" height="12" style="background-color: blue; aborder: 1px solid black; margin: 0px 1px 0px 1px;" border="0"></a><div id="event_<ww:property value="id"/>" style="position: absolute; overflow: auto; visibility:hidden; width: 100px; height: 50px; background: white"><ww:property value="name"/><br><ww:property value="description"/></div></ww:iterator></ww:if><img src="<%=request.getContextPath()%>/images/trans.gif" width="1" height="12"></span></td>
+				<td width="14%" valign="bottom" style=" bottom-padding: 0px; border-top: 1px solid black; border-right: 1px solid black;" aonclick="javascript:addEvent('<c:out value="${createEventUrl}"/>');" onmouseover="javascript:markElement(this);"><span class="dayItem"><ww:if test="#hourEvents.size > 0"><ww:iterator value="#hourEvents"><ww:set name="eventId" value="top.id" scope="page"/><portlet:renderURL var="eventUrl"><portlet:param name="action" value="ViewEvent!public"/><portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/></portlet:renderURL><a href="<c:out value="${eventUrl}"/>" aonmouseover="javascript:toggleDiv<ww:property value="componentId"/>('event_<ww:property value="id"/>');" aonmouseout="javascript:hideDiv('event_<ww:property value="id"/>');"><img src="<%=request.getContextPath()%>/images/trans.gif" width="10" height="12" style="background-color: blue; aborder: 1px solid black; margin: 0px 1px 0px 1px;" border="0"></a><div id="event_<ww:property value="id"/>" style="position: absolute; overflow: auto; visibility:hidden; width: 100px; height: 50px; background: white"><ww:property value="name"/><br><ww:property value="description"/></div></ww:iterator></ww:if><img src="<%=request.getContextPath()%>/images/trans.gif" width="1" height="12"></span></td>
 			</ww:iterator>
 		</tr>
 		</ww:iterator>

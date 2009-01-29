@@ -13,7 +13,7 @@
 <ww:set name="eventId" value="eventId" scope="page"/>
 <portlet:renderURL var="eventUrl">
 	<portlet:param name="action" value="ViewEvent"/>
-	<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+	<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 </portlet:renderURL>
 
 <div class="portlet_margin">

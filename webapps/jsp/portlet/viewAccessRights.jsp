@@ -18,7 +18,7 @@
 
 	<portlet:renderURL var="viewCalendarUrl">
 		<portlet:param name="action" value="ViewCalendar!gui"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 		<portlet:param name="mode" value="day"/>
 	</portlet:renderURL>
 

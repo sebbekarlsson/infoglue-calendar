@@ -81,13 +81,13 @@
 	<ww:set name="eventTypeId" value="eventTypeId" scope="page"/>
 	<portlet:renderURL var="attributeCategoryUrl">
 		<portlet:param name="action" value="ViewEventTypeCategoryAttribute"/>
-		<portlet:param name="eventTypeCategoryAttributeId" value="<%= pageContext.getAttribute("eventTypeCategoryAttributeId").toString() %>"/>
+		<portlet:param name="eventTypeCategoryAttributeId" value='<%= pageContext.getAttribute("eventTypeCategoryAttributeId").toString() %>'/>
 	</portlet:renderURL>
 	
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEventTypeCategoryAttribute"/>
-		<portlet:param name="eventTypeCategoryAttributeId" value="<%= pageContext.getAttribute("eventTypeCategoryAttributeId").toString() %>"/>
-		<portlet:param name="eventTypeId" value="<%= pageContext.getAttribute("eventTypeId").toString() %>"/>
+		<portlet:param name="eventTypeCategoryAttributeId" value='<%= pageContext.getAttribute("eventTypeCategoryAttributeId").toString() %>'/>
+		<portlet:param name="eventTypeId" value='<%= pageContext.getAttribute("eventTypeId").toString() %>'/>
 	</portlet:actionURL>
 	
 	<ww:if test="#rowstatus.odd == true">

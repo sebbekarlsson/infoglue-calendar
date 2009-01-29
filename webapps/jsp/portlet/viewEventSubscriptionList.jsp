@@ -57,7 +57,7 @@
 	
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteEventSubscription"/>
-		<portlet:param name="subscriptionId" value="<%= pageContext.getAttribute("subscriptionId").toString() %>"/>
+		<portlet:param name="subscriptionId" value='<%= pageContext.getAttribute("subscriptionId").toString() %>'/>
 	</portlet:actionURL>
 	
 	<ww:if test="#rowstatus.odd == true">

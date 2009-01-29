@@ -148,7 +148,7 @@
 			<ww:set name="eventId" value="eventId" scope="page"/>
 			<portlet:renderURL var="createEntryRenderURL">
 				<portlet:param name="action" value="CreateEntry!inputPublic"/>
-				<portlet:param name="eventId" value="<%= pageContext.getAttribute("eventId").toString() %>"/>
+				<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 			</portlet:renderURL>
 			
 			<a href="<c:out value="${createEntryRenderURL}"/>"><%= resourceBundle.getString("labels.public.event.signUp") %></a>

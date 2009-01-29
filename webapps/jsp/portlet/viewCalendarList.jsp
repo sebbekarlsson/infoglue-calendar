@@ -54,12 +54,12 @@
 			
 	<portlet:renderURL var="calendarUrl">
 		<portlet:param name="action" value="ViewCalendar"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 	</portlet:renderURL>
 
 	<portlet:actionURL var="deleteUrl">
 		<portlet:param name="action" value="DeleteCalendar"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 	</portlet:actionURL>
 			
 	<ww:if test="#rowstatus.odd == true">

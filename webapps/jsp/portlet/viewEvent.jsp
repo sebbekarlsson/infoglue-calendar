@@ -257,7 +257,7 @@
 				
 				<portlet:actionURL var="deleteResourceUrl">
 					<portlet:param name="action" value="DeleteResource"/>
-					<portlet:param name="deleteResourceId" value="<%= pageContext.getAttribute("resourceId").toString() %>"/>
+					<portlet:param name="deleteResourceId" value='<%= pageContext.getAttribute("resourceId").toString() %>'/>
 				</portlet:actionURL>
 							
 				<span class=""><a href="<c:out value="${url}"/>"><ww:property value='fileName'/> (<ww:property value='assetKey'/>)</a></span>&nbsp;

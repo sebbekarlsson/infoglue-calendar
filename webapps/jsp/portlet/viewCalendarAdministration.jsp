@@ -24,7 +24,7 @@
 	<ww:set name="calendarId" value="#calendarId" scope="page"/>
 	<portlet:renderURL var="createEventUrl">
 		<portlet:param name="action" value="CreateEvent!input"/>
-		<portlet:param name="calendarId" value="<%= pageContext.getAttribute("calendarId").toString() %>"/>
+		<portlet:param name="calendarId" value='<%= pageContext.getAttribute("calendarId").toString() %>'/>
 	</portlet:renderURL>
 </ww:else>
 
