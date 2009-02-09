@@ -403,7 +403,10 @@ public class ViewEventListAction extends CalendarAbstractAction
     		
 	    	SyndFeed feed = new SyndFeedImpl();
 	        feed.setFeedType("atom_1.0");
-	
+    		String feedTypeString = this.getStringAttributeValue("feedType");
+    		if(feedTypeString != null && !feedTypeString.equals(""))
+    			feed.setFeedType(feedTypeString);
+    					
 	        feed.setTitle(this.getStringAttributeValue("feedTitle"));
 	        feed.setLink(this.getStringAttributeValue("feedLink"));
 	        feed.setDescription(this.getStringAttributeValue("feedDescription"));
@@ -430,6 +433,9 @@ public class ViewEventListAction extends CalendarAbstractAction
     	{
 	    	SyndFeed feed = new SyndFeedImpl();
 	        feed.setFeedType("atom_1.0");
+    		String feedTypeString = this.getStringAttributeValue("feedType");
+    		if(feedTypeString != null && !feedTypeString.equals(""))
+    			feed.setFeedType(feedTypeString);
 	
 	        feed.setTitle(this.getStringAttributeValue("feedTitle"));
 	        feed.setLink(this.getStringAttributeValue("feedLink"));
