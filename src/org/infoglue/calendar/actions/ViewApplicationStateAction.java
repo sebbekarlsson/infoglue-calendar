@@ -42,7 +42,7 @@ import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Language;
-import org.infoglue.deliver.util.CacheController;
+import org.infoglue.common.util.CacheController;
 
 /**
  * This is the action that shows the application state and also can be used to set up surveilence.
