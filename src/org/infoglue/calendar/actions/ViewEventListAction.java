@@ -23,7 +23,6 @@
 
 package org.infoglue.calendar.actions;
 
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -36,13 +35,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.portlet.PortletURL;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.FlushMode;
 import org.hibernate.Session;
-import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
@@ -53,6 +48,7 @@ import org.infoglue.calendar.util.CalendarHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.VisualFormatter;
 import org.infoglue.common.util.rss.RssHelper;
+//import org.infoglue.common.util.Timer;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -113,7 +109,30 @@ public class ViewEventListAction extends CalendarAbstractAction
         
         Session session = getSession(true);
     	        
+        //Timer t = new Timer();
+        //this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, session);
+        //t.printElapsedTime("Getting all events took");
         this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, session);
+        //t.printElapsedTime("Getting all events took");
+        
+        log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
+        RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
+        
+        return Action.SUCCESS;
+    } 
+
+    public String execute(Integer numberOfItems) throws Exception 
+    {
+        String[] calendarIds = calendarId.split(",");
+        String[] categoryNamesArray = categoryNames.split(",");
+        
+        Session session = getSession(true);
+    	        
+        //Timer t = new Timer();
+        //this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, session);
+        //t.printElapsedTime("Getting all events took");
+        this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, numberOfItems, session);
+        //t.printElapsedTime("Getting all events took");
         
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
@@ -138,14 +157,14 @@ public class ViewEventListAction extends CalendarAbstractAction
     
     public String listGU() throws Exception
     {
-        execute();
+        execute(getNumberOfItems());
         
         return Action.SUCCESS + "GU";
     }
 
     public String listCustom() throws Exception
     {
-        execute();
+        execute(getNumberOfItems());
         return Action.SUCCESS + "Custom";
     }
 
@@ -306,7 +325,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     
     public String shortListGU() throws Exception
     {
-        execute();
+        execute(getNumberOfItems());
         
         return Action.SUCCESS + "ShortGU";
     }
@@ -320,7 +339,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public String shortListCustom() throws Exception
     {
-        execute();
+        execute(getNumberOfItems());
         
         return Action.SUCCESS + "ShortCustom";
     }

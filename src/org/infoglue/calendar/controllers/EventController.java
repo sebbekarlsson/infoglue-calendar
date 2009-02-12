@@ -1447,6 +1447,11 @@ public class EventController extends BasicController
 		
 		return list;
     }
+
+    public Set getEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, String includedLanguages, java.util.Calendar startCalendar, java.util.Calendar endCalendar, String freeText, Session session) throws Exception 
+    {
+    	return getEventList(calendarIds, categoryAttribute, categoryNames, includedLanguages, startCalendar, endCalendar, freeText, null, session);
+    }
     
     /**
      * Gets a list of all events available for a particular calendar with the optional categories.
@@ -1454,7 +1459,7 @@ public class EventController extends BasicController
      * @throws Exception
      */
     
-    public Set getEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, String includedLanguages, java.util.Calendar startCalendar, java.util.Calendar endCalendar, String freeText, Session session) throws Exception 
+    public Set getEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, String includedLanguages, java.util.Calendar startCalendar, java.util.Calendar endCalendar, String freeText, Integer numberOfItems, Session session) throws Exception 
     {
         List result = null;
         
@@ -1581,6 +1586,9 @@ public class EventController extends BasicController
 	            
 	        	criteria.add(d1);
 	        }
+	        
+	        if(numberOfItems != null)
+	        	criteria.setMaxResults(numberOfItems);
 	        
 	        result = criteria.list();
         
