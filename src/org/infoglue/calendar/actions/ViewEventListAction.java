@@ -46,6 +46,7 @@ import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.util.CalendarHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
+import org.infoglue.common.util.Timer;
 import org.infoglue.common.util.VisualFormatter;
 import org.infoglue.common.util.rss.RssHelper;
 //import org.infoglue.common.util.Timer;
@@ -386,7 +387,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     public Integer getNumberOfItems()
     {
         Object o = ServletActionContext.getRequest().getAttribute("numberOfItems");
-        if(o != null && o.toString().length() > 0)
+        if(o != null && o.toString().length() > 0 && !o.toString().equalsIgnoreCase("undefined"))
             return new Integer((String)o);
         else
             return new Integer(10);
