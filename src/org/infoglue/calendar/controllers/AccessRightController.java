@@ -397,7 +397,7 @@ public class AccessRightController extends BasicController
 		}
 		catch (Exception e) 
 		{
-			e.printStackTrace();
+			log.error("Error getting principal:" + e.getMessage(), e);
 			infoGluePrincipalBean = (InfoGluePrincipalBean)CacheController.getCachedObject("principalsCache", "principal_" + userName);
 		}
 		
