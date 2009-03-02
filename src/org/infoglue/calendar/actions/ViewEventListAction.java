@@ -143,14 +143,14 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public String listAsRSS() throws Exception
     {
-        execute();
+        execute(getNumberOfItems());
         
         return Action.SUCCESS + "RSS";
     }
 
     public String listAsAggregatedRSS() throws Exception
     {
-        execute();
+        execute(getNumberOfItems());
         
         return Action.SUCCESS + "AggregatedRSS";
     }
