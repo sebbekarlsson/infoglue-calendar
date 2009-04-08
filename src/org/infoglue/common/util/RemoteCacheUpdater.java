@@ -47,11 +47,20 @@ import org.infoglue.calendar.entities.Calendar;
 * 
 */
 
-public class RemoteCacheUpdater
+public class RemoteCacheUpdater implements Runnable
 {	
    private static Log log = LogFactory.getLog(RemoteCacheUpdater.class);
 
    private static Map usageMap = new HashMap();
+   
+   private String address;
+   private Hashtable hashedMessage;
+   
+   public RemoteCacheUpdater(String address, Hashtable hashedMessage)
+   {
+	   this.address = address;
+	   this.hashedMessage = hashedMessage;
+   }
    
    /**
     * This method registers that a calendar has been used on a page.
@@ -107,7 +116,8 @@ public class RemoteCacheUpdater
 	 * As a content-tool can have several preview instances we iterate through the instances that have 
 	 * been indexed in the propertyfile starting with 0.
 	 */
-	public void updateRemoteCaches(Long calendarId) throws Exception
+	
+	public void updateRemoteCachesOld(Long calendarId) throws Exception
 	{
 		List siteNodeIdList = (List)usageMap.get("" + calendarId);
 		if(siteNodeIdList == null)
@@ -134,7 +144,17 @@ public class RemoteCacheUpdater
 			
 			    try
 			    {
-			    	String response = postToUrl(address, hashedMessage);
+			    	if(address.indexOf("infoglueDeliverWorking") > -1 || address.indexOf("infoglueDeliverPreview") > -1)
+			    	{
+			    		System.out.println("1");
+				    	String response = postToUrl(address, hashedMessage);
+			    	}
+			    	else
+			    	{
+			    		System.out.println("2");
+			    		Thread thread = new Thread(new RemoteCacheUpdater(address, hashedMessage));
+						thread.start();
+			    	}
 				}
 			    catch(Exception e)
 			    {
@@ -149,7 +169,55 @@ public class RemoteCacheUpdater
 		}
 			
 	}	
+	
 
+	public void updateRemoteCaches(Long calendarId) throws Exception
+	{
+		if(PropertyHelper.getProperty("useOldRemoteCacheUpdate") != null && PropertyHelper.getProperty("useOldRemoteCacheUpdate").equals("true"))
+			updateRemoteCachesOld(calendarId);
+		
+		String appPrefix = "notificationUrl";
+		
+	    int i = 0;
+		String deliverUrl = null;
+		while((deliverUrl = PropertyHelper.getProperty(appPrefix + "." + i)) != null)
+		{ 
+			String address = deliverUrl;
+			log.info("Updating cache at " + address);
+			try
+		    {
+		    	if(PropertyHelper.getProperty("useThreadedRemoteCacheUpdate") != null && PropertyHelper.getProperty("useThreadedRemoteCacheUpdate").equals("true"))
+		    	{
+			    	Thread thread = new Thread(new RemoteCacheUpdater(address, hashedMessage));
+		    		thread.start();
+		    	}
+		    	else
+		    	{
+		    		String response = postToUrl(address, hashedMessage);
+		    	}
+			}
+		    catch(Exception e)
+		    {
+			    log.warn("Error calling " + address + ":" + e.getMessage(), e);			    	
+		    }
+		    
+			i++;
+		}			
+	}	
+
+	public synchronized void run()
+	{
+		try
+	    {
+			//System.out.println("Calling publish url");
+		    String response = postToUrl(address, hashedMessage);
+		}
+	    catch(Exception e)
+	    {
+		    log.warn("Error calling " + address + ":" + e.getMessage(), e);			    	
+	    }
+	}
+	
    /**
     * This method post information to an URL and returns a string.It throws
     * an exception if anything goes wrong.

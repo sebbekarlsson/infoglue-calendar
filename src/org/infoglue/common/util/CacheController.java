@@ -25,6 +25,7 @@ package org.infoglue.common.util;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -153,6 +154,28 @@ public class CacheController
 		}
 	}
 	
+	public static void clearCaches()
+	{
+		synchronized(caches) 
+		{
+			Iterator cachesIterator = caches.values().iterator();
+			while(cachesIterator.hasNext())
+			{
+			    Object object = cachesIterator.next();
+			    if(object instanceof Map)
+				{
+					Map cacheInstance = (Map)object;
+					synchronized(cacheInstance) 
+					{
+						cacheInstance.clear();
+					}
+				}
+			 
+			    logger.info("clearCache stop...");
+			}
+		    caches.clear();
+		}
+	}
 
     public static Map getCaches()
     {

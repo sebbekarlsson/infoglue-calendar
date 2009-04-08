@@ -129,6 +129,16 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
     }
 
     /**
+     * This action allows clearing of the given cache manually.
+     */
+    public String doClearAllCaches() throws Exception
+    {
+        CacheController.clearCaches();
+        
+        return "cleared";
+    }
+
+    /**
      * This action allows setting of the loglevel on any class.
      */
     public String logLevel() throws Exception
