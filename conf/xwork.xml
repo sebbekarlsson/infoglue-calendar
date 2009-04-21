@@ -507,6 +507,9 @@
 			<result name="successShortAggregatedCustom" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/custom/viewEventShortListAggregated.jsp</param>
 			</result>
+			<result name="successRenderedTemplate" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewRenderedTemplate.jsp</param>
+			</result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>

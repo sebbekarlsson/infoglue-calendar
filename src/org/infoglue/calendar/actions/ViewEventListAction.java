@@ -23,6 +23,8 @@
 
 package org.infoglue.calendar.actions;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.util.CalendarHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.Timer;
+import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.VisualFormatter;
 import org.infoglue.common.util.rss.RssHelper;
 //import org.infoglue.common.util.Timer;
@@ -134,7 +137,6 @@ public class ViewEventListAction extends CalendarAbstractAction
         //t.printElapsedTime("Getting all events took");
         this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, numberOfItems, session);
         //t.printElapsedTime("Getting all events took");
-        
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
@@ -160,10 +162,27 @@ public class ViewEventListAction extends CalendarAbstractAction
     {
         execute(getNumberOfItems());
         
+        String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("events", this.events);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+			
+			return Action.SUCCESS + "RenderedTemplate";
+        }
+        
         return Action.SUCCESS + "GU";
     }
 
-    public String listCustom() throws Exception
+	public String listCustom() throws Exception
     {
         execute(getNumberOfItems());
         return Action.SUCCESS + "Custom";

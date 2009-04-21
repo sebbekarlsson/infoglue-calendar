@@ -94,7 +94,8 @@ import com.sun.syndication.feed.synd.SyndEntry;
 public class CalendarAbstractAction extends ActionSupport
 {
 	private static Log log = LogFactory.getLog(CalendarAbstractAction.class);
-
+	private String renderedString = null;
+	
 	/**
 	 * This method lets the velocity template get hold of all actions inheriting.
 	 * 
@@ -288,6 +289,11 @@ public class CalendarAbstractAction extends ActionSupport
         return (String)ServletActionContext.getRequest().getAttribute("categoryNames");
     }
 
+    public String getPresentationTemplate()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("presentationTemplate");
+    }
+    
     public InfoGluePrincipalBean getInfoGluePrincipal() throws Exception
     {
     	try
@@ -430,7 +436,22 @@ public class CalendarAbstractAction extends ActionSupport
 
         return categories;
     }
-    
+
+    public List getEventCategories(Event event, EventTypeCategoryAttribute categoryAttribute)
+    {        
+        List categories = new ArrayList();
+        
+        Iterator i = event.getEventCategories().iterator();
+        while(i.hasNext())
+        {
+            EventCategory eventCategory = (EventCategory)i.next();
+            if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
+                categories.add(eventCategory.getCategory());
+        }
+
+        return categories;
+    }
+
     public String getState(Integer stateId)
     {
         if(stateId == null)
@@ -1138,6 +1159,15 @@ public class CalendarAbstractAction extends ActionSupport
 	    return label;
     }
 
+    public void setRenderedString(String renderedString)
+	{
+    	this.renderedString = renderedString;
+	}
+
+    public String getRenderedString()
+	{
+    	return this.renderedString;
+	}
 
 	public String getDatabaseConfigurationError() throws HibernateException {
 	    return (String)ServletActionContext.getRequest().getAttribute("DATABASE_CONFIGURATION_ERROR");
