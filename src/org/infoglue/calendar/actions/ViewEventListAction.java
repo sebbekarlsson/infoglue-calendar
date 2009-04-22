@@ -122,6 +122,21 @@ public class ViewEventListAction extends CalendarAbstractAction
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
+        String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("events", this.events);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+        }
+        
         return Action.SUCCESS;
     } 
 
@@ -140,6 +155,21 @@ public class ViewEventListAction extends CalendarAbstractAction
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
+        String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("events", this.events);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+        }
+
         return Action.SUCCESS;
     } 
 
@@ -162,22 +192,8 @@ public class ViewEventListAction extends CalendarAbstractAction
     {
         execute(getNumberOfItems());
         
-        String presentationTemplate = getPresentationTemplate();
-        log.info("presentationTemplate:" + presentationTemplate);
-        if(presentationTemplate != null && !presentationTemplate.equals(""))
-        {
-		    Map parameters = new HashMap();
-		    parameters.put("events", this.events);
-		    parameters.put("this", this);
-		    
-			StringWriter tempString = new StringWriter();
-			PrintWriter pw = new PrintWriter(tempString);
-			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
-			String renderedString = tempString.toString();
-			setRenderedString(renderedString);
-			
+        if(getRenderedString() != null && !getRenderedString().equals(""))
 			return Action.SUCCESS + "RenderedTemplate";
-        }
         
         return Action.SUCCESS + "GU";
     }
@@ -185,6 +201,10 @@ public class ViewEventListAction extends CalendarAbstractAction
 	public String listCustom() throws Exception
     {
         execute(getNumberOfItems());
+        
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
+
         return Action.SUCCESS + "Custom";
     }
 
@@ -218,6 +238,24 @@ public class ViewEventListAction extends CalendarAbstractAction
 			log.info("entries:" + entries.size());
 			
 			aggregatedEntries = entries;
+			
+	        String presentationTemplate = getPresentationTemplate();
+	        log.info("presentationTemplate:" + presentationTemplate);
+	        if(presentationTemplate != null && !presentationTemplate.equals(""))
+	        {
+			    Map parameters = new HashMap();
+			    parameters.put("aggregatedEntries", aggregatedEntries);
+			    parameters.put("this", this);
+			    
+				StringWriter tempString = new StringWriter();
+				PrintWriter pw = new PrintWriter(tempString);
+				new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+				String renderedString = tempString.toString();
+				setRenderedString(renderedString);
+
+				return Action.SUCCESS + "RenderedTemplate";
+	        }
+
 		}
 		catch(Exception e)
 		{
@@ -231,7 +269,10 @@ public class ViewEventListAction extends CalendarAbstractAction
     public String listSlottedGU() throws Exception
     {
         execute();
-        
+
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
+
         return Action.SUCCESS + "SlotGU";
     }
 
@@ -332,12 +373,32 @@ public class ViewEventListAction extends CalendarAbstractAction
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
+        String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("events", this.events);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+			
+			return Action.SUCCESS + "RenderedTemplate";
+        }
+
         return Action.SUCCESS + "FilteredGU";
     }
 
     public String listFilteredGraphicalCalendarGU() throws Exception
     {
     	listFilteredGU();
+
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
 
         return Action.SUCCESS + "FilteredGraphicalCalendarGU";
     }
@@ -346,7 +407,10 @@ public class ViewEventListAction extends CalendarAbstractAction
     public String shortListGU() throws Exception
     {
         execute(getNumberOfItems());
-        
+
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
+
         return Action.SUCCESS + "ShortGU";
     }
 
@@ -354,20 +418,29 @@ public class ViewEventListAction extends CalendarAbstractAction
     {
         execute();
         
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
+
         return Action.SUCCESS + "SlotCustom";
     }
 
     public String shortListCustom() throws Exception
     {
         execute(getNumberOfItems());
-        
+
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
+
         return Action.SUCCESS + "ShortCustom";
     }
 
     public String shortListAggregatedCustom() throws Exception
     {
         execute();
-        
+
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
+
         return Action.SUCCESS + "ShortAggregatedCustom";
     }
 
