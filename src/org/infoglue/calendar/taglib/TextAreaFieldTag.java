@@ -132,13 +132,13 @@ public class TextAreaFieldTag extends AbstractCalendarTag
     	
 	    if(this.label != null)
 	    {
-		    sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
-	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
+		    sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>");
+	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea><br/>");
 	    }
 	    else
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
-	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
+	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>");
+	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea><br/>");
 	        
 	    }
 	    

@@ -149,9 +149,9 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	sb.append(rowDivHTMLStart);
 
 	    if(this.label != null)
-	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br>"));
+	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br/>"));
 		else
-		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br>"));
+		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br/>"));
 			    
         sb.append("<select id=\"" + name + "\" name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
         
@@ -345,7 +345,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	            sb.append("<option value=\"" + id + "\"" + selected + ">" + optionText + "</option>");
 	        }
         }
-        sb.append("</select>");
+        sb.append("</select><br/>");
         
 	    if(!skipContainer)
 	    	sb.append(rowDivHTMLEnd);

@@ -125,10 +125,10 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	    
 	    if(this.label != null)
 	    {
-			sb.append("<label>" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+			sb.append("<label>" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>");
 	    }
 	    else
-	        sb.append("<label>" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+	        sb.append("<label>" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>");
 
         if(values != null)
         {
@@ -148,7 +148,7 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	                    checked = " checked=\"checked\"";
 	            }
 	            
-	    		sb.append("<input name=\"" + name + "\" value=\"" + id + "\" class=\"\" type=\"radio\" id=\"" + name + "\"" + checked + "><label for=\"" + name + "\"> " + this.getLabel(optionText) + "</label><br />");
+	    		sb.append("<input name=\"" + name + "\" value=\"" + id + "\" class=\"\" type=\"radio\" id=\"" + name + "\"" + checked + "><label for=\"" + name + "\"> " + this.getLabel(optionText) + "</label><br/>");
 	        }
         }
 	    if(!skipRowDiv)

@@ -131,12 +131,12 @@ public class TextFieldTag extends AbstractCalendarTag
         if(this.label != null)
 	    {
 	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>\n");
-	    	sb.append("<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">\n");
+	    	sb.append("<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\"><br/>\n");
 	    }
 	    else
 	    {
 	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>\n");
-	    	sb.append("<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">\n");
+	    	sb.append("<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\"><br/>\n");
 	    }
         
         if(!skipRowDiv)
