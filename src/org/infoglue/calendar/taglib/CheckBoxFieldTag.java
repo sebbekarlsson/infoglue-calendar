@@ -61,6 +61,32 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 
 	private boolean mandatory = false;
 
+	private Boolean skipRowDiv = false;
+	private String rowDivHTMLStart = "<div class=\"fieldrow\">";
+	private String rowDivHTMLEnd = "</div>";
+
+	public void setSkipRowDiv(String skipRowDiv) throws JspException
+    {
+        String evaluatedString = evaluateString("AbstractInputCalendarTag", "skipRowDiv", skipRowDiv);
+        if(evaluatedString != null && !evaluatedString.equals(skipRowDiv))
+        	skipRowDiv = evaluatedString;
+        
+    	if(skipRowDiv.equalsIgnoreCase("true"))
+            this.skipRowDiv = true;
+        else
+            this.skipRowDiv = false;   
+    }
+
+    public void setRowDivHTMLStart(String rowDivHTMLStart)
+    {
+        this.rowDivHTMLStart = rowDivHTMLStart;
+    }
+
+    public void setRowDivHTMLEnd(String rowDivHTMLEnd)
+    {
+        this.rowDivHTMLEnd = rowDivHTMLEnd;
+    }
+
 	/**
 	 * 
 	 */
@@ -104,7 +130,8 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 
 	    StringBuffer sb = new StringBuffer();
 	    
-	    sb.append("<div class=\"fieldrow\">");
+	    if(!skipRowDiv)
+	    	sb.append(rowDivHTMLStart);
 		            
 	    if(this.label != null)
 	    {
@@ -188,10 +215,15 @@ public class CheckBoxFieldTag extends AbstractCalendarTag
 	            //sb.append("<input type=\"checkbox\" name=\"" + name + "\" value=\"" + id + "\" class=\"" + cssClass + "\"" + checked + "><span class=\"" + cssClass + "\">" + optionText + "</span>");
 	        }
         }
-        sb.append("</div>");
+	    if(!skipRowDiv)
+	    	sb.append(rowDivHTMLEnd);
 
         write(sb.toString());
 	    
+        this.rowDivHTMLStart = "<div class=\"fieldrow\">";
+        this.rowDivHTMLEnd = "</div>";
+        this.skipRowDiv = false;
+
         return EVAL_PAGE;
     }
 

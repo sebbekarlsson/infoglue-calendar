@@ -289,11 +289,36 @@ public class CalendarAbstractAction extends ActionSupport
         return (String)ServletActionContext.getRequest().getAttribute("categoryNames");
     }
 
+    public String getContainerDivHTMLStart()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("containerDivHTMLStart");
+    }
+
+    public String getContainerDivHTMLEnd()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("containerDivHTMLEnd");
+    }
+
+    public String getSkipRowDiv()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("skipRowDiv");
+    }
+
+    public String getRowDivHTMLStart()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("rowDivHTMLStart");
+    }
+
+    public String getRowDivHTMLEnd()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("rowDivHTMLEnd");
+    }
+
     public String getPresentationTemplate()
     {
         return (String)ServletActionContext.getRequest().getAttribute("presentationTemplate");
     }
-    
+
     public InfoGluePrincipalBean getInfoGluePrincipal() throws Exception
     {
     	try

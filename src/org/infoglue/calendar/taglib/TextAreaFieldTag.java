@@ -60,6 +60,32 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	private List fieldErrors = null;
 	private Object errorAction = null;
 	
+	private Boolean skipRowDiv = false;
+	private String rowDivHTMLStart = "<div class=\"fieldrow\">";
+	private String rowDivHTMLEnd = "</div>";
+
+	public void setSkipRowDiv(String skipRowDiv) throws JspException
+    {
+        String evaluatedString = evaluateString("AbstractInputCalendarTag", "skipRowDiv", skipRowDiv);
+        if(evaluatedString != null && !evaluatedString.equals(skipRowDiv))
+        	skipRowDiv = evaluatedString;
+        
+    	if(skipRowDiv.equalsIgnoreCase("true"))
+            this.skipRowDiv = true;
+        else
+            this.skipRowDiv = false;   
+    }
+
+    public void setRowDivHTMLStart(String rowDivHTMLStart)
+    {
+        this.rowDivHTMLStart = rowDivHTMLStart;
+    }
+
+    public void setRowDivHTMLEnd(String rowDivHTMLEnd)
+    {
+        this.rowDivHTMLEnd = rowDivHTMLEnd;
+    }
+
 	/**
 	 * 
 	 */
@@ -101,26 +127,30 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	    }	
 
 	    StringBuffer sb = new StringBuffer();
+	    if(!skipRowDiv)
+	    	sb.append(this.rowDivHTMLStart);
+    	
 	    if(this.label != null)
 	    {
-	        sb.append("<div class=\"fieldrow\">");
-	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
+		    sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
-	    	sb.append("</div>");
 	    }
 	    else
 	    {
-	        sb.append("<div class=\"fieldrow\">");
 	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
 	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
-	    	sb.append("</div>");
 	        
 	    }
-        //sb.append("<br>");
-        //sb.append("<textarea name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea>");
+	    
+	    if(!skipRowDiv)
+	    	sb.append(rowDivHTMLEnd);
 
         write(sb.toString());
 	    
+        this.rowDivHTMLStart = "<div class=\"fieldrow\">";
+        this.rowDivHTMLEnd = "</div>";
+        this.skipRowDiv = false;
+
         return EVAL_PAGE;
     }
 

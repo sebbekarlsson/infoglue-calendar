@@ -76,6 +76,32 @@ public class SelectFieldTag extends AbstractCalendarTag
 	
     private boolean mandatory;
 
+	private Boolean skipRowDiv = false;
+	private String rowDivHTMLStart = "<div class=\"fieldrow\">";
+	private String rowDivHTMLEnd = "</div>";
+
+	public void setSkipRowDiv(String skipRowDiv) throws JspException
+    {
+        String evaluatedString = evaluateString("AbstractInputCalendarTag", "skipRowDiv", skipRowDiv);
+        if(evaluatedString != null && !evaluatedString.equals(skipRowDiv))
+        	skipRowDiv = evaluatedString;
+        
+    	if(skipRowDiv.equalsIgnoreCase("true"))
+            this.skipRowDiv = true;
+        else
+            this.skipRowDiv = false;   
+    }
+
+    public void setRowDivHTMLStart(String rowDivHTMLStart)
+    {
+        this.rowDivHTMLStart = rowDivHTMLStart;
+    }
+
+    public void setRowDivHTMLEnd(String rowDivHTMLEnd)
+    {
+        this.rowDivHTMLEnd = rowDivHTMLEnd;
+    }
+
 	/**
 	 * 
 	 */
@@ -120,7 +146,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    StringBuffer sb = new StringBuffer();
 
 	    if(!skipContainer)
-	    	sb.append("<div class=\"fieldrow\">");
+	    	sb.append(rowDivHTMLStart);
 
 	    if(this.label != null)
 	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br>"));
@@ -322,7 +348,7 @@ public class SelectFieldTag extends AbstractCalendarTag
         sb.append("</select>");
         
 	    if(!skipContainer)
-	    	sb.append("</div>");
+	    	sb.append(rowDivHTMLEnd);
         
         write(sb.toString());
 	    
@@ -331,6 +357,10 @@ public class SelectFieldTag extends AbstractCalendarTag
         this.selectedValueList = null;
         this.selectedValueSet = null;
         
+        this.rowDivHTMLStart = "<div class=\"fieldrow\">";
+        this.rowDivHTMLEnd = "</div>";
+        this.skipRowDiv = false;
+
         return EVAL_PAGE;
     }
 

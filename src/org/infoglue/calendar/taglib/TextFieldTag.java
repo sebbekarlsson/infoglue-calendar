@@ -51,6 +51,32 @@ public class TextFieldTag extends AbstractCalendarTag
 	private List fieldErrors = null;
 	private Object errorAction = null;
 	
+	private Boolean skipRowDiv = false;
+	private String rowDivHTMLStart = "<div class=\"fieldrow\">";
+	private String rowDivHTMLEnd = "</div>";
+
+	public void setSkipRowDiv(String skipRowDiv) throws JspException
+    {
+        String evaluatedString = evaluateString("AbstractInputCalendarTag", "skipRowDiv", skipRowDiv);
+        if(evaluatedString != null && !evaluatedString.equals(skipRowDiv))
+        	skipRowDiv = evaluatedString;
+        
+    	if(skipRowDiv.equalsIgnoreCase("true"))
+            this.skipRowDiv = true;
+        else
+            this.skipRowDiv = false;   
+    }
+
+    public void setRowDivHTMLStart(String rowDivHTMLStart)
+    {
+        this.rowDivHTMLStart = rowDivHTMLStart;
+    }
+
+    public void setRowDivHTMLEnd(String rowDivHTMLEnd)
+    {
+        this.rowDivHTMLEnd = rowDivHTMLEnd;
+    }
+
 	/**
 	 * 
 	 */
@@ -99,26 +125,29 @@ public class TextFieldTag extends AbstractCalendarTag
 	    }	
 
 	    StringBuffer sb = new StringBuffer();
-        sb.append("<div class=\"fieldrow\">");
+	    if(!skipRowDiv)
+	    	sb.append(this.rowDivHTMLStart);
 	    
         if(this.label != null)
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
-	    	sb.append("	<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
+	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>\n");
+	    	sb.append("<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">\n");
 	    }
 	    else
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br>");
-	    	sb.append("	<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
+	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>\n");
+	    	sb.append("<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">\n");
 	    }
-		sb.append("</div>");
+        
+        if(!skipRowDiv)
+    	    sb.append(this.rowDivHTMLEnd);
 			
-        //sb.append("<br>");
-        //sb.append("<input type=\"textfield\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\">");
-
         write(sb.toString());
 	    
         this.name = null;
+        this.rowDivHTMLStart = "<div class=\"fieldrow\">";
+        this.rowDivHTMLEnd = "</div>";
+        this.skipRowDiv = false;
         
         return EVAL_PAGE;
     }
@@ -171,6 +200,7 @@ public class TextFieldTag extends AbstractCalendarTag
     {
         this.labelCssClass = labelCssClass;
     }
+
     
     public void setRequired(String required) throws JspException
     {
@@ -182,22 +212,6 @@ public class TextFieldTag extends AbstractCalendarTag
             this.mandatory = true;
         else
             this.mandatory = false;   
-    }
-
-    
-    public void setMandatory(String mandatory)
-    {
-    	log.debug("APA1:" + mandatory);
-    }
-
-    public void setMandatory(Object mandatory)
-    {
-    	log.debug("APA2:" + mandatory);
-    }
-
-    public void setMandatory(boolean mandatory)
-    {
-    	log.debug("APA3:" + mandatory);
     }
 
     public boolean getMandatory()
