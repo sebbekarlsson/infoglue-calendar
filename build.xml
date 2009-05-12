@@ -411,7 +411,7 @@
       description="Get updates from cvs for this module"
     >
         <cvs command="update -P -d"
-             cvsRoot=":pserver:anonymous@www.infoglue.org:2401/home/cvs/infoglue2"/>
+             cvsRoot=":pserver:anonymous@www.infoglue.org:2401/home/cvs/infoglue2" quiet="true"/>
     </target>
     <!-- =================================================================== -->    
     <!-- Generates the project's API documentation                           -->    
