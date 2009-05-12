@@ -152,7 +152,7 @@
     	<echo message="Copying files to war-dir"/>
         <echo message="Deploying to ${war.dir}"/>
 
-		<copy todir="${war.dir}/WEB-INF/lib" verbose="true">
+		<copy todir="${war.dir}/WEB-INF/lib">
 			<fileset dir="${lib}">
 				<include name="**/*"/>
                 <exclude name="servlet.jar"/>
@@ -164,28 +164,28 @@
 		</copy>
 
 		<echo message="Copying infoglueCalendar/WEB-INF/classes"/>
-		<copy todir="${war.dir}/WEB-INF/classes" verbose="true">
+		<copy todir="${war.dir}/WEB-INF/classes">
 			<fileset dir="${webapp}/WEB-INF/classes">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying JSP-files ${webapp}"/>
-		<copy todir="${war.dir}/jsp/portlet" verbose="true">
+		<copy todir="${war.dir}/jsp/portlet">
 			<fileset dir="${webapp}/jsp/portlet">
 				<include name="**/*.jsp"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying Template-files ${webapp}"/>
-        <copy todir="${war.dir}/templates" verbose="true">
+        <copy todir="${war.dir}/templates">
                 <fileset dir="${webapp}/templates">
                         <include name="**/*"/>
                 </fileset>
         </copy>
 
 		<echo message="Copying Other-files"/>
-		<copy todir="${war.dir}" verbose="true">
+		<copy todir="${war.dir}">
 			<fileset dir="${webapp}">
 				<include name="applications/**/*.*"/>
 				<include name="digitalAssets/**/*.*"/>
@@ -201,21 +201,21 @@
 		</copy>
 
 		<echo message="Copying CSS-files"/>
-		<copy todir="${war.dir}/css" verbose="true">
+		<copy todir="${war.dir}/css">
 			<fileset dir="${webapp}/css">
 				<include name="**/*.css"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying CSS-files"/>
-		<copy todir="${war.dir}/images" verbose="true">
+		<copy todir="${war.dir}/images">
 			<fileset dir="${webapp}/images">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying Resourse bundle-files"/>
-		<copy todir="${war.dir}/WEB-INF/classes" verbose="true">
+		<copy todir="${war.dir}/WEB-INF/classes">
 			<fileset dir="${build.classes}">
 				<include name="infoglueCalendar_en.properties"/>
 				<include name="infoglueCalendar_sv.properties"/>
@@ -223,14 +223,14 @@
 		</copy>
 
 		<echo message="Copying TagLib files"/>
-		<copy todir="${war.dir}/WEB-INF/tld" verbose="true">
+		<copy todir="${war.dir}/WEB-INF/tld">
 			<fileset dir="${conf}/tld">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying TagLib files"/>
-		<copy todir="${war.dir}/WEB-INF/classes" verbose="true">
+		<copy todir="${war.dir}/WEB-INF/classes">
 			<fileset dir="${conf}">
 				<include name="*"/>
 				<include name="**/*-validation.xml"/>
@@ -242,21 +242,21 @@
 		</copy>
 
 		<echo message="Copying web.xml and portlet.xml from ${webapp}/WEB-INF to ${webapp}/WEB-INF"/>
-		<copy todir="${war.dir}/WEB-INF" verbose="true" overwrite="true" encoding="iso-8859-1">
+		<copy todir="${war.dir}/WEB-INF" overwrite="true" encoding="iso-8859-1">
 			<fileset dir="${conf}">
 				<include name="web.xml"/>
 				<include name="portlet.xml"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${war.dir}/META-INF" verbose="true" overwrite="true" encoding="iso-8859-1">
+		<copy todir="${war.dir}/META-INF" overwrite="true" encoding="iso-8859-1">
 			<fileset dir="${conf}">
 				<include name="context.xml"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying confs to cms ${conf}"/>
-		<copy todir="${war.dir}/WEB-INF/classes" verbose="true" overwrite="true" encoding="iso-8859-1">
+		<copy todir="${war.dir}/WEB-INF/classes" overwrite="true" encoding="iso-8859-1">
 			<fileset dir="${conf}">
 				<include name="*.properties"/>
 				<include name="*.xml"/>
@@ -269,7 +269,7 @@
 		</copy>
 
 		<echo message="Copying context.xml from ${webapp}/META-INF to ${webapp}/META-INF"/>
-		<copy todir="${war.dir}/META-INF" verbose="true" overwrite="true" encoding="iso-8859-1">
+		<copy todir="${war.dir}/META-INF" overwrite="true" encoding="iso-8859-1">
 			<fileset dir="${conf}">
 				<include name="context.xml"/>
 			</fileset>
@@ -680,7 +680,7 @@
                 <echo message="Deploying to ${deploy.dir.working}"/>
                 <echo message="Classes fromld.classes}"/>
 
-		<copy todir="${deploy.dir.working}/WEB-INF/lib" verbose="true">
+		<copy todir="${deploy.dir.working}/WEB-INF/lib">
 			<fileset dir="${lib}">
 				<include name="**/*"/>
                 <exclude name="servlet.jar"/>
@@ -692,28 +692,28 @@
 		</copy>
 
 		<echo message="Copying infoglueCalendar/WEB-INF/classes"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes" verbose="true">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes">
 			<fileset dir="${webapp}/WEB-INF/classes">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying JSP-files ${webapp}"/>
-		<copy todir="${deploy.dir.working}/jsp/portlet" verbose="true">
+		<copy todir="${deploy.dir.working}/jsp/portlet">
 			<fileset dir="${webapp}/jsp/portlet">
 				<include name="**/*.jsp"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying Template-files ${webapp}"/>
-        <copy todir="${deploy.dir.working}/templates" verbose="true">
+        <copy todir="${deploy.dir.working}/templates">
                 <fileset dir="${webapp}/templates">
                         <include name="**/*"/>
                 </fileset>
         </copy>
 
 		<echo message="Copying Other-files"/>
-		<copy todir="${deploy.dir.working}" verbose="true">
+		<copy todir="${deploy.dir.working}">
 			<fileset dir="${webapp}">
 				<include name="applications/**/*.*"/>
 				<include name="digitalAssets/**/*.*"/>
@@ -729,21 +729,21 @@
 		</copy>
 
 		<echo message="Copying CSS-files"/>
-		<copy todir="${deploy.dir.working}/css" verbose="true">
+		<copy todir="${deploy.dir.working}/css">
 			<fileset dir="${webapp}/css">
 				<include name="**/*.css"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying CSS-files"/>
-		<copy todir="${deploy.dir.working}/images" verbose="true">
+		<copy todir="${deploy.dir.working}/images">
 			<fileset dir="${webapp}/images">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying Resourse bundle-files"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes" verbose="true">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes">
 			<fileset dir="${build.classes}">
 				<include name="infoglueCalendar_en.properties"/>
 				<include name="infoglueCalendar_sv.properties"/>
@@ -751,14 +751,14 @@
 		</copy>
 
 		<echo message="Copying TagLib files"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/tld" verbose="true">
+		<copy todir="${deploy.dir.working}/WEB-INF/tld">
 			<fileset dir="${conf}/tld">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying TagLib files"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes" verbose="true">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes">
 			<fileset dir="${conf}">
 				<include name="*"/>
 				<include name="**/*-validation.xml"/>
@@ -770,21 +770,21 @@
 		</copy>
 
 		<echo message="Copying web.xml and portlet.xml from ${webapp}/WEB-INF to ${webapp}/WEB-INF"/>
-		<copy todir="${deploy.dir.working}/WEB-INF" verbose="true" overwrite="true" encoding="iso-8859-1">
+		<copy todir="${deploy.dir.working}/WEB-INF" overwrite="true" encoding="iso-8859-1">
 			<fileset dir="${conf}">
 				<include name="web.xml"/>
 				<include name="portlet.xml"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${deploy.dir.working}/META-INF" verbose="true" overwrite="true" encoding="iso-8859-1">
+		<copy todir="${deploy.dir.working}/META-INF" overwrite="true" encoding="iso-8859-1">
 			<fileset dir="${conf}">
 				<include name="context.xml"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying confs to cms ${conf}"/>
-		<copy todir="${deploy.dir.working}/WEB-INF/classes" verbose="true" overwrite="true" encoding="iso-8859-1">
+		<copy todir="${deploy.dir.working}/WEB-INF/classes" overwrite="true" encoding="iso-8859-1">
 			<fileset dir="${conf}">
 				<include name="*.properties"/>
 				<include name="*.xml"/>
