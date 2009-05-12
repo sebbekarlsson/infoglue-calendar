@@ -23,6 +23,8 @@
 
 package org.infoglue.calendar.actions;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +43,7 @@ import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
 import org.infoglue.common.security.beans.InfoGluePrincipalBean;
 import org.infoglue.common.util.ConstraintExceptionBuffer;
+import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.dom.DOMBuilder;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -213,6 +216,21 @@ public class CreateEntryAction extends CalendarAbstractAction
 	        }
 	        EntryController.getController().notifyEventOwner(newEntry, this.getLocale(), principalBean, getSession());
 
+	        String presentationTemplate = getPresentationTemplate();
+	        log.info("presentationTemplate:" + presentationTemplate);
+	        if(presentationTemplate != null && !presentationTemplate.equals(""))
+	        {
+			    Map parameters = new HashMap();
+			    parameters.put("event", event);
+			    parameters.put("attributes", this.attributes);
+			    parameters.put("this", this);
+			    
+				StringWriter tempString = new StringWriter();
+				PrintWriter pw = new PrintWriter(tempString);
+				new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+				String renderedString = tempString.toString();
+				setRenderedString(renderedString);
+	        }
         }
         catch(ValidationException e)
         {
@@ -254,6 +272,9 @@ public class CreateEntryAction extends CalendarAbstractAction
             return Action.ERROR + "Public";            
         }
         
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
+        
         return Action.SUCCESS + "Public";
     } 
 
@@ -280,6 +301,9 @@ public class CreateEntryAction extends CalendarAbstractAction
         {
             return Action.ERROR + "PublicGU";            
         }
+
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
         
         return Action.SUCCESS + "PublicGU";
     } 
@@ -308,6 +332,9 @@ public class CreateEntryAction extends CalendarAbstractAction
             return Action.ERROR + "PublicCustom";            
         }
         
+        if(getRenderedString() != null && !getRenderedString().equals(""))
+			return Action.SUCCESS + "RenderedTemplate";
+
         return Action.SUCCESS + "PublicCustom";
     } 
 
@@ -355,6 +382,24 @@ public class CreateEntryAction extends CalendarAbstractAction
 	            return "maximumReachedPublic";
         }
         */
+		
+        String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("event", event);
+		    parameters.put("attributes", this.attributes);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+			return Action.SUCCESS + "RenderedTemplate";
+        }
+
         return Action.INPUT + "Public";
     } 
 
@@ -379,6 +424,23 @@ public class CreateEntryAction extends CalendarAbstractAction
         }
         */
         
+        String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("event", event);
+		    parameters.put("attributes", this.attributes);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+			return Action.SUCCESS + "RenderedTemplate";
+        }
+
         return Action.INPUT + "PublicGU";
     } 
     
@@ -388,7 +450,37 @@ public class CreateEntryAction extends CalendarAbstractAction
     
     public String inputPublicCustom() throws Exception 
     {
-    	inputPublicGU();
+    	event = EventController.getController().getEvent(eventId, getSession());
+
+        EventType eventType = EventTypeController.getController().getEventType(event.getEntryFormId(), getSession());
+        
+		this.attributes = ContentTypeDefinitionController.getController().getContentTypeAttributes(eventType.getSchemaValue());
+	    /*
+        if(useEntryLimitation())
+        {
+		    List entries = EntryController.getController().getEntryList(null, null, null, eventId, null, null, getSession());
+	        
+	        if(event.getMaximumParticipants() != null && event.getMaximumParticipants().intValue() <= entries.size())
+	            return "maximumReachedPublic";
+        }
+        */
+        
+        String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("event", event);
+		    parameters.put("attributes", this.attributes);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+			return Action.SUCCESS + "RenderedTemplate";
+        }
         
         return Action.INPUT + "PublicCustom";
     } 
@@ -424,6 +516,24 @@ public class CreateEntryAction extends CalendarAbstractAction
        	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries > event.getMaximumParticipants())
           	isReserve = true;
 
+       	String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("event", event);
+		    parameters.put("entry", entry);
+		    parameters.put("isReserve", isReserve);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+			return Action.SUCCESS + "RenderedTemplate";
+        }
+
         return "receiptPublic";
     } 
 
@@ -443,17 +553,60 @@ public class CreateEntryAction extends CalendarAbstractAction
        	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries > event.getMaximumParticipants())
            	isReserve = true;
 
+       	String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("event", event);
+		    parameters.put("entry", entry);
+		    parameters.put("isReserve", isReserve);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+			return Action.SUCCESS + "RenderedTemplate";
+        }
+
         return "receiptPublicGU";
     } 
     
     public String receiptPublicCustom() throws Exception 
     {
-    	receiptPublicGU();
+    	log.info("Receipt public GU start");
+        String requestEntryId = ServletActionContext.getRequest().getParameter("entryId");
+        log.info("requestEntryId:" + requestEntryId);
+        if(this.entryId == null && requestEntryId != null && !requestEntryId.equalsIgnoreCase(""))
+            entryId = new Long(requestEntryId);
+
+        event = EventController.getController().getEvent(eventId, getSession());
+        entry = EntryController.getController().getEntry(entryId, this.getSession());
 
         int numberOfExistingEntries = event.getEntries().size();
         //if(numberOfExistingEntries > event.getMaximumParticipants())
        	if(event != null && event.getMaximumParticipants() != null && numberOfExistingEntries > event.getMaximumParticipants())
            	isReserve = true;
+
+       	String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("event", event);
+		    parameters.put("entry", entry);
+		    parameters.put("isReserve", isReserve);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+			return Action.SUCCESS + "RenderedTemplate";
+        }
 
         return "receiptPublicCustom";
     } 

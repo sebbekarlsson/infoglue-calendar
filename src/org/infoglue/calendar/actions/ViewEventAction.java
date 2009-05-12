@@ -23,7 +23,10 @@
 
 package org.infoglue.calendar.actions;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +48,7 @@ import org.infoglue.calendar.entities.EventType;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Language;
+import org.infoglue.common.util.VelocityTemplateProcessor;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
@@ -222,6 +226,22 @@ public class ViewEventAction extends CalendarAbstractAction
 	        {
 	            this.event = EventController.getController().getEvent(eventId, session);
 	
+	            String presentationTemplate = getPresentationTemplate();
+	            log.info("presentationTemplate:" + presentationTemplate);
+	            if(presentationTemplate != null && !presentationTemplate.equals(""))
+	            {
+	    		    Map parameters = new HashMap();
+	    		    parameters.put("event", this.event);
+	    		    parameters.put("this", this);
+	    		    
+	    			StringWriter tempString = new StringWriter();
+	    			PrintWriter pw = new PrintWriter(tempString);
+	    			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+	    			String renderedString = tempString.toString();
+	    			setRenderedString(renderedString);
+	    			return Action.SUCCESS + "RenderedTemplate";
+	            }
+
 	            return "successPublic";
 	        }
 	        else
@@ -258,6 +278,22 @@ public class ViewEventAction extends CalendarAbstractAction
 	        {
 	            this.event = EventController.getController().getEvent(eventId, session);
 	
+	            String presentationTemplate = getPresentationTemplate();
+	            log.info("presentationTemplate:" + presentationTemplate);
+	            if(presentationTemplate != null && !presentationTemplate.equals(""))
+	            {
+	    		    Map parameters = new HashMap();
+	    		    parameters.put("event", this.event);
+	    		    parameters.put("this", this);
+	    		    
+	    			StringWriter tempString = new StringWriter();
+	    			PrintWriter pw = new PrintWriter(tempString);
+	    			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+	    			String renderedString = tempString.toString();
+	    			setRenderedString(renderedString);
+	    			return Action.SUCCESS + "RenderedTemplate";
+	            }
+
 	            return "successPublicGU";
 	        }
 	        else
@@ -293,6 +329,23 @@ public class ViewEventAction extends CalendarAbstractAction
 	        if(this.eventId != null)
 	        {
 	            this.event = EventController.getController().getEvent(eventId, session);
+	            
+	            String presentationTemplate = getPresentationTemplate();
+	            log.info("presentationTemplate:" + presentationTemplate);
+	            if(presentationTemplate != null && !presentationTemplate.equals(""))
+	            {
+	    		    Map parameters = new HashMap();
+	    		    parameters.put("event", this.event);
+	    		    parameters.put("this", this);
+	    		    
+	    			StringWriter tempString = new StringWriter();
+	    			PrintWriter pw = new PrintWriter(tempString);
+	    			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+	    			String renderedString = tempString.toString();
+	    			setRenderedString(renderedString);
+	    			return Action.SUCCESS + "RenderedTemplate";
+	            }
+
 	            return "successPublicCustom";
 	        }
 	        else

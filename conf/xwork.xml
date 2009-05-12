@@ -386,6 +386,9 @@
 			<result name="successChooseLanguageForEdit" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/chooseLanguageForEdit.jsp</param>
 			</result>
+			<result name="successRenderedTemplate" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewRenderedTemplate.jsp</param>
+			</result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>
@@ -706,6 +709,9 @@
 			 <result name="receiptPublicCustom" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/custom/entryReceipt.jsp</param>
 			</result>
+			<result name="successRenderedTemplate" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewRenderedTemplate.jsp</param>
+			</result>			
 		</action>
 		<action name="ViewEntrySearch" class="org.infoglue.calendar.actions.ViewEntrySearchAction">
 			<result name="input" type="portletDispatch">
