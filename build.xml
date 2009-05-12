@@ -164,28 +164,28 @@
 		</copy>
 
 		<echo message="Copying infoglueCalendar/WEB-INF/classes"/>
-		<copy todir="${war.dir}/WEB-INF/classes">
+		<copy todir="${war.dir}/WEB-INF/classes" overwrite="true">
 			<fileset dir="${webapp}/WEB-INF/classes">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying JSP-files ${webapp}"/>
-		<copy todir="${war.dir}/jsp/portlet">
+		<copy todir="${war.dir}/jsp/portlet" overwrite="true">
 			<fileset dir="${webapp}/jsp/portlet">
 				<include name="**/*.jsp"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying Template-files ${webapp}"/>
-        <copy todir="${war.dir}/templates">
+        <copy todir="${war.dir}/templates" overwrite="true">
                 <fileset dir="${webapp}/templates">
                         <include name="**/*"/>
                 </fileset>
         </copy>
 
 		<echo message="Copying Other-files"/>
-		<copy todir="${war.dir}">
+		<copy todir="${war.dir}"  overwrite="true">
 			<fileset dir="${webapp}">
 				<include name="applications/**/*.*"/>
 				<include name="digitalAssets/**/*.*"/>
@@ -201,21 +201,21 @@
 		</copy>
 
 		<echo message="Copying CSS-files"/>
-		<copy todir="${war.dir}/css">
+		<copy todir="${war.dir}/css" overwrite="true">
 			<fileset dir="${webapp}/css">
 				<include name="**/*.css"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying CSS-files"/>
-		<copy todir="${war.dir}/images">
+		<copy todir="${war.dir}/images" overwrite="true">
 			<fileset dir="${webapp}/images">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying Resourse bundle-files"/>
-		<copy todir="${war.dir}/WEB-INF/classes">
+		<copy todir="${war.dir}/WEB-INF/classes" overwrite="true">
 			<fileset dir="${build.classes}">
 				<include name="infoglueCalendar_en.properties"/>
 				<include name="infoglueCalendar_sv.properties"/>
@@ -223,14 +223,14 @@
 		</copy>
 
 		<echo message="Copying TagLib files"/>
-		<copy todir="${war.dir}/WEB-INF/tld">
+		<copy todir="${war.dir}/WEB-INF/tld" overwrite="true">
 			<fileset dir="${conf}/tld">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
 
 		<echo message="Copying TagLib files"/>
-		<copy todir="${war.dir}/WEB-INF/classes">
+		<copy todir="${war.dir}/WEB-INF/classes" overwrite="true">
 			<fileset dir="${conf}">
 				<include name="*"/>
 				<include name="**/*-validation.xml"/>
