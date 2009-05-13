@@ -56,6 +56,12 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	private Boolean skipRowDiv = false;
 	private String rowDivHTMLStart = "<div class=\"fieldrow\">";
 	private String rowDivHTMLEnd = "</div>";
+	private String requiredLabelClass = "redstar";
+	
+	public void setRequiredLabelClass(String requiredLabelClass)
+	{
+		this.requiredLabelClass = requiredLabelClass;
+	}
 
 	public void setSkipRowDiv(String skipRowDiv) throws JspException
     {
@@ -125,10 +131,10 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
 	    
 	    if(this.label != null)
 	    {
-			sb.append("<label>" + this.label + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>");
+			sb.append("<label>" + this.label + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">*</span>" : "") + " " + errorMessage + "<br/>");
 	    }
 	    else
-	        sb.append("<label>" + this.name + "</label>" + (getMandatory() ? "<span class=\"redstar\">*</span>" : "") + " " + errorMessage + "<br/>");
+	        sb.append("<label>" + this.name + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">*</span>" : "") + " " + errorMessage + "<br/>");
 
         if(values != null)
         {
@@ -159,6 +165,7 @@ public class RadioButtonFieldTag extends AbstractCalendarTag
         this.rowDivHTMLStart = "<div class=\"fieldrow\">";
         this.rowDivHTMLEnd = "</div>";
         this.skipRowDiv = false;
+        this.requiredLabelClass = "redstar";
 
         return EVAL_PAGE;
     }
