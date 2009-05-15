@@ -64,7 +64,13 @@ public class TextAreaFieldTag extends AbstractCalendarTag
 	private String rowDivHTMLStart = "<div class=\"fieldrow\">";
 	private String rowDivHTMLEnd = "</div>";
 	private String requiredLabelClass = "redstar";
-	
+	private String requiredText = "*";
+
+	public void setRequiredText(String requiredText)
+	{
+		this.requiredText = requiredText;
+	}
+
 	public void setRequiredLabelClass(String requiredLabelClass)
 	{
 		this.requiredLabelClass = requiredLabelClass;
@@ -138,12 +144,12 @@ public class TextAreaFieldTag extends AbstractCalendarTag
     	
 	    if(this.label != null)
 	    {
-		    sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">*</span>" : "") + " " + errorMessage + "<br/>");
+		    sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">" + requiredText + "</span>" : "") + " " + errorMessage + "<br/>");
 	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea><br/>");
 	    }
 	    else
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">*</span>" : "") + " " + errorMessage + "<br/>");
+	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">" + requiredText + "</span>" : "") + " " + errorMessage + "<br/>");
 	    	sb.append("	<textarea id=\"" + name + "\" name=\"" + name + "\" class=\"" + cssClass + "\">" + ((value == null) ? "" : value) + "</textarea><br/>");
 	        
 	    }
@@ -157,6 +163,7 @@ public class TextAreaFieldTag extends AbstractCalendarTag
         this.rowDivHTMLEnd = "</div>";
         this.skipRowDiv = false;
         this.requiredLabelClass = "redstar";
+        this.requiredText = "*";
 
         return EVAL_PAGE;
     }

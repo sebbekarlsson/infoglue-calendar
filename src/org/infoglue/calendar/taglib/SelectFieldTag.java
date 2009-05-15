@@ -80,7 +80,13 @@ public class SelectFieldTag extends AbstractCalendarTag
 	private String rowDivHTMLStart = "<div class=\"fieldrow\">";
 	private String rowDivHTMLEnd = "</div>";
 	private String requiredLabelClass = "redstar";
-	
+	private String requiredText = "*";
+
+	public void setRequiredText(String requiredText)
+	{
+		this.requiredText = requiredText;
+	}
+
 	public void setRequiredLabelClass(String requiredLabelClass)
 	{
 		this.requiredLabelClass = requiredLabelClass;
@@ -155,9 +161,9 @@ public class SelectFieldTag extends AbstractCalendarTag
 	    	sb.append(rowDivHTMLStart);
 
 	    if(this.label != null)
-	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"" + requiredLabelClass + "\">*</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br/>"));
+	        sb.append("<label for=\"" + this.name + "\">" + this.label + "</label>" + (mandatory ? "<span class=\"" + requiredLabelClass + "\">" + requiredText + "</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br/>"));
 		else
-		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"" + requiredLabelClass + "\">*</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br/>"));
+		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"" + requiredLabelClass + "\">" + requiredText + "</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br/>"));
 			    
         sb.append("<select id=\"" + name + "\" name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
         
@@ -367,6 +373,7 @@ public class SelectFieldTag extends AbstractCalendarTag
         this.rowDivHTMLEnd = "</div>";
         this.skipRowDiv = false;
         this.requiredLabelClass = "redstar";
+        this.requiredText = "*";
 
         return EVAL_PAGE;
     }

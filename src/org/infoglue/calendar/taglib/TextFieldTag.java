@@ -55,7 +55,13 @@ public class TextFieldTag extends AbstractCalendarTag
 	private String rowDivHTMLStart = "<div class=\"fieldrow\">";
 	private String rowDivHTMLEnd = "</div>";
 	private String requiredLabelClass = "redstar";
-	
+	private String requiredText = "*";
+
+	public void setRequiredText(String requiredText)
+	{
+		this.requiredText = requiredText;
+	}
+
 	public void setRequiredLabelClass(String requiredLabelClass)
 	{
 		this.requiredLabelClass = requiredLabelClass;
@@ -136,12 +142,12 @@ public class TextFieldTag extends AbstractCalendarTag
 	    
         if(this.label != null)
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">*</span>" : "") + " " + errorMessage + "<br/>\n");
+	    	sb.append("<label for=\"" + name + "\">" + this.label + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">" + requiredText + "</span>" : "") + " " + errorMessage + "<br/>\n");
 	    	sb.append("<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\"><br/>\n");
 	    }
 	    else
 	    {
-	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">*</span>" : "") + " " + errorMessage + "<br/>\n");
+	    	sb.append("<label for=\"" + name + "\">" + this.name + "</label>" + (getMandatory() ? "<span class=\"" + requiredLabelClass + "\">requiredText</span>" : "") + " " + errorMessage + "<br/>\n");
 	    	sb.append("<input type=\"textfield\" id=\"" + name + "\" name=\"" + name + "\" value=\"" + ((value == null) ? "" : value) + "\" class=\"" + cssClass + "\"><br/>\n");
 	    }
         
@@ -155,7 +161,8 @@ public class TextFieldTag extends AbstractCalendarTag
         this.rowDivHTMLEnd = "</div>";
         this.skipRowDiv = false;
         this.requiredLabelClass = "redstar";
-        
+        this.requiredText = "*";
+
         return EVAL_PAGE;
     }
 
