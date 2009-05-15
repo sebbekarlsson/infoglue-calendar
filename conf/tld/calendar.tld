@@ -196,6 +196,11 @@
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
+		<attribute>
+		    <name>requiredText</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>		
 	</tag>
 
 	<tag>
@@ -255,6 +260,11 @@
 		</attribute>
 		<attribute>
 		    <name>requiredLabelClass</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>requiredText</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
@@ -365,6 +375,11 @@
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
+		<attribute>
+		    <name>requiredText</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
 	</tag>
   	   	 
   	<tag>
@@ -447,6 +462,11 @@
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
+		<attribute>
+		    <name>requiredText</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
 	</tag>
 	
 	<tag>
@@ -516,6 +536,11 @@
 		</attribute>
 		<attribute>
 		    <name>requiredLabelClass</name>
+	    	<required>false</required>
+	        <rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+		    <name>requiredText</name>
 	    	<required>false</required>
 	        <rtexprvalue>false</rtexprvalue>
 		</attribute>
