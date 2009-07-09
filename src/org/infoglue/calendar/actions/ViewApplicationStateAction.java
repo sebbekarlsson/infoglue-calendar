@@ -37,6 +37,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.entities.Event;
@@ -135,6 +136,22 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
     {
         CacheController.clearCaches();
         
+    	Session session = this.getSession();
+    	
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Calendar.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Category.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Event.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.EventType.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.EventTypeCategoryAttribute.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.EventCategory.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Location.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Participant.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Resource.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Entry.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Role.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Group.class);
+    	session.getSessionFactory().evict(org.infoglue.calendar.entities.Subscriber.class);
+
         return "cleared";
     }
 

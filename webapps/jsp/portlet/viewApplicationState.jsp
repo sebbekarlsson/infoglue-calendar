@@ -112,9 +112,19 @@
     <td colspan="4"><hr/></td>
   </tr>
 --%>  
-  <tr>
-    <td class="label" bgcolor="gray" colspan="4">Log settings</td>
-  </tr>
+  	<portlet:actionURL var="clearCachesViewStateActionUrl">
+		<portlet:param name="action" value="ViewApplicationState!clearCaches"/>
+	</portlet:actionURL>
+  
+  	<tr>
+    	<td colspan="4" class="text"><a href="<c:out value="${clearCachesViewStateActionUrl}"/>">Clear All</a></td>
+  	</tr>
+  	<tr>
+    	<td colspan="4"><hr/></td>
+  	</tr>
+  	<tr>
+    	<td class="label" bgcolor="gray" colspan="4">Log settings</td>
+  	</tr>
   
 	<portlet:actionURL var="updateStateActionUrl">
 		<portlet:param name="action" value="UpdateApplicationState"/>
