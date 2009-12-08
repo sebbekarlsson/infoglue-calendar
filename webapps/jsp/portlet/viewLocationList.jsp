@@ -79,7 +79,7 @@
        		<p><ww:property value="description"/></p>
        	</div>
        	<div class="columnEnd">
-       		<a href="javascript:submitDelete('<c:out value="${deleteUrl}"/>', 'Är du säker på att du vill radera &quot;<ww:property value="name"/>&quot;');" title="Radera '<ww:property value="name"/>'" class="delete"></a>
+       		<a href="javascript:submitDelete('<c:out value="${deleteLocationUrl}"/>', 'Är du säker på att du vill radera &quot;<ww:property value="name"/>&quot;');" title="Radera '<ww:property value="name"/>'" class="delete"></a>
        	   	<a href="<c:out value="${locationUrl}"/>" title="Redigera '<ww:property value="name"/>'" class="edit"></a>
        	</div>
        	<div class="clear"></div>
