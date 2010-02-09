@@ -112,12 +112,19 @@
     <td colspan="4"><hr/></td>
   </tr>
 --%>  
-  	<portlet:actionURL var="clearCachesViewStateActionUrl">
+  	<portlet:actionURL var="clearAuthCachesViewStateActionUrl">
 		<portlet:param name="action" value="ViewApplicationState!clearCaches"/>
+	</portlet:actionURL>
+
+  	<portlet:actionURL var="clearAllCachesViewStateActionUrl">
+		<portlet:param name="action" value="ViewApplicationState!clearAllCaches"/>
 	</portlet:actionURL>
   
   	<tr>
-    	<td colspan="4" class="text"><a href="<c:out value="${clearCachesViewStateActionUrl}"/>">Clear All</a></td>
+    	<td colspan="4" class="text"><a href="<c:out value="${clearAuthCachesViewStateActionUrl}"/>">Clear auth cache</a></td>
+  	</tr>
+  	<tr>
+    	<td colspan="4" class="text"><a href="<c:out value="${clearAllCachesViewStateActionUrl}"/>">Clear all caches</a></td>
   	</tr>
   	<tr>
     	<td colspan="4"><hr/></td>

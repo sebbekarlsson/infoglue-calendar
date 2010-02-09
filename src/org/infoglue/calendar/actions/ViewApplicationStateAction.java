@@ -138,6 +138,7 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
         
     	Session session = this.getSession();
     	
+    	session.getSessionFactory().evictQueries();
     	session.getSessionFactory().evict(org.infoglue.calendar.entities.Calendar.class);
     	session.getSessionFactory().evict(org.infoglue.calendar.entities.Category.class);
     	session.getSessionFactory().evict(org.infoglue.calendar.entities.Event.class);

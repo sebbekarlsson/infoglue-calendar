@@ -22,6 +22,9 @@ import com.opensymphony.xwork.interceptor.component.ComponentInterceptor;
 import com.opensymphony.xwork.interceptor.component.ComponentManager;
 import com.opensymphony.xwork.interceptor.component.DefaultComponentManager;
 import com.opensymphony.xwork.util.LocalizedTextUtil;
+
+import net.sf.cglib.proxy.Enhancer;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -29,6 +32,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.event.LoadEvent;
+import org.hibernate.event.LoadEventListener;
+import org.hibernate.event.def.DefaultLoadEventListener;
+import org.hibernate.proxy.HibernateProxy;
 
 import javax.portlet.*;
 import javax.servlet.ServletContext;
@@ -225,6 +232,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
             {
                 request.getPortletSession().setAttribute(ACTION_CONTEXT, proxy.getInvocation().getInvocationContext());
             }
+            request.removeAttribute("webwork.valueStack");
         } 
         catch (ConfigurationException e)
         {
@@ -324,7 +332,22 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 	{
 		try
 		{
-			factory = new Configuration().configure().buildSessionFactory();
+			Configuration cfg = new Configuration();
+			cfg.configure();
+
+			cfg.setListeners("load", new LoadEventListener [] {new DefaultLoadEventListener(), new LoadEventListener() {
+				
+				public void onLoad(LoadEvent event, LoadType loadType) throws HibernateException {
+	                Object obj = event.getResult();
+	                if (obj instanceof HibernateProxy) {
+	                	Enhancer.registerCallbacks(obj.getClass(),null);
+	                }
+	            }
+
+	        }});
+
+			factory = cfg.buildSessionFactory();
+			
 		}
 		catch (Exception e) 
 		{
@@ -371,6 +394,11 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 	    request.removeAttribute("HIBERNATE_TRANSACTION");
 	}
 
+	public void emptyValueStack(PortletRequest request) throws HibernateException 
+	{
+		request.removeAttribute("webwork.valueStack");
+	}
+	
 	
     boolean rollBackOnly = false;
 	
@@ -397,6 +425,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 			    getSession(request).close();
 				emptySession(request);
 				emptyTransaction(request);
+				emptyValueStack(request);
 			}
 		}
 		else 
@@ -420,6 +449,7 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 				getSession(request).close();
 				emptySession(request);
 				emptyTransaction(request);
+				emptyValueStack(request);
 			}
 		}
 	}

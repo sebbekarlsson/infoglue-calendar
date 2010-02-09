@@ -28,6 +28,7 @@ import java.security.Principal;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -700,9 +701,19 @@ public class CalendarAbstractAction extends ActionSupport
 
     public void validateInput(CalendarAbstractAction action, ConstraintExceptionBuffer ceb) throws ValidationException
     {
+    	validateInput(action, ceb, false);
+    }
+    
+    public void validateInput(CalendarAbstractAction action, ConstraintExceptionBuffer ceb, boolean isCaptchaOk) throws ValidationException
+    {
     	boolean throwError = false;
     	
     	Map fieldErrors = new HashMap();
+    	if(!isCaptchaOk)
+    	{
+    		fieldErrors.put("captcha", new ArrayList<String>(Arrays.asList("errors.captcha")));
+    		throwError = true;
+    	}
         //log.debug("this.getFieldErrors() 0:" + this.getFieldErrors().size());
 
         String context = ActionContext.getContext().getName();
@@ -816,6 +827,15 @@ public class CalendarAbstractAction extends ActionSupport
 	        }
         }
         */
+    }
+    
+    public boolean validateCaptcha(String captcha, String correctCaptcha) throws ValidationException
+    {
+    	if(correctCaptcha == null || !correctCaptcha.equals(captcha))
+    	{    		
+    		return false;
+    	}
+    	return true;
     }
 
     public void setError(String message, Exception e)

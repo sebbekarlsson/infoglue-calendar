@@ -72,6 +72,9 @@ public class CreateEntryAction extends CalendarAbstractAction
     private String phone;
     private String fax;
     private String message;
+    
+    private String captcha;
+    private String captchaTextVariableName;
 
     private Long eventId;
     private Long entryId;
@@ -84,6 +87,7 @@ public class CreateEntryAction extends CalendarAbstractAction
     private List attributes;
     
     private boolean isReserve = false;
+
     
     /**
      * This is the entry point for the main listing.
@@ -155,7 +159,7 @@ public class CreateEntryAction extends CalendarAbstractAction
                 idKey = ServletActionContext.getRequest().getParameter("attributeName_" + i);
                 log.info("idKey:" + idKey);
             }
-
+            
             String xml = domBuilder.getFormattedDocument(document, "UTF-8");
             log.debug("xml:" + xml);
             
@@ -174,7 +178,9 @@ public class CreateEntryAction extends CalendarAbstractAction
             ActionContext.getContext().getValueStack().getContext().put("errorEntry", entry);
             log.debug("Added error entry to stack:" + entry.getAttributes());
             
-            validateInput(this, ceb);
+            boolean isCaptchaOk = validateCaptcha(captcha, (String)ServletActionContext.getRequest().getSession().getAttribute(captchaTextVariableName));
+            
+            validateInput(this, ceb, isCaptchaOk);
 
 	        newEntry = EntryController.getController().createEntry(firstName, 
 	                									lastName, 
@@ -654,7 +660,6 @@ public class CreateEntryAction extends CalendarAbstractAction
         this.eventId = eventId;
     }
     
-
     public String getAddress()
     {
         return address;
@@ -748,5 +753,25 @@ public class CreateEntryAction extends CalendarAbstractAction
 	public boolean getIsReserve()
 	{
 		return isReserve;
+	}
+	
+	public void setCaptcha(String captcha)
+	{
+		this.captcha = captcha;
+	}
+	
+	public String getCaptcha()
+	{
+		return captcha;
+	}
+	
+	public void setCaptchaTextVariableName(String captchaTextVariableName)
+	{
+		this.captchaTextVariableName = captchaTextVariableName;
+	}
+	
+	public String getCaptchaTextVariableName()
+	{
+		return captchaTextVariableName;
 	}
 }
