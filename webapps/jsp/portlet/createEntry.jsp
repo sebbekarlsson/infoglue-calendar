@@ -99,6 +99,13 @@
 			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>
 		
+		<calendar:gapcha id="catpchaImageUrl" textVariableName="catpchaText" numberOfCharacters="4" fontName="Arial" fontSize="24" fontStyle="0" fgColor="10:10:10:255" bgColor="255:255:255:255" padTop="4" padBottom="4" renderWidth="107" padLeft="5" twirlAngle="0.2" marbleXScale="0.8"  marbleYScale="0.8" marbleTurbulence="0.5" marbleAmount="1.2"/>
+		
+		<p>
+			<input type="hidden" name="captchaTextVariableName" value="<c:out value="${catpchaText}" escapeXml="false"/>"/>
+			<calendar:textField label="labels.internal.entry.captcha" name="'captcha'" value="entry.captcha" required="true" cssClass="shorttextfield"/>
+			<img src="<c:out value="${catpchaImageUrl}" escapeXml="false"/>" class="captchaImg"/>
+		</p>
 
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>" class="button">
