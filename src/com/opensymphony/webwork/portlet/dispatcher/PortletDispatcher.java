@@ -431,11 +431,11 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 				try
 				{
 				    getSession(request).close();
-					emptySession(request);
-					emptyTransaction(request);
 				}
 				finally
 				{
+					emptySession(request);
+					emptyTransaction(request);
 					emptyValueStack(request);
 				}
 			}
@@ -461,11 +461,11 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 				try
 				{
 				    getSession(request).close();
-					emptySession(request);
-					emptyTransaction(request);
 				}
 				finally 
 				{
+					emptySession(request);
+					emptyTransaction(request);
 					emptyValueStack(request);
 				}
 			}
