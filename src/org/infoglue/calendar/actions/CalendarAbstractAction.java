@@ -701,7 +701,7 @@ public class CalendarAbstractAction extends ActionSupport
 
     public void validateInput(CalendarAbstractAction action, ConstraintExceptionBuffer ceb) throws ValidationException
     {
-    	validateInput(action, ceb, false);
+    	validateInput(action, ceb, true);
     }
     
     public void validateInput(CalendarAbstractAction action, ConstraintExceptionBuffer ceb, boolean isCaptchaOk) throws ValidationException
