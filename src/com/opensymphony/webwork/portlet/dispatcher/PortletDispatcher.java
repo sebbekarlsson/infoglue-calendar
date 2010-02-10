@@ -246,6 +246,12 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
             //sendError(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
             disposeSession(request);
         }
+        catch (Throwable e)
+        {
+            log.error("Could not execute action", e);
+            //sendError(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
+            disposeSession(request);
+        }
     }
 
 	/**
@@ -422,10 +428,16 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 			}
 			finally 
 			{
-			    getSession(request).close();
-				emptySession(request);
-				emptyTransaction(request);
-				emptyValueStack(request);
+				try
+				{
+				    getSession(request).close();
+					emptySession(request);
+					emptyTransaction(request);
+				}
+				finally
+				{
+					emptyValueStack(request);
+				}
 			}
 		}
 		else 
@@ -446,10 +458,16 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 			}
 			finally 
 			{
-				getSession(request).close();
-				emptySession(request);
-				emptyTransaction(request);
-				emptyValueStack(request);
+				try
+				{
+				    getSession(request).close();
+					emptySession(request);
+					emptyTransaction(request);
+				}
+				finally 
+				{
+					emptyValueStack(request);
+				}
 			}
 		}
 	}
