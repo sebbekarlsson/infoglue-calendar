@@ -178,7 +178,10 @@ public class CreateEntryAction extends CalendarAbstractAction
             ActionContext.getContext().getValueStack().getContext().put("errorEntry", entry);
             log.debug("Added error entry to stack:" + entry.getAttributes());
             
-            boolean isCaptchaOk = validateCaptcha(captcha, (String)ServletActionContext.getRequest().getSession().getAttribute(captchaTextVariableName));
+            //System.out.println("captchaTextVariableName:" + captchaTextVariableName);
+            boolean isCaptchaOk = true;
+            //if(captchaTextVariableName != null && !captchaTextVariableName.equals(""))
+            //	isCaptchaOk = validateCaptcha(captcha, (String)ServletActionContext.getRequest().getSession().getAttribute(captchaTextVariableName));
             
             validateInput(this, ceb, isCaptchaOk);
 

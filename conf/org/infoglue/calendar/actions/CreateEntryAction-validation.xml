@@ -15,6 +15,11 @@
             <message>errors.reqiredField</message>
         </field-validator>
     </field>
+    <field name="captcha">
+		<field-validator type="igcaptcha">
+            <message>errors.reqiredField</message>
+        </field-validator>
+    </field>
 <!--
     <field name="organisation">
         <field-validator type="igrequiredstring">

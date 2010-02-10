@@ -75,6 +75,7 @@ public class GapchaTag extends AbstractTag
 		// set the random string in the session
 		String sessionVariableName = textVariableName + "_" + System.currentTimeMillis();
 		pageContext.getSession().setAttribute( sessionVariableName, new String(randomCharacters) );
+		pageContext.getSession().setAttribute( "useCaptchaForEntry", "true" );
 		pageContext.setAttribute(textVariableName, sessionVariableName);
 		// without spacing it is really hard to read the text
 		String randomText = spaceCharacters(randomCharacters);

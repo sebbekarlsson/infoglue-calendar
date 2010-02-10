@@ -192,11 +192,15 @@ public class PortletDispatcher extends GenericPortlet implements WebWorkStatics
 
         }
         
-        log.debug(sessionMap);
-        log.debug(parameterMap);
+        if(log.isDebugEnabled())
+        	log.debug(sessionMap);
+        if(log.isDebugEnabled())
+        	log.debug(parameterMap);
         extraContext.put(PORTLET_DISPATCHER, this);
-        log.debug("Getting to beginning of serviceAction");
-        log.debug(new StringBuffer().append("Namespace: ").append(namespace).append("\nAction: ").append(actionName).append("\nPortlet Name: ").append(getPortletName()).toString());
+        if(log.isDebugEnabled())
+        	log.debug("Getting to beginning of serviceAction");
+        if(log.isDebugEnabled())
+        	log.debug(new StringBuffer().append("Namespace: ").append(namespace).append("\nAction: ").append(actionName).append("\nPortlet Name: ").append(getPortletName()).toString());
         
         try
         {
