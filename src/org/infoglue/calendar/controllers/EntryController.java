@@ -716,8 +716,7 @@ public class EntryController extends BasicController
 		}
 		catch(Exception e)
 		{
-		    e.printStackTrace();
-			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+			log.error("The notification was not sent. Reason:" + e.getMessage());
 		}
 		
     }
@@ -806,8 +805,7 @@ public class EntryController extends BasicController
 		}
 		catch(Exception e)
 		{
-		    e.printStackTrace();
-			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+		    log.error("The notification was not sent. Reason:" + e.getMessage());
 			
 			try
 			{
@@ -827,7 +825,7 @@ public class EntryController extends BasicController
 			}
 			catch(Exception e2)
 			{
-				e2.printStackTrace();
+				log.error("The warning was not sent. Reason:" + e2.getMessage());
 			}
 		}
 		
@@ -904,7 +902,7 @@ public class EntryController extends BasicController
 	    }
 		catch(Exception e)
 		{
-			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+			log.error("The notification was not sent. Reason:" + e.getMessage());
 		}
 		
     }
