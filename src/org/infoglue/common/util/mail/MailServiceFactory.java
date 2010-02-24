@@ -77,6 +77,8 @@ public class MailServiceFactory
 	private static Session initializeSession() throws Exception 
 	{
 		Properties properties = PropertyHelper.getProperties();
+		properties.put("mail.smtp.connectiontimeout","10000");
+		properties.put("mail.smtp.timeout","10000");
 		
 		Properties props = new Properties();
 
