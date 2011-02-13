@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infoglue.calendar.entities.Category;
+import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventCategory;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -125,10 +127,10 @@ public class CategoryController extends BasicController
      * @throws Exception
      */
 
-    public Category updateCategory(Long id, String internalName, String name, String description, Session session) throws Exception 
+    public Category updateCategory(Long id, String internalName, String name, String description, Boolean active, Session session) throws Exception 
     {
 		Category category = getCategory(id, session);
-		return updateCategory(category, internalName, name, description, session);
+		return updateCategory(category, internalName, name, description, active, session);
     }
     
     /**
@@ -137,12 +139,13 @@ public class CategoryController extends BasicController
      * @throws Exception
      */
     
-    public Category updateCategory(Category category, String internalName, String name, String description, Session session) throws Exception 
+    public Category updateCategory(Category category, String internalName, String name, String description, Boolean active, Session session) throws Exception 
     {
         category.setInternalName(internalName);
         category.setName(name);
         category.setDescription(description);
-	
+        category.setActive(active);
+        
 		session.update(category);
 		
 		return category;
@@ -277,6 +280,14 @@ public class CategoryController extends BasicController
 		if(parentIterator != null) 
 		    parentIterator.remove();
     	
+		//Deletes all relations from events - for performance reasons the back-reference was removed.
+		Set<EventCategory> eventCategoryList = EventController.getController().getEventCategoryList(category.getId(), session);
+		for(EventCategory eventCategory : eventCategoryList)
+		{
+			eventCategory.getEvent().getEventCategories().remove(eventCategory);
+			session.delete(eventCategory);
+		}
+		
     	session.delete(category);
     }
 

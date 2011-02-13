@@ -26,7 +26,9 @@ package org.infoglue.calendar.actions;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 
 
 /**
@@ -48,6 +50,8 @@ public class ViewErrorAction extends CalendarAbstractAction
     
     public String execute() throws Exception 
     {
+    	ActionContext.getContext().getValueStack().getContext().put("errorMessage", ServletActionContext.getRequest().getSession().getAttribute("errorMessage"));
+    	
         return Action.SUCCESS;
     } 
 

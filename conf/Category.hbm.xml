@@ -20,11 +20,16 @@
         <property name="internalName" type="string" update="true" insert="true" access="property" column="internalName" not-null="false" unique="true" />
         <property name="name" type="string" update="true" insert="true" access="property" column="name" not-null="false" unique="true" />
         <property name="description" type="string" update="true" insert="true" access="property" column="description" not-null="false" unique="false" />
-		<property name="active" column="active" type="boolean"/>
+		<property name="active" column="active" type="boolean" update="true" insert="true" access="property"/>
 
    		<many-to-one name="parent" class="org.infoglue.calendar.entities.Category" column="parent_id" not-null="false"/>
    
    		<set name="children" table="Category" lazy="true" inverse="false" cascade="none" order-by="name asc">
+            <key column="parent_id"/>
+            <one-to-many class="org.infoglue.calendar.entities.Category"/>
+        </set>
+
+   		<set name="activeChildren" table="Category" lazy="true" inverse="false" cascade="none" order-by="name asc" where="active=1">
             <key column="parent_id"/>
             <one-to-many class="org.infoglue.calendar.entities.Category"/>
         </set>

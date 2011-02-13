@@ -136,6 +136,8 @@
 		<calendar:textField label="labels.internal.category.internalName" name="'internalName'" value="category.internalName" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.category.name" name="'localizedName'" value="category.getLocalizedName(#language.isoCode, 'sv')" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.category.description" name="'description'" value="category.description" cssClass="longtextfield"/>
+		<calendar:checkboxField label="labels.internal.category.isActive" name="'active'" valueMap="yesNoMap" selectedValues="category.active"/>
+		
 		<div style="height:10px"></div>
 		<!-- 
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.category.updateButton')"/>" class="button">
@@ -149,17 +151,23 @@
 <div class="columnlabelarea">
 	<div class="columnLong"><p><ww:property value="this.getLabel('labels.internal.category.childCategories')"/></p></div>
 	<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.category.description')"/></p></div>
+	<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.category.isActive')"/></p></div>
 	<div class="clear"></div>
 </div>
 
+<ww:set name="sortedChildren" value="this.getSortedChildren(category.children)"/>
+
+<%--
 <ww:iterator value="category.children" status="rowstatus">
+--%>
+<ww:iterator value="#sortedChildren" status="rowstatus">
 
 	<ww:set name="categoryId" value="id" scope="page"/>
 	<ww:set name="category" value="top"/>
 	<ww:set name="category" value="top" scope="page"/>
 	<ww:set name="languageCode" value="this.getLanguageCode()"/>
 	<ww:set name="name" value="#category.getLocalizedName(#languageCode, 'sv')"/>
-	
+
 	<portlet:renderURL var="categoryUrl">
 		<portlet:param name="action" value="ViewCategory"/>
 		<portlet:param name="categoryId" value='<%= pageContext.getAttribute("categoryId").toString() %>'/>
@@ -169,7 +177,7 @@
 		<portlet:param name="action" value="DeleteCategory"/>
 		<portlet:param name="deleteCategoryId" value='<%= pageContext.getAttribute("categoryId").toString() %>'/>
 	</portlet:actionURL>
-			
+
 	<ww:if test="#rowstatus.odd == true">
     	<div class="oddrow">
     </ww:if>
@@ -182,6 +190,9 @@
        	</div>
        	<div class="columnMedium">
        		<p><ww:property value="description"/></p>
+       	</div>
+       	<div class="columnShort">
+       		<p><ww:property value="active"/></p>
        	</div>
        	<div class="columnEnd">
        		<a href="javascript:submitDelete('<c:out value="${deleteUrl}"/>', 'Är du säker på att du vill radera &quot;<ww:property value="#name"/>&quot;');" title="Radera '<ww:property value="#name"/>'" class="delete"></a>

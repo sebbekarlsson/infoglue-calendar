@@ -51,7 +51,8 @@ public class UpdateCategoryAction extends ViewCategoryAction
     private String internalName;
     private String name;
     private String description;
-    
+    private Boolean active = new Boolean(false);
+
     /**
      * This is the entry point for the main listing.
      */
@@ -62,8 +63,9 @@ public class UpdateCategoryAction extends ViewCategoryAction
     	
         try
         {
-            validateInput(this);            
-            category = CategoryController.getController().updateCategory(this.updateCategoryId, this.internalName, this.name, this.description, getSession());
+            validateInput(this); 
+            System.out.println("this.active:" + this.active);
+            category = CategoryController.getController().updateCategory(this.updateCategoryId, this.internalName, this.name, this.description, this.active, getSession());
         }
         catch(ValidationException e)
         {
@@ -126,5 +128,15 @@ public class UpdateCategoryAction extends ViewCategoryAction
     public void setInternalName(String internalName)
     {
         this.internalName = internalName;
+    }
+    
+    public Boolean getActive()
+    {
+        return active;
+    }
+    
+    public void setActive(Boolean active)
+    {
+        this.active = active;
     }
 }

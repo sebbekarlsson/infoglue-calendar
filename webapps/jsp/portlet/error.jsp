@@ -5,11 +5,26 @@
 
 <portlet:defineObjects/>
 
-<div class="calendar"> 	
-Ett fel inträffade: <ww:property value="#message"/>
+<%@ include file="adminHeader.jsp" %>
+
+<div class="portlet_margin">
+
+	<h1>Error</h1>
+	<p style="color: red;">
+		<ww:property value="#errorMessage"/>
+		
+	</p>
+	<p>
+		The log files will contain more information on the specific error so please consult them for further guidance.
+	</p>
+	<p>
+		<a href="javascript:history.back();">Tillbaka</a>
+	</p>	
 <!--
 <ww:if test="#error != null">
 	<ww:property value="#error.message"/>
 </ww:if>
 -->
 </div>
+
+<%@ include file="adminFooter.jsp" %>

@@ -114,9 +114,13 @@
 
 <div class="portlet">
 
+<portlet:renderURL var="viewCalendarAdministrationUrl">
+	<portlet:param name="action" value="ViewCalendarAdministration"/>
+</portlet:renderURL>
+
 <div class="head">
 	<span class="left">
-		<ww:property value="this.getLabel('labels.internal.applicationTitle')"/>
+		<a href="<c:out value="${viewCalendarAdministrationUrl}"/>"><ww:property value="this.getLabel('labels.internal.applicationTitle')"/></a>
 	</span>	
 	<span class="right">	
 		<ww:property value="this.getInfoGluePrincipal().firstName"/> <ww:property value="this.getInfoGluePrincipal().lastName"/> | <a href="<ww:property value="logoutUrl"/>">Logga ut</a>

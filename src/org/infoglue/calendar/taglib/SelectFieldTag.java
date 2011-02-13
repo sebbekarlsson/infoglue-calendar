@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.servlet.jsp.JspException;
 
@@ -166,7 +167,7 @@ public class SelectFieldTag extends AbstractCalendarTag
 		    sb.append("<label for=\"" + this.name + "\">" + this.name + "</label>" + (mandatory ? "<span class=\"" + requiredLabelClass + "\">" + requiredText + "</span>" : "") + " " + errorMessage + (skipLineBreak ? "" : "<br/>"));
 			    
         sb.append("<select id=\"" + name + "\" name=\"" + name + "\" " + (multiple.equals("false") ? "" : "multiple=\"true\"") + " " + (size.equals("") ? "" : "size=\"" + size + "\"") + " class=\"" + cssClass + "\">");
-        
+
         if(this.headerItem != null)
         {
             String selectedTop = "";
@@ -180,7 +181,9 @@ public class SelectFieldTag extends AbstractCalendarTag
 
         if(values != null)
         {
-	        Iterator valuesIterator = values.iterator();
+    	    Map<String,String> sortedOptions = new TreeMap<String, String>();
+
+    	    Iterator valuesIterator = values.iterator();
 	        while(valuesIterator.hasNext())
 		    {
 	            String id;
@@ -354,9 +357,19 @@ public class SelectFieldTag extends AbstractCalendarTag
 		            }
 	            }
 	            
-	            sb.append("<option value=\"" + id + "\"" + selected + ">" + optionText + "</option>");
+	            sortedOptions.put(optionText.toLowerCase(), "<option value=\"" + id + "\"" + selected + ">" + optionText + "</option>");
+	            //sb.append("<option value=\"" + id + "\"" + selected + ">" + optionText + "</option>");
 	        }
+	        
+	        for(String sortedOptionKey : sortedOptions.keySet())
+	        {
+	        	String value = sortedOptions.get(sortedOptionKey);
+	            //sb.append("<option value=\"" + id + "\"" + selected + ">" + optionText + "</option>");
+	        	sb.append(value);
+	        }
+
         }
+
         sb.append("</select><br/>");
         
 	    if(!skipContainer)

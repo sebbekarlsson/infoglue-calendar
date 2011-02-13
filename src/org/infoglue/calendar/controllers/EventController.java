@@ -1601,6 +1601,33 @@ public class EventController extends BasicController
         return set;
     }
     
+    
+    /**
+     * Gets a list of all events available for a particular calendar with the optional categories.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public Set<EventCategory> getEventCategoryList(Long categoryId, Session session) throws Exception 
+    {
+        List result = null;
+
+        Set<EventCategory> set = new LinkedHashSet<EventCategory>();
+
+        Criteria criteria = session.createCriteria(EventCategory.class);
+        Criteria categoryCriteria = criteria.createCriteria("category");
+        categoryCriteria.add(Expression.eq("id", categoryId));
+        
+        result = criteria.list();
+        
+        System.out.println("Antal events med denna kategori:" + result.size());
+        log.info("result:" + result.size());
+        
+        set.addAll(result);	        
+        
+        return set;
+    }
+    
     /**
      * This method returns a list of Events based on a number of parameters within a transaction
      * @return List

@@ -29,6 +29,8 @@
 		<calendar:textField label="labels.internal.category.internalName" name="'internalName'" value="category.internalName" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.category.name" name="'name'" value="category.name" cssClass="longtextfield"/>
 		<calendar:textField label="labels.internal.category.description" name="'description'" value="category.description" cssClass="longtextfield"/>
+		<calendar:checkboxField label="labels.internal.category.isActive" name="'active'" valueMap="yesNoMap"/>
+
 		<div style="height:10px"></div>
 		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.category.createButton')"/>" class="button">
 		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">

@@ -24,6 +24,8 @@
 package org.infoglue.calendar.actions;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -64,6 +66,9 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
     private Long calendarId;
     private String mode;
         
+    private String message = "";
+	private String returnUrl = "";
+    
     /**
      * This is the entry point for the main listing.
      */
@@ -77,9 +82,12 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
         try
         {
 	        DiskFileItemFactory factory = new DiskFileItemFactory();
-	        // Configure the factory here, if desired.
+	        factory.setSizeThreshold(2000000);
+	        //factory.setRepository(yourTempDirectory);
+
 	        PortletFileUpload upload = new PortletFileUpload(factory);
-	        // Configure the uploader here, if desired.
+	        //upload.setSizeMax(1000000);
+	        
 	        List fileItems = upload.parseRequest(ServletActionContext.getRequest());
             log.debug("fileItems:" + fileItems.size());
 	        Iterator i = fileItems.iterator();
@@ -129,11 +137,23 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 	    }
         catch(Exception e)
         {
-            e.printStackTrace();
+        	ActionContext.getContext().getValueStack().getContext().put("errorMessage", "Exception uploading resource. " + e.getMessage());
+        	log.error("Exception uploading resource. " + e.getMessage());
+        	return Action.ERROR;
         }
  
-        log.debug("Creating resources.....:" + this.eventId + ":" + ServletActionContext.getRequest().getParameter("eventId") + ":" + ServletActionContext.getRequest().getParameter("calendarId"));
-        ResourceController.getController().createResource(this.eventId, this.getAssetKey(), this.getFileContentType(), this.getFileName(), uploadedFile, getSession());
+        try
+        {
+	        log.debug("Creating resources.....:" + this.eventId + ":" + ServletActionContext.getRequest().getParameter("eventId") + ":" + ServletActionContext.getRequest().getParameter("calendarId"));
+	        ResourceController.getController().createResource(this.eventId, this.getAssetKey(), this.getFileContentType(), this.getFileName(), uploadedFile, getSession());
+        }
+        catch (Exception e) 
+        {
+        	ServletActionContext.getRequest().getSession().setAttribute("errorMessage", "Exception saving resource to database: " + e.getMessage());
+        	ActionContext.getContext().getValueStack().getContext().put("errorMessage", "Exception saving resource to database: " + e.getMessage());
+        	log.error("Exception saving resource to database. " + e.getMessage());
+        	return Action.ERROR;
+		}
         
         return Action.SUCCESS;
     } 
@@ -177,5 +197,15 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
     {
         this.mode = mode;
     }
+
+    public String getMessage() 
+    {
+		return message;
+	}
+
+	public String getReturnUrl() 
+	{
+		return returnUrl;
+	}
 
 }

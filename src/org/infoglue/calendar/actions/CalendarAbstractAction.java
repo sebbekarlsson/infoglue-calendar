@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.portlet.RenderRequest;
@@ -61,6 +63,7 @@ import org.infoglue.calendar.controllers.ICalendarController;
 import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.controllers.ParticipantController;
 import org.infoglue.calendar.controllers.ResourceController;
+import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
@@ -108,6 +111,7 @@ public class CalendarAbstractAction extends ActionSupport
 		return this;
 	}
 
+	
     public Map getInternalEventMap()
     {
         Map yesOrNo = new HashMap();
@@ -476,6 +480,19 @@ public class CalendarAbstractAction extends ActionSupport
         }
 
         return categories;
+    }
+
+    public Collection getSortedChildren(Set<Category> categories)
+    {
+    	Locale locale = new Locale(this.getLanguageCode());
+    	
+    	SortedMap<String,Category> sortedChildren = new TreeMap<String,Category>();
+    	for(Category category : categories)
+    	{
+    		sortedChildren.put(category.getLocalizedName(this.getLanguageCode(), "sv").toLowerCase(), category);
+    	}
+    	
+    	return sortedChildren.values();
     }
 
     public String getState(Integer stateId)
@@ -1273,8 +1290,11 @@ public class CalendarAbstractAction extends ActionSupport
 				    getTransaction().commit();
 				}
 			}
-			catch (HibernateException e) {
-			    log.error("error during commit", e);
+			catch (HibernateException e) 
+			{
+			    log.error("error during commit:" + e.getMessage());
+			    if(log.isDebugEnabled())
+			    	log.debug("StackTrace:", e);
 				getTransaction().rollback();
 				throw e;
 			}

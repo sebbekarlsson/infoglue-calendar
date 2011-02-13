@@ -48,7 +48,7 @@ public class CreateCategoryAction extends CalendarAbstractAction
     private String name;
     private String description;
 
-    private Boolean active = new Boolean(true);
+    private Boolean active = new Boolean(false);
     private Long parentCategoryId;
     
     /**

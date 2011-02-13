@@ -554,13 +554,15 @@ a.white:active {
 	<div class="columnEnd">
 		<select onChange="javascript:changeViewLanguage();" size="1" name="languageCode" class="sitedropbox">
 		    <option value="">default</option>
+		    <%-- 
 			#foreach ($languageVO in $availableLanguages)
 				#if($languageVO.languageCode == $!currentContentTypeEditorViewLanguageCode)
-				<option value="$languageVO.getLanguageCode()" selected>$languageVO.getName()</option>
+				<option value="$languageVO.getLanguageCode()" selected>$languageVO</option>
 				#else
-				<option value="$languageVO.getLanguageCode()">$languageVO.getName()</option>
+				<option value="$languageVO.getLanguageCode()">$languageVO</option>
 				#end
 			#end
+			--%>
 		</select>
 	
 	</div>

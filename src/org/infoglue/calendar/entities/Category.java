@@ -22,7 +22,11 @@
 */
 package org.infoglue.calendar.entities;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import com.opensymphony.xwork.ActionContext;
 
@@ -44,7 +48,8 @@ public class Category implements BaseEntity
     
     private Category parent;
     private Set children;
-    
+    private Set activeChildren;
+
     /**
      * @hibernate.id generator-class="native" type="long" column="id" unsaved-value="null"
      * 
@@ -170,6 +175,16 @@ public class Category implements BaseEntity
         this.children = children;
     }
     
+    public Set getActiveChildren()
+    {
+        return activeChildren;
+    }
+
+    public void setActiveChildren(Set activeChildren)
+    {
+        this.activeChildren = activeChildren;
+    }
+
     public Category getParent()
     {
         return parent;

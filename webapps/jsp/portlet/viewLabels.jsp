@@ -98,7 +98,7 @@
 		</ww:iterator>		
 
 		<div style="height:10px"></div>
-		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.entry.createButton')"/>" class="button">
+		<input type="submit" value="<ww:property value="this.getLabel('labels.internal.applicationSave')"/>" class="button">
 		<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 	</form>
 

@@ -211,7 +211,7 @@
 			<ww:set name="categoryAttributeIndex" value="#rowstatus.index" scope="page"/>
 			<input type="hidden" name="categoryAttributeId_<ww:property value="#rowstatus.index"/>" value="<ww:property value="top.id"/>"/>
 			<c:set var="categoryAttributeName" value="categoryAttribute_${categoryAttribute.id}_categoryId"/>
-			<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.children" selectedValues="getCategoryAttributeValues(top.id)" cssClass="listBox" required="true"/>
+			<calendar:selectField label="top.name" name="${categoryAttributeName}" multiple="true" value="top.category.activeChildren" selectedValues="getCategoryAttributeValues(top.id)" cssClass="listBox" required="true"/>
 		</ww:iterator>
 
 		<%--
