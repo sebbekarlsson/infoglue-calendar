@@ -24,6 +24,16 @@
 		<listener-class>org.infoglue.calendar.util.CalendarContextListener</listener-class>
     </listener>
 
+	<filter>
+        <filter-name>DigitalAssetValidatorFilter</filter-name>
+        <filter-class>org.infoglue.calendar.util.DigitalAssetValidatorFilter</filter-class>
+    </filter>
+
+	<filter-mapping>
+		<filter-name>DigitalAssetValidatorFilter</filter-name>
+		<url-pattern>/digitalAssets/*</url-pattern>
+	</filter-mapping>
+	
     <servlet>
         <servlet-name>WebworkDispatcherPortlet</servlet-name>
         <display-name>WebworkDispatcherPortlet Wrapper</display-name>

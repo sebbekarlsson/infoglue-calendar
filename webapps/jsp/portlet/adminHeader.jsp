@@ -21,11 +21,9 @@
 		<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/skins/aqua/theme.css" title="aqua" />
 		<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/applications/jscalendar/calendar-system.css" title="system" />
 		
-		<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/script/dom-drag.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/script/infoglueCalendar.js"></script>
+		
 		<style type="text/css">
 			.errorMessage {
 			    color: red;
@@ -104,11 +102,27 @@
 				document.deleteResourceForm.submit();
 			} 
 		
+			function includeScript(url)
+			{
+			  document.write('<script type="text/javascript" src="' + url + '"></scr' + 'ipt>'); 
+			}
+
 		</script>
 
 	</head>
 
 <body>
+
+	<script type="text/javascript">
+		//alert("Calendar:" + typeof(Calendar));
+		if(typeof(Calendar) == 'undefined')
+		{
+			//alert("No calendar found - let's include it..");
+			includeScript("<%=request.getContextPath()%>/applications/jscalendar/calendar.js");
+			includeScript("<%=request.getContextPath()%>/applications/jscalendar/lang/calendar-en.js");
+			includeScript("<%=request.getContextPath()%>/applications/jscalendar/calendar-setup.js");
+		}
+	</script>
 
 <div class="calApp">
 
