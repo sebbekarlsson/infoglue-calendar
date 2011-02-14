@@ -208,6 +208,13 @@ public class ViewEventListAction extends CalendarAbstractAction
         return Action.SUCCESS + "Custom";
     }
 
+	public String listCustomRSS() throws Exception
+    {
+        execute(getNumberOfItems());
+        
+        return Action.SUCCESS + "CustomRSS";
+    }
+
     public String listAggregatedCustom() throws Exception
     {
 		try
@@ -640,19 +647,23 @@ public class ViewEventListAction extends CalendarAbstractAction
 	
 	    		List contents = new ArrayList();
 	
-	    		SyndContent metaData = new SyndContentImpl();
-	
-	    		StringBuffer xml = new StringBuffer("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-	    		xml.append("<metadata>");
-	    		xml.append("<startDateTime>" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</startDateTime>");
-	    		xml.append("<endDateTime>" + this.formatDate(event.getEndDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</endDateTime>");
-	    		xml.append("</metadata>]]>");
-	
-	    		metaData.setType("text/xml");
-	    		metaData.setValue(xml.toString());
+	    		String skipMetaData = this.getStringAttributeValue("skipMetaData");
+	    		if(skipMetaData == null || !skipMetaData.equalsIgnoreCase("true"))
+	    		{
+		    		SyndContent metaData = new SyndContentImpl();
+		
+		    		StringBuffer xml = new StringBuffer("<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		    		xml.append("<metadata>");
+		    		xml.append("<startDateTime>" + this.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</startDateTime>");
+		    		xml.append("<endDateTime>" + this.formatDate(event.getEndDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</endDateTime>");
+		    		xml.append("</metadata>]]>");
+		
+		    		metaData.setType("text/xml");
+		    		metaData.setValue(xml.toString());
+		    		
+		    		contents.add(metaData);
+	    		}
 	    		
-	    		contents.add(metaData);
-	
 	    		entry.setContents(contents);
 	    		
 	    		entries.add(entry);

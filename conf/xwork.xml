@@ -492,6 +492,9 @@
 			<result name="successRSS" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAsRSS.jsp</param>
 			</result>
+			<result name="successCustomRSS" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAsCustomRSS.jsp</param>
+			</result>
 			<result name="successAggregatedRSS" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAsAggregatedRSS.jsp</param>
 			</result>
