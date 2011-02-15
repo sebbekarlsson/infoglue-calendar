@@ -38,6 +38,7 @@ import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.infoglue.calendar.controllers.CategoryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.entities.Event;
@@ -66,6 +67,7 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
 	private boolean diskPermissionOk 		= false;
 	
 	private String cacheName				= "";
+	private String message					= "";
 
 	private String className				= "";
 	private String logLevel					= "";
@@ -196,10 +198,22 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
     }
 
     /**
+     * This action allows clearing of the caches manually.
+     */
+    public String doFixInconsistencies() throws Exception
+    {
+    	int fixed = CategoryController.getController().clearBrokenCategoryReferences(getSession());
+    	this.message = "FixedItems=" + fixed;
+    	
+ 		return "cleared";
+    }
+    
+    /**
      * This action allows upgrade of model from a versionless situation to a version based event handling.
      */
     public String doUpgradeModel() throws Exception
     {
+    	/*
         Language language = LanguageController.getController().getMasterLanguage(getSession());
 
         List events = EventController.getController().getEventList(getSession());
@@ -232,9 +246,11 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
         	
         	getSession().update(event);
         }
+        */
     	
     	return "success";
     }
+
 
     
     private List getList(String key, String value)
@@ -313,4 +329,13 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
 	public void setLogLevel(String logLevel) {
 		this.logLevel = logLevel;
 	}
+	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 }

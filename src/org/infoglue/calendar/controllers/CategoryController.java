@@ -291,4 +291,41 @@ public class CategoryController extends BasicController
     	session.delete(category);
     }
 
+
+	public int clearBrokenCategoryReferences(Session session) throws Exception 
+    {
+		int numberOfFixes = 0;
+		
+        Query q = session.createQuery("from EventCategory eventCategory");
+   
+        List<EventCategory> result = (List<EventCategory>)q.list();
+        log.debug("All eventCategories:" + result.size());
+        for(EventCategory eventCategory : result)
+        {
+        	log.debug("eventCategory:" + eventCategory.getId());
+        	try
+        	{
+        		Category category = eventCategory.getCategory();
+        		log.debug("category:" + category);
+        		if(category == null)
+        		{
+        			log.warn("Broken reference to category");
+            		numberOfFixes++;
+            		//eventCategory.getEvent().getEventCategories().remove(eventCategory);
+            		//session.delete(eventCategory);
+        		}
+        	}
+        	catch (Exception e) 
+        	{
+        		//e.printStackTrace();
+        		log.error("Broken reference to category:" + e.getMessage());
+        		numberOfFixes++;
+        		eventCategory.getEvent().getEventCategories().remove(eventCategory);
+        		session.delete(eventCategory);
+			}
+        }
+        
+        return numberOfFixes;
+    }
+
 }

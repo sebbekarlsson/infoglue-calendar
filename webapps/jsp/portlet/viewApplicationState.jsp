@@ -14,39 +14,39 @@
 	
 	<style>
 	<!--
+		body {
+			font-family : Arial,Sans serif;
+			font-size 	: 10pt;
+			padding     : 50px;
+		}
 		.header 
 		{
-			font-family : Verdana;
+			font-family : Arial,Sans serif;
 			font-size 	: 16pt;
 			font-weight : bold;
+			margin-top: 10px;
 		}
 		.label
 		{
-			font-family	:Verdana;
+			font-family	:Arial,Sans serif;
 			font-size	:10pt;
 			font-weight : bold;
 		}
 		.text 
 		{
-			font-family	:Verdana;
+			font-family	:Arial,Sans serif;
 			font-size	:10pt;
 		}
 		.texttrue 
 		{
-			font-family	:Verdana;
+			font-family	:Arial,Sans serif;
 			font-size	:10pt;
 		}
 		.textfalse 
 		{
-			font-family	:Verdana;
+			font-family	:Arial,Sans serif;
 			font-size	:10pt;
 			color  		:red;
-		}
-		.fullymarginalized 
-		{
-			margin-left	: 50;
-			margin-right: 50;
-			margin-top	: 10%;
 		}
 	-->
 	</style>
@@ -59,59 +59,32 @@
 <portlet:actionURL var="updateModelActionUrl">
 	<portlet:param name="action" value="ViewApplicationState!upgradeModel"/>
 </portlet:actionURL>
+<portlet:actionURL var="fixInconsistenciesActionUrl">
+	<portlet:param name="action" value="ViewApplicationState!fixInconsistencies"/>
+</portlet:actionURL>
 
 <center>
 
-<table class="fullymarginalized" border="0" cellpadding="2" cellspacing="0">
+<h1>Calendar Status (<ww:property value="serverName"/>)</h1>
+
+<ww:if test="message != ''">
+<h3 style="color: red;">Message: <ww:property value="message"/></h3>
+</ww:if>
+
+<table border="0" cellpadding="4" cellspacing="0" width="700" style="border: 1px solid #ccc; margin: 10px;">
   <tr>
-    <td colspan="4" class="header">Calendar Status (<ww:property value="serverName"/>)</td>
+    <td class="header">Maintainence actions</td>
   </tr>
   <tr>
-    <td colspan="4"><hr/></td>
+    <td><a href="<c:out value="${fixInconsistenciesActionUrl}"/>">Fix inconsistencies</a></td>
   </tr>
   <tr>
-    <td colspan="4" class="header">Maintainence actions</td>
-  </tr>
-  <tr>
-    <td colspan="4"><a href="<c:out value="${updateModelActionUrl}"/>">Upgrade model</a></td>
+    <td><a href="<c:out value="${updateModelActionUrl}"/>">Upgrade model</a></td>
   </tr>
    <tr>
-    <td colspan="4"><hr/></td>
+    <td><hr/></td>
   </tr>
   
-<%--
-  <tr>
-    <td class="label" bgcolor="gray">InfoGlue cache name</td>
-    <td class="label" bgcolor="gray">Cached items</td>
-    <td class="label" bgcolor="gray">Statistics</td>
-    <td class="label" bgcolor="gray">Actions</td>
-  </tr>
-  #foreach($cacheName in $caches.keySet())
-  <tr>
-    <td class="text" valign="top">$cacheName</td>
-    <td class="text" valign="top">#if($caches.get($cacheName).class.name == "com.opensymphony.oscache.general.GeneralCacheAdministrator") Unkown #else $caches.get($cacheName).size() #end</td>
-    <td class="text" valign="top">
-    	#if($caches.get($cacheName).class.name == "com.opensymphony.oscache.general.GeneralCacheAdministrator") 
-    		#set($cacheEntryEventListener =	$eventListeners.get("${cacheName}_cacheEntryEventListener"))
-    		#set($cacheMapAccessEventListener =	$eventListeners.get("${cacheName}_cacheMapAccessEventListener"))
-    		 
-    		$cacheEntryEventListener.toString()
-	        <br/>
-	        $cacheMapAccessEventListener.toString()
-    	#else 
-    		$caches.get($cacheName).size() 
-    	#end
-    </td>
-    <td class="text" valign="top"><a href="ViewApplicationState!clearCache.action?cacheName=$cacheName">Clear</a></td>
-  </tr>
-  #end
-  <tr>
-    <td colspan="4" class="text"><a href="ViewApplicationState!clearCaches.action">Clear All</a> | <a href="ViewApplicationState!reCache.action">Recache sitenodes</a></td>
-  </tr>
-  <tr>
-    <td colspan="4"><hr/></td>
-  </tr>
---%>  
   	<portlet:actionURL var="clearAuthCachesViewStateActionUrl">
 		<portlet:param name="action" value="ViewApplicationState!clearCaches"/>
 	</portlet:actionURL>
@@ -120,17 +93,20 @@
 		<portlet:param name="action" value="ViewApplicationState!clearAllCaches"/>
 	</portlet:actionURL>
   
-  	<tr>
-    	<td colspan="4" class="text"><a href="<c:out value="${clearAuthCachesViewStateActionUrl}"/>">Clear auth cache</a></td>
+	<tr>
+    	<td class="header">Cache actions</td>
+  	</tr>
+    	<tr>
+    	<td class="text"><a href="<c:out value="${clearAuthCachesViewStateActionUrl}"/>">Clear auth cache</a></td>
   	</tr>
   	<tr>
-    	<td colspan="4" class="text"><a href="<c:out value="${clearAllCachesViewStateActionUrl}"/>">Clear all caches</a></td>
+    	<td class="text"><a href="<c:out value="${clearAllCachesViewStateActionUrl}"/>">Clear all caches</a></td>
   	</tr>
   	<tr>
-    	<td colspan="4"><hr/></td>
+    	<td><hr/></td>
   	</tr>
   	<tr>
-    	<td class="label" bgcolor="gray" colspan="4">Log settings</td>
+    	<td class="header">Log settings</td>
   	</tr>
   
 	<portlet:actionURL var="updateStateActionUrl">
@@ -138,8 +114,8 @@
 	</portlet:actionURL>
   
   <tr>
-    <td colspan="4" class="text" align="left">
-    	<form action="<c:out value="${updateStateActionUrl}"/>" method="POST"> 
+    <td class="text" align="left">
+    	<form action="<c:out value="${updateStateActionUrl}"/>" method="post"> 
 	    	ClassName:
 	    	<input type="textfield" name="className">
 	    	Log level:
