@@ -86,7 +86,20 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 	        //factory.setRepository(yourTempDirectory);
 
 	        PortletFileUpload upload = new PortletFileUpload(factory);
-	        //upload.setSizeMax(1000000);
+	        
+	        String maxSize = getUploadMaxSize();
+	        log.debug("maxSize:" + maxSize);
+	        if(maxSize != null && !maxSize.equals("") && !maxSize.equals("@uploadMaxSize@"))
+	        {
+	        	try
+	        	{
+	        		upload.setSizeMax(new Long(maxSize));
+	        	}
+	        	catch (Exception e) 
+	        	{
+	        		log.warn("Faulty max size parameter sent from portlet component:" + maxSize);
+				}
+	        }
 	        
 	        List fileItems = upload.parseRequest(ServletActionContext.getRequest());
             log.debug("fileItems:" + fileItems.size());
@@ -137,6 +150,7 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 	    }
         catch(Exception e)
         {
+        	ServletActionContext.getRequest().getSession().setAttribute("errorMessage", "Exception uploading resource. " + e.getMessage());
         	ActionContext.getContext().getValueStack().getContext().put("errorMessage", "Exception uploading resource. " + e.getMessage());
         	log.error("Exception uploading resource. " + e.getMessage());
         	return Action.ERROR;

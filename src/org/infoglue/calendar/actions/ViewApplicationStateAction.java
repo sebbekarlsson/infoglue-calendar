@@ -46,6 +46,9 @@ import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Language;
 import org.infoglue.common.util.CacheController;
 
+import com.opensymphony.webwork.ServletActionContext;
+import com.opensymphony.xwork.ActionContext;
+
 /**
  * This is the action that shows the application state and also can be used to set up surveilence.
  * The idea is to have one command which allways returns a known resultpage if it's ok. Otherwise it prints
@@ -203,7 +206,8 @@ public class ViewApplicationStateAction extends CalendarAbstractAction
     public String doFixInconsistencies() throws Exception
     {
     	int fixed = CategoryController.getController().clearBrokenCategoryReferences(getSession());
-    	this.message = "FixedItems=" + fixed;
+    	ServletActionContext.getRequest().getSession().setAttribute("message", "Number of fixed inconsistencies: " + fixed);
+    	ActionContext.getContext().getValueStack().getContext().put("message", "Number of fixed inconsistencies: " + fixed);
     	
  		return "cleared";
     }

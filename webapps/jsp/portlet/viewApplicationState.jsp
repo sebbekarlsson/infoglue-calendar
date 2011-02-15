@@ -67,8 +67,8 @@
 
 <h1>Calendar Status (<ww:property value="serverName"/>)</h1>
 
-<ww:if test="message != ''">
-<h3 style="color: red;">Message: <ww:property value="message"/></h3>
+<ww:if test="#message != ''">
+<h3 style="color: red;">Message: <ww:property value="#message"/></h3>
 </ww:if>
 
 <table border="0" cellpadding="4" cellspacing="0" width="700" style="border: 1px solid #ccc; margin: 10px;">

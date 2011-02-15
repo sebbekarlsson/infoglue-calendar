@@ -12,7 +12,6 @@
 	<h1>Error</h1>
 	<p style="color: red;">
 		<ww:property value="#errorMessage"/>
-		
 	</p>
 	<p>
 		The log files will contain more information on the specific error so please consult them for further guidance.

@@ -64,7 +64,7 @@ public class UpdateCategoryAction extends ViewCategoryAction
         try
         {
             validateInput(this); 
-            System.out.println("this.active:" + this.active);
+            //System.out.println("this.active:" + this.active);
             category = CategoryController.getController().updateCategory(this.updateCategoryId, this.internalName, this.name, this.description, this.active, getSession());
         }
         catch(ValidationException e)
