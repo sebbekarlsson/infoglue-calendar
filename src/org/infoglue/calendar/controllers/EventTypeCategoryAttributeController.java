@@ -134,7 +134,7 @@ public class EventTypeCategoryAttributeController extends BasicController
     {
         List result = null;
         
-        Query q = session.createQuery("from EventTypeCategoryAttribute eventTypeCategoryAttribute order by eventTypeCategoryAttribute.id");
+        Query q = session.createQuery("from EventTypeCategoryAttribute eventTypeCategoryAttribute order by eventTypeCategoryAttribute.internalName");
    
         result = q.list();
         

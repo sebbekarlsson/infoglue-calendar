@@ -14,14 +14,16 @@
 	
 	<calendar:selectField label="labels.internal.event.assetKey" name="assetKey" multiple="false" value="assetKeys" cssClass="listBox"/>
 		
+	<ww:set name="labelKey" value="AssetUploadMaxFileSize"/>
+	<ww:set name="defaultValue" value="this.getSetting(#labelKey, true, false)"/>
 	<div class="fieldrow">
-		<label for="file"><ww:property value="this.getLabel('labels.internal.event.fileToAttach')"/></label><br>
-		<input type="file" name="file" id="file" class="button"/>
+		<label for="file"><ww:property value="this.getLabel('labels.internal.event.fileToAttach')"/> (max <ww:property value="this.getSetting('AssetUploadMaxFileSize')"/>kB):</label><br/>
+		<input type="file" name="file" id="file" class="button" style="margin-top: 0px;"/>
 	</div>
 		
 	
 	<div style="height:10px"></div>
-	<input type="submit" value="<ww:property value="this.getLabel('labels.internal.event.updateButton')"/>" class="button">
+	<input type="submit" value="<ww:property value="this.getLabel('labels.internal.applicationSave')"/>" class="button">
 	<input type="button" onclick="history.back();" value="<ww:property value="this.getLabel('labels.internal.applicationCancel')"/>" class="button">
 </form>
 

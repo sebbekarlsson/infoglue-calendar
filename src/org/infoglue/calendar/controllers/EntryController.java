@@ -57,6 +57,7 @@ import org.infoglue.calendar.entities.Location;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
 import org.infoglue.common.security.beans.InfoGluePrincipalBean;
 import org.infoglue.common.util.PropertyHelper;
+import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.VisualFormatter;
 import org.infoglue.common.util.io.FileHelper;
@@ -152,6 +153,8 @@ public class EntryController extends BasicController
         
         entry.setEvent(event);
         
+        new RemoteCacheUpdater().updateRemoteCaches(event.getCalendars());
+        
         session.save(entry);
         
         return entry;
@@ -227,6 +230,8 @@ public class EntryController extends BasicController
         entry.setFax(fax);
         entry.setMessage(message);
         entry.setAttributes(xml);
+        
+        new RemoteCacheUpdater().updateRemoteCaches(entry.getEvent().getCalendars());
         
 		session.update(entry);
 	}
@@ -609,6 +614,7 @@ public class EntryController extends BasicController
     public void deleteEntry(Long id, Session session) throws Exception 
     {
         Entry entry = this.getEntry(id, session);
+        new RemoteCacheUpdater().updateRemoteCaches(entry.getEvent().getCalendars());
         session.delete(entry);
     }
     
@@ -897,12 +903,13 @@ public class EntryController extends BasicController
 				systemEmailSender = "infoglueCalendar@" + PropertyHelper.getProperty("mail.smtp.host");
 
 			log.info("Sending mail from:" + systemEmailSender + " to " + addresses);
+			log.info("mail.smtp.host:" + PropertyHelper.getProperty("mail.smtp.host"));
 			
 			MailServiceFactory.getService().send(systemEmailSender, addresses, null, subject, email, contentType, "UTF-8", null);
 	    }
 		catch(Exception e)
 		{
-			log.error("The notification was not sent. Reason:" + e.getMessage());
+			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
 		}
 		
     }

@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,6 +57,31 @@ public class CategoryServlet extends HttpServlet
         		Category filterCategory = CategoryController.getController().getCategoryByPath(session, PropertyHelper.getProperty("filterCategoryPath"));
         		
         		Set<Category> categorySet = filterCategory.getChildren();
+        		
+        		// Add all categories to a map (sorted)
+        		Map<String,Category> categoryMap = new TreeMap<String, Category>();
+        		
+        		Iterator categoryIterator = categorySet.iterator();
+        		while(categoryIterator.hasNext())
+        		{
+        			Category category = (Category)categoryIterator.next();
+        			categoryMap.put(category.getLocalizedName(languageCode, "en").toLowerCase(), category);
+        		}
+        		
+        		// Iterate the sorted map
+        		Iterator categorySetIterator = categoryMap.keySet().iterator();
+        		while(categorySetIterator.hasNext())
+        		{
+        			Category category = (Category)categoryMap.get(categorySetIterator.next());
+        			
+        			sb.append("    <property name=\"" + category.getLocalizedName(languageCode, "en") + "\" value=\"" + category.getInternalName() + "\"/>");
+        			if(allCategoriesProperty.length() > 0)
+        				allCategoriesProperty.append(",");
+        			allCategoriesProperty.append(category.getInternalName());
+        		}
+        		
+        		// Original version
+        		/* 
         	    Iterator categorySetIterator = categorySet.iterator();
         		while(categorySetIterator.hasNext())
         		{
@@ -65,6 +92,7 @@ public class CategoryServlet extends HttpServlet
         				allCategoriesProperty.append(",");
         			allCategoriesProperty.append(category.getInternalName());
         		}
+        		*/
         		
         		sb.insert(0, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><properties><property name=\"All\" value=\"" + allCategoriesProperty + "\"/>");
                 sb.append("</properties>");

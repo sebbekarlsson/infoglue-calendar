@@ -35,6 +35,7 @@ import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.servlet.ServletInputStream;
 
+import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.portlet.PortletFileUpload;
@@ -78,6 +79,8 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
         log.debug("-------------Uploading file.....");
         
         File uploadedFile = null;
+        String maxUploadSize = "";
+        String uploadSize = "";
         
         try
         {
@@ -87,18 +90,25 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 
 	        PortletFileUpload upload = new PortletFileUpload(factory);
 	        
-	        String maxSize = getUploadMaxSize();
+	        String maxSize = getSetting("AssetUploadMaxFileSize");
 	        log.debug("maxSize:" + maxSize);
-	        if(maxSize != null && !maxSize.equals("") && !maxSize.equals("@uploadMaxSize@"))
+	        if(maxSize != null && !maxSize.equals("") && !maxSize.equals("@AssetUploadMaxFileSize@"))
 	        {
 	        	try
 	        	{
-	        		upload.setSizeMax(new Long(maxSize));
+		        	maxUploadSize = maxSize;
+	        		upload.setSizeMax((new Long(maxSize)*1000));
 	        	}
 	        	catch (Exception e) 
 	        	{
 	        		log.warn("Faulty max size parameter sent from portlet component:" + maxSize);
 				}
+	        }
+	        else
+	        {
+	        	maxSize = "" + (10*1024);
+	        	maxUploadSize = maxSize;
+	        	upload.setSizeMax((new Long(maxSize)*1000));
 	        }
 	        
 	        List fileItems = upload.parseRequest(ServletActionContext.getRequest());
@@ -111,9 +121,11 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 	            log.debug("dfi:" + dfi.getFieldName());
 	            log.debug("dfi:" + dfi);
 	            
-	            if (dfi.isFormField()) {
+	            if (dfi.isFormField()) 
+	            {
 	                String name = dfi.getFieldName();
 	                String value = dfi.getString();
+	                uploadSize = "" + (dfi.getSize() / 1000);
 	                
 	                log.debug("name:" + name);
 	                log.debug("value:" + value);
@@ -138,6 +150,7 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 	            {
 	                String fieldName = dfi.getFieldName();
 	                String fileName = dfi.getName();
+	                uploadSize = "" + (dfi.getSize() / 1000);
 	                
 	                this.fileName = fileName;
 	                log.debug("FileName:" + this.fileName);
@@ -146,12 +159,11 @@ public class CreateResourceAction extends CalendarUploadAbstractAction
 	            }
 
 	        }
-	        
 	    }
         catch(Exception e)
         {
-        	ServletActionContext.getRequest().getSession().setAttribute("errorMessage", "Exception uploading resource. " + e.getMessage());
-        	ActionContext.getContext().getValueStack().getContext().put("errorMessage", "Exception uploading resource. " + e.getMessage());
+        	ServletActionContext.getRequest().getSession().setAttribute("errorMessage", "Exception uploading resource. " + e.getMessage() + ".<br/>Max upload size: " + maxUploadSize + " KB"); // + "<br/>Attempted upload size (in KB):" + uploadSize);
+        	ActionContext.getContext().getValueStack().getContext().put("errorMessage", "Exception uploading resource. " + e.getMessage() + ".<br/>Max upload size: " + maxUploadSize + " KB"); // + "<br/>Attempted upload size (in KB):" + uploadSize);
         	log.error("Exception uploading resource. " + e.getMessage());
         	return Action.ERROR;
         }

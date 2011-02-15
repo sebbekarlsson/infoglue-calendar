@@ -139,7 +139,7 @@ public class EventTypeController extends BasicController
     {
         List result = null;
         
-        Query q = session.createQuery("from EventType eventType order by eventType.id");
+        Query q = session.createQuery("from EventType eventType order by eventType.name");
    
         result = q.list();
         

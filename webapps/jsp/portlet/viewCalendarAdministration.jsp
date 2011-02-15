@@ -33,7 +33,7 @@
 <p>
 	<ww:property value="this.getLabel('labels.internal.applicationIntroduction')"/>
 </p>
-<p><a href="<c:out value="${createEventUrl}"/>"><ww:property value="this.getLabel('labels.internal.event.addEvent')"/></a></p>
+<p><a id="newEventLink" href="<c:out value="${createEventUrl}"/>"><ww:property value="this.getLabel('labels.internal.event.addEvent')"/></a></p>
 </div>
 
 <%@ include file="adminFooter.jsp" %>
