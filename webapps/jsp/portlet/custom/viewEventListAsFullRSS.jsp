@@ -99,6 +99,7 @@ java.util.List getInternalFeedEntries(String eventURL, Set events, org.infoglue.
 	    		xml.append("<metadata>");
 	    		xml.append("<startDateTime>" + action.formatDate(event.getStartDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</startDateTime>");
 	    		xml.append("<endDateTime>" + action.formatDate(event.getEndDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</endDateTime>");
+
 	    		xml.append("<longDescription>" + eventVersion.getLongDescription() + "</longDescription>");
 	    		try
 	    		{
@@ -136,7 +137,7 @@ java.util.List getInternalFeedEntries(String eventURL, Set events, org.infoglue.
 		    	}
 	    		xml.append("</resources>");
 
-	    		xml.append("<lastRegistrationDateTime>" + action.formatDate(event.getLastRegistrationDateTime().getTime(), "yyyy-MM-dd HH:mm") + "</lastRegistrationDateTime>");
+	    		xml.append("<lastRegistrationDateTime>" + (event.getLastRegistrationDateTime() != null ? action.formatDate(event.getLastRegistrationDateTime().getTime(), "yyyy-MM-dd HH:mm") : "") + "</lastRegistrationDateTime>");
 	    		xml.append("<price>" + event.getPrice() + "</price>");
 
 	    		xml.append("<contactEmail>" + event.getContactEmail() + "</contactEmail>");
