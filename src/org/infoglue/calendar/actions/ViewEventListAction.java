@@ -107,17 +107,13 @@ public class ViewEventListAction extends CalendarAbstractAction
      */
     
     public String execute() throws Exception 
-    {
+    {    	
         String[] calendarIds = calendarId.split(",");
         String[] categoryNamesArray = categoryNames.split(",");
         
         Session session = getSession(true);
     	        
-        //Timer t = new Timer();
-        //this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, session);
-        //t.printElapsedTime("Getting all events took");
         this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, session);
-        //t.printElapsedTime("Getting all events took");
         
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
@@ -147,11 +143,8 @@ public class ViewEventListAction extends CalendarAbstractAction
         
         Session session = getSession(true);
     	        
-        //Timer t = new Timer();
-        //this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, session);
-        //t.printElapsedTime("Getting all events took");
         this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, null, null, null, numberOfItems, session);
-        //t.printElapsedTime("Getting all events took");
+
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
@@ -214,7 +207,7 @@ public class ViewEventListAction extends CalendarAbstractAction
         
         return Action.SUCCESS + "CustomRSS";
     }
-
+	
 	public String listFullRSS() throws Exception
     {
         execute(getNumberOfItems());
