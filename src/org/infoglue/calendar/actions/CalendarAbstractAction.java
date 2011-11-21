@@ -54,6 +54,7 @@ import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.TransactionException;
 import org.infoglue.calendar.controllers.AccessRightController;
 import org.infoglue.calendar.controllers.CalendarController;
 import org.infoglue.calendar.controllers.CalendarLabelsController;
@@ -388,8 +389,8 @@ public class CalendarAbstractAction extends ActionSupport
 		        }
 		        else
 		        {
-		            Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
-			        log.info("calendars: " + calendars);
+		            Set<org.infoglue.calendar.entities.Calendar> calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+			        log.info("calendars: " + calendars);			        
 			        if(calendars.contains(owningCalendar))
 			            isEventOwner = true;
 		        }
@@ -418,8 +419,8 @@ public class CalendarAbstractAction extends ActionSupport
 	        }
 	        else
 	        {
-	            Set calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
-		        
+	            Set<org.infoglue.calendar.entities.Calendar> calendars = CalendarController.getController().getCalendarList(this.getInfoGlueRemoteUserRoles(), this.getInfoGlueRemoteUserGroups(), getSession());
+
 		        if(calendars.contains(calendar))
 		        	isCalendarOwner = true;
 	        }
@@ -1269,16 +1270,20 @@ public class CalendarAbstractAction extends ActionSupport
 	public void disposeSession() throws HibernateException {
 		
 		log.debug("disposing");
-
+		
 		if (getSession()==null) return;
 
 		if (rollBackOnly) {
 			try {
-				log.debug("rolling back");
+				log.debug("Rolling back");
 				if (getTransaction()!=null) getTransaction().rollback();
 			}
+			catch (TransactionException te) {
+			    log.warn("Error getting transaction in rollback", te);
+				throw te;
+			}
 			catch (HibernateException e) {
-			    log.error("error during rollback", e);
+			    log.error("Error during rollback", e);
 				throw e;
 			}
 			finally {
