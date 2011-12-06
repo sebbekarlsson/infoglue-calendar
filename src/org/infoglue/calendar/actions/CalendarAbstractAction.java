@@ -339,7 +339,8 @@ public class CalendarAbstractAction extends ActionSupport
     	}
     	catch(Exception e)
     	{
-    		log.error("Could not get infoglue user:", e);
+    		log.error("Could not get infoglue user:" + e.getMessage());
+    		log.warn("Could not get infoglue user:" + e.getMessage(), e);
     		throw e;
     	}
     }
