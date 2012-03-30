@@ -23,6 +23,8 @@
 
 package org.infoglue.common.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.io.*;
 import java.util.Enumeration;
@@ -138,6 +140,35 @@ public class PropertyHelper
 			return propertyAsLong.longValue();
 		} catch( Exception e ) {}
 		return def;
+	}
+
+	/**
+	 * This method returns a list of url:s for Infoglue instances to notify. This expects the property file to contain
+	 * properties in the form of notificationUrl.x where x is an index from 0 to infinity. 
+	 * @return
+	 */
+	public static List<String> getInfoglueCacheInstanceBaseUrls() 
+	{
+		List<String> infoglueCacheInstanceUrls = new ArrayList<String>();
+		
+		String appPrefix = "notificationUrl";
+		
+	    int i = 0;
+		String instanceUrl = null;
+		while((instanceUrl = PropertyHelper.getProperty(appPrefix + "." + i)) != null)
+		{ 
+			String address = instanceUrl;
+			if(address.indexOf(".action") == -1)
+			{
+				infoglueCacheInstanceUrls.add(address);
+			}
+			else
+				System.out.println("Skipping " + address + " as we are only interested in base url:s");
+				
+			i++;
+		}	
+		
+		return infoglueCacheInstanceUrls;
 	}		
 
 }
