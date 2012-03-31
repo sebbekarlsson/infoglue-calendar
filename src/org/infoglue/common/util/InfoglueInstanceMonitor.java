@@ -99,10 +99,10 @@ public class InfoglueInstanceMonitor implements Runnable
 		{
 			try
 			{
+				Thread.sleep(30000);
 				logger.info("Validating instances");
 				
 				validateInstances();
-				Thread.sleep(30000);
 			}
 			catch (Exception e) 
 			{

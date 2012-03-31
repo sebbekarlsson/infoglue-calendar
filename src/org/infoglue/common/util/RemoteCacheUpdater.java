@@ -103,10 +103,10 @@ public class RemoteCacheUpdater implements Runnable
 	{
 		if(PropertyHelper.getInfoglueCacheInstanceBaseUrls().size() > 0)
 		{
-			log.info("Using the new publication method....");
+			System.out.println("Using the new publication method....");
 			for(String instanceBaseUrl : PropertyHelper.getInfoglueCacheInstanceBaseUrls())
 			{
-				log.info("instanceBaseUrl:" + instanceBaseUrl);
+				System.out.println("instanceBaseUrl:" + instanceBaseUrl);
 				String address = instanceBaseUrl + "/UpdateCache!passThroughPublication.action";
 
 				StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
@@ -180,14 +180,14 @@ public class RemoteCacheUpdater implements Runnable
 				//publicMessage.put("repositoryId", "2");
 				publicMessage.put("repositoryId", repositoryID);
 				publicMessage.put("objectDescription", objectDescription);
-				publicMessage.put("className", "pageCache");
+				publicMessage.put("className", "pageCache:portlet_infoglueCalendar.WebworkDispatcherPortlet");
 				publicMessage.put("objectId", "1");
 				publicMessage.put("objectName", objectName);
 
 				try
 				{
 					String response = postToUrl(address, publicMessage);
-					//System.out.println("response:" + response);
+					System.out.println("response:" + response);
 					if(response == null || response.indexOf("ok") == -1 || response.indexOf("error") > 0)
 						throw new Exception("Not ok response from infoglue.");
 				}

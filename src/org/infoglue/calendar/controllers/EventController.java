@@ -804,7 +804,8 @@ public class EventController extends BasicController
 
         event.getCalendars().add(calendar);
         
-		new RemoteCacheUpdater().updateRemoteCaches(calendarId);
+		new RemoteCacheUpdater().updateRemoteCaches(event.getCalendars());
+		//new RemoteCacheUpdater().updateRemoteCaches(calendarId);
     }
 
     /**
@@ -845,8 +846,9 @@ public class EventController extends BasicController
 		Event event = getEvent(id, session);
 		event.setStateId(Event.STATE_PUBLISHED);
 		EventVersion eventVersion = getEventVersion(event, languageCode, session);
-		
-		new RemoteCacheUpdater().updateRemoteCaches(event.getOwningCalendar().getId());
+
+		new RemoteCacheUpdater().updateRemoteCaches(event.getCalendars());
+		//new RemoteCacheUpdater().updateRemoteCaches(event.getOwningCalendar().getId());
 		
         if(useGlobalEventNotification())
         {
@@ -1719,7 +1721,8 @@ public class EventController extends BasicController
         event.getCalendars().remove(calendar);
         calendar.getEvents().remove(event);
         
-		new RemoteCacheUpdater().updateRemoteCaches(calendarId);
+		new RemoteCacheUpdater().updateRemoteCaches(event.getCalendars());
+		//new RemoteCacheUpdater().updateRemoteCaches(calendarId);
     }
     
     /**
