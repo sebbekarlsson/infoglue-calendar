@@ -1801,7 +1801,8 @@ public class EventController extends BasicController
 	    }
 		catch(Exception e)
 		{
-			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+			log.error("The notification was not sent. Reason:" + e.getMessage());
+			log.info("The notification was not sent. Reason:" + e.getMessage(), e);
 		}
 		
     }
@@ -1880,7 +1881,8 @@ public class EventController extends BasicController
 	    }
 		catch(Exception e)
 		{
-			log.error("The notification was not sent. Reason:" + e.getMessage(), e);
+			log.error("The notification was not sent. Reason:" + e.getMessage());
+			log.info("The notification was not sent. Reason:" + e.getMessage(), e);
 		}
 		
     }
