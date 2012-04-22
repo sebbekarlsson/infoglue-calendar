@@ -36,6 +36,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.infoglue.calendar.controllers.CalendarSettingsController;
 import org.infoglue.calendar.entities.Calendar;
 
 
@@ -103,10 +104,10 @@ public class RemoteCacheUpdater implements Runnable
 	{
 		if(PropertyHelper.getInfoglueCacheInstanceBaseUrls().size() > 0)
 		{
-			System.out.println("Using the new publication method....");
+			log.info("Using the new publication method....");
 			for(String instanceBaseUrl : PropertyHelper.getInfoglueCacheInstanceBaseUrls())
 			{
-				System.out.println("instanceBaseUrl:" + instanceBaseUrl);
+				log.info("instanceBaseUrl:" + instanceBaseUrl);
 				String address = instanceBaseUrl + "/UpdateCache!passThroughPublication.action";
 
 				StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
@@ -187,7 +188,7 @@ public class RemoteCacheUpdater implements Runnable
 				try
 				{
 					String response = postToUrl(address, publicMessage);
-					System.out.println("response:" + response);
+					log.info("response:" + response);
 					if(response == null || response.indexOf("ok") == -1 || response.indexOf("error") > 0)
 						throw new Exception("Not ok response from infoglue.");
 				}
@@ -250,12 +251,10 @@ public class RemoteCacheUpdater implements Runnable
 			    {
 			    	if(address.indexOf("infoglueDeliverWorking") > -1 || address.indexOf("infoglueDeliverPreview") > -1)
 			    	{
-			    		System.out.println("1");
 				    	String response = postToUrl(address, hashedMessage);
 			    	}
 			    	else
 			    	{
-			    		System.out.println("2");
 			    		Thread thread = new Thread(new RemoteCacheUpdater(address, hashedMessage));
 						thread.start();
 			    	}

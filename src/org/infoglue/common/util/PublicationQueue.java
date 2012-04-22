@@ -91,7 +91,7 @@ public class PublicationQueue implements Runnable
 
 	public Set<PublicationQueueBean> getInstancePublicationQueueBeans(String serverURL)
 	{
-		System.out.println("serverURL:" + serverURL);
+		logger.info("serverURL:" + serverURL);
 		if(instancePublicationQueueBeans.containsKey(serverURL))
 			return instancePublicationQueueBeans.get(serverURL);
 		else
@@ -115,7 +115,7 @@ public class PublicationQueue implements Runnable
 			else
 				logger.error("Skipping publication queue for this bean as to many beans allready is in queue - must be something very wrong with the instance");
 		}
-		System.out.println("Done...:" + publicationQueueBeans.size() + "/" + this.hashCode() + "/" + publicationQueueBeans.hashCode());
+		logger.info("Done...:" + publicationQueueBeans.size() + "/" + this.hashCode() + "/" + publicationQueueBeans.hashCode());
 	}
 
 	public void clearPublicationQueueBean(String liveInstanceValidationUrl)
@@ -218,15 +218,15 @@ public class PublicationQueue implements Runnable
 							}
 							currentPublicationQueueBeans.addAll(beans);
 						}
-						System.out.println("The instance seems to be down. Let's try later instead.");
+						logger.warn("The instance seems to be down. Let's try later instead.");
 					}
 					else
 					{
-						System.out.println("The live server at " + serverBaseUrl + " does not seem to be registered any more. Removing it's queue.");
-						System.out.println("InfoglueInstanceMonitor.getInstance():" + InfoglueInstanceMonitor.getInstance());
+						logger.warn("The live server at " + serverBaseUrl + " does not seem to be registered any more. Removing it's queue.");
+						logger.info("InfoglueInstanceMonitor.getInstance():" + InfoglueInstanceMonitor.getInstance());
 						for(String key : InfoglueInstanceMonitor.getInstance().getInstanceStatusMap().keySet())
 						{
-							System.out.println("key:" + key);
+							logger.info("key:" + key);
 						}
 					}
 				}
