@@ -624,6 +624,12 @@
             <result name="success" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/viewEventSearch.jsp</param>
             </result>
+			<result name="inputExternalBinding" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewExternalBindingEventSearchForm.jsp</param>
+            </result>
+            <result name="successExternalBinding" type="portletDispatch">
+            	<param name="dispatchTo">/jsp/portlet/viewExternalBindingEventSearch.jsp</param>
+            </result>
 			<result name="error" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/error.jsp</param>
 			</result>

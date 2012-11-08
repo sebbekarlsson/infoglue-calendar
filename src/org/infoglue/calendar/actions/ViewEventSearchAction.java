@@ -160,7 +160,17 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         }
         
         return Action.SUCCESS;
-    } 
+    }
+    
+    public String doExternalBindingSearch() throws Exception
+    {
+    	setExportResult(false);
+    	setSortAscending(false);
+    	initialize();
+    	execute();
+
+    	return "successExternalBinding";
+    }
 
     /**
      * This is the entry point for the search form.
@@ -171,7 +181,14 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         initialize();
 
         return Action.INPUT;
-    } 
+    }
+
+    public String doInputExternalBinding() throws Exception 
+    {
+    	initialize();
+
+    	return "inputExternalBinding";
+    }
 
     
     public List getEvents()
