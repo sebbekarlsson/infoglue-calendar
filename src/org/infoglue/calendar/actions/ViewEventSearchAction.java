@@ -23,6 +23,7 @@
 
 package org.infoglue.calendar.actions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -58,6 +59,7 @@ import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
 import com.opensymphony.xwork.Action;
+import com.opensymphony.xwork.ActionContext;
 
 /**
  * This action represents a Location Administration screen.
@@ -167,7 +169,21 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     	setExportResult(false);
     	setSortAscending(false);
     	initialize();
-    	execute();
+    	if (startDateTime != null)
+    	{
+    		execute();
+    	}
+    	else
+    	{
+    		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+    		Calendar calendar = Calendar.getInstance();
+    		startDateTime = dateFormatter.format(calendar.getTime());
+    		calendar.roll(Calendar.WEEK_OF_YEAR, 1);
+    		endDateTime = dateFormatter.format(calendar.getTime());
+    		
+    		startTime = "00:00";
+    		endTime = "23:59";
+    	}
 
     	return "successExternalBinding";
     }
@@ -183,14 +199,6 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         return Action.INPUT;
     }
 
-    public String doInputExternalBinding() throws Exception 
-    {
-    	initialize();
-
-    	return "inputExternalBinding";
-    }
-
-    
     public List getEvents()
     {
         return events;
