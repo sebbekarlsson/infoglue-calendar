@@ -200,6 +200,11 @@ public class CalendarAbstractAction extends ActionSupport
         return (Integer)ServletActionContext.getRequest().getAttribute("siteNodeId");
     }
 
+    public List<Long> getEventIds()
+    {
+        return (List<Long>)ServletActionContext.getRequest().getAttribute("eventIds");
+    }
+
     public Integer getComponentId()
     {
         return (Integer)ServletActionContext.getRequest().getAttribute("componentId");
@@ -216,7 +221,7 @@ public class CalendarAbstractAction extends ActionSupport
     	
         return languageCode;
     }
-
+  
     public Locale getLocale()
     {
     	String languageCode = getLanguageCode();
@@ -282,7 +287,7 @@ public class CalendarAbstractAction extends ActionSupport
 
     public String getCalendarMonth()
     {
-        return (String)ServletActionContext.getRequest().getAttribute("calendarMonth");
+    	return (String)ServletActionContext.getRequest().getAttribute("calendarMonth");
     }
 
     public String getFreeText()
@@ -696,6 +701,7 @@ public class CalendarAbstractAction extends ActionSupport
         
         return calendar;
     }
+    
 
     
     public String getVCalendar(Long eventId) throws Exception

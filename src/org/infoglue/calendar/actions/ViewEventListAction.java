@@ -28,6 +28,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -41,11 +42,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.infoglue.calendar.controllers.EventController;
+import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.EventVersion;
+import org.infoglue.calendar.entities.Language;
 import org.infoglue.calendar.util.CalendarHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
 import org.infoglue.common.util.Timer;
@@ -83,8 +86,10 @@ public class ViewEventListAction extends CalendarAbstractAction
     private String categoryAttribute	= "";
     private String categoryNames 		= "";
     private String includedLanguages 	= "";
-    private Calendar calendar;    
+    private String baseUrlCalendarCarousel = "";
+	private Calendar calendar;    
     private Set events;
+	private List<EventVersion> topEvents;
     private List aggregatedEntries 		= null;
     private String message				= "";
     
@@ -409,7 +414,42 @@ public class ViewEventListAction extends CalendarAbstractAction
 
         return Action.SUCCESS + "FilteredGraphicalCalendarGU";
     }
+    
+    public String topEventCalendarCarousel() throws Exception
+    {
+    	final List<Long> eventIds = getEventIds();
+    	Session session = getSession(true);
+    	
+    	try
+    	{
+    		Language language = LanguageController.getController().getLanguageWithCode(this.getLanguageCode(), session);
+	    	
+    		if(eventIds != null){
+        		this.topEvents = EventController.getController().getEventVersions(eventIds, language, session);
+        		Collections.sort(this.topEvents, new Comparator<EventVersion>() {
 
+    				@Override
+    				public int compare(EventVersion o1, EventVersion o2) {
+    					int i1 = eventIds.indexOf(o1.getEvent().getId());
+    					int i2 = eventIds.indexOf(o2.getEvent().getId());
+    					return i1 - i2;
+    				}
+    			});
+        	}
+    	}
+    	catch(Exception e){
+    		log.error("Error when getting event version for event: " + ":" + e.getMessage(), e); 
+    	}
+    	
+    	return Action.SUCCESS + "TopEventCalendarCarousel";
+    }
+
+    
+    public String graphicalCalendarCarousel() throws Exception
+    {
+    	listFilteredGU();
+        return Action.SUCCESS + "GraphicalCalendarCarousel";
+    }
     
     public String shortListGU() throws Exception
     {
@@ -716,6 +756,11 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public Map getDaysEventHash(String eventsString)
     {
+    	return getDaysEventHash(eventsString, false);
+    }
+    
+    public Map getDaysEventHash(String eventsString, Boolean onlyStartDate)
+    {
     	Map daysEvents = new HashMap();
     	
     	try
@@ -729,7 +774,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 	    		
 	    		java.util.Calendar startDateCalendar = event.getStartDateTime();
 	    		java.util.Calendar endDateCalendar = event.getEndDateTime();
-	    		while(startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH) <= endDateCalendar.get(java.util.Calendar.DAY_OF_MONTH))
+	    		do
 	    		{
 	    			int dayOfMonth = startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH);
 	    			List<Event> dayEvents = (List<Event>)daysEvents.get("day_" + dayOfMonth);
@@ -741,7 +786,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 	    			
 	    			dayEvents.add(event);
 	    			startDateCalendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-	    		}
+	    		} while(!onlyStartDate && startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH) <= endDateCalendar.get(java.util.Calendar.DAY_OF_MONTH));
 	    	}
     	}
     	catch (Exception e) 
@@ -794,6 +839,22 @@ public class ViewEventListAction extends CalendarAbstractAction
     	this.includedLanguages = includedLanguages;
     }
     
+    public String getBaseUrlCalendarCarousel() {
+    	return baseUrlCalendarCarousel;
+	}
+
+	public void setBaseUrlCalendarCarousel(String baseUrlCalendarCarousel) {
+		this.baseUrlCalendarCarousel = baseUrlCalendarCarousel;
+		System.out.println(baseUrlCalendarCarousel);
+	}
+    public List getTopEvents() {
+		return topEvents;
+	}
+
+	public void setTopEvents(List topEvents) {
+		this.topEvents = topEvents;
+	}
+
     public String getMessage()
     {
     	return this.message;

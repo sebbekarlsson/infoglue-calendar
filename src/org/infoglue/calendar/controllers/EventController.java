@@ -82,6 +82,7 @@ import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.NotExpression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.hql.classic.OrderByParser;
 
 public class EventController extends BasicController
 {    
@@ -921,6 +922,15 @@ public class EventController extends BasicController
     	}
     	
         return eventVersion;
+    }
+    
+    public List<EventVersion> getEventVersions(List<Long> ids, Language language, Session session) throws Exception
+    {
+        Criteria criteria = session.createCriteria(EventVersion.class);
+        criteria.createCriteria("event").add(Restrictions.in("id", ids));
+        criteria.add(Restrictions.eq("language", language));
+
+		return criteria.list();
     }
 
     /**

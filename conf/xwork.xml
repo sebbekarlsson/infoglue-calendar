@@ -510,6 +510,12 @@
 			<result name="successFilteredGraphicalCalendarGU" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/gu/viewEventFilteredGraphicalCalendar.jsp</param>
 			</result>
+			<result name="successTopEventCalendarCarousel" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewEventListTopEventCalendarCarousel.jsp</param>
+			</result>
+			<result name="successGraphicalCalendarCarousel" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/viewEventListGraphicalCalendarCarousel.jsp</param>
+			</result>
 			<result name="successAggregatedCustom" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAggregated.jsp</param>
 			</result>
@@ -526,7 +532,6 @@
 				<param name="dispatchTo">/jsp/portlet/custom/error.jsp</param>
 			</result>
 		</action>
-		
 		<action name="ViewMyWorkingEventList" class="org.infoglue.calendar.actions.ViewMyWorkingEventListAction">
 			<result name="success" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/viewMyWorkingEventList.jsp</param>
