@@ -1,4 +1,4 @@
-<!--eri-no-index--> 
+<!--eri-no-index-->
 <%@page import="org.infoglue.calendar.entities.Category"%>
 <%@page import="org.infoglue.calendar.actions.CalendarAbstractAction"%>
 <%@page import="org.apache.axis.types.Month"%>
@@ -281,6 +281,6 @@ pageContext.setAttribute("monthEndDateTimeString", monthEndDateTimeString);
 	}
 	
 </script>
-<!--/eri-no-index--> 
+<!--/eri-no-index-->
  
  
