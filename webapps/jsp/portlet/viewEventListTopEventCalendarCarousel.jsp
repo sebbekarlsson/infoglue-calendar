@@ -31,7 +31,13 @@
 			</ww:else>
 			<ww:set name="puffImage" value="this.getResourceUrl(top.event, 'DetaljBild')"/>		
 			<ww:if test="#mediaUrl != null && #mediaUrl != ''">
-				<div id="movie_<ww:property value="top.event.id"/>" class="GUCarouselItemAssetContainer"></div>
+				<div id="movie_<ww:property value="top.event.id"/>" class="GUCarouselItemAssetContainer">
+					<noscript>
+						<div class="videoNoscript">
+							Du måste ha javascript aktiverat för att kunna se den här videon.
+						</div>
+					</noscript>
+				</div>
 				<ww:if test="#attr.ajaxServiceUrl.indexOf('?') > -1">
 					<c:set var="delimAjax" value="&" />
 				</ww:if>
