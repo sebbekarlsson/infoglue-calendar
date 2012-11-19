@@ -17,24 +17,36 @@
 </ww:else>
 	
 <div class="caroufredsel_wrap">
-	<ul id="GUCarouselItems">
+	<ul id="GUCalendarCarouselItems" class="GUCarouselItems">
 		<ww:iterator value="topEvents" status="rowstatus">
 		<li>
-			<ww:set name="topEvent" value="top" />
+			<ww:set name="topEvent" value="top"/>
+			<ww:set name="mediaUrl" value="this.getAttributeValue(top.attributes, 'mediaUrl')"/>
+			<ww:set name="netConnectionUrl" value="this.getAttributeValue(top.attributes, 'netConnectionUrl')"/>
 			<ww:if test="#attr.eventDetailUrl.indexOf('?') > -1">
 				<c:set var="delim" value="&" />
 			</ww:if>
 			<ww:else>
 				<c:set var="delim" value="?" />
 			</ww:else>
-			<ww:set name="puffImage" value="this.getResourceUrl(top.event, 'DetaljBild')"/>
-			
-			<ww:if test="#puffImage != null">
+			<ww:set name="puffImage" value="this.getResourceUrl(top.event, 'DetaljBild')"/>		
+			<ww:if test="#mediaUrl != null && #mediaUrl != ''">
+				<div id="movie_<ww:property value="top.event.id"/>" class="GUCarouselItemAssetContainer"></div>
+				<ww:if test="#attr.ajaxServiceUrl.indexOf('?') > -1">
+					<c:set var="delimAjax" value="&" />
+				</ww:if>
+				<ww:else>
+					<c:set var="delimAjax" value="?" />
+				</ww:else>
+				<script type="text/javascript">
+					$("#movie_<ww:property value='top.event.id'/>").load("sda<ww:property value="#attr.ajaxServiceUrl"/><c:out value="${delimAjax}" escapeXml="false"/>mediaUrl=<ww:property value="#mediaUrl"/>&netConnectionUrl=<ww:property value="#netConnectionUrl"/>&width=220");
+				</script>
+			</ww:if>
+			<ww:elseif test="#puffImage != null">
 				<div class="GUCarouselItemAssetContainer">
 					<img src="<ww:property value="#puffImage"/>"/>
 				</div>
-			</ww:if>
-			
+			</ww:elseif>
 			<span class="smallfont">
 				<ww:iterator value="top.event.owningCalendar.eventType.categoryAttributes">
 					<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">

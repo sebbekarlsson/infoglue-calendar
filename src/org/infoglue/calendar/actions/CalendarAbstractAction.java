@@ -1353,5 +1353,8 @@ public class CalendarAbstractAction extends ActionSupport
 		return value;
 	}
 
+    public String getAjaxServiceUrl(){
+    	 return (String)ServletActionContext.getRequest().getAttribute("ajaxServiceUrl");
+    }
 }
 

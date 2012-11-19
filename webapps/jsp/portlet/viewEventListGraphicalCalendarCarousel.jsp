@@ -132,11 +132,17 @@ pageContext.setAttribute("monthEndDateTimeString", monthEndDateTimeString);
 			<ww:set name="actionObject" value="this" scope="page"/>
 			<ww:set name="eventDetailUrl" value="#attr.eventDetailUrl" scope="page"/>
 			<ww:set name="calendarPageUrl" value="#attr.calendarPageUrl" scope="page"/>
+			<ww:set name="beginsLabel" value="this.getLabel('labels.public.event.begins')" scope="page"/>
+			<ww:set name="endsLabel" value="this.getLabel('labels.public.event.ends')" scope="page"/>
+			<ww:set name="clockLabel" value="this.getLabel('labels.public.event.klockLabel')" scope="page"/>
 			<%
 			CalendarAbstractAction calendarAbstractAction = (CalendarAbstractAction)pageContext.getAttribute("actionObject");
 			String eventDetailUrl = (String)pageContext.getAttribute("eventDetailUrl");
 			String calendarPageUrl = (String)pageContext.getAttribute("calendarPageUrl");
 			String delim = (String)pageContext.getAttribute("delim");
+			String beginsLabel = (String)pageContext.getAttribute("beginsLabel");
+			String endsLabel = (String)pageContext.getAttribute("endsLabel");
+			String clockLabel = (String)pageContext.getAttribute("clockLabel");
 			if(weekDaysCalendar != null){
 				out.print("<tr class='GUCalendarCarouselGraphicalTableWeekdays'>");
 					for(int i = 0; i < 7; i++){
@@ -205,7 +211,7 @@ pageContext.setAttribute("monthEndDateTimeString", monthEndDateTimeString);
 			                	startDate = "00:00";
 			                }
 			                endDate = calendarAbstractAction.formatDate(currentEvent.getEndDateTime().getTime(), "HH:mm");
-				           	date = "<span class=\"smallfont\">Börjar kl " + startDate + "</span><span class=\"smallfont\">Slutar kl " + endDate + "</span>";
+				           	date = "<span class=\"smallfont\">"+ beginsLabel + " " + clockLabel + " " + startDate + "</span><span class=\"smallfont\">" + endsLabel + " " + clockLabel + " " + endDate + "</span>";
 				    		title = "<h2><a href=\"" + eventDetailUrl + delim + "eventId=" + currentEvent.getId() + "\">"+ currentEventVersion.getTitle() +"</a></h2>";
 				    		eventTypes = "<span class=\"smallfont\">" + eventTypes + "</span>";
 				    		shortDescription = "<div class=\"infoboxShortDescription\"><p>" + currentEventVersion.getShortDescription() + "</p></div>";
@@ -215,7 +221,7 @@ pageContext.setAttribute("monthEndDateTimeString", monthEndDateTimeString);
 			      		}
 			      		headerDate =  "<div class=\"infoboxHeaderDate\">" + i + " " + vf.formatDate(calendarMonthCalendar.getTime(), locale, "MMMM") + "</div>";
 			      		todayEvents = "textArray[" + i + "] = '"+ headerDate + todayEvents + "';";
-					    rows.append("<a data-id=\"" + i + "\" href=\"" + calendarPageUrl + "\" class=\"thelink\">" + i + "<a>");
+					    rows.append("<a data-id=\"" + i + "\" href=\"" + calendarPageUrl + delim + "calendarMonth=" + vf.formatDate(calendarMonthCalendar.getTime(), "yyyy-MM") + "\" class=\"thelink\">" + i + "<a>");
 					    textArrayString += todayEvents ;
 				  	}
 				  	else{
@@ -226,12 +232,10 @@ pageContext.setAttribute("monthEndDateTimeString", monthEndDateTimeString);
 			 		
 			      	if ((leadGap + i) % 7 == 0) {    // wrap if end of line.
 	
-				  	    rows.append("</tr>");
-			        	
+				  	    rows.append("</tr>");		        	
 			        	rows.append("<tr>");
 			        	endGap = 7;
-			      	}
-			      	
+			      	}			      	
 			    }
 			    
 			    if(endGap < 7)
@@ -241,8 +245,7 @@ pageContext.setAttribute("monthEndDateTimeString", monthEndDateTimeString);
 			    		rows.append("<td> </td>");
 			    	}
 			   	}
-			   	rows.append("</tr>");
-	    		
+			   	rows.append("</tr>");	    		
 	    		out.print(rows.toString().replaceAll("<tr></tr>", ""));
 			%>
 		</table>
@@ -251,18 +254,19 @@ pageContext.setAttribute("monthEndDateTimeString", monthEndDateTimeString);
  
 <script type="text/javascript">
 	var textArray = new Array();
+	var isOverDatebox = false;
 	var isOverTipbox = false;
 	<% out.print(textArrayString); %>
 	$(".thelink").hoverIntent(function() {
 		var moveDown = 35;
 		var moveLeft = 270;
 		var position = $(this).position();
-		isOverTipbox = true;
+		isOverDatebox = true;
 		$('#tipbox').fadeIn('normal').css('top', position.top + moveDown).css('left', position.left - moveLeft);
 		$('#tipbox').html(textArray[$(this).attr("data-id")]);
-	}, function(){
-		isOverTipbox = false;
-		window.setTimeout("hidePopup()", 400);
+	}, function(){			
+		isOverDatebox = false;
+		setTimeout("hidePopup()", 400);
 	});
 	
 	$('#tipbox').mouseenter(function(){
@@ -275,12 +279,13 @@ pageContext.setAttribute("monthEndDateTimeString", monthEndDateTimeString);
 	});
 	
 	function hidePopup(){
-		if(!isOverTipbox){
+		if(!isOverTipbox && !isOverDatebox){
 			$('#tipbox').fadeOut('normal');
 		}	
 	}
 	
 </script>
+
 <!--/eri-no-index-->
  
  

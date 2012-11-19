@@ -926,11 +926,15 @@ public class EventController extends BasicController
     
     public List<EventVersion> getEventVersions(List<Long> ids, Language language, Session session) throws Exception
     {
-        Criteria criteria = session.createCriteria(EventVersion.class);
-        criteria.createCriteria("event").add(Restrictions.in("id", ids));
-        criteria.add(Restrictions.eq("language", language));
-
-		return criteria.list();
+    	if(ids != null && ids.size() != 0){
+            Criteria criteria = session.createCriteria(EventVersion.class);
+            criteria.createCriteria("event").add(Restrictions.in("id", ids));
+            criteria.add(Restrictions.eq("language", language));
+            return criteria.list();
+    	}
+    	else{
+    		return new ArrayList<EventVersion>();
+    	}	
     }
 
     /**
