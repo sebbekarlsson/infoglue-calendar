@@ -415,7 +415,7 @@ public class ViewEventListAction extends CalendarAbstractAction
         return Action.SUCCESS + "FilteredGraphicalCalendarGU";
     }
     
-    public String topEventCalendarCarousel() throws Exception
+    public String topEventCalendarCarouselGU() throws Exception
     {
     	final List<Long> eventIds = getEventIds();
     	Session session = getSession(true);
@@ -441,14 +441,25 @@ public class ViewEventListAction extends CalendarAbstractAction
     		log.error("Error when getting event version for event: " + ":" + e.getMessage(), e); 
     	}
     	
-    	return Action.SUCCESS + "TopEventCalendarCarousel";
+    	return Action.SUCCESS + "TopEventCalendarCarouselGU";
+    }
+    public String topEventCalendarCarouselCustom() throws Exception
+    {
+    	topEventCalendarCarouselGU();
+    	return Action.SUCCESS + "TopEventCalendarCarouselCustom";
     }
 
     
-    public String graphicalCalendarCarousel() throws Exception
+    public String graphicalCalendarCarouselGU() throws Exception
     {
     	listFilteredGU();
-        return Action.SUCCESS + "GraphicalCalendarCarousel";
+        return Action.SUCCESS + "GraphicalCalendarCarouselGU";
+    }
+    
+    public String graphicalCalendarCarouselCustom() throws Exception
+    {
+    	listFilteredGU();
+        return Action.SUCCESS + "GraphicalCalendarCarouselCustom";
     }
     
     public String shortListGU() throws Exception

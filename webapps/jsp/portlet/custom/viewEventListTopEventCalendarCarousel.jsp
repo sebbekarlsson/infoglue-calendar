@@ -29,8 +29,13 @@
 			<ww:else>
 				<c:set var="delim" value="?" />
 			</ww:else>
-			<ww:set name="puffImage" value="this.getResourceUrl(top.event, 'DetaljBild')"/>		
-			<ww:if test="#mediaUrl != null && #mediaUrl != ''">
+			<ww:set name="puffImage" value="this.getResourceUrl(top.event, 'DetaljBild')"/>	
+			<ww:if test="supplementingImages.containsKey(top.event.id)">
+				<div class="GUCarouselItemAssetContainer">
+					<img src="<ww:property value="supplementingImages.get(top.event.id)"/>"/> 
+				</div>
+			</ww:if> 
+			<ww:elseif test="#mediaUrl != null && #mediaUrl != ''">
 				<div id="movie_<ww:property value="top.event.id"/>" class="GUCarouselItemAssetContainer">
 					<noscript>
 						<div class="videoNoscript">
@@ -47,7 +52,7 @@
 				<script type="text/javascript">
 					$("#movie_<ww:property value='top.event.id'/>").load("sda<ww:property value="#attr.ajaxServiceUrl"/><c:out value="${delimAjax}" escapeXml="false"/>mediaUrl=<ww:property value="#mediaUrl"/>&netConnectionUrl=<ww:property value="#netConnectionUrl"/>&width=220");
 				</script>
-			</ww:if>
+			</ww:elseif>
 			<ww:elseif test="#puffImage != null">
 				<div class="GUCarouselItemAssetContainer">
 					<img src="<ww:property value="#puffImage"/>"/>

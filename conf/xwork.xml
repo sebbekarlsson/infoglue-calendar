@@ -510,11 +510,17 @@
 			<result name="successFilteredGraphicalCalendarGU" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/gu/viewEventFilteredGraphicalCalendar.jsp</param>
 			</result>
-			<result name="successTopEventCalendarCarousel" type="portletDispatch">
-				<param name="dispatchTo">/jsp/portlet/viewEventListTopEventCalendarCarousel.jsp</param>
+			<result name="successTopEventCalendarCarouselGU" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/gu/viewEventListTopEventCalendarCarousel.jsp</param>
 			</result>
-			<result name="successGraphicalCalendarCarousel" type="portletDispatch">
-				<param name="dispatchTo">/jsp/portlet/viewEventListGraphicalCalendarCarousel.jsp</param>
+			<result name="successTopEventCalendarCarouselCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventListTopEventCalendarCarousel.jsp</param>
+			</result>
+			<result name="successGraphicalCalendarCarouselGU" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/gu/viewEventListGraphicalCalendarCarousel.jsp</param>
+			</result>
+			<result name="successGraphicalCalendarCarouselCustom" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/custom/viewEventListGraphicalCalendarCarousel.jsp</param>
 			</result>
 			<result name="successAggregatedCustom" type="portletDispatch">
 				<param name="dispatchTo">/jsp/portlet/custom/viewEventListAggregated.jsp</param>

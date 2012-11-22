@@ -204,6 +204,11 @@ public class CalendarAbstractAction extends ActionSupport
     {
         return (List<Long>)ServletActionContext.getRequest().getAttribute("eventIds");
     }
+    
+    public Map<Long, String> getSupplementingImages()
+    {
+        return (Map<Long, String>)ServletActionContext.getRequest().getAttribute("supplementingImages");
+    }
 
     public Integer getComponentId()
     {
