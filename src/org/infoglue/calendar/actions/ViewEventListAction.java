@@ -290,6 +290,9 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public String listFilteredGU() throws Exception
     {
+    	if(getUseTinyEventsInFilteredList() != null && getUseTinyEventsInFilteredList().equals("true"))
+    		return listFilteredTinyGU();
+    		
     	if(startDateTime == null)
     		startDateTime = getStartDateTime();
     	

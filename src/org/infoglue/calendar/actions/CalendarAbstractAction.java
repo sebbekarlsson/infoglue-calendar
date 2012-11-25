@@ -263,6 +263,11 @@ public class CalendarAbstractAction extends ActionSupport
         return (Integer)ServletActionContext.getRequest().getAttribute("numberOfItems");
     }
 
+    public String getUseTinyEventsInFilteredList()
+    {
+        return (String)ServletActionContext.getRequest().getAttribute("useTinyEventsInFilteredList");
+    }
+
     public String getUploadMaxSize()
     {
         return PropertyHelper.getProperty("uploadMaxSize");
