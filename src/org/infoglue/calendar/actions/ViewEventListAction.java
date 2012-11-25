@@ -406,8 +406,6 @@ public class ViewEventListAction extends CalendarAbstractAction
 			return Action.SUCCESS + "RenderedTemplate";
         }
 
-    	t.printElapsedTime("viewFilteredEventList ended");
-
         return Action.SUCCESS + "FilteredGU";
     }
 
@@ -534,8 +532,6 @@ public class ViewEventListAction extends CalendarAbstractAction
 			
 			return Action.SUCCESS + "RenderedTemplate";
         }
-
-    	t.printElapsedTime("viewFilteredEventList ended");
 
         return Action.SUCCESS + "FilteredGU";
     }
