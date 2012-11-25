@@ -530,11 +530,12 @@ public class EntryController extends BasicController
 
         Criteria eventCriteria = criteria.createCriteria("event");
         Criteria calendarCriteria = eventCriteria.createCriteria("owningCalendar");
-
-        calendarCriteria.createCriteria("owningRoles").add(Expression.in("name", roles.toArray()));
+        
+        if(roles.size() > 0)
+        	calendarCriteria.createCriteria("owningRoles").add(Expression.in("name", roles.toArray()));
         if(groups.size() > 0)
         	calendarCriteria.createCriteria("owningGroups").add(Expression.in("name", groups.toArray()));
-
+        
         if(onlyFutureEvents)
         	eventCriteria.add(Expression.gt("endDateTime", java.util.Calendar.getInstance()));
 
