@@ -1127,7 +1127,6 @@ public class CalendarAbstractAction extends ActionSupport
 	    		t.printElapsedTime("language took");
 	
 		    	Iterator eventVersionsIterator = event.getVersions().iterator();
-		    	t.printElapsedTime("eventVersionsIterator");
 		        while(eventVersionsIterator.hasNext())
 		        {
 		        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
@@ -1165,10 +1164,8 @@ public class CalendarAbstractAction extends ActionSupport
     	{
     		Long languageId = LanguageController.getController().getLanguageIdForCode(this.getLanguageCode(), getSession());
     		//Language language = LanguageController.getController().getLanguageWithCode(this.getLanguageCode(), getSession());
-    		t.printElapsedTime("language took");
     		
 	    	Iterator eventVersionsIterator = event.getVersions().iterator();
-	    	t.printElapsedTime("eventVersionsIterator");
             while(eventVersionsIterator.hasNext())
 	        {
 	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();

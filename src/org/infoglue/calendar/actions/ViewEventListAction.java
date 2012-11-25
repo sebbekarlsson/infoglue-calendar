@@ -411,7 +411,6 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public String listFilteredTinyGU() throws Exception
     {
-    	Timer t = new Timer();
     	if(startDateTime == null)
     		startDateTime = getStartDateTime();
     	
@@ -505,17 +504,12 @@ public class ViewEventListAction extends CalendarAbstractAction
         String[] categoryNamesArray = categoryNames.split(",");
         
         Session session = getSession(true);
-    	t.printElapsedTime("viewFilteredEventList 1");
 
         this.events = EventController.getController().getTinyEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, startCalendar, endCalendar, freeText, numberOfItems, session);
-
-    	t.printElapsedTime("viewFilteredEventList getEventList");
 
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
-    	t.printElapsedTime("viewFilteredEventList setUsage");
-
         String presentationTemplate = getPresentationTemplate();
         log.info("presentationTemplate:" + presentationTemplate);
         if(presentationTemplate != null && !presentationTemplate.equals(""))
