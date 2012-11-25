@@ -1114,7 +1114,6 @@ public class CalendarAbstractAction extends ActionSupport
         else
         {
 	        Event event = (Event)object;
-	        t.printElapsedTime("eventString took");
 	        
 	        if(event == null)
 	    		return null;
@@ -1124,7 +1123,6 @@ public class CalendarAbstractAction extends ActionSupport
 	    	try
 	    	{
 	    		Long languageId = LanguageController.getController().getLanguageIdForCode(this.getLanguageCode(), getSession());
-	    		t.printElapsedTime("language took");
 	
 		    	Iterator eventVersionsIterator = event.getVersions().iterator();
 		        while(eventVersionsIterator.hasNext())
@@ -1145,8 +1143,6 @@ public class CalendarAbstractAction extends ActionSupport
 	    		log.error("Error when getting event version for event: " + event + ":" + e.getMessage(), e); 
 	    	}
 	    	
-	    	t.printElapsedTime("done");
-	
 	        return eventVersion;
         }
     }
@@ -1183,7 +1179,6 @@ public class CalendarAbstractAction extends ActionSupport
     	{
     		log.error("Error when getting event version for event: " + event + ":" + e.getMessage(), e); 
     	}
-    	t.printElapsedTime("done");
     	
         return eventVersion;
     }
