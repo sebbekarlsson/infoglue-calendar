@@ -28,7 +28,6 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -87,7 +86,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     private String categoryNames 		= "";
     private String includedLanguages 	= "";
     private String baseUrlCalendarCarousel = "";
-	private Calendar calendar;    
+    private Calendar calendar;    
     private Set events;
 	private List<EventVersion> topEvents;
     private List aggregatedEntries 		= null;
@@ -99,6 +98,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     private java.util.Calendar startCalendar;
     private java.util.Calendar endCalendar;
     private String freeText 			= null;
+    private Integer numberOfItems 		= null;
     private String calendarMonth		= null;
     private java.util.Calendar calendarMonthCalendar;
     private String forwardMonthUrl		= null;
@@ -308,6 +308,10 @@ public class ViewEventListAction extends CalendarAbstractAction
     	if(calendarMonth == null)
     		calendarMonth = getCalendarMonth();
 
+    	if(numberOfItems == null)
+    		numberOfItems = getNumberOfItems();
+    	
+    	log.info("numberOfItems:" + numberOfItems);
     	log.info("freeText:" + freeText);
     	log.info("startDateTime:" + startDateTime);
     	log.info("endDateTime:" + endDateTime);
@@ -379,9 +383,9 @@ public class ViewEventListAction extends CalendarAbstractAction
         String[] categoryNamesArray = categoryNames.split(",");
         
         Session session = getSession(true);
-    	        
-        this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, startCalendar, endCalendar, freeText, session);
-        
+
+        this.events = EventController.getController().getEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, startCalendar, endCalendar, freeText, numberOfItems, session);
+
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
@@ -402,9 +406,140 @@ public class ViewEventListAction extends CalendarAbstractAction
 			return Action.SUCCESS + "RenderedTemplate";
         }
 
+    	t.printElapsedTime("viewFilteredEventList ended");
+
         return Action.SUCCESS + "FilteredGU";
     }
 
+    public String listFilteredTinyGU() throws Exception
+    {
+    	Timer t = new Timer();
+    	if(startDateTime == null)
+    		startDateTime = getStartDateTime();
+    	
+    	if(endDateTime == null)
+    		endDateTime = getEndDateTime();
+
+    	if(freeText == null)
+    		freeText = getFreeText();
+
+    	if(categoryAttribute == null)
+    		categoryAttribute = getCategoryAttribute();
+
+    	if(categoryNames == null)
+    		categoryNames = getCategoryNames();
+
+    	if(calendarMonth == null)
+    		calendarMonth = getCalendarMonth();
+
+    	if(numberOfItems == null)
+    		numberOfItems = getNumberOfItems();
+    	
+    	log.info("numberOfItems:" + numberOfItems);
+    	log.info("freeText:" + freeText);
+    	log.info("startDateTime:" + startDateTime);
+    	log.info("endDateTime:" + endDateTime);
+    	log.info("categoryAttribute:" + categoryAttribute);
+    	log.info("categoryNames:" + categoryNames);
+    	log.info("calendarMonth:" + calendarMonth);
+
+    	if(startDateTime != null && startDateTime.length() > 0)
+            startCalendar = getCalendar(startDateTime, "yyyy-MM-dd", true); 
+        else
+        {
+            startCalendar = java.util.Calendar.getInstance();
+            startCalendar.set(java.util.Calendar.DAY_OF_MONTH, 1); 
+        }
+        
+        if(endDateTime != null && endDateTime.length() > 0)
+        	endCalendar = getCalendar(endDateTime, "yyyy-MM-dd", true); 
+        else
+        {
+        	endCalendar = java.util.Calendar.getInstance();
+            int lastDate = endCalendar.getActualMaximum(java.util.Calendar.DATE);
+            endCalendar.set(java.util.Calendar.DAY_OF_MONTH, lastDate); 
+        }
+
+        if(calendarMonth != null && calendarMonth.length() > 0)
+        {
+        	calendarMonthCalendar = getCalendar(calendarMonth, "yyyy-MM", true); 
+        	if(startDateTime == null || startDateTime.length() == 0)
+	    	{
+	    		startCalendar.setTime(calendarMonthCalendar.getTime());
+	    		startCalendar.set(java.util.Calendar.DAY_OF_MONTH, 1);
+	    	}
+	    	if(endDateTime == null || endDateTime.length() == 0)
+	    	{
+	    		endCalendar.setTime(calendarMonthCalendar.getTime());
+	    		int lastDate = endCalendar.getActualMaximum(java.util.Calendar.DATE);
+	            endCalendar.set(java.util.Calendar.DAY_OF_MONTH, lastDate); 
+	    	}
+        }
+        else
+        {
+        	calendarMonthCalendar = java.util.Calendar.getInstance();
+        	calendarMonthCalendar.set(java.util.Calendar.DAY_OF_MONTH, 1); 
+        }
+
+        if(freeText != null)
+        {
+        	filterDescription = "Matching \"" + freeText + "\"";
+        }
+        else
+        {
+	        if(startCalendar.getTimeInMillis() == endCalendar.getTimeInMillis())
+	        	filterDescription = vf.formatDate(startCalendar.getTime(), getLocale(), "d MMMM");
+	        else
+	        	filterDescription = vf.formatDate(startCalendar.getTime(), getLocale(), "d MMMM") + " - " + vf.formatDate(endCalendar.getTime(), getLocale(), "d MMMM");
+        }   
+        
+        if(categoryNames != null && categoryNames.length() > 0 && categoryNames.indexOf(",") == -1)
+        {
+        	filterDescription = filterDescription + " (" + (categoryNames.length() > 40 ? categoryNames.substring(0, 40) + "..." : categoryNames) + ")";
+        }
+        
+        startCalendar.set(java.util.Calendar.HOUR_OF_DAY, 1);
+        endCalendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
+        log.info("startCalendar:" + startCalendar.getTime());
+        log.info("endCalendar:" + endCalendar.getTime());
+        
+        String[] calendarIds = calendarId.split(",");
+        String[] categoryNamesArray = categoryNames.split(",");
+        
+        Session session = getSession(true);
+    	t.printElapsedTime("viewFilteredEventList 1");
+
+        this.events = EventController.getController().getTinyEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, startCalendar, endCalendar, freeText, numberOfItems, session);
+
+    	t.printElapsedTime("viewFilteredEventList getEventList");
+
+        log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
+        RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
+        
+    	t.printElapsedTime("viewFilteredEventList setUsage");
+
+        String presentationTemplate = getPresentationTemplate();
+        log.info("presentationTemplate:" + presentationTemplate);
+        if(presentationTemplate != null && !presentationTemplate.equals(""))
+        {
+		    Map parameters = new HashMap();
+		    parameters.put("events", this.events);
+		    parameters.put("this", this);
+		    
+			StringWriter tempString = new StringWriter();
+			PrintWriter pw = new PrintWriter(tempString);
+			new VelocityTemplateProcessor().renderTemplate(parameters, pw, presentationTemplate);
+			String renderedString = tempString.toString();
+			setRenderedString(renderedString);
+			
+			return Action.SUCCESS + "RenderedTemplate";
+        }
+
+    	t.printElapsedTime("viewFilteredEventList ended");
+
+        return Action.SUCCESS + "FilteredGU";
+    }
+    
     public String listFilteredGraphicalCalendarGU() throws Exception
     {
     	listFilteredGU();
@@ -414,7 +549,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 
         return Action.SUCCESS + "FilteredGraphicalCalendarGU";
     }
-    
+
     public String topEventCalendarCarouselGU() throws Exception
     {
     	final List<Long> eventIds = getEventIds();
@@ -461,6 +596,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     	listFilteredGU();
         return Action.SUCCESS + "GraphicalCalendarCarouselCustom";
     }
+
     
     public String shortListGU() throws Exception
     {
@@ -542,24 +678,7 @@ public class ViewEventListAction extends CalendarAbstractAction
         else
             return new Integer(10);
     }
-    
-    public List getEventCategories(String eventString, EventTypeCategoryAttribute categoryAttribute)
-    {
-        Object object = findOnValueStack(eventString);
-        Event event = (Event)object;
-        
-        List categories = new ArrayList();
-        
-        Iterator i = event.getEventCategories().iterator();
-        while(i.hasNext())
-        {
-            EventCategory eventCategory = (EventCategory)i.next();
-            if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
-                categories.add(eventCategory.getCategory());
-        }
 
-        return categories;
-    }
 
     public String getRSSXML()
     {

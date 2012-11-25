@@ -36,6 +36,7 @@ import org.infoglue.calendar.entities.Category;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventCategory;
+import org.infoglue.calendar.entities.EventTiny;
 import org.infoglue.calendar.entities.EventTypeCategoryAttribute;
 import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Group;
@@ -49,6 +50,7 @@ import org.infoglue.common.security.beans.InfoGluePrincipalBean;
 import org.infoglue.common.security.beans.InfoGlueRoleBean;
 import org.infoglue.common.util.PropertyHelper;
 import org.infoglue.common.util.RemoteCacheUpdater;
+import org.infoglue.common.util.Timer;
 import org.infoglue.common.util.VelocityTemplateProcessor;
 import org.infoglue.common.util.WebServiceHelper;
 import org.infoglue.common.util.io.FileHelper;
@@ -927,11 +929,12 @@ public class EventController extends BasicController
     public List<EventVersion> getEventVersions(List<Long> ids, Language language, Session session) throws Exception
     {
     	if(ids != null && ids.size() != 0){
-            Criteria criteria = session.createCriteria(EventVersion.class);
-            criteria.createCriteria("event").add(Restrictions.in("id", ids));
-            criteria.add(Restrictions.eq("language", language));
-            return criteria.list();
-    	}
+        Criteria criteria = session.createCriteria(EventVersion.class);
+        criteria.createCriteria("event").add(Restrictions.in("id", ids));
+        criteria.add(Restrictions.eq("language", language));
+
+		return criteria.list();
+    }
     	else{
     		return new ArrayList<EventVersion>();
     	}	
@@ -1607,16 +1610,172 @@ public class EventController extends BasicController
 	        	criteria.setMaxResults(numberOfItems);
 	        
 	        result = criteria.list();
-        
+
 	        log.info("result:" + result.size());
 	        
 	        set.addAll(result);	
         }
         
-        
         return set;
     }
     
+    /**
+     * Gets a list of all events available for a particular calendar with the optional categories.
+     * @return List of Event
+     * @throws Exception
+     */
+    
+    public Set getTinyEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, String includedLanguages, java.util.Calendar startCalendar, java.util.Calendar endCalendar, String freeText, Integer numberOfItems, Session session) throws Exception 
+    {
+    	Timer t = new Timer();
+    	
+        List result = null;
+        
+        String calendarSQL = null;
+        if(calendarIds != null && calendarIds.length > 0)
+        {
+            calendarSQL = "(";
+	        for(int i=0; i<calendarIds.length; i++)
+	        {
+	            String calendarIdString = calendarIds[i];
+
+	            try
+	            {
+	                Integer calendarId = new Integer(calendarIdString);
+	            }
+	            catch(Exception e)
+	            {
+	                log.warn("An invalid calendarId was given:" + e.getMessage());
+	                return null;
+	            }
+	            
+	            if(i > 0)
+	                calendarSQL += ",";
+	            
+	            calendarSQL += calendarIdString;
+	        }
+	        calendarSQL += ")";
+        }
+        else
+        {
+            return null;
+        }
+
+        Object[] calendarIdArray = new Object[calendarIds.length];
+        for(int i=0; i<calendarIds.length; i++)
+            calendarIdArray[i] = new Long(calendarIds[i]);
+
+        Set set = new LinkedHashSet();
+
+        if(calendarIdArray.length > 0)
+        {
+	        Criteria criteria = session.createCriteria(EventTiny.class);
+	        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
+
+	        Criteria versionsCriteria = criteria.createAlias("versions", "v");
+
+	        if(startCalendar != null && endCalendar != null)
+	        {
+		        if(startCalendar.get(java.util.Calendar.YEAR) == endCalendar.get(java.util.Calendar.YEAR) && startCalendar.get(java.util.Calendar.DAY_OF_YEAR) == endCalendar.get(java.util.Calendar.DAY_OF_YEAR))
+		        {
+		        	startCalendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
+		        	endCalendar.set(java.util.Calendar.HOUR_OF_DAY, 1);
+		        	criteria.add(Expression.and(Expression.le("startDateTime", startCalendar), Expression.ge("endDateTime", endCalendar)));
+		        }
+		        else
+		        	criteria.add(Expression.or(Expression.and(Expression.ge("startDateTime", startCalendar), Expression.le("startDateTime", endCalendar)), Expression.and(Expression.ge("endDateTime", endCalendar),Expression.le("endDateTime", endCalendar))));
+	        }
+	        else
+	        {
+	        	criteria.add(Expression.gt("endDateTime", java.util.Calendar.getInstance()));
+	        }
+	        
+	        criteria.add(Expression.eq("stateId", Event.STATE_PUBLISHED));
+	        criteria.addOrder(Order.asc("startDateTime"));
+	        criteria.createCriteria("calendars")
+	        .add(Expression.in("id", calendarIdArray));
+
+	        Criteria eventCategoriesCriteria = null;
+	        log.info("categoryAttribute:" + categoryAttribute);
+	        if(categoryAttribute != null && !categoryAttribute.equalsIgnoreCase(""))
+	        {
+	            log.info("categoryAttribute:" + categoryAttribute);
+	            eventCategoriesCriteria = criteria.createCriteria("eventCategories");
+	            eventCategoriesCriteria.createCriteria("eventTypeCategoryAttribute")
+	            .add(Expression.eq("internalName", categoryAttribute));
+	        }
+
+	        Criteria languageVersionCriteria = null;
+	        log.info("includedLanguages:" + includedLanguages);
+	        if(includedLanguages != null && !includedLanguages.equalsIgnoreCase("") && !includedLanguages.equalsIgnoreCase("*"))
+	        {
+	        	Long includedLanguageId = LanguageController.getController().getLanguageIdForCode(includedLanguages, session);
+	        	versionsCriteria.add(Expression.eq("v.languageId", includedLanguageId));
+	        }
+
+	        if(categoryNames != null && categoryNames.length > 0 && !categoryNames[0].equalsIgnoreCase(""))
+	        {
+	            log.info("categoryNames[0]:" + categoryNames[0]);
+	            if(eventCategoriesCriteria == null)
+		            eventCategoriesCriteria = criteria.createCriteria("eventCategories");
+
+	            eventCategoriesCriteria.createCriteria("category")
+	            .add(Expression.in("internalName", categoryNames));
+	        }
+
+	        if(freeText != null && !freeText.equals(""))
+	        {
+	        	Criterion nameRestriction = Restrictions.like("name", "%" + freeText + "%");
+	        	Criterion organizerNameRestriction = Restrictions.like("organizerName", "%" + freeText + "%");
+	        	
+	        	Junction d1 = Restrictions.disjunction()
+	            .add(Restrictions.like("v.name", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.description", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.lecturer", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.longDescription", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.shortDescription", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.organizerName", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.customLocation", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.eventUrl", "%" + freeText + "%"))
+	            .add(Restrictions.like("v.alternativeLocation", "%" + freeText + "%"))
+	            .add(Restrictions.like("name", "%" + freeText + "%"))
+	            .add(Restrictions.like("description", "%" + freeText + "%"))
+	            .add(Restrictions.like("contactName", "%" + freeText + "%"))
+	            .add(Restrictions.like("lecturer", "%" + freeText + "%"))
+	            .add(Restrictions.like("longDescription", "%" + freeText + "%"))
+	            .add(Restrictions.like("contactEmail", "%" + freeText + "%"))
+	            .add(Restrictions.like("shortDescription", "%" + freeText + "%"))
+	            .add(Restrictions.like("organizerName", "%" + freeText + "%"))
+	            .add(Restrictions.like("contactPhone", "%" + freeText + "%"))
+	            .add(Restrictions.like("price", "%" + freeText + "%"))
+	            .add(Restrictions.like("customLocation", "%" + freeText + "%"))
+	            .add(Restrictions.like("eventUrl", "%" + freeText + "%"))
+	            .add(Restrictions.like("alternativeLocation", "%" + freeText + "%"));
+	            
+	        	criteria.add(d1);
+	        }
+	        
+	        if(numberOfItems != null)
+	        	criteria.setMaxResults(numberOfItems);
+	        
+	        t.printElapsedTime("before list");
+	        try
+	        {
+		        result = criteria.list();
+	        }
+	        catch (Exception e) 
+	        {
+	        	e.printStackTrace();
+	        	throw e;
+			}
+	        t.printElapsedTime("after list: " + result.size());
+	        log.info("result:" + result.size());
+	        
+	        set.addAll(result);	
+        }
+        
+        return set;
+    }
     
     /**
      * Gets a list of all events available for a particular calendar with the optional categories.

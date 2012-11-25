@@ -29,6 +29,9 @@ import java.util.Properties;
 import java.io.*;
 import java.util.Enumeration;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
 * CMSPropertyHandler.java
@@ -42,6 +45,8 @@ import java.util.Enumeration;
 
 public class PropertyHelper
 {
+	private static Log log = LogFactory.getLog(PropertyHelper.class);
+
 	private static Properties cachedProperties = null;
 	private static File propertyFile = null;
 		
@@ -163,7 +168,7 @@ public class PropertyHelper
 				infoglueCacheInstanceUrls.add(address);
 			}
 			else
-				System.out.println("Skipping " + address + " as we are only interested in base url:s");
+				log.warn("Skipping " + address + " as we are only interested in base url:s");
 				
 			i++;
 		}	

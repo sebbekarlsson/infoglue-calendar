@@ -721,6 +721,13 @@
 			<result name="errorPublicCustom" type="eventProcessed">
 				<param name="viewAction">CreateEntry!inputPublicCustom.action</param>
 			</result>	
+            <result name="errorRegistrationFailed" type="eventProcessed">
+				<param name="viewAction">CreateEntry!receiptFailedRegistration.action?eventId=${eventId}</param>
+				<param name="parse">true</param>
+			</result>
+			<result name="receiptFailedRegistration" type="portletDispatch">
+				<param name="dispatchTo">/jsp/portlet/errorRegistrationFailed.jsp</param>
+			</result>	
             <result name="receipt" type="portletDispatch">
             	<param name="dispatchTo">/jsp/portlet/entryReceipt.jsp</param>
 			</result>
