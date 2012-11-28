@@ -120,11 +120,11 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
 	</ww:else>
 	<tr>
 		<td class ="GUCalendarCarouselGraphicalTableHead">		
-			<c:if test="${printPreviousMonthLink}"><a id="prevMonth" href="<ww:property value="#attr.baseUrlCalendarCarousel"/><c:out value="${delimGraphic}"/>calendarMonth=<%= pageContext.getAttribute("calendarMonthPreviousDateTimeString").toString() %>"><<</a></c:if>
+			<c:if test="${printPreviousMonthLink}"><a id="prevMonth" href="<ww:property value="#attr.baseUrlCalendarCarousel"/><c:out value="${delimGraphic}"/>calendarMonth=<%= pageContext.getAttribute("calendarMonthPreviousDateTimeString").toString() %>">&lt;&lt;</a></c:if>
 		</td>
 		<td class ="GUCalendarCarouselGraphicalTableHead" colspan="5" align="center"><%= vf.formatDate(calendarMonthCalendar.getTime(), locale, "MMMM").toUpperCase(locale) %> <%= yy %></td>
 		<td class ="GUCalendarCarouselGraphicalTableHead">
-			<a id="nextMonth" href="<ww:property value="#attr.baseUrlCalendarCarousel"/><c:out value="${delimGraphic}"/>calendarMonth=<%= pageContext.getAttribute("calendarMonthNextDateTimeString").toString() %>">>></a>	
+			<a id="nextMonth" href="<ww:property value="#attr.baseUrlCalendarCarousel"/><c:out value="${delimGraphic}"/>calendarMonth=<%= pageContext.getAttribute("calendarMonthNextDateTimeString").toString() %>">&gt;&gt;</a>	
 		</td>
 	</tr>
 	<ww:set name="actionObject" value="this" scope="page"/>
