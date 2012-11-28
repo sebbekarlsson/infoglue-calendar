@@ -28,6 +28,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -86,7 +87,7 @@ public class ViewEventListAction extends CalendarAbstractAction
     private String categoryNames 		= "";
     private String includedLanguages 	= "";
     private String baseUrlCalendarCarousel = "";
-    private Calendar calendar;    
+	private Calendar calendar;    
     private Set events;
 	private List<EventVersion> topEvents;
     private List aggregatedEntries 		= null;
@@ -507,9 +508,9 @@ public class ViewEventListAction extends CalendarAbstractAction
         String[] categoryNamesArray = categoryNames.split(",");
         
         Session session = getSession(true);
-
+    	        
         this.events = EventController.getController().getTinyEventList(calendarIds, categoryAttribute, categoryNamesArray, includedLanguages, startCalendar, endCalendar, freeText, numberOfItems, session);
-
+        
         log.info("Registering usage at least:" + calendarId + " for siteNodeId:" + this.getSiteNodeId());
         RemoteCacheUpdater.setUsage(this.getSiteNodeId(), calendarIds);
         
@@ -532,7 +533,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 
         return Action.SUCCESS + "FilteredGU";
     }
-    
+
     public String listFilteredGraphicalCalendarGU() throws Exception
     {
     	listFilteredGU();
@@ -542,7 +543,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 
         return Action.SUCCESS + "FilteredGraphicalCalendarGU";
     }
-
+    
     public String topEventCalendarCarouselGU() throws Exception
     {
     	final List<Long> eventIds = getEventIds();
@@ -589,7 +590,6 @@ public class ViewEventListAction extends CalendarAbstractAction
     	listFilteredGU();
         return Action.SUCCESS + "GraphicalCalendarCarouselCustom";
     }
-
     
     public String shortListGU() throws Exception
     {
@@ -671,7 +671,24 @@ public class ViewEventListAction extends CalendarAbstractAction
         else
             return new Integer(10);
     }
+    
+    public List getEventCategories(String eventString, EventTypeCategoryAttribute categoryAttribute)
+    {
+        Object object = findOnValueStack(eventString);
+        Event event = (Event)object;
+        
+        List categories = new ArrayList();
+        
+        Iterator i = event.getEventCategories().iterator();
+        while(i.hasNext())
+        {
+            EventCategory eventCategory = (EventCategory)i.next();
+            if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
+                categories.add(eventCategory.getCategory());
+        }
 
+        return categories;
+    }
 
     public String getRSSXML()
     {
