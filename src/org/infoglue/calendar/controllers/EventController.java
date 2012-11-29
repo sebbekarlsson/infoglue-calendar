@@ -1758,17 +1758,17 @@ public class EventController extends BasicController
 	        if(numberOfItems != null)
 	        	criteria.setMaxResults(numberOfItems);
 	        
-	        t.printElapsedTime("before list");
+	        //t.printElapsedTime("before list");
 	        try
 	        {
 		        result = criteria.list();
 	        }
 	        catch (Exception e) 
 	        {
-	        	e.printStackTrace();
+	        	log.error("Error query for tiny events:" + e.getMessage(), e);
 	        	throw e;
 			}
-	        t.printElapsedTime("after list: " + result.size());
+	        //t.printElapsedTime("after list: " + result.size());
 	        log.info("result:" + result.size());
 	        
 	        set.addAll(result);	

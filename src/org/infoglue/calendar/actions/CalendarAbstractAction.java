@@ -218,12 +218,12 @@ public class CalendarAbstractAction extends ActionSupport
     	}
     	return null;
     }
-
+    
     public List<Long> getEventIds()
     {
         return (List<Long>)ServletActionContext.getRequest().getAttribute("eventIds");
     }
-    
+
     public Map<Long, String> getSupplementingImages()
     {
         return (Map<Long, String>)ServletActionContext.getRequest().getAttribute("supplementingImages");
@@ -511,20 +511,20 @@ public class CalendarAbstractAction extends ActionSupport
         }
         else
         {
-        Event event = (Event)object;
-        
-        List categories = new ArrayList();
-        
-        Iterator i = event.getEventCategories().iterator();
-        while(i.hasNext())
-        {
-            EventCategory eventCategory = (EventCategory)i.next();
-            if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
-                categories.add(eventCategory.getCategory());
-        }
+        	Event event = (Event)object;
+	        
+	        List categories = new ArrayList();
+	        
+	        Iterator i = event.getEventCategories().iterator();
+	        while(i.hasNext())
+	        {
+	            EventCategory eventCategory = (EventCategory)i.next();
+	            if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
+	                categories.add(eventCategory.getCategory());
+	        }
 
-        return categories;
-    }
+	        return categories;
+        }
     }
 
     public List getEventCategories(Event event, EventTypeCategoryAttribute categoryAttribute)
@@ -1091,7 +1091,7 @@ public class CalendarAbstractAction extends ActionSupport
     	
         return masterEventVersion;
     }
-    
+        
     public Object getEventVersion(String eventString)
     {
 		Timer t = new Timer();
@@ -1134,8 +1134,44 @@ public class CalendarAbstractAction extends ActionSupport
         }
         else
         {
-        Event event = (Event)object;
-        
+	        Event event = (Event)object;
+	        
+	        if(event == null)
+	    		return null;
+	
+	    	EventVersion eventVersion = null;
+	
+	    	try
+	    	{
+	    		Long languageId = LanguageController.getController().getLanguageIdForCode(this.getLanguageCode(), getSession());
+	
+		    	Iterator eventVersionsIterator = event.getVersions().iterator();
+		        while(eventVersionsIterator.hasNext())
+		        {
+		        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
+		        	if(currentEventVersion.getVersionLanguageId().equals(languageId))
+		        	{
+		        		eventVersion = currentEventVersion;
+		        		break;
+		        	}
+		        }
+		        
+		        if(eventVersion == null && event.getVersions().size() > 0)
+		        	eventVersion = (EventVersion)event.getVersions().toArray()[0];
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		log.error("Error when getting event version for event: " + event + ":" + e.getMessage(), e); 
+	    	}
+	    	
+	        return eventVersion;
+        }
+    }
+
+    public EventVersion getEventVersion(Event event)
+    {        
+		Timer t = new Timer();
+		
         if(event == null)
     		return null;
 
@@ -1143,13 +1179,14 @@ public class CalendarAbstractAction extends ActionSupport
 
     	try
     	{
-	    		Long languageId = LanguageController.getController().getLanguageIdForCode(this.getLanguageCode(), getSession());
-	    	
+    		Long languageId = LanguageController.getController().getLanguageIdForCode(this.getLanguageCode(), getSession());
+    		//Language language = LanguageController.getController().getLanguageWithCode(this.getLanguageCode(), getSession());
+    		
 	    	Iterator eventVersionsIterator = event.getVersions().iterator();
-	        while(eventVersionsIterator.hasNext())
+            while(eventVersionsIterator.hasNext())
 	        {
 	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
-		        	if(currentEventVersion.getVersionLanguageId().equals(languageId))
+	        	if(currentEventVersion.getVersionLanguageId().equals(languageId))
 	        	{
 	        		eventVersion = currentEventVersion;
 	        		break;
@@ -1166,9 +1203,8 @@ public class CalendarAbstractAction extends ActionSupport
     	
         return eventVersion;
     }
-    }
-
-    public EventVersion getEventVersion(Event event)
+    
+    public EventVersion getEventVersion(Event event, String languageCode, Session session)
     {        
 		Timer t = new Timer();
 		
@@ -1179,11 +1215,11 @@ public class CalendarAbstractAction extends ActionSupport
 
     	try
     	{
-    		Long languageId = LanguageController.getController().getLanguageIdForCode(this.getLanguageCode(), getSession());
+    		Long languageId = LanguageController.getController().getLanguageIdForCode(languageCode, session);
     		//Language language = LanguageController.getController().getLanguageWithCode(this.getLanguageCode(), getSession());
-	    	
+    		
 	    	Iterator eventVersionsIterator = event.getVersions().iterator();
-	        while(eventVersionsIterator.hasNext())
+            while(eventVersionsIterator.hasNext())
 	        {
 	        	EventVersion currentEventVersion = (EventVersion)eventVersionsIterator.next();
 	        	if(currentEventVersion.getVersionLanguageId().equals(languageId))

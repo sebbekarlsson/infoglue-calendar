@@ -337,7 +337,7 @@ public class HttpUtilities
 	 * @return A URL encoded string.
 	 */
 		
-	private static String toEncodedString(Map<String,String> map) throws Exception
+	public static String toEncodedString(Map<String,String> map) throws Exception
 	{
 	    StringBuffer buffer = new StringBuffer();
 	    int i=0;
@@ -352,7 +352,7 @@ public class HttpUtilities
 	    return buffer.toString();
 	}
 	
-	private static String toString(Hashtable inHash)
+	public static String toString(Hashtable inHash)
 	{
 	    StringBuffer buffer = new StringBuffer();
 	    Enumeration names = inHash.keys();

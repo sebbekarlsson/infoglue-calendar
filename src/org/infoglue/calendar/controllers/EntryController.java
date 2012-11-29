@@ -745,7 +745,7 @@ public class EntryController extends BasicController
 	            contentType = "text/html";
 	        
 	        CalendarAbstractAction caa = new CalendarAbstractAction();
-	        EventVersion eventVersion = caa.getEventVersion(entry.getEvent());
+	        EventVersion eventVersion = caa.getEventVersion(entry.getEvent(), locale.getLanguage(), session);
 	        
 	        String template = "";
 	        String subject = "";
@@ -865,7 +865,7 @@ public class EntryController extends BasicController
 	    	String addresses = event.getContactEmail();
 	    	
 	    	CalendarAbstractAction caa = new CalendarAbstractAction();
-	        EventVersion eventVersion = caa.getEventVersion(entry.getEvent());	        
+	        EventVersion eventVersion = caa.getEventVersion(entry.getEvent(), locale.getLanguage(), session);	        
 	    	
             String template = CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.notification.message", locale, false, true, false, session);
 	        String subject = "InfoGlue - " + CalendarLabelsController.getCalendarLabelsController().getLabel("labels.public.entry.notification.subject", locale, false, true, false, session) + " \"" + eventVersion.getName() + "\"";

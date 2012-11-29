@@ -685,19 +685,19 @@
             	<param name="dispatchTo">/jsp/portlet/custom/createEntry.jsp</param>
             </result>
             <result name="success" type="eventProcessed">
-				<param name="viewAction">CreateEntry!receipt.action?eventId=${eventId}&amp;entryId=${newEntry.id}</param>
+				<param name="viewAction">CreateEntry!receipt.action?eventId=${eventId}&amp;entryId=${newEntryId}</param>
 				<param name="parse">true</param>
 			</result>
             <result name="successPublic" type="eventProcessed">
-				<param name="viewAction">CreateEntry!receiptPublic.action?eventId=${eventId}&amp;entryId=${newEntry.id}</param>
+				<param name="viewAction">CreateEntry!receiptPublic.action?eventId=${eventId}&amp;entryId=${newEntryId}</param>
 				<param name="parse">true</param>
 			</result>
             <result name="successPublicGU" type="eventProcessed">
-				<param name="viewAction">CreateEntry!receiptPublicGU.action?eventId=${eventId}&amp;entryId=${newEntry.id}</param>
+				<param name="viewAction">CreateEntry!receiptPublicGU.action?eventId=${eventId}&amp;entryId=${newEntryId}</param>
 				<param name="parse">true</param>
 			</result>
 			<result name="successPublicCustom" type="eventProcessed">
-				<param name="viewAction">CreateEntry!receiptPublicCustom.action?eventId=${eventId}&amp;entryId=${newEntry.id}</param>
+				<param name="viewAction">CreateEntry!receiptPublicCustom.action?eventId=${eventId}&amp;entryId=${newEntryId}</param>
 				<param name="parse">true</param>
 			</result>
             <result name="maximumReached" type="portletDispatch">

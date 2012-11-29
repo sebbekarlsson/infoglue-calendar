@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.security.AccessController;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,9 +24,11 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.infoglue.calendar.controllers.AccessRightController;
 import org.infoglue.calendar.controllers.EntryController;
 import org.infoglue.calendar.controllers.EventController;
 import org.infoglue.calendar.controllers.EventTypeController;
+import org.infoglue.calendar.controllers.LanguageController;
 import org.infoglue.calendar.entities.Entry;
 import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
@@ -69,7 +73,7 @@ public class EventRegistrationServlet extends HttpServlet
    		
 		StringBuffer sb = new StringBuffer();
 
-		System.out.println("doPost i EventRegistrationServlet");
+		logger.info("doPost i EventRegistrationServlet");
 		
 		String eventId	 		= request.getParameter("eventId");
 		String firstName 		= request.getParameter("firstName");
@@ -83,6 +87,10 @@ public class EventRegistrationServlet extends HttpServlet
 		String phone			= request.getParameter("phone");
 		String fax 				= request.getParameter("fax");
 		String message 			= request.getParameter("message");
+		
+		String isReserve 		= request.getParameter("isReserve");
+		String languageCode 	= request.getParameter("languageCode");
+		String principalName 	= request.getParameter("principalName");
 		
 		//Extra attributes
 		String xml 				= request.getParameter("xml");
@@ -114,7 +122,7 @@ public class EventRegistrationServlet extends HttpServlet
         		//Thread.sleep(10000);
         		//System.out.println("Sleeping........");
         		
-            	sb.append("OK");
+            	sb.append("OK entryId=" + newEntry.getId() + " ");
 
         		tx.commit();
         	}
@@ -136,16 +144,66 @@ public class EventRegistrationServlet extends HttpServlet
     		output.flush();
     		response.flushBuffer();
     		output.close();
-
-    		System.out.println("Written to out........");
+    		
+	    	session = HibernateUtil.currentSession();
+        	tx = null;
+        	try 
+        	{
+        		tx = session.beginTransaction();
+        		
+	        	if(languageCode == null || languageCode.equals(""))
+	        		languageCode = "en";
+	        	Locale locale = new Locale(languageCode);
+	        	
+	        	//Reread the entry to get it live again...
+	        	newEntry = EntryController.getController().getEntry(newEntry.getId(), session);
+		        EntryController.getController().mailVerification(newEntry, locale, new Boolean(isReserve), session);
+		        
+		        InfoGluePrincipalBean principalBean = null;
+		        try
+		        {
+		        	principalBean = getInfoGluePrincipal(principalName);
+		        }
+		        catch(Exception e)
+		        {
+		        	logger.error("Problem getting current principal - falling back:" + e.getMessage());
+			        try
+			        {
+			        	principalBean = new InfoGluePrincipalBean();
+			        	principalBean.setDisplayName("Anonymous");
+			        	principalBean.setEmail(email);
+			        	principalBean.setName("anonymous");
+			        	principalBean.setFirstName("Anomymous");
+			        	principalBean.setLastName("User");
+			        }
+			        catch (Exception e2) 
+			        {
+			        	System.out.println("Problem getting fallback principal - falling back:" + e2.getMessage());
+					}
+		        }
+		        EntryController.getController().notifyEventOwner(newEntry, locale, principalBean, session);
+		     
+		        tx.commit();
+        	}
+        	catch (Exception e) 
+        	{
+        		e.printStackTrace();
+        		if (tx!=null) tx.rollback();
+        	    throw e;
+        	}
+        	finally 
+        	{
+        		HibernateUtil.closeSession();
+        	}      
+        	
+    		logger.info("Written to out........");
         }
         catch(Exception e)
         {
-        	System.out.println("ERRRRRRRROOOOOOOOOORRRRR");
-        	e.printStackTrace();
+        	logger.error("Error: " + e.getMessage(), e);
     		sb = new StringBuffer();
 			
-    		System.out.println("Entry added but client disconnected... let's delete again.");
+    		logger.error("Entry added but client disconnected... let's delete again.");
     		if(newEntry != null && newEntry.getId() != null)
     		{
 	    		Session session = HibernateUtil.currentSession();
@@ -197,5 +255,19 @@ public class EventRegistrationServlet extends HttpServlet
         
 	}
 
+	public InfoGluePrincipalBean getInfoGluePrincipal(String userName) throws Exception
+    {
+    	try
+    	{
+            return AccessRightController.getController().getPrincipal(userName);
+    		//return UserControllerProxy.getController().getUser(this.getInfoGlueRemoteUser());
+    	}
+    	catch(Exception e)
+    	{
+    		logger.error("Could not get infoglue user:" + e.getMessage());
+    		logger.warn("Could not get infoglue user:" + e.getMessage(), e);
+    		throw e;
+    	}
+    }
  
 }
