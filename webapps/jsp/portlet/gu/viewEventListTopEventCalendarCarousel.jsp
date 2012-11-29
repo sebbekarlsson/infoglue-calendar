@@ -15,7 +15,7 @@
 	<ww:set name="dateFormat" value="'yyyy-MM-dd'" />
 	<ww:set name="timeFormat" value="'HH:mm'" />
 </ww:else>
-	
+<ww:set name="foundMedia" value="false"/>
 <div class="caroufredsel_wrap">
 	<ul id="GUCalendarCarouselItems" class="GUCarouselItems">
 		<ww:iterator value="topEvents" status="rowstatus">
@@ -34,8 +34,9 @@
 				<div class="GUCarouselItemAssetContainer">
 					<img src="<ww:property value="supplementingImages.get(top.event.id)"/>" alt=""/> 
 				</div>
+				<ww:set name="foundMedia" value="true"/>
 			</ww:if> 
-			<ww:elseif test="#mediaUrl != null && #mediaUrl != ''">
+			<ww:if test="#mediaUrl != null && #mediaUrl != '' && !#foundMedia">
 				<div id="movie_<ww:property value="top.event.id"/>" class="GUCarouselItemAssetContainer">
 					<noscript>
 						<div class="videoNoscript">
@@ -54,12 +55,16 @@
 					$("#movie_<ww:property value='top.event.id'/>").load("<ww:property value="#attr.ajaxServiceUrl"/><c:out value="${delimAjax}" escapeXml="false"/>mediaUrl=<ww:property value="#mediaUrl"/>&netConnectionUrl=<ww:property value="#netConnectionUrl"/>&width=220");
 					 -->
 				</script>
-			</ww:elseif>
-			<ww:elseif test="#puffImage != null">
+				<ww:set name="foundMedia" value="true"/>
+			</ww:if>
+			<ww:if test="#puffImage != null  && !#foundMedia">
 				<div class="GUCarouselItemAssetContainer">
 					<img src="<ww:property value="#puffImage"/>" alt=""/>
 				</div>
-			</ww:elseif>
+			</ww:if>
+			<%-- clean up --%>
+			<ww:set name="foundMedia" value="false"/>
+			
 			<span class="smallfont">
 				<ww:iterator value="top.event.owningCalendar.eventType.categoryAttributes">
 					<ww:if test="top.name == 'Evenemangstyp' || top.name == 'Eventtyp'">
