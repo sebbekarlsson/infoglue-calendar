@@ -101,7 +101,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     private Set categoriesList;
     private Set calendarList;
     private List locationList;
-	private List resultValues = new LinkedList(); 
+	private List resultValues = new LinkedList();
 	private Map searchResultFiles;
 	
 	private void initialize() throws Exception
