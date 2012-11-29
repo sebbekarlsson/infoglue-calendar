@@ -672,23 +672,6 @@ public class ViewEventListAction extends CalendarAbstractAction
             return new Integer(10);
     }
     
-    public List getEventCategories(String eventString, EventTypeCategoryAttribute categoryAttribute)
-    {
-        Object object = findOnValueStack(eventString);
-        Event event = (Event)object;
-        
-        List categories = new ArrayList();
-        
-        Iterator i = event.getEventCategories().iterator();
-        while(i.hasNext())
-        {
-            EventCategory eventCategory = (EventCategory)i.next();
-            if(eventCategory.getEventTypeCategoryAttribute().getId().equals(categoryAttribute.getId()))
-                categories.add(eventCategory.getCategory());
-        }
-
-        return categories;
-    }
 
     public String getRSSXML()
     {
