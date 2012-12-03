@@ -16,6 +16,7 @@
 	<ww:set name="timeFormat" value="'HH:mm'" />
 </ww:else>
 <ww:set name="foundMedia" value="false"/>
+<ww:set name="topEventsSize" value="topEvents.size()" scope="page"/>
 <div class="caroufredsel_wrap">
 	<ul id="GUCalendarCarouselItems" class="GUCarouselItems">
 		<ww:iterator value="topEvents" status="rowstatus">
@@ -75,11 +76,18 @@
 		   		<br/>
 				<h2><a href="<ww:property value="#attr.eventDetailUrl"/><c:out value="${delim}"/>eventId=<ww:property value="top.event.id"/>" title="<ww:property value="#topEvent.title"/>"><ww:property value="#topEvent.name" /></a></h2>
 				<span class="smallfont">
-					<ww:property value="this.formatDate(top.event.startDateTime.getTime(), 'EEEE d MMM ')" /> kl
+					<ww:property value="this.formatDate(top.event.startDateTime.getTime(), 'EEEE d MMM ')" /><ww:property value="this.getLabel('labels.public.event.klockLabel')"/>
 					<ww:property value="this.formatDate(top.event.startDateTime.getTime(), 'HH')" />-<ww:property value="this.formatDate(top.event.endDateTime.getTime(), 'HH')" />
 				</span>
 			</li>
 		</ww:iterator>
+		<%
+			Integer topEventsSize = (Integer)pageContext.getAttribute("topEventsSize");
+			int addNumberOfItems = 3 - topEventsSize % 3;
+			for(int i = 0; i < addNumberOfItems; i++){
+				out.print("<li>&nbsp;</li>");
+			}
+		%>
 	</ul>
 </div>
 <!--/eri-no-index-->
