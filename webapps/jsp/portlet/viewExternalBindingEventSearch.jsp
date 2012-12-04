@@ -62,6 +62,9 @@
 				width: 280px;
 				height: 30px;
 			}
+			.dateWrapper input {
+				width: 80px;
+			}
 		</style>
 
 		<script type="text/javascript">
@@ -175,8 +178,8 @@
 					<h2><ww:property value="this.getLabel('labels.internal.event.searchResult')"/></h2>
 				</div>
 				<div class="columnlabelarea">
-					<div class="columnMedium"><p><ww:property value="this.getLabel('labels.internal.event.name')"/></p></div>
-					<div class="columnDate"><p><ww:property value="this.getLabel('labels.internal.event.startDate')"/></p></div>
+					<div class="column_name"><p><ww:property value="this.getLabel('labels.internal.event.name')"/></p></div>
+					<div class="column_date"><p><ww:property value="this.getLabel('labels.internal.event.startDate')"/></p></div>
 					<div class="clear"></div>
 				</div>
 	
