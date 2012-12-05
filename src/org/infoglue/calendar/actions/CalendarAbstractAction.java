@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.FlushMode;
+import org.infoglue.calendar.entities.Resource;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -765,6 +766,15 @@ public class CalendarAbstractAction extends ActionSupport
     public String getResourceUrl(Event event, String assetKey) throws Exception
     {
         return ResourceController.getController().getResourceUrl(event, assetKey, getSession());
+    }
+
+    public String getResourceThumbnailUrl(Long resourceId, int width, int height) throws Exception
+    {
+    	return ResourceController.getController().getResourceThumbnailUrl(resourceId, width, height, getSession());
+    }
+    public String getResourceThumbnailUrl(Event event, String assetKey, int width, int height) throws Exception
+    {
+    	return ResourceController.getController().getResourceThumbnailUrl(event, assetKey, width, height, getSession());
     }
 
     public Participant getParticipant(Long participantId) throws Exception

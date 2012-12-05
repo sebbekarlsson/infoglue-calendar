@@ -186,6 +186,7 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 					Event event = (Event) eventIterator.next();
 					if (!currentIds.add(event.getId())) // if the id already exists
 					{
+						log.debug("Found duplicate event: " + event.getId());
 						eventIterator.remove();
 					}
 				}

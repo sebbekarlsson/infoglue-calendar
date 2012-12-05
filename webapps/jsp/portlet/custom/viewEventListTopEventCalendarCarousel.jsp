@@ -30,8 +30,8 @@
 			<ww:else>
 				<c:set var="delim" value="?" />
 			</ww:else>
-			<ww:set name="puffImage" value="this.getResourceUrl(top.event, 'DetaljBild')"/>	
-			
+			<ww:set name="puffImage" value="this.getResourceThumbnailUrl(top.event, 'DetaljBild', 220, 600)"/>
+
 			<ww:if test="#mediaUrl != null && #mediaUrl != ''">
 				<div id="movie_<ww:property value="top.event.id"/>" class="GUCarouselItemAssetContainer">
 					<noscript>
