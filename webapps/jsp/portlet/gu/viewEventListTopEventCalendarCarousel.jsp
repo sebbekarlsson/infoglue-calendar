@@ -31,13 +31,8 @@
 				<c:set var="delim" value="?" />
 			</ww:else>
 			<ww:set name="puffImage" value="this.getResourceUrl(top.event, 'DetaljBild')"/>	
-			<ww:if test="supplementingImages.containsKey(top.event.id)">
-				<div class="GUCarouselItemAssetContainer">
-					<img src="<ww:property value="supplementingImages.get(top.event.id)"/>" alt=""/> 
-				</div>
-				<ww:set name="foundMedia" value="true"/>
-			</ww:if> 
-			<ww:if test="#mediaUrl != null && #mediaUrl != '' && !#foundMedia">
+			
+			<ww:if test="#mediaUrl != null && #mediaUrl != ''">
 				<div id="movie_<ww:property value="top.event.id"/>" class="GUCarouselItemAssetContainer">
 					<noscript>
 						<div class="videoNoscript">
@@ -51,13 +46,26 @@
 				<ww:else>
 					<c:set var="delimAjax" value="?" />
 				</ww:else>
+				<ww:if test="supplementingImages.containsKey(top.event.id)">
+					<ww:set name="splashImage" value="supplementingImages.get(top.event.id)"/>
+				</ww:if> 
+				<ww:elseif test="#puffImage != null">
+					<ww:set name="splashImage" value="#puffImage"/>
+				</ww:elseif>
 				<script type="text/javascript">
 					<!--
-					$("#movie_<ww:property value='top.event.id'/>").load("<ww:property value="#attr.ajaxServiceUrl"/><c:out value="${delimAjax}" escapeXml="false"/>mediaUrl=<ww:property value="#mediaUrl"/>&netConnectionUrl=<ww:property value="#netConnectionUrl"/>&width=220");
+					$("#movie_<ww:property value='top.event.id'/>").load("<ww:property value="#attr.ajaxServiceUrl"/><c:out value="${delimAjax}" escapeXml="false"/>mediaUrl=<ww:property value="#mediaUrl"/>&netConnectionUrl=<ww:property value="#netConnectionUrl"/>&thumbnailUrl=<ww:property value="#splashImage"/>&width=220&fpAutoPlay=false&noSplash=false&fallbackUrl=");
 					 -->
 				</script>
 				<ww:set name="foundMedia" value="true"/>
 			</ww:if>
+			<ww:if test="supplementingImages.containsKey(top.event.id)  && !#foundMedia">
+				<div class="GUCarouselItemAssetContainer">
+					<img src="<ww:property value="supplementingImages.get(top.event.id)"/>" alt=""/> 
+					
+				</div>
+				<ww:set name="foundMedia" value="true"/>
+			</ww:if> 
 			<ww:if test="#puffImage != null  && !#foundMedia">
 				<div class="GUCarouselItemAssetContainer">
 					<img src="<ww:property value="#puffImage"/>" alt=""/>
@@ -83,10 +91,13 @@
 		</ww:iterator>
 		<%
 			Integer topEventsSize = (Integer)pageContext.getAttribute("topEventsSize");
-			int addNumberOfItems = 3 - topEventsSize % 3;
-			for(int i = 0; i < addNumberOfItems; i++){
-				out.print("<li>&nbsp;</li>");
+			if(topEventsSize != null && topEventsSize % 3 != 0){
+				int addNumberOfItems = 3 - topEventsSize % 3;
+				for(int i = 0; i < addNumberOfItems; i++){
+					out.print("<li>&nbsp;</li>");
+				}
 			}
+			
 		%>
 	</ul>
 </div>
