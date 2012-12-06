@@ -58,11 +58,12 @@
 					 -->
 				</script>
 				<ww:set name="foundMedia" value="true"/>
+				<%-- Clean up to prevent wrong behavior in next movie --%>
+				<ww:set name="splashImage" value=""/>
 			</ww:if>
 			<ww:if test="supplementingImages.containsKey(top.event.id)  && !#foundMedia">
 				<div class="GUCarouselItemAssetContainer">
 					<img src="<ww:property value="supplementingImages.get(top.event.id)"/>" alt=""/> 
-					
 				</div>
 				<ww:set name="foundMedia" value="true"/>
 			</ww:if> 
