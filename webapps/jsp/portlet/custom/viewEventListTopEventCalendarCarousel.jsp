@@ -54,7 +54,7 @@
 				</ww:elseif>
 				<script type="text/javascript">
 					<!--
-					$("#movie_<ww:property value='top.event.id'/>").load("<ww:property value="#attr.ajaxServiceUrl"/><c:out value="${delimAjax}" escapeXml="false"/>mediaUrl=<ww:property value="#mediaUrl"/>&netConnectionUrl=<ww:property value="#netConnectionUrl"/>&thumbnailUrl=<ww:property value="#splashImage"/>&width=220&fpAutoPlay=false&noSplash=false&fallbackUrl=");
+					$("#movie_<ww:property value='top.event.id'/>").load("<ww:property value="#attr.ajaxServiceUrl"/><c:out value="${delimAjax}" escapeXml="false"/>mediaUrl=<ww:property value="#mediaUrl"/>&netConnectionUrl=<ww:property value="#netConnectionUrl"/>&thumbnailUrl=<ww:property value="#splashImage"/>&width=220&fpAutoPlay=false&noSplash=false&fallbackUrl=&vcp=light");
 					 -->
 				</script>
 				<ww:set name="foundMedia" value="true"/>
