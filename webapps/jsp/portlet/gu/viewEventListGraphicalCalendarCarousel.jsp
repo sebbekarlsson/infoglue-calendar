@@ -211,11 +211,11 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
                 endDate = calendarAbstractAction.formatDate(currentEvent.getEndDateTime().getTime(), "HH:mm");
 	           	date = "<span class=\"smallfont\">"+ beginsLabel + " " + clockLabel + " " + startDate + "</span><span class=\"smallfont\">" + endsLabel + " " + clockLabel + " " + endDate + "</span>";
 	    		title = "<h2><a href=\"" + eventDetailUrl + delim + "amp;eventId=" + currentEvent.getId() + "\">"+ currentEventVersion.getTitle() +"</a></h2>";
-	    		eventTypes = "<span class=\"smallfont\">" + eventTypes + "</span>";			    		
+	    		eventTypes = "<span class=\"smallfont\">" + eventTypes + "</span>";
 	    		todayEvents += "<div class=\"eventBox\">" + eventTypes + title + date + "</div>";// + shortDescription;
 	    		eventTypes = "";
       		}
-      		headerDate =  "<div class=\"infoboxHeaderDate\">" + i + " " + vf.formatDate(calendarMonthCalendar.getTime(), locale, "MMMM") + "</div>";
+      		headerDate =  "<h2 class=\"infoboxHeaderDate\">" + i + " " + vf.formatDate(calendarMonthCalendar.getTime(), locale, "MMMM") + "</h2>";
       		todayEvents = "textArray[" + i + "] = '"+ headerDate + todayEvents + "';";
 		    rows.append("<a data-id=\"" + i + "\" href=\"" + calendarPageUrl + delim + "amp;startDateTime=" + dateTimeString + delim + "amp;endDateTime=" + dateTimeString +"\" class=\"thelink\"><span class=\"dateNumber\">" + i + "</span></a>");
 		    textArrayString += todayEvents ;
@@ -256,8 +256,8 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
 	$(".thelink").hoverIntent(function () {
 		/*=====================================================
 		  Make sure the popup doesn't end up below the viewport 
-		  =====================================================*/		  
-		var position = $(this).position();	
+		  =====================================================*/
+		var position = $(this).position();
 		isOverDatebox = true;
 		$('#tipbox').html(textArray[$(this).attr("data-id")]);
 		var popupHeight = $("#tipbox").height();
@@ -270,24 +270,24 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
 			modY = 35;
 			modX = 270;
 		}
-		$("#tipbox").fadeIn("normal").css("left", (position.left - modX)).css("top", (position.top + modY));					
-	}, function(){			
+		$("#tipbox").fadeIn(100).css("left", (position.left - modX)).css("top", (position.top + modY));
+	}, function(){
 		isOverDatebox = false;
 		setTimeout("hidePopup()", 400);
 	});
-	
+
 	$('#tipbox').mouseenter(function(){
 		isOverTipbox = true;
 	});
-	
+
 	$('#tipbox').mouseleave(function(){
 		isOverTipbox = false;
-		$('#tipbox').fadeOut('normal');
+		$('#tipbox').fadeOut(600);
 	});
 	
 	function hidePopup(){
 		if(!isOverTipbox && !isOverDatebox){
-			$('#tipbox').fadeOut('normal');
+			$('#tipbox').fadeOut(600);
 		}	
 	}
 	-->
