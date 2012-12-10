@@ -333,6 +333,9 @@ public class ResourceController extends BasicController
     @SuppressWarnings("unchecked")
 	private Resource getResourceFromEvent(Event event, String assetKey)
     {
+    	if(event == null)
+    		return null;
+    	
     	for (Resource resource : (Set<Resource>)event.getResources())
     	{
     		if (resource.getAssetKey().equals(assetKey))
