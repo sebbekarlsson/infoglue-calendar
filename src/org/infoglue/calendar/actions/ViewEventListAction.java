@@ -291,7 +291,7 @@ public class ViewEventListAction extends CalendarAbstractAction
 
     public String listFilteredGU() throws Exception
     {
-    	if(getUseTinyEventsInFilteredList() != null && getUseTinyEventsInFilteredList().equals("true"))
+    	if(getUseTinyEventsInFilteredList() != null && getUseTinyEventsInFilteredList().equals("true") && (freeText == null || freeText.equals("")))
     		return listFilteredTinyGU();
     		
     	if(startDateTime == null)
@@ -890,28 +890,28 @@ public class ViewEventListAction extends CalendarAbstractAction
     	{
 	        Set events = (Set)findOnValueStack(eventsString);
 	        if(events != null){
-		    	Iterator eventsIterator = events.iterator();
-		    	while(eventsIterator.hasNext())
-		    	{
-		    		Event event = (Event)eventsIterator.next();
-		    		
-		    		java.util.Calendar startDateCalendar = event.getStartDateTime();
-		    		java.util.Calendar endDateCalendar = event.getEndDateTime();
-		    		do
-		    		{
-		    			int dayOfMonth = startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH);
-		    			List<Event> dayEvents = (List<Event>)daysEvents.get("day_" + dayOfMonth);
-		    			if(dayEvents == null)
-		    			{
-		    				dayEvents = new ArrayList<Event>();
-		    				daysEvents.put("day_" + dayOfMonth, dayEvents);
-		    			}
-		    			
-		    			dayEvents.add(event);
-		    			startDateCalendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-		    		} while(!onlyStartDate && startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH) <= endDateCalendar.get(java.util.Calendar.DAY_OF_MONTH));
-		    	}
-	        }
+	    	Iterator eventsIterator = events.iterator();
+	    	while(eventsIterator.hasNext())
+	    	{
+	    		Event event = (Event)eventsIterator.next();
+	    		
+	    		java.util.Calendar startDateCalendar = event.getStartDateTime();
+	    		java.util.Calendar endDateCalendar = event.getEndDateTime();
+	    		do
+	    		{
+	    			int dayOfMonth = startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH);
+	    			List<Event> dayEvents = (List<Event>)daysEvents.get("day_" + dayOfMonth);
+	    			if(dayEvents == null)
+	    			{
+	    				dayEvents = new ArrayList<Event>();
+	    				daysEvents.put("day_" + dayOfMonth, dayEvents);
+	    			}
+	    			
+	    			dayEvents.add(event);
+	    			startDateCalendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+	    		} while(!onlyStartDate && startDateCalendar.get(java.util.Calendar.DAY_OF_MONTH) <= endDateCalendar.get(java.util.Calendar.DAY_OF_MONTH));
+	    	}
+    	}
     	}
     	catch (Exception e) 
     	{

@@ -204,6 +204,7 @@ public class CreateEntryAction extends CalendarAbstractAction
             arguments.put("message", "" + message);
             arguments.put("xml", "" + xml);
             arguments.put("eventId", "" + eventId);
+            arguments.put("languageCode", "" + this.getLocale());
             
             String eventEntryRESTService = PropertyHelper.getProperty("notificationUrl.eventEntryRESTService");
             System.out.println("eventEntryRESTService:" + eventEntryRESTService);
