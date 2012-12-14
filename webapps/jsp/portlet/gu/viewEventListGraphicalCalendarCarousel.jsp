@@ -1,4 +1,5 @@
 <!--eri-no-index-->
+<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="org.infoglue.calendar.entities.Category"%>
 <%@page import="org.infoglue.calendar.actions.CalendarAbstractAction"%>
 <%@page import="org.apache.axis.types.Month"%>
@@ -120,11 +121,15 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
 	</ww:else>
 	<tr>
 		<td class ="GUCalendarCarouselGraphicalTableHead">		
-			<c:if test="${printPreviousMonthLink}"><a id="prevMonth" href="<ww:property value="#attr.baseUrlCalendarCarousel"/><c:out value="${delimGraphic}"/>calendarMonth=<%= pageContext.getAttribute("calendarMonthPreviousDateTimeString").toString() %>">&lt;&lt;</a></c:if>
+			<c:if test="${printPreviousMonthLink}">
+				<%-- &lt;&lt; --%>
+				<a id="prevMonth" href="<ww:property value="#attr.baseUrlCalendarCarousel"/><c:out value="${delimGraphic}"/>calendarMonth=<%= pageContext.getAttribute("calendarMonthPreviousDateTimeString").toString() %>">&laquo;</a>
+			</c:if>
 		</td>
 		<td class ="GUCalendarCarouselGraphicalTableHead" colspan="5" align="center"><%= vf.formatDate(calendarMonthCalendar.getTime(), locale, "MMMM").toUpperCase(locale) %> <%= yy %></td>
 		<td class ="GUCalendarCarouselGraphicalTableHead">
-			<a id="nextMonth" href="<ww:property value="#attr.baseUrlCalendarCarousel"/><c:out value="${delimGraphic}"/>calendarMonth=<%= pageContext.getAttribute("calendarMonthNextDateTimeString").toString() %>">&gt;&gt;</a>	
+			<%-- &gt;&gt; --%>
+			<a id="nextMonth" href="<ww:property value="#attr.baseUrlCalendarCarousel"/><c:out value="${delimGraphic}"/>calendarMonth=<%= pageContext.getAttribute("calendarMonthNextDateTimeString").toString() %>">&raquo;</a>
 		</td>
 	</tr>
 	<ww:set name="actionObject" value="this" scope="page"/>
@@ -193,14 +198,19 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
 				
 				Set categoryAttributes = currentEvent.getOwningCalendar().getEventType().getCategoryAttributes();
 				Iterator it = categoryAttributes.iterator();
-                while (it.hasNext()) {
+                while (it.hasNext())
+                {
                 	EventTypeCategoryAttribute attribute = (EventTypeCategoryAttribute)it.next();
-                	if(attribute.getName().equals("Evenemangstyp") || attribute.getName().equals("Eventtyp")){
+                	if (attribute.getName().equals("Evenemangstyp") || attribute.getName().equals("Eventtyp"))
+                	{
                 		 List<Category> selectedCategories = calendarAbstractAction.getEventCategories(currentEvent, attribute);
                 		 Iterator<Category> itSelectedCategories = selectedCategories.iterator();
-                		 while(itSelectedCategories.hasNext()){
+                		 String categoryDelim = "";
+                		 while (itSelectedCategories.hasNext())
+                		 {
                 			 Category selectedCategory = itSelectedCategories.next();
-                			 eventTypes += selectedCategory.getLocalizedName(calendarAbstractAction.getLanguageCode(), "sv");
+                			 eventTypes += categoryDelim + selectedCategory.getLocalizedName(calendarAbstractAction.getLanguageCode(), "sv");
+                			 categoryDelim = ", ";
                 		 }
                 	}
                 } 	
@@ -210,8 +220,8 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
                 }
                 endDate = calendarAbstractAction.formatDate(currentEvent.getEndDateTime().getTime(), "HH:mm");
 	           	date = "<span class=\"smallfont\">"+ beginsLabel + " " + clockLabel + " " + startDate + "</span><span class=\"smallfont\">" + endsLabel + " " + clockLabel + " " + endDate + "</span>";
-	    		title = "<h2><a href=\"" + eventDetailUrl + delim + "amp;eventId=" + currentEvent.getId() + "\">"+ currentEventVersion.getTitle() +"</a></h2>";
-	    		eventTypes = "<span class=\"smallfont\">" + eventTypes + "</span>";
+	    		title = "<h2><a href=\"" + eventDetailUrl + delim + "amp;eventId=" + currentEvent.getId() + "\">"+ StringEscapeUtils.escapeJavaScript(currentEventVersion.getTitle()) +"</a></h2>";
+	    		eventTypes = "<span class=\"smallfont\">" + StringEscapeUtils.escapeJavaScript(eventTypes) + "</span>";
 	    		todayEvents += "<div class=\"eventBox\">" + eventTypes + title + date + "</div>";// + shortDescription;
 	    		eventTypes = "";
       		}
@@ -225,13 +235,13 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
 		}
   	    rows.append("</td>");
  		endGap--;
- 		
+
       	if ((leadGap + i) % 7 == 0) {    // wrap if end of line.
 
-	  	    rows.append("</tr>");		        	
+	  	    rows.append("</tr>");
         	rows.append("<tr>");
         	endGap = 7;
-      	}			      	
+      	}
     }
     
     if(endGap < 7)
