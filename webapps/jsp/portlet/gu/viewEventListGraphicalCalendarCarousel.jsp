@@ -1,4 +1,5 @@
-<!--eri-no-index-->
+<!-- eri-no-index -->
+<!-- eri-no-follow -->
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="org.infoglue.calendar.entities.Category"%>
 <%@page import="org.infoglue.calendar.actions.CalendarAbstractAction"%>
@@ -302,6 +303,5 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
 	}
 	-->
 </script>
-<!--/eri-no-index-->
- 
- 
+<!-- /eri-no-follow -->
+<!-- /eri-no-index -->
