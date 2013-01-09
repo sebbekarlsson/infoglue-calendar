@@ -241,7 +241,6 @@ Map daysEventHash = (Map)pageContext.getAttribute("daysEventHash");
       				" onmousedown=\"this.src=\\\'" + cross_close_Img_hover + "\\\'\""+
       				" onmouseover=\"this.src=\\\'" + cross_close_Img_hover + "\\\'\""+
       			 	" alt=\"\"/></div>";
-      		System.out.println("crossclose: " + cross_close);
       		todayEvents = "textArray[" + i + "] = '"+ cross_close + headerDate + "<ul>" + todayEvents + "</ul>" + "';";
 		    rows.append("<a data-id=\"" + i + "\" href=\"\" class=\"thelink\"><span class=\"dateNumber\">" + i + "</span></a>");
 		    textArrayString += todayEvents ;
