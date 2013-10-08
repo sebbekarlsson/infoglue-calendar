@@ -109,6 +109,8 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 	private List resultValues = new LinkedList();
 	private Map searchResultFiles;
 	
+	private List<Event> currentExternalEvents;
+
 	private void initialize() throws Exception
     {
     	Session session = getSession(true);
@@ -169,23 +171,31 @@ public class ViewEventSearchAction extends CalendarAbstractAction
         
         return Action.SUCCESS;
     }
-    
-    public String doExternalBindingSearch() throws Exception
-    {
-    	setExportResult(false);
-    	setSortAscending(false);
-    	setStateId(Event.STATE_PUBLISHED);
-    	initialize();
-    	if (startDateTime != null)
-    	{
-    		execute();
-    		if (this.events != null)
-    		{
-    			log.info("Filtering event results. We only want one post even if there are more versions...");
-	    		// Remove duplicates
-	    		HashSet<Long> currentIds = new HashSet<Long>();
-	    		Iterator<Event> eventIterator = this.events.iterator();
-	        	while (eventIterator.hasNext())
+
+	public String doExternalBindingSearch() throws Exception
+	{
+		setExportResult(false);
+		setSortAscending(false);
+		setStateId(Event.STATE_PUBLISHED);
+		initialize();
+
+		List<Long> eventIds = getEventIds();
+		if (startDateTime == null && eventIds != null)
+		{
+			currentExternalEvents = EventController.getController().getEventList(eventIds, getSession());
+		}
+
+		if (startDateTime != null)
+		{
+			execute();
+			if (this.events != null)
+			{
+				log.info("Filtering event results. We only want one post even if there are more versions...");
+				// Remove duplicates
+				HashSet<Long> currentIds = new HashSet<Long>();
+				@SuppressWarnings("unchecked")
+				Iterator<Event> eventIterator = this.events.iterator();
+				while (eventIterator.hasNext())
 				{
 					Event event = (Event) eventIterator.next();
 					if (!currentIds.add(event.getId())) // if the id already exists
@@ -194,22 +204,21 @@ public class ViewEventSearchAction extends CalendarAbstractAction
 						eventIterator.remove();
 					}
 				}
-    		}
-    	}
-    	else
-    	{
-    		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-    		Calendar calendar = Calendar.getInstance();
-    		startDateTime = dateFormatter.format(calendar.getTime());
-    		calendar.roll(Calendar.WEEK_OF_YEAR, 1);
-    		endDateTime = dateFormatter.format(calendar.getTime());
+			}
+		}
+		else
+		{
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar calendar = Calendar.getInstance();
+			startDateTime = dateFormatter.format(calendar.getTime());
+			calendar.roll(Calendar.WEEK_OF_YEAR, 1);
+			endDateTime = dateFormatter.format(calendar.getTime());
 
-    		startTime = "00:00";
-    		endTime = "23:59";
-    	}
-
-    	return "successExternalBinding";
-    }
+			startTime = "00:00";
+			endTime = "23:59";
+		}
+		return "successExternalBinding";
+	}
 
     /**
      * This is the entry point for the search form.
@@ -490,5 +499,8 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     	return this.stateId;
     }
 
+	public List<Event> getCurrentExternalEvents()
+	{
+		return currentExternalEvents;
+	}
 }
-

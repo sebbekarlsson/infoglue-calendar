@@ -279,5 +279,20 @@
 				</c:choose>
 			</c:if>
 		</div>
+		<ww:if test="name == null && currentExternalEvents != null && currentExternalEvents.size() > 0"> <%-- Only run resync on first load and when there are current events --%>
+			<script type="text/javascript">
+				if (parent && parent.resyncNames)
+				{
+					var currentEventMapping = {};
+					<ww:iterator value="currentExternalEvents">
+					<ww:set name="event" value="top"/>
+					<ww:set name="eventVersion" value="this.getMasterEventVersion('#event')"/>
+					<ww:set name="safeEventName" value="this.escapeForJavascript(#eventVersion.name)"/>
+					currentEventMapping[<ww:property value="top.id"/>] = "<ww:property value="#safeEventName"/>";
+					</ww:iterator>
+					parent.resyncNames(currentEventMapping);
+				}
+			</script>
+		</ww:if>
 	</body>
 </html>
