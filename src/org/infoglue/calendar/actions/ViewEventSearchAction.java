@@ -38,6 +38,7 @@ import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
@@ -225,6 +226,16 @@ public class ViewEventSearchAction extends CalendarAbstractAction
     {
         return events;
     }
+
+	public String escapeForJavascript(String string)
+	{
+		return StringEscapeUtils.escapeJavaScript(string);
+	}
+
+	public String escapeForHTML(String string)
+	{
+		return StringEscapeUtils.escapeHtml(string);
+	}
 
     public String getContactEmail()
     {

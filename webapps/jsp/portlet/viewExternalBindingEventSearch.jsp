@@ -202,8 +202,8 @@
 	
 							<ww:if test="#rowstatus.odd == true"><c:set var="rowClass" value="oddrow"/></ww:if>
 						    <ww:else><c:set var="rowClass" value="evenrow"/></ww:else>
-	
-							<div class="<c:out value="${rowClass}"/>" onclick="mark(this, <c:out value="${eventId}" />, '<ww:property value="#eventVersion.name"/>')" ondblclick="add(<c:out value="${eventId}" />, '<ww:property value="#eventVersion.name"/>')">
+							<ww:set name="safePath" value="this.escapeForJavascript(this.escapeForHTML(#eventVersion.name))"/>
+							<div class="<c:out value="${rowClass}"/>" onclick="mark(this, <c:out value="${eventId}" />, '<ww:property value="#safePath"/>')" ondblclick="add(<c:out value="${eventId}" />, '<ww:property value="#safePath"/>')">
 							   	<div class="column_name" >
 							   		<p class="portletHeadline">
 							   			<ww:property value="#eventVersion.name"/>
