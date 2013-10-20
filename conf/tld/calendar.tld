@@ -767,6 +767,11 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+            <name>ticket</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
 	</tag>
 	
 </taglib>
