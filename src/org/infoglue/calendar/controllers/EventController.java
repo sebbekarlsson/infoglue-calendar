@@ -1809,7 +1809,14 @@ public class EventController extends BasicController
         
         return set;
     }
-    
+
+	public List<Event> getEventList(List<Long> eventIds, Session session)
+	{
+		Criteria criteria = session.createCriteria(Event.class);
+		criteria.add(Restrictions.in("id", eventIds));
+		return criteria.list();
+	}
+
     /**
      * Gets a list of all events available for a particular calendar with the optional categories.
      * @return List of Event

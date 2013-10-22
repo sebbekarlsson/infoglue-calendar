@@ -202,8 +202,8 @@
 	
 							<ww:if test="#rowstatus.odd == true"><c:set var="rowClass" value="oddrow"/></ww:if>
 						    <ww:else><c:set var="rowClass" value="evenrow"/></ww:else>
-	
-							<div class="<c:out value="${rowClass}"/>" onclick="mark(this, <c:out value="${eventId}" />, '<ww:property value="#eventVersion.name"/>')" ondblclick="add(<c:out value="${eventId}" />, '<ww:property value="#eventVersion.name"/>')">
+							<ww:set name="safePath" value="this.escapeForJavascript(this.escapeForHTML(#eventVersion.name))"/>
+							<div class="<c:out value="${rowClass}"/>" onclick="mark(this, <c:out value="${eventId}" />, '<ww:property value="#safePath"/>')" ondblclick="add(<c:out value="${eventId}" />, '<ww:property value="#safePath"/>')">
 							   	<div class="column_name" >
 							   		<p class="portletHeadline">
 							   			<ww:property value="#eventVersion.name"/>
@@ -279,5 +279,20 @@
 				</c:choose>
 			</c:if>
 		</div>
+		<ww:if test="name == null && currentExternalEvents != null && currentExternalEvents.size() > 0"> <%-- Only run resync on first load and when there are current events --%>
+			<script type="text/javascript">
+				if (parent && parent.resyncNames)
+				{
+					var currentEventMapping = {};
+					<ww:iterator value="currentExternalEvents">
+					<ww:set name="event" value="top"/>
+					<ww:set name="eventVersion" value="this.getMasterEventVersion('#event')"/>
+					<ww:set name="safeEventName" value="this.escapeForJavascript(#eventVersion.name)"/>
+					currentEventMapping[<ww:property value="top.id"/>] = "<ww:property value="#safeEventName"/>";
+					</ww:iterator>
+					parent.resyncNames(currentEventMapping);
+				}
+			</script>
+		</ww:if>
 	</body>
 </html>

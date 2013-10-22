@@ -223,11 +223,27 @@ public class CalendarAbstractAction extends ActionSupport
     	}
     	return null;
     }
-    
-    public List<Long> getEventIds()
-    {
-        return (List<Long>)ServletActionContext.getRequest().getAttribute("eventIds");
-    }
+
+	@SuppressWarnings("unchecked")
+	public List<Long> getEventIds()
+	{
+		Object eventIdsObject = ServletActionContext.getRequest().getAttribute("eventIds");
+		if (eventIdsObject instanceof String)
+		{
+			String eventIdsString = (String)eventIdsObject;
+			List<Long> result = new ArrayList<Long>();
+			String[] eventIdsArray = eventIdsString.split(",");
+			for (String eventId : eventIdsArray)
+			{
+				result.add(new Long(eventId));
+			}
+			return result;
+		}
+		else
+		{
+			return (List<Long>)eventIdsObject;
+		}
+	}
 
     public Map<Long, String> getSupplementingImages()
     {
