@@ -1640,7 +1640,7 @@ public class EventController extends BasicController
 	        }
 	        
 	        if(numberOfItems != null)
-	        	criteria.setMaxResults(numberOfItems);
+	        	criteria.setMaxResults(numberOfItems*3);
 	        
 	        result = criteria.list();
 
@@ -1789,7 +1789,7 @@ public class EventController extends BasicController
 	        }
 	        
 	        if(numberOfItems != null)
-	        	criteria.setMaxResults(numberOfItems);
+	        	criteria.setMaxResults(numberOfItems*3);
 	        
 	        //t.printElapsedTime("before list");
 	        try
