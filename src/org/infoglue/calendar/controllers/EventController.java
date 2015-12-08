@@ -1504,7 +1504,32 @@ public class EventController extends BasicController
     {
     	return getEventList(calendarIds, categoryAttribute, categoryNames, includedLanguages, startCalendar, endCalendar, freeText, null, session);
     }
-    
+
+	private Object[] parseCalendarIds(String[] calendarIdStrings)
+	{
+		if (calendarIdStrings == null || calendarIdStrings.length == 0)
+		{
+			return null;
+		}
+
+		Long[] calendarIdArray = new Long[calendarIdStrings.length];
+
+		for(int i=0; i < calendarIdStrings.length; i++)
+		{
+			try
+			{
+				calendarIdArray[i] = new Long(calendarIdStrings[i]);
+			}
+			catch (NumberFormatException nfex)
+			{
+				log.warn("An invalid calendarId was given. Id: <" + calendarIdStrings[i] + ">, Message: " + nfex.getMessage());
+				return null;
+			}
+		}
+
+		return calendarIdArray;
+	}
+
     /**
      * Gets a list of all events available for a particular calendar with the optional categories.
      * @return List of Event
@@ -1514,40 +1539,12 @@ public class EventController extends BasicController
     public Set getEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, String includedLanguages, java.util.Calendar startCalendar, java.util.Calendar endCalendar, String freeText, Integer numberOfItems, Session session) throws Exception 
     {
         List result = null;
-        
-        String calendarSQL = null;
-        if(calendarIds != null && calendarIds.length > 0)
-        {
-            calendarSQL = "(";
-	        for(int i=0; i<calendarIds.length; i++)
-	        {
-	            String calendarIdString = calendarIds[i];
 
-	            try
-	            {
-	                Integer calendarId = new Integer(calendarIdString);
-	            }
-	            catch(Exception e)
-	            {
-	                log.warn("An invalid calendarId was given:" + e.getMessage());
-	                return null;
-	            }
-	            
-	            if(i > 0)
-	                calendarSQL += ",";
-	            
-	            calendarSQL += calendarIdString;
-	        }
-	        calendarSQL += ")";
-        }
-        else
-        {
-            return null;
-        }
-
-        Object[] calendarIdArray = new Object[calendarIds.length];
-        for(int i=0; i<calendarIds.length; i++)
-            calendarIdArray[i] = new Long(calendarIds[i]);
+		Object[] calendarIdArray = parseCalendarIds(calendarIds);
+		if (calendarIdArray == null)
+		{
+			return null;
+		}
 
         Set set = new LinkedHashSet();
 
@@ -1660,43 +1657,15 @@ public class EventController extends BasicController
     
     public Set getTinyEventList(String[] calendarIds, String categoryAttribute, String[] categoryNames, String includedLanguages, java.util.Calendar startCalendar, java.util.Calendar endCalendar, String freeText, Integer numberOfItems, Session session) throws Exception 
     {
-    	Timer t = new Timer();
-    	
-        List result = null;
-        
-        String calendarSQL = null;
-        if(calendarIds != null && calendarIds.length > 0)
-        {
-            calendarSQL = "(";
-	        for(int i=0; i<calendarIds.length; i++)
-	        {
-	            String calendarIdString = calendarIds[i];
+		Timer t = new Timer();
 
-	            try
-	            {
-	                Integer calendarId = new Integer(calendarIdString);
-	            }
-	            catch(Exception e)
-	            {
-	                log.warn("An invalid calendarId was given:" + e.getMessage());
-	                return null;
-	            }
-	            
-	            if(i > 0)
-	                calendarSQL += ",";
-	            
-	            calendarSQL += calendarIdString;
-	        }
-	        calendarSQL += ")";
-        }
-        else
-        {
-            return null;
-        }
+		List result = null;
 
-        Object[] calendarIdArray = new Object[calendarIds.length];
-        for(int i=0; i<calendarIds.length; i++)
-            calendarIdArray[i] = new Long(calendarIds[i]);
+		Object[] calendarIdArray = parseCalendarIds(calendarIds);
+		if (calendarIdArray == null)
+		{
+			return null;
+		}
 
         Set set = new LinkedHashSet();
 
