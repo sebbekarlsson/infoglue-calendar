@@ -6,13 +6,13 @@
 	<br/>
 	The event was written by <a href="mailto:$principal.email">$principal.firstName $principal.lastName ($principal.email)</a>
 	<br/>
-	<hr/>
-        
+        The creator of the event wants it to be shared in:
         <ul> 
-        #foreach($category in $event.getEventCategoriesFiltered("whaat"))
+        #foreach($category in $event.getEventCategoriesFiltered("publishAreas"))
             <li>$category.name</li>
         #end
         </ul>
+	<hr/>
 
 	This email was automatically generated and the sender is the Calendar-system.<br/>
 	Do not reply to this email. <br/>

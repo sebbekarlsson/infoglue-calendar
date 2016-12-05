@@ -476,7 +476,7 @@ public class Event implements BaseEntity
         while(i.hasNext())
         {
             EventCategory eventCategory = (EventCategory)i.next();
-            if(eventCategory.getEventTypeCategoryAttribute().getName() == filterKey)
+            if(eventCategory.getEventTypeCategoryAttribute().getInternalName().equals(filterKey))
                 filteredCategories.add(eventCategory.getCategory());
         }
 
