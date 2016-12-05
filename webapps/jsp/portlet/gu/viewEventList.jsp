@@ -27,12 +27,12 @@
 	</ww:else>
 
 	<ww:iterator value="events" status="rowstatus">
-	
+	        <ww:net\>
 		<ww:set name="event" value="top"/>
 		<ww:set name="eventVersion" value="this.getEventVersion('#event')"/>
 		<ww:set name="eventVersion" value="this.getEventVersion('#event')" scope="page"/>
 		<ww:set name="eventId" value="id" scope="page"/>
-		<portlet:renderURL var="eventDetailUrl">
+                <portlet:renderURL var="eventDetailUrl">
 			<portlet:param name="action" value="ViewEvent!publicGU"/>
 			<portlet:param name="eventId" value='<%= pageContext.getAttribute("eventId").toString() %>'/>
 		</portlet:renderURL>

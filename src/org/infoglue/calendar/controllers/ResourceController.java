@@ -42,6 +42,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.infoglue.calendar.entities.Calendar;
 import org.infoglue.calendar.entities.Event;
+import org.infoglue.calendar.entities.EventTiny;
 import org.infoglue.calendar.entities.Resource;
 import org.infoglue.calendar.util.graphics.ThumbnailGenerator;
 import org.infoglue.common.util.PropertyHelper;
@@ -333,11 +334,17 @@ public class ResourceController extends BasicController
     @SuppressWarnings("unchecked")
 	private Resource getResourceFromEvent(Event event, String assetKey)
     {
-    	if(event == null)
+        System.out.println("resourceFromEvent");
+
+    	if(event == null) {
+                System.out.println("Resource event null");
     		return null;
+        }
     	
     	for (Resource resource : (Set<Resource>)event.getResources())
     	{
+            log.info(resource);
+
     		if (resource.getAssetKey().equals(assetKey))
     		{
     			if (log.isDebugEnabled())
@@ -355,10 +362,10 @@ public class ResourceController extends BasicController
      * This method returns a Resource based on it's owning content and it's asset key.
      * @return Resource
      */
-    public String getResourceUrl(Event event, String assetKey, Session session)
+    public String getResourceUrl(Event event, String assetKey, Session session) throws Exception
     {
     	String url = null;
-
+        
     	try
     	{
     		Resource resource = getResourceFromEvent(event, assetKey);

@@ -785,7 +785,17 @@ public class CalendarAbstractAction extends ActionSupport
 
     public String getResourceUrl(Event event, String assetKey) throws Exception
     {
+        System.out.println("Event");
+        System.out.println(event);
         return ResourceController.getController().getResourceUrl(event, assetKey, getSession());
+    }
+
+    public String getResourceUrl(EventTiny event, String assetKey) throws Exception
+    {
+        System.out.println("TinyEvent");
+        System.out.println(event);
+        return "";
+        //return ResourceController.getController().getResourceUrl(event, assetKey, getSession());
     }
 
     public String getResourceThumbnailUrl(Long resourceId, int width, int height) throws Exception

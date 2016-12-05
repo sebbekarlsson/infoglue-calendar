@@ -9,3 +9,9 @@ war/
 build/
 bin/
 .externalToolBuilders/
+*.swp
+*.swl
+*.swn
+*.swo
+*.swm
+${deploy.dir.working}
