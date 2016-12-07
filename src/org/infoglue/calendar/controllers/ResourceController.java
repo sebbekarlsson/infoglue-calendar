@@ -418,17 +418,12 @@ public class ResourceController extends BasicController
     @SuppressWarnings("unchecked")
 	private Resource getResourceFromEvent(Event event, String assetKey)
     {
-        System.out.println("resourceFromEvent");
-
     	if(event == null) {
-                System.out.println("Resource event null");
     		return null;
         }
     	
     	for (Resource resource : (Set<Resource>)event.getResources())
     	{
-            log.info(resource);
-
     		if (resource.getAssetKey().equals(assetKey))
     		{
     			if (log.isDebugEnabled())
