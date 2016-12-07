@@ -16,3 +16,5 @@ bin/
 *.swm
 ${deploy.dir.working}
 "\3729\346\347\340"
+._.DS_Store
+.DS_Store
