@@ -1,6 +1,20 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="infoglue-common" prefix="common" %>
+
+<%@page import="org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute"%>
+<%@page import="org.infoglue.calendar.entities.Entry"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.LinkedHashSet"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.lang.NoSuchMethodError"%>
+<%@page import="java.lang.Long"%>
+
+
 
 <c:set var="activeNavItem" value="EntrySearch" scope="page"/>
+
 
 <%@ include file="adminHeader.jsp" %>
 
@@ -132,6 +146,11 @@
 	<div class="clear"></div>
 	</div>
 
+        <ww:set name="entries" value="entries" scope="page"/>
+        <ww:set name="entryIds" value="this.getEntriesId()" scope="page"/>
+        <ww:set name="customDataMap" value="this.getCustomDataMap()" scope="page"/>
+        <ww:set name="entryDataKeys" value="this.getEntryData(this.getEntriesId(), 1)" scope="page"/>
+
 	<div class="columnlabelarea">
 		<ww:iterator value="resultValues">
 			<%--
@@ -161,6 +180,13 @@
 				<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.cityColumnHeader')"/></p></div>
 	    	</ww:if>
 		</ww:iterator>
+
+                <c:forEach items="${entryDataKeys}" var="item">
+                    <div class="columnShort">
+                        <p><c:out value="${item}"/></p>
+                    </div>
+                </c:forEach>
+
 		<div class="clear"></div>
 	</div>
 	
@@ -221,7 +247,11 @@
 		<ww:set name="rowcount" value="rowstatus.count"/>
 		<ww:set name="entryId" value="id" scope="page"/>
 		<ww:set name="name" value="name" scope="page"/>
-		<ww:if test="searchEventId != null">
+                <ww:set name="attributes" value="this.getCustomAttributes(id)" scope="page"/>
+            
+                <c:out value="resultValues"/>
+
+                <ww:if test="searchEventId != null">
 			<ww:set name="searchEventId" value="searchEventId" scope="page"/>
 		</ww:if>
 		<ww:if test="searchFirstName != null">
@@ -286,7 +316,7 @@
 	    <ww:else>
 			<div class="evenrow">
 	    </ww:else>
-	
+
 		<ww:iterator value="resultValues">
 			<%--
 		 	<ww:if test="top == 'Id'">
@@ -330,7 +360,6 @@
 			   		<p><c:out value="${city}"/></p>			   		
 			   	</div>
 			</ww:if>
-
 		</ww:iterator>
 		   	<div class="columnEnd">
 		   		<a href="javascript:submitDelete('<c:out value="${deleteUrl}"/>', 'Är du säker på att du vill radera &quot;<ww:property value="#name"/>&quot;');" title="Radera '<ww:property value="entry.firstName"/>'" class="delete"></a>

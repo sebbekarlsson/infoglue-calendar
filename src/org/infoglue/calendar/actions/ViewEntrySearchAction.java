@@ -28,9 +28,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +57,8 @@ import org.infoglue.calendar.entities.EventVersion;
 import org.infoglue.calendar.entities.Location;
 import org.infoglue.calendar.util.EntrySearchResultfilesConstructor;
 import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttribute;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameter;
+import org.infoglue.common.contenttypeeditor.entities.ContentTypeAttributeParameterValue;
 import org.infoglue.common.util.PropertyHelper;
 
 import com.opensymphony.webwork.ServletActionContext;
@@ -95,6 +99,8 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
 	private List resultValues = new LinkedList(); 
     
     private Map categoryAttributesMap = new HashMap();
+    private Map<String, List<ContentTypeAttribute>> entryAttributesMap = new HashMap<String, List<ContentTypeAttribute>>();
+    private Map<String, Map<String, String>> customDataMap = new HashMap<String, Map<String, String>>();
 
     private void initialize(Session session) throws Exception
     {
@@ -186,6 +192,9 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         String emailAddresses = "";
         Long entryTypeId = null;
         Iterator entriesIterator = entries.iterator();
+
+        HttpSession session = ServletActionContext.getRequest().getSession();
+
         while(entriesIterator.hasNext())
         {
         	Entry entry = (Entry)entriesIterator.next();
@@ -198,9 +207,22 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         			if(eventVersion != null)
         				name = eventVersion.getLocalizedName(this.getLanguageCode(), "sv");
         		}
+
+            EventType eventType = EventTypeController.getController().getEventType(
+                entry.getEvent().getEntryFormId(),
+                getSession() 
+            );
+            this.entryAttributesMap.put(
+                Long.toString(entry.getId()),
+                ContentTypeDefinitionController.getController().getContentTypeAttributes(
+                    eventType.getSchemaValue()
+                )
+            );
+
         		
         		eventName += (eventName.equals("") ? "" : ", ") + name;
         		events.add(entry.getEvent());
+
         	}
         		        	
         	if(entryTypeId == null)
@@ -212,7 +234,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 emailAddresses += entry.getEmail();
         }
         
-        HttpSession session = ServletActionContext.getRequest().getSession();
+        
         
         this.searchHashCode = "" + ServletActionContext.getRequest().hashCode();
         log.debug("searchHashCode:" + searchHashCode);
@@ -248,9 +270,48 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         	parameters.put("attributeNames", attributeNames);
 
         	HttpServletRequest request = ServletActionContext.getRequest();
-        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(parameters, entries, getTempFilePath(), request.getScheme(), request.getServerName(), request.getServerPort(), resultValues, this, entryTypeId.toString());
+        	EntrySearchResultfilesConstructor results = new EntrySearchResultfilesConstructor(
+                        parameters,
+                        entries,
+                        getTempFilePath(),
+                        request.getScheme(),
+                        request.getServerName(),
+                        request.getServerPort(),
+                        resultValues,
+                        this,
+                        entryTypeId.toString()
+                        );
         	searchResultFiles = results.getResults();
         }
+
+        for (Object object: entries) {
+            Entry entry = (Entry) object;
+
+            long id = entry.getId();
+
+            Map<String, String> data = new HashMap<String, String>();
+
+            List<ContentTypeAttribute> attributes = getCustomAttributes(Long.toString(id));
+
+            for (Object objAttr: attributes == null ? Collections.EMPTY_LIST : attributes) {
+                if (objAttr == null) { continue; }
+
+                ContentTypeAttribute attr = (ContentTypeAttribute) objAttr;
+
+                List<Map.Entry> entryList = attr.getContentTypeAttributeParameters();
+
+                Iterator it = entryList.iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    data.put(pair.getKey().toString(), pair.getValue().toString());
+
+                    it.remove();
+                }
+            }
+
+            this.customDataMap.put(id + "", data);
+        }
+
         
         return Action.SUCCESS;
     } 
@@ -360,6 +421,96 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     {
         this.searchLastName = searchLastName;
     }
+
+    public List<ContentTypeAttribute> getCustomAttributes(String entryId)
+    {
+        return this.entryAttributesMap.get(entryId);
+    }
+
+    public Map<String, List<ContentTypeAttribute>> getCustomAttributesMap() {
+        return this.entryAttributesMap;
+    }
+
+    public Map<String, Map<String, String>> getCustomDataMap() {
+        return this.customDataMap;
+    }
+
+    public Map<String, String> getEntryData(String entryId) {
+        return this.customDataMap.get(entryId);
+    }
+    
+    public ArrayList<String> getEntryData(ArrayList<String> entryId, int mapAttributeReference) {
+        ArrayList<String> data = new ArrayList<String>();
+
+
+        /*if (entryId == null) {
+            ArrayList<String> tmpList = new ArrayList<String>();
+            tmpList.add("NULL");
+
+            return tmpList;
+        }
+
+        if (entryId.isEmpty()) {
+            ArrayList<String> tmpList = new ArrayList<String>();
+            tmpList.add("EMPTY");
+            
+            return tmpList;
+        } else {
+            ArrayList<String> tmpList = new ArrayList<String>();
+            tmpList.add(entryId.toString());
+
+            return entryId;
+
+            //return tmpList;
+        }*/
+
+        System.out.println("LOGSEARCH: " + entryId.toString());
+
+        for (int i = 0; i < entryId.size(); i++) {
+            Map<String, String> mp = this.getEntryData(entryId.get(i));
+
+            System.out.println("LOGSEARCH: " + mp.toString());
+
+            Iterator it = mp.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+
+                System.out.println("LOGSEARCH: " + pair.toString());
+
+                data.add(pair.getKey().toString());
+                
+                switch (mapAttributeReference) {
+                    case 0:
+                        data.add(pair.getKey().toString());
+                    break;
+                    case 1:
+                        //ContentTypeAttributeParameter para = (ContentTypeAttributeParameter) pair.getValue();
+                        //ContentTypeAttributeParameterValue val = (ContentTypeAttributeParameterValue) para.getContentTypeAttributeParameterValue();
+                        
+                        //getContentTypeAttributeParameterValues // LinkedHashMap
+                        data.add(((ContentTypeAttributeParameter)pair.getValue()).toString());
+                    break; 
+                }
+
+                it.remove();
+            }
+        }
+
+        return data;
+    }
+
+    public ArrayList<String> getEntriesId() {
+        ArrayList<String> ids = new ArrayList<String>();
+        
+        Set<Entry> entries = this.getEntries();
+
+        for (Entry e: entries) {
+            ids.add(Long.toString(e.getId()));
+        }
+
+        return ids;
+    }
+
     /*
     public String getEmailAddresses()
     {
