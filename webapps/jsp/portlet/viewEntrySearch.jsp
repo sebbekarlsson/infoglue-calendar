@@ -149,7 +149,7 @@
         <ww:set name="entries" value="entries" scope="page"/>
         <ww:set name="entryIds" value="this.getEntriesId()" scope="page"/>
         <ww:set name="customDataMap" value="this.getCustomDataMap()" scope="page"/>
-        <ww:set name="entryDataKeys" value="this.getEntryData(this.getEntriesId(), 1)" scope="page"/>
+        <ww:set name="entryDataKeys" value="this.getEntryData(this.getEntriesId(), 0)" scope="page"/>
 
 	<div class="columnlabelarea">
 		<ww:iterator value="resultValues">
@@ -181,11 +181,36 @@
 	    	</ww:if>
 		</ww:iterator>
 
+                <%--<c:out value="${entryDataKeys}"/>
+
                 <c:forEach items="${entryDataKeys}" var="item">
                     <div class="columnShort">
                         <p><c:out value="${item}"/></p>
                     </div>
-                </c:forEach>
+                        </c:forEach>--%>
+
+
+
+                
+                <ww:iterator value="this.getEntriesId()" status="rowstatus">
+                <ww:set name="count" value="0"/>
+
+		<ww:iterator value="this.getCustomAttributes(top)" status="rowstatus">
+			<ww:set name="attribute" value="top"/>
+			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
+			
+                        <p><ww:property value="top.name"/></p>        
+			<ww:set name="count" value="#count + 1"/>
+		</ww:iterator>
+                </ww:iterator>
+
+
+
+
+
+
+
+
 
 		<div class="clear"></div>
 	</div>
@@ -247,10 +272,9 @@
 		<ww:set name="rowcount" value="rowstatus.count"/>
 		<ww:set name="entryId" value="id" scope="page"/>
 		<ww:set name="name" value="name" scope="page"/>
+                <ww:set name="entry" value="top"/>
                 <ww:set name="attributes" value="this.getCustomAttributes(id)" scope="page"/>
             
-                <c:out value="resultValues"/>
-
                 <ww:if test="searchEventId != null">
 			<ww:set name="searchEventId" value="searchEventId" scope="page"/>
 		</ww:if>
@@ -360,6 +384,21 @@
 			   		<p><c:out value="${city}"/></p>			   		
 			   	</div>
 			</ww:if>
+                   
+
+		</ww:iterator>
+                <ww:iterator value="this.getCustomAttributes(#entry.id)" status="rowstatus">
+			<ww:set name="attribute" value="top"/>
+			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
+                        <ww:if test="#errorEntry != null">
+				<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, #attribute.name)"/>
+			</ww:if>
+			<ww:else>
+				<ww:set name="attributeValue" value="this.getAttributeValue(#entry.attributes, #attribute.name)"/>
+			</ww:else>
+			
+                        <div class="columnShort"><p><ww:property value="#attributeValue"/></p></div>      
+			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>
 		   	<div class="columnEnd">
 		   		<a href="javascript:submitDelete('<c:out value="${deleteUrl}"/>', 'Är du säker på att du vill radera &quot;<ww:property value="#name"/>&quot;');" title="Radera '<ww:property value="entry.firstName"/>'" class="delete"></a>

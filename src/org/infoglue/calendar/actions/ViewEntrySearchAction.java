@@ -100,7 +100,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     private Map categoryAttributesMap = new HashMap();
     private Map<String, List<ContentTypeAttribute>> entryAttributesMap = new HashMap<String, List<ContentTypeAttribute>>();
-    private Map<String, Map<String, String>> customDataMap = new HashMap<String, Map<String, String>>();
+    private Map<String, Map<String, ContentTypeAttributeParameter>> customDataMap = new HashMap<String, Map<String, ContentTypeAttributeParameter>>();
 
     private void initialize(Session session) throws Exception
     {
@@ -289,7 +289,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
 
             long id = entry.getId();
 
-            Map<String, String> data = new HashMap<String, String>();
+            Map<String, ContentTypeAttributeParameter> data = new HashMap<String, ContentTypeAttributeParameter>();
 
             List<ContentTypeAttribute> attributes = getCustomAttributes(Long.toString(id));
 
@@ -303,7 +303,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 Iterator it = entryList.iterator();
                 while (it.hasNext()) {
                     Map.Entry pair = (Map.Entry)it.next();
-                    data.put(pair.getKey().toString(), pair.getValue().toString());
+                    data.put(pair.getKey().toString(), (ContentTypeAttributeParameter) pair.getValue());
 
                     it.remove();
                 }
@@ -431,11 +431,11 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         return this.entryAttributesMap;
     }
 
-    public Map<String, Map<String, String>> getCustomDataMap() {
+    public Map<String, Map<String, ContentTypeAttributeParameter>> getCustomDataMap() {
         return this.customDataMap;
     }
 
-    public Map<String, String> getEntryData(String entryId) {
+    public Map<String, ContentTypeAttributeParameter> getEntryData(String entryId) {
         return this.customDataMap.get(entryId);
     }
     
@@ -467,32 +467,25 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         System.out.println("LOGSEARCH: " + entryId.toString());
 
         for (int i = 0; i < entryId.size(); i++) {
-            Map<String, String> mp = this.getEntryData(entryId.get(i));
+            List<ContentTypeAttribute> attrList = this.getCustomAttributes(entryId.get(i));
+            System.out.println("LOGSEARCH: " + attrList.toString());
 
-            System.out.println("LOGSEARCH: " + mp.toString());
+            for (ContentTypeAttribute attr: attrList) {
 
-            Iterator it = mp.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
+                System.out.println("LOGSEARCH: " + attr.toString());
 
-                System.out.println("LOGSEARCH: " + pair.toString());
-
-                data.add(pair.getKey().toString());
-                
-                switch (mapAttributeReference) {
+                switch(mapAttributeReference) {
                     case 0:
-                        data.add(pair.getKey().toString());
+                        System.out.println(0);
+                        data.add(attr.toString());
                     break;
                     case 1:
-                        //ContentTypeAttributeParameter para = (ContentTypeAttributeParameter) pair.getValue();
-                        //ContentTypeAttributeParameterValue val = (ContentTypeAttributeParameterValue) para.getContentTypeAttributeParameterValue();
-                        
-                        //getContentTypeAttributeParameterValues // LinkedHashMap
-                        data.add(((ContentTypeAttributeParameter)pair.getValue()).toString());
-                    break; 
+                        System.out.println(1);
+                        data.add("adfa");
+                        //List<ContentTypeAttributeParameter> params =  attr.getContentTypeAttributeParameters();
+                    break;
                 }
-
-                it.remove();
+            
             }
         }
 
