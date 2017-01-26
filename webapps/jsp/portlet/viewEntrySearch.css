@@ -56,6 +56,7 @@ fieldset ul {margin:0; padding:0 0 1em 1.75em;}
     font-size: inherit;
     margin: 0px;
     border-collapse: collapse;
+    overflow-x: scroll;
 }
 
 .calendarTable td {
