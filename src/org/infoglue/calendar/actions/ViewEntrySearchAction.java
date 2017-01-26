@@ -442,11 +442,8 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                 String identifier = val.getValue("id");
                 
                 if (!attrIds.contains(identifier)) {
-                    System.out.println("HELLO I AM INSIDE THE IF-STATEMENT"); // kors
                     labels.add(val);
                     attrIds.add(identifier);
-                } else {
-                    System.out.println("NOT IN IF");
                 }
                 
                 System.out.println(attrIds);
