@@ -192,17 +192,13 @@
 
 
                 
-                <ww:iterator value="this.getEntriesId()" status="rowstatus">
-                <ww:set name="count" value="0"/>
-
-		<ww:iterator value="this.getCustomAttributes(top)" status="rowstatus">
+		<ww:iterator value="this.getCustomAttributesTitleValues()" status="rowstatus">
 			<ww:set name="attribute" value="top"/>
-			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
+			<ww:set name="title" value="#attribute.getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 			
-                        <p><ww:property value="top.name"/></p>        
+                        <p><c:out value="${title}"/></p>        
 			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>
-                </ww:iterator>
 
 
 
@@ -384,22 +380,26 @@
 			   		<p><c:out value="${city}"/></p>			   		
 			   	</div>
 			</ww:if>
-                   
+		</ww:iterator>
+                
 
-		</ww:iterator>
                 <ww:iterator value="this.getCustomAttributes(#entry.id)" status="rowstatus">
-			<ww:set name="attribute" value="top"/>
-			<ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
-                        <ww:if test="#errorEntry != null">
-				<ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, #attribute.name)"/>
-			</ww:if>
-			<ww:else>
-				<ww:set name="attributeValue" value="this.getAttributeValue(#entry.attributes, #attribute.name)"/>
-			</ww:else>
+	            <ww:set name="attribute" value="top"/>
+	            <ww:set name="title" value="top.getContentTypeAttribute('title').getContentTypeAttributeParameterValue().getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
+                    <ww:set name="attributeName" value="this.concat('', #attribute.name)"/>
+                    <ww:if test="#errorEntry != null">
+		        <ww:set name="attributeValue" value="this.getAttributeValue(#errorEntry.attributes, #attributeName)"/>
+	            </ww:if>
+	            <ww:else>
+		        <ww:set name="attributeValue" value="this.getAttributeValue(#entry.attributes, #attributeName)"/>
+		    </ww:else>
 			
-                        <div class="columnShort"><p><ww:property value="#attributeValue"/></p></div>      
-			<ww:set name="count" value="#count + 1"/>
+                    <div class="columnShort"><p><ww:property value="#attributeValue"/></p></div>      
 		</ww:iterator>
+
+
+
+
 		   	<div class="columnEnd">
 		   		<a href="javascript:submitDelete('<c:out value="${deleteUrl}"/>', 'Är du säker på att du vill radera &quot;<ww:property value="#name"/>&quot;');" title="Radera '<ww:property value="entry.firstName"/>'" class="delete"></a>
 		   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="entry.firstName"/>'" class="edit"></a>

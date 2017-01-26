@@ -208,9 +208,17 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         				name = eventVersion.getLocalizedName(this.getLanguageCode(), "sv");
         		}
 
-            EventType eventType = EventTypeController.getController().getEventType(
+            
+
+        		
+        		eventName += (eventName.equals("") ? "" : ", ") + name;
+        		events.add(entry.getEvent());
+
+        	}
+
+                EventType eventType = EventTypeController.getController().getEventType(
                 entry.getEvent().getEntryFormId(),
-                getSession() 
+                getSession(true) 
             );
             this.entryAttributesMap.put(
                 Long.toString(entry.getId()),
@@ -218,12 +226,6 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
                     eventType.getSchemaValue()
                 )
             );
-
-        		
-        		eventName += (eventName.equals("") ? "" : ", ") + name;
-        		events.add(entry.getEvent());
-
-        	}
         		        	
         	if(entryTypeId == null)
         		entryTypeId = entry.getEvent().getEntryFormId();
@@ -425,6 +427,39 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     public List<ContentTypeAttribute> getCustomAttributes(String entryId)
     {
         return this.entryAttributesMap.get(entryId);
+    }
+
+    public ArrayList<ContentTypeAttributeParameterValue> getCustomAttributesTitleValues() {
+        ArrayList<String> attrIds = new ArrayList<String>();
+        ArrayList<ContentTypeAttributeParameterValue> labels = new ArrayList<ContentTypeAttributeParameterValue>();
+        
+
+        for (String entryId: this.getEntriesId()) {
+
+            for (ContentTypeAttribute attr: this.entryAttributesMap.get(entryId)) {
+                ContentTypeAttributeParameterValue val = attr.getContentTypeAttribute("title").getContentTypeAttributeParameterValue();
+
+                String identifier = val.getValue("id");
+                
+                if (!attrIds.contains(identifier)) {
+                    System.out.println("HELLO I AM INSIDE THE IF-STATEMENT"); // kors
+                    labels.add(val);
+                    attrIds.add(identifier);
+                } else {
+                    System.out.println("NOT IN IF");
+                }
+                
+                System.out.println(attrIds);
+                System.out.print(identifier.getClass());
+
+                for(byte b: identifier.getBytes()) {
+                    System.out.println(b);
+                }
+            }
+
+        }
+
+        return labels;
     }
 
     public Map<String, List<ContentTypeAttribute>> getCustomAttributesMap() {
