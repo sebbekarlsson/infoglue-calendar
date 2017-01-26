@@ -151,34 +151,36 @@
         <ww:set name="customDataMap" value="this.getCustomDataMap()" scope="page"/>
         <ww:set name="entryDataKeys" value="this.getEntryData(this.getEntriesId(), 0)" scope="page"/>
 
-	<div class="columnlabelarea">
+        <table class='calendarTable'>
+            <thead>
+                <tr>
 		<ww:iterator value="resultValues">
-			<%--
-		 	<ww:if test="top == 'Id'">
-		 		<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/></p></div>
-		 	</ww:if>
-		 	--%>
- 	    	<ww:if test="top == 'Name'">
- 				<div class="columnMediumShort"><p>#<ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/> - <ww:property value="this.getLabel('labels.internal.soba.nameColumnHeader')"/></p></div>
-	    	</ww:if>
-	    	<ww:if test="top == 'Event'">
- 				<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.eventColumnHeader')"/></p></div>
-	    	</ww:if>
-	    	<ww:if test="top == 'Email'">
-				<div class="columnMediumShort"><p><ww:property value="this.getLabel('labels.internal.soba.emailColumnHeader')"/></p></div>
-	    	</ww:if>
-	    	<ww:if test="top == 'Organisation'">
-				<div class="columnMediumShort"><p><ww:property value="this.getLabel('labels.internal.soba.organisationColumnHeader')"/></p></div>	
-	    	</ww:if>
-	    	<ww:if test="top == 'Address'">
-				<div class="columnMediumShort"><p><ww:property value="this.getLabel('labels.internal.soba.addressColumnHeader')"/></p></div>
-	    	</ww:if>
-	    	<ww:if test="top == 'Zipcode'">
-				<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.zipcodeColumnHeader')"/></p></div>
-	    	</ww:if>
-	    	<ww:if test="top == 'City'">
-				<div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.cityColumnHeader')"/></p></div>
-	    	</ww:if>
+                        <%--
+                            <ww:if test="top == 'Id'">
+                                    <div class="columnShort"><p><ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/></p></div>
+                            </ww:if>
+                            --%>
+                    <ww:if test="top == 'Name'">
+                    <th>#<ww:property value="this.getLabel('labels.internal.soba.idColumnHeader')"/> - <ww:property value="this.getLabel('labels.internal.soba.nameColumnHeader')"/></th>
+                    </ww:if>
+                    <ww:if test="top == 'Event'">
+                    <th><ww:property value="this.getLabel('labels.internal.soba.eventColumnHeader')"/></th>
+                    </ww:if>
+                    <ww:if test="top == 'Email'">
+                    <th><ww:property value="this.getLabel('labels.internal.soba.emailColumnHeader')"/></th>
+                    </ww:if>
+                    <ww:if test="top == 'Organisation'">
+                    <th><ww:property value="this.getLabel('labels.internal.soba.organisationColumnHeader')"/></th>
+                    </ww:if>
+                    <ww:if test="top == 'Address'">
+                    <th><ww:property value="this.getLabel('labels.internal.soba.addressColumnHeader')"/></th>
+                    </ww:if>
+                    <ww:if test="top == 'Zipcode'">
+                    <th><ww:property value="this.getLabel('labels.internal.soba.zipcodeColumnHeader')"/></th>
+                    </ww:if>
+                    <ww:if test="top == 'City'">
+                    <th><ww:property value="this.getLabel('labels.internal.soba.cityColumnHeader')"/></th>
+                    </ww:if>
 		</ww:iterator>
 
                 <%--<c:out value="${entryDataKeys}"/>
@@ -196,7 +198,7 @@
 			<ww:set name="attribute" value="top"/>
 			<ww:set name="title" value="#attribute.getLocalizedValueByLanguageCode('label', currentContentTypeEditorViewLanguageCode)" scope="page"/>
 			
-                        <p><c:out value="${title}"/></p>        
+                        <th><c:out value="${title}"/></th>       
 			<ww:set name="count" value="#count + 1"/>
 		</ww:iterator>
 
@@ -208,8 +210,10 @@
 
 
 
-		<div class="clear"></div>
-	</div>
+            </tr>
+        </thead>
+
+        <tbody>
 	
 	<portlet:actionURL var="viewListUrl">
 		<portlet:param name="action" value="ViewEntrySearch"/>
@@ -270,6 +274,7 @@
 		<ww:set name="name" value="name" scope="page"/>
                 <ww:set name="entry" value="top"/>
                 <ww:set name="attributes" value="this.getCustomAttributes(id)" scope="page"/>
+
             
                 <ww:if test="searchEventId != null">
 			<ww:set name="searchEventId" value="searchEventId" scope="page"/>
@@ -331,10 +336,10 @@
 		</portlet:actionURL>
 				
 		<ww:if test="#rowstatus.odd == true">
-	    	<div class="oddrow">
+	    	<tr class="new_oddrow">
 	    </ww:if>
 	    <ww:else>
-			<div class="evenrow">
+			<tr class="new_evenrow">
 	    </ww:else>
 
 		<ww:iterator value="resultValues">
@@ -346,39 +351,39 @@
 			</ww:if>
 			--%>
 			<ww:if test="top == 'Name'">
-		   		<div class="columnMediumShort">
+		   		<td>
 		   			<p class="portletHeadline"><a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<c:out value="${firstName}"/>'"><c:out value="${entryId}"/> - <c:out value="${firstName}"/> <c:out value="${lastName}"/></a></p>
-			   	</div>
+			   	</td>
 			</ww:if>
 			<ww:if test="top == 'Event'">
-			   	<div class="columnShort">
-			   		<p><c:out value="${event.name}"/></p>
-			   	</div>
+			   	<td>
+			   		<c:out value="${event.name}"/>
+			   	</td>
 			</ww:if>
 		   	<ww:if test="top == 'Email'">
-			   	<div class="columnMediumShort">
-			   		<p><c:out value="${email}"/></p>
-			   	</div>
+			   	<td>
+			   		<c:out value="${email}"/>
+			   	</td>
 			</ww:if>
 		   	<ww:if test="top == 'Organisation'">
-			   	<div class="columnMediumShort">
-			   		<p><c:out value="${organisation}"/></p>
-			   	</div>
+			   	<td>
+			   		<c:out value="${organisation}"/>
+			   	</td>
 			</ww:if>
 		   	<ww:if test="top == 'Address'">
-			   	<div class="columnMediumShort">
-			   		<p><c:out value="${address}"/></p>
-			   	</div>
+			   	<td>
+			   		<c:out value="${address}"/>
+			   	</td>
 			</ww:if>
 		   	<ww:if test="top == 'Zipcode'">
-			   	<div class="columnShort">
-			   		<p><c:out value="${zipcode}"/></p>
-			   	</div>
+			   	<td>
+			   		<c:out value="${zipcode}"/>
+			   	</td>
 			</ww:if>
 		   	<ww:if test="top == 'City'">
-			   	<div class="columnShort">
-			   		<p><c:out value="${city}"/></p>			   		
-			   	</div>
+			   	<td>
+			   		<c:out value="${city}"/>			   		
+			   	</td>
 			</ww:if>
 		</ww:iterator>
                 
@@ -394,20 +399,21 @@
 		        <ww:set name="attributeValue" value="this.getAttributeValue(#entry.attributes, #attributeName)"/>
 		    </ww:else>
 			
-                    <div class="columnShort"><p><ww:property value="#attributeValue"/></p></div>      
+                    <td><ww:property value="#attributeValue"/></td>      
 		</ww:iterator>
 
 
 
 
-		   	<div class="columnEnd">
+                <td>	
 		   		<a href="javascript:submitDelete('<c:out value="${deleteUrl}"/>', 'Är du säker på att du vill radera &quot;<ww:property value="#name"/>&quot;');" title="Radera '<ww:property value="entry.firstName"/>'" class="delete"></a>
 		   	   	<a href="<c:out value="${viewEntryRenderURL}"/>" title="Redigera '<ww:property value="entry.firstName"/>'" class="edit"></a>
-		   	</div>
-		   	<div class="clear"></div>
-		</div>
+                </td>
+		</tr>
 	
 	</ww:iterator>
+            </tbody>
+        </table>
 </ww:if>
 
 <%--

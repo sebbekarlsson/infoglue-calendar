@@ -218,7 +218,7 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
 
                 EventType eventType = EventTypeController.getController().getEventType(
                 entry.getEvent().getEntryFormId(),
-                getSession(true) 
+                getSession() 
             );
             this.entryAttributesMap.put(
                 Long.toString(entry.getId()),
