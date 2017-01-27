@@ -471,59 +471,6 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         return this.customDataMap.get(entryId);
     }
     
-    public ArrayList<String> getEntryData(ArrayList<String> entryId, int mapAttributeReference) {
-        ArrayList<String> data = new ArrayList<String>();
-
-
-        /*if (entryId == null) {
-            ArrayList<String> tmpList = new ArrayList<String>();
-            tmpList.add("NULL");
-
-            return tmpList;
-        }
-
-        if (entryId.isEmpty()) {
-            ArrayList<String> tmpList = new ArrayList<String>();
-            tmpList.add("EMPTY");
-            
-            return tmpList;
-        } else {
-            ArrayList<String> tmpList = new ArrayList<String>();
-            tmpList.add(entryId.toString());
-
-            return entryId;
-
-            //return tmpList;
-        }*/
-
-        System.out.println("LOGSEARCH: " + entryId.toString());
-
-        for (int i = 0; i < entryId.size(); i++) {
-            List<ContentTypeAttribute> attrList = this.getCustomAttributes(entryId.get(i));
-            System.out.println("LOGSEARCH: " + attrList.toString());
-
-            for (ContentTypeAttribute attr: attrList) {
-
-                System.out.println("LOGSEARCH: " + attr.toString());
-
-                switch(mapAttributeReference) {
-                    case 0:
-                        System.out.println(0);
-                        data.add(attr.toString());
-                    break;
-                    case 1:
-                        System.out.println(1);
-                        data.add("adfa");
-                        //List<ContentTypeAttributeParameter> params =  attr.getContentTypeAttributeParameters();
-                    break;
-                }
-            
-            }
-        }
-
-        return data;
-    }
-
     public ArrayList<String> getEntriesId() {
         ArrayList<String> ids = new ArrayList<String>();
         
@@ -536,12 +483,6 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         return ids;
     }
 
-    /*
-    public String getEmailAddresses()
-    {
-        return emailAddresses;
-    }
-    */
 	public void setOnlyFutureEvents(boolean onlyFutureEvents)
 	{
 		this.onlyFutureEvents = onlyFutureEvents;
