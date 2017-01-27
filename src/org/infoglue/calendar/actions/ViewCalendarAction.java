@@ -43,6 +43,9 @@ import org.infoglue.calendar.entities.Event;
 import org.infoglue.calendar.entities.EventType;
 import org.infoglue.common.util.WebServiceHelper;
 
+import org.infoglue.calendar.controllers.CalendarSettingsController;
+import org.infoglue.common.settings.entities.Property;
+
 import com.opensymphony.xwork.Action;
 
 /**
@@ -530,8 +533,29 @@ public class ViewCalendarAction extends CalendarAbstractAction
     {
         return infoglueRoles;
     }
+    
+    public List getLanguages() {
+        return languages;
+    }
 
-	public List getLanguages() {
-		return languages;
-	}
+    public boolean getMailEnabled() throws Exception {
+        Property propMailEnabled = null;
+
+        String propMailEnabledKey = "CAL" + "_" + getCalendarId() + "_mailEnabled";
+
+        propMailEnabled = CalendarSettingsController.getCalendarSettingsController().getProperty(
+                propMailEnabledKey,
+                propMailEnabledKey,
+                getSession(true)
+                );
+
+        System.out.println("BEPA" + propMailEnabled.getValue().toString());
+        if (propMailEnabled == null) { return false; } 
+
+        if (propMailEnabled.getValue() == null) { return false; }
+
+        if (propMailEnabled.getValue() == "0") { return false; }
+
+        return true;
+    }
 }
