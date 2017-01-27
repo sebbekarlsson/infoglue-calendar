@@ -100,7 +100,6 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
     
     private Map categoryAttributesMap = new HashMap();
     private Map<String, List<ContentTypeAttribute>> entryAttributesMap = new HashMap<String, List<ContentTypeAttribute>>();
-    private Map<String, Map<String, ContentTypeAttributeParameter>> customDataMap = new HashMap<String, Map<String, ContentTypeAttributeParameter>>();
 
     private void initialize(Session session) throws Exception
     {
@@ -286,35 +285,6 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         	searchResultFiles = results.getResults();
         }
 
-        for (Object object: entries) {
-            Entry entry = (Entry) object;
-
-            long id = entry.getId();
-
-            Map<String, ContentTypeAttributeParameter> data = new HashMap<String, ContentTypeAttributeParameter>();
-
-            List<ContentTypeAttribute> attributes = getCustomAttributes(Long.toString(id));
-
-            for (Object objAttr: attributes == null ? Collections.EMPTY_LIST : attributes) {
-                if (objAttr == null) { continue; }
-
-                ContentTypeAttribute attr = (ContentTypeAttribute) objAttr;
-
-                List<Map.Entry> entryList = attr.getContentTypeAttributeParameters();
-
-                Iterator it = entryList.iterator();
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry)it.next();
-                    data.put(pair.getKey().toString(), (ContentTypeAttributeParameter) pair.getValue());
-
-                    it.remove();
-                }
-            }
-
-            this.customDataMap.put(id + "", data);
-        }
-
-        
         return Action.SUCCESS;
     } 
 
@@ -463,14 +433,6 @@ public class ViewEntrySearchAction extends CalendarAbstractAction
         return this.entryAttributesMap;
     }
 
-    public Map<String, Map<String, ContentTypeAttributeParameter>> getCustomDataMap() {
-        return this.customDataMap;
-    }
-
-    public Map<String, ContentTypeAttributeParameter> getEntryData(String entryId) {
-        return this.customDataMap.get(entryId);
-    }
-    
     public ArrayList<String> getEntriesId() {
         ArrayList<String> ids = new ArrayList<String>();
         
