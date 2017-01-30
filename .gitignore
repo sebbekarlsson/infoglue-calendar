@@ -1,5 +1,8 @@
 *.class
-
+*.*.swh
+*.*.swj
+*.*.swk
+*.*.swi
 # Package Files #
 *.jar
 *.war
