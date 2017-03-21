@@ -85,34 +85,30 @@ public class UpdateCalendarAction extends CalendarAbstractAction
             propMailEnabled = CalendarSettingsController.getCalendarSettingsController().getProperty(
                     propMailEnabledKey,
                     propMailEnabledKey,
-                    getSession(true)
+                    getSession()
                     );
 
             if (propMailEnabled == null) {
-                System.out.println("CREATING PROPERTY: " + ((mailEnabled == true) ? "1" : "0"));
                 CalendarSettingsController.getCalendarSettingsController().createProperty(
                     propMailEnabledKey,
                     propMailEnabledKey,
                     ((mailEnabled == true) ? "1" : "0"),
-                    getSession(true)
+                    getSession()
                     );
             } else {
-                System.out.println("UPDATING PROPERTY: " + ((mailEnabled == true) ? "1" : "0"));
                  CalendarSettingsController.getCalendarSettingsController().updateProperty(
                     propMailEnabledKey,
                     propMailEnabledKey,
                     ((mailEnabled == true) ? "1" : "0"),
-                    getSession(true)
+                    getSession()
                     );
             }
 
             propMailEnabled = CalendarSettingsController.getCalendarSettingsController().getProperty(
                     propMailEnabledKey,
                     propMailEnabledKey,
-                    getSession(true)
+                    getSession()
                     );
-
-            System.out.println(propMailEnabled + " IS NOW " + propMailEnabled.getValue());
 
             CalendarController.getController().updateCalendar(calendarId, name, description, roles, groups, eventTypeId, getSession());
         }

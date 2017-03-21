@@ -538,7 +538,7 @@ public class ViewCalendarAction extends CalendarAbstractAction
         return languages;
     }
 
-    public boolean getMailEnabled() throws Exception {
+    public String getMailEnabled() throws Exception {
         Property propMailEnabled = null;
 
         String propMailEnabledKey = "CAL" + "_" + getCalendarId() + "_mailEnabled";
@@ -546,16 +546,11 @@ public class ViewCalendarAction extends CalendarAbstractAction
         propMailEnabled = CalendarSettingsController.getCalendarSettingsController().getProperty(
                 propMailEnabledKey,
                 propMailEnabledKey,
-                getSession(true)
+                getSession()
                 );
 
-        System.out.println("BEPA" + propMailEnabled.getValue().toString());
-        if (propMailEnabled == null) { return false; } 
+        if (propMailEnabled == null) { return "0"; }
 
-        if (propMailEnabled.getValue() == null) { return false; }
-
-        if (propMailEnabled.getValue() == "0") { return false; }
-
-        return true;
+        return propMailEnabled.getValue();
     }
 }

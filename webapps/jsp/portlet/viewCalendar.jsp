@@ -53,7 +53,7 @@
             <div class='fieldrow'>
                 <label for='mailEnabled'>
                     Enable mail
-                    <input type='checkbox' name='mailEnabled' id='mailEnabled' <c:if test="${mailEnabled eq true}">checked</c:if> >
+                    <input type='checkbox' name='mailEnabled' id='mailEnabled' <c:if test="${mailEnabled eq '1'}">checked</c:if> >
                 </label>
             </div>
 
